@@ -12,7 +12,7 @@ const routes = [
     meta: {
       title: '首页'
     },
-    component: require('../views/Home.vue')
+    component: require('../views/home/Home')
   },
   {
     name: 'starUser',
@@ -20,15 +20,7 @@ const routes = [
     meta: {
       title: '星级用户认证'
     },
-    component: require('../views/starUser.vue')
-  },
-  {
-    name: 'starUser22',
-    path: '/starUser22',
-    meta: {
-      title: '星级用户认证2'
-    },
-    component: require('../views/starUser22.vue')
+    component: require('../views/starUser/starUser.vue')
   }
 ]
 /* eslint-disable no-new */

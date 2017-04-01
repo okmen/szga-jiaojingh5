@@ -4,7 +4,9 @@ import Vue from 'vue'
 import router from './router'
 import './config/detect-browser'
 import './config/rem'
+
 Vue.use(require('vue-wechat-title'))
+
 /* eslint-disable */
 new Vue({
   router

@@ -40,7 +40,7 @@
               </div>
             </div>
             <div class="starUser-hbs-text width-70 right">
-              <input type="text" name="" value="B">
+              <input class="text-input" type="text" name="" value="B">
             </div>
           </li>
           <li class="starUser-hbs-item">
@@ -48,7 +48,7 @@
               <span>车主姓名</span>
             </div>
             <div class="starUser-hbs-text">
-              <input type="text" name="" value="" placeholder="车主姓名">
+              <input class="text-input" type="text" name="" value="" placeholder="车主姓名">
             </div>
           </li>
           <li class="starUser-hbs-item">
@@ -56,7 +56,7 @@
               <span>车主身份证</span>
             </div>
             <div class="starUser-hbs-text">
-              <input type="text" name="" value="" placeholder="车主是外籍人士,请在证件号前加F">
+              <input class="text-input" type="text" name="" value="" placeholder="车主是外籍人士,请在证件号前加F">
             </div>
           </li>
           <li class="starUser-hbs-item">
@@ -64,7 +64,7 @@
               <span>使用人身份证</span>
             </div>
             <div class="starUser-hbs-text">
-              <input type="text" name="" value="" placeholder="如果您是外籍人士,请在证件号前加F">
+              <input class="text-input" type="text" name="" value="" placeholder="如果您是外籍人士,请在证件号前加F">
             </div>
           </li>
           <li class="starUser-hbs-item">
@@ -91,7 +91,7 @@
               <span>手机号码</span>
             </div>
             <div class="starUser-hbs-text">
-              <input type="tel" name="" value="" placeholder="请输入您的手机号码">
+              <input class="text-input" type="tel" name="" value="" placeholder="请输入您的手机号码">
             </div>
           </li>
           <li class="starUser-hbs-item clear">
@@ -99,7 +99,7 @@
               <span>验证码</span>
             </div>
             <div class="starUser-hbs-text width-40 left">
-              <input type="tel" name="" value="" placeholder="请输入验证码">
+              <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码">
             </div>
             <div class="left starUser-hbs-code" @click="getVerification()">获取验证码</div>
           </li>
@@ -108,7 +108,7 @@
               <span>联系地址</span>
             </div>
             <div class="starUser-hbs-text">
-              <input type="text" name="" value="" placeholder="您的联系地址(非必填)">
+              <input class="text-input" type="text" name="" value="" placeholder="您的联系地址(非必填)">
             </div>
           </li>
         </ul>
@@ -129,7 +129,7 @@
             <span>手持身份证</span>
           </div>
         </div>
-        <button type="button" name="button">确认提交</button>
+        <button class="btn" type="button" name="button">确认提交</button>
       </div>
     </div>
   </div>
@@ -324,52 +324,13 @@ export default {
 }
 </script>
 <style lang="less">
-@import "./../style/common.css";
+@import "./../../style/base";
+
 .starUser-outer {
   font-size: 26px;
   color: #000;
   position: relative;
-  .div-select {
-    position: relative;
-    .btn-select {
-      background: url("../images/select1.png") no-repeat scroll;
-      background-position: 96% center;
-      background-size: 18px;
-      display: inline-block;
-      width: 100%;
-      text-indent: 18px;
-      line-height: 54px;
-      border: 1px solid #e2e2e7;
-      background-color: #efeff4;
-      border-radius: 10px;
-    }
-    .min-btn-select {
-      background-position: 83% center;
-    }
-    .div-select-ul {
-      width: 100%;
-      border: 1px solid #d6d6db;
-      position: absolute;
-      background-color: #fff;
-      z-index: 666;
-      max-height: 280px;
-      overflow-y: scroll;
-      ul {
-        padding: 5px 0;
-        li {
-          text-indent: 24px;
-          line-height: 44px;
-          &:hover {
-            background-color: #67b5e7;
-            color: #fff;
-          }
-        }
-      }
-    }
-    .div-select-show {
-      display: block;
-    }
-  }
+
   .width-120 {
     width: 120px !important;
   }
@@ -408,15 +369,7 @@ export default {
           .starUser-hbs-text {
             width: 100%;
             display: inline-block;
-            input {
-              width: 100%;
-              text-indent: 18px;
-              line-height: 54px;
-              border: 1px solid #e2e2e7;
-              background-color: #efeff4;
-              border-radius: 10px;
-              outline: none;
-            }
+            
           }
           .starUser-hbs-radio {
             width: 100%;
@@ -458,37 +411,25 @@ export default {
         }
         .starUser-upload-left {
           em {
-            background-image: url("../images/ID-front.png");
+            background-image: url('../../images/ID-front.png');
             background-size: cover;
           }
         }
         .starUser-upload-center {
           em {
-            background-image: url("../images/ID-rear.png");
+            background-image: url('../../images/ID-rear.png');
             background-size: cover;
           }
         }
         .starUser-upload-right {
           em {
-            background-image: url("../images/ID-hand.png");
+            background-image: url('../../images/ID-hand.png');
             background-size: cover;
           }
         }
       }
       p {
         padding-bottom: 18px;
-      }
-      button {
-        margin-top: 66px;
-        display: block;
-        width: 100%;
-        height: 80px;
-        background-color: #09bb07;
-        border: none;
-        border-radius: 10px;
-        color: #fff;
-        font-size: 32px;
-        outline: none;
       }
     }
   }

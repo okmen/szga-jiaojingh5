@@ -1,6 +1,6 @@
 <template>
     <div class="nav">
-      <router-link to="/home">首页</router-link> |
+      <router-link to="/home">首sadada页</router-link> |
       <router-link to="/starUser">星级用户认证</router-link> |
     </div>
     <!--<div v-wechat-title="$route.meta.title"></div>-->
