@@ -37,14 +37,6 @@ const routes = [
       title: '交通违法预约'
     },
     component: require('../views/queryLawless/child/earlyLawless.vue')
-  },
-  {
-    name: 'queryTab',
-    path: '/queryTab',
-    meta: {
-      title: '交通违法预约'
-    },
-    component: require('../views/queryLawless/child/queryTab.vue')
   }
 ]
 /* eslint-disable no-new */
