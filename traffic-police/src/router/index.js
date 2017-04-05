@@ -21,6 +21,22 @@ const routes = [
       title: '星级用户认证'
     },
     component: require('../views/starUser/starUser.vue')
+  },
+  {
+    name: 'queryLawless',
+    path: '/queryLawless',
+    meta: {
+      title: '违法处理类业务'
+    },
+    component: require('../views/queryLawless/queryLawless.vue')
+  },
+  {
+    name: 'earlyLawless',
+    path: '/earlyLawless',
+    meta: {
+      title: '交通违法预约'
+    },
+    component: require('../views/queryLawless/child/earlyLawless.vue')
   }
 ]
 /* eslint-disable no-new */

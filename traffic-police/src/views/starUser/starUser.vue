@@ -323,7 +323,7 @@ export default {
   }
 }
 </script>
-<style lang="less">
+<style lang="less" >
 @import "./../../style/base";
 
 .starUser-outer {

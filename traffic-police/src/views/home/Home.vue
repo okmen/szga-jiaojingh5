@@ -19,6 +19,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #000;
+  min-height: 100%;
 }
 .nav{
   margin: 20px;
