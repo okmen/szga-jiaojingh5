@@ -37,6 +37,38 @@ const routes = [
       title: '交通违法预约'
     },
     component: require('../views/queryLawless/child/earlyLawless.vue')
+  },
+  {
+    name: 'wschool',
+    path: '/wschool',
+    meta: {
+      title: '微学堂'
+    },
+    component: require('../views/wschool/wschool.vue')
+  },
+  {
+    name: 'xstudy',
+    path: '/xstudy',
+    meta: {
+      title: '消分学习'
+    },
+    component: require('../views/xstudy/xstudy.vue')
+  },
+  {
+    name: 'mstudy',
+    path: '/mstudy',
+    meta: {
+      title: '满分学习'
+    },
+    component: require('../views/mstudy/mstudy.vue')
+  },
+  {
+    name: 'motorstudy',
+    path: '/motorstudy',
+    meta: {
+      title: '电动车学习'
+    },
+    component: require('../views/motorstudy/motorstudy.vue')
   }
 ]
 /* eslint-disable no-new */
