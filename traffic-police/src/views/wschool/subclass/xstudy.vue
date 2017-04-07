@@ -5,41 +5,59 @@
 			</div>
 			<span class="nav-top-bottom">刘小明</span>
 		</div>
-			<ul class="nav-xstudy-cengter">
-				<li class="nav-xstudy-left"><span>驾驶证号</span><em class="nav-xstudy-right"></em></li>
+			<ul class="nav-xstudy-cengter" >
+				<li class="nav-xstudy-left"><span>驾驶证号</span><em class="nav-xstudy-right">2017-9-8</em></li>
 				<li class="nav-xstudy-left"><span>记分周期(始)</span><em class="nav-xstudy-right"></em></li>
 				<li class="nav-xstudy-left"><span>记分周期(末)</span><em class="nav-xstudy-right"></em></li>
 				<li class="nav-xstudy-left"><span>学习积分数</span><em class="nav-xstudy-right nav-col">2</em></li>
-				<li class="nav-mstudy-left"><span>学习记录</span></li>
+				<li class="nav-mstudy-left" >
+					<p @click.stop="clickShow()"><span>学习记录</span></p>
+					<div class="nav-xstudy-footer-lout" v-bind:class="{ 'show' : isShow}">
+						<div class="nav-xstudy-footer">
+							<div class="nav-footer-top"></div>
+								<ul class="nav-footer-bottom">
+									<li><span>2017-5-4</span><a class="nav-xstudy-footer-right" href="javascripit:void(0)">未完成</a></li>
+									<li><span>答对题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">1</a></li>
+								</ul>
+						</div>
+						<div class="nav-xstudy-footer">
+							<div class="nav-footer-top"></div>
+								<ul class="nav-footer-bottom">
+									<li><span>2017-5-4</span><a class="nav-xstudy-footer-rig" href="javascripit:void(0)">已完成</a></li>
+									<li><span>答错题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">1</a></li>
+								</ul>
+						</div>
+					</div>
+				</li>
+
 			</ul>
-			<div class="nav-xstudy-footer">
-				<div class="nav-footer-top"></div>
-				<ul class="nav-footer-bottom">
-					<li><span>2017-5-4</span><a class="nav-xstudy-footer-right" href="javascripit:void(0)">未完成</a></li>
-					<li><span>答对题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">1</a></li>
-				</ul>
-			</div>
-			<div class="nav-xstudy-footer">
-				<div class="nav-footer-top"></div>
-				<ul class="nav-footer-bottom">
-					<li><span>2017-5-4</span><a class="nav-xstudy-footer-rig" href="javascripit:void(0)">已完成</a></li>
-					<li><span>答错题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">1</a></li>
-				</ul>
-			</div>
-			<button class="nav-xstudy-button">开始学习</button>
-			<a class="nav-xstudy-xst" href="javascripit:void(0)">学习须知</a>
+			<router-link class="nav-xstudy-button" to="answer">开始学习</router-link>
+			<a class="nav-xstudy-xst" @click="myAlert()">学习须知</a>
 	</div> 
 </template>
 <script>
 export default {
+  data () {
+    return {
+      isShow: false
+    }
+  },
+  methods: {
+    clickShow: function () {
+      this.isShow = !this.isShow
+    },
+    myAlert: function () {
+      console.log('您已经升级为VIP会员')
+    }
+  }
 }
 </script>
 <style lang="less">
-@import "./../../style/base";
+/*@import "./../../style/base";*/
 	.nav-xstudy{
 		width: 100%;
 		height: 350px;
-		background: url('../../images/xstudyBackground.png');
+		background: url('../../../images/xstudyBackground.png');
 		position: relative;
 		background-size:100% 100%;
 	}
@@ -77,7 +95,7 @@ export default {
 		overflow: hidden;
 	}
 	.nav-footer-top{
-		background: url('../../images/xstudy-tu.png')no-repeat;
+		background: url('../../../images/xstudy-tu.png')no-repeat;
 		width: 104px;
 		height: 126px;
 		float: left;
@@ -102,6 +120,7 @@ export default {
 		border-radius: 8px;
 		text-align: center;
 		line-height: 40px;
+		color:#fff;
 	}
 	.nav-xstudy-footer-rig{
 		display: inline-block;
@@ -112,8 +131,10 @@ export default {
 		border-radius: 8px;
 		text-align: center;
 		line-height: 40px;
+		color: #fff;
 	}
 	.nav-xstudy-button{
+		display: inline-block;
 		width:650px;
 		margin:48px 50px 12px;
 		line-height: 80px;
@@ -121,6 +142,7 @@ export default {
 		font-size: 30px;
 		background-color: #09bb07;
 		border-radius: 8px;
+		text-align: center;
 	}
 	.nav-xstudy-xst{
 		margin-left: 26px;
@@ -135,6 +157,12 @@ export default {
 	}
 	.nav-col{
 		color: #ff0000;
+	}
+	.nav-xstudy-footer-lout{
+		display: none;
+	}
+	.nav-mstudy-left.show{
+		display: block;
 	}
 </style>
 
