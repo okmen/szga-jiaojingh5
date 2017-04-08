@@ -20,10 +20,10 @@ export default {
 }
 </script>
 <style lang="less">
-@import "./../../style/base";
+@import "./../../../style/base";
 	.navv{width: 100%;overflow: hidden;}
 	.nav-mstudy{
-		background: url('../../images/xstudyBackground.png');
+		background: url('../../../images/xstudyBackground.png');
 		height: 350px;
 		position: relative;
 		background-size:100% 100%;

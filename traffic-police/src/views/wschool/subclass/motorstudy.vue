@@ -18,9 +18,9 @@ export default {
 }
 </script>
 <style lang="less">
-@import "./../../style/base";
+@import "./../../../style/base";
 	.nav-motorstudy{
-		background: url('../../images/xstudyBackground.png');
+		background: url('../../../images/xstudyBackground.png');
 		height: 350px;
 		position: relative;
 		background-size:100% 100%;

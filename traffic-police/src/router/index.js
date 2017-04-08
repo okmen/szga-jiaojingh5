@@ -52,7 +52,7 @@ const routes = [
     meta: {
       title: '消分学习'
     },
-    component: require('../views/xstudy/xstudy.vue')
+    component: require('../views/wschool/subclass/xstudy.vue')
   },
   {
     name: 'mstudy',
@@ -60,7 +60,7 @@ const routes = [
     meta: {
       title: '满分学习'
     },
-    component: require('../views/mstudy/mstudy.vue')
+    component: require('../views/wschool/subclass/mstudy.vue')
   },
   {
     name: 'motorstudy',
@@ -68,7 +68,31 @@ const routes = [
     meta: {
       title: '电动车学习'
     },
-    component: require('../views/motorstudy/motorstudy.vue')
+    component: require('../views/wschool/subclass/motorstudy.vue')
+  },
+  {
+    name: 'answer',
+    path: '/answer',
+    meta: {
+      title: '答题'
+    },
+    component: require('../views/wschool/subclass/answer.vue')
+  },
+  {
+    name: 'grade',
+    path: '/grade',
+    meta: {
+      title: '评分'
+    },
+    component: require('../views/wschool/subclass/grade.vue')
+  },
+  {
+    name: 'result',
+    path: '/result',
+    meta: {
+      title: '成绩'
+    },
+    component: require('../views/wschool/subclass/result.vue')
   }
 ]
 /* eslint-disable no-new */
