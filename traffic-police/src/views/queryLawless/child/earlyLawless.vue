@@ -339,7 +339,6 @@ export default {
           .earlyLawless-hbs-text {
             width: 100%;
             display: inline-block;
-            
           }
           .earlyLawless-hbs-radio {
             width: 100%;
