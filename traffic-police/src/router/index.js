@@ -8,11 +8,11 @@ Vue.use(VueRouter)
 const routes = [
   {
     name: 'Home',
-    path: '/home',
+    path: '/',
     meta: {
       title: '首页'
     },
-    component: require('../views/home/Home')
+    component: require('../App.vue')
   },
   {
     name: 'starUser',
@@ -93,6 +93,37 @@ const routes = [
       title: '成绩'
     },
     component: require('../views/wschool/subclass/result.vue')
+  },
+  {
+    name: 'peopleWillCloud',
+    path: '/peopleWillCloud',
+    meta: {
+      title: '民意云'
+    },
+    component: require('../views/peopleWillCloud/peopleWillCloud.vue'),
+    redirect: '/peopleWillCloud/facility',
+    children: [
+      {
+        name: 'facility',
+        path: '/peopleWillCloud/facility',
+        component: require('../views/peopleWillCloud/child/facility.vue')
+      },
+      {
+        name: 'secure',
+        path: '/peopleWillCloud/secure',
+        component: require('../views/peopleWillCloud/child/secure.vue')
+      },
+      {
+        name: 'jam',
+        path: '/peopleWillCloud/jam',
+        component: require('../views/peopleWillCloud/child/jam.vue')
+      },
+      {
+        name: 'order',
+        path: '/peopleWillCloud/order',
+        component: require('../views/peopleWillCloud/child/order.vue')
+      }
+    ]
   }
 ]
 /* eslint-disable no-new */

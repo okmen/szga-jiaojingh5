@@ -795,6 +795,7 @@ export default {
       }
     }
   },
+  props: ['flag'],
   methods: {
     typeSelectClick: function (str) {
       if (str) {
