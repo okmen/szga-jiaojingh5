@@ -35,6 +35,9 @@
   </div>
 </template>
 <script>
+import { resultPost } from '../../../service/getData'
+import { xstudy } from '../../../config/baseUrl'
+
 export default {
   data () {
     return {
@@ -59,6 +62,11 @@ export default {
     myAlert: function () {
       console.log(this)
     }
+  },
+  mounted () {
+    resultPost(xstudy, 'asdasd').then(json => {
+      console.log(json)
+    })
   }
 }
 </script>
