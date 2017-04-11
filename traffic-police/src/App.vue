@@ -15,23 +15,48 @@
   <div id="nav-outer">
     <div class="home-nav-top">
       <dl>
-        <dt><img src="./images/nav1.png" alt=""></dt>
+        <dt><img class="top1" src="./images/nav1.png" alt=""></dt>
         <dd>交通文明我做主</dd>
       </dl>
       <dl>
-        <dt><img src="./images/nav2.png" alt=""></dt>
+        <dt><img class="top2" src="./images/nav2.png" alt=""></dt>
         <dd>违法处理</dd>
       </dl>
       <dl>
-        <dt><img src="./images/nav3.png" alt=""></dt>
+        <dt><img class="top3" src="./images/nav3.png" alt=""></dt>
         <dd>随手拍举报</dd>
       </dl>
       <dl>
-        <dt><img src="./images/nav4.png" alt=""></dt>
+        <dt><img class="top4" src="./images/nav4.png" alt=""></dt>
         <dd>车管规费缴纳</dd>
       </dl>
     </div>
-    <!-- <div class="nav-bottom"></div> -->
+    <div class="home-nav-bottom">
+      <dl>
+        <dt><img class="top5" src="./images/nav5.png" alt=""></dt>
+        <dd>预约类服务</dd>
+      </dl>
+      <dl>
+        <dt><img class="top6" src="./images/nav6.png" alt=""></dt>
+        <dd>办理类服务</dd>
+      </dl>
+      <dl>
+        <dt><img class="top7" src="./images/nav7.png" alt=""></dt>
+        <dd>信息单据证明</dd>
+      </dl>
+      <dl>
+        <dt><img class="top8" src="./images/nav8.png" alt=""></dt>
+        <dd>便民服务</dd>
+      </dl>
+      <dl>
+        <dt><img class="top9" src="./images/nav9.png" alt=""></dt>
+        <dd>电动车管理</dd>
+      </dl>
+      <dl>
+        <dt><img class="top10" src="./images/nav10.png" alt=""></dt>
+        <dd>微课堂</dd>
+      </dl>
+    </div>
   </div>
 </div>
 </template>
@@ -116,15 +141,80 @@ export default {
   padding: 0 18px;
   box-sizing: border-box;
   color: #666;
-  font-size: 20px;
+  margin-top: -68px;
   .home-nav-top{
     display: flex;
     justify-content: space-around;
-    align-items: center;
+    height: 140px;
+    padding-top: 24px;
+    line-height: 70px;
+    background-color: #fff;
+    border-radius: 6px;
+    font-size: 22px;
+    box-shadow:0 5px 5px rgba(0, 0, 0, .2);  
     dl{
       img{
         display: block;
+        margin: 0 auto;
+      }
+      .top1{
         width: 67px;
+        height: 46px;
+      }
+      .top2{
+        width: 49px;
+        height: 47px;
+      }
+      .top3{
+        width: 52px;
+        height: 44px;
+      }
+      .top4{
+        width: 48px;
+        height: 48px;
+      }
+    }
+  }
+  .home-nav-bottom{
+    overflow: hidden;
+    margin-top: 20px;
+    box-shadow:0 5px 5px rgba(0, 0, 0, .2); 
+    border-radius: 6px; 
+    dl{
+      width: 50%;
+      height: 138px;
+      float: left;
+      box-sizing: border-box;
+      border-bottom: 2px solid #f5f5f5;
+      border-right: 2px solid #f5f5f5;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background-color: #fff;
+
+      .top5{
+        width: 46px;
+        height: 49px;
+      }
+      .top6{
+        width: 45px;
+        height: 52px;
+      }
+      .top7{
+        width: 44px;
+        height: 49px;
+      }
+      .top8{
+        width: 47px;
+        height: 52px;
+      }
+      .top9{
+        width: 42px;
+        height: 55px;
+      }
+      .top10{
+        width: 40px;
+        height: 51px;
       }
     }
   }
