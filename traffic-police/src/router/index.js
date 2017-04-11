@@ -39,6 +39,22 @@ const routes = [
     component: require('../views/queryLawless/child/earlyLawless.vue')
   },
   {
+    name: 'payLawless',
+    path: '/payLawless',
+    meta: {
+      title: '违法缴款'
+    },
+    component: require('../views/queryLawless/child/payLawless.vue')
+  },
+  {
+    name: 'queryLawlessPage',
+    path: '/queryLawlessPage',
+    meta: {
+      title: '查询违法记录页面'
+    },
+    component: require('../views/queryLawless/child/queryLawlessPage.vue')
+  },
+  {
     name: 'wschool',
     path: '/wschool',
     meta: {
