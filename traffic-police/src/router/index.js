@@ -8,11 +8,11 @@ Vue.use(VueRouter)
 const routes = [
   {
     name: 'Home',
-    path: '/home',
+    path: '/',
     meta: {
       title: '首页'
     },
-    component: require('../views/home/Home')
+    component: require('../App.vue')
   },
   {
     name: 'starUser',
@@ -37,6 +37,14 @@ const routes = [
       title: '交通违法预约'
     },
     component: require('../views/queryLawless/child/earlyLawless.vue')
+  },
+  {
+    name: 'queryTab',
+    path: '/queryTab',
+    meta: {
+      title: '交通违法预约'
+    },
+    component: require('../views/queryLawless/child/queryTab.vue')
   },
   {
     name: 'wschool',

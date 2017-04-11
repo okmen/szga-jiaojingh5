@@ -324,7 +324,6 @@ export default {
 }
 </script>
 <style lang="less" >
-@import "./../../style/base";
 
 .starUser-outer {
   font-size: 26px;
