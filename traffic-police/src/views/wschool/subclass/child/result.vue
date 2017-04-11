@@ -9,7 +9,7 @@
         <dt class="result-center-colour tian">{{list.answerCorrect}}</dt>
         <dd class="result-center-colo">答题数</dd>
       </dl>
-      <img class="result-xian" src="../../../images/xian.png">
+      <img class="result-xian" src="../../../../images/xian.png">
       <dl class="result-center">
         <dt class="result-center-colour">{{list.answererror}}</dt>
         <dd class="result-center-colo">答错次数</dd>
@@ -25,7 +25,7 @@ export default {
     return {
       resultData: [{
         'answerCorrect': 9,
-        'answererror': 1,
+        'answererror': 0,
         'integral': 9,
         'drive': '413022199912348975'
       }]
@@ -41,17 +41,18 @@ export default {
 .result-head {
   width: 100%;
   height: 468px;
-  background: url("../../../images/score.png");
+  background: url("../../../../images/score.png");
   background-size: 100%;
   overflow: hidden;
   position: relative;
 }
 
 .digit {
-  font: 700 74px/74px "";
   position: absolute;
   left: 348px;
   top: 206px;
+  font-size: 74px;
+  font-weight: bold;
 }
 
 .result .result-head-bottom {
@@ -59,7 +60,7 @@ export default {
   color: #fff;
   text-align: center;
   margin-top: 400px;
-  background: url("../../../images/idte.png") no-repeat;
+  background: url("../../../../images/idte.png") no-repeat;
   background-size: 40px;
   background-position: 100px 0px;
 }
