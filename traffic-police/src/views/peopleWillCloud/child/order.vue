@@ -7,7 +7,7 @@
             <span>地点</span>
           </div>
           <div class="order-list-text left width-90">
-            <input class="text-input" type="text" name="" value="" placeholder="点击右侧按钮选择地址">
+            <input class="text-input" type="text" name="" v-model:value="address" placeholder="点击右侧按钮选择地址">
           </div>
           <div class="order-list-location right" @click.stop='getLocation()'></div>
         </li>
@@ -16,7 +16,7 @@
             <span>开始时间</span>
           </div>
           <div class="order-list-text">
-            <input class="text-input" type="text" name="" value="00:00">
+            <input class="text-input" type="text" name="" v-model:value="startTime" placeholder="00:00">
           </div>
         </li>
         <li class="order-form-item">
@@ -24,7 +24,7 @@
             <span>结束时间</span>
           </div>
           <div class="order-list-text">
-            <input class="text-input" type="text" name="" value="00:00">
+            <input class="text-input" type="text" name="" v-model:value="endTime" placeholder="00:00">
           </div>
         </li>
         <li class="order-form-item">
@@ -32,10 +32,10 @@
             <span>拥堵类型</span>
           </div>
           <div class="div-select">
-            <span id="btnJamRangeSelect" class="btn-select" @click.stop="btnOrderTypeSelect()">{{orderTypeSelect}}</span>
+            <span id="btnJamRangeSelect" class="btn-select" @click.stop="btnOrderTypeSelect()">{{congestionType.str}}</span>
             <div class="div-select-ul top-56" v-if="orderSelectShow">
               <ul>
-                <li v-for="item in orderType" @click.stop="btnOrderTypeSelect(item)">{{item}}</li>
+                <li v-for="(item, index) in congestionTypeData" @click.stop="btnOrderTypeSelect(index+1)">{{item.str}}</li>
               </ul>
             </div>
           </div>
@@ -44,65 +44,145 @@
           <div class="order-list-name">
             <span>现场描述</span>
           </div>
-          <div class="order-list-text">
-            <textarea class="text-input textarea" name="localeDescript" id="localeDescript" placeholder="请填写改善建议"></textarea>
+          <div class="order-list-textarea">
+            <textarea class="text-input textarea" name="localeDescript" id="localeDescript" v-model:value="description" placeholder="请填写改善建议"></textarea>
           </div>
         </li>
       </ul>
-      <button class="btn" type="button" name="button">提交</button>
+      <button class="btn" type="button" name="button" @click.stop="submit()">提交</button>
     </div>
   </div>
 </template>
 <script>
+import { resultPost } from '../../../service/getData'
+import { order } from '../../../config/baseUrl'
 export default {
   name: 'order',
   data () {
     return {
-      orderTypeSelect: '机动车违法停放',
-      orderType: [
-        '机动车违法停放',
-        '机动车占用应急车道',
-        '大货车、泥头车超载',
-        '机动车不按规定安装、悬挂号牌',
-        '机动车遮挡号牌',
-        '机动车污损号牌',
-        '机动车压导流线驾驶',
-        '机动车路口压线变道',
-        '机动车冲红灯',
-        '大中型货车驶入禁行区域',
-        '小型汽车驶入禁行区域',
-        '机动车占用公交车专用道',
-        '醉酒驾驶',
-        '酒后驾驶',
-        '机动车违反禁止标线行驶',
-        '电动车、摩托车驶入禁行区域',
-        '开超标电动力车',
-        '电动车载客',
-        '残疾人专用车载客、载物',
-        '斑马线不礼让行人'
+      address: '',
+      startTime: '',
+      endTime: '',
+      congestionType: {
+        'code': 1001,
+        'str': '机动车违法停放'
+      },
+      congestionTypeData: [
+        {
+          'code': 1001,
+          'str': '机动车违法停放'
+        },
+        {
+          'code': 1002,
+          'str': '机动车占用应急车道'
+        },
+        {
+          'code': 1003,
+          'str': '大货车、泥头车超载'
+        },
+        {
+          'code': 1004,
+          'str': '机动车不按规定安装、悬挂号牌'
+        },
+        {
+          'code': 1005,
+          'str': '机动车遮挡号牌'
+        },
+        {
+          'code': 1006,
+          'str': '机动车污损号牌'
+        },
+        {
+          'code': 1007,
+          'str': '机动车压导流线驾驶'
+        },
+        {
+          'code': 1008,
+          'str': '机动车路口压线变道'
+        },
+        {
+          'code': 1009,
+          'str': '机动车冲红灯'
+        },
+        {
+          'code': 1010,
+          'str': '大中型货车驶入禁行区域'
+        },
+        {
+          'code': 1011,
+          'str': '小型汽车驶入禁行区域'
+        },
+        {
+          'code': 1012,
+          'str': '机动车占用公交车专用道'
+        },
+        {
+          'code': 1013,
+          'str': '醉酒驾驶'
+        },
+        {
+          'code': 1014,
+          'str': '酒后驾驶'
+        },
+        {
+          'code': 1015,
+          'str': '机动车违反禁止标线行驶'
+        },
+        {
+          'code': 1016,
+          'str': '电动车、摩托车驶入禁行区域'
+        },
+        {
+          'code': 1017,
+          'str': '开超标电动力车'
+        },
+        {
+          'code': 1018,
+          'str': '电动车载客'
+        },
+        {
+          'code': 1019,
+          'str': '残疾人专用车载客、载物'
+        },
+        {
+          'code': 1020,
+          'str': '斑马线不礼让行人'
+        }
       ],
-      orderSelectShow: false
+      orderSelectShow: false,
+      description: ''
     }
   },
   methods: {
     getLocation: function () {
       console.log('获取地理位置')
     },
-    btnOrderTypeSelect: function (str) {
-      if (str) {
-        this.orderTypeSelect = str
+    btnOrderTypeSelect: function (index) {
+      if (index) {
+        index--
+        this.congestionType = this.congestionTypeData[index]
       }
-      if (this.orderSelectShow === true) {
-        this.orderSelectShow = false
-      } else {
-        this.orderSelectShow = true
+      this.orderSelectShow = !this.orderSelectShow
+    },
+    submit: function () {
+      let reqData = {
+        reportingMatters: this.reportingMatters,
+        address: this.address,
+        startTime: this.startTime,
+        endTime: this.endTime,
+        congestionType: this.congestionType.str,
+        description: this.description
       }
+      resultPost(order, JSON.stringify(reqData)).then(json => {
+        console.log(json)
+      })
     }
   },
   created () {
     document.addEventListener('click', (e) => {
       this.orderSelectShow = false
     })
+    this.reportingMatters = 1004
   }
 }
 </script>
@@ -117,7 +197,7 @@ export default {
     }
     .order-form-list{
       overflow: hidden;
-      padding-bottom: 270px;
+      padding-bottom: 237px;
       .order-form-item{
         margin-top: 24px;
         padding-left: 162px;
@@ -138,6 +218,9 @@ export default {
         .textarea{
           height: 183px;
           resize: none;
+        }
+        .order-list-textarea{
+          display: flex;
         }
       }
     }
