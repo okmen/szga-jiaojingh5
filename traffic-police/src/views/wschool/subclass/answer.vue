@@ -8,11 +8,11 @@
         </dl>
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/time.png"></dt>
-          <dd>剩余{{answertData.surplusAnswe}}题</dd>
+          <dd>{{answertData.answerTime}}</dd>
         </dl>
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/sand.png"></dt>
-          <dd>{{answertData.answerTime}}</dd>
+          <dd>剩余{{answertData.surplusAnswe}}题</dd>
         </dl>
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/exit.png"></dt>
@@ -20,13 +20,13 @@
         </dl>
       </div>
     </div>
-    <div class="answer-center" >
+    <div class="answer-center">
       <span class="answer-center-left">选</span>
       <span class="answer-center-right">{{answertData.subjectName}}</span>
     </div>
     <img class="answer-button" src="../../../images/answertu.png">
     <ul class="answer-foot">
-      <li class="answer-foot-button" v-for="itme in answerlistData"><img v-for="items in testData" class="answer-foot-img" :src="items.img">{{itme.answerName}}</li>
+      <li class="answer-foot-button" @click="cliColour()" v-bind:class="{ 'show' : isShow}" v-for="(item, index) in answerlistData"><img class="answer-foot-img" :src="testData[index].img">{{item.answerName}}</li>
     <!--   <li><img class="answer-foot-img" src="../../../images/B.png">{{answertData.answerName}}</li>
       <li><img class="answer-foot-img" src="../../../images/C.png">{{answertData.answerName}}</li>
       <li><img class="answer-foot-img" src="../../../images/D.png">{{answertData.answerName}}</li> -->
@@ -42,10 +42,9 @@ export default {
   name: 'answer',
   data () {
     return {
+      isShow: false,
       answertData: {
       },
-      answerlistData: [{
-      }],
       testData: [{
         img: require('../../../images/A.png')
       },
@@ -57,6 +56,8 @@ export default {
       },
       {
         img: require('../../../images/D.png')
+      }],
+      answerlistData: [{
       }]
     }
   },
@@ -68,13 +69,20 @@ export default {
     //     console.log(nsowgetSeconds)
     //   }, 1000)
     // }
+    cliColour: function () {
+      console.log('hello')
+      this.isShow = !this.isShow
+    }
   },
   mounted () {
-    resultPost(answer, 'answe').then(json => {
+    var answe = {
+      userId: 'adasdasd'
+    }
+    resultPost(answer, answe).then(json => {
       console.log(json)
       this.answertData = json.data[0]
       this.answerlistData = json.data[0].answeroptions
-      console.log(this.answertData)
+      console.log(this.answerlistData)
     })
   }
 }
@@ -154,4 +162,7 @@ export default {
   font-size: 28px;
   text-align: center;
 }
+/* .answer-foot-button.show {
+  color: #16b221
+} */
 </style>

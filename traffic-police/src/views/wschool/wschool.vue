@@ -1,42 +1,57 @@
 <template>
   <div class="navv">
     <ul class="nav-outer">
-      <li class="nav-outer-center"><router-link to="xstudy"><p>消分学分</p></router-link></li>
+     <!--  <li class="nav-outer-center"><router-link to="xstudy"><p>消分学分</p></router-link></li>
 			<li class="nav-outer-center"><router-link to="mstudy"><p>满分学习</p></router-link></li>
-			<li class="nav-outer-center"><router-link to="xstudy"><p>AB类驾驶人学习</p></router-link></li>
+			<li class="nav-outer-center"><router-link to="ABstudy"><p>AB类驾驶人学习</p></router-link></li>
 			<li class="nav-outer-center"><router-link to="motorstudy"><p>电动车学习</p></router-link></li>
-			<li class="nav-outer-center"><router-link to="xstudy"><p>行人、非机动车安全学习</p><em class="nav-outer-right"></em></router-link></li>
-      <!-- <li class="nav-outer-center" v-for="list in listData">
-        <router-link to="xstudy">
+			<li class="nav-outer-center"><router-link to="pedestrianstudy"><p>行人、非机动车安全学习</p><em class="nav-outer-right"></em></router-link></li> -->
+      <li class="nav-outer-center" v-for="(list, index) in listData">
+        <router-link :to="testData[index].name">
           <p>{{list.classroomName}}</p>
         </router-link>
-      </li> -->
+      </li>
     </ul>
   </div>
 </template>
 <script>
 export default {
-  name: 'wschool'
-  // data () {
-  //   return {
-  //     listData: [{
-  //       'classroomName': '消分学习',
-  //       'classroomId': 'A01'
-  //     }, {
-  //       'classroomName': '满分学习',
-  //       'classroomId': 'A02'
-  //     }, {
-  //       'classroomName': 'AB类驾驶人学习',
-  //       'classroomId': 'A03'
-  //     }, {
-  //       'classroomName': '电动车学习',
-  //       'classroomId': 'A04'
-  //     }, {
-  //       'classroomName': '行人、非机动车安全学习',
-  //       'classroomId': 'A05'
-  //     }]
-  //   }
-  // }
+  name: 'wschool',
+  data () {
+    return {
+      listData: [{
+        classroomName: '消分学习',
+        classroomId: 'A01'
+      }, {
+        classroomName: '满分学习',
+        classroomId: 'A02'
+      }, {
+        classroomName: 'AB类驾驶人学习',
+        classroomI: 'A03'
+      }, {
+        classroomName: '电动车学习',
+        classroomId: 'A04'
+      }, {
+        classroomName: '行人、非机动车安全学习',
+        classroomId: 'A05'
+      }],
+      testData: [{
+        name: 'xstudy'
+      },
+      {
+        name: 'mstudy'
+      },
+      {
+        name: 'ABstudy'
+      },
+      {
+        name: 'motorstudy'
+      },
+      {
+        name: 'pedestrianstudy'
+      }]
+    }
+  }
 }
 </script>
 <style lang="less">
@@ -58,15 +73,3 @@ export default {
   margin-left: 46px;
 }
 </style>
-<!--  data () {
-  	return {
-  		listData: [
-  			{
-  				'classroomName':'满分学习'
-  			},
-  			{
-  				'classroomName':'消分学习分'
-  			}
-  		]
-  	}
-  } -->
