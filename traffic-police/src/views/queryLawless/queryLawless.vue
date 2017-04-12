@@ -1,19 +1,19 @@
 <template>
   <div class="queryLawless-outer">
-    <ul>
-      <p>交通违法查询</p>
-    </ul>
-    <ul>
+    <div class="query-link">
+      <router-link to="queryLawlessPage">交通违法查询</router-link>
+    </div>
+    <div  class="query-link">
       <p>违法在线确认</p>
-    </ul>
-    <ul v-bind:class="{ 'show' : isShow}">
+    </div>
+    <div class="query-link" v-bind:class="{ 'show' : isShow}">
       <p @click.stop="clickShow()">违法在线处理</p>
       <div class="li-box">
         <router-link to="payLawless">违法缴款</router-link>
         <router-link to="earlyLawless">交通违法预约处理</router-link>
         <router-link to="home">交通违法申诉</router-link>
       </div>
-    </ul>
+    </div>
   </div>
 </template>
 <script>
@@ -38,37 +38,42 @@ export default {
   background-color: white;
   font-size: 26px;
   color: #000;
-  ul {
+  .query-link {
     border-bottom: 1px solid #dbdbdb;
     line-height: 88px;
-    .li-box {
+    a {
+      display: block;
       padding-left: 50px;
-      background-color: #e9e9e9;
-      display: none;
     }
     p {
       padding: 0 50px;
       position: relative;
     }
-    a {
-      display: block;
-      text-align: center;
-      text-indent: -50px;
-      border-bottom: 1px solid #b5b4b4;
-      background-color: #e9e9e9;
-    }
-    a:last-child {
-      border: none;
-    }
-  }
-  ul.show {
-    p {
-      color: #fff;
-      background-color: #7ab8df;
-    }
     .li-box {
-      display: block;
+      padding-left: 50px;
+      background-color: #e9e9e9;
+      display: none;
+      a {
+        display: block;
+        text-align: center;
+        text-indent: -50px;
+        border-bottom: 1px solid #b5b4b4;
+        background-color: #e9e9e9;
+        &:last-child {
+           border: none;
+         }
+      }
+    }
+    &.show {
+      p {
+        color: #fff;
+        background-color: #7ab8df;
+      }
+      .li-box {
+        display: block;
+      }
     }
   }
 }
+
 </style>

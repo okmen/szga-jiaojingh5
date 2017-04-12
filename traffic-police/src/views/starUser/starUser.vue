@@ -158,7 +158,7 @@ export default {
       licenseSelectMassage: '蓝牌',
       licenseSelectData: [
         {
-          'str': '蓝牌'
+          'str': '蓝牌y'
         },
         {
           'str': '黄牌'
@@ -368,7 +368,7 @@ export default {
           .starUser-hbs-text {
             width: 100%;
             display: inline-block;
-            
+
           }
           .starUser-hbs-radio {
             width: 100%;
