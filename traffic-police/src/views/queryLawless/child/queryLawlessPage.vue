@@ -11,7 +11,7 @@
     <!--分类查询块-->
     <queryByCard v-if="cur_tab == 'card'"></queryByCard>
     <queryByCar  v-else></queryByCar>
-    <!--结果块-->
+    <!--结果块(循环)-->
     <div class="queryResults pad-side-50">
       <div class="results-box">
         <div class="box-header">
@@ -21,11 +21,25 @@
         <div class="box-body">
           <div class="body-left-side">
             <div class="left-number">违法编号 :<i>112233445566</i></div>
-            <div class="left-line"><i></i>粤B   666666</div>
-            <div class="left-line"><i></i>2016年1月1日  12：30：10</div>
-            <div class="left-line"><i></i>鹏程四路</div>
-            <div class="left-line"><i></i>违反规定停放</div>
-            <div class="left-line"><i></i>200元</div>
+            <div class="left-line">
+              <span><i></i></span>
+              <p>粤B   666666</p>
+            </div>
+            <div class="left-line">
+              <span><i class="time"></i></span>
+              <p>2016年1月1日  12：30：10</p>
+            </div>
+            <div class="left-line"><span>
+              <i class="local"></i></span>
+              <p>鹏程四路</p>
+            </div>
+            <div class="left-line">
+              <span><i class="warn"></i></span>
+              <p>违反规定停放违反规定停放违反规定停放违反规定停放违反规定停放违反规定停放违反规定停放</p></div>
+            <div class="left-line">
+              <span><i></i></span>
+              <p>200元</p>
+            </div>
           </div>
           <a class="body-right-side">
           </a>
@@ -80,6 +94,7 @@ export default {
     .results-box {
       border:1px solid #a7d9f9;
       background-color: #fff;
+      border-radius:4px;
       .box-header{
         height: 80px;
         line-height: 80px;
@@ -99,7 +114,7 @@ export default {
         padding: 0 24px;
         position: relative;
         .body-left-side {
-          width: 90%;
+          width: 80%;
           .left-number {
             font-size: 0.95rem;
             font-weight: bold;
@@ -111,16 +126,40 @@ export default {
             }
           }
           .left-line {
-            height: 70px;
-            line-height: 70px;
+            padding: 8px 0;
+            font-size:0.9rem;
+            &:after{display:block; content:"clear"; height:0; clear:both; overflow:hidden; visibility:hidden;}
+            span {
+              display: inline-block;
+              width: 50px;
+              text-align: center;
+              position: absolute;
+            }
+            p {
+              display: inline-block;
+              position: relative;
+              left: 70px;
+            }
             i {
               display: inline-block;
-              width: 40px;
-              height: 40px;
+              width: 34px;
+              height: 34px;
               background-image: url("./../../../images/A.png");
               background-size: 100%;
-              vertical-align: -8px;
-              margin-right: 30px;
+              vertical-align: -6px;
+              &.time{
+                 background-image: url("./../../../images/time_2.png");
+               }
+              &.local{
+                 background-image: url("./../../../images/local.png");
+                 width: 32px;
+                 height: 40px;
+               }
+              &.warn{
+                 background-image: url("./../../../images/warn.png");
+                 width: 36px;
+                 height: 38px;
+               }
             }
           }
         }
@@ -138,7 +177,4 @@ export default {
       }
     }
   }
-
-
-
 </style>
