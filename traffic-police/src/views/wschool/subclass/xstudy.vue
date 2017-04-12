@@ -1,30 +1,30 @@
 <template>
   <div class="navv" >
-    <div class="nav-xstudy" v-for="item in listData">
+    <div class="nav-xstudy">
       <div class="nav-top">
       </div>
-      <span class="nav-top-bottom">{{item.userName}}</span>
+      <span class="nav-top-bottom">{{listData.userName}}</span>
     </div>
-    <ul class="nav-xstudy-cengter" v-for="lists in listData">
-      <li class="nav-xstudy-left"><span>驾驶证号</span><em class="nav-xstudy-right">{{lists.drive}}</em></li>
-      <li class="nav-xstudy-left"><span>记分周期(始)</span><em class="nav-xstudy-right">{{lists.scoreStartDate}}</em></li>
-      <li class="nav-xstudy-left"><span>记分周期(末)</span><em class="nav-xstudy-right">{{lists.scoreEndDate}}</em></li>
-      <li class="nav-xstudy-left"><span>学习积分数</span><em class="nav-xstudy-right nav-col">{{lists.integral}}</em></li>
+    <ul class="nav-xstudy-cengter">
+      <li class="nav-xstudy-left"><span>驾驶证号</span><em class="nav-xstudy-right">{{listData.drive}}</em></li>
+      <li class="nav-xstudy-left"><span>记分周期(始)</span><em class="nav-xstudy-right">{{listData.scoreStartDate}}</em></li>
+      <li class="nav-xstudy-left"><span>记分周期(末)</span><em class="nav-xstudy-right">{{listData.scoreEndDate}}</em></li>
+      <li class="nav-xstudy-left"><span>学习积分数</span><em class="nav-xstudy-right nav-col">{{listData.integral}}</em></li>
       <li class="nav-mstudy-left">
         <p @click.stop="clickShow()"><span>学习记录</span></p>
-        <div class="nav-xstudy-footer-lout" v-bind:class="{ 'show' : isShow}" v-for="record in listData">
+        <div class="nav-xstudy-footer-lout" v-bind:class="{ 'show' : isShow}">
           <div class="nav-xstudy-footer">
             <div class="nav-footer-top"></div>
             <ul class="nav-footer-bottom">
-              <li><span>{{record.answerDate}}</span><a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="1">未完成</a></li>
-              <li><span>答对题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">{{record.ansLogarithm}}</a></li>
+              <li><span>{{itemsData.answerDate}}</span><a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="isComplete">未完成</a></li>
+              <li><span>答对题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">{{itemsData.ansLogarithm}}</a></li>
             </ul>
           </div>
           <div class="nav-xstudy-footer">
             <div class="nav-footer-top"></div>
             <ul class="nav-footer-bottom">
-              <li><span>{{record.answerDate}}</span><a class="nav-xstudy-footer-rig" href="javascripit:void(0)">已完成</a></li>
-              <li><span>答错题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">1</a></li>
+              <li><span>{{itemsData.answerDate}}</span><a class="nav-xstudy-footer-rig" href="javascripit:void(0)">已完成</a></li>
+              <li><span>答错题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">{{itemsData.ansLogarithm}}</a></li>
             </ul>
           </div>
         </div>
@@ -42,17 +42,10 @@ export default {
   data () {
     return {
       isShow: false,
-      listData: [{
-        'ClassroomId': '1',
-        'userName': '小李李',
-        'drive': '41302219991234****',
-        'scoreStartDate': '2016-05-18',
-        'scoreEndDate': '2017-05-18',
-        'integral': '100',
-        'answerDate': '2010-05-18',
-        'isComplete': '1',
-        'ansLogarithm': '10'
-      }]
+      listData: {
+      },
+      itemsData: {
+      }
     }
   },
   methods: {
@@ -66,6 +59,8 @@ export default {
   mounted () {
     resultPost(xstudy, 'asdasd').then(json => {
       console.log(json)
+      this.listData = json.data[0]
+      this.itemsData = json.data[0].studyRecord[0]
     })
   }
 }

@@ -1,18 +1,18 @@
 <template>
   <div class="answer">
     <div class="answer-head">
-      <div class="answer-head-regit" v-for="list in answertData">
+      <div class="answer-head-regit" >
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/mistake.png"></dt>
-          <dd>已做{{list.answererror}}题</dd>
+          <dd>已做{{answertData.answererror}}题</dd>
         </dl>
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/time.png"></dt>
-          <dd>剩余{{list.surplusAnswe}}题</dd>
+          <dd>剩余{{answertData.surplusAnswe}}题</dd>
         </dl>
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/sand.png"></dt>
-          <dd>{{list.answerTime}}</dd>
+          <dd>{{answertData.answerTime}}</dd>
         </dl>
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/exit.png"></dt>
@@ -20,35 +20,43 @@
         </dl>
       </div>
     </div>
-    <div class="answer-center" v-for="item in answertData">
+    <div class="answer-center" >
       <span class="answer-center-left">选</span>
-      <span class="answer-center-right">{{item.subjectName}}</span>
+      <span class="answer-center-right">{{answertData.subjectName}}</span>
     </div>
     <img class="answer-button" src="../../../images/answertu.png">
     <ul class="answer-foot">
-      <li class="answer-foot-button"><img class="answer-foot-img" src="../../../images/A.png">直行和向右转弯</li>
-      <li><img class="answer-foot-img" src="../../../images/B.png">禁止直行和向左转弯</li>
-      <li><img class="answer-foot-img" src="../../../images/C.png">只准向右和向左转弯</li>
-      <li><img class="answer-foot-img" src="../../../images/D.png">直行和向右转弯</li>
+      <li class="answer-foot-button" v-for="itme in answerlistData"><img v-for="items in testData" class="answer-foot-img" :src="items.img">{{itme.answerName}}</li>
+    <!--   <li><img class="answer-foot-img" src="../../../images/B.png">{{answertData.answerName}}</li>
+      <li><img class="answer-foot-img" src="../../../images/C.png">{{answertData.answerName}}</li>
+      <li><img class="answer-foot-img" src="../../../images/D.png">{{answertData.answerName}}</li> -->
     </ul>
     <router-link class="answer-option" to="grade">下一题</router-link>
   </div>
 </template>
 <script>
+import { resultPost } from '../../../service/getData'
+import { answer } from '../../../config/baseUrl'
+
 export default {
   name: 'answer',
   data () {
     return {
-      answertData: [{
-        'SubjectId': 1,
-        'subjectName': '这个标志是何含义？?',
-        'subjecttype': 1,
-        'subjectImg': '../1.jpg',
-        'subjectAnswer': 'A,B,C,D',
-        'answerTime': '20:00',
-        'answererror': 5,
-        'surplusAnswe': 8,
-        'answerState': 1
+      answertData: {
+      },
+      answerlistData: [{
+      }],
+      testData: [{
+        img: require('../../../images/A.png')
+      },
+      {
+        img: require('../../../images/B.png')
+      },
+      {
+        img: require('../../../images/C.png')
+      },
+      {
+        img: require('../../../images/D.png')
       }]
     }
   },
@@ -60,6 +68,14 @@ export default {
     //     console.log(nsowgetSeconds)
     //   }, 1000)
     // }
+  },
+  mounted () {
+    resultPost(answer, 'answe').then(json => {
+      console.log(json)
+      this.answertData = json.data[0]
+      this.answerlistData = json.data[0].answeroptions
+      console.log(this.answertData)
+    })
   }
 }
 </script>

@@ -100,7 +100,8 @@ const routes = [
     meta: {
       title: '评分'
     },
-    component: require('../views/wschool/subclass/grade.vue')
+    component: require('../views/wschool/subclass/child/grade.vue')
+
   },
   {
     name: 'result',
@@ -108,7 +109,7 @@ const routes = [
     meta: {
       title: '成绩'
     },
-    component: require('../views/wschool/subclass/result.vue')
+    component: require('../views/wschool/subclass/child/result.vue')
   },
   {
     name: 'peopleWillCloud',
@@ -140,6 +141,22 @@ const routes = [
         component: require('../views/peopleWillCloud/child/order.vue')
       }
     ]
+  },
+  {
+    name: 'handyService',
+    path: '/handyService',
+    meta: {
+      title: '便民服务'
+    },
+    component: require('../views/handyService/handyService.vue')
+  },
+  {
+    name: 'moveCar',
+    path: '/moveCar',
+    meta: {
+      title: '一键挪车'
+    },
+    component: require('../views/handyService/child/moveCar.vue')
   }
 ]
 /* eslint-disable no-new */

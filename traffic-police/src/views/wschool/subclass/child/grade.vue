@@ -1,7 +1,7 @@
 <template>
   <div class="grade">
     <div class="grade-top">
-      <img src="../../../images/qualified.png">
+      <img src="../../../../images/qualified.png">
     </div>
     <p class="grade-head">本次学习通过，欢迎下次学习！</p>
     <ul class="grade-footer" v-for="item in gradeData">
@@ -41,7 +41,7 @@ export default {
 }
 </script>
 <style lang="less">
-@import "./../../../style/base";
+/* @import "./../../../../style/base"; */
 .grade-top {
   width: 440px;
   height: 420px;
