@@ -1,7 +1,9 @@
 <template>
   <div class="queryLawless-outer">
     <ul>
-      <p>交通违法查询</p>
+      <div class="li-box">
+        <router-link to="queryLawlessPage">交通违法查询</router-link>
+      </div>
     </ul>
     <ul>
       <p>违法在线确认</p>
@@ -60,14 +62,14 @@ export default {
     a:last-child {
       border: none;
     }
-  }
-  ul.show {
-    p {
-      color: #fff;
-      background-color: #7ab8df;
-    }
-    .li-box {
-      display: block;
+    &.show {
+        p {
+          color: #fff;
+          background-color: #7ab8df;
+        }
+        .li-box {
+          display: block;
+        }
     }
   }
 }
