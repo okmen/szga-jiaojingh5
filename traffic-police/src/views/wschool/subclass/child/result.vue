@@ -1,17 +1,17 @@
 <template>
   <div class="result" >
-    <div class="result-head" v-for="item in resultData">
-      <span class="digit">{{item.answerCorrect}}</span>
-      <p class="result-head-bottom">驾驶证号：<i class="result-col">{{item.drive}}</i></p>
+    <div class="result-head" >
+      <span class="result-digit">{{resultData.answerCorrect}}</span>
+      <p class="result-head-bottom">驾驶证号：<i class="result-col">{{resultData.drive}}</i></p>
     </div>
-    <div class="result-cen" v-for="list in resultData">
+    <div class="result-cen" >
       <dl class="result-center">
-        <dt class="result-center-colour tian">{{list.answerCorrect}}</dt>
+        <dt class="result-center-colour tian">{{resultData.answerCorrect}}</dt>
         <dd class="result-center-colo">答题数</dd>
       </dl>
       <img class="result-xian" src="../../../../images/xian.png">
       <dl class="result-center">
-        <dt class="result-center-colour">{{list.answererror}}</dt>
+        <dt class="result-center-colour">{{resultData.answererror}}</dt>
         <dd class="result-center-colo">答错次数</dd>
       </dl>
     </div>
@@ -19,17 +19,21 @@
   </div>
 </template>
 <script>
+import { resultPost } from '../../../../service/getData'
+import { grade } from '../../../../config/baseUrl'
 export default {
   name: 'result',
   data () {
     return {
-      resultData: [{
-        'answerCorrect': 9,
-        'answererror': 0,
-        'integral': 9,
-        'drive': '413022199912348975'
-      }]
+      resultData: {
+      }
     }
+  },
+  mounted () {
+    resultPost(grade, 'hello').then(json => {
+      console.log(json)
+      this.resultData = json.data[0]
+    })
   }
 }
 </script>
@@ -47,10 +51,13 @@ export default {
   position: relative;
 }
 
-.digit {
+.result-digit {
   position: absolute;
-  left: 348px;
+  left: 256px;
   top: 206px;
+  display: block;
+  width: 200px;
+  text-align: center;
   font-size: 74px;
   font-weight: bold;
 }

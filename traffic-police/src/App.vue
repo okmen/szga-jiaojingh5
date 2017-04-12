@@ -3,7 +3,7 @@
   <div id="banner">
     <div class="not-login">
       <div class="logo"></div>
-      <p>请<a class="enter"> 登录 </a>/<a class="enroll"> 注册 </a>星级用户</p>
+      <p>请<a class="enter"> 登录 </a>/<router-link to="/starUser" class="enroll"> 注册 </router-link>星级用户</p>
     </div>
     <!-- <div class="success-login">
       <div class="success-login-top">
@@ -15,12 +15,16 @@
   <div id="nav-outer">
     <div class="home-nav-top">
       <dl>
+        <router-link to="/peopleWillCloud">
         <dt><img class="top1" src="./images/nav1.png" alt=""></dt>
         <dd>交通文明我做主</dd>
+        </router-link>
       </dl>
       <dl>
+        <router-link to="/queryLawless">
         <dt><img class="top2" src="./images/nav2.png" alt=""></dt>
         <dd>违法处理</dd>
+        </router-link>
       </dl>
       <dl>
         <dt><img class="top3" src="./images/nav3.png" alt=""></dt>
@@ -33,28 +37,40 @@
     </div>
     <div class="home-nav-bottom">
       <dl>
+        <router-link to="/wschool">
         <dt><img class="top5" src="./images/nav5.png" alt=""></dt>
         <dd>预约类服务</dd>
+        </router-link>
       </dl>
       <dl>
+        <router-link to="/wschool">
         <dt><img class="top6" src="./images/nav6.png" alt=""></dt>
         <dd>办理类服务</dd>
+        </router-link>
       </dl>
       <dl>
+        <router-link to="/wschool">
         <dt><img class="top7" src="./images/nav7.png" alt=""></dt>
         <dd>信息单据证明</dd>
+        </router-link>
       </dl>
       <dl>
+        <router-link to="/handyService">
         <dt><img class="top8" src="./images/nav8.png" alt=""></dt>
         <dd>便民服务</dd>
+        </router-link>
       </dl>
       <dl>
+        <router-link to="/motorstudy">
         <dt><img class="top9" src="./images/nav9.png" alt=""></dt>
         <dd>电动车管理</dd>
+        </router-link>
       </dl>
       <dl>
+        <router-link to="/wschool">
         <dt><img class="top10" src="./images/nav10.png" alt=""></dt>
         <dd>微课堂</dd>
+        </router-link>
       </dl>
     </div>
   </div>
@@ -153,6 +169,9 @@ export default {
     font-size: 22px;
     box-shadow:0 5px 5px rgba(0, 0, 0, .2);  
     dl{
+      width: 25%;
+      height: 100%;
+      text-align: center;
       img{
         display: block;
         margin: 0 auto;
@@ -187,11 +206,23 @@ export default {
       box-sizing: border-box;
       border-bottom: 2px solid #f5f5f5;
       border-right: 2px solid #f5f5f5;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
       background-color: #fff;
-
+      a{
+        display: block;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        dt{
+          padding-left: 62px;
+          width: 30%;
+          box-sizing: border-box;
+        }
+        dd{
+          width: 70%;
+          text-align: center;
+        }
+      }
       .top5{
         width: 46px;
         height: 49px;

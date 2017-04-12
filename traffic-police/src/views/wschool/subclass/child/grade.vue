@@ -4,39 +4,43 @@
       <img src="../../../../images/qualified.png">
     </div>
     <p class="grade-head">本次学习通过，欢迎下次学习！</p>
-    <ul class="grade-footer" v-for="item in gradeData">
+    <ul class="grade-footer" >
       <li class="grade-footer-center">
         <span>答题日期</span>
-        <em class="grade-footer-right">{{item.answerDate}}</em>
+        <em class="grade-footer-right">{{gradeData.answerDate}}</em>
       </li>
       <li class="grade-footer-center">
         <span>答题用时</span>
-        <em class="grade-footer-right">{{item.answerTime}}</em>
+        <em class="grade-footer-right">{{gradeData.answerTime}}</em>
       </li>
       <li class="grade-footer-center">
         <span>答对题数</span>
-        <em class="grade-footer-right">{{item.answerCorrect}}</em>
+        <em class="grade-footer-right">{{gradeData.answerCorrect}}</em>
       </li>
       <li class="grade-footer-center">
         <span>答错题数</span>
-        <em class="grade-footer-right">{{item.answererror}}</em>
+        <em class="grade-footer-right">{{gradeData.answererror}}</em>
       </li>
     </ul>
     <router-link class="grade-footer-bottom" to="result">好的</router-link>
   </div>
 </template>
 <script>
+import { resultPost } from '../../../../service/getData'
+import { grade } from '../../../../config/baseUrl'
 export default {
   name: 'grade',
   data () {
     return {
-      gradeData: [{
-        'answerDate': '2017-6-4',
-        'answerTime': '10:20',
-        'answerCorrect': 9,
-        'answererror': 1
-      }]
+      gradeData: {
+      }
     }
+  },
+  mounted () {
+    resultPost(grade, 'hello').then(json => {
+      console.log(json)
+      this.gradeData = json.data[0]
+    })
   }
 }
 </script>

@@ -15,6 +15,14 @@ const routes = [
     component: require('../App.vue')
   },
   {
+    name: 'login',
+    path: '/login',
+    meta: {
+      title: '登录'
+    },
+    component: require('../views/login/login.vue')
+  },
+  {
     name: 'starUser',
     path: '/starUser',
     meta: {

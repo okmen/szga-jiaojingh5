@@ -1,12 +1,12 @@
 <template>
-  <div class="navv">
-    <div class="nav-motorstudy">
+  <div class="content">
+    <div class="nav-pedestrianstudy">
       <div class="nav-top">
       </div>
       <span class="nav-top-bottom">{{listData.userName}}</span>
     </div>
-    <ul class="nav-motorstudy-cengter">
-      <li class="nav-motorstudy-left"><span>驾驶证号</span><em class="nav-motorstudy-right">{{listData.drive}}</em></li>
+    <ul class="nav-pedestrianstudy-cengter">
+      <li class="nav-pedestrianstudy-left"><span>驾驶证号</span><em class="nav-pedestrianstudy-right">{{listData.drive}}</em></li>
       <li class="nav-mstudy-left">
         <p @click.stop="clickShow()"><span>学习记录</span></p>
         <div class="nav-xstudy-footer-lout" v-bind:class="{ 'show' : isShow}" v-for="record in itemData">
@@ -28,7 +28,7 @@
       </li>
     </ul>
     <router-link class="nav-xstudy-button" to="answer">开始学习</router-link>
-    <a class="nav-motorstudy-xst" href="#">学习须知</a>
+    <a class="nav-pedestrianstudy-xst" href="#">学习须知</a>
   </div>
 </template>
 <script>
@@ -62,7 +62,7 @@ export default {
 </script>
 <style lang="less">
 @import "./../../../style/base";
-.nav-motorstudy {
+.nav-pedestrianstudy {
   background: url('../../../images/xstudyBackground.png');
   height: 350px;
   position: relative;
@@ -81,7 +81,7 @@ export default {
   margin-top: -140px;
 }
 
-.nav-motorstudy .nav-top-bottom {
+.nav-pedestrianstudy .nav-top-bottom {
  position: absolute;
   left: 38%;
   top: 70%;
@@ -92,18 +92,18 @@ export default {
   text-align: center;
 }
 
-.nav-motorstudy-left {
+.nav-pedestrianstudy-left {
   width: 100%;
   line-height: 108px;
   font-size: 26px;
   border-bottom: 1px solid #ddd;
 }
 
-.nav-motorstudy-left span {
+.nav-pedestrianstudy-left span {
   margin-left: 46px;
 }
 
-.nav-motorstudy-button {
+.nav-pedestrianstudy-button {
   width: 650px;
   margin: 48px 50px 12px;
   line-height: 80px;
@@ -113,14 +113,14 @@ export default {
   border-radius: 8px;
 }
 
-.nav-motorstudy-xst {
+.nav-pedestrianstudy-xst {
   margin-left: 26px;
   color: #3da8e8;
   font-size: 26px;
   text-decoration: underline;
 }
 
-.nav-motorstudy-right {
+.nav-pedestrianstudy-right {
   float: right;
   margin-right: 48px;
   font-style: normal;

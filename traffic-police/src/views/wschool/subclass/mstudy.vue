@@ -1,54 +1,42 @@
 <template>
   <div class="navv">
-    <div class="nav-mstudy" v-for="str in listData">
+    <div class="nav-mstudy">
       <div class="nav-top">
       </div>
-      <span class="nav-top-bottom">{{str.userName}}</span>
+      <span class="nav-top-bottom">{{itemData.userName}}</span>
     </div>
-    <ul class="nav-mstudy-cengter" v-for="item in listData">
-      <li class="nav-mstudy-left"><span>驾驶证号</span><em class="nav-mstudy-right">{{item.drive}}</em></li>
-      <li class="nav-mstudy-left"><span>记分周期(始)</span><em class="nav-mstudy-right">{{item.scoreStartDate}}</em></li>
-      <li class="nav-mstudy-left"><span>记分周期(末)</span><em class="nav-mstudy-right">{{item.scoreEndDate}}</em></li>
-      <li class="nav-mstudy-left"><span>学习积分数</span><em class="nav-mstudy-right nav-col">{{item.integral}}</em></li>
+    <ul class="nav-mstudy-cengter" >
+      <li class="nav-mstudy-left"><span>驾驶证号</span><em class="nav-mstudy-right">{{itemData.drive}}</em></li>
+      <li class="nav-mstudy-left"><span>记分周期(始)</span><em class="nav-mstudy-right">{{itemData.scoreStartDate}}</em></li>
+      <li class="nav-mstudy-left"><span>记分周期(末)</span><em class="nav-mstudy-right">{{itemData.scoreEndDate}}</em></li>
+      <li class="nav-mstudy-left"><span>学习积分数</span><em class="nav-mstudy-right nav-col">{{itemData.integral}}</em></li>
       <li class="nav-mstudy-left">
         <p @click.stop="clickShow()"><span>学习记录</span></p>
-        <div class="nav-xstudy-footer-lout" v-bind:class="{ 'show' : isShow}" v-for="record in listData">
-          <div class="nav-xstudy-footer">
+        <div class="nav-mstudy-footer-lout" v-bind:class="{ 'show' : isShow}" v-for="item in listData">
+          <div class="nav-mstudy-footer" >
             <div class="nav-footer-top"></div>
             <ul class="nav-footer-bottom">
-              <li><span>{{record.answerDate}}</span><a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="1">未完成</a></li>
-              <li><span>答对题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">{{record.ansLogarithm}}</a></li>
-            </ul>
-          </div>
-          <div class="nav-xstudy-footer">
-            <div class="nav-footer-top"></div>
-            <ul class="nav-footer-bottom">
-              <li><span>{{record.answerDate}}</span><a class="nav-xstudy-footer-rig" href="javascripit:void(0)">已完成</a></li>
-              <li><span>答错题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">1</a></li>
+              <li><span>{{item.answerDate}}</span><a class="nav-mstudy-footer-right" href="javascripit:void(0)" v-if="1">未完成</a></li>
+              <li><span>答对题数</span><a class="nav-mstudy-right nav-col" href="javascripit:void(0)">{{item.isComplete}}</a></li>
             </ul>
           </div>
         </div>
       </li>
     </ul>
-    <router-link class="nav-xstudy-button" to="answer">开始学习</router-link>
-    <a class="nav-xstudy-xst" href="#">学习须知</a>
+    <router-link class="nav-mstudy-button" to="answer">开始学习</router-link>
+    <a class="nav-mstudy-xst" href="#">学习须知</a>
   </div>
 </template>
 <script>
+import { resultPost } from '../../../service/getData'
+import { xstudy } from '../../../config/baseUrl'
 export default {
   data () {
     return {
       isShow: false,
+      itemData: {
+      },
       listData: [{
-        'ClassroomId': '1',
-        'userName': '小李李',
-        'drive': '41302219991234****',
-        'scoreStartDate': '2016-05-18',
-        'scoreEndDate': '2017-05-18',
-        'integral': '100',
-        'answerDate': '2010-05-18',
-        'isComplete': '1',
-        'ansLogarithm': '10'
       }]
     }
   },
@@ -59,6 +47,12 @@ export default {
     learningInstructions: function () {
       console.log(this)
     }
+  },
+  mounted () {
+    resultPost(xstudy, 'kdkd').then(json => {
+      this.itemData = json.data[0]
+      this.listData = json.data[0].studyRecord
+    })
   }
 }
 </script>
@@ -90,10 +84,13 @@ export default {
 
 .nav-mstudy .nav-top-bottom {
   position: absolute;
-  left: 45%;
+  left: 38%;
   top: 70%;
+  display: block;
+  width: 200px;
   color: #fff;
   font-size: 30px;
+  text-align: center;
 }
 
 .nav-mstudy-cengter {
@@ -112,6 +109,7 @@ export default {
 }
 
 .nav-mstudy-button {
+  display: block;
   width: 650px;
   line-height: 80px;
   color: #fff;
@@ -119,6 +117,7 @@ export default {
   background-color: #09bb07;
   border-radius: 8px;
   margin: 48px 50px 12px;
+  text-align: center;
 }
 
 .nav-mstudy-xst {
@@ -134,7 +133,7 @@ export default {
   font-style: normal;
 }
 
-.nav-xstudy-footer {
+.nav-mstudy-footer {
   width: 100%;
   background-color: #f0f1f3;
   overflow: hidden;
@@ -159,7 +158,7 @@ export default {
   line-height: 126px;
 }
 
-.nav-footer-bottom .nav-xstudy-footer-right {
+.nav-footer-bottom .nav-mstudy-footer-right {
   display: inline-block;
   width: 98px;
   font-size: 26px;
@@ -182,4 +181,12 @@ export default {
   line-height: 40px;
   color: #fff;
 }
+.nav-mstudy-footer-lout {
+  display: none;
+}
+
+.nav-mstudy-left.show {
+  display: block;
+}
+
 </style>

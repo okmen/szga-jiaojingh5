@@ -1,38 +1,36 @@
 <template>
-  <div class="navv" >
-    <div class="nav-xstudy">
+  <div class="center" >
+    <div class="nav-catstudy">
       <div class="nav-top">
       </div>
       <span class="nav-top-bottom">{{listData.userName}}</span>
     </div>
-    <ul class="nav-xstudy-cengter">
-      <li class="nav-xstudy-left"><span>驾驶证号</span><em class="nav-xstudy-right">{{listData.drive}}</em></li>
-      <li class="nav-xstudy-left"><span>记分周期(始)</span><em class="nav-xstudy-right">{{listData.scoreStartDate}}</em></li>
-      <li class="nav-xstudy-left"><span>记分周期(末)</span><em class="nav-xstudy-right">{{listData.scoreEndDate}}</em></li>
-      <li class="nav-xstudy-left"><span>学习积分数</span><em class="nav-xstudy-right nav-col">{{listData.integral}}</em></li>
+    <ul class="nav-catstudy-cengter">
+      <li class="nav-catstudy-left"><span>驾驶证号</span><em class="nav-catstudy-right">{{listData.drive}}</em></li>
+      <li class="nav-catstudy-left"><span>记分周期(始)</span><em class="nav-catstudy-right">{{listData.scoreStartDate}}</em></li>
+      <li class="nav-catstudy-left"><span>记分周期(末)</span><em class="nav-catstudy-right">{{listData.scoreEndDate}}</em></li>
+      <li class="nav-catstudy-left"><span>学习积分数</span><em class="nav-catstudy-right nav-col">{{listData.integral}}</em></li>
       <li class="nav-mstudy-left">
         <p @click.stop="clickShow()"><span>学习记录</span></p>
-        <div class="nav-xstudy-footer-lout" v-bind:class="{ 'show' : isShow}" v-for="item in itemsData">
-          <div class="nav-xstudy-footer">
+        <div class="nav-catstudy-footer-lout" v-bind:class="{ 'show' : isShow}" v-for="item in itemsData">
+          <div class="nav-catstudy-footer">
             <div class="nav-footer-top"></div>
             <ul class="nav-footer-bottom">
-              <li><span>{{item.answerDate}}</span><a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="1">未完成</a></li>
-              <li><span>答对题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">{{item.ansLogarithm}}</a></li>
+              <li><span>{{item.answerDate}}</span><a class="nav-catstudy-footer-right" href="javascripit:void(0)" v-if="1">未完成</a></li>
+              <li><span>答对题数</span><a class="nav-catstudy-right nav-col" href="javascripit:void(0)">{{item.ansLogarithm}}</a></li>
             </ul>
           </div>
         </div>
       </li>
     </ul>
-    <router-link class="nav-xstudy-button" to="answer">开始学习</router-link>
-    <a class="nav-xstudy-xst" @click="myAlert()">学习须知</a>
+    <router-link class="nav-catstudy-button" to="answer">开始学习</router-link>
+    <a class="nav-catstudy-xst" @click="myAlert()">学习须知</a>
   </div>
 </template>
 <script>
 import { resultPost } from '../../../service/getData'
 import { xstudy } from '../../../config/baseUrl'
-
 export default {
-  name: 'xstudy',
   data () {
     return {
       isShow: false,
@@ -61,7 +59,7 @@ export default {
 </script>
 <style lang="less">
 @import "./../../../style/base";
-.nav-xstudy {
+.nav-catstudy {
   width: 100%;
   height: 350px;
   background: url('../../../images/xstudyBackground.png');
@@ -81,7 +79,7 @@ export default {
   margin-top: -140px;
 }
 
-.nav-xstudy .nav-top-bottom {
+.nav-catstudy .nav-top-bottom {
   position: absolute;
   left: 38%;
   top: 70%;
@@ -92,18 +90,18 @@ export default {
   text-align: center;
 }
 
-.nav-xstudy-left {
+.nav-catstudy-left {
   width: 100%;
   line-height: 108px;
   font-size: 26px;
   border-bottom: 1px solid #ddd;
 }
 
-.nav-xstudy-left span {
+.nav-catstudy-left span {
   margin-left: 46px;
 }
 
-.nav-xstudy-footer {
+.nav-catstudy-footer {
   width: 100%;
   background-color: #f0f1f3;
   overflow: hidden;
@@ -128,7 +126,7 @@ export default {
   line-height: 126px;
 }
 
-.nav-footer-bottom .nav-xstudy-footer-right {
+.nav-footer-bottom .nav-catstudy-footer-right {
   display: inline-block;
   width: 98px;
   font-size: 26px;
@@ -140,7 +138,7 @@ export default {
   color: #fff;
 }
 
-.nav-xstudy-footer-rig {
+.nav-catstudy-footer-rig {
   display: inline-block;
   width: 98px;
   font-size: 26px;
@@ -152,7 +150,7 @@ export default {
   color: #fff;
 }
 
-.nav-xstudy-button {
+.nav-catstudy-button {
   display: inline-block;
   width: 650px;
   margin: 48px 50px 12px;
@@ -164,14 +162,14 @@ export default {
   text-align: center;
 }
 
-.nav-xstudy-xst {
+.nav-catstudy-xst {
   margin-left: 26px;
   color: #3da8e8;
   font-size: 26px;
   text-decoration: underline;
 }
 
-.nav-xstudy-right {
+.nav-catstudy-right {
   float: right;
   margin-right: 48px;
   font-style: normal;
@@ -181,7 +179,7 @@ export default {
   color: #ff0000;
 }
 
-.nav-xstudy-footer-lout {
+.nav-catstudy-footer-lout {
   display: none;
 }
 

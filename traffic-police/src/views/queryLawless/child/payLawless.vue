@@ -51,7 +51,9 @@
 <style lang="less">
   @import "./../../../style/base";
   .payLawless-outer {
-    position: relative;
+    position: absolute;
+    top:0;
+    bottom:0;
     background-color: white;
     font-size: 26px;
     color: #000;
@@ -60,7 +62,7 @@
          background-color: #fff;
           padding-top:20px;
             .form-line {
-              padding: 0 0 20px 180px;
+              padding: 20px 0 0 180px;
               position: relative;
               line-height: 56px;
               .form-line-item {
