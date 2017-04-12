@@ -140,6 +140,22 @@ const routes = [
         component: require('../views/peopleWillCloud/child/order.vue')
       }
     ]
+  },
+  {
+    name: 'handyService',
+    path: '/handyService',
+    meta: {
+      title: '便民服务'
+    },
+    component: require('../views/handyService/handyService.vue')
+  },
+  {
+    name: 'moveCar',
+    path: '/moveCar',
+    meta: {
+      title: '一键挪车'
+    },
+    component: require('../views/handyService/child/moveCar.vue')
   }
 ]
 /* eslint-disable no-new */
