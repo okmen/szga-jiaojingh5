@@ -100,7 +100,8 @@ const routes = [
     meta: {
       title: '评分'
     },
-    component: require('../views/wschool/subclass/grade.vue')
+    component: require('../views/wschool/subclass/child/grade.vue')
+
   },
   {
     name: 'result',
@@ -108,7 +109,7 @@ const routes = [
     meta: {
       title: '成绩'
     },
-    component: require('../views/wschool/subclass/result.vue')
+    component: require('../views/wschool/subclass/child/result.vue')
   },
   {
     name: 'peopleWillCloud',
