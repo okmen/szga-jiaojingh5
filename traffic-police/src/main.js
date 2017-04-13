@@ -4,11 +4,11 @@ import Vue from 'vue'
 import router from './router'
 import './config/detect-browser'
 import './config/rem'
-import { Button, Select } from 'element-ui'
+import { TimeSelect } from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
 
 Vue.use(require('vue-wechat-title'))
-Vue.component(Button.name, Button)
-Vue.component(Select.name, Select)
+Vue.component(TimeSelect.name, TimeSelect)
 
 /* eslint-disable */
 new Vue({

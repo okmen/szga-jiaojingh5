@@ -16,7 +16,17 @@
             <span>开始时间</span>
           </div>
           <div class="jam-list-text">
-            <input class="text-input" type="text" name="" v-model:value="startTime" placeholder="00:00">
+            <el-time-select
+              class="time-select"
+              v-model="startTime"
+              :picker-options="{
+                start: '00:00',
+                step: '00:15',
+                end: '24:00'
+              }"
+              placeholder="00:00">
+            </el-time-select>
+            <!-- <input class="text-input" type="text" name="" v-model:value="startTime" placeholder="00:00"> -->
           </div>
         </li>
         <li class="jam-form-item">
@@ -24,7 +34,17 @@
             <span>结束时间</span>
           </div>
           <div class="jam-list-text">
-            <input class="text-input" type="text" name="" v-model:value="endTime" placeholder="00:00">
+            <el-time-select
+              class="time-select"
+              v-model="endTime"
+              :picker-options="{
+                start: startTime ? startTime : '00:00',
+                step: '00:15',
+                end: '24:00'
+              }"
+              placeholder="00:00">
+            </el-time-select>
+            <!-- <input class="text-input" type="text" name="" v-model:value="endTime" placeholder="00:00"> -->
           </div>
         </li>
         <li class="jam-form-item">
@@ -342,6 +362,25 @@ export default {
         padding-left: 162px;
         position: relative;
         line-height: 56px;
+        .time-select{
+          width: 100%;
+          margin: 0;
+          i{
+            /*visibility: hidden;*/
+          }
+          input{
+            width: 100%;
+            height: 1.6875rem;
+            padding: 0;
+            text-indent: 0.5625rem;
+            line-height: 1.6875rem;
+            border: 0.03125rem solid #e2e2e7;
+            background-color: #efeff4;
+            color: #000;
+            border-radius: 0.3125rem;
+            outline: none;
+          }
+        }
         &:first-child{
           margin-top: 0;
         };
