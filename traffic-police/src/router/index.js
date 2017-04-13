@@ -158,6 +158,30 @@ const routes = [
       title: 'AB类驾驶人学习'
     },
     component: require('../views/wschool/subclass/ABstudy.vue')
+  },
+  {
+    name: 'takePicturesTips',
+    path: '/takePicturesTips',
+    meta: {
+      title: '随手拍举报温馨提示'
+    },
+    component: require('../views/takePictures/takePicturesTips.vue')
+  },
+  {
+    name: 'takePicturesSuccess',
+    path: '/takePicturesSuccess',
+    meta: {
+      title: '随手拍举报成功'
+    },
+    component: require('../views/takePictures/takePicturesSuccess.vue')
+  },
+  {
+    name: 'takePicturesInform',
+    path: '/takePicturesInform',
+    meta: {
+      title: '随手拍举报'
+    },
+    component: require('../views/takePictures/takePicturesInform.vue')
   }
 ]
 /* eslint-disable no-new */
