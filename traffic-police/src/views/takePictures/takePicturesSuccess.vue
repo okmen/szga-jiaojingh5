@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="takePhotosSuccess">
     <div class="tp-success">
       <img src="../../images/tpInformSuccess.png">
       <span>
@@ -22,6 +22,8 @@
   export default{}
 </script>
 <style lang="less">
+#takePhotosSuccess{
+}
 .tp-success{
   padding-left:25px;
   width:100%;

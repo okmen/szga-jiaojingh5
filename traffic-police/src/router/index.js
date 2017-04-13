@@ -157,6 +157,30 @@ const routes = [
       title: '一键挪车'
     },
     component: require('../views/handyService/child/moveCar.vue')
+  },
+  {
+    name: 'takePicturesTips',
+    path: '/takePicturesTips',
+    meta: {
+      title: '随手拍举报温馨提示'
+    },
+    component: require('../views/takePictures/takePicturesTips.vue')
+  },
+  {
+    name: 'takePicturesSuccess',
+    path: '/takePicturesSuccess',
+    meta: {
+      title: '随手拍举报成功'
+    },
+    component: require('../views/takePictures/takePicturesSuccess.vue')
+  },
+  {
+    name: 'takePicturesInform',
+    path: '/takePicturesInform',
+    meta: {
+      title: '随手拍举报'
+    },
+    component: require('../views/takePictures/takePicturesInform.vue')
   }
 ]
 /* eslint-disable no-new */

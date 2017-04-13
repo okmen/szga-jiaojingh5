@@ -1,5 +1,5 @@
 <template>
- <div>
+ <div id="takePhotoTips">
     <div class="tp-title">
       随手拍举报温馨提示
     </div>
@@ -34,7 +34,8 @@
    </div>
    <div class="tp-read">
      <div class="tp-read-checkbox">
-
+       <input type="checkbox" id="informReadCheckbox" name="informReadCheckbox">
+       <label for="informReadCheckbox"></label>
      </div>
      <span>
        我已认真阅读以上内容，并愿意承担相关法律责任。
@@ -50,6 +51,8 @@ export default {
 }
 </script>
 <style lang="less">
+#takePhotoTips{
+}
 .tp-title{
   width:100%;
   height:74px;
@@ -109,9 +112,59 @@ export default {
   }
 }
 .tp-read{
+  padding:0 50px;
   width:100%;
   height:106px;
+  .tp-read-checkbox{
+    float:left;
+    position:relative;
+    margin:4px 20px 0 0;
+    width:26px;
+    height:26px;
+    input[type=checkbox]{
+      visibility: hidden;
+    }
+    label{
+      position:absolute;
+      width:26px;
+      height:26px;
+      top:0;
+      left:0;
+      background:#FFF;
+      border:1px dotted #6a6a6a;
+      -webkit-border-radius:6px;
+      -moz-border-radius:6px;
+      border-radius:6px;
+      cursor:pointer;
+    }
+    label:after{
+      opacity:0.2;
+      content:'';
+      position:absolute;
+      width:24px;
+      height:8px;
+      background:transparent;
+      top:0;
+      left:3px;
+      border:4px solid #333;
+      border-top:none;
+      border-right:none;
+      -webkit-transform: rotate(-45deg);
+      -moz-transform: rotate(-45deg);
+      -o-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+    }
+    label:hover::after{
+      opacity:0.5;
+    }
+    input[type=checkbox]:checked + label:after{
+      opacity:1;
+    }
+  }
   span{
+    display:block;
+    float:left;
     font-size:22px;
   }
 }

@@ -68,7 +68,8 @@
       确认提交
     </div>
     <div class="tp-look-tips">
-      <a>点击查看温馨提示</a>
+      <!--<a>点击查看温馨提示</a>-->
+      <router-link to="takePicturesTips">点击查看温馨提示</router-link>
     </div>
   </div>
 </template>
@@ -78,7 +79,6 @@
 <style lang="less">
 #takePhotosInform{
   padding:0 50px;
-  width:100%;
   .tp-inform-box{
     margin-top:38px;
     width:100%;
@@ -95,20 +95,24 @@
       float:left;
       width:520px;
       height:100%;
+      background:#FFF;
       border:1px solid #eaeaed;
       -webkit-border-radius:8px;
       -moz-border-radius:8px;
       border-radius:8px;
       input{
         padding:17px 0 17px 20px;
-        width:520px;
+        width:518px;
         height:100%;
-        background:#FFF;
+        background:none;
         font-size:26px;
         outline:none;
         -webkit-border-radius:8px;
         -moz-border-radius:8px;
         border-radius:8px;
+      }
+      input:focus{
+        background:#efeff4;
       }
     }
   }
@@ -167,11 +171,16 @@
         padding:8px 20px 0;
         width:100%;
         height:100%;
+        font-size:26px;
         outline:none;
         resize:none;
+        border:1px solid #dddde1;
         -webkit-border-radius:8px;
         -moz-border-radius:8px;
         border-radius:8px;
+      }
+      textarea:focus{
+        background:#efeff4;
       }
     }
   }
