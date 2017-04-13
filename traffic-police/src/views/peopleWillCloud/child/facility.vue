@@ -1,8 +1,10 @@
 <template>
-  <common :typeData='typeData'></common>
+  <common :typeData='typeData' :reportingMatters="reportingMatters" @submit="submit"></common>
 </template>
 <script>
 import common from './common'
+import { resultPost } from '../../../service/getData'
+import { facility } from '../../../config/baseUrl'
 export default {
   name: 'facility',
   data () {
@@ -10,6 +12,7 @@ export default {
       typeData: [
         {
           'str': '交通信号灯',
+          'selectType': 1001,
           'subTypeData': [
             '手控坏',
             '异常闪烁',
@@ -50,6 +53,16 @@ export default {
   },
   components: {
     common
+  },
+  methods: {
+    submit: function (reqData) {
+      resultPost(facility, JSON.stringify(reqData)).then(json => {
+        console.log(json)
+      })
+    }
+  },
+  created () {
+    this.reportingMatters = 1001
   }
 }
 </script>

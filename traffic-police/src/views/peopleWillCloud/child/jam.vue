@@ -1,13 +1,13 @@
 <template>
   <div class="jam-outer">
     <div class="jam-form">
-      <ul class="jam-form-list padding-right-43">
+      <ul class="jam-form-list pad-right-43 pad-top-24">
         <li class="jam-form-item clear">
           <div class="jam-list-name">
             <span>地点</span>
           </div>
           <div class="jam-list-text left width-90">
-            <input class="text-input" type="text" name="" value="" placeholder="点击右侧按钮选择地址">
+            <input class="text-input" type="text" name="" v-model:value="address" placeholder="点击右侧按钮选择地址">
           </div>
           <div class="jam-list-location right" @click.stop='getLocation()'></div>
         </li>
@@ -16,7 +16,7 @@
             <span>开始时间</span>
           </div>
           <div class="jam-list-text">
-            <input class="text-input" type="text" name="" value="" placeholder="00:00">
+            <input class="text-input" type="text" name="" v-model:value="startTime" placeholder="00:00">
           </div>
         </li>
         <li class="jam-form-item">
@@ -24,15 +24,20 @@
             <span>结束时间</span>
           </div>
           <div class="jam-list-text">
-            <input class="text-input" type="text" name="" value="" placeholder="00:00">
+            <input class="text-input" type="text" name="" v-model:value="endTime" placeholder="00:00">
           </div>
         </li>
         <li class="jam-form-item">
           <div class="jam-list-name">
             <span>方向</span>
           </div>
-          <div class="jam-list-text">
-            <input class="text-input" type="text" name="" value="东">
+          <div class="div-select">
+            <span class="btn-select" @click.stop="btnDirectionSelect()">{{direction}}</span>
+            <div class="div-select-ul top-56" v-if="directionShow">
+              <ul>
+                <li v-for="item in directionData" @click.stop="btnDirectionSelect(item)">{{item}}</li>
+              </ul>
+            </div>
           </div>
         </li>
         <li class="jam-form-item">
@@ -40,10 +45,10 @@
             <span>拥堵类型</span>
           </div>
           <div class="div-select">
-            <span id="btnJamTypeSelect" class="btn-select" @click.stop="btnJamTypeSelect()">{{jamTypeSelect}}</span>
-            <div class="div-select-ul top-56" v-if="jamTypeSelectShow">
+            <span class="btn-select" @click.stop="btnCongestionTypeSelect()">{{congestionType.str}}</span>
+            <div class="div-select-ul top-56" v-if="congestionTypeShow">
               <ul>
-                <li v-for="item in jamType" @click.stop="btnJamTypeSelect(item)">{{item}}</li>
+                <li v-for="(item, index) in congestionTypeData" @click.stop="btnCongestionTypeSelect(index+1)">{{item.str}}</li>
               </ul>
             </div>
           </div>
@@ -53,10 +58,10 @@
             <span>拥堵等级</span>
           </div>
           <div class="div-select">
-            <span id="btnJamRangeSelect" class="btn-select" @click.stop="btnJamRangeSelect()">{{jamRangeSelect}}</span>
-            <div class="div-select-ul top-56" v-if="jamRangeSelectShow">
+            <span class="btn-select" @click.stop="btnCongestionGradeSelect()">{{congestionGrade.str}}</span>
+            <div class="div-select-ul top-56" v-if="congestionGradeShow">
               <ul>
-                <li v-for="item in jamRange" @click.stop="btnJamRangeSelect(item)">{{item}}</li>
+                <li v-for="(item, index) in congestionGradeData" @click.stop="btnCongestionGradeSelect(index+1)">{{item.str}}</li>
               </ul>
             </div>
           </div>
@@ -65,16 +70,26 @@
           <div class="jam-list-name">
             <span>道路服务水平</span>
           </div>
-          <div class="jam-list-text">
-            <input class="text-input" type="text" name="" value="排队起终点">
+          <div class="div-select">
+            <span class="btn-select" @click.stop="btnServiceLevelSelect()">{{roadServiceLevel.str}}</span>
+            <div class="div-select-ul top-56" v-if="roadServiceLevelShow">
+              <ul>
+                <li v-for="(item, index) in roadServiceLevelData" @click.stop="btnServiceLevelSelect(index+1)">{{item.str}}</li>
+              </ul>
+            </div>
           </div>
         </li>
         <li class="jam-form-item">
           <div class="jam-list-name">
             <span>拥堵成因</span>
           </div>
-          <div class="jam-list-text">
-            <input class="text-input" type="text" name="" value="车流过饱和">
+          <div class="div-select">
+            <span class="btn-select" @click.stop="btnCongestionReasonSelect()">{{congestionReason.str}}</span>
+            <div class="div-select-ul top-56" v-if="congestionReasonShow">
+              <ul>
+                <li v-for="(item, index) in congestionReasonData" @click.stop="btnCongestionReasonSelect(index+1)">{{item.str}}</li>
+              </ul>
+            </div>
           </div>
         </li>
         <li class="jam-form-item">
@@ -82,59 +97,230 @@
             <span>改善建议</span>
           </div>
           <div class="common-list-text">
-            <textarea class="text-input textarea" name="localeDescript" id="localeDescript" placeholder="请填写改善建议"></textarea>
+            <textarea class="text-input textarea" name="localeDescript" id="localeDescript" v-model:value="improveAdvice" placeholder="请填写改善建议"></textarea>
           </div>
         </li>
       </ul>
-      <button class="btn" type="button" name="button">提交</button>
+      <button class="btn" type="button" name="button" @click.stop="submit()">提交</button>
     </div>
   </div>
 </template>
 <script>
+import { resultPost } from '../../../service/getData'
+import { jam } from '../../../config/baseUrl'
 export default {
   name: 'jam',
   data () {
     return {
-      jamType: ['偶发性拥堵', '常态化拥堵'],
-      jamTypeSelect: '偶发性拥堵',
-      jamTypeSelectShow: false,
-      jamRange: ['缓行', '较拥堵', '拥堵'],
-      jamRangeSelect: '缓行',
-      jamRangeSelectShow: false
+      address: '',
+      startTime: '',
+      endTime: '',
+      // 方向
+      directionData: [ '东', '南', '西', '北' ],
+      direction: '东',
+      directionShow: false,
+      // 拥堵类型
+      congestionTypeData: [
+        {
+          'code': 1001,
+          'str': '偶发性拥堵'
+        },
+        {
+          'code': 1002,
+          'str': '常态化拥堵'
+        }
+      ],
+      congestionType: {
+        'code': 1001,
+        'str': '偶发性拥堵'
+      },
+      congestionTypeShow: false,
+      // 拥堵等级
+      congestionGradeData: [
+        {
+          'code': 1001,
+          'str': '缓行'
+        },
+        {
+          'code': 1002,
+          'str': '较拥堵'
+        },
+        {
+          'code': 1003,
+          'str': '拥堵'
+        }
+      ],
+      congestionGrade: {
+        'code': 1001,
+        'str': '缓行'
+      },
+      congestionGradeShow: false,
+      // 道路服务水平
+      roadServiceLevelData: [
+        {
+          'code': 1001,
+          'str': '排队起终点'
+        },
+        {
+          'code': 1002,
+          'str': '较以往同行延误时间'
+        },
+        {
+          'code': 1003,
+          'str': '经过几个信号周期通过'
+        }
+      ],
+      roadServiceLevel: {
+        'code': 1001,
+        'str': '排队起终点'
+      },
+      roadServiceLevelShow: false,
+      // 拥堵成因
+      congestionReasonData: [
+        {
+          'code': 1001,
+          'str': '车流过饱和'
+        },
+        {
+          'code': 1002,
+          'str': '交通违法'
+        },
+        {
+          'code': 1003,
+          'str': '交通事故'
+        },
+        {
+          'code': 1004,
+          'str': '交通秩序乱'
+        },
+        {
+          'code': 1005,
+          'str': '设施缺陷'
+        },
+        {
+          'code': 1006,
+          'str': '综合因素'
+        },
+        {
+          'code': 1007,
+          'str': '违法停车'
+        },
+        {
+          'code': 1008,
+          'str': '乱变线'
+        },
+        {
+          'code': 1009,
+          'str': '爬头加塞'
+        },
+        {
+          'code': 1010,
+          'str': '逆行'
+        },
+        {
+          'code': 1011,
+          'str': '轻微事故处理不及时'
+        },
+        {
+          'code': 1012,
+          'str': '重大事故道路封闭'
+        },
+        {
+          'code': 1013,
+          'str': '车辆交织冲突'
+        },
+        {
+          'code': 1014,
+          'str': '人车混行冲突'
+        },
+        {
+          'code': 1015,
+          'str': '道路空间利用不合理'
+        },
+        {
+          'code': 1016,
+          'str': '信号配时不合理'
+        },
+        {
+          'code': 1017,
+          'str': '安全防护设置不合理'
+        }
+      ],
+      congestionReason: {
+        'code': 1001,
+        'str': '车流过饱和'
+      },
+      congestionReasonShow: false,
+      improveAdvice: ''
     }
   },
   methods: {
     getLocation: function () {
       console.log('获取地理位置')
     },
-    btnJamTypeSelect: function (str) {
+    btnDirectionSelect: function (str) {
       if (str) {
-        this.jamTypeSelect = str
+        this.direction = str
       }
-      this.jamRangeSelectShow = false
-      if (this.jamTypeSelectShow === true) {
-        this.jamTypeSelectShow = false
-      } else {
-        this.jamTypeSelectShow = true
+      this.directionShow = !this.directionShow
+      this.congestionTypeShow = false
+      this.congestionGradeShow = false
+      this.roadServiceLevelShow = false
+      this.congestionReasonShow = false
+    },
+    btnCongestionTypeSelect: function (index) {
+      this.handle(index, 'congestionType', 'congestionTypeData', 'congestionTypeShow')
+    },
+    btnCongestionGradeSelect: function (index) {
+      this.handle(index, 'congestionGrade', 'congestionGradeData', 'congestionGradeShow')
+    },
+    btnServiceLevelSelect: function (index) {
+      this.handle(index, 'roadServiceLevel', 'roadServiceLevelData', 'roadServiceLevelShow')
+    },
+    btnCongestionReasonSelect: function (index) {
+      this.handle(index, 'congestionReason', 'congestionReasonData', 'congestionReasonShow')
+    },
+    handle: function (index, selectData, data, show) {
+      if (index) {
+        index--
+        this[selectData] = this[data][index]
+      }
+      let shows = ['directionShow', 'congestionTypeShow', 'congestionGradeShow', 'roadServiceLevelShow', 'congestionReasonShow']
+      for (let i = 0; i < shows.length; i++) {
+        if (show === shows[i]) {
+          this[show] = !this[show]
+        } else {
+          this[shows[i]] = false
+        }
       }
     },
-    btnJamRangeSelect: function (str) {
-      if (str) {
-        this.jamRangeSelect = str
+    submit: function () {
+      let reqData = {
+        reportingMatters: this.reportingMatters,
+        address: this.address,
+        startTime: this.startTime,
+        endTime: this.endTime,
+        direction: this.direction,
+        congestionType: this.congestionType.str,
+        congestionGrade: this.congestionGrade.str,
+        roadServiceLevel: this.roadServiceLevel.str,
+        congestionReason: this.congestionReason.str,
+        improveAdvice: this.improveAdvice
       }
-      this.jamTypeSelectShow = false
-      if (this.jamRangeSelectShow === true) {
-        this.jamRangeSelectShow = false
-      } else {
-        this.jamRangeSelectShow = true
-      }
+      resultPost(jam, JSON.stringify(reqData)).then(json => {
+        console.log(json)
+      })
     }
   },
   created () {
     document.addEventListener('click', (e) => {
-      this.jamTypeSelectShow = false
-      this.jamRangeSelectShow = false
+      this.directionShow = false
+      this.congestionTypeShow = false
+      this.congestionGradeShow = false
+      this.roadServiceLevelShow = false
+      this.congestionReasonShow = false
     })
+    this.reportingMatters = 1003
   }
 }
 </script>
@@ -144,16 +330,21 @@ export default {
     .width-90{
       width: 90%;
     }
-    .padding-right-43{
+    .pad-right-43{
       padding-right: 43px;
     }
+    .pad-top-24{
+      padding-top: 24px;
+    }
     .jam-form-list{
-      overflow: hidden;
       .jam-form-item{
         margin-top: 24px;
         padding-left: 162px;
         position: relative;
         line-height: 56px;
+        &:first-child{
+          margin-top: 0;
+        };
         .jam-list-name{
           position: absolute;
           left: 0;

@@ -7,7 +7,7 @@
         <div class="div-select-ul" v-if='typeSelectShow'>
           <ul>
             <li v-for="(item, index) in typeSelectData" @click.stop = "typeSelectClick(index+1)">
-              <router-link :to='item.path' class='peopleWillCloud-type'>  {{item.str}} </router-link>
+              <router-link :to="item.path" class="peopleWillCloud-type">  {{item.str}} </router-link>
             </li>
           </ul>
         </div>
@@ -23,10 +23,6 @@
     data () {
       return {
         typeSelectShow: false,
-        typeSelectMassage: {
-          'str': '这里设施坏了',
-          'path': '/peopleWillCloud/facility'
-        },
         typeSelectData: [
           {
             'str': '这里设施坏了',
@@ -64,6 +60,20 @@
       document.addEventListener('click', (e) => {
         this.typeSelectShow = false
       })
+      switch (window.location.hash) {
+        case '#/peopleWillCloud/facility':
+          this.typeSelectMassage = this.typeSelectData[0]
+          break
+        case '#/peopleWillCloud/secure':
+          this.typeSelectMassage = this.typeSelectData[1]
+          break
+        case '#/peopleWillCloud/jam':
+          this.typeSelectMassage = this.typeSelectData[2]
+          break
+        case '#/peopleWillCloud/order':
+          this.typeSelectMassage = this.typeSelectData[3]
+          break
+      }
     }
   }
 </script>

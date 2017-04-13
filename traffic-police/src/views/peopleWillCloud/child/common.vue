@@ -7,7 +7,7 @@
           <span>详细地址</span>
         </div>
         <div class="common-list-text left width-90">
-          <input class="text-input" type="text" name="" value="" placeholder="点击右侧按钮选择地址">
+          <input class="text-input" type="text" name="" v-model:value="detailAddress" placeholder="点击右侧按钮选择地址">
         </div>
         <div class="common-list-location right" @click.stop='getLocation()'></div>
       </li>
@@ -16,7 +16,7 @@
           <span>发现人姓名</span>
         </div>
         <div class="common-list-text">
-          <input class="text-input" type="text" name="" value="杨明畅" readonly>
+          <input class="text-input" type="text" name="" v-model:value="userName" readonly>
         </div>
       </li>
       <li class="common-form-item">
@@ -24,7 +24,7 @@
           <span>发现人手机</span>
         </div>
         <div class="common-list-text">
-          <input class="text-input" type="text" name="" value="13600000000" readonly>
+          <input class="text-input" type="text" name="" v-model:value="mobilephone" readonly>
         </div>
       </li>
       <li class="common-form-item">
@@ -33,11 +33,11 @@
         </div>
         <div class="common-list-radio">
           <div class="common-list-radio-box">
-            <input type="radio" id="common-radio1" name="urgencyLevel" class='checked' value="紧急">
+            <input type="radio" id="common-radio1" name="urgencyLevel" class='checked' value="紧急" v-model:checked="emergency">
             <label for="common-radio1">紧急</label>
           </div>
           <div class="common-list-radio-box">
-            <input type="radio" id="common-radio2" name="urgencyLevel" class='checked' value="普通">
+            <input type="radio" id="common-radio2" name="urgencyLevel" class='checked' value="普通" v-model:checked="emergency">
             <label for="common-radio2">普通</label>
           </div>
         </div>
@@ -46,7 +46,7 @@
         <div class="common-list-name">
           <span>类型选择</span>
         </div>
-        <div class="div-select">
+        <div class="div-select flex">
           <span id="btnTypeSelect" class="btn-select hidden" @click.stop="btnTypeSelect()">{{typeSelectData.str}}</span>
           <div class="div-select-ul top-56" v-if="typeSelectShow">
             <ul>
@@ -55,11 +55,11 @@
           </div>
         </div>
       </li>
-      <li class="common-form-item margin-top-13">
+      <li class="common-form-item">
         <div class="common-list-name">
           <span>子类型选择</span>
         </div>
-        <div class="div-select">
+        <div class="div-select flex">
           <span id="btnTypeSelect" class="btn-select hidden" @click.stop="btnSubTypeSelect()">{{subTypeSelectData}}</span>
           <div class="div-select-ul top-56" v-if="subTypeSelectShow">
             <ul>
@@ -68,36 +68,42 @@
           </div>
         </div>
       </li>
-      <li class="common-form-item margin-top-13">
+      <li class="common-form-item">
         <div class="common-list-name">
           <span>现场描述</span>
         </div>
         <div class="common-list-text">
-          <textarea class="text-input textarea" name="localeDescript" id="localeDescript" placeholder="简要对现场进行描述"></textarea>
+          <textarea class="text-input textarea" name="localeDescript" id="localeDescript" placeholder="简要对现场进行描述" v-model:value="description"></textarea>
         </div>
       </li>
       <div class="common-upload">
         <p>请上传现场照片</p>
-        <div class="common-upload-inner">
+        <div class="common-upload-inner" @click.stop="uploadImg()">
           <em></em>
         </div>
       </div>
     </ul>
-    <button class="btn" type="button" name="button">提交</button>
+    <button class="btn" type="button" name="button" @click.stop="submit()">提交</button>
   </div>
 </div>
 </template>
 <script>
 export default{
   name: 'common',
-  props: ['typeData'],
+  props: ['typeData', 'reportingMatters'],
   data () {
     return {
       typeSelectShow: false,
       subTypeSelectShow: false,
       typeSelectData: this.typeData[this.typeIndex],
       typeIndex: 0,
-      subTypeIndex: 0
+      subTypeIndex: 0,
+      userName: '杨明畅',
+      mobilephone: 13600000000,
+      detailAddress: '',
+      emergency: '',
+      description: '',
+      sceneImg: ''
     }
   },
   methods: {
@@ -132,6 +138,23 @@ export default{
       } else {
         this.subTypeSelectShow = true
       }
+    },
+    uploadImg: function () {
+      console.log('上传图片')
+    },
+    submit: function () {
+      let reqData = {
+        userName: this.userName,
+        mobilephone: this.mobilephone,
+        reportingMatters: this.reportingMatters,
+        detailAddress: this.detailAddress,
+        emergency: this.emergency,
+        selectType: this.typeSelectData.str,
+        subType: this.subTypeSelectData,
+        description: this.description,
+        sceneImg: this.sceneImg
+      }
+      this.$emit('submit', reqData)
     }
   },
   created () {
@@ -156,8 +179,8 @@ export default{
   .padding-right-43{
     padding-right: 43px;
   }
-  .margin-top-13{
-    margin-top: 13px !important;
+  .flex{
+    display: flex;
   }
   .common-form-list{
     overflow: hidden;
