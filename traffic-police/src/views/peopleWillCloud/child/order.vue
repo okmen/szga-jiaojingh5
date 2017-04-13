@@ -33,7 +33,7 @@
           </div>
           <div class="div-select">
             <span id="btnJamRangeSelect" class="btn-select" @click.stop="btnOrderTypeSelect()">{{congestionType.str}}</span>
-            <div class="div-select-ul top-56" v-if="orderSelectShow">
+            <div class="div-select-ul" v-if="orderSelectShow">
               <ul>
                 <li v-for="(item, index) in congestionTypeData" @click.stop="btnOrderTypeSelect(index+1)">{{item.str}}</li>
               </ul>

@@ -33,7 +33,7 @@
           </div>
           <div class="div-select">
             <span class="btn-select" @click.stop="btnDirectionSelect()">{{direction}}</span>
-            <div class="div-select-ul top-56" v-if="directionShow">
+            <div class="div-select-ul" v-if="directionShow">
               <ul>
                 <li v-for="item in directionData" @click.stop="btnDirectionSelect(item)">{{item}}</li>
               </ul>
@@ -46,7 +46,7 @@
           </div>
           <div class="div-select">
             <span class="btn-select" @click.stop="btnCongestionTypeSelect()">{{congestionType.str}}</span>
-            <div class="div-select-ul top-56" v-if="congestionTypeShow">
+            <div class="div-select-ul" v-if="congestionTypeShow">
               <ul>
                 <li v-for="(item, index) in congestionTypeData" @click.stop="btnCongestionTypeSelect(index+1)">{{item.str}}</li>
               </ul>
@@ -59,7 +59,7 @@
           </div>
           <div class="div-select">
             <span class="btn-select" @click.stop="btnCongestionGradeSelect()">{{congestionGrade.str}}</span>
-            <div class="div-select-ul top-56" v-if="congestionGradeShow">
+            <div class="div-select-ul" v-if="congestionGradeShow">
               <ul>
                 <li v-for="(item, index) in congestionGradeData" @click.stop="btnCongestionGradeSelect(index+1)">{{item.str}}</li>
               </ul>
@@ -72,7 +72,7 @@
           </div>
           <div class="div-select">
             <span class="btn-select" @click.stop="btnServiceLevelSelect()">{{roadServiceLevel.str}}</span>
-            <div class="div-select-ul top-56" v-if="roadServiceLevelShow">
+            <div class="div-select-ul" v-if="roadServiceLevelShow">
               <ul>
                 <li v-for="(item, index) in roadServiceLevelData" @click.stop="btnServiceLevelSelect(index+1)">{{item.str}}</li>
               </ul>
@@ -85,7 +85,7 @@
           </div>
           <div class="div-select">
             <span class="btn-select" @click.stop="btnCongestionReasonSelect()">{{congestionReason.str}}</span>
-            <div class="div-select-ul top-56" v-if="congestionReasonShow">
+            <div class="div-select-ul" v-if="congestionReasonShow">
               <ul>
                 <li v-for="(item, index) in congestionReasonData" @click.stop="btnCongestionReasonSelect(index+1)">{{item.str}}</li>
               </ul>
