@@ -15,6 +15,14 @@ const routes = [
     component: require('../App.vue')
   },
   {
+    name: 'login',
+    path: '/login',
+    meta: {
+      title: '登录'
+    },
+    component: require('../views/login/login.vue')
+  },
+  {
     name: 'starUser',
     path: '/starUser',
     meta: {
@@ -117,30 +125,7 @@ const routes = [
     meta: {
       title: '民意云'
     },
-    component: require('../views/peopleWillCloud/peopleWillCloud.vue'),
-    redirect: '/peopleWillCloud/facility',
-    children: [
-      {
-        name: 'facility',
-        path: '/peopleWillCloud/facility',
-        component: require('../views/peopleWillCloud/child/facility.vue')
-      },
-      {
-        name: 'secure',
-        path: '/peopleWillCloud/secure',
-        component: require('../views/peopleWillCloud/child/secure.vue')
-      },
-      {
-        name: 'jam',
-        path: '/peopleWillCloud/jam',
-        component: require('../views/peopleWillCloud/child/jam.vue')
-      },
-      {
-        name: 'order',
-        path: '/peopleWillCloud/order',
-        component: require('../views/peopleWillCloud/child/order.vue')
-      }
-    ]
+    component: require('../views/peopleWillCloud/peopleWillCloud.vue')
   },
   {
     name: 'handyService',
@@ -159,28 +144,20 @@ const routes = [
     component: require('../views/handyService/child/moveCar.vue')
   },
   {
-    name: 'takePicturesTips',
-    path: '/takePicturesTips',
+    name: 'pedestrianstudy',
+    path: '/pedestrianstudy',
     meta: {
-      title: '随手拍举报温馨提示'
+      title: '行人学习'
     },
-    component: require('../views/takePictures/takePicturesTips.vue')
+    component: require('../views/wschool/subclass/pedestrianstudy.vue')
   },
   {
-    name: 'takePicturesSuccess',
-    path: '/takePicturesSuccess',
+    name: 'ABstudy',
+    path: '/ABstudy',
     meta: {
-      title: '随手拍举报成功'
+      title: 'AB类驾驶人学习'
     },
-    component: require('../views/takePictures/takePicturesSuccess.vue')
-  },
-  {
-    name: 'takePicturesInform',
-    path: '/takePicturesInform',
-    meta: {
-      title: '随手拍举报'
-    },
-    component: require('../views/takePictures/takePicturesInform.vue')
+    component: require('../views/wschool/subclass/ABstudy.vue')
   }
 ]
 /* eslint-disable no-new */
