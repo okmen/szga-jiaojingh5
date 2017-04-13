@@ -243,7 +243,6 @@ export default{
         carType: this.carType,
         doodgenAddress: this.doodgenAddress
       }
-      console.log(JSON.stringify(reqData))
       resultPost(moveCar, reqData).then(json => {
         console.log(json)
       })

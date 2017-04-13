@@ -125,30 +125,7 @@ const routes = [
     meta: {
       title: '民意云'
     },
-    component: require('../views/peopleWillCloud/peopleWillCloud.vue'),
-    redirect: '/peopleWillCloud/facility',
-    children: [
-      {
-        name: 'facility',
-        path: '/peopleWillCloud/facility',
-        component: require('../views/peopleWillCloud/child/facility.vue')
-      },
-      {
-        name: 'secure',
-        path: '/peopleWillCloud/secure',
-        component: require('../views/peopleWillCloud/child/secure.vue')
-      },
-      {
-        name: 'jam',
-        path: '/peopleWillCloud/jam',
-        component: require('../views/peopleWillCloud/child/jam.vue')
-      },
-      {
-        name: 'order',
-        path: '/peopleWillCloud/order',
-        component: require('../views/peopleWillCloud/child/order.vue')
-      }
-    ]
+    component: require('../views/peopleWillCloud/peopleWillCloud.vue')
   },
   {
     name: 'handyService',
@@ -165,6 +142,46 @@ const routes = [
       title: '一键挪车'
     },
     component: require('../views/handyService/child/moveCar.vue')
+  },
+  {
+    name: 'pedestrianstudy',
+    path: '/pedestrianstudy',
+    meta: {
+      title: '行人学习'
+    },
+    component: require('../views/wschool/subclass/pedestrianstudy.vue')
+  },
+  {
+    name: 'ABstudy',
+    path: '/ABstudy',
+    meta: {
+      title: 'AB类驾驶人学习'
+    },
+    component: require('../views/wschool/subclass/ABstudy.vue')
+  },
+  {
+    name: 'takePicturesTips',
+    path: '/takePicturesTips',
+    meta: {
+      title: '随手拍举报温馨提示'
+    },
+    component: require('../views/takePictures/takePicturesTips.vue')
+  },
+  {
+    name: 'takePicturesSuccess',
+    path: '/takePicturesSuccess',
+    meta: {
+      title: '随手拍举报成功'
+    },
+    component: require('../views/takePictures/takePicturesSuccess.vue')
+  },
+  {
+    name: 'takePicturesInform',
+    path: '/takePicturesInform',
+    meta: {
+      title: '随手拍举报'
+    },
+    component: require('../views/takePictures/takePicturesInform.vue')
   }
 ]
 /* eslint-disable no-new */
