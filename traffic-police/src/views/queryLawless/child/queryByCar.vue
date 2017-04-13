@@ -29,7 +29,7 @@
               </div>
             </div>
             <div class="queryByCar-hbs-text width-70 right">
-              <input class="text-input" type="text" name="" value="" placeholder="请输入车牌号码">
+              <input v-model="car_number" class="text-input" type="text" name="" value="" placeholder="请输入车牌号码">
             </div>
           </li>
           <li class="queryByCar-hbs-item">
@@ -37,7 +37,7 @@
               <span>车架号</span>
             </div>
             <div class="queryByCar-hbs-text">
-              <input class="text-input" type="text" name="" value="" placeholder="请输入车架号后四位">
+              <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" name="" value="" placeholder="请输入车架号后四位">
             </div>
           </li>
           <li class="queryByCar-hbs-item clear">
@@ -51,7 +51,7 @@
           </li>
         </ul>
       </div>
-      <button class="btn" type="button" name="button">查询</button>
+      <button class="btn" type="button" name="button" @click.stop="queryLawlessByCar()">查询</button>
       <button class="btn-light-green" type="button" name="button">我的车辆违章</button>
       <div class="hint">
         <p>温馨提示：仅可查询车辆在深圳市范围内的交通违法信息</p>
@@ -60,10 +60,14 @@
   </div>
 </template>
 <script>
+  import { resultPost } from '../../../service/getData'
+  import { queryLawlessByCar } from '../../../config/baseUrl'
   export default {
     name: 'queryByCar',
     data () {
       return {
+        car_number: '',
+        vehicleIdentifyNoLast4: '',
         licenseSelectShow: false,
         licenseSelectMassage: '小型汽车',
         licenseSelectData: [
@@ -258,7 +262,18 @@
           this.typeSelectShow = false
         }
       },
-      getVerification: function () {}
+      getVerification: function () {},
+      queryLawlessByCar: function () {
+        let reqData = {
+          licensePlateNo: this.abbreviationSelectMassage + this.car_number,
+          licensePlateType: '05',
+          vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
+        }
+        console.log(reqData)
+        resultPost(queryLawlessByCar, JSON.stringify(reqData)).then(json => {
+          console.log(json)
+        })
+      }
     },
     created () {
       document.addEventListener('click', (e) => {

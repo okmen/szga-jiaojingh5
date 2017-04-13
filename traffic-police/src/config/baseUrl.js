@@ -15,3 +15,10 @@ export const jam = 'http://192.168.1.120:8100/convenience/trafficCongestion.html
 export const order = 'http://192.168.1.120:8100/convenience/sequenceChaos.html' // 秩序混乱通报接口
 
 export const moveCar = 'http://192.168.1.120:8100/convenience/oneKeyDodgen.html' // 一键挪车接口
+
+export const queryLawlessByCar = 'http://192.168.1.120:8100/illegalHanding/queryInfoByLicensePlateNo.html' // 违法查询（车牌号）
+
+export const queryLawlessByCard = 'http://192.168.1.120:8100/illegalHanding/queryInfoByDrivingLicenceNo.html' // 违法查询（驾驶证）
+
+export const queryPay = 'http://192.168.1.120:8100/illegalHanding/ toQueryPunishmentPage.html' // 违法缴款
+

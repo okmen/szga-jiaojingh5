@@ -49,18 +49,18 @@
   </div>
 </template>
 <script>
-export default {
-  name: 'queryTab',
-  data () {
-    return {
-      cur_tab: 'car'
+  export default {
+    name: 'queryTab',
+    data () {
+      return {
+        cur_tab: 'car'
+      }
+    },
+    components: {
+      'queryByCard': require('./queryByCard.vue'),
+      'queryByCar': require('./queryByCar.vue')
     }
-  },
-  components: {
-    'queryByCard': require('./queryByCard.vue'),
-    'queryByCar': require('./queryByCar.vue')
   }
-}
 </script>
 <style lang="less" >
   @import "./../../../style/base";

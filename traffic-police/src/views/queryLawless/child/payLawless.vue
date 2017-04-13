@@ -7,7 +7,7 @@
             <span>处罚决定书号</span>
           </div>
           <div class="form-line-item width-60">
-            <input class="text-input" type="text" name="" value="" placeholder="请输入缴款编号">
+            <input v-model="billNo" class="text-input" type="text" name="" value="" placeholder="请输入缴款编号">
           </div>
           <div class="form-line-item right width-35">
             <span class="btn-blue browse-code"><i class="code-icon"></i>扫一扫</span>
@@ -28,7 +28,7 @@
             </div>
           </div>
           <div class="form-line-item width-70 right">
-            <input class="text-input" type="text" name="" value="" placeholder="请输入车牌号码">
+            <input v-model="car_number" class="text-input" type="text" name="" value="" placeholder="请输入车牌号码">
           </div>
         </li>
         <li class="form-line">
@@ -41,7 +41,7 @@
         </li>
       </ul>
     </div>
-    <button class="btn btn-blue" type="button" name="button">查询</button>
+    <button class="btn btn-blue" type="button" name="button" @click.stop="queryPay()">查询</button>
     <div class="hint">
       <h4>温馨提示：</h4>
       <p>缴款交易提示成功的，违法记录将以24小时内完成核销，请您在交易成功24小时以后查询违法处理结果，请勿急于重复缴款。如违法记录仍未核销的 款项将在15日内退回。</p>
@@ -118,10 +118,14 @@
 
 </style>
 <script>
+  import { resultPost } from '../../../service/getData'
+  import { queryPay } from '../../../config/baseUrl'
   export default {
     name: 'earlyLawless',
     data () {
       return {
+        car_number: '',
+        billNo: '',
         abbreviationSelectShow: false,
         abbreviationSelectMassage: '粤',
         abbreviationSelectData: [
@@ -233,6 +237,16 @@
           this.licenseSelectShow = false
           this.typeSelectShow = false
         }
+      },
+      queryPay: function () {
+        let reqData = {
+          billNo: this.billNo,
+          licensePlateNo: this.abbreviationSelectMassage + this.car_number,
+          mobilephone: '18502668481'
+        }
+        resultPost(queryPay, JSON.stringify(reqData)).then(json => {
+          console.log(json)
+        })
       }
     },
     created () {
