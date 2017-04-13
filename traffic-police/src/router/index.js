@@ -15,14 +15,6 @@ const routes = [
     component: require('../App.vue')
   },
   {
-    name: 'login',
-    path: '/login',
-    meta: {
-      title: '登录'
-    },
-    component: require('../views/login/login.vue')
-  },
-  {
     name: 'starUser',
     path: '/starUser',
     meta: {
@@ -144,20 +136,28 @@ const routes = [
     component: require('../views/handyService/child/moveCar.vue')
   },
   {
-    name: 'pedestrianstudy',
-    path: '/pedestrianstudy',
+    name: 'takePicturesTips',
+    path: '/takePicturesTips',
     meta: {
-      title: '行人学习'
+      title: '随手拍举报温馨提示'
     },
-    component: require('../views/wschool/subclass/pedestrianstudy.vue')
+    component: require('../views/takePictures/takePicturesTips.vue')
   },
   {
-    name: 'ABstudy',
-    path: '/ABstudy',
+    name: 'takePicturesSuccess',
+    path: '/takePicturesSuccess',
     meta: {
-      title: 'AB类驾驶人学习'
+      title: '随手拍举报成功'
     },
-    component: require('../views/wschool/subclass/ABstudy.vue')
+    component: require('../views/takePictures/takePicturesSuccess.vue')
+  },
+  {
+    name: 'takePicturesInform',
+    path: '/takePicturesInform',
+    meta: {
+      title: '随手拍举报'
+    },
+    component: require('../views/takePictures/takePicturesInform.vue')
   }
 ]
 /* eslint-disable no-new */
