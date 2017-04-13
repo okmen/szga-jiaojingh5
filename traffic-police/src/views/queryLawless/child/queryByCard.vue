@@ -8,7 +8,7 @@
               <span>驾驶证号</span>
             </div>
             <div class="queryByCard-hbs-text">
-              <input class="text-input" type="text" name="" value="" placeholder="请输入驾驶证号">
+              <input v-model="drivingLicenceNo" class="text-input" type="text" name="" value="" placeholder="请输入驾驶证号">
             </div>
           </li>
           <li class="queryByCard-hbs-item">
@@ -16,7 +16,7 @@
               <span>档案编号</span>
             </div>
             <div class="queryByCard-hbs-text">
-              <input class="text-input" type="text" name="" value="" placeholder="请输入档案编号">
+              <input v-model="recordNo" class="text-input" type="text" name="" value="" placeholder="请输入档案编号">
             </div>
           </li>
           <li class="queryByCard-hbs-item clear">
@@ -30,18 +30,33 @@
           </li>
         </ul>
       </div>
-      <button class="btn btn-blue" type="button" name="button">查询</button>
+      <button class="btn btn-blue" type="button" name="button" @click.stop="queryLawlessByCard()">查询</button>
     </div>
   </div>
 </template>
 <script>
+  import { resultPost } from '../../../service/getData'
+  import { queryLawlessByCard } from '../../../config/baseUrl'
   export default {
     name: 'queryByCard',
     data () {
       return {
+        drivingLicenceNo: '',
+        recordNo: '',
+        billNo: ''
       }
     },
     methods: {
+      queryLawlessByCard: function () {
+        let reqData = {
+          drivingLicenceNo: this.drivingLicenceNo,
+          recordNo: this.recordNo
+        }
+        resultPost(queryLawlessByCard, JSON.stringify(reqData)).then(json => {
+          this.billNo = json.data[0].billNo
+          console.log(json)
+        })
+      }
     }
   }
 </script>

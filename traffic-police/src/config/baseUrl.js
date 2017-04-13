@@ -20,3 +20,10 @@ export const jam = `${commonUrl}convenience/trafficCongestion.html` // 交通拥
 export const order = `${commonUrl}convenience/sequenceChaos.html` // 秩序混乱通报接口
 
 export const moveCar = `${commonUrl}convenience/oneKeyDodgen.html` // 一键挪车接口
+
+export const queryLawlessByCar = `${commonUrl}illegalHanding/queryInfoByLicensePlateNo.html` // 违法查询（车牌号）
+
+export const queryLawlessByCard = `${commonUrl}illegalHanding/queryInfoByDrivingLicenceNo.html` // 违法查询（驾驶证）
+
+export const queryPay = `${commonUrl}illegalHanding/ toQueryPunishmentPage.html` // 违法缴款
+
