@@ -1,9 +1,13 @@
 <template>
   <div class="grade">
     <div class="grade-top">
-      <img src="../../../../images/qualified.png">
+      <img v-if="answerResult == 1" src="../../../../images/qualified.png">
+      <img v-else-if="answerResult == 2" src="../../../../images/disqualification.png">
+      <img v-else-if="answerResult == 0" src="../../../../images/disqualification.png">
     </div>
-    <p class="grade-head">本次学习通过，欢迎下次学习！</p>
+    <p v-if="answerResult == 1" class="grade-head">本次学习通过,欢迎下次学习！</p>
+    <p v-else-if="answerResult == 2" class="grade-head">本次学习不通过,欢迎继续学习！</p>
+    <p v-else-if="answerResult == 0" class="grade-head">本次学习不合格,欢迎继续学习！</p>
     <ul class="grade-footer" >
       <li class="grade-footer-center">
         <span>答题日期</span>
@@ -32,20 +36,21 @@ export default {
   name: 'grade',
   data () {
     return {
+      answerResult: 0,
       gradeData: {
       }
     }
   },
   mounted () {
     resultPost(grade, 'hello').then(json => {
-      console.log(json)
       this.gradeData = json.data[0]
+      // this.answerResult = json.data[0].answerResult
     })
   }
 }
 </script>
 <style lang="less">
-/* @import "./../../../../style/base"; */
+@import "./../../../../style/base";
 .grade-top {
   width: 440px;
   height: 420px;

@@ -16,7 +16,11 @@
           <div class="nav-xstudy-footer">
             <div class="nav-footer-top"></div>
             <ul class="nav-footer-bottom">
-              <li><span>{{item.answerDate}}</span><a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="1">未完成</a></li>
+              <li>
+                <span>{{item.answerDate}}</span>
+                <a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="isComplete == 0">未完成</a>
+                <a class="nav-xstudy-footer-rig" href="javascripit:void(0)" v-else>已完成</a>
+              </li>
               <li><span>答对题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">{{item.ansLogarithm}}</a></li>
             </ul>
           </div>
@@ -24,7 +28,7 @@
       </li>
     </ul>
     <router-link class="nav-xstudy-button" to="answer">开始学习</router-link>
-    <a class="nav-xstudy-xst" @click="myAlert()">学习须知</a>
+    <a class="nav-xstudy-xst" @click.stop="myAlert()">学习须知</a>
   </div>
 </template>
 <script>
@@ -36,6 +40,7 @@ export default {
   data () {
     return {
       isShow: false,
+      isComplete: 1,
       listData: {
       },
       itemsData: [{
@@ -52,9 +57,9 @@ export default {
   },
   mounted () {
     resultPost(xstudy, 'asdasd').then(json => {
-      console.log(json)
       this.listData = json.data[0]
       this.itemsData = json.data[0].studyRecord
+      this.isComplete = json.data[0].isComplete
     })
   }
 }

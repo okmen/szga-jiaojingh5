@@ -13,7 +13,11 @@
           <div class="nav-xstudy-footer">
             <div class="nav-footer-top"></div>
             <ul class="nav-footer-bottom">
-              <li><span>{{record.answerDate}}</span><a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="1">未完成</a></li>
+              <li>
+                <span>{{record.answerDate}}</span>
+                <a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="isComplete == 0">未完成</a>
+                <a class="nav-xstudy-footer-rig" href="javascripit:void(0)" v-else>已完成</a>
+              </li>
               <li><span>答对题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">{{record.ansLogarithm}}</a></li>
             </ul>
           </div>
@@ -38,6 +42,7 @@ export default {
   data () {
     return {
       isShow: false,
+      isComplete: 1,
       listData: {
       },
       itemData: [{
@@ -56,6 +61,7 @@ export default {
     resultPost(xstudy, 'hello').then(json => {
       this.listData = json.data[0]
       this.itemData = json.data[0].studyRecord
+      this.itemdata = json.data[0].isComplete
     })
   }
 }
