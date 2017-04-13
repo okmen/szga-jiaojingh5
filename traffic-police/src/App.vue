@@ -37,19 +37,19 @@
     </div>
     <div class="home-nav-bottom">
       <dl>
-        <router-link to="/wschool">
+        <router-link to="/#">
         <dt><img class="top5" src="./images/nav5.png" alt=""></dt>
         <dd>预约类服务</dd>
         </router-link>
       </dl>
       <dl>
-        <router-link to="/wschool">
+        <router-link to="/#">
         <dt><img class="top6" src="./images/nav6.png" alt=""></dt>
         <dd>办理类服务</dd>
         </router-link>
       </dl>
       <dl>
-        <router-link to="/wschool">
+        <router-link to="/#">
         <dt><img class="top7" src="./images/nav7.png" alt=""></dt>
         <dd>信息单据证明</dd>
         </router-link>

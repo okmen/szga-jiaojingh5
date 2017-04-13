@@ -142,6 +142,22 @@ const routes = [
       title: '一键挪车'
     },
     component: require('../views/handyService/child/moveCar.vue')
+  },
+  {
+    name: 'pedestrianstudy',
+    path: '/pedestrianstudy',
+    meta: {
+      title: '行人学习'
+    },
+    component: require('../views/wschool/subclass/pedestrianstudy.vue')
+  },
+  {
+    name: 'ABstudy',
+    path: '/ABstudy',
+    meta: {
+      title: 'AB类驾驶人学习'
+    },
+    component: require('../views/wschool/subclass/ABstudy.vue')
   }
 ]
 /* eslint-disable no-new */
