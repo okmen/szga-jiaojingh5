@@ -120,11 +120,7 @@ export default{
         this.subTypeSelectData = this.subTypeData[this.subTypeIndex]
       }
       this.subTypeSelectShow = false
-      if (this.typeSelectShow === true) {
-        this.typeSelectShow = false
-      } else {
-        this.typeSelectShow = true
-      }
+      this.typeSelectShow = !this.typeSelectShow
     },
     btnSubTypeSelect: function (index) {
       if (index && index !== this.subTypeIndex + 1) {
@@ -133,14 +129,10 @@ export default{
         this.subTypeSelectData = this.subTypeData[this.subTypeIndex]
       }
       this.typeSelectShow = false
-      if (this.subTypeSelectShow === true) {
-        this.subTypeSelectShow = false
-      } else {
-        this.subTypeSelectShow = true
-      }
+      this.subTypeSelectShow = !this.subTypeSelectShow
+      this.$emit('select')
     },
     uploadImg: function () {
-      console.log('上传图片')
     },
     submit: function () {
       let reqData = {
@@ -196,7 +188,6 @@ export default{
       position: relative;
       line-height: 56px;
       .common-list-name{
-        width: 140px;
         position: absolute;
         left: 0;
       }

@@ -21,27 +21,31 @@
       </div>
     </div>
     <div class="answer-center">
-      <span class="answer-center-left">选</span>
+    <span class="answer-center-left" v-if="testQuestionsType == 1">判</span>
+      <span class="answer-center-left" v-else>选</span>
       <span class="answer-center-right">{{answertData.subjectName}}</span>
     </div>
-    <img class="answer-button" src="../../../images/answertu.png">
+    <img class="answer-button" v-if="testQuestionsType == 2" :src="subjectImg.img">
     <ul class="answer-foot">
-      <li class="answer-foot-button" @click="cliColour()" v-bind:class="{ 'show' : isShow}" v-for="(item, index) in answerlistData"><img class="answer-foot-img" :src="testData[index].img">{{item.answerName}}</li>
-    <!--   <li><img class="answer-foot-img" src="../../../images/B.png">{{answertData.answerName}}</li>
+      <li class="answer-foot-button" v-for="(item, index) in answerlistData" @click="clickAnswer(index)">
+        <img class="answer-foot-img" :src="testData[index].img">{{item.answerName}}
+      </li>
+    <!--<li><img class="answer-foot-img" src="../../../images/B.png">{{answertData.answerName}}</li>
       <li><img class="answer-foot-img" src="../../../images/C.png">{{answertData.answerName}}</li>
       <li><img class="answer-foot-img" src="../../../images/D.png">{{answertData.answerName}}</li> -->
     </ul>
-    <router-link class="answer-option" to="grade">下一题</router-link>
+    <router-link class="answer-option" v-bind:class="{ 'show' : isShow}" to="grade">下一题</router-link>
   </div>
 </template>
 <script>
 import { resultPost } from '../../../service/getData'
-import { answer } from '../../../config/baseUrl'
+import { answer, answers } from '../../../config/baseUrl'
 
 export default {
   name: 'answer',
   data () {
     return {
+      testQuestionsType: 1,
       isShow: false,
       answertData: {
       },
@@ -58,20 +62,21 @@ export default {
         img: require('../../../images/D.png')
       }],
       answerlistData: [{
-      }]
+      }],
+      subjectImg: {
+        img: require('../../../images/answertu.png')
+      }
     }
   },
   methods: {
-    // countdowm: function () {
-    //   setInterval(function () {
-    //     let nowTime = new Date()
-    //     let nowgetSeconds = nowTime.getSeconds()
-    //     console.log(nsowgetSeconds)
-    //   }, 1000)
-    // }
-    cliColour: function () {
-      console.log('hello')
+    clickAnswer: function (index) {
       this.isShow = !this.isShow
+      resultPost(answers, 'hello').then(json => {
+        console.log(json)
+        console.log(index)
+        this.subjectAnswerData = json.data[0].subjectAnswer
+        console.log(this.subjectAnswerData)
+      })
     }
   },
   mounted () {
@@ -79,10 +84,10 @@ export default {
       userId: 'adasdasd'
     }
     resultPost(answer, answe).then(json => {
-      console.log(json)
       this.answertData = json.data[0]
       this.answerlistData = json.data[0].answeroptions
-      console.log(this.answerlistData)
+      this.testQuestionsType = json.data[0].testQuestionsType
+      this.subjectImg = json.data[0].subjectImg
     })
   }
 }
@@ -108,7 +113,6 @@ export default {
 }
 .answer-head-regit .answer-head-rgt dt img {
   margin-top: 16px;
-  /*  width: 50%;*/
   height: 50px;
 }
 .answer-center-left {
@@ -152,7 +156,7 @@ export default {
   margin-right: 30px;
 }
 .answer-option {
-  display: block;
+  display: none;
   width: 430px;
   line-height: 80px;
   margin: 54px auto;
@@ -162,7 +166,10 @@ export default {
   font-size: 28px;
   text-align: center;
 }
-/* .answer-foot-button.show {
+.answer-foot-button.show {
   color: #16b221
-} */
+}
+.answer-option.show {
+  display: block;
+}
 </style>
