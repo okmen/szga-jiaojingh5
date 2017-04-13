@@ -25,7 +25,8 @@
                 step: '00:15',
                 end: '24:00'
               }"
-              placeholder="00:00">
+              placeholder="00:00"
+              :editable=false>
             </el-time-select>
           </div>
         </li>
@@ -43,7 +44,8 @@
                 step: '00:15',
                 end: '24:00'
               }"
-              placeholder="00:00">
+              placeholder="00:00"
+              :editable=false>
             </el-time-select>
           </div>
         </li>
@@ -193,6 +195,7 @@ export default {
         congestionType: this.congestionType.str,
         description: this.description
       }
+      this.$emit('submit')
       resultPost(order, JSON.stringify(reqData)).then(json => {
         console.log(json)
       })
@@ -226,9 +229,6 @@ export default {
         .time-select{
           width: 100%;
           margin: 0;
-          i{
-            visibility: hidden;
-          }
           input{
             width: 100%;
             height: 1.6875rem;

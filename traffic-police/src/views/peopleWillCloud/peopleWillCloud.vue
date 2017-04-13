@@ -14,10 +14,10 @@
       </div>
     </div>
     <div class="peopleWillCloud-form pad-side-50">
-      <facility v-if="curTab === 'facility'"></facility>
-      <secure v-else-if="curTab === 'secure'"></secure>
-      <jam v-else-if="curTab === 'jam'"></jam>
-      <order v-else></order>
+      <facility v-if="curTab === 'facility'" @submit="submit()"></facility>
+      <secure v-else-if="curTab === 'secure'" @submit="submit()"></secure>
+      <jam v-else-if="curTab === 'jam'" @submit="submit()"></jam>
+      <order v-else @submit="submit()"></order>
     </div>
   </div>
 </template>
@@ -66,6 +66,9 @@
       },
       select: function () {
         this.typeSelectShow = false
+      },
+      submit: function () {
+        console.log('提交数据,弹窗提示')
       }
     },
     created () {

@@ -123,7 +123,7 @@ const routes = [
     name: 'peopleWillCloud',
     path: '/peopleWillCloud',
     meta: {
-      title: '民意云'
+      title: '深圳交警'
     },
     component: require('../views/peopleWillCloud/peopleWillCloud.vue')
   },

@@ -24,7 +24,8 @@
                 step: '00:15',
                 end: '24:00'
               }"
-              placeholder="00:00">
+              placeholder="00:00"
+              :editable=false>
             </el-time-select>
             <!-- <input class="text-input" type="text" name="" v-model:value="startTime" placeholder="00:00"> -->
           </div>
@@ -42,7 +43,8 @@
                 step: '00:15',
                 end: '24:00'
               }"
-              placeholder="00:00">
+              placeholder="00:00"
+              :editable=false>
             </el-time-select>
             <!-- <input class="text-input" type="text" name="" v-model:value="endTime" placeholder="00:00"> -->
           </div>
@@ -327,6 +329,8 @@ export default {
         congestionReason: this.congestionReason.str,
         improveAdvice: this.improveAdvice
       }
+      this.$emit('submit')
+      console.log(JSON.stringify(reqData))
       resultPost(jam, JSON.stringify(reqData)).then(json => {
         console.log(json)
       })
@@ -365,9 +369,6 @@ export default {
         .time-select{
           width: 100%;
           margin: 0;
-          i{
-            /*visibility: hidden;*/
-          }
           input{
             width: 100%;
             height: 1.6875rem;
@@ -387,6 +388,7 @@ export default {
         .jam-list-name{
           position: absolute;
           left: 0;
+          z-index: 100;
         }
         .jam-list-location{
           width: 32px;
