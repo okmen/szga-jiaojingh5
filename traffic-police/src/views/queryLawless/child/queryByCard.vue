@@ -54,6 +54,7 @@
         }
         resultPost(queryLawlessByCard, JSON.stringify(reqData)).then(json => {
           this.billNo = json.data[0].billNo
+          console.log(json)
         })
       }
     }
