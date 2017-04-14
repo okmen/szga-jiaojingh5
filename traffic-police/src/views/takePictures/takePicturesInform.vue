@@ -1,72 +1,56 @@
 <template>
   <div id="takePhotosInform">
     <div class="tp-inform-box">
-      <div class="tp-inform-left">
-        违法时间
-      </div>
+      <div class="tp-inform-left">违法时间</div>
       <div class="tp-inform-right">
         <input maxlength="50" type="text" >
       </div>
     </div>
     <div class="tp-inform-box">
-      <div class="tp-inform-left">
-        违法路段
-      </div>
+      <div class="tp-inform-left">违法路段</div>
       <div class="tp-inform-right">
         <input maxlength="50" type="text" placeholder="请输入违法路段" >
       </div>
     </div>
     <div class="tp-photo-box">
-      <div class="tp-photo-left">
-        上传照片
-      </div>
+      <div class="tp-photo-left">上传照片</div>
       <div class="tp-photo-right">
         <div class="tp-photo-1">
-          <img src="../../images/tpInformUpload.png">
+          <img src="">
         </div>
         <div class="tp-photo-1">
-          <img src="../../images/tpInformUpload.png">
+          <!--<img src="../../images/tpInformUpload.png">-->
         </div>
         <div class="tp-photo-1">
-          <img src="../../images/tpInformUpload.png">
+          <!--<img src="../../images/tpInformUpload.png">-->
         </div>
       </div>
     </div>
     <div class="tp-case-intro">
-      <div class="tp-case-left">
-        情况说明
-      </div>
+      <div class="tp-case-left">情况说明</div>
       <div class="tp-case-right">
-        <textarea placeholder="请认真填写被举报车辆的违法项目"></textarea>
+        <textarea v-model="informIntroWhy" placeholder="请认真填写被举报车辆的违法项目"></textarea>
       </div>
     </div>
     <div class="tp-inform-box">
-      <div class="tp-inform-left">
-        举报人
-      </div>
+      <div class="tp-inform-left">举报人</div>
       <div class="tp-inform-right">
-        <input maxlength="50" type="text" placeholder="请输入违法路段" >
+        <input maxlength="50" type="text" v-model="informName" placeholder="请输入您的名字" >
       </div>
     </div>
     <div class="tp-inform-box">
-      <div class="tp-inform-left">
-        身份证号
-      </div>
+      <div class="tp-inform-left">身份证号</div>
       <div class="tp-inform-right">
-        <input maxlength="50" type="text" placeholder="请输入身份证号码" >
+        <input maxlength="50" type="text" v-model="informIdNumber" placeholder="请输入身份证号码" >
       </div>
     </div>
     <div class="tp-inform-box">
-      <div class="tp-inform-left">
-        联系电话
-      </div>
+      <div class="tp-inform-left">联系电话</div>
       <div class="tp-inform-right">
-        <input maxlength="50" type="text" placeholder="请输入正确的电话号码" >
+        <input maxlength="50" type="text" v-model="informTel" placeholder="请输入正确的电话号码" id="informTel">
       </div>
     </div>
-    <div class="tp-btn-submit">
-      确认提交
-    </div>
+    <div class="tp-btn-submit" @click="btnSurePutInform">确认提交</div>
     <div class="tp-look-tips">
       <!--<a>点击查看温馨提示</a>-->
       <router-link to="takePicturesTips">点击查看温馨提示</router-link>
@@ -74,7 +58,32 @@
   </div>
 </template>
 <script>
-  export default{}
+  import { resultPost } from '../../service/getData'
+  import { takePictures } from '../../config/baseUrl'
+  export default {
+    name: 'takePicturesInform',
+    data () {
+      return {
+        informName: '',
+        informIdNumber: '',
+        informTel: '',
+        informIntroWhy: ''
+      }
+    },
+    methods: {
+      btnSurePutInform: function () {
+        let informData = {
+          situationStatement: this.informIntroWhy,
+          whistleblower: this.informName,
+          identityCard: this.informIdNumber,
+          mobilephone: this.informTel
+        }
+        resultPost(takePictures, JSON.stringify(informData)).then(json => {
+          console.log(json)
+        })
+      }
+    }
+  }
 </script>
 <style lang="less">
 #takePhotosInform{
@@ -142,9 +151,11 @@
         -moz-border-radius:8px;
         border-radius:8px;
         img{
-          width:66px;
-          height:52px;
-          margin:55px 0 0 50px;
+          width:163px;
+          height:163px;
+          -webkit-border-radius:8px;
+          -moz-border-radius:8px;
+          border-radius:8px;
         }
       }
       .tp-photo-1:last-child{

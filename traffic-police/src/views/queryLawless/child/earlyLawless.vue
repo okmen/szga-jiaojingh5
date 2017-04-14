@@ -29,7 +29,7 @@
               </div>
             </div>
             <div class="earlyLawless-hbs-text width-70 right">
-              <input class="text-input" type="text" name="" value="" placeholder="请输入车牌号码">
+              <input v-model="car_number" class="text-input" type="text" name="" value="" placeholder="请输入车牌号码">
             </div>
           </li>
           <li class="earlyLawless-hbs-item">
@@ -37,7 +37,7 @@
               <span>驾驶证号</span>
             </div>
             <div class="earlyLawless-hbs-text">
-              <input class="text-input" type="text" name="" value="" placeholder="请输入驾驶证号">
+              <input  v-model="drivingLicenceNo" class="text-input" type="text" name="" value="" placeholder="请输入驾驶证号">
             </div>
           </li>
           <li class="earlyLawless-hbs-item">
@@ -53,7 +53,7 @@
               <span>手机号码</span>
             </div>
             <div class="earlyLawless-hbs-text">
-              <input class="text-input" type="tel" name="" value="" placeholder="请输入您的手机号码">
+              <input v-model="mobileNo" class="text-input" type="tel" name="" value="" placeholder="请输入您的手机号码">
             </div>
           </li>
           <li class="earlyLawless-hbs-item">
@@ -61,7 +61,7 @@
               <span>车架号</span>
             </div>
             <div class="earlyLawless-hbs-text">
-              <input class="text-input" type="text" name="" value="" placeholder="请输入车架号后四位">
+              <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" name="" value="" placeholder="请输入车架号后四位">
             </div>
           </li>
           <li class="earlyLawless-hbs-item clear">
@@ -75,7 +75,7 @@
           </li>
         </ul>
       </div>
-      <button class="btn btn-blue" type="button" name="button">查询</button>
+      <button class="btn btn-blue" type="button" name="button" @click.stop="queryEarlyLawless()">查询</button>
       <div class="hint">
         <h4>温馨提示：</h4>
         <p>1.本系统不处理现场交通民警当场执法、深圳市车辆在本省其他城市、外省车辆的交通违法确认业务。</p>
@@ -86,214 +86,233 @@
   </div>
 </template>
 <script>
-export default {
-  name: 'earlyLawless',
-  data () {
-    return {
-      licenseSelectShow: false,
-      licenseSelectMassage: '小型汽车',
-      licenseSelectData: [
-        {
-          'str': '小型汽车'
-        },
-        {
-          'str': '大型汽车'
-        },
-        {
-          'str': '使馆汽车'
-        },
-        {
-          'str': '领馆汽车'
-        },
-        {
-          'str': '境外汽车'
-        },
-        {
-          'str': '外籍汽车'
-        },
-        {
-          'str': '普通摩托车'
-        },
-        {
-          'str': '轻便摩托车'
-        },
-        {
-          'str': '使馆摩托车'
-        },
-        {
-          'str': '领馆摩托车'
-        },
-        {
-          'str': '挂车'
-        },
-        {
-          'str': '教练汽车'
-        },
-        {
-          'str': '教练摩托车'
-        },
-        {
-          'str': '实验汽车'
-        },
-        {
-          'str': '实验摩托车'
-        },
-        {
-          'str': '临时行驶车'
-        },
-        {
-          'str': '警用汽车'
-        },
-        {
-          'str': '警用摩托'
-        },
-        {
-          'str': '香港入境车'
-        },
-        {
-          'str': '澳门入境车'
-        },
-        {
-          'str': '新能源大型车'
-        },
-        {
-          'str': '新能源小型车'
+  import { resultPost } from '../../../service/getData'
+  import { queryEarlyLawless } from '../../../config/baseUrl'
+  export default {
+    name: 'earlyLawless',
+    data () {
+      return {
+        car_number: '',
+        vehicleIdentifyNoLast4: '',
+        mobileNo: '13333333333',
+        licensePlateType: '01',
+        drivingLicenceNo: '',
+        licenseSelectShow: false,
+        licenseSelectMassage: '小型汽车',
+        licenseSelectData: [
+          {
+            'str': '小型汽车'
+          },
+          {
+            'str': '大型汽车'
+          },
+          {
+            'str': '使馆汽车'
+          },
+          {
+            'str': '领馆汽车'
+          },
+          {
+            'str': '境外汽车'
+          },
+          {
+            'str': '外籍汽车'
+          },
+          {
+            'str': '普通摩托车'
+          },
+          {
+            'str': '轻便摩托车'
+          },
+          {
+            'str': '使馆摩托车'
+          },
+          {
+            'str': '领馆摩托车'
+          },
+          {
+            'str': '挂车'
+          },
+          {
+            'str': '教练汽车'
+          },
+          {
+            'str': '教练摩托车'
+          },
+          {
+            'str': '实验汽车'
+          },
+          {
+            'str': '实验摩托车'
+          },
+          {
+            'str': '临时行驶车'
+          },
+          {
+            'str': '警用汽车'
+          },
+          {
+            'str': '警用摩托'
+          },
+          {
+            'str': '香港入境车'
+          },
+          {
+            'str': '澳门入境车'
+          },
+          {
+            'str': '新能源大型车'
+          },
+          {
+            'str': '新能源小型车'
+          }
+        ],
+        abbreviationSelectShow: false,
+        abbreviationSelectMassage: '粤',
+        abbreviationSelectData: [
+          {
+            'str': '粤'
+          },
+          {
+            'str': '鄂'
+          },
+          {
+            'str': '豫'
+          },
+          {
+            'str': '皖'
+          },
+          {
+            'str': '赣'
+          },
+          {
+            'str': '冀'
+          },
+          {
+            'str': '鲁'
+          },
+          {
+            'str': '浙'
+          },
+          {
+            'str': '苏'
+          },
+          {
+            'str': '湘'
+          },
+          {
+            'str': '闽'
+          },
+          {
+            'str': '蒙'
+          },
+          {
+            'str': '京'
+          },
+          {
+            'str': '辽'
+          },
+          {
+            'str': '渝'
+          },
+          {
+            'str': '沪'
+          },
+          {
+            'str': '陕'
+          },
+          {
+            'str': '川'
+          },
+          {
+            'str': '黑'
+          },
+          {
+            'str': '晋'
+          },
+          {
+            'str': '桂'
+          },
+          {
+            'str': '吉'
+          },
+          {
+            'str': '宁'
+          },
+          {
+            'str': '贵'
+          },
+          {
+            'str': '琼'
+          },
+          {
+            'str': '甘'
+          },
+          {
+            'str': '青'
+          },
+          {
+            'str': '津'
+          },
+          {
+            'str': '云'
+          },
+          {
+            'str': '藏'
+          },
+          {
+            'str': '新'
+          }
+        ]
+      }
+    },
+    methods: {
+      licenseSelectClick: function (str) {
+        if (str) {
+          this.licenseSelectMassage = str
         }
-      ],
-      abbreviationSelectShow: false,
-      abbreviationSelectMassage: '粤',
-      abbreviationSelectData: [
-        {
-          'str': '粤'
-        },
-        {
-          'str': '鄂'
-        },
-        {
-          'str': '豫'
-        },
-        {
-          'str': '皖'
-        },
-        {
-          'str': '赣'
-        },
-        {
-          'str': '冀'
-        },
-        {
-          'str': '鲁'
-        },
-        {
-          'str': '浙'
-        },
-        {
-          'str': '苏'
-        },
-        {
-          'str': '湘'
-        },
-        {
-          'str': '闽'
-        },
-        {
-          'str': '蒙'
-        },
-        {
-          'str': '京'
-        },
-        {
-          'str': '辽'
-        },
-        {
-          'str': '渝'
-        },
-        {
-          'str': '沪'
-        },
-        {
-          'str': '陕'
-        },
-        {
-          'str': '川'
-        },
-        {
-          'str': '黑'
-        },
-        {
-          'str': '晋'
-        },
-        {
-          'str': '桂'
-        },
-        {
-          'str': '吉'
-        },
-        {
-          'str': '宁'
-        },
-        {
-          'str': '贵'
-        },
-        {
-          'str': '琼'
-        },
-        {
-          'str': '甘'
-        },
-        {
-          'str': '青'
-        },
-        {
-          'str': '津'
-        },
-        {
-          'str': '云'
-        },
-        {
-          'str': '藏'
-        },
-        {
-          'str': '新'
+        if (this.licenseSelectShow === true) {
+          this.licenseSelectShow = false
+        } else {
+          this.licenseSelectShow = true
+          this.typeSelectShow = false
+          this.abbreviationSelectShow = false
         }
-      ]
+      },
+      abbreviationSelectClick: function (str) {
+        if (str) {
+          this.abbreviationSelectMassage = str
+        }
+        if (this.abbreviationSelectShow === true) {
+          this.abbreviationSelectShow = false
+        } else {
+          this.abbreviationSelectShow = true
+          this.licenseSelectShow = false
+          this.typeSelectShow = false
+        }
+      },
+      getVerification: function () {},
+      queryEarlyLawless: function () {
+        let reqData = {
+          licensePlateType: this.licensePlateType,
+          licensePlateNo: this.abbreviationSelectMassage + this.car_number,
+          drivingLicenceNo: this.drivingLicenceNo,
+          mobileNo: '',
+          vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
+        }
+        resultPost(queryEarlyLawless, JSON.stringify(reqData)).then(json => {
+          console.log(json)
+        })
+      }
+    },
+    created () {
+      document.addEventListener('click', (e) => {
+        this.typeSelectShow = false
+        this.licenseSelectShow = false
+        this.abbreviationSelectShow = false
+      })
     }
-  },
-  methods: {
-    licenseSelectClick: function (str) {
-      if (str) {
-        this.licenseSelectMassage = str
-      }
-      if (this.licenseSelectShow === true) {
-        this.licenseSelectShow = false
-      } else {
-        this.licenseSelectShow = true
-        this.typeSelectShow = false
-        this.abbreviationSelectShow = false
-      }
-    },
-    abbreviationSelectClick: function (str) {
-      if (str) {
-        this.abbreviationSelectMassage = str
-      }
-      if (this.abbreviationSelectShow === true) {
-        this.abbreviationSelectShow = false
-      } else {
-        this.abbreviationSelectShow = true
-        this.licenseSelectShow = false
-        this.typeSelectShow = false
-      }
-    },
-    getVerification: function () {}
-  },
-  created () {
-    document.addEventListener('click', (e) => {
-      this.typeSelectShow = false
-      this.licenseSelectShow = false
-      this.abbreviationSelectShow = false
-    })
   }
-}
 </script>
 <style lang="less">
 @import "./../../../style/base";

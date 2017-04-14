@@ -18,6 +18,15 @@
           <dt><img src="../../../images/exit.png"></dt>
           <dd>退出</dd>
         </dl>
+        <div class="pop-up">
+          <ul class="pop-up-center">
+            <li class="up-cengter-hint">限时时间到！</li>
+            <li class="up-cengter-hint">请退出做题或者从新做题</li>
+            <li class="up-cengter-hint">本次学习将不做记分</li>
+            <li class="up-cengter-hint">重新学习</li>
+            <li class="up-cengter-hint">退出学习</li>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="answer-center">
@@ -27,11 +36,12 @@
     </div>
     <img class="answer-button" v-if="testQuestionsType == 2" :src="subjectImg.img">
     <ul class="answer-foot">
-      <li class="answer-foot-button" v-for="(item, index) in answerlistData" @click="clickAnswer(index)">
+      <li class="answer-foot-button" v-for="(item, index) in answerlistData" @click="clickAnswer(index)" 
+      :class="[{'on':flag == index},{'off':tlag == index}]">
         <img class="answer-foot-img" :src="testData[index].img">{{item.answerName}}
       </li>
     </ul>
-    <router-link class="answer-option" v-bind:class="{ 'show' : isBtnShow}" to="">下一题</router-link>
+    <router-link class="answer-option" v-bind:class="{ 'show' : isBtnShow}" to="grade" >下一题</router-link>
   </div>
 </template>
 <script>
@@ -44,6 +54,8 @@ export default {
     return {
       testQuestionsType: 1,
       isBtnShow: false,
+      tlag: 5,
+      flag: 5,
       answertData: {
       },
       testData: [{
@@ -62,19 +74,19 @@ export default {
       subjectImg: {
         img: require('../../../images/answertu.png')
       },
-      subjectAnswerData: '前方直行'
+      subjectAnswerData: '靠左停车'
     }
   },
   methods: {
-    clickAnswer: function (cilckIndex) {
+    clickAnswer: function (clickIndex) {
       this.isBtnShow = true
       resultPost(answers, 'hello').then(json => {
-        console.log(cilckIndex)
-        this.testData[cilckIndex].img = require('../../../images/fault.png')
+        this.testData[clickIndex].img = require('../../../images/fault.png')
+        this.tlag = clickIndex
         this.answerlistData.forEach((obj, index) => {
           if (obj.answerName === this.subjectAnswerData) {
-            console.log(index)
             this.testData[index].img = require('../../../images/correct.png')
+            this.flag = index
           }
         })
       })
@@ -85,12 +97,10 @@ export default {
       userId: 'adasdasd'
     }
     resultPost(answer, answe).then(json => {
-      console.log(json)
       this.answertData = json.data[0]
       this.answerlistData = json.data[0].answeroptions
       this.testQuestionsType = json.data[0].testQuestionsType
       this.subjectImg = json.data[0].subjectImg
-      console.log(this.answerlistData)
     })
   }
 }
@@ -175,4 +185,44 @@ export default {
 .answer-option.show {
   display: block;
 }
+.pop-up {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 550px;
+  height: 444px;
+  margin-top: -225px;
+  margin-left: -274px;
+  background: #fff;
+  border-radius: 10px;
+  display: none;
+}
+.pop-up-center .up-cengter-hint{
+  width:416px;
+  margin: 20px auto;
+  text-align: center;
+}
+.pop-up-center :nth-of-type(1){
+  font:700 30px/70px "";
+  color: #f46263;
+}
+.pop-up-center :nth-of-type(4){
+  font-size: 30px;
+  line-height: 70px;
+  border: 1px solid #2696dd;
+  color: #2696dd;
+  border-radius: 10px;
+  margin-top: 30px;
+}
+
+.pop-up-center :nth-of-type(5){
+  font-size: 30px;
+  line-height: 70px;
+  border: 1px solid #2696dd;
+  color: #2696dd;
+  border-radius: 10px;
+}
+.off{ color: #f53f31; }
+.on{ color: #09bb07; }
+
 </style>
