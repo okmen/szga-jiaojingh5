@@ -10,42 +10,7 @@
     <!--<router-view v-wechat-title="$route.meta.title"></router-view>-->
     <!--分类查询块-->
     <queryByCard v-if="cur_tab == 'card'"></queryByCard>
-    <queryByCar  v-else></queryByCar>
-    <!--结果块(循环)-->
-    <div class="queryResults pad-side-50">
-      <div class="results-box">
-        <div class="box-header">
-          <div class="header-item left">违章信息</div>
-          <div class="header-item right order-print">需要打单</div>
-        </div>
-        <div class="box-body">
-          <div class="body-left-side">
-            <div class="left-number">违法编号 :<i>112233445566</i></div>
-            <div class="left-line">
-              <span><i></i></span>
-              <p>粤B   666666</p>
-            </div>
-            <div class="left-line">
-              <span><i class="time"></i></span>
-              <p>2016年1月1日  12：30：10</p>
-            </div>
-            <div class="left-line"><span>
-              <i class="local"></i></span>
-              <p>鹏程四路</p>
-            </div>
-            <div class="left-line">
-              <span><i class="warn"></i></span>
-              <p>违反规定停放违反规定停放违反规定停放违反规定停放违反规定停放违反规定停放违反规定停放</p></div>
-            <div class="left-line">
-              <span><i></i></span>
-              <p>200元</p>
-            </div>
-          </div>
-          <a class="body-right-side">
-          </a>
-        </div>
-      </div>
-    </div>
+    <queryByCar v-else></queryByCar>
   </div>
 </template>
 <script>
@@ -53,7 +18,8 @@
     name: 'queryTab',
     data () {
       return {
-        cur_tab: 'car'
+        cur_tab: 'car',
+        diu: ''
       }
     },
     components: {
@@ -87,94 +53,9 @@
        }
       }
     }
-    .queryResults {
-      color:#333!important;
-      margin: 100px 0;
-    }
-    .results-box {
-      border:1px solid #a7d9f9;
-      background-color: #fff;
-      border-radius:4px;
-      .box-header{
-        height: 80px;
-        line-height: 80px;
-        border-bottom: 1px solid #a7d9f9;
-        &:after{display:block; content:"clear"; height:0; clear:both; overflow:hidden; visibility:hidden;}
-        .header-item {
-          padding: 0 24px;
-          font-weight:bold;
-          &.order-print {
-       color:#2696dd;
-       text-decoration: underline;
-     }
-        }
+
+
       }
-      .box-body{
-        color:#333;
-        padding: 0 24px;
-        position: relative;
-        .body-left-side {
-          width: 80%;
-          .left-number {
-            font-size: 0.95rem;
-            font-weight: bold;
-            height: 80px;
-            line-height: 80px;
-            i {
-              color:#f46263;
-              margin-left: 30px;
-            }
-          }
-          .left-line {
-            padding: 8px 0;
-            font-size:0.9rem;
-            &:after{display:block; content:"clear"; height:0; clear:both; overflow:hidden; visibility:hidden;}
-            span {
-              display: inline-block;
-              width: 50px;
-              text-align: center;
-              position: absolute;
-            }
-            p {
-              display: inline-block;
-              position: relative;
-              left: 70px;
-            }
-            i {
-              display: inline-block;
-              width: 34px;
-              height: 34px;
-              background-image: url("./../../../images/A.png");
-              background-size: 100%;
-              vertical-align: -6px;
-              &.time{
-                 background-image: url("./../../../images/time_2.png");
-               }
-              &.local{
-                 background-image: url("./../../../images/local.png");
-                 width: 32px;
-                 height: 40px;
-               }
-              &.warn{
-                 background-image: url("./../../../images/warn.png");
-                 width: 36px;
-                 height: 38px;
-               }
-            }
-          }
-        }
-        .body-right-side {
-          position: absolute;
-          top:50%;
-          right:20px;
-          margin-top: -20px;
-          display: block;
-          width: 20px;
-          height: 40px;
-          background-image: url("./../../../images/login-right.png");
-          background-size: cover;
-        }
-      }
-    }
-  }
+
+
 </style>
