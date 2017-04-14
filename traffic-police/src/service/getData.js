@@ -1,11 +1,23 @@
 import 'whatwg-fetch'
 /* eslint-disable */
 
+var dataFun = (obj) => {
+	 var length = obj && obj.length,
+         idx = 0,
+         url = '&';
+     for (var key in obj) {
+         if (key != 'url' && obj[key] !== null) {
+             url += (key + '=' + encodeURIComponent(obj[key]) + '&');
+         }
+     }
+     return url.substring(0, url.lastIndexOf('&'));
+}
+
 export const resultPost = (url, bodyData) => fetch(url, {
       method: 'POST',
-      body: bodyData,
+      body: dataFun(bodyData),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
       credentials: 'same-origin'
     }).then((res) => {
