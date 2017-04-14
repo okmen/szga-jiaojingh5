@@ -57,6 +57,41 @@
         <p>温馨提示：仅可查询车辆在深圳市范围内的交通违法信息</p>
       </div>
     </div>
+    <!--结果块(循环)-->
+    <div v-for="data in illegalData" class="queryResults pad-side-50">
+      <div class="results-box">
+        <div class="box-header">
+          <div class="header-item left">违章信息</div>
+          <div class="header-item right order-print">{{ data.dealType }}</div>
+        </div>
+        <div class="box-body">
+          <div class="body-left-side">
+            <div class="left-number">违法编号 :<i>{{ data.billNo }}</i></div>
+            <div class="left-line">
+              <span><i class="car"></i></span>
+              <p>{{ data.licensePlateNo }}</p>
+            </div>
+            <div class="left-line">
+              <span><i class="time"></i></span>
+              <p>{{ data.illegalTime }}</p>
+            </div>
+            <div class="left-line"><span>
+              <i class="local"></i></span>
+              <p>{{ data.illegalAddress }}</p>
+            </div>
+            <div class="left-line">
+              <span><i class="warn"></i></span>
+              <p>{{ data.illegalDesc }}</p></div>
+            <div class="left-line">
+              <span><i class="punish"></i></span>
+              <p>{{ data.punishAmount }}</p>
+            </div>
+          </div>
+          <a class="body-right-side">
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -66,6 +101,14 @@
     name: 'queryByCar',
     data () {
       return {
+        illegalData: [],
+        dealType: '',
+        billNo: '',
+        licensePlateNo: '',
+        illegalTime: '',
+        illegalAddress: '',
+        illegalDesc: '',
+        punishAmount: '',
         car_number: '',
         vehicleIdentifyNoLast4: '',
         licenseSelectShow: false,
@@ -271,7 +314,7 @@
         }
         console.log(reqData)
         resultPost(queryLawlessByCar, JSON.stringify(reqData)).then(json => {
-          console.log(json)
+          this.illegalData = json.data
         })
       }
     },
@@ -291,46 +334,151 @@
     color: #000;
     position: relative;
     background-color: white;
-    .width-120 {
-      width: 120px !important;
-    }
-    .width-70 {
-      width: 70% !important;
-    }
-    .width-40{
-      width: 40% !important;
-    }
-    .queryByCar-from {
-      background-color: #fff;
-      #queryByCar-hbs {
-        padding-bottom: 20px;
-        .queryByCar-hbs-list {
-          .queryByCar-hbs-item {
-            margin-top: 24px;
-            padding-left: 180px;
-            position: relative;
-            line-height: 56px;
-            .queryByCar-hbs-name {
-              width: 180px;
-              position: absolute;
-              left: 0;
-            }
-            .queryByCar-hbs-text {
-              width: 100%;
-              display: inline-block;
-            }
-            .queryByCar-hbs-code {
-              text-indent: 28px;
-              text-decoration: underline;
-            }
-          }
-        }
-      }
-    }
+  .width-120 {
+    width: 120px !important;
+  }
+  .width-70 {
+    width: 70% !important;
+  }
+  .width-40 {
+    width: 40% !important;
+  }
+  .queryByCar-from {
+    background-color: #fff;
+  #queryByCar-hbs {
+    padding-bottom: 20px;
+  .queryByCar-hbs-list {
+  .queryByCar-hbs-item {
+    margin-top: 24px;
+    padding-left: 180px;
+    position: relative;
+    line-height: 56px;
+  .queryByCar-hbs-name {
+    width: 180px;
+    position: absolute;
+    left: 0;
+  }
+  .queryByCar-hbs-text {
+    width: 100%;
+    display: inline-block;
+  }
+  .queryByCar-hbs-code {
+    text-indent: 28px;
+    text-decoration: underline;
+  }
+  }
+  }
+  }
+  }
+
+  .queryResults {
+    color: #333 !important;
+    margin: 100px 0;
+  }
+  .results-box {
+    border: 1px solid #a7d9f9;
+    background-color: #fff;
+    border-radius: 4px;
+  .box-header {
+    height: 80px;
+    line-height: 80px;
+    border-bottom: 1px solid #a7d9f9;
+  &
+  :after { display: block; content: "clear"; height: 0; clear: both; overflow: hidden; visibility: hidden; }
+  .header-item {
+    padding: 0 24px;
+    font-weight: bold;
+  &
+  .order-print {
+    color: #2696dd;
+    text-decoration: underline;
+  }
+  }
+  }
+  .box-body {
+    color: #333;
+    padding: 0 24px 10px;
+    position: relative;
+  .body-left-side {
+    width: 80%;
+  .left-number {
+    font-size: 0.95rem;
+    font-weight: bold;
+    height: 80px;
+    line-height: 80px;
+  i {
+    color: #f46263;
+    margin-left: 30px;
+  }
+  }
+  .left-line {
+    padding: 8px 0;
+    font-size: 0.9rem;
+  &
+  :after { display: block; content: "clear"; height: 0; clear: both; overflow: hidden; visibility: hidden; }
+  span {
+    display: inline-block;
+    width: 50px;
+    text-align: center;
+    position: absolute;
+  }
+  p {
+    display: inline-block;
+    position: relative;
+    left: 70px;
+    vertical-align: middle;
+  }
+  i {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    background-image: url("./../../../images/A.png");
+    background-size: 100%;
+    vertical-align: middle;
+  &.time {
+    background-image: url("./../../../images/time_2.png");
+  }
+  &.car {
+     background-image: url("./../../../images/car.png");
+     background-repeat: no-repeat;
+     width: 40px;
+   }
+  &.punish {
+     background-image: url("./../../../images/punish.png");
+     background-repeat: no-repeat;
+     width: 36px;
+     height: 38px;
+   }
+  &.local {
+    background-image: url("./../../../images/local.png");
+    width: 32px;
+    height: 40px;
+  }
+  &.warn {
+    background-image: url("./../../../images/warn.png");
+    width: 36px;
+    height: 38px;
+  }
+  }
+  }
+  }
+  .body-right-side {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    margin-top: -20px;
+    display: block;
+    width: 20px;
+    height: 40px;
+    background-image: url("./../../../images/login-right.png");
+    background-size: cover;
+  }
+  }
+
   }
   .btn-light-green {
     margin-top: 20px;
-    border:1px solid #09bb07;
+    border: 1px solid #09bb07;
     color: #09bb07;
     background-color: #fbfafc;
     display: block;
@@ -339,5 +487,6 @@
     border-radius: 0.3125rem;
     font-size: 1rem;
     outline: none;
+  }
   }
 </style>
