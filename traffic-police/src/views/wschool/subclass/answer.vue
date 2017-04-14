@@ -30,11 +30,8 @@
       <li class="answer-foot-button" v-for="(item, index) in answerlistData" @click="clickAnswer(index)">
         <img class="answer-foot-img" :src="testData[index].img">{{item.answerName}}
       </li>
-    <!--<li><img class="answer-foot-img" src="../../../images/B.png">{{answertData.answerName}}</li>
-      <li><img class="answer-foot-img" src="../../../images/C.png">{{answertData.answerName}}</li>
-      <li><img class="answer-foot-img" src="../../../images/D.png">{{answertData.answerName}}</li> -->
     </ul>
-    <router-link class="answer-option" v-bind:class="{ 'show' : isShow}" to="grade">下一题</router-link>
+    <router-link class="answer-option" v-bind:class="{ 'show' : isBtnShow}" to="">下一题</router-link>
   </div>
 </template>
 <script>
@@ -46,7 +43,7 @@ export default {
   data () {
     return {
       testQuestionsType: 1,
-      isShow: false,
+      isBtnShow: false,
       answertData: {
       },
       testData: [{
@@ -61,21 +58,25 @@ export default {
       {
         img: require('../../../images/D.png')
       }],
-      answerlistData: [{
-      }],
+      answerlistData: [],
       subjectImg: {
         img: require('../../../images/answertu.png')
-      }
+      },
+      subjectAnswerData: '前方直行'
     }
   },
   methods: {
-    clickAnswer: function (index) {
-      this.isShow = !this.isShow
+    clickAnswer: function (cilckIndex) {
+      this.isBtnShow = true
       resultPost(answers, 'hello').then(json => {
-        console.log(json)
-        console.log(index)
-        this.subjectAnswerData = json.data[0].subjectAnswer
-        console.log(this.subjectAnswerData)
+        console.log(cilckIndex)
+        this.testData[cilckIndex].img = require('../../../images/fault.png')
+        this.answerlistData.forEach((obj, index) => {
+          if (obj.answerName === this.subjectAnswerData) {
+            console.log(index)
+            this.testData[index].img = require('../../../images/correct.png')
+          }
+        })
       })
     }
   },
@@ -84,10 +85,12 @@ export default {
       userId: 'adasdasd'
     }
     resultPost(answer, answe).then(json => {
+      console.log(json)
       this.answertData = json.data[0]
       this.answerlistData = json.data[0].answeroptions
       this.testQuestionsType = json.data[0].testQuestionsType
       this.subjectImg = json.data[0].subjectImg
+      console.log(this.answerlistData)
     })
   }
 }
@@ -166,7 +169,7 @@ export default {
   font-size: 28px;
   text-align: center;
 }
-.answer-foot-button.show {
+.answer-foot-button.color{
   color: #16b221
 }
 .answer-option.show {

@@ -1,11 +1,15 @@
 // 添加URL需注释 哪个模块哪个接口
 const commonUrl = 'http://192.168.1.120:8100/'
 
-export const xstudy = `${commonUrl}Classroom/StudyHomepage.html` // 消分学习接口 满分学习接口
+export const xstudy = `${commonUrl}Classroom/StudyHomepage.html` // 学习页面接口
+
+export const wschool = `${commonUrl}Classroom/homepage.html` // 列表接口
 
 export const answer = `${commonUrl}Classroom/Study.html` // 取题接口
 
 export const grade = `${commonUrl}Classroom/anserEnd.html` // 成绩接口
+
+export const answers = `${commonUrl}Classroom/ Answer.html` // 答题接口
 
 export const facility = `${commonUrl}convenience/equipmentDamageReport.html` // 设备损坏通报接口
 

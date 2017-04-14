@@ -1,4 +1,5 @@
 <template>
+<!-- 设施损坏、安全隐患通报公用组件 -->
 <div class="common-outer">
   <div class="common-form">
     <ul class="common-form-list padding-right-43">
@@ -47,10 +48,10 @@
           <span>类型选择</span>
         </div>
         <div class="div-select flex">
-          <span id="btnTypeSelect" class="btn-select hidden" @click.stop="btnTypeSelect()">{{typeSelectData.str}}</span>
+          <span class="btn-select hidden" @click.stop="btnTypeSelect()">{{typeSelectData.str}}</span>
           <div class="div-select-ul top-56" v-if="typeSelectShow">
             <ul>
-              <li class="ellipsis" v-for="(item, index) in typeData" @click.stop="btnTypeSelect(index+1)">{{item.str}}</li>
+              <li class="scroll-y" v-for="(item, index) in typeData" @click.stop="btnTypeSelect(index+1)">{{item.str}}</li>
             </ul>
           </div>
         </div>
@@ -60,10 +61,10 @@
           <span>子类型选择</span>
         </div>
         <div class="div-select flex">
-          <span id="btnTypeSelect" class="btn-select hidden" @click.stop="btnSubTypeSelect()">{{subTypeSelectData}}</span>
+          <span class="btn-select hidden" @click.stop="btnSubTypeSelect()">{{subTypeSelectData}}</span>
           <div class="div-select-ul top-56" v-if="subTypeSelectShow">
             <ul>
-              <li class="ellipsis" v-for="(item, index) in subTypeData" @click.stop="btnSubTypeSelect(index+1)">{{item}}</li>
+              <li class="scroll-y" v-for="(item, index) in subTypeData" @click.stop="btnSubTypeSelect(index+1)">{{item}}</li>
             </ul>
           </div>
         </div>
@@ -181,6 +182,12 @@ export default{
       padding-right: 45px;
       box-sizing: border-box;
       overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .scroll-y{
+      overflow-x: auto;
+      white-space: nowrap;
     }
     .common-form-item{
       margin-top: 24px;
