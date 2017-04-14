@@ -23,10 +23,10 @@
           <span>汽车种类</span>
         </div>
         <div class="div-select">
-          <span class="btn-select" @click.stop="carTypeSelectClick()">{{carType}}</span>
+          <span class="btn-select" @click.stop="carTypeSelectClick()">{{carType.str}}</span>
           <div class="div-select-ul" v-if="carTypeSelectShow">
             <ul>
-              <li v-for="item in carTypeSelectData" @click.stop="carTypeSelectClick(item.str)">{{item.str}}</li>
+              <li v-for="(item, index) in carTypeSelectData" @click.stop="carTypeSelectClick(index+1)">{{item.str}}</li>
             </ul>
           </div>
         </div>
@@ -155,64 +155,106 @@ export default{
       ],
       numberPlate: '',
       carTypeSelectShow: false,
-      carType: '小型汽车',
+      carType: {
+        'str': '小型汽车',
+        'code': '01'
+      },
       carTypeSelectData: [
         {
-          'str': '小型汽车'
+          'str': '大型汽车（黄牌）',
+          'code': '01'
         },
         {
-          'str': '大型汽车'
+          'str': '小型汽车（蓝牌）',
+          'code': '02'
         },
         {
-          'str': '使馆汽车'
+          'str': '使馆汽车',
+          'code': '03'
         },
         {
-          'str': '领馆汽车'
+          'str': '领馆汽车',
+          'code': '04'
         },
         {
-          'str': '境外汽车'
+          'str': '境外汽车',
+          'code': '05'
         },
         {
-          'str': '外籍汽车'
+          'str': '外籍汽车（黑牌）',
+          'code': '06'
         },
         {
-          'str': '两、三轮摩托车'
+          'str': '两、三轮摩托车',
+          'code': '07'
         },
         {
-          'str': '轻便摩托车'
+          'str': '轻便摩托车',
+          'code': '08'
         },
         {
-          'str': '使馆摩托车'
+          'str': '使馆摩托车',
+          'code': '09'
         },
         {
-          'str': '挂车'
+          'str': '领馆摩托车',
+          'code': '10'
         },
         {
-          'str': '教练汽车'
+          'str': '境外摩托车',
+          'code': '11'
         },
         {
-          'str': '教练摩托车'
+          'str': '外籍摩托车',
+          'code': '12'
         },
         {
-          'str': '实验汽车'
+          'str': '农用运输车',
+          'code': '13'
         },
         {
-          'str': '实验摩托车'
+          'str': '拖拉机',
+          'code': '14'
         },
         {
-          'str': '临时行驶车'
+          'str': '挂车',
+          'code': '15'
         },
         {
-          'str': '警用汽车'
+          'str': '教练汽车',
+          'code': '16'
         },
         {
-          'str': '警用摩托'
+          'str': '教练摩托车',
+          'code': '17'
         },
         {
-          'str': '香港入境车'
+          'str': '试验汽车',
+          'code': '18'
         },
         {
-          'str': '澳门入境车'
+          'str': '试验摩托车',
+          'code': '19'
+        },
+        {
+          'str': '临时入境汽车',
+          'code': '20'
+        },
+        {
+          'str': '试验摩托车',
+          'code': '21'
+        },
+        {
+          'str': '临时行驶车',
+          'code': '22'
+        },
+        {
+          'str': '警用汽车（白牌）',
+          'code': '23'
+        },
+        {
+          'str': '警用摩托',
+          'code': '24'
         }
       ],
       doodgenAddress: ''
@@ -226,9 +268,10 @@ export default{
       this.carTypeSelectShow = false
       this.abbreviationSelectShow = !this.abbreviationSelectShow
     },
-    carTypeSelectClick: function (str) {
-      if (str) {
-        this.carType = str
+    carTypeSelectClick: function (index) {
+      if (index) {
+        index--
+        this.carType = this.carTypeSelectData[index]
       }
       this.abbreviationSelectShow = false
       this.carTypeSelectShow = !this.carTypeSelectShow
@@ -240,9 +283,11 @@ export default{
       let reqData = {
         abbreviation: this.abbreviation,
         numberPlate: this.numberPlate,
-        carType: this.carType,
-        doodgenAddress: this.doodgenAddress
+        carType: this.carType.code,
+        doodgenAddress: this.doodgenAddress,
+        identityCard: '441234561999123466'
       }
+      // let reqData = `abbreviation=${this.abbreviation}&numberPlate=${this.numberPlate}&carType=${this.carType.code}&doodgenAddress=${this.doodgenAddress}&identityCard=441234561999123466`
       resultPost(moveCar, JSON.stringify(reqData)).then(json => {
         console.log(json)
       })

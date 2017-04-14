@@ -61,10 +61,10 @@
           <span>子类型选择</span>
         </div>
         <div class="div-select flex">
-          <span class="btn-select hidden" @click.stop="btnSubTypeSelect()">{{subTypeSelectData}}</span>
+          <span class="btn-select hidden" @click.stop="btnSubTypeSelect()">{{subTypeSelectData.str}}</span>
           <div class="div-select-ul top-56" v-if="subTypeSelectShow">
             <ul>
-              <li class="scroll-y" v-for="(item, index) in subTypeData" @click.stop="btnSubTypeSelect(index+1)">{{item}}</li>
+              <li class="scroll-y" v-for="(item, index) in subTypeData" @click.stop="btnSubTypeSelect(index+1)">{{item.str}}</li>
             </ul>
           </div>
         </div>
@@ -94,8 +94,8 @@ export default{
   props: ['typeData', 'reportingMatters'],
   data () {
     return {
-      typeSelectShow: false,
-      subTypeSelectShow: false,
+      typeSelectShow: false, // 类型选择
+      subTypeSelectShow: false, // 子类型选择
       typeSelectData: this.typeData[this.typeIndex],
       typeIndex: 0,
       subTypeIndex: 0,
@@ -139,10 +139,16 @@ export default{
       let reqData = {
         userName: this.userName,
         mobilephone: this.mobilephone,
+        identityCard: this.identityCard, // 暂无
         reportingMatters: this.reportingMatters,
+        addressRegion: this.addressRegion, // 暂无
+        addressStreet: this.addressStreet, // 暂无
+        addressSite: this.addressSite, // 暂无
         detailAddress: this.detailAddress,
         emergency: this.emergency,
+        selectTypeId: this.typeSelectData.id,
         selectType: this.typeSelectData.str,
+        subTypeId: this.subTypeId,
         subType: this.subTypeSelectData,
         description: this.description,
         sceneImg: this.sceneImg

@@ -7,17 +7,18 @@
         <div class="div-select-ul" v-if='typeSelectShow'>
           <ul>
             <li v-for="(item, index) in typeSelectData" @click.stop="typeSelectClick(index+1)">
-              {{item.str}}
+              <router-link :to="item.path">{{item.str}}</router-link>
             </li>
           </ul>
         </div>
       </div>
     </div>
     <div class="peopleWillCloud-form pad-side-50">
-      <facility v-if="curTab === 'facility'" @submit="submit()"></facility>
+      <!-- <facility v-if="curTab === 'facility'" @submit="submit()"></facility>
       <secure v-else-if="curTab === 'secure'" @submit="submit()"></secure>
       <jam v-else-if="curTab === 'jam'" @submit="submit()"></jam>
-      <order v-else @submit="submit()"></order>
+      <order v-else @submit="submit()"></order> -->
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -32,28 +33,26 @@
         typeSelectData: [
           {
             'name': 'facility',
-            'str': '这里设施坏了'
+            'str': '这里设施坏了',
+            'path': '/peopleWillCloud/facility'
           },
           {
             'name': 'secure',
-            'str': '这有安全隐患'
+            'str': '这有安全隐患',
+            'path': '/peopleWillCloud/secure'
           },
           {
             'name': 'jam',
-            'str': '这里经常拥堵'
+            'str': '这里经常拥堵',
+            'path': '/peopleWillCloud/jam'
           },
           {
             'name': 'order',
-            'str': '这里秩序混乱'
+            'str': '这里秩序混乱',
+            'path': '/peopleWillCloud/order'
           }
         ]
       }
-    },
-    components: {
-      'facility': require('./child/facility.vue'),
-      'secure': require('./child/secure.vue'),
-      'jam': require('./child/jam.vue'),
-      'order': require('./child/order.vue')
     },
     methods: {
       typeSelectClick: function (index) {
@@ -66,16 +65,26 @@
       },
       select: function () {
         this.typeSelectShow = false
-      },
-      submit: function () {
-        console.log('提交数据,弹窗提示')
       }
     },
     created () {
       document.addEventListener('click', (e) => {
         this.typeSelectShow = false
       })
-      this.typeSelectMassage = this.typeSelectData[0]
+      switch (window.location.hash) {
+        case '#/peopleWillCloud/facility':
+          this.typeSelectMassage = this.typeSelectData[0]
+          break
+        case '#/peopleWillCloud/secure':
+          this.typeSelectMassage = this.typeSelectData[1]
+          break
+        case '#/peopleWillCloud/jam':
+          this.typeSelectMassage = this.typeSelectData[2]
+          break
+        case '#/peopleWillCloud/order':
+          this.typeSelectMassage = this.typeSelectData[3]
+          break
+      }
     }
   }
 </script>
