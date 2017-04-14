@@ -20,7 +20,7 @@
             <div class="queryByCar-hbs-name">
               <span>车牌号码</span>
             </div>
-            <div class="div-select width-120 left">
+            <div class="div-select width-25 left">
               <span class="btn-select min-btn-select" @click.stop="abbreviationSelectClick()">{{ abbreviationSelectMassage }}</span>
               <div class="div-select-ul" v-if="abbreviationSelectShow">
                 <ul>
@@ -334,8 +334,8 @@
     color: #000;
     position: relative;
     background-color: white;
-  .width-120 {
-    width: 120px !important;
+  .width-25 {
+    width: 25% !important;
   }
   .width-70 {
     width: 70% !important;
