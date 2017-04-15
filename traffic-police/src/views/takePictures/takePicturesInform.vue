@@ -47,7 +47,7 @@
     <div class="tp-inform-box">
       <div class="tp-inform-left">联系电话</div>
       <div class="tp-inform-right">
-        <input maxlength="50" type="text" v-model="informTel" placeholder="请输入正确的电话号码" id="informTel">
+        <input maxlength="50" type="text" v-model="informTel" placeholder="请输入正确的电话号码">
       </div>
     </div>
     <div class="tp-btn-submit" @click="btnSurePutInform">确认提交</div>
@@ -55,19 +55,31 @@
       <!--<a>点击查看温馨提示</a>-->
       <router-link to="takePicturesTips">点击查看温馨提示</router-link>
     </div>
+    <alert-tips v-if="showTips" :showHide="showTips" :tipsText="tipsText" @closeTips="closeTips"></alert-tips>
   </div>
 </template>
 <script>
   import { resultPost } from '../../service/getData'
   import { takePictures } from '../../config/baseUrl'
+  import alertTips from '../../components/alertTips'
   export default {
     name: 'takePicturesInform',
     data () {
       return {
-        informName: '',
-        informIdNumber: '',
-        informTel: '',
-        informIntroWhy: ''
+        informIntroWhy: '',      // 情况说明
+        informName: '',          // 举报人
+        informIdNumber: '',      // 身份证号
+        informTel: '',           // 电话号码
+        showTips: false,
+        tipsText: null
+      }
+    },
+    components: {
+      alertTips
+    },
+    computed: {
+      regTel: function () {
+        return /^1\d{10}$/g.test(this.informTel)
       }
     },
     methods: {
@@ -81,6 +93,26 @@
         resultPost(takePictures, JSON.stringify(informData)).then(json => {
           console.log(json)
         })
+        if (!this.regTel) {
+          this.showTips = true
+          this.tipsText = '请输入正确的手机号码'
+          window.ontouchmove = function (e) {
+            e.preventDefault && e.preventDefault()
+            e.returnValue = false
+            e.stopPropagation && e.stopPropagation()
+            return false
+          }
+          return
+        }
+      },
+      closeTips: function () {
+        window.ontouchmove = function (e) {
+          e.preventDefault && e.preventDefault()
+          e.returnValue = true
+          e.stopPropagation && e.stopPropagation()
+          return true
+        }
+        this.showTips = false
       }
     }
   }
