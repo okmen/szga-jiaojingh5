@@ -36,7 +36,7 @@
           <span>挪车地址</span>
         </div>
         <div class="common-list-text left width-90">
-          <input class="text-input" type="text" name="" v-model:value="doodgenAddress" placeholder="点击右侧按钮选择地址">
+          <input class="text-input" type="text" name="" v-model:value="doodgenAddress" placeholder="点击右侧按钮选择地址" readonly>
         </div>
         <div class="common-list-location right" @click.stop='getLocation()'></div>
       </li>
@@ -281,14 +281,14 @@ export default{
     },
     submit: function () {
       let reqData = {
-        abbreviation: this.abbreviation,
-        numberPlate: this.numberPlate,
-        carType: this.carType.code,
-        doodgenAddress: this.doodgenAddress,
-        identityCard: '441234561999123466'
+        abbreviation: this.abbreviation, // 车牌简称
+        numberPlate: this.numberPlate, // 车牌号码
+        carType: this.carType.code, // 汽车种类
+        doodgenAddress: this.doodgenAddress, // 挪车地址
+        identityCard: this.identityCard // 身份证 暂无
       }
-      // let reqData = `abbreviation=${this.abbreviation}&numberPlate=${this.numberPlate}&carType=${this.carType.code}&doodgenAddress=${this.doodgenAddress}&identityCard=441234561999123466`
-      resultPost(moveCar, JSON.stringify(reqData)).then(json => {
+      console.log(reqData)
+      resultPost(moveCar, reqData).then(json => {
         console.log(json)
       })
     }

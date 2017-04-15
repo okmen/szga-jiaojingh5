@@ -7,7 +7,7 @@
         <div class="div-select-ul" v-if='typeSelectShow'>
           <ul>
             <li v-for="(item, index) in typeSelectData" @click.stop="typeSelectClick(index+1)">
-              <router-link :to="item.path">{{item.str}}</router-link>
+              <router-link class="link" :to="item.path">{{item.str}}</router-link>
             </li>
           </ul>
         </div>
@@ -18,7 +18,7 @@
       <secure v-else-if="curTab === 'secure'" @submit="submit()"></secure>
       <jam v-else-if="curTab === 'jam'" @submit="submit()"></jam>
       <order v-else @submit="submit()"></order> -->
-      <router-view></router-view>
+      <router-view @submit="hint()"></router-view>
     </div>
   </div>
 </template>
@@ -65,6 +65,9 @@
       },
       select: function () {
         this.typeSelectShow = false
+      },
+      hint: function () {
+        console.log('提交数据，弹出提示')
       }
     },
     created () {
@@ -106,6 +109,11 @@
     }
     .peopleWillCloud-type{
       display: block;
+    }
+    .link{
+      display: block;
+      width: 100%;
+      height: 100%;
     }
   }
   .peopleWillCloud-form{
