@@ -319,9 +319,12 @@ export default {
     submit: function () {
       let reqData = {
         reportingMatters: this.reportingMatters, // 举报事项
-        identityCard: this.identityCard, // 身份证号 暂无
-        mobilephone: this.mobilephone, // 用户手机 暂无
-        ip: this.ip, // ip地址 暂无
+        // identityCard: this.identityCard, // 身份证号 暂无
+        identityCard: '123561655613321', // 身份证号 暂无
+        // mobilephone: this.mobilephone, // 用户手机 暂无
+        mobilephone: '1321564641551556', // 用户手机 暂无
+        // ip: this.ip, // ip地址 暂无
+        ip: '192.168.2.101', // ip地址 暂无
         startTime: this.startTime, // 开始时间
         endTime: this.endTime, // 结束时间
         direction: this.direction, // 方向
@@ -330,8 +333,10 @@ export default {
         roadServiceLevel: this.roadServiceLevel.str, // 道路服务水平
         congestionReason: this.congestionReason.str, // 拥堵成因
         improveAdvice: this.improveAdvice, // 改善建议
-        addressCode: this.addressCode, // 站点代码 暂无
-        address: this.address // 主题地点描述
+        // addressCode: this.addressCode, // 站点代码 暂无
+        addressCode: '103560', // 站点代码 暂无
+        // address: this.address // 主题地点描述
+        address: '广东省深圳市福田区深圳市体育中心' // 主题地点描述
       }
       this.$emit('submit')
       console.log(JSON.stringify(reqData))

@@ -284,8 +284,10 @@ export default{
         abbreviation: this.abbreviation, // 车牌简称
         numberPlate: this.numberPlate, // 车牌号码
         carType: this.carType.code, // 汽车种类
-        doodgenAddress: this.doodgenAddress, // 挪车地址
-        identityCard: this.identityCard // 身份证 暂无
+        // doodgenAddress: this.doodgenAddress, // 挪车地址
+        doodgenAddress: '深圳', // 挪车地址
+        // identityCard: this.identityCard // 身份证 暂无
+        identityCard: '4456464655456645654' // 身份证 暂无
       }
       console.log(reqData)
       resultPost(moveCar, reqData).then(json => {
