@@ -8,7 +8,7 @@
           <span>详细地址</span>
         </div>
         <div class="common-list-text left width-90">
-          <input class="text-input" type="text" name="" v-model:value="detailAddress" placeholder="点击右侧按钮选择地址">
+          <input class="text-input" type="text" name="" v-model:value="detailAddress" placeholder="点击右侧按钮选择地址" readonly>
         </div>
         <div class="common-list-location right" @click.stop='getLocation()'></div>
       </li>
@@ -137,22 +137,27 @@ export default{
     },
     submit: function () {
       let reqData = {
-        userName: this.userName,
-        mobilephone: this.mobilephone,
-        identityCard: this.identityCard, // 暂无
-        reportingMatters: this.reportingMatters,
-        addressRegion: this.addressRegion, // 暂无
-        addressStreet: this.addressStreet, // 暂无
-        addressSite: this.addressSite, // 暂无
-        detailAddress: this.detailAddress,
-        emergency: this.emergency,
-        selectTypeId: this.typeSelectData.id,
-        selectType: this.typeSelectData.str,
-        subTypeId: this.subTypeId,
-        subType: this.subTypeSelectData,
-        description: this.description,
-        sceneImg: this.sceneImg
+        userName: this.userName, // 用户姓名
+        mobilephone: this.mobilephone, // 用户手机
+        // identityCard: this.identityCard, // 暂无 身份证号
+        identityCard: '12345678912345', // 暂无 身份证号
+        reportingMatters: this.reportingMatters, // 举报事项
+        // addressRegion: this.addressRegion, // 暂无 地址-区域
+        addressRegion: '福田区', // 暂无 地址-区域
+        // addressStreet: this.addressStreet, // 暂无 地址-街道
+        addressStreet: '旺角海鲜菜馆', // 暂无 地址-街道
+        // addressSite: this.addressSite, // 暂无 地址-站点
+        addressSite: '旺角海鲜菜馆', // 暂无 地址-站点
+        detailAddress: '广东省深圳市福田区深圳市体育中心', // 详细地址
+        emergency: this.emergency, // 紧急程度
+        selectTypeId: this.typeSelectData.id, // 选择类型Id
+        selectType: this.typeSelectData.str, // 选择类型
+        subTypeId: this.subTypeSelectData.id, // 子类型选择Id
+        subType: this.subTypeSelectData.str, // 子类型选择
+        description: this.description, // 现场描述
+        sceneImg: this.sceneImg // 现场图片
       }
+      console.log(reqData)
       this.$emit('submit', reqData)
     }
   },
@@ -161,8 +166,8 @@ export default{
       this.typeSelectShow = false
       this.subTypeSelectShow = false
     })
-    this.typeSelectData = this.typeData[this.typeIndex]
-    this.subTypeSelectData = this.typeData[this.typeIndex].subTypeData[this.subTypeIndex]
+    this.typeSelectData = this.typeData[this.typeIndex] // 选择类型
+    this.subTypeSelectData = this.typeData[this.typeIndex].subTypeData[this.subTypeIndex] // 选择子类型
     this.subTypeData = this.typeSelectData.subTypeData
   }
 }

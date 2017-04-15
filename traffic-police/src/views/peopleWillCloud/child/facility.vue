@@ -153,7 +153,7 @@ export default {
   methods: {
     submit: function (reqData) {
       this.$emit('submit')
-      resultPost(facility, JSON.stringify(reqData)).then(json => {
+      resultPost(facility, reqData).then(json => {
         console.log(json)
       })
     }
