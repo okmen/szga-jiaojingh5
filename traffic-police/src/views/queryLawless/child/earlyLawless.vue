@@ -8,10 +8,10 @@
               <span>汽车种类</span>
             </div>
             <div class="div-select">
-              <span class="btn-select" @click.stop="licenseSelectClick()">{{ licenseSelectMassage }}</span>
+              <span v-model="licensePlateType" class="btn-select" @click.stop="licenseSelectClick()">{{ licenseSelectMassage }}</span>
               <div class="div-select-ul" v-if="licenseSelectShow">
                 <ul>
-                  <li v-for="item in licenseSelectData" @click.stop="licenseSelectClick(item.str)">{{item.str}}</li>
+                  <li v-for="item in licenseSelectData" @click.stop="licenseSelectClick(item.str, item.id)">{{item.str}}</li>
                 </ul>
               </div>
             </div>
@@ -92,79 +92,90 @@
     name: 'earlyLawless',
     data () {
       return {
+        cur_id: '01',
+        licensePlateType: '',
         car_number: '',
         vehicleIdentifyNoLast4: '',
         mobileNo: '13333333333',
-        licensePlateType: '01',
         drivingLicenceNo: '',
         licenseSelectShow: false,
-        licenseSelectMassage: '小型汽车',
+        licenseSelectMassage: '大型汽车(黄牌)',
         licenseSelectData: [
           {
-            'str': '小型汽车'
+            'id': '01',
+            'str': '大型汽车(黄牌)'
           },
           {
-            'str': '大型汽车'
+            'id': '02',
+            'str': '小型汽车(蓝牌)'
           },
           {
+            'id': '03',
             'str': '使馆汽车'
           },
           {
+            'id': '04',
             'str': '领馆汽车'
           },
           {
+            'id': '05',
             'str': '境外汽车'
           },
           {
-            'str': '外籍汽车'
+            'id': '06',
+            'str': '外籍汽车(黑牌)'
           },
           {
+            'id': '07',
             'str': '普通摩托车'
           },
           {
+            'id': '08',
             'str': '轻便摩托车'
           },
           {
+            'id': '09',
             'str': '使馆摩托车'
           },
           {
+            'id': '10',
             'str': '领馆摩托车'
           },
           {
+            'id': '15',
             'str': '挂车'
           },
           {
+            'id': '16',
             'str': '教练汽车'
           },
           {
+            'id': '17',
             'str': '教练摩托车'
           },
           {
+            'id': '18',
             'str': '实验汽车'
           },
           {
+            'id': '19',
             'str': '实验摩托车'
           },
           {
+            'id': '22',
             'str': '临时行驶车'
           },
           {
+            'id': '23',
             'str': '警用汽车'
           },
           {
+            'id': '24',
             'str': '警用摩托'
           },
           {
-            'str': '香港入境车'
-          },
-          {
-            'str': '澳门入境车'
-          },
-          {
-            'str': '新能源大型车'
-          },
-          {
-            'str': '新能源小型车'
+            'id': '20',
+            'str': '临时入境车'
           }
         ],
         abbreviationSelectShow: false,
@@ -267,9 +278,10 @@
       }
     },
     methods: {
-      licenseSelectClick: function (str) {
+      licenseSelectClick: function (str, id) {
         if (str) {
           this.licenseSelectMassage = str
+          this.cur_id = id
         }
         if (this.licenseSelectShow === true) {
           this.licenseSelectShow = false
@@ -294,12 +306,13 @@
       getVerification: function () {},
       queryEarlyLawless: function () {
         let reqData = {
-          licensePlateType: this.licensePlateType,
+          licensePlateType: this.cur_id,
           licensePlateNo: this.abbreviationSelectMassage + this.car_number,
           drivingLicenceNo: this.drivingLicenceNo,
           mobileNo: '',
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
         }
+        console.log(reqData)
         resultPost(queryEarlyLawless, JSON.stringify(reqData)).then(json => {
           console.log(json)
         })

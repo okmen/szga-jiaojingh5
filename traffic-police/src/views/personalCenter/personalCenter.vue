@@ -1,5 +1,6 @@
 <template>
 <div class="personalCenter-outer">
+  <mainBanner></mainBanner>
   <!-- 网络不给力,出错的组件 -->
   <error v-if="errorShow"></error>
 
@@ -15,7 +16,8 @@ export default{
     }
   },
   components: {
-    error: require('./child/error.vue')
+    error: require('./child/error.vue'),
+    mainBanner: require('./child/mianBanner.vue')
   }
 }
 </script>
