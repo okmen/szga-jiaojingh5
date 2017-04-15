@@ -7,7 +7,7 @@
             <span>地点</span>
           </div>
           <div class="jam-list-text left width-90">
-            <input class="text-input" type="text" name="" v-model:value="address" placeholder="点击右侧按钮选择地址">
+            <input class="text-input" type="text" name="" v-model:value="address" placeholder="点击右侧按钮选择地址" readonly>
           </div>
           <div class="jam-list-location right" @click.stop='getLocation()'></div>
         </li>
@@ -21,7 +21,7 @@
               v-model="startTime"
               :picker-options="{
                 start: '00:00',
-                step: '00:15',
+                step: '00:30',
                 end: '24:00'
               }"
               placeholder="00:00"
@@ -39,8 +39,8 @@
               class="time-select"
               v-model="endTime"
               :picker-options="{
-                start: startTime ? startTime : '00:00',
-                step: '00:15',
+                start: '00:00',
+                step: '00:30',
                 end: '24:00'
               }"
               placeholder="00:00"
@@ -318,20 +318,29 @@ export default {
     },
     submit: function () {
       let reqData = {
-        reportingMatters: this.reportingMatters,
-        address: this.address,
-        startTime: this.startTime,
-        endTime: this.endTime,
-        direction: this.direction,
-        congestionType: this.congestionType.str,
-        congestionGrade: this.congestionGrade.str,
-        roadServiceLevel: this.roadServiceLevel.str,
-        congestionReason: this.congestionReason.str,
-        improveAdvice: this.improveAdvice
+        reportingMatters: this.reportingMatters, // 举报事项
+        // identityCard: this.identityCard, // 身份证号 暂无
+        identityCard: '12356165561331', // 身份证号 暂无
+        // mobilephone: this.mobilephone, // 用户手机 暂无
+        mobilephone: '13000000000', // 用户手机 暂无
+        // ip: this.ip, // ip地址 暂无
+        ip: '192.168.2.101', // ip地址 暂无
+        startTime: this.startTime, // 开始时间
+        endTime: this.endTime, // 结束时间
+        direction: this.direction, // 方向
+        congestionType: this.congestionType.str, // 拥堵类型
+        congestionGrade: this.congestionGrade.str, // 拥堵等级
+        roadServiceLevel: this.roadServiceLevel.str, // 道路服务水平
+        congestionReason: this.congestionReason.str, // 拥堵成因
+        improveAdvice: this.improveAdvice, // 改善建议
+        // addressCode: this.addressCode, // 站点代码 暂无
+        addressCode: '103560', // 站点代码 暂无
+        // address: this.address // 主题地点描述
+        address: '广东省深圳市福田区体育中心' // 主题地点描述
       }
       this.$emit('submit')
       console.log(JSON.stringify(reqData))
-      resultPost(jam, JSON.stringify(reqData)).then(json => {
+      resultPost(jam, reqData).then(json => {
         console.log(json)
       })
     }

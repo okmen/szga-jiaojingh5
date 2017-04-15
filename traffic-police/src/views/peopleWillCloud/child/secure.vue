@@ -112,7 +112,7 @@ export default {
     submit: function (reqData) {
       this.$emit('submit')
       console.log(JSON.stringify(reqData))
-      resultPost(secure, JSON.stringify(reqData)).then(json => {
+      resultPost(secure, reqData).then(json => {
         console.log(json)
       })
     }
