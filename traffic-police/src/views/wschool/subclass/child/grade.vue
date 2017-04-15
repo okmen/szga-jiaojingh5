@@ -42,9 +42,17 @@ export default {
     }
   },
   mounted () {
-    resultPost(grade, 'hello').then(json => {
+    let grdData = {
+      userId: '',
+      userPwd: '',
+      identityCard: this.identityCard,
+      drive: this.drive,
+      Mobilephone: this.Mobilephone
+    }
+    resultPost(grade, JSON.stringify(grdData)).then(json => {
       this.gradeData = json.data[0]
       // this.answerResult = json.data[0].answerResult
+      console.log(grdData)
     })
   }
 }
