@@ -28,3 +28,5 @@ export const queryLawlessByCard = `${commonUrl}illegalHanding/queryInfoByDriving
 export const queryPay = `${commonUrl}illegalHanding/toQueryPunishmentPage.html` // 违法缴款
 
 export const queryEarlyLawless = `${commonUrl}illegalHanding/toQuerySubscribe.html` // 违法预约查询
+
+export const updatePwd = `${commonUrl}user/updatePwd.html` // 修改密码接口

@@ -21,7 +21,7 @@
               v-model="startTime"
               :picker-options="{
                 start: '00:00',
-                step: '00:15',
+                step: '00:30',
                 end: '24:00'
               }"
               placeholder="00:00"
@@ -39,8 +39,8 @@
               class="time-select"
               v-model="endTime"
               :picker-options="{
-                start: startTime ? startTime : '00:00',
-                step: '00:15',
+                start: '00:00',
+                step: '00:30',
                 end: '24:00'
               }"
               placeholder="00:00"
@@ -320,9 +320,9 @@ export default {
       let reqData = {
         reportingMatters: this.reportingMatters, // 举报事项
         // identityCard: this.identityCard, // 身份证号 暂无
-        identityCard: '123561655613321', // 身份证号 暂无
+        identityCard: '12356165561331', // 身份证号 暂无
         // mobilephone: this.mobilephone, // 用户手机 暂无
-        mobilephone: '1321564641551556', // 用户手机 暂无
+        mobilephone: '13000000000', // 用户手机 暂无
         // ip: this.ip, // ip地址 暂无
         ip: '192.168.2.101', // ip地址 暂无
         startTime: this.startTime, // 开始时间
@@ -336,7 +336,7 @@ export default {
         // addressCode: this.addressCode, // 站点代码 暂无
         addressCode: '103560', // 站点代码 暂无
         // address: this.address // 主题地点描述
-        address: '广东省深圳市福田区深圳市体育中心' // 主题地点描述
+        address: '广东省深圳市福田区体育中心' // 主题地点描述
       }
       this.$emit('submit')
       console.log(JSON.stringify(reqData))
