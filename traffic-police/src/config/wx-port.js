@@ -2,7 +2,7 @@
  * 微信 js sdk: //res.wx.qq.com/open/js/jweixin-1.2.0.js
  */
 import wx from 'weixin-js-sdk'
-import { resultPost } from '../service/getData'
+import { resultGet } from '../service/getData'
 /* eslint-disable */
 
 function getQueryString(name) {
@@ -16,12 +16,12 @@ function getQueryString(name) {
 var openId = getQueryString('openId') || localStorage.getItem('openId');
 var headImgUrl = getQueryString('headimgurl') || localStorage.getItem('headimgurl');
 localStorage.setItem('openId', openId);
+localStorage.setItem('headImgUrl', headImgUrl);
 let url = window.location.href;
 let data = {
   url: encodeURIComponent(url)
 }
-
-resultPost('http://gxg.tunnel.qydev.com/web/h5/sdkConfig.html', JSON.stringify(data)).then((r) => {
+resultGet(`http://gxg.tunnel.qydev.com/web/h5/sdkConfig.html?url=${data.url}`).then((r) => {
   if (r.code == '00000') {
       console.log(r);
       var res = r.data;
