@@ -2,8 +2,8 @@
     <div id="login-outer">
       <div class="logo"></div>
       <div class="login-form">
-        <input v-model="loginName" type="tel" placeholder="请输入手机号或身份证号">
-        <input v-model="password" id="login-password" type="text" placeholder="请输入密码">
+        <input v-model:value="loginName" type="tel" placeholder="请输入手机号或身份证号">
+        <input v-model:value="password" id="login-password" type="text" placeholder="请输入密码">
         <button id="login-btn" @click.stop="loginClick()">登 录</button>
         <div class="login-link">
           <router-link to="/peopleWillCloud" class="login-link-forget">忘记密码</router-link>
@@ -26,12 +26,16 @@ export default {
     }
   },
   methods: {
-    loginClick: () => {
+    loginClick: function () {
+      let openId = window.localStorage.getItem('openId')
       let reqData = {
         loginName: this.loginName,
-        password: this.password
+        password: this.password,
+        openId: openId,
+        loginClient: 'weixin'
       }
-      resultPost(login, JSON.stringify(reqData)).then(json => {
+      console.log(reqData)
+      resultPost(login, reqData).then(json => {
         console.log(json)
       })
     }
