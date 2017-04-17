@@ -174,6 +174,7 @@ export default{
 </script>
 <style lang='less'>
 .common-outer{
+  font-size: 26px;
   .width-90{
     width: 90%;
   }

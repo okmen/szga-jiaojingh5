@@ -56,7 +56,7 @@ export default {
 .tp-title{
   width:100%;
   height:74px;
-  background:url("../../images/takePictureTipBg.png") no-repeat;
+  background:url("../../../images/takePictureTipBg.png") no-repeat;
   background-size:100% 100%;
   font-size:30px;
   line-height:74px;

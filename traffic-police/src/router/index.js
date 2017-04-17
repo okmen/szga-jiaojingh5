@@ -125,7 +125,30 @@ const routes = [
     meta: {
       title: '深圳交警'
     },
-    component: require('../views/peopleWillCloud/peopleWillCloud.vue')
+    component: require('../views/peopleWillCloud/peopleWillCloud.vue'),
+    redirect: '/peopleWillCloud/facility',
+    children: [
+      {
+        name: 'facility',
+        path: '/peopleWillCloud/facility',
+        component: require('../views/peopleWillCloud/child/facility.vue')
+      },
+      {
+        name: 'secure',
+        path: '/peopleWillCloud/secure',
+        component: require('../views/peopleWillCloud/child/secure.vue')
+      },
+      {
+        name: 'jam',
+        path: '/peopleWillCloud/jam',
+        component: require('../views/peopleWillCloud/child/jam.vue')
+      },
+      {
+        name: 'order',
+        path: '/peopleWillCloud/order',
+        component: require('../views/peopleWillCloud/child/order.vue')
+      }
+    ]
   },
   {
     name: 'handyService',
@@ -165,7 +188,7 @@ const routes = [
     meta: {
       title: '随手拍举报温馨提示'
     },
-    component: require('../views/takePictures/takePicturesTips.vue')
+    component: require('../views/takePictures/child/takePicturesTips.vue')
   },
   {
     name: 'takePicturesSuccess',
@@ -173,15 +196,15 @@ const routes = [
     meta: {
       title: '随手拍举报成功'
     },
-    component: require('../views/takePictures/takePicturesSuccess.vue')
+    component: require('../views/takePictures/child/takePicturesSuccess.vue')
   },
   {
     name: 'takePicturesInform',
     path: '/takePicturesInform',
+    component: require('../views/takePictures/takePicturesInform.vue'),
     meta: {
       title: '随手拍举报'
-    },
-    component: require('../views/takePictures/takePicturesInform.vue')
+    }
   }
 ]
 /* eslint-disable no-new */

@@ -55,27 +55,31 @@
       <!--<a>点击查看温馨提示</a>-->
       <router-link to="takePicturesTips">点击查看温馨提示</router-link>
     </div>
-    <alert-tips v-if="showTips" :showHide="showTips" :tipsText="tipsText" @closeTips="closeTips"></alert-tips>
+    <automateTip :options.sync="options" ></automateTip>
   </div>
 </template>
 <script>
-  import { resultPost } from '../../service/getData'
-  import { takePictures } from '../../config/baseUrl'
-  import alertTips from '../../components/alertTips'
+  // import { resultPost } from '../../service/getData'
+  // import { takePictures } from '../../config/baseUrl'
+  import automateTip from '../../components/automateTip'
   export default {
     name: 'takePicturesInform',
+    components: {
+      automateTip
+    },
     data () {
       return {
         informIntroWhy: '',      // 情况说明
         informName: '',          // 举报人
         informIdNumber: '',      // 身份证号
         informTel: '',           // 电话号码
-        showTips: false,
-        tipsText: null
+        options: {
+          show: true,
+          autoClose: true,
+          showTime: 2000,
+          content: '请输入正确的手机号'
+        }
       }
-    },
-    components: {
-      alertTips
     },
     computed: {
       regTel: function () {
@@ -84,35 +88,19 @@
     },
     methods: {
       btnSurePutInform: function () {
-        let informData = {
-          situationStatement: this.informIntroWhy,
-          whistleblower: this.informName,
-          identityCard: this.informIdNumber,
-          mobilephone: this.informTel
-        }
-        resultPost(takePictures, JSON.stringify(informData)).then(json => {
-          console.log(json)
-        })
+        // let informData = {
+        //   situationStatement: this.informIntroWhy,
+        //   whistleblower: this.informName,
+        //   identityCard: this.informIdNumber,
+        //   mobilephone: this.informTel
+        // }
+        // resultPost(takePictures, JSON.stringify(informData)).then(json => {
+        //   console.log(json)
+        // })
         if (!this.regTel) {
-          this.showTips = true
-          this.tipsText = '请输入正确的手机号码'
-          window.ontouchmove = function (e) {
-            e.preventDefault && e.preventDefault()
-            e.returnValue = false
-            e.stopPropagation && e.stopPropagation()
-            return false
-          }
-          return
+          this.showAutomateTip = true
         }
-      },
-      closeTips: function () {
-        window.ontouchmove = function (e) {
-          e.preventDefault && e.preventDefault()
-          e.returnValue = true
-          e.stopPropagation && e.stopPropagation()
-          return true
-        }
-        this.showTips = false
+        this.$router.push('/takePicturesSuccess') // 成功之后
       }
     }
   }
