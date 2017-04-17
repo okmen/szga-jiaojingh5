@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="autoTips fixed" v-if="options.show">
+    <div class="autoTips fixed" v-if="options.showTip">
       {{ options.content }}
     </div>
     <div class="countdown"
-      v-if="options.show && options.autoClose">
+      v-if="options.showTip && options.autoClose">
     </div>
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
   created () {
     if (this.options.autoClose) {
       const t = setTimeout(() => {
-        this.options.show = false
+        this.options.showTip = false
       }, this.options.showTime || 1500)
       this.timers.push(t)
     }

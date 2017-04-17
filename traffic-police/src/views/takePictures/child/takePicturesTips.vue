@@ -34,7 +34,7 @@
    </div>
    <div class="tp-read">
      <div class="tp-read-checkbox">
-       <input type="checkbox" id="informReadCheckbox" name="informReadCheckbox">
+       <input type="checkbox" id="informReadCheckbox" name="informReadCheckbox" v-model="checked">
        <label for="informReadCheckbox"></label>
      </div>
      <span>
@@ -42,12 +42,24 @@
      </span>
    </div>
    <div class="tp-btn-sure">
-     <button>确认</button>
+     <button @click="btnAgreeRequest">确认</button>
    </div>
  </div>
 </template>
 <script>
 export default {
+  data () {
+    return {
+      checked: ''
+    }
+  },
+  methods: {
+    btnAgreeRequest: function () {
+      if (this.checked === true) {
+        this.$router.go(-1)
+      }
+    }
+  }
 }
 </script>
 <style lang="less">
