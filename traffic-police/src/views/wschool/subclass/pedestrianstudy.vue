@@ -58,7 +58,10 @@ export default {
     }
   },
   mounted () {
-    resultPost(xstudy, 'hello').then(json => {
+    let pedesData = {
+      classroomId: 5
+    }
+    resultPost(xstudy, pedesData).then(json => {
       this.listData = json.data[0]
       this.itemData = json.data[0].studyRecord
       this.itemdata = json.data[0].isComplete

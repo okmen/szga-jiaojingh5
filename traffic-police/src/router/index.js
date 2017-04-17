@@ -28,7 +28,30 @@ const routes = [
     meta: {
       title: '星级用户认证'
     },
-    component: require('../views/starUser/starUser.vue')
+    component: require('../views/starUser/starUser.vue'),
+    redirect: '/starUser/carOwner',
+    children: [
+      {
+        name: 'carOwner',
+        path: '/starUser/carOwner',
+        component: require('../views/starUser/child/carOwner.vue')
+      },
+      {
+        name: 'carUser',
+        path: '/starUser/carUser',
+        component: require('../views/starUser/child/carUser.vue')
+      },
+      {
+        name: 'drivingLicense',
+        path: '/starUser/drivingLicense',
+        component: require('../views/starUser/child/drivingLicense.vue')
+      },
+      {
+        name: 'passerBy',
+        path: '/starUser/passerBy',
+        component: require('../views/starUser/child/passerBy.vue')
+      }
+    ]
   },
   {
     name: 'queryLawless',
@@ -125,7 +148,30 @@ const routes = [
     meta: {
       title: '深圳交警'
     },
-    component: require('../views/peopleWillCloud/peopleWillCloud.vue')
+    component: require('../views/peopleWillCloud/peopleWillCloud.vue'),
+    redirect: '/peopleWillCloud/facility',
+    children: [
+      {
+        name: 'facility',
+        path: '/peopleWillCloud/facility',
+        component: require('../views/peopleWillCloud/child/facility.vue')
+      },
+      {
+        name: 'secure',
+        path: '/peopleWillCloud/secure',
+        component: require('../views/peopleWillCloud/child/secure.vue')
+      },
+      {
+        name: 'jam',
+        path: '/peopleWillCloud/jam',
+        component: require('../views/peopleWillCloud/child/jam.vue')
+      },
+      {
+        name: 'order',
+        path: '/peopleWillCloud/order',
+        component: require('../views/peopleWillCloud/child/order.vue')
+      }
+    ]
   },
   {
     name: 'handyService',
@@ -165,7 +211,7 @@ const routes = [
     meta: {
       title: '随手拍举报温馨提示'
     },
-    component: require('../views/takePictures/takePicturesTips.vue')
+    component: require('../views/takePictures/child/takePicturesTips.vue')
   },
   {
     name: 'takePicturesSuccess',
@@ -173,15 +219,15 @@ const routes = [
     meta: {
       title: '随手拍举报成功'
     },
-    component: require('../views/takePictures/takePicturesSuccess.vue')
+    component: require('../views/takePictures/child/takePicturesSuccess.vue')
   },
   {
     name: 'takePicturesInform',
     path: '/takePicturesInform',
+    component: require('../views/takePictures/takePicturesInform.vue'),
     meta: {
       title: '随手拍举报'
-    },
-    component: require('../views/takePictures/takePicturesInform.vue')
+    }
   }
 ]
 /* eslint-disable no-new */

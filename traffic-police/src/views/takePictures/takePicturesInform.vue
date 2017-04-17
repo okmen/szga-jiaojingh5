@@ -55,12 +55,12 @@
       <!--<a>点击查看温馨提示</a>-->
       <router-link to="takePicturesTips">点击查看温馨提示</router-link>
     </div>
-    <automateTip :options.sync="options" :show="showAutomateTip"></automateTip>
+    <automateTip :options.sync="options" @onPropsChange="change"></automateTip>
   </div>
 </template>
 <script>
-  import { resultPost } from '../../service/getData'
-  import { takePictures } from '../../config/baseUrl'
+  // import { resultPost } from '../../service/getData'
+  // import { takePictures } from '../../config/baseUrl'
   import automateTip from '../../components/automateTip'
   export default {
     name: 'takePicturesInform',
@@ -73,11 +73,11 @@
         informName: '',          // 举报人
         informIdNumber: '',      // 身份证号
         informTel: '',           // 电话号码
-        showAutomateTip: false,
         options: {
           autoClose: true,
-          showTime: 4000,
-          content: '请输入正确的手机号'
+          content: '',
+          showTip: false,
+          showTime: 2000
         }
       }
     },
@@ -88,18 +88,24 @@
     },
     methods: {
       btnSurePutInform: function () {
-        let informData = {
-          situationStatement: this.informIntroWhy,
-          whistleblower: this.informName,
-          identityCard: this.informIdNumber,
-          mobilephone: this.informTel
-        }
-        resultPost(takePictures, JSON.stringify(informData)).then(json => {
-          console.log(json)
-        })
+        // let informData = {
+        //   situationStatement: this.informIntroWhy,
+        //   whistleblower: this.informName,
+        //   identityCard: this.informIdNumber,
+        //   mobilephone: this.informTel
+        // }
+        // resultPost(takePictures, JSON.stringify(informData)).then(json => {
+        //   console.log(json)
+        // })
         if (!this.regTel) {
-          this.showAutomateTip = true
+          this.change()
+          this.options.content = '同志啊，请输入正确的手机号码'
+        } else {
+          this.$router.push('/takePicturesSuccess') // 成功之后
         }
+      },
+      change: function () {
+        this.options.showTip = true
       }
     }
   }

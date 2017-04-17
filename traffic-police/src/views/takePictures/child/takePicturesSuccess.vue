@@ -1,7 +1,7 @@
 <template>
   <div id="takePhotosSuccess">
     <div class="tp-success">
-      <img src="../../images/tpInformSuccess.png">
+      <img src="../../../images/tpInformSuccess.png">
       <span>
         随手拍举报成功
       </span>

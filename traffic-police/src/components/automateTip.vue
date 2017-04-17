@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="autoTips fixed" v-if="show">
+    <div class="autoTips fixed" v-if="options.showTip">
       {{ options.content }}
     </div>
     <div class="countdown"
-      v-if="show && options.autoClose">
+      v-if="options.showTip && options.autoClose">
     </div>
   </div>
 </template>
@@ -13,41 +13,20 @@
 export default {
   data () {
     return {
-      timers: [],
-      show: false
+      timers: []
     }
   },
   props: {
     options: {
-      type: Object,
-      default: () => {
-        return {}
-      }
+      type: Object
     }
   },
-  watch: {
-    options () {
-      this.timers.forEach((timer) => {
-        window.clearTimeout(timer)
-      })
-      this.timers = []
-      this.countdown()
-    }
-  },
-  methods: {
-    countdown: () => {
-      console.log(1111)
-      if (this.options.autoClose) {
-        console.log(222)
-        const t = setTimeout(() => {
-          this.close()
-        }, this.options.showTime || 3000)
-        this.timers.push(t)
-      }
-    },
-    close () {
-      this.show = false
-      this.options = {}
+  created () {
+    if (this.options.autoClose) {
+      const t = setTimeout(() => {
+        this.options.showTip = false
+      }, this.options.showTime || 1500)
+      this.timers.push(t)
     }
   }
 }

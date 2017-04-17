@@ -4,7 +4,7 @@
       <div class="answer-head-regit" >
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/mistake.png"></dt>
-          <dd>已做{{answertData.answererror}}题</dd>
+          <dd>已错{{answertData.answererror}}题</dd>
         </dl>
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/time.png"></dt>
@@ -30,15 +30,28 @@
       </div>
     </div>
     <div class="answer-center">
-    <span class="answer-center-left" v-if="testQuestionsType == 1">判</span>
+    <span class="answer-center-left" v-if="testQuestionsType == '判断题'">判</span>
       <span class="answer-center-left" v-else>选</span>
       <span class="answer-center-right">{{answertData.subjectName}}</span>
     </div>
-    <img class="answer-button" v-if="testQuestionsType == 2" :src="subjectImg.img">
-    <ul class="answer-foot">
-      <li class="answer-foot-button" v-for="(item, index) in answerlistData" @click="clickAnswer(index)" 
+    <img class="answer-button" v-if="testQuestionsType == '选择题'" :src="'data:image/jpg;base64,'+answertData.subjectImg">
+    <ul class="answer-foot"  @click="clickAnswer()">
+      <!-- <li class="answer-foot-button" v-for="(item, index) in answerName" @click="clickAnswer(index)" 
       :class="[{'on':flag == index},{'off':tlag == index}]">
-        <img class="answer-foot-img" :src="testData[index].img">{{item.answerName}}
+        <img class="answer-foot-img" :src="testData[index].img">{{item}}
+      }
+      </li> -->
+      <li class="answer-foot-button" >
+        <img class="answer-foot-img" src="../../../images/A.png">{{answertData.answerA}}
+      </li>
+      <li class="answer-foot-button" >
+        <img class="answer-foot-img" src="../../../images/B.png">{{answertData.answerB}}
+      </li>
+      <li class="answer-foot-button" >
+        <img class="answer-foot-img" src="../../../images/C.png">{{answertData.answerC}}
+      </li>
+      <li class="answer-foot-button" >
+        <img class="answer-foot-img" src="../../../images/D.png">{{answertData.answerD}}
       </li>
     </ul>
     <router-link class="answer-option" v-bind:class="{ 'show' : isBtnShow}" to="grade" >下一题</router-link>
@@ -52,76 +65,81 @@ export default {
   name: 'answer',
   data () {
     return {
-      testQuestionsType: 1,
+      testQuestionsType: '',
       isBtnShow: false,
       isReveal: false,
       tlag: 5,
       flag: 5,
       answertData: {
-        answerTime: '00:01'
       },
+      subjectAnswer: '',
       testData: [{
         img: require('../../../images/A.png')
-      },
-      {
-        img: require('../../../images/B.png')
-      },
-      {
-        img: require('../../../images/C.png')
-      },
-      {
-        img: require('../../../images/D.png')
-      }],
-      answerlistData: [],
-      subjectImg: {
-        img: require('../../../images/answertu.png')
-      },
-      subjectAnswerData: '靠左停车'
+      }]
     }
   },
   methods: {
-    clickAnswer: function (clickIndex) {
+    // clickAnswer: function (clickIndex) {
+    //   this.isBtnShow = true
+    //   var answesData = {
+    //     classroomId: 2,
+    //     userId: '',
+    //     userPwd: '',
+    //     identityCard: '',
+    //     mobilephone: '',
+    //     drive: ''
+    //   }
+    //   resultPost(answers, answesData).then(json => {
+    //     // console.log(json)
+    //     this.testData[clickIndex].img = require('../../../images/fault.png')
+    //     this.tlag = clickIndex
+    //     this.answertData.forEach((obj, index) => {
+    //       console.log(obj.answertData)
+    //       if (obj.answertData === this.subjectAnswer) {
+    //         this.testData[index].img = require('../../../images/correct.png')
+    //         this.flag = index
+    //         this.answertData.answererror++
+    //       }
+    //     })
+    //   })
+    // },
+    clickAnswer: function () {
+      console.log('aaa')
       this.isBtnShow = true
-      resultPost(answers, 'hello').then(json => {
-        this.testData[clickIndex].img = require('../../../images/fault.png')
-        this.tlag = clickIndex
-        this.answerlistData.forEach((obj, index) => {
-          if (obj.answerName === this.subjectAnswerData) {
-            this.testData[index].img = require('../../../images/correct.png')
-            this.flag = index
-          }
-        })
+      var answesData = {
+        classroomId: 2,
+        userId: '',
+        userPwd: '',
+        identityCard: '',
+        mobilephone: '',
+        drive: ''
+      }
+      resultPost(answers, answesData).then(json => {
+        this.testData.img = require('../../../images/fault.png')
       })
     },
     popClick: function () {
       // console.log(this.answertData)
       let anData = this.answertData
-      console.log(anData.answerTime)
-      if (anData.answerTime === '00:00') {
-        console.log('11')
+      if (anData.answerTime === 30) {
+        // console.log('11')
         this.isReveal = true
-        // this.isReveal = !this.isReveal
-        console.log(this.isReveal)
       }
     }
   },
-  mounted () {
+  created () {
     var answeData = {
-      classroomId: this.classroomId,
+      classroomId: 2,
       userId: '',
       userPwd: '',
       identityCard: '',
       mobilephone: '',
-      drive: this.drive
+      drive: ''
     }
-    // console.log(JSON.stringify(answeData))
-    resultPost(answer, JSON.stringify(answeData)).then(json => {
+    resultPost(answer, answeData).then(json => {
+      this.answertData = json.data[0]
       console.log(json)
-      // console.log(JSON.stringify(answeData))
-      // this.answertData = json.data[0]
-      this.answerlistData = json.data[0].answeroptions
       this.testQuestionsType = json.data[0].testQuestionsType
-      this.subjectImg = json.data[0].subjectImg
     })
   }
 }
@@ -139,7 +157,7 @@ export default {
   font-size: 16px;
 }
 .answer-head-regit .answer-head-rgt {
-  width: 110px;
+  width: 120px;
   height: 116px;
   float: left;
   text-align: center;
