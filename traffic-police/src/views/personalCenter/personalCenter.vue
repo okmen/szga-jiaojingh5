@@ -9,9 +9,10 @@
   </div>
 
   <!-- 内容 -->
-  <div class="service-box">
+  <div class="container">
     <myCard v-if="cur_tab == 'card'"></myCard>
     <myCar v-if="cur_tab == 'car'"></myCar>
+    <myBusiness v-if="cur_tab == 'service'"></myBusiness>
   </div>
   <!-- 网络不给力,出错的组件 -->
   <error v-if="errorShow"></error>
@@ -32,6 +33,7 @@ export default{
     error: require('./child/error.vue'),
     mainBanner: require('./child/mianBanner.vue'),
     myCard: require('./child/myCard.vue'),
+    myBusiness: require('./child/myBusiness.vue'),
     myCar: require('./child/myCar.vue')
   }
 }
@@ -58,10 +60,10 @@ export default{
          }
       }
     }
-    .service-box {
+    .container {
       position: relative;
       top:400px;
-      padding: 0 50px;
+      /*padding: 0 50px;*/
     }
   }
 </style>

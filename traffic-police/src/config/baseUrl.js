@@ -44,4 +44,3 @@ export const login = `http://192.168.1.161:8080/web/user/login.html` // 登录�
 export const bindCar = `http://192.168.1.161:8080/web/user/search/getBndTheVehicles.html` // 个人中心-绑定车辆接口(暂使用后端本地地址)
 
 export const bindCard = `http://192.168.1.161:8080/web/user/search/getMyDriverLicense.html` // 个人中心-驾驶证接口(暂使用后端本地地址)
-

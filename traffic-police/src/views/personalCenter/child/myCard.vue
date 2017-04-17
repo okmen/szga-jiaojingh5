@@ -29,6 +29,7 @@
 </template>
 <style lang="less">
   .myCard-outer {
+    padding:0 50px;
     .card-box {
       font-size: 0.9rem;
       padding: 20px 40px;
