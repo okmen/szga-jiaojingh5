@@ -165,7 +165,7 @@ const routes = [
     meta: {
       title: '随手拍举报温馨提示'
     },
-    component: require('../views/takePictures/takePicturesTips.vue')
+    component: require('../views/takePictures/child/takePicturesTips.vue')
   },
   {
     name: 'takePicturesSuccess',
@@ -173,15 +173,15 @@ const routes = [
     meta: {
       title: '随手拍举报成功'
     },
-    component: require('../views/takePictures/takePicturesSuccess.vue')
+    component: require('../views/takePictures/child/takePicturesSuccess.vue')
   },
   {
     name: 'takePicturesInform',
     path: '/takePicturesInform',
+    component: require('../views/takePictures/takePicturesInform.vue'),
     meta: {
       title: '随手拍举报'
-    },
-    component: require('../views/takePictures/takePicturesInform.vue')
+    }
   }
 ]
 /* eslint-disable no-new */
