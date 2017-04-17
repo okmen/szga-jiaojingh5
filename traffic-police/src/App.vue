@@ -3,7 +3,7 @@
   <div id="banner">
     <div class="not-login">
       <div class="logo"></div>
-      <p>请<a class="enter"> 登录 </a>/<router-link to="/starUser" class="enroll"> 注册 </router-link>星级用户</p>
+      <p>请<router-link to="/login" class="enter">  登录 </router-link>/<router-link to="/starUser" class="enroll"> 注册 </router-link>星级用户</p>
     </div>
     <!-- <div class="success-login">
       <div class="success-login-top">
