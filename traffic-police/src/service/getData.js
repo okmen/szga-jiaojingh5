@@ -24,8 +24,8 @@ export const resultPost = (url, bodyData) => fetch(url, {
     	return res.json()
     })
 
-export const resultGet = (url, bodyData) => fetch(url, dataFun(bodyData)).then((res) => {
-      return res.json()
-    })
+export const resultGet = (url) => fetch(url).then((res) => {
+  return res.json()
+})
 
 /* eslint-enable */
