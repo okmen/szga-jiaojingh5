@@ -100,6 +100,7 @@
         if (!this.regTel) {
           this.showAutomateTip = true
         }
+        this.$router.push('/takePicturesSuccess') // 成功之后
       }
     }
   }
