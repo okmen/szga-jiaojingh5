@@ -73,11 +73,13 @@
       </ul>
       <button class="btn" type="button" name="button" @click.stop="submit()">提交</button>
     </div>
+    <alert-tips :tipsText="msg" @closeTips="closeTips()" v-if="tipsShow"></alert-tips>
   </div>
 </template>
 <script>
 import { resultPost } from '../../../service/getData'
 import { order } from '../../../config/baseUrl'
+import alertTips from '../../../components/alertTips'
 export default {
   name: 'order',
   data () {
@@ -172,7 +174,9 @@ export default {
         }
       ],
       orderSelectShow: false,
-      description: ''
+      description: '',
+      msg: '',
+      tipsShow: false
     }
   },
   methods: {
@@ -208,8 +212,17 @@ export default {
       console.log(reqData)
       this.$emit('submit')
       resultPost(order, reqData).then(json => {
+        this.tipsShow = true
+        if (json.code !== '0000') {
+          this.msg = json.msg
+        } else {
+          this.msg = '感谢您参与举报，我们会依次不断改进'
+        }
         console.log(json)
       })
+    },
+    closeTips: function () {
+      this.tipsShow = false
     }
   },
   created () {
@@ -217,6 +230,9 @@ export default {
       this.orderSelectShow = false
     })
     this.reportingMatters = 1004
+  },
+  components: {
+    alertTips
   }
 }
 </script>

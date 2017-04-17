@@ -125,11 +125,13 @@
       </ul>
       <button class="btn" type="button" name="button" @click.stop="submit()">提交</button>
     </div>
+    <alert-tips :tipsText="msg" @closeTips="closeTips()" v-if="tipsShow"></alert-tips>
   </div>
 </template>
 <script>
 import { resultPost } from '../../../service/getData'
 import { jam } from '../../../config/baseUrl'
+import alertTips from '../../../components/alertTips'
 export default {
   name: 'jam',
   data () {
@@ -273,7 +275,9 @@ export default {
         'str': '车流过饱和'
       },
       congestionReasonShow: false,
-      improveAdvice: ''
+      improveAdvice: '',
+      msg: '',
+      tipsShow: false
     }
   },
   methods: {
@@ -339,10 +343,17 @@ export default {
         address: '广东省深圳市福田区体育中心' // 主题地点描述
       }
       this.$emit('submit')
-      console.log(JSON.stringify(reqData))
       resultPost(jam, reqData).then(json => {
-        console.log(json)
+        this.tipsShow = true
+        if (json.code !== '0000') {
+          this.msg = json.msg
+        } else {
+          this.msg = '感谢您参与举报，我们会依次不断改进'
+        }
       })
+    },
+    closeTips: function () {
+      this.tipsShow = false
     }
   },
   created () {
@@ -354,6 +365,9 @@ export default {
       this.congestionReasonShow = false
     })
     this.reportingMatters = 1003
+  },
+  components: {
+    alertTips
   }
 }
 </script>

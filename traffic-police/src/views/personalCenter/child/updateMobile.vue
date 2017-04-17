@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { updateMobile } from '../../../config/baseUrl'
+import { updateMobile, sendSMS } from '../../../config/baseUrl'
 import { resultPost } from '../../../service/getData'
 export default{
   name: 'updateMobile',
@@ -44,9 +44,18 @@ export default{
   methods: {
     /* 发送验证码 */
     sendValidateCode: function () {
+      let reqData = {
+        mobilephone: this.oldMobile
+      }
+      let phone = Number(this.oldMobile)
+      console.log(typeof phone)
+      // if (/^1[34578]\d{9}$/.test(phone)) {
       let time = 30
       this.btnValidateCode = `已发送（${time}）`
       this.isdisabled = true
+      resultPost(sendSMS, reqData).then(json => {
+        console.log(json)
+      })
       function countDown (that) {
         setTimeout(() => {
           if (time === 0) {
@@ -60,6 +69,7 @@ export default{
         }, 1000)
       }
       countDown(this)
+      // }
     },
     /* 提交数据 */
     submit: function () {
