@@ -360,6 +360,7 @@ export default {
 
 <style lang='less'>
   .jam-outer{
+    font-size: 26px;
     .width-90{
       width: 90%;
     }

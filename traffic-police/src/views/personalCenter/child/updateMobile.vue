@@ -4,7 +4,7 @@
     <li class="updateMobile-item">
       <div class="updateMobile-name">旧手机号</div>
       <div class="updateMobile-text">
-        <input class="text-input" type="text" placeholder="请输入您的旧手机号" v-model:value="oldMobile" readonly>
+        <input class="text-input" type="text" placeholder="请输入您的旧手机号" v-model:value="oldMobile">
       </div>
     </li>
     <li class="updateMobile-item clear">
@@ -13,7 +13,7 @@
         <input class="text-input" type="text" placeholder="请输入验证码" v-model:value="validateCode">
       </div>
       <div class="btn-yellow right">
-        <button type="button" name="button" :disabled="isdisabled" @click.stop="sendValidateCode()">{{btnValidateCode}}</button>
+        <button type="button" name="button" :disabled="isdisabled" @click.stop="sendValidateCode()" :class="{disabled: isdisabled}">{{btnValidateCode}}</button>
       </div>
     </li>
     <li class="updateMobile-item">
@@ -42,9 +42,26 @@ export default{
     }
   },
   methods: {
+    /* 发送验证码 */
     sendValidateCode: function () {
-      // let time = 30
+      let time = 30
+      this.btnValidateCode = `已发送（${time}）`
+      this.isdisabled = true
+      function countDown (that) {
+        setTimeout(() => {
+          if (time === 0) {
+            that.isdisabled = false
+            that.btnValidateCode = '发送验证码'
+          } else {
+            time--
+            that.btnValidateCode = `已发送（${time}）`
+            countDown(that)
+          }
+        }, 1000)
+      }
+      countDown(this)
     },
+    /* 提交数据 */
     submit: function () {
       console.log('提交数据并返回我的资料页面')
       let reqData = {
@@ -63,13 +80,14 @@ export default{
 <style lang="less">
 .updateMobile-outer{
   background: #fff;
+  font-size: 28px;
+  color: #000;
   .updateMobile-list{
     overflow: hidden;
     .updateMobile-item{
       margin-top: 34px;
       padding-left: 130px;
       line-height: 56px;
-      font-size: 28px;
       position: relative;
       .updateMobile-name{
         position: absolute;
@@ -84,11 +102,14 @@ export default{
         button{
           width: 100%;
           height: 100%;
-          border-radius: 6px;
+          border-radius: 0.3125rem;
           background: #f8c53d;
           color: #fff;
+          font-size: 26px;
           outline: none;
           &.disabled{
+            background: #ccc;
+            color: #fff;
           }
         }
       }
