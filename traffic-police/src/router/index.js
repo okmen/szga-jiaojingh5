@@ -125,7 +125,30 @@ const routes = [
     meta: {
       title: '深圳交警'
     },
-    component: require('../views/peopleWillCloud/peopleWillCloud.vue')
+    component: require('../views/peopleWillCloud/peopleWillCloud.vue'),
+    redirect: '/peopleWillCloud/facility',
+    children: [
+      {
+        name: 'facility',
+        path: '/peopleWillCloud/facility',
+        component: require('../views/peopleWillCloud/child/facility.vue')
+      },
+      {
+        name: 'secure',
+        path: '/peopleWillCloud/secure',
+        component: require('../views/peopleWillCloud/child/secure.vue')
+      },
+      {
+        name: 'jam',
+        path: '/peopleWillCloud/jam',
+        component: require('../views/peopleWillCloud/child/jam.vue')
+      },
+      {
+        name: 'order',
+        path: '/peopleWillCloud/order',
+        component: require('../views/peopleWillCloud/child/order.vue')
+      }
+    ]
   },
   {
     name: 'handyService',

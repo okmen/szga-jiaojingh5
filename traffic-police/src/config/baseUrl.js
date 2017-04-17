@@ -32,3 +32,5 @@ export const queryEarlyLawless = `${commonUrl}illegalHanding/toQuerySubscribe.ht
 export const LawlessBusiness = `${commonUrl}illegalHanding/illegalBusinessListQuery.html` // 违法业务列表
 
 export const updatePwd = `${commonUrl}user/updatePwd.html` // 修改密码接口
+
+export const login = `${commonUrl}user/login.html` // 登录接口

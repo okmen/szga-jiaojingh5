@@ -4,6 +4,7 @@ import Vue from 'vue'
 import router from './router'
 import './config/detect-browser'
 import './config/rem'
+import './config/wx-port'
 import { TimeSelect } from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 
