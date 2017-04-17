@@ -16,15 +16,15 @@
         </dl>
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/exit.png"></dt>
-          <dd>退出</dd>
+          <dd :click="popClick()">退出</dd>
         </dl>
-        <div class="pop-up">
-          <ul class="pop-up-center">
+        <div class="pop-up" v-bind:class="{ 'reveal' : isReveal}">
+          <ul class="pop-up-center" >
             <li class="up-cengter-hint">限时时间到！</li>
             <li class="up-cengter-hint">请退出做题或者从新做题</li>
             <li class="up-cengter-hint">本次学习将不做记分</li>
             <li class="up-cengter-hint">重新学习</li>
-            <li class="up-cengter-hint">退出学习</li>
+            <li class="up-cengter-hint"><router-link to="wschool" class="quit">退出学习</router-link></li>
           </ul>
         </div>
       </div>
@@ -54,9 +54,11 @@ export default {
     return {
       testQuestionsType: 1,
       isBtnShow: false,
+      isReveal: false,
       tlag: 5,
       flag: 5,
       answertData: {
+        answerTime: '00:01'
       },
       testData: [{
         img: require('../../../images/A.png')
@@ -90,14 +92,33 @@ export default {
           }
         })
       })
+    },
+    popClick: function () {
+      // console.log(this.answertData)
+      let anData = this.answertData
+      console.log(anData.answerTime)
+      if (anData.answerTime === '00:00') {
+        console.log('11')
+        this.isReveal = true
+        // this.isReveal = !this.isReveal
+        console.log(this.isReveal)
+      }
     }
   },
   mounted () {
-    var answe = {
-      userId: 'adasdasd'
+    var answeData = {
+      classroomId: this.classroomId,
+      userId: '',
+      userPwd: '',
+      identityCard: '',
+      mobilephone: '',
+      drive: this.drive
     }
-    resultPost(answer, answe).then(json => {
-      this.answertData = json.data[0]
+    // console.log(JSON.stringify(answeData))
+    resultPost(answer, JSON.stringify(answeData)).then(json => {
+      console.log(json)
+      // console.log(JSON.stringify(answeData))
+      // this.answertData = json.data[0]
       this.answerlistData = json.data[0].answeroptions
       this.testQuestionsType = json.data[0].testQuestionsType
       this.subjectImg = json.data[0].subjectImg
@@ -186,6 +207,7 @@ export default {
   display: block;
 }
 .pop-up {
+  display: none;
   position: fixed;
   left: 50%;
   top: 50%;
@@ -195,7 +217,6 @@ export default {
   margin-left: -274px;
   background: #fff;
   border-radius: 10px;
-  display: none;
 }
 .pop-up-center .up-cengter-hint{
   width:416px;
@@ -214,7 +235,6 @@ export default {
   border-radius: 10px;
   margin-top: 30px;
 }
-
 .pop-up-center :nth-of-type(5){
   font-size: 30px;
   line-height: 70px;
@@ -222,7 +242,16 @@ export default {
   color: #2696dd;
   border-radius: 10px;
 }
+.pop-up.reveal{
+  display: block
+}
+.pop-up-center .quit{
+  display: block;
+  color: #2696dd;
+  width: 100%;
+  height: 100%;
+  font-weight:normal;
+}
 .off{ color: #f53f31; }
 .on{ color: #09bb07; }
-
 </style>
