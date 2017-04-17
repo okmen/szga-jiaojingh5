@@ -60,13 +60,14 @@ export default{
 <style lang="less">
 .updatePwd-outer{
   background: #fff;
+  font-size: 28px;
+  color: #000;
   .updatePwd-list{
     overflow: hidden;
     .updatePwd-item{
       margin-top: 34px;
       padding-left: 130px;
       line-height: 56px;
-      font-size: 28px;
       position: relative;
       .updatePwd-name{
         position: absolute;

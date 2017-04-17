@@ -47,7 +47,7 @@ export default {
       height:160px;
       color:#333;
       font-size:26px;
-      line-height:160px;
+      line-height:30px;
       text-align:center;
     }
     .tips-confirm{

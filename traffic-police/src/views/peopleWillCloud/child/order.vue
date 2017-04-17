@@ -223,6 +223,7 @@ export default {
 
 <style lang='less'>
   .order-outer{
+    font-size: 26px;
     .width-90{
       width: 90%;
     }
