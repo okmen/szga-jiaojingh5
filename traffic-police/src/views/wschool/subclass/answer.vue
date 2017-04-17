@@ -4,7 +4,7 @@
       <div class="answer-head-regit" >
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/mistake.png"></dt>
-          <dd>已做{{answertData.answererror}}题</dd>
+          <dd>已错{{answertData.answererror}}题</dd>
         </dl>
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/time.png"></dt>
@@ -58,7 +58,7 @@ export default {
       tlag: 5,
       flag: 5,
       answertData: {
-        answerTime: '00:01'
+        answerTime: 0
       },
       testData: [{
         img: require('../../../images/A.png')
@@ -83,12 +83,15 @@ export default {
     clickAnswer: function (clickIndex) {
       this.isBtnShow = true
       resultPost(answers, 'hello').then(json => {
+        console.log(json)
         this.testData[clickIndex].img = require('../../../images/fault.png')
+        // this.answertData.answererror++
         this.tlag = clickIndex
         this.answerlistData.forEach((obj, index) => {
           if (obj.answerName === this.subjectAnswerData) {
             this.testData[index].img = require('../../../images/correct.png')
             this.flag = index
+            this.answertData.answererror++
           }
         })
       })
@@ -96,12 +99,9 @@ export default {
     popClick: function () {
       // console.log(this.answertData)
       let anData = this.answertData
-      console.log(anData.answerTime)
-      if (anData.answerTime === '00:00') {
-        console.log('11')
+      if (anData.answerTime === 30) {
+        // console.log('11')
         this.isReveal = true
-        // this.isReveal = !this.isReveal
-        console.log(this.isReveal)
       }
     }
   },
@@ -118,7 +118,7 @@ export default {
     resultPost(answer, JSON.stringify(answeData)).then(json => {
       console.log(json)
       // console.log(JSON.stringify(answeData))
-      // this.answertData = json.data[0]
+      this.answertData = json.data[0]
       this.answerlistData = json.data[0].answeroptions
       this.testQuestionsType = json.data[0].testQuestionsType
       this.subjectImg = json.data[0].subjectImg
@@ -139,7 +139,7 @@ export default {
   font-size: 16px;
 }
 .answer-head-regit .answer-head-rgt {
-  width: 110px;
+  width: 120px;
   height: 116px;
   float: left;
   text-align: center;

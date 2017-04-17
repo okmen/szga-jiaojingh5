@@ -38,3 +38,5 @@ export const updateMobile = `${commonUrl}user/updateMobile.html` // 修改手机
 export const addVehicle = `${commonUrl}user/addVehicle.html` // 添加车辆接口
 
 export const updateUser = `${commonUrl}user/updateUser.html` // 修改个人资料接口
+
+export const login = `${commonUrl}user/login.html` // 登录接口
