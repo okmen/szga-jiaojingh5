@@ -15,8 +15,8 @@
     <div class="tp-photo-box">
       <div class="tp-photo-left">上传照片</div>
       <div class="tp-photo-right">
-        <div class="tp-photo-1">
-          <img src="http://p2.so.qhimgs1.com/t01b9d992158bb0d722.jpg">
+        <div id="imgBoxOne" class="tp-photo-1">
+          <img id="imgOne" src="">
         </div>
         <div class="tp-photo-1">
           <img src="http://www.qqbody.com/uploads/allimg/201308/19-201359_879.jpg">
@@ -59,8 +59,9 @@
   </div>
 </template>
 <script>
-  // import { resultPost } from '../../service/getData'
-  // import { takePictures } from '../../config/baseUrl'
+  import { resultGet } from '../../service/getData'
+  import { uploadImg } from '../../config/baseUrl'
+  import uploadImgFun from '../../service/uploadImg'
   import automateTip from '../../components/automateTip'
   export default {
     name: 'takePicturesInform',
@@ -83,6 +84,10 @@
         }
       }
     },
+    mounted: function () {  // 组件加载完成之后立即获取token
+      this.getToken()
+      this.informIdNumber = window.localStorage.identityCard
+    },
     computed: {
       regTel: function () {
         return /^1\d{10}$/g.test(this.informTel)
@@ -93,7 +98,7 @@
         let getInformTime = this.currentTime()
         this.informTime = getInformTime
       },
-      btnSurePutInform: function () {
+      btnSurePutInform: function () {  // 提交按钮
         // let informData = {
         //   situationStatement: this.informIntroWhy,
         //   whistleblower: this.informName,
@@ -113,7 +118,25 @@
       change: function () {
         this.options.showTip = true
       },
-      currentTime: function () {
+      getToken: function () {          // 获取token
+        resultGet(uploadImg).then(res => {
+          res.code === '0000' && this.uploadImg(res.upToken)
+        })
+      },
+      uploadImg: function (uptoken) {  // 上传照片
+        uploadImgFun({
+          selfId: 'imgOne',
+          parentId: 'imgBoxOne',
+          upToken: uptoken,
+          fileUploaded: function (res) {
+            console.log(res)
+          },
+          error: function (err) {
+            console.log(err)
+          }
+        })
+      },
+      currentTime: function () {  // 获取时间
         let now = new Date()
         let year = now.getFullYear()       // 年
         let month = now.getMonth() + 1     // 月
