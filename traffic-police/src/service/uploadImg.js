@@ -43,9 +43,9 @@ export default function uploadImgFun({selfId,parentId,upToken,fileUploaded,error
             let exifOjb = Qiniu.exif(res.key);//图片exif信息
           	let obj = {};
           	obj.imgUrl = url;
-          	obj.dateTime = exifOjb.DateTime ? exifOjb.DateTime.val : '';
-          	obj.GPSLongitude = exifOjb.GPSLongitude ? exifOjb.GPSLongitude.val : '';
-          	obj.GPSLatitude = exifOjb.GPSLatitude ? exifOjb.GPSLatitude.val : '';
+          	obj.dateTime = exifOjb && exifOjb.DateTime ? exifOjb.DateTime.val : '';
+          	obj.GPSLongitude = exifOjb && exifOjb.GPSLongitude ? exifOjb.GPSLongitude.val : '';
+          	obj.GPSLatitude = exifOjb && exifOjb.GPSLatitude ? exifOjb.GPSLatitude.val : '';
           	fileUploaded && fileUploaded(obj);
           },
           'Error': function(up, err, errTip) {
