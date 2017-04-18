@@ -159,7 +159,7 @@ export default{
         subTypeId: this.subTypeSelectData.id, // 子类型选择Id
         subType: this.subTypeSelectData.str, // 子类型选择
         description: this.description, // 现场描述
-        sceneImg: this.sceneImg // 现场图片
+        sceneImg: this.sceneImg || 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSdWgUYimT51r4FGMGtDoQGZ6S32U9TraS8BWgJ-JgHSDi2GhsUtQ' // 现场图片
       }
       console.log(reqData)
       for (let key in reqData) {
@@ -188,6 +188,7 @@ export default{
     this.subTypeSelectData = this.typeData[this.typeIndex].subTypeData[this.subTypeIndex] // 选择子类型
     this.subTypeData = this.typeSelectData.subTypeData
     this.userName = window.localStorage.getItem('userName') // 用户姓名
+    this.mobilephone = window.localStorage.getItem('mobilePhone') // 用户手机号码
     this.identityCard = window.localStorage.getItem('identityCard') // 用户身份证号码
   }
 }

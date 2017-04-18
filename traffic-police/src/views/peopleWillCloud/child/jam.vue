@@ -324,9 +324,8 @@ export default {
       let reqData = {
         reportingMatters: this.reportingMatters, // 举报事项
         identityCard: this.identityCard, // 身份证号
-        // mobilephone: this.mobilephone, // 用户手机 暂无
-        mobilephone: '13000000000', // 用户手机 暂无
-        ip: '', // ip地址
+        mobilephone: this.mobilephone, // 用户手机
+        ip: '103.253.2.152', // ip地址
         startTime: this.startTime, // 开始时间
         endTime: this.endTime, // 结束时间
         direction: this.direction, // 方向
@@ -372,6 +371,7 @@ export default {
     })
     this.reportingMatters = 1003
     this.userName = window.localStorage.getItem('userName') // 用户姓名
+    this.mobilephone = window.localStorage.getItem('mobilePhone') // 用户手机号码
     this.identityCard = window.localStorage.getItem('identityCard') // 用户身份证号码
   },
   components: {

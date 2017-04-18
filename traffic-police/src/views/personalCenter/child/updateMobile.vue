@@ -36,7 +36,7 @@ export default{
   name: 'updateMobile',
   data () {
     return {
-      oldMobile: '13312341234',
+      oldMobile: '',
       validateCode: '',
       newMobile: '',
       btnValidateCode: '发送验证码',
@@ -98,6 +98,9 @@ export default{
       this.tipsShow = false
       this.msg = ''
     }
+  },
+  created () {
+    this.oldMobile = window.localStorage.getItem('mobilePhone')
   }
 }
 </script>

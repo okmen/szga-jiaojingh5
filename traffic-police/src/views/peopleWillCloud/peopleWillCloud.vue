@@ -18,7 +18,7 @@
       <secure v-else-if="curTab === 'secure'" @submit="submit()"></secure>
       <jam v-else-if="curTab === 'jam'" @submit="submit()"></jam>
       <order v-else @submit="submit()"></order> -->
-      <router-view @submit="hint()"></router-view>
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -65,9 +65,6 @@
       },
       select: function () {
         this.typeSelectShow = false
-      },
-      hint: function () {
-        console.log('提交数据，弹出提示')
       }
     },
     created () {

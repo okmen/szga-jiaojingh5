@@ -52,9 +52,9 @@ export default{
   name: 'userInfo',
   data () {
     return {
-      avatar: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSdWgUYimT51r4FGMGtDoQGZ6S32U9TraS8BWgJ-JgHSDi2GhsUtQ',
-      userName: '刘小明',
-      mobile: '13600138000',
+      avatar: '',
+      userName: '',
+      mobile: '',
       hintShow: false
     }
   },
@@ -67,21 +67,32 @@ export default{
     },
     submit: function () {
       let reqData = {
-        // identityCard: this.identityCard,
-        // openId: this.openId,
+        identityCard: this.identityCard,
+        openId: this.openId,
         // unionId: this.unionId
-        identityCard: '1156646515564651',
-        openId: 'a56sc32a1cs',
-        unionId: 'ascasc65655'
+        unionId: ''
       }
-      console.log('退出登录状态，返回星级用户页面')
       resultPost(deleteVehicle, reqData).then(json => {
-        console.log(json)
+        if (json.code === '0000') {
+          console.log('退出登录状态，返回星级用户页面')
+          // 退出登录
+          window.location.hash = '/starUser'
+        } else {
+          this.msg = json.msg
+          this.hintShow = true
+        }
       })
     },
     cancle: function () {
       this.hintShow = false
     }
+  },
+  created () {
+    this.identityCard = window.localStorage.getItem('identityCard') // 身份证
+    this.openId = window.localStorage.getItem('openId') // 微信openId
+    this.userName = window.localStorage.getItem('userName') // 用户名
+    this.mobile = window.localStorage.getItem('mobilePhone') // 用户手机号码
+    this.avatar = window.localStorage.getItem('headImgUrl') === 'null' ? 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSdWgUYimT51r4FGMGtDoQGZ6S32U9TraS8BWgJ-JgHSDi2GhsUtQ' : window.localStorage.getItem('headImgUrl') // 用户头像
   }
 }
 </script>
