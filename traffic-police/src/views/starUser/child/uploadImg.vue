@@ -1,22 +1,19 @@
 <template>
-  <div>
-  <div class="starUser-upload">
-    <p>请上传以下照片</p>
-    <div class="starUser-upload-inner">
-      <div class="starUser-upload-left starUser-upload-box">
-        <em></em>
-        <span>身份证(正面)</span>
-      </div>
-      <div class="starUser-upload-center starUser-upload-box">
-        <em></em>
-        <span>身份证(反面)</span>
-      </div>
-      <div class="starUser-upload-right starUser-upload-box">
-        <em></em>
-        <span>手持身份证</span>
-      </div>
+<div class="starUser-upload">
+  <p>请上传以下照片</p>
+  <div class="starUser-upload-inner">
+    <div class="starUser-upload-left starUser-upload-box">
+      <em></em>
+      <span>身份证(正面)</span>
     </div>
-    <button class="btn" type="button" name="button">确认提交</button>
+    <div class="starUser-upload-center starUser-upload-box">
+      <em></em>
+      <span>身份证(反面)</span>
+    </div>
+    <div class="starUser-upload-right starUser-upload-box">
+      <em></em>
+      <span>手持身份证</span>
+    </div>
   </div>
 </div>
 </template>

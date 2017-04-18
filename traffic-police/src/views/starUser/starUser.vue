@@ -13,11 +13,20 @@
         </div>
       </div>
     </div>
+    <div class="starUser-from pad-side-50">
+      <router-view></router-view>
+    </div>
+    <uploadImg></uploadImg>
+    <button class="btn" type="button" name="button">确认提交</button>
   </div>
 </template>
 <script>
+import uploadImg from 'child/uploadImg.vue'
 export default {
   name: 'starUser',
+  component: {
+    uploadImg
+  },
   data () {
     return {
       curTab: 'carOwner',
@@ -81,7 +90,6 @@ export default {
 }
 </script>
 <style lang="less" >
-
 .starUser-outer {
   font-size: 26px;
   color: #000;
@@ -104,6 +112,10 @@ export default {
       color: #666;
       line-height: 68px;
     }
+  }
+  .starUser-from{
+    background:#FFF;
+    margin-top:10px;
   }
 }
 </style>
