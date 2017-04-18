@@ -77,10 +77,11 @@
           <textarea class="text-input textarea" name="localeDescript" id="localeDescript" placeholder="简要对现场进行描述" v-model:value="description"></textarea>
         </div>
       </li>
-      <div class="common-upload">
+      <div id="container" class="common-upload">
         <p>请上传现场照片</p>
-        <div class="common-upload-inner" @click.stop="uploadImg()">
-          <em></em>
+        <div id="upload" class="common-upload-inner">
+          <img class="img" :src="img" v-if="img">
+          <em v-else="img"></em>
         </div>
       </div>
     </ul>
@@ -91,6 +92,9 @@
 </template>
 <script>
 import alertTips from '../../../components/alertTips'
+import uploadImgFun from '../../../service/uploadImg'
+// import { resultGet } from '../../../service/getData'
+// import { uploadImg } from '../../../config/baseUrl'
 
 export default{
   name: 'common',
@@ -109,10 +113,35 @@ export default{
       description: '',
       sceneImg: '',
       tipsShow: false,
-      msg: ''
+      msg: '',
+      img: ''
     }
   },
   methods: {
+    getToken: function () {
+      // resultGet(uploadImg).then(res => {
+      //   res.code === '0000' && this.uploadImgFn(res.upToken)
+      // })
+      this.uploadImgFn()
+    },
+    uploadImgFn: function (uptoken) {
+      console.log(this)
+      var that = this
+      uploadImgFun({
+        selfId: 'upload',
+        parentId: 'container',
+        upToken: 'OayadC4VrxKhmgOGECo6qkCnkxsbTdMum1GGxwc9:RHWscJTU4TSwlq7sT5BFK3yQxrA=:eyJzY29wZSI6ImNka2otamoiLCJkZWFkbGluZSI6MTQ5MjU0MTM0Mn0=',
+        fileUploaded: function (res) {
+          that.img = res.imgUrl
+          that.sceneImg = res.imgUrl
+          console.log(that)
+          console.log(res)
+        },
+        error: function (err) {
+          console.log(err)
+        }
+      })
+    },
     getLocation: function () {
       console.log('获取位置')
     },
@@ -138,8 +167,6 @@ export default{
       this.subTypeSelectShow = !this.subTypeSelectShow
       this.$emit('select')
     },
-    uploadImg: function () {
-    },
     submit: function () {
       let reqData = {
         userName: this.userName, // 用户姓名 获取微信用户信息
@@ -159,7 +186,7 @@ export default{
         subTypeId: this.subTypeSelectData.id, // 子类型选择Id
         subType: this.subTypeSelectData.str, // 子类型选择
         description: this.description, // 现场描述
-        sceneImg: this.sceneImg || 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSdWgUYimT51r4FGMGtDoQGZ6S32U9TraS8BWgJ-JgHSDi2GhsUtQ' // 现场图片
+        sceneImg: this.sceneImg // 现场图片
       }
       console.log(reqData)
       for (let key in reqData) {
@@ -190,6 +217,9 @@ export default{
     this.userName = window.localStorage.getItem('userName') // 用户姓名
     this.mobilephone = window.localStorage.getItem('mobilePhone') // 用户手机号码
     this.identityCard = window.localStorage.getItem('identityCard') // 用户身份证号码
+  },
+  mounted () {
+    this.getToken()
   }
 }
 </script>
@@ -269,6 +299,10 @@ export default{
         margin-top: 40px;
         background-image: url('../../../images/upload.png');
         background-size: cover;
+      }
+      img{
+        width: 100%;
+        object-fit: cover;
       }
     }
   }
