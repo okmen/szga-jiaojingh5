@@ -45,7 +45,7 @@ export default {
           window.localStorage.setItem('userName', decodeURIComponent(userData.trueName)) // 用户名字
           window.location.href = '/'
         } else {
-          window.localStorage.setItem('identityCard', '440301199002101119') // 身份证照
+          window.localStorage.setItem('identityCard', '440301199002101119') // 身份证
           window.localStorage.setItem('mobilePhone', '18603017278') // 手机号码
           window.localStorage.setItem('myNumberPlate', '粤B701NR') // 车牌号码
           window.localStorage.setItem('userName', '杨明畅') // 用户名字

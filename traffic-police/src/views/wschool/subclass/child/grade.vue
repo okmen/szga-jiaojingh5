@@ -41,15 +41,17 @@ export default {
       }
     }
   },
-  mounted () {
+  created () {
     let grdData = {
+      classroomId: 4,
       userId: '',
       userPwd: '',
       identityCard: this.identityCard,
       drive: this.drive,
       Mobilephone: this.Mobilephone
     }
-    resultPost(grade, JSON.stringify(grdData)).then(json => {
+    resultPost(grade, grdData).then(json => {
+      console.log(json)
       this.gradeData = json.data[0]
       // this.answerResult = json.data[0].answerResult
       console.log(grdData)

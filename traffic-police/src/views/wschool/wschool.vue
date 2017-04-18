@@ -1,11 +1,11 @@
 <template>
   <div class="navv">
     <ul class="nav-outer">
-     <!--  <li class="nav-outer-center"><router-link to="xstudy"><p>消分学分</p></router-link></li>
-			<li class="nav-outer-center"><router-link to="mstudy"><p>满分学习</p></router-link></li>
-			<li class="nav-outer-center"><router-link to="ABstudy"><p>AB类驾驶人学习</p></router-link></li>
-			<li class="nav-outer-center"><router-link to="motorstudy"><p>电动车学习</p></router-link></li>
-			<li class="nav-outer-center"><router-link to="pedestrianstudy"><p>行人、非机动车安全学习</p><em class="nav-outer-right"></em></router-link></li> -->
+      <!--  <li class="nav-outer-center"><router-link to="xstudy"><p>消分学分</p></router-link></li>
+      <li class="nav-outer-center"><router-link to="mstudy"><p>满分学习</p></router-link></li>
+      <li class="nav-outer-center"><router-link to="ABstudy"><p>AB类驾驶人学习</p></router-link></li>
+      <li class="nav-outer-center"><router-link to="motorstudy"><p>电动车学习</p></router-link></li>
+      <li class="nav-outer-center"><router-link to="pedestrianstudy"><p>行人、非机动车安全学习</p><em class="nav-outer-right"></em></router-link></li> -->
       <li class="nav-outer-center" v-for="(list, index) in listData">
         <router-link :to="testData[index].name">
           <p>{{list.classroomName}}</p>
@@ -37,17 +37,13 @@ export default {
       }],
       testData: [{
         name: 'xstudy'
-      },
-      {
+      }, {
         name: 'mstudy'
-      },
-      {
+      }, {
         name: 'ABstudy'
-      },
-      {
+      }, {
         name: 'motorstudy'
-      },
-      {
+      }, {
         name: 'pedestrianstudy'
       }]
     }
