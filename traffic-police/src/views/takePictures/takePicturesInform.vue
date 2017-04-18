@@ -2,27 +2,27 @@
   <div id="takePhotosInform">
     <div class="tp-inform-box">
       <div class="tp-inform-left">违法时间</div>
-      <div class="tp-inform-right">
-        <input maxlength="50" type="text" >
+      <div class="tp-inform-right" @click="getTime">
+        <input maxlength="50" type="text" v-model="informTime" placeholder="点击获取当前时间">
       </div>
     </div>
     <div class="tp-inform-box">
       <div class="tp-inform-left">违法路段</div>
       <div class="tp-inform-right">
-        <input maxlength="50" type="text" placeholder="请输入违法路段" >
+        <input maxlength="50" type="text" v-model="informRoad" placeholder="请输入违法路段" >
       </div>
     </div>
     <div class="tp-photo-box">
       <div class="tp-photo-left">上传照片</div>
       <div class="tp-photo-right">
         <div class="tp-photo-1">
-          <img src="">
+          <img src="http://p2.so.qhimgs1.com/t01b9d992158bb0d722.jpg">
         </div>
         <div class="tp-photo-1">
-          <!--<img src="../../images/tpInformUpload.png">-->
+          <img src="http://www.qqbody.com/uploads/allimg/201308/19-201359_879.jpg">
         </div>
         <div class="tp-photo-1">
-          <!--<img src="../../images/tpInformUpload.png">-->
+          <img src="http://www.qqw21.com/article/UploadPic/2013-10/2013101117151566869.jpg">
         </div>
       </div>
     </div>
@@ -69,6 +69,8 @@
     },
     data () {
       return {
+        informTime: '',          // 违法时间
+        informRoad: '',          // 违法路段
         informIntroWhy: '',      // 情况说明
         informName: '',          // 举报人
         informIdNumber: '',      // 身份证号
@@ -87,6 +89,10 @@
       }
     },
     methods: {
+      getTime: function () {
+        let getInformTime = this.currentTime()
+        this.informTime = getInformTime
+      },
       btnSurePutInform: function () {
         // let informData = {
         //   situationStatement: this.informIntroWhy,
@@ -106,6 +112,32 @@
       },
       change: function () {
         this.options.showTip = true
+      },
+      currentTime: function () {
+        let now = new Date()
+        let year = now.getFullYear()       // 年
+        let month = now.getMonth() + 1     // 月
+        let day = now.getDate()            // 日
+        let hh = now.getHours()            // 时
+        let mm = now.getMinutes()          // 分
+        let clock = year + '-'
+        if (month < 10) {
+          clock += '0'
+        }
+        clock += month + '-'
+        if (day < 10) {
+          clock += '0'
+        }
+        clock += day + ' '
+        if (hh < 10) {
+          clock += ' '
+        }
+        clock += hh + ':'
+        if (mm < 10) {
+          clock += '0'
+        }
+        clock += mm
+        return (clock)
       }
     }
   }
@@ -129,7 +161,7 @@
       float:left;
       width:520px;
       height:100%;
-      background:#FFF;
+      background:#efeff4;
       border:1px solid #eaeaed;
       -webkit-border-radius:8px;
       -moz-border-radius:8px;
@@ -207,6 +239,7 @@
         padding:8px 20px 0;
         width:100%;
         height:100%;
+        background:#efeff4;
         font-size:26px;
         outline:none;
         resize:none;
