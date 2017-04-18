@@ -29,7 +29,7 @@ export default {
       }
     }
   },
-  mounted () {
+  created () {
     resultPost(grade, 'hello').then(json => {
       console.log(json)
       this.resultData = json.data[0]

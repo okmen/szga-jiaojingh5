@@ -8,15 +8,16 @@
         </dl>
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/time.png"></dt>
-          <dd>{{answertData.answerTime}}</dd>
+          <!-- <dd id="tt">{{answertData.answerTime}}</dd> -->
+          <dd id="tt">{{chronoScope}}</dd>
         </dl>
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/sand.png"></dt>
-          <dd>剩余{{answertData.surplusAnswe}}题</dd>
+          <dd>剩余{{surplusAnswe}}题</dd>
         </dl>
-        <dl class="answer-head-rgt">
+        <dl class="answer-head-rgt" :click="popClick()">
           <dt><img src="../../../images/exit.png"></dt>
-          <dd :click="popClick()">退出</dd>
+          <dd>退出</dd>
         </dl>
         <div class="pop-up" v-bind:class="{ 'reveal' : isReveal}">
           <ul class="pop-up-center" >
@@ -54,7 +55,7 @@
         <img class="answer-foot-img" src="../../../images/D.png">{{answertData.answerD}}
       </li>
     </ul>
-    <router-link class="answer-option" v-bind:class="{ 'show' : isBtnShow}" to="grade" >下一题</router-link>
+    <div id="NofItems" class="answer-option" v-bind:class="{ 'show' : isBtnShow}" @click="countClick()">下一题</div>
   </div>
 </template>
 <script>
@@ -70,6 +71,10 @@ export default {
       isReveal: false,
       tlag: 5,
       flag: 5,
+      clickNum: 1,
+      chronoScope: 0,
+      surplusAnswe: 10,
+      skip: '',
       answertData: {
       },
       subjectAnswer: '',
@@ -104,43 +109,75 @@ export default {
     //   })
     // },
     clickAnswer: function () {
-      console.log('aaa')
       this.isBtnShow = true
       var answesData = {
-        classroomId: 2,
+        classroomId: 4,
         userId: '',
         userPwd: '',
         identityCard: '',
         mobilephone: '',
-        drive: ''
+        drive: '',
+        subjectAnswer: ''
       }
       resultPost(answers, answesData).then(json => {
         this.testData.img = require('../../../images/fault.png')
       })
     },
     popClick: function () {
-      // console.log(this.answertData)
-      let anData = this.answertData
-      if (anData.answerTime === 30) {
-        // console.log('11')
+      let anData = this.chronoScope
+      if (anData === '30:00') {
         this.isReveal = true
+        // window.clearInterval(timePiece)
       }
+    },
+    countClick: function () {
+      let isclickNum = this.clickNum++
+      this.surplusAnswe--
+      this.loadingData()
+      console.log(isclickNum)
+      if (isclickNum === 10) {
+        document.getElementById('NofItems').innerHTML = '结束答题'
+      } else if (isclickNum === 11) {
+        this.$router.push('grade')
+      }
+    },
+    loadingData: function () {
+      var answeData = {
+        classroomId: 4,
+        userId: '',
+        userPwd: '',
+        identityCard: '',
+        mobilephone: '',
+        drive: ''
+      }
+      resultPost(answer, answeData).then(json => {
+        this.answertData = json.data[0]
+        console.log(json)
+        this.testQuestionsType = json.data[0].testQuestionsType
+      })
+    },
+    timePiece: function () {
+      var mm = 0
+      var ss = 0
+      var str = ''
+      setInterval(() => {
+        str = ''
+        if (++ss === 60) {
+          if (++mm === 60) {
+            mm = 0
+          }
+          ss = 0
+        }
+        str += mm < 10 ? '0' + mm : mm
+        str += ':'
+        str += ss < 10 ? '0' + ss : ss
+        this.chronoScope = str
+      }, 1000)
     }
   },
   created () {
-    var answeData = {
-      classroomId: 2,
-      userId: '',
-      userPwd: '',
-      identityCard: '',
-      mobilephone: '',
-      drive: ''
-    }
-    resultPost(answer, answeData).then(json => {
-      this.answertData = json.data[0]
-      console.log(json)
-      this.testQuestionsType = json.data[0].testQuestionsType
-    })
+    this.loadingData()
+    this.timePiece()
   }
 }
 </script>

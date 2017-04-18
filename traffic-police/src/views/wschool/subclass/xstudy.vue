@@ -6,7 +6,7 @@
       <span class="nav-top-bottom">{{listData.userName}}</span>
     </div>
     <ul class="nav-xstudy-cengter">
-      <li class="nav-xstudy-left"><span>驾驶证号</span><em class="nav-xstudy-right">{{listData.drive}}</em></li>
+      <li class="nav-xstudy-left"><span>驾驶证号</span><em class="nav-xstudy-right">{{listData.identityCard}}</em></li>
       <li class="nav-xstudy-left"><span>记分周期(始)</span><em class="nav-xstudy-right">{{listData.scoreStartDate}}</em></li>
       <li class="nav-xstudy-left"><span>记分周期(末)</span><em class="nav-xstudy-right">{{listData.scoreEndDate}}</em></li>
       <li class="nav-xstudy-left"><span>学习积分数</span><em class="nav-xstudy-right nav-col">{{listData.integral}}</em></li>
@@ -57,8 +57,16 @@ export default {
   },
   created () {
     let studyData = {
-      classroomId: 1
+      classroomId: 1,
+      userId: '',        // 用户id
+      userPwd: '',       // 用户名密码
+      classroomName: '', // 课堂列表名称
+      drive: '',         // 驾驶证号
+      identityCard: '',  // 身份证号
+      iPAddress: '',     // Ip地址来源
+      userSource: ''     // 用户来源
     }
+    console.log(studyData)
     resultPost(xstudy, studyData).then(json => {
       console.log(json)
       this.listData = json.data[0]
