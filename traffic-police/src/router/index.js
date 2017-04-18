@@ -28,30 +28,7 @@ const routes = [
     meta: {
       title: '星级用户认证'
     },
-    component: require('../views/starUser/starUser.vue'),
-    redirect: '/starUser/carOwner',
-    children: [
-      {
-        name: 'carOwner',
-        path: '/starUser/carOwner',
-        component: require('../views/starUser/child/carOwner.vue')
-      },
-      {
-        name: 'carUser',
-        path: '/starUser/carUser',
-        component: require('../views/starUser/child/carUser.vue')
-      },
-      {
-        name: 'drivingLicense',
-        path: '/starUser/drivingLicense',
-        component: require('../views/starUser/child/drivingLicense.vue')
-      },
-      {
-        name: 'passerBy',
-        path: '/starUser/passerBy',
-        component: require('../views/starUser/child/passerBy.vue')
-      }
-    ]
+    component: require('../views/starUser/starUser.vue')
   },
   {
     name: 'queryLawless',
@@ -148,30 +125,7 @@ const routes = [
     meta: {
       title: '深圳交警'
     },
-    component: require('../views/peopleWillCloud/peopleWillCloud.vue'),
-    redirect: '/peopleWillCloud/facility',
-    children: [
-      {
-        name: 'facility',
-        path: '/peopleWillCloud/facility',
-        component: require('../views/peopleWillCloud/child/facility.vue')
-      },
-      {
-        name: 'secure',
-        path: '/peopleWillCloud/secure',
-        component: require('../views/peopleWillCloud/child/secure.vue')
-      },
-      {
-        name: 'jam',
-        path: '/peopleWillCloud/jam',
-        component: require('../views/peopleWillCloud/child/jam.vue')
-      },
-      {
-        name: 'order',
-        path: '/peopleWillCloud/order',
-        component: require('../views/peopleWillCloud/child/order.vue')
-      }
-    ]
+    component: require('../views/peopleWillCloud/peopleWillCloud.vue')
   },
   {
     name: 'handyService',
@@ -224,10 +178,18 @@ const routes = [
   {
     name: 'takePicturesInform',
     path: '/takePicturesInform',
-    component: require('../views/takePictures/takePicturesInform.vue'),
     meta: {
       title: '随手拍举报'
-    }
+    },
+    component: require('../views/takePictures/takePicturesInform.vue')
+  },
+  {
+    name: 'map',
+    path: '/map',
+    meta: {
+      title: '地图'
+    },
+    component: require('../views/takePictures/map.vue')
   }
 ]
 /* eslint-disable no-new */
