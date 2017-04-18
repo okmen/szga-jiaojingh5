@@ -17,6 +17,10 @@ var openId = getQueryString('openId') || localStorage.getItem('openId');
 var headImgUrl = getQueryString('headimgurl') || localStorage.getItem('headimgurl');
 var nickname = getQueryString('nickname') || localStorage.getItem('nickname');
 localStorage.setItem('openId', decodeURIComponent('000000xxx'));
+localStorage.setItem('identityCard', '440301199002101119') // 身份证
+localStorage.setItem('mobilePhone', '18603017278') // 手机号码
+localStorage.setItem('myNumberPlate', '粤B701NR') // 车牌号码
+localStorage.setItem('userName', '杨明畅') // 用户名字
 if (openId != 'null' || openId != 'undefined') {
   localStorage.setItem('openId', decodeURIComponent('000000xxx'));
   localStorage.setItem('headImgUrl', decodeURIComponent(headImgUrl));
