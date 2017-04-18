@@ -27,8 +27,10 @@
         </router-link>
       </dl>
       <dl>
+        <router-link to="/takePicturesInform">
         <dt><img class="top3" src="./images/nav3.png" alt=""></dt>
         <dd>随手拍举报</dd>
+        </router-link>
       </dl>
       <dl>
         <dt><img class="top4" src="./images/nav4.png" alt=""></dt>

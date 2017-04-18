@@ -123,14 +123,14 @@
     name: 'myCar',
     data () {
       return {
-        identityCard: '622822198502074110',
-        numberPlateNumber: '',
+        identityCard: window.localStorage.getItem('identityCard'),
+        numberPlateNumber: window.localStorage.getItem('myNumberPlate'),
         plateType: '',
         annualReviewDate: '',
         annualReviewDateRemind: '',
         name: '',
         isMyself: '',
-        mobilephone: '15920071829',
+        mobilephone: window.localStorage.getItem('mobilePhone'),
         illegalNumber: '',
         otherPeopleUse: ''
       }

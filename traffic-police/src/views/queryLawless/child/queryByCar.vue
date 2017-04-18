@@ -62,7 +62,7 @@
       <div class="results-box">
         <div class="box-header">
           <div class="header-item left">违章信息</div>
-          <div class="header-item right order-print">{{ data.dealType }}</div>
+          <div class="header-item right order-print">{{ data.isNeedClaim }}</div>
         </div>
         <div class="box-body">
           <div class="body-left-side">
@@ -77,14 +77,14 @@
             </div>
             <div class="left-line"><span>
               <i class="local"></i></span>
-              <p>{{ data.illegalAddress }}</p>
+              <p>{{ data.illegalAddr }}</p>
             </div>
             <div class="left-line">
               <span><i class="warn"></i></span>
               <p>{{ data.illegalDesc }}</p></div>
             <div class="left-line">
               <span><i class="punish"></i></span>
-              <p>{{ data.punishAmount }}</p>
+              <p>{{ data.punishAmt }}元</p>
             </div>
           </div>
           <a class="body-right-side">
@@ -101,15 +101,10 @@
     name: 'queryByCar',
     data () {
       return {
-        cur_id: '01',
+        cur_type_id: '01',
         illegalData: [],
-        dealType: '',
-        billNo: '',
         licensePlateNo: '',
         illegalTime: '',
-        illegalAddress: '',
-        illegalDesc: '',
-        punishAmount: '',
         car_number: '',
         vehicleIdentifyNoLast4: '',
         licenseSelectShow: false,
@@ -295,7 +290,7 @@
       licenseSelectClick: function (str, id) {
         if (str) {
           this.licenseSelectMassage = str
-          this.cur_id = id
+          this.cur_type_id = id
         }
         if (this.licenseSelectShow === true) {
           this.licenseSelectShow = false
@@ -317,15 +312,17 @@
           this.typeSelectShow = false
         }
       },
-      getVerification: function () {},
+      getVerification: function () {
+      },
       queryLawlessByCar: function () {
         let reqData = {
           licensePlateNo: this.abbreviationSelectMassage + this.car_number,
-          licensePlateType: this.cur_id,
+          licensePlateType: this.cur_type_id,
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
         }
         console.log(reqData)
-        resultPost(queryLawlessByCar, JSON.stringify(reqData)).then(json => {
+        resultPost(queryLawlessByCar, reqData).then(json => {
+          console.log(json)
           this.illegalData = json.data
         })
       }

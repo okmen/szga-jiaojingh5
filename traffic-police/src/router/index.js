@@ -224,10 +224,63 @@ const routes = [
   {
     name: 'takePicturesInform',
     path: '/takePicturesInform',
-    component: require('../views/takePictures/takePicturesInform.vue'),
     meta: {
       title: '随手拍举报'
-    }
+    },
+    component: require('../views/takePictures/takePicturesInform')
+  },
+  {
+    name: 'trafficCivilization',
+    path: '/trafficCivilization',
+    mate: {
+      title: '文明交通我做主'
+    },
+    component: require('../views/peopleWillCloud/trafficCivilization.vue')
+  },
+  {
+    name: 'updatePwd',
+    path: '/updatePwd',
+    meta: {
+      title: '个人资料'
+    },
+    component: require('../views/personalCenter/child/updatePwd.vue')
+  },
+  {
+    name: 'updateMobile',
+    path: '/updateMobile',
+    meta: {
+      title: '个人资料'
+    },
+    component: require('../views/personalCenter/child/updateMobile.vue')
+  },
+  {
+    name: 'addVehicle',
+    path: '/addVehicle',
+    meta: {
+      title: '添加车辆'
+    },
+    component: require('../views/personalCenter/child/addVehicle.vue')
+  },
+  {
+    name: 'updateUser',
+    path: '/updateUser',
+    meta: {
+      title: '个人资料'
+    },
+    component: require('../views/personalCenter/child/updateUser.vue')
+  },
+  {
+    name: 'userInfo',
+    path: '/userInfo',
+    component: require('../views/personalCenter/child/userInfo.vue')
+  },
+  {
+    name: 'map',
+    path: '/map',
+    meta: {
+      title: '地图'
+    },
+    component: require('../views/takePictures/map.vue')
   }
 ]
 /* eslint-disable no-new */

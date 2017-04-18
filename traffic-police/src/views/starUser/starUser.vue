@@ -43,6 +43,7 @@ export default {
     return {
       curTab: 'carOwner',
       typeSelectShow: false,
+      typeSelectMassage: '',
       typeSelectData: [
         {
           'name': 'carOwner',

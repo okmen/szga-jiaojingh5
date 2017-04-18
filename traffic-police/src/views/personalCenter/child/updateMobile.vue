@@ -4,7 +4,7 @@
     <li class="updateMobile-item">
       <div class="updateMobile-name">旧手机号</div>
       <div class="updateMobile-text">
-        <input class="text-input" type="text" placeholder="请输入您的旧手机号" v-model:value="oldMobile">
+        <input class="text-input" type="text" placeholder="请输入您的旧手机号" v-model:value="oldMobile" readonly>
       </div>
     </li>
     <li class="updateMobile-item clear">
@@ -24,12 +24,14 @@
     </li>
   </ul>
   <button class="btn btn-blue"  type="button" name="button" @click.stop="submit()">修改手机号</button>
+  <alert-tips :tipsText="msg" @closeTips="closeTips()" v-if="tipsShow"></alert-tips>
 </div>
 </template>
 
 <script>
 import { updateMobile, sendSMS } from '../../../config/baseUrl'
 import { resultPost } from '../../../service/getData'
+import alertTips from '../../../components/alertTips'
 export default{
   name: 'updateMobile',
   data () {
@@ -38,8 +40,13 @@ export default{
       validateCode: '',
       newMobile: '',
       btnValidateCode: '发送验证码',
-      isdisabled: false
+      isdisabled: false,
+      msg: '',
+      tipsShow: false
     }
+  },
+  components: {
+    alertTips
   },
   methods: {
     /* 发送验证码 */
@@ -47,9 +54,6 @@ export default{
       let reqData = {
         mobilephone: this.oldMobile
       }
-      let phone = Number(this.oldMobile)
-      console.log(typeof phone)
-      // if (/^1[34578]\d{9}$/.test(phone)) {
       let time = 30
       this.btnValidateCode = `已发送（${time}）`
       this.isdisabled = true
@@ -69,7 +73,6 @@ export default{
         }, 1000)
       }
       countDown(this)
-      // }
     },
     /* 提交数据 */
     submit: function () {
@@ -77,12 +80,27 @@ export default{
       let reqData = {
         oldMobile: this.oldMobile,
         validateCode: this.validateCode,
-        newMobile: this.newMobile
+        newMobile: this.newMobile,
+        // identityCard: this.identityCard
+        identityCard: '123451234512345123'
       }
-      resultPost(updateMobile, reqData).then(json => {
-        console.log(json)
-      })
+      let phone = Number(this.newMobile)
+      if (/^1[34578]\d{9}$/.test(phone)) {
+        resultPost(updateMobile, reqData).then(json => {
+          console.log(json)
+        })
+      } else {
+        this.msg = '新号码输入有误'
+        this.tipsShow = true
+      }
+    },
+    closeTips: function () {
+      this.tipsShow = false
+      this.msg = ''
     }
+  },
+  created () {
+    this.oldMobile = window.localStorage.getItem('mobilePhone')
   }
 }
 </script>

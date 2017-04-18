@@ -313,7 +313,7 @@
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
         }
         console.log(reqData)
-        resultPost(queryEarlyLawless, JSON.stringify(reqData)).then(json => {
+        resultPost(queryEarlyLawless, reqData).then(json => {
           console.log(json)
         })
       }

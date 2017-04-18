@@ -77,18 +77,25 @@
           <textarea class="text-input textarea" name="localeDescript" id="localeDescript" placeholder="简要对现场进行描述" v-model:value="description"></textarea>
         </div>
       </li>
-      <div class="common-upload">
+      <div id="container" class="common-upload">
         <p>请上传现场照片</p>
-        <div class="common-upload-inner" @click.stop="uploadImg()">
-          <em></em>
+        <div id="upload" class="common-upload-inner">
+          <img class="img" :src="sceneImg" v-if="sceneImg">
+          <em v-else="sceneImg"></em>
         </div>
       </div>
     </ul>
     <button class="btn" type="button" name="button" @click.stop="submit()">提交</button>
   </div>
+  <alert-tips :tipsText="msg" @closeTips="closeTips()" v-if="tipsShow"></alert-tips>
 </div>
 </template>
 <script>
+import alertTips from '../../../components/alertTips'
+import uploadImgFun from '../../../service/uploadImg'
+// import { resultGet } from '../../../service/getData'
+// import { uploadImg } from '../../../config/baseUrl'
+
 export default{
   name: 'common',
   props: ['typeData', 'reportingMatters'],
@@ -99,15 +106,37 @@ export default{
       typeSelectData: this.typeData[this.typeIndex],
       typeIndex: 0,
       subTypeIndex: 0,
-      userName: '杨明畅',
-      mobilephone: 13600000000,
+      userName: '',
+      mobilephone: '',
       detailAddress: '',
       emergency: '',
       description: '',
-      sceneImg: ''
+      sceneImg: '',
+      tipsShow: false,
+      msg: ''
     }
   },
   methods: {
+    getToken: function () {
+      // resultGet(uploadImg).then(res => {
+      //   res.code === '0000' && this.uploadImgFn(res.upToken)
+      // })
+      this.uploadImgFn()
+    },
+    uploadImgFn: function (uptoken) {
+      var that = this
+      uploadImgFun({
+        selfId: 'upload',
+        parentId: 'container',
+        upToken: 'OayadC4VrxKhmgOGECo6qkCnkxsbTdMum1GGxwc9:RHWscJTU4TSwlq7sT5BFK3yQxrA=:eyJzY29wZSI6ImNka2otamoiLCJkZWFkbGluZSI6MTQ5MjU0MTM0Mn0=',
+        fileUploaded: function (res) {
+          that.sceneImg = res.imgUrl
+        },
+        error: function (err) {
+          console.log(err)
+        }
+      })
+    },
     getLocation: function () {
       console.log('获取位置')
     },
@@ -133,14 +162,11 @@ export default{
       this.subTypeSelectShow = !this.subTypeSelectShow
       this.$emit('select')
     },
-    uploadImg: function () {
-    },
     submit: function () {
       let reqData = {
         userName: this.userName, // 用户姓名 获取微信用户信息
         mobilephone: this.mobilephone, // 用户手机 获取微信用户信息
-        // identityCard: this.identityCard, // 暂无 身份证号
-        identityCard: '1678912345', // 暂无 身份证号
+        identityCard: this.identityCard, // 暂无 身份证号
         reportingMatters: this.reportingMatters, // 举报事项
         // addressRegion: this.addressRegion, // 暂无 地址-区域
         addressRegion: '福田区', // 暂无 地址-区域
@@ -158,8 +184,22 @@ export default{
         sceneImg: this.sceneImg // 现场图片
       }
       console.log(reqData)
+      for (let key in reqData) {
+        if (!reqData[key]) {
+          this.msg = '信息填写不完整'
+          this.tipsShow = true
+          return false
+        }
+      }
       this.$emit('submit', reqData)
+    },
+    closeTips: function () {
+      this.tipsShow = false
+      this.msg = ''
     }
+  },
+  components: {
+    alertTips
   },
   created () {
     document.addEventListener('click', (e) => {
@@ -169,6 +209,12 @@ export default{
     this.typeSelectData = this.typeData[this.typeIndex] // 选择类型
     this.subTypeSelectData = this.typeData[this.typeIndex].subTypeData[this.subTypeIndex] // 选择子类型
     this.subTypeData = this.typeSelectData.subTypeData
+    this.userName = window.localStorage.getItem('userName') // 用户姓名
+    this.mobilephone = window.localStorage.getItem('mobilePhone') // 用户手机号码
+    this.identityCard = window.localStorage.getItem('identityCard') // 用户身份证号码
+  },
+  mounted () {
+    this.getToken()
   }
 }
 </script>
@@ -248,6 +294,10 @@ export default{
         margin-top: 40px;
         background-image: url('../../../images/upload.png');
         background-size: cover;
+      }
+      img{
+        width: 100%;
+        object-fit: cover;
       }
     }
   }
