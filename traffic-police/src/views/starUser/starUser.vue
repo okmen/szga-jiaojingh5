@@ -16,17 +16,12 @@
     <div class="starUser-from pad-side-50">
       <router-view></router-view>
     </div>
-    <uploadImg></uploadImg>
     <button class="btn" type="button" name="button">确认提交</button>
   </div>
 </template>
 <script>
-import uploadImg from 'child/uploadImg.vue'
 export default {
   name: 'starUser',
-  component: {
-    uploadImg
-  },
   data () {
     return {
       curTab: 'carOwner',
