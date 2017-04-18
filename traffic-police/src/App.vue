@@ -10,7 +10,7 @@
       </div>
       <div class="success-login-bottom"></div>
     </div> -->
-    <div class="login-right"></div>
+    <router-link to="/peopleWillCloud"><div class="login-right"></div></router-link>
   </div>
   <div id="nav-outer">
     <div class="home-nav-top">
