@@ -6,7 +6,7 @@
       <span class="nav-top-bottom">{{listData.userName}}</span>
     </div>
     <ul class="nav-motorstudy-cengter">
-      <li class="nav-motorstudy-left"><span>驾驶证号</span><em class="nav-motorstudy-right">{{listData.drive}}</em></li>
+      <li class="nav-motorstudy-left"><span>驾驶证号</span><em class="nav-motorstudy-right">{{listData.identityCard}}</em></li>
       <li class="nav-mstudy-left">
         <p @click.stop="clickShow()"><span>学习记录</span></p>
         <div class="nav-xstudy-footer-lout" v-bind:class="{ 'show' : isShow}" v-for="record in itemData">
@@ -54,6 +54,7 @@ export default {
       classroomId: 4
     }
     resultPost(xstudy, motorstudyData).then(json => {
+      console.log(json)
       this.listData = json.data[0]
       this.itemData = json.data[0].studyRecord
       this.isComplete = json.data[0].isComplete

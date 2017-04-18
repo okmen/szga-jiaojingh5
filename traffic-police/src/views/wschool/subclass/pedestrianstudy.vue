@@ -6,7 +6,7 @@
       <span class="nav-top-bottom">{{listData.userName}}</span>
     </div>
     <ul class="nav-pedestrianstudy-cengter">
-      <li class="nav-pedestrianstudy-left"><span>驾驶证号</span><em class="nav-pedestrianstudy-right">{{listData.drive}}</em></li>
+      <li class="nav-pedestrianstudy-left"><span>驾驶证号</span><em class="nav-pedestrianstudy-right">{{listData.identityCard}}</em></li>
       <li class="nav-mstudy-left">
         <p @click.stop="clickShow()"><span>学习记录</span></p>
         <div class="nav-xstudy-footer-lout" v-bind:class="{ 'show' : isShow}" v-for="record in itemData">
@@ -57,7 +57,7 @@ export default {
       console.log(this)
     }
   },
-  mounted () {
+  created () {
     let pedesData = {
       classroomId: 5
     }
