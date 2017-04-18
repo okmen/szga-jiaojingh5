@@ -195,7 +195,6 @@ export default {
         reportingMatters: this.reportingMatters, // 举报事项
         identityCard: this.identityCard, // 身份证号
         mobilephone: this.mobilephone, // 用户手机
-        ip: '', // ip地址 暂无
         startTime: this.startTime, // 开始时间
         endTime: this.endTime, // 结束时间
         congestionCode: this.congestionType.code, // 拥堵类型码
@@ -208,7 +207,7 @@ export default {
       }
       console.log(reqData)
       for (let key in reqData) {
-        if (!reqData[key] && key !== 'ip') {
+        if (!reqData[key]) {
           console.log(key)
           this.msg = '信息填写不完整'
           this.tipsShow = true

@@ -80,8 +80,8 @@
       <div id="container" class="common-upload">
         <p>请上传现场照片</p>
         <div id="upload" class="common-upload-inner">
-          <img class="img" :src="img" v-if="img">
-          <em v-else="img"></em>
+          <img class="img" :src="sceneImg" v-if="sceneImg">
+          <em v-else="sceneImg"></em>
         </div>
       </div>
     </ul>
@@ -113,8 +113,7 @@ export default{
       description: '',
       sceneImg: '',
       tipsShow: false,
-      msg: '',
-      img: ''
+      msg: ''
     }
   },
   methods: {
@@ -125,17 +124,13 @@ export default{
       this.uploadImgFn()
     },
     uploadImgFn: function (uptoken) {
-      console.log(this)
       var that = this
       uploadImgFun({
         selfId: 'upload',
         parentId: 'container',
         upToken: 'OayadC4VrxKhmgOGECo6qkCnkxsbTdMum1GGxwc9:RHWscJTU4TSwlq7sT5BFK3yQxrA=:eyJzY29wZSI6ImNka2otamoiLCJkZWFkbGluZSI6MTQ5MjU0MTM0Mn0=',
         fileUploaded: function (res) {
-          that.img = res.imgUrl
           that.sceneImg = res.imgUrl
-          console.log(that)
-          console.log(res)
         },
         error: function (err) {
           console.log(err)
