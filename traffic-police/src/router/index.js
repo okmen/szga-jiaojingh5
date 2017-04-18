@@ -28,30 +28,7 @@ const routes = [
     meta: {
       title: '星级用户认证'
     },
-    component: require('../views/starUser/starUser.vue'),
-    redirect: '/starUser/carOwner',
-    children: [
-      {
-        name: 'carOwner',
-        path: '/starUser/carOwner',
-        component: require('../views/starUser/child/carOwner.vue')
-      },
-      {
-        name: 'carUser',
-        path: '/starUser/carUser',
-        component: require('../views/starUser/child/carUser.vue')
-      },
-      {
-        name: 'drivingLicense',
-        path: '/starUser/drivingLicense',
-        component: require('../views/starUser/child/drivingLicense.vue')
-      },
-      {
-        name: 'passerBy',
-        path: '/starUser/passerBy',
-        component: require('../views/starUser/child/passerBy.vue')
-      }
-    ]
+    component: require('../views/starUser/starUser.vue')
   },
   {
     name: 'queryLawless',
@@ -224,7 +201,6 @@ const routes = [
   {
     name: 'takePicturesInform',
     path: '/takePicturesInform',
-    component: require('../views/takePictures/takePicturesInform.vue'),
     meta: {
       title: '随手拍举报'
     }
@@ -273,6 +249,14 @@ const routes = [
     name: 'userInfo',
     path: '/userInfo',
     component: require('../views/personalCenter/child/userInfo.vue')
+  },
+  {
+    name: 'map',
+    path: '/map',
+    meta: {
+      title: '地图'
+    },
+    component: require('../views/takePictures/map.vue')
   }
 ]
 /* eslint-disable no-new */

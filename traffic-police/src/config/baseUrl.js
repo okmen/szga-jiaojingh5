@@ -1,5 +1,6 @@
 // 添加URL需注释 哪个模块哪个接口
 const commonUrl = 'http://192.168.1.120:8100/'
+const uploadUrl = 'http://192.168.1.159:8080/'
 
 export const xstudy = `${commonUrl}Classroom/StudyHomepage.html` // 学习页面接口
 
@@ -50,3 +51,5 @@ export const bindBusiness = `http://192.168.1.161:8080/web/user/search/getMyBusi
 export const sendSMS = `${commonUrl}user/sendSMSVerificatioCode.html` // 发送验证码接口
 
 export const deleteVehicle = `${commonUrl}user/deleteVehicle.htm.html` // 用戶中心解綁微信接口
+
+export const uploadImg = `${uploadUrl}web/common/getUpToken.html` // 上传图片获取uptoken接口
