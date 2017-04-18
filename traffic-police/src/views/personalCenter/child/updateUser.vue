@@ -23,7 +23,7 @@
           <span>通讯地址</span>
         </div>
         <div class="updateUser-text">
-          <input class="text-input" type="text" placeholder="请输入通讯地址（非必填）" v-model:value="mailingAddress">
+          <input class="text-input" type="text" placeholder="请输入通讯地址" v-model:value="mailingAddress">
         </div>
       </li>
     </ul>
@@ -46,19 +46,26 @@
     </div>
   </div>
   <button class="btn" type="button" name="button" @click.stop="submitClick()">提交</button>
+  <alert-tips :tipsText="msg" @closeTips="closeTips()" v-if="tipsShow"></alert-tips>
 </div>
 </template>
 <script>
 import { updateUser } from '../../../config/baseUrl'
 import { resultPost } from '../../../service/getData'
+import alertTips from '../../../components/alertTips'
 export default{
   name: 'updateUser',
   data () {
     return {
       tureName: '',
       identityCard: '',
-      mailingAddress: ''
+      mailingAddress: '',
+      msg: '',
+      tipsShow: false
     }
+  },
+  components: {
+    alertTips
   },
   methods: {
     submitClick: function () {
@@ -66,13 +73,36 @@ export default{
         tureName: this.tureName, // 姓名
         identityCard: this.identityCard, // 身份证号码
         mailingAddress: this.mailingAddress, // 通讯地址
-        idCardImgPositive: this.idCardImgPositive, // 身份证正面 暂无
-        idCardImgNegative: this.idCardImgNegative, // 身份证反面 暂无
-        IdCardImgHandHeld: this.IdCardImgHandHeld // 手持身份证 暂无
+        // idCardImgPositive: this.idCardImgPositive, // 身份证正面 暂无
+        // idCardImgNegative: this.idCardImgNegative, // 身份证反面 暂无
+        // IdCardImgHandHeld: this.IdCardImgHandHeld // 手持身份证 暂无
+        idCardImgPositive: 'http://img06.tooopen.com/images/20160921/tooopen_sy_179583447187.jpg', // 身份证正面 暂无
+        idCardImgNegative: 'http://img06.tooopen.com/images/20160921/tooopen_sy_179583447187.jpg', // 身份证反面 暂无
+        idCardImgHandHeld: 'http://img06.tooopen.com/images/20160921/tooopen_sy_179583447187.jpg' // 手持身份证 暂无
+      }
+      for (let key in reqData) {
+        if (!reqData[key]) {
+          this.msg = '信息填写不完整'
+          this.tipsShow = true
+          return false
+        }
       }
       resultPost(updateUser, reqData).then(json => {
         console.log(json)
+        if (json.code === '0000') {
+          window.location.hash = '/userInfo'
+        } else {
+          this.msg = json.msg
+          this.tipsShow = true
+        }
       })
+    },
+    closeTips: function () {
+      this.tipsShow = false
+      this.msg = ''
+    },
+    sendRequest: function (data) {
+
     }
   }
 }

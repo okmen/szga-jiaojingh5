@@ -86,9 +86,12 @@
     </ul>
     <button class="btn" type="button" name="button" @click.stop="submit()">提交</button>
   </div>
+  <alert-tips :tipsText="msg" @closeTips="closeTips()" v-if="tipsShow"></alert-tips>
 </div>
 </template>
 <script>
+import alertTips from '../../../components/alertTips'
+
 export default{
   name: 'common',
   props: ['typeData', 'reportingMatters'],
@@ -99,12 +102,14 @@ export default{
       typeSelectData: this.typeData[this.typeIndex],
       typeIndex: 0,
       subTypeIndex: 0,
-      userName: '杨明畅',
-      mobilephone: 13600000000,
+      userName: '',
+      mobilephone: '',
       detailAddress: '',
       emergency: '',
       description: '',
-      sceneImg: ''
+      sceneImg: '',
+      tipsShow: false,
+      msg: ''
     }
   },
   methods: {
@@ -139,8 +144,7 @@ export default{
       let reqData = {
         userName: this.userName, // 用户姓名 获取微信用户信息
         mobilephone: this.mobilephone, // 用户手机 获取微信用户信息
-        // identityCard: this.identityCard, // 暂无 身份证号
-        identityCard: '1678912345', // 暂无 身份证号
+        identityCard: this.identityCard, // 暂无 身份证号
         reportingMatters: this.reportingMatters, // 举报事项
         // addressRegion: this.addressRegion, // 暂无 地址-区域
         addressRegion: '福田区', // 暂无 地址-区域
@@ -158,8 +162,22 @@ export default{
         sceneImg: this.sceneImg // 现场图片
       }
       console.log(reqData)
+      for (let key in reqData) {
+        if (!reqData[key]) {
+          this.msg = '信息填写不完整'
+          this.tipsShow = true
+          return false
+        }
+      }
       this.$emit('submit', reqData)
+    },
+    closeTips: function () {
+      this.tipsShow = false
+      this.msg = ''
     }
+  },
+  components: {
+    alertTips
   },
   created () {
     document.addEventListener('click', (e) => {
@@ -169,6 +187,8 @@ export default{
     this.typeSelectData = this.typeData[this.typeIndex] // 选择类型
     this.subTypeSelectData = this.typeData[this.typeIndex].subTypeData[this.subTypeIndex] // 选择子类型
     this.subTypeData = this.typeSelectData.subTypeData
+    this.userName = window.localStorage.getItem('userName') // 用户姓名
+    this.identityCard = window.localStorage.getItem('identityCard') // 用户身份证号码
   }
 }
 </script>
