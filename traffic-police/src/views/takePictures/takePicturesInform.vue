@@ -55,7 +55,7 @@
       <!--<a>点击查看温馨提示</a>-->
       <router-link to="takePicturesTips">点击查看温馨提示</router-link>
     </div>
-    <automateTip :options.sync="options" ></automateTip>
+    <automateTip :options.sync="options" @onPropsChange="change"></automateTip>
   </div>
 </template>
 <script>
@@ -74,10 +74,10 @@
         informIdNumber: '',      // 身份证号
         informTel: '',           // 电话号码
         options: {
-          show: true,
           autoClose: true,
-          showTime: 2000,
-          content: '请输入正确的手机号'
+          content: '',
+          showTip: false,
+          showTime: 2000
         }
       }
     },
@@ -98,9 +98,14 @@
         //   console.log(json)
         // })
         if (!this.regTel) {
-          this.showAutomateTip = true
+          this.change()
+          this.options.content = '同志啊，请输入正确的手机号码'
+        } else {
+          this.$router.push('/takePicturesSuccess') // 成功之后
         }
-        this.$router.push('/takePicturesSuccess') // 成功之后
+      },
+      change: function () {
+        this.options.showTip = true
       }
     }
   }

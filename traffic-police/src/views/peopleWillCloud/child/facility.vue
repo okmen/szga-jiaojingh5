@@ -1,8 +1,12 @@
 <template>
+<div class="facility-outer">
   <common :typeData='typeData' :reportingMatters="reportingMatters" @submit="submit"></common>
+  <alert-tips :tipsText="msg" @closeTips="closeTips()" v-if="tipsShow"></alert-tips>
+</div>
 </template>
 <script>
 import common from './common'
+import alertTips from '../../../components/alertTips'
 import { resultPost } from '../../../service/getData'
 import { facility } from '../../../config/baseUrl'
 export default {
@@ -144,18 +148,29 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      msg: '',
+      tipsShow: false
     }
   },
   components: {
-    common
+    common,
+    alertTips
   },
   methods: {
     submit: function (reqData) {
       this.$emit('submit')
       resultPost(facility, reqData).then(json => {
-        console.log(json)
+        this.tipsShow = true
+        if (json.code !== '0000') {
+          this.msg = json.msg
+        } else {
+          this.msg = '感谢您参与举报，我们会依次不断改进'
+        }
       })
+    },
+    closeTips: function () {
+      this.tipsShow = false
     }
   },
   created () {

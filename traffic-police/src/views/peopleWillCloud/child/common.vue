@@ -137,8 +137,8 @@ export default{
     },
     submit: function () {
       let reqData = {
-        userName: this.userName, // 用户姓名
-        mobilephone: this.mobilephone, // 用户手机
+        userName: this.userName, // 用户姓名 获取微信用户信息
+        mobilephone: this.mobilephone, // 用户手机 获取微信用户信息
         // identityCard: this.identityCard, // 暂无 身份证号
         identityCard: '1678912345', // 暂无 身份证号
         reportingMatters: this.reportingMatters, // 举报事项

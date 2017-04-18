@@ -53,9 +53,14 @@ export default {
       console.log(this)
     }
   },
-  mounted () {
-    resultPost(xstudy, 'kdkd').then(json => {
+  created () {
+    let studyDatas = {
+      classroomId: 2
+    }
+    resultPost(xstudy, studyDatas).then(json => {
+      console.log(json)
       this.itemData = json.data[0]
+      console.log(json.data[0])
       this.listData = json.data[0].studyRecord
       this.isComplete = json.data[0].isComplete
     })

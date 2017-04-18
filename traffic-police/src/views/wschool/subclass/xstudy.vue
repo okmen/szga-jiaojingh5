@@ -55,16 +55,12 @@ export default {
       console.log(this)
     }
   },
-  mounted () {
+  created () {
     let studyData = {
-      userId: '',
-      userPwd: '',
-      classroomId: this.classroomId,
-      classroomName: '',
-      drive: '',
-      identityCard: ''
+      classroomId: 1
     }
-    resultPost(xstudy, JSON.stringify(studyData)).then(json => {
+    resultPost(xstudy, studyData).then(json => {
+      console.log(json)
       this.listData = json.data[0]
       this.itemsData = json.data[0].studyRecord
       this.isComplete = json.data[0].isComplete
