@@ -79,7 +79,7 @@
     },
     mounted () {
       let reqData = {
-        identityCard: this.identityCard
+        identityCard: window.localStorage.getItem('identityCard')
       }
       resultPost(bindCard, reqData).then(json => {
         console.log(json)

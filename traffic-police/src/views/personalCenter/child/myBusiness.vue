@@ -22,24 +22,14 @@
         </div>
       </div>
     </div>
-    <!--<div class="business-box first-review">-->
-      <!--<div class="box-header">-->
-        <!--业务名称-->
-        <!--<span class="service-status first">待初审</span>-->
-      <!--</div>-->
-      <!--<div class="box-line">-->
-        <!--车辆号码-->
-      <!--</div>-->
-      <!--<div class="box-line">-->
-        <!--受理时间-->
-      <!--</div>-->
-    <!--</div>-->
     <div v-for="business in businessList" class="business-box" :class="{ 'cancel': business.statusStr == '退办',
-                                                                         'first-review': business.statusStr == '待初审'}">
+                                                                         'first-review': business.statusStr == '待初审',
+                                                                         'success': business.statusStr == '已制证'||business.statusStr == '审核通过'}">
       <div class="box-header">
         {{ business.businessTitle }}
         <span class="service-status" :class="{ 'cancel': business.statusStr == '退办',
-                                               'first': business.statusStr == '待初审'}">{{ business.statusStr }}</span>
+                                               'first': business.statusStr == '待初审',
+                                               'success': business.statusStr == '已制证'||business.statusStr == '审核通过'}">{{ business.statusStr }}</span>
       </div>
       <div class="box-line" v-if="business.userName">
         姓名: {{ business.userName }}
@@ -96,6 +86,9 @@
       &.cancel{
          border-left: 6px solid #999;
        }
+      &.success {
+         border-left: 6px solid #09bb07;
+       }
        .box-header {
          padding:20px 30px 20px 40px;
          .service-status {
@@ -112,6 +105,9 @@
             }
            &.cancel{
               color: #999;
+            }
+           &.success {
+              color: #09bb07;
             }
          }
        }

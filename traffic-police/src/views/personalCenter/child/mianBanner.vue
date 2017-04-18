@@ -3,9 +3,9 @@
     <div class="banner-qr"></div>
     <div class="banner-user">
       <div class="user-avatar"></div>
-      <div class="user-name">刘小明</div>
+      <div class="user-name">{{ userName }}</div>
       <div class="user-mobile">
-        <i class="mobile"></i>122222222222</div>
+        <i class="mobile"></i>{{ mobilePhone }}</div>
     </div>
     <router-link to="updateUser" class="banner-edit"></router-link>
   </div>
@@ -71,3 +71,14 @@
     }
   }
 </style>
+<script>
+  export default {
+    name: 'mainBanner',
+    data () {
+      return {
+        mobilePhone: window.localStorage.getItem('mobilePhone'),
+        userName: window.localStorage.getItem('userName')
+      }
+    }
+  }
+</script>
