@@ -28,7 +28,30 @@ const routes = [
     meta: {
       title: '星级用户认证'
     },
-    component: require('../views/starUser/starUser.vue')
+    component: require('../views/starUser/starUser.vue'),
+    redirect: '/starUser/carOwner',
+    children: [
+      {
+        name: 'carOwner',
+        path: '/starUser/carOwner',
+        component: require('../views/starUser/child/carOwner.vue')
+      },
+      {
+        name: 'carUser',
+        path: '/starUser/carUser',
+        component: require('../views/starUser/child/carUser.vue')
+      },
+      {
+        name: 'drivingLicense',
+        path: '/starUser/drivingLicense',
+        component: require('../views/starUser/child/drivingLicense.vue')
+      },
+      {
+        name: 'passerBy',
+        path: '/starUser/passerBy',
+        component: require('../views/starUser/child/passerBy.vue')
+      }
+    ]
   },
   {
     name: 'queryLawless',
@@ -203,7 +226,8 @@ const routes = [
     path: '/takePicturesInform',
     meta: {
       title: '随手拍举报'
-    }
+    },
+    component: require('../views/takePictures/takePicturesInform')
   },
   {
     name: 'trafficCivilization',
