@@ -15,8 +15,15 @@ function getQueryString(name) {
 
 var openId = getQueryString('openId') || localStorage.getItem('openId');
 var headImgUrl = getQueryString('headimgurl') || localStorage.getItem('headimgurl');
-localStorage.setItem('openId', openId);
-localStorage.setItem('headImgUrl', headImgUrl);
+var nickname = getQueryString('nickname') || localStorage.getItem('nickname');
+localStorage.setItem('openId', decodeURIComponent('000000xxx'));
+if (openId != 'null' || openId != 'undefined') {
+  localStorage.setItem('openId', decodeURIComponent('000000xxx'));
+  localStorage.setItem('headImgUrl', decodeURIComponent(headImgUrl));
+  localStorage.setItem('nickname', decodeURIComponent(nickname));
+} else{
+  alert('网络错误，请稍后重试')
+}
 let url = window.location.href;
 let data = {
   url: encodeURIComponent(url)

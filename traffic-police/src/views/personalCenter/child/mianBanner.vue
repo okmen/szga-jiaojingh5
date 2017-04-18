@@ -7,7 +7,7 @@
       <div class="user-mobile">
         <i class="mobile"></i>122222222222</div>
     </div>
-    <div class="banner-edit"></div>
+    <router-link to="updateUser" class="banner-edit"></router-link>
   </div>
 </template>
 <style lang="less">

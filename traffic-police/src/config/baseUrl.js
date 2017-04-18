@@ -21,7 +21,7 @@ export const order = `${commonUrl}convenience/sequenceChaos.html` // 秩序混�
 
 export const moveCar = `${commonUrl}convenience/oneKeyDodgen.html` // 一键挪车接口
 
-export const queryLawlessByCar = `${commonUrl}illegalHanding/queryInfoByLicensePlateNo.html` // 违法查询（车牌号）
+export const queryLawlessByCar = `http://192.168.1.243:8080/web/illegalHanding/queryInfoByLicensePlateNo.html` // 违法查询（车牌号）
 
 export const queryLawlessByCard = `${commonUrl}illegalHanding/queryInfoByDrivingLicenceNo.html` // 违法查询（驾驶证）
 
@@ -44,5 +44,7 @@ export const login = `http://192.168.1.161:8080/web/user/login.html` // 登录�
 export const bindCar = `http://192.168.1.161:8080/web/user/search/getBndTheVehicles.html` // 个人中心-绑定车辆接口(暂使用后端本地地址)
 
 export const bindCard = `http://192.168.1.161:8080/web/user/search/getMyDriverLicense.html` // 个人中心-驾驶证接口(暂使用后端本地地址)
+
+export const bindBusiness = `http://192.168.1.161:8080/web/user/search/getMyBusiness.html` // 个人中心-业务查询(暂使用后端本地地址)
 
 export const sendSMS = `${commonUrl}user/sendSMSVerificatioCode.html` // 发送验证码接口

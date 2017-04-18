@@ -8,7 +8,7 @@ import './config/wx-port'
 import { TimeSelect } from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 
-Vue.use(require('vue-wechat-title'))
+// Vue.use(require('vue-wechat-title'))
 Vue.component(TimeSelect.name, TimeSelect)
 
 /* eslint-disable */
