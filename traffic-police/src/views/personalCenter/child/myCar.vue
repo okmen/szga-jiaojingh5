@@ -26,10 +26,14 @@
         </ul>
       </div>
     </div>
+    <div class="addCar-box">
+      <router-link to="addVehicle" class="add-car btn">添加车辆</router-link>
+    </div>
   </div>
 </template>
 <style lang="less">
   .myCar-outer {
+    margin-top: 40px;
     padding:0 50px;
     .car-box {
       font-size:0.75rem;
@@ -97,6 +101,16 @@
           height: 60px;
           line-height: 60px;
         }
+      }
+    }
+    .addCar-box {
+      text-align: center;
+      .add-car {
+        display: inline-block;
+        text-align: center;
+        line-height: 80px;
+        font-weight: bold;
+        width: 70%;
       }
     }
   }

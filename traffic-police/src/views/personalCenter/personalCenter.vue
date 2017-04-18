@@ -62,7 +62,7 @@ export default{
     }
     .container {
       position: relative;
-      top:400px;
+      top:362px;
       /*padding: 0 50px;*/
     }
   }

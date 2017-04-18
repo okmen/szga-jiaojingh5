@@ -8,11 +8,11 @@
         </li>
         <li>
           当前状态:
-          <span>{{ status }}</span>
+          <span :class="{ 'normal': status == '正常'}">{{ status }}</span>
         </li>
         <li>
           可用计分:
-          <span>{{ availableScore }}</span>
+          <span :class="{ 'normal': availableScore == '12分'}">{{ availableScore }}</span>
         </li>
         <li>
           体检日期:
@@ -29,6 +29,7 @@
 </template>
 <style lang="less">
   .myCard-outer {
+    margin-top: 40px;
     padding:0 50px;
     .card-box {
       font-size: 0.9rem;
@@ -44,6 +45,10 @@
           span {
             margin-left: 20px;
             text-align: left;
+            &.normal {
+              color: #09bb07;
+             }
+             /* 待添加更多状态样式 */
           }
         }
       }

@@ -10,7 +10,7 @@ import 'element-ui/lib/theme-default/index.css'
 import '../static/plupload.dev.js'
 import '../static/qiniu.min.js'
 
-Vue.use(require('vue-wechat-title'))
+// Vue.use(require('vue-wechat-title'))
 Vue.component(TimeSelect.name, TimeSelect)
 
 /* eslint-disable */
