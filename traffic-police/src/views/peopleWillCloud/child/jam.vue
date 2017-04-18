@@ -323,12 +323,9 @@ export default {
     submit: function () {
       let reqData = {
         reportingMatters: this.reportingMatters, // 举报事项
-        // identityCard: this.identityCard, // 身份证号 暂无
-        identityCard: '12356165561331', // 身份证号 暂无
-        // mobilephone: this.mobilephone, // 用户手机 暂无
-        mobilephone: '13000000000', // 用户手机 暂无
-        // ip: this.ip, // ip地址 暂无
-        ip: '192.168.2.101', // ip地址 暂无
+        identityCard: this.identityCard, // 身份证号
+        mobilephone: this.mobilephone, // 用户手机
+        ip: '103.253.2.152', // ip地址
         startTime: this.startTime, // 开始时间
         endTime: this.endTime, // 结束时间
         direction: this.direction, // 方向
@@ -341,6 +338,14 @@ export default {
         addressCode: '103560', // 站点代码 暂无
         // address: this.address // 主题地点描述
         address: '广东省深圳市福田区体育中心' // 主题地点描述
+      }
+      for (let key in reqData) {
+        if (!reqData[key] && key !== 'ip') {
+          console.log(key)
+          this.msg = '信息填写不完整'
+          this.tipsShow = true
+          return false
+        }
       }
       this.$emit('submit')
       resultPost(jam, reqData).then(json => {
@@ -365,6 +370,9 @@ export default {
       this.congestionReasonShow = false
     })
     this.reportingMatters = 1003
+    this.userName = window.localStorage.getItem('userName') // 用户姓名
+    this.mobilephone = window.localStorage.getItem('mobilePhone') // 用户手机号码
+    this.identityCard = window.localStorage.getItem('identityCard') // 用户身份证号码
   },
   components: {
     alertTips

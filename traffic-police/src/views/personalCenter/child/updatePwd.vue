@@ -21,37 +21,53 @@
     </li>
   </ul>
   <button class="btn btn-blue"  type="button" name="button" @click.stop="submit()">修改密码</button>
+  <alert-tips :tipsText="msg" @closeTips="closeTips()" v-if="tipsShow"></alert-tips>
 </div>
 </template>
 
 <script>
 import { updatePwd } from '../../../config/baseUrl'
 import { resultPost } from '../../../service/getData'
+import alertTips from '../../../components/alertTips'
 export default{
   name: 'updatePwd',
   data () {
     return {
       oldPwd: '',
       newPwd: '',
-      comfirmPwd: ''
+      comfirmPwd: '',
+      msg: '',
+      tipsShow: false,
+      identityCard: ''
     }
+  },
+  components: {
+    alertTips
   },
   methods: {
     submit: function () {
       if (this.newPwd !== this.comfirmPwd) {
-        console.log('新密码不一致')
+        this.msg = '新密码不一致'
+        this.tipsShow = true
       } else if (this.oldPwd === this.newPwd) {
-        console.log('新密码与旧密码一致')
+        this.msg = '新密码与旧密码一致'
+        this.tipsShow = true
       } else if (this.newPwd === this.comfirmPwd) {
         console.log('提交数据并返回我的资料页面')
         let reqData = {
           oldPwd: this.oldPwd,
-          newPwd: this.newPwd
+          newPwd: this.newPwd,
+          // identityCard: this.identityCard // 暂无
+          identityCard: '123451234512345123'
         }
         resultPost(updatePwd, reqData).then(json => {
           console.log(json)
         })
       }
+    },
+    closeTips: function () {
+      this.tipsShow = false
+      this.msg = ''
     }
   }
 }

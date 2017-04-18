@@ -171,6 +171,7 @@ export default {
     },
     closeTips: function () {
       this.tipsShow = false
+      this.msg = ''
     }
   },
   created () {
