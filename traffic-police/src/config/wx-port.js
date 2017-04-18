@@ -16,6 +16,7 @@ function getQueryString(name) {
 var openId = getQueryString('openId') || localStorage.getItem('openId');
 var headImgUrl = getQueryString('headimgurl') || localStorage.getItem('headimgurl');
 var nickname = getQueryString('nickname') || localStorage.getItem('nickname');
+localStorage.setItem('openId', decodeURIComponent('000000xxx'));
 if (openId != 'null' || openId != 'undefined') {
   localStorage.setItem('openId', decodeURIComponent('000000xxx'));
   localStorage.setItem('headImgUrl', decodeURIComponent(headImgUrl));
