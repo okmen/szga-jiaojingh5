@@ -43,6 +43,9 @@ export default {
           window.localStorage.setItem('mobilePhone', decodeURIComponent(userData.mobilePhone)) // 手机号码
           window.localStorage.setItem('myNumberPlate', decodeURIComponent(userData.myNumberPlate)) // 车牌号码
           window.localStorage.setItem('userName', decodeURIComponent(userData.trueName)) // 用户名字
+          window.localStorage.setItem('behindTheFrame4Digits', decodeURIComponent(userData.behindTheFrame4Digits)) // 车架号后4位
+          window.localStorage.setItem('plateType', decodeURIComponent(userData.plateType)) // 车牌类型
+          window.localStorage.setItem('isLogin', true) // 是否登录
           window.location.href = '/'
         } else {
           window.localStorage.setItem('identityCard', '440301199002101119') // 身份证
