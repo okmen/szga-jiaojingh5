@@ -45,9 +45,9 @@
               <span>验证码</span>
             </div>
             <div class="queryByCar-hbs-text width-40 left">
-              <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码">
+              <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码" id="inp">
             </div>
-            <div class="left queryByCar-hbs-code">获取验证码</div>
+            <div class="left queryByCar-hbs-code" id="code"></div>
           </li>
         </ul>
       </div>
@@ -93,7 +93,7 @@
       </div>
     </div>
     <!-- 结果块(本人) -->
-    <div class="queryResults pad-side-50">
+    <div v-for="data in myIllegalData" class="queryResults pad-side-50">
       <div class="results-box">
         <div class="box-header">
           <div class="header-item left">我的违章</div>
@@ -101,18 +101,18 @@
         </div>
         <div class="box-body">
           <div class="body-left-side">
-            <div class="left-number">违法编号 :<i></i></div>
+            <div class="left-number">违法编号 :<i>{{ data.billNo }}</i></div>
             <div class="left-line">
               <span><i class="time"></i></span>
-              <p>时间</p>
+              <p>{{ data.illegalTime }}</p>
             </div>
             <div class="left-line"><span>
               <i class="local"></i></span>
-              <p>地点</p>
+              <p>{{ data.illegalAddr }}</p>
             </div>
             <div class="left-line">
               <span><i class="warn"></i></span>
-              <p>事件</p></div>
+              <p>{{ data.illegalDesc }}</p></div>
             <div class="left-line">
               <span><i class="punish"></i></span>
               <p>元</p>
@@ -128,6 +128,7 @@
 <script>
   import { resultPost } from '../../../service/getData'
   import { queryLawlessByCar } from '../../../config/baseUrl'
+  import { verifyCode } from '../../../config/verifyCode'
   export default {
     name: 'queryByCar',
     data () {
@@ -139,6 +140,7 @@
         },
         cur_type_id: '01',
         illegalData: [],
+        myIllegalData: [],
         licensePlateNo: '',
         illegalTime: '',
         car_number: '',
@@ -322,6 +324,9 @@
         ]
       }
     },
+    mounted () {
+      verifyCode(document.getElementById('inp'), document.getElementById('code'))
+    },
     methods: {
       licenseSelectClick: function (str, id) {
         if (str) {
@@ -358,7 +363,6 @@
         }
         console.log(reqData)
         resultPost(queryLawlessByCar, reqData).then(json => {
-          console.log(json)
           this.illegalData = json.data
         })
       },
@@ -371,7 +375,7 @@
         console.log(reqData)
         resultPost(queryLawlessByCar, reqData).then(json => {
           console.log(json)
-          this.illegalData = json.data
+          this.myIllegalData = json.data
         })
       }
     },
@@ -420,7 +424,10 @@
               display: inline-block;
             }
             .queryByCar-hbs-code {
+              margin-left: 40px;
               text-indent: 28px;
+              width: 240px;
+              height: 56px;
               text-decoration: underline;
             }
           }

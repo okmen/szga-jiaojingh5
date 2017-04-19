@@ -237,7 +237,7 @@ KinerCode.prototype.createCodeEle = function (code) {
     item.style.textShadow = '#000 1px 1px 5px,#FFCC99 -1px -1px 1px,#000 -1px -1px 2px';
     //item.style.margin = '0 2%';
     if(!this.opt.question){
-        item.style.width = 90 / this.opt.len + '%';
+        item.style.width = 85 / this.opt.len + '%';
     }else{
 
         item.style.width = '100%';
@@ -246,6 +246,7 @@ KinerCode.prototype.createCodeEle = function (code) {
     item.style.padding = '0 1%';
     item.style.fontSize = '1.5em';
     item.style.display = 'inline-block';
+    item.style.boxSizing = 'border-box';
     return item;
 
 };
@@ -386,9 +387,18 @@ export const verifyCode = (inpDom, codeHtml) => {
     false2refresh: false,//在填错验证码后是否刷新验证码
     validateEven: "blur",//触发验证的方法名，如click，blur等
     validateFn: function (result, code) {//验证回调函数
-        inpDom.value = ''
-        if(!result) {
-          Toast('验证码输出错误')
+        if (result) {
+            Toast({
+              message: '验证成功',
+              position: 'bottom',
+              duration: 3000
+            });
+        } else {
+          Toast({
+              message: '验证码输入错误',
+              position: 'bottom',
+              duration: 3000
+            });
         }
     }
   });

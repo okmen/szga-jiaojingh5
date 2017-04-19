@@ -4,7 +4,7 @@
       <div class="answer-head-regit">
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/mistake.png"></dt>
-          <dd>已错{{answertData.answererror}}题</dd>
+          <dd>已错{{answererror}}题</dd>
         </dl>
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/time.png"></dt>
@@ -34,7 +34,7 @@
       <span class="answer-center-left" v-else>选</span>
       <span class="answer-center-right">{{answertData.subjectName}}</span>
     </div>
-    <img class="answer-button" v-if="testQuestionsType == '选择题'" :src="'data:image/jpg;base64,'+answertData.subjectImg">
+    <img class="answer-button" v-if="testQuestionsType == '选择题'" :src="'data:image/png;base64,'+answertData.subjectImg">
     <ul class="answer-foot">
       <li class="answer-foot-button" v-for="(item, index) in answerName" @click="clickAnswer(index)" 
       :class="[{'on':flag == index},{'off':tlag == index}]">
@@ -53,13 +53,15 @@ export default {
   data () {
     return {
       testQuestionsType: '',
+      answererror: 0,
+      surplusAnswe: 20,
       isBtnShow: false,   // 下一题样式
       isReveal: false,    // 弹框控制
       tlag: 5,   // 正确选项颜色
       flag: 5,  // 错误选项颜色
-      clickNum: 1,   // 下一题点击次数
-      chronoScope: 0,
-      surplusAnswe: 20, // 还剩题数
+      chronoScope: 0,    // 答题时间
+      answerCorrect: 0,  // 答对题数
+      batchResult: '',  // 答题合格判断
       answertData: {
       },
       subjectAnswer: '',
@@ -84,7 +86,7 @@ export default {
     clickAnswer: function (index) {     // 选项答题
       this.isBtnShow = true
       var answesData = {
-        classroomId: 5,
+        classroomId: 4,   // 学习编号
         userId: '',
         identityCard: window.localStorage.getItem('identityCard'),
         mobilephone: '',
@@ -92,15 +94,18 @@ export default {
         subjectId: this.subjectId
       }
       resultPost(answers, answesData).then(json => {     // 答案数据接口
-        console.log(json)
-        console.log(json.code)
+        // console.log(json)
+        this.answerCorrect = json.data[0].answerCorrect  // 答对题数
+        this.batchResult = json.data[0].batchResult    // 答题合格判断
+        this.answererror = json.data[0].answererror    // 答错题数
+        this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
+        console.log(this.surplusAnswe)
         this.codes = json.code
         this.testData[index].img = require('../../../images/fault.png')
         this.tlag = index
         if (this.codes === '0000') {
           this.testData[index].img = require('../../../images/correct.png')
           this.flag = index
-          this.answertData.answererror++
         }
       })
     },
@@ -108,29 +113,24 @@ export default {
       let anData = this.chronoScope
       if (anData === '30:00') {
         this.isReveal = true
-        // window.clearInterval(timePiece)
       }
     },
     countClick: function () {      // 获取下一题数据
-      let isclickNum = this.clickNum++
-      this.surplusAnswe--
       this.loadingData()
-      console.log(isclickNum)
-      if (isclickNum === 20) {
+      // var jrrar = [{'answererror': this.answererror}, {'surplusAnswe': this.surplusAnswe}]
+      // console.log(window.sessionStorage.getItem(jrrar.answererror))
+      if (this.surplusAnswe === 1) {
         document.getElementById('NofItems').innerHTML = '结束答题'
-      } else if (isclickNum === 21) {
+      } else if (this.surplusAnswe === 0) {
+        window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
+        window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
+        window.sessionStorage.setItem('batchResult', this.batchResult)  // 答题合格判断
+        window.sessionStorage.setItem('chronoScope', this.chronoScope)  // 答题时间
         this.$router.push('grade')
       }
     },
     loadingData: function () {     //  页面接口数据
-      var answeData = {
-        classroomId: 5,
-        userId: '',
-        identityCard: window.localStorage.getItem('identityCard'),
-        mobilephone: '',
-        drive: ''
-      }
-      this.testData = [{
+      this.testData = [{          // 答题选项样式初始化
         img: require('../../../images/A.png')
       },
       {
@@ -142,9 +142,17 @@ export default {
       {
         img: require('../../../images/D.png')
       }]
-      this.tlag = 5
-      this.flag = 5
+      this.isBtnShow = false  // 初始化下一题选项样式
+      this.tlag = 5        // 初始化正确答案样式
+      this.flag = 5        //  初始化错误答案样式
+      var answeData = {
+        classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
+        identityCard: window.sessionStorage.getItem('identityCard'), // 身份证
+        mobilePhone: window.sessionStorage.getItem('mobilePhone'),   // 手机号码
+        userSource: 'C'
+      }
       resultPost(answer, answeData).then(json => {
+        // console.log(json)
         this.answertData = json.data[0]
         this.answerName = json.data[0].answeroptions
         this.subjectId = json.data[0].subjectId

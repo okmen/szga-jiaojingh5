@@ -53,3 +53,8 @@ export const sendSMS = `${commonUrl}user/sendSMSVerificatioCode.html` // 发送�
 export const deleteVehicle = `${commonUrl}user/deleteVehicle.htm.html` // 用戶中心解綁微信接口
 
 export const uploadImg = `${commonUrl}common/getUpToken.html` // 上传图片获取uptoken接口
+
+export const drivingCard = `${commonUrl}user/search/getDrivingLicense.html` // 获取电子行驶证
+
+export const licenseCard = `${commonUrl}user/search/getElectronicDriverLicense.html` // 获取电子驾驶证
+
