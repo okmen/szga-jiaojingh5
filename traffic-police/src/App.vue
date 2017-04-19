@@ -80,12 +80,9 @@
 </template>
 <script>
 // import Hello from './components/Hello'
-import { MessageBox } from 'mint-ui'
+
 export default {
-  name: 'app',
-  created () {
-    MessageBox.confirm('测试测试测试测试', '测试Mint')
-  }
+  name: 'app'
 }
 </script>
 <style lang="less">
