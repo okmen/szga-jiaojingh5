@@ -82,7 +82,7 @@
                      color:#fff;
                      vertical-align:middle;
                       .code-icon {
-                        background: url("./../../../images/A.png");
+                        background: url("./../../../images/browse.png");
                         background-size: 32px 32px;
                         display: inline-block;
                         width:32px;

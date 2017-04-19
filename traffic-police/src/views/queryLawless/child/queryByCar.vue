@@ -52,7 +52,7 @@
         </ul>
       </div>
       <button class="btn" type="button" name="button" @click.stop="queryLawlessByCar()">查询</button>
-      <button class="btn-light-green" type="button" name="button">我的车辆违章</button>
+      <button class="btn-light-green" type="button" @click.stop="queryMineByCar()" name="button">我的车辆违章</button>
       <div class="hint">
         <p>温馨提示：仅可查询车辆在深圳市范围内的交通违法信息</p>
       </div>
@@ -62,7 +62,7 @@
       <div class="results-box">
         <div class="box-header">
           <div class="header-item left">违章信息</div>
-          <div class="header-item right order-print">{{ data.isNeedClaim }}</div>
+          <div class="header-item right order-print">{{ claimList[data.isNeedClaim] }}</div>
         </div>
         <div class="box-body">
           <div class="body-left-side">
@@ -92,6 +92,37 @@
         </div>
       </div>
     </div>
+    <!-- 结果块(本人) -->
+    <div class="queryResults pad-side-50">
+      <div class="results-box">
+        <div class="box-header">
+          <div class="header-item left">我的违章</div>
+          <div class="header-item right order-print"></div>
+        </div>
+        <div class="box-body">
+          <div class="body-left-side">
+            <div class="left-number">违法编号 :<i></i></div>
+            <div class="left-line">
+              <span><i class="time"></i></span>
+              <p>时间</p>
+            </div>
+            <div class="left-line"><span>
+              <i class="local"></i></span>
+              <p>地点</p>
+            </div>
+            <div class="left-line">
+              <span><i class="warn"></i></span>
+              <p>事件</p></div>
+            <div class="left-line">
+              <span><i class="punish"></i></span>
+              <p>元</p>
+            </div>
+          </div>
+          <a class="body-right-side">
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -101,6 +132,11 @@
     name: 'queryByCar',
     data () {
       return {
+        claimList: {
+          '0': '无需打单',
+          '1': '需要打单',
+          '2': '需要窗口办理'
+        },
         cur_type_id: '01',
         illegalData: [],
         licensePlateNo: '',
@@ -319,6 +355,18 @@
           licensePlateNo: this.abbreviationSelectMassage + this.car_number,
           licensePlateType: this.cur_type_id,
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
+        }
+        console.log(reqData)
+        resultPost(queryLawlessByCar, reqData).then(json => {
+          console.log(json)
+          this.illegalData = json.data
+        })
+      },
+      queryMineByCar: function () {
+        let reqData = {
+          licensePlateNo: window.localStorage.getItem('myNumberPlate'),
+          licensePlateType: window.localStorage.getItem('plateType'),
+          vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits')
         }
         console.log(reqData)
         resultPost(queryLawlessByCar, reqData).then(json => {

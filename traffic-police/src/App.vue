@@ -15,7 +15,7 @@
   <div id="nav-outer">
     <div class="home-nav-top">
       <dl>
-        <router-link to="/peopleWillCloud">
+        <router-link to="/trafficCivilization">
         <dt><img class="top1" src="./images/nav1.png" alt=""></dt>
         <dd>交通文明我做主</dd>
         </router-link>
