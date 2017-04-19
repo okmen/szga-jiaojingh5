@@ -1,14 +1,13 @@
 <template>
   <div class="answer">
     <div class="answer-head">
-      <div class="answer-head-regit" >
+      <div class="answer-head-regit">
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/mistake.png"></dt>
           <dd>已错{{answertData.answererror}}题</dd>
         </dl>
         <dl class="answer-head-rgt">
           <dt><img src="../../../images/time.png"></dt>
-          <!-- <dd id="tt">{{answertData.answerTime}}</dd> -->
           <dd id="tt">{{chronoScope}}</dd>
         </dl>
         <dl class="answer-head-rgt">
@@ -36,23 +35,10 @@
       <span class="answer-center-right">{{answertData.subjectName}}</span>
     </div>
     <img class="answer-button" v-if="testQuestionsType == '选择题'" :src="'data:image/jpg;base64,'+answertData.subjectImg">
-    <ul class="answer-foot"  @click="clickAnswer()">
-      <!-- <li class="answer-foot-button" v-for="(item, index) in answerName" @click="clickAnswer(index)" 
+    <ul class="answer-foot">
+      <li class="answer-foot-button" v-for="(item, index) in answerName" @click="clickAnswer(index)" 
       :class="[{'on':flag == index},{'off':tlag == index}]">
-        <img class="answer-foot-img" :src="testData[index].img">{{item}}
-      }
-      </li> -->
-      <li class="answer-foot-button" >
-        <img class="answer-foot-img" src="../../../images/A.png">{{answertData.answerA}}
-      </li>
-      <li class="answer-foot-button" >
-        <img class="answer-foot-img" src="../../../images/B.png">{{answertData.answerB}}
-      </li>
-      <li class="answer-foot-button" >
-        <img class="answer-foot-img" src="../../../images/C.png">{{answertData.answerC}}
-      </li>
-      <li class="answer-foot-button" >
-        <img class="answer-foot-img" src="../../../images/D.png">{{answertData.answerD}}
+        <img class="answer-foot-img" :src="testData[index].img">{{item.answerName}}
       </li>
     </ul>
     <div id="NofItems" class="answer-option" v-bind:class="{ 'show' : isBtnShow}" @click="countClick()">下一题</div>
@@ -67,60 +53,55 @@ export default {
   data () {
     return {
       testQuestionsType: '',
-      isBtnShow: false,
-      isReveal: false,
-      tlag: 5,
-      flag: 5,
-      clickNum: 1,
+      isBtnShow: false,   // 下一题样式
+      isReveal: false,    // 弹框控制
+      tlag: 5,   // 正确选项颜色
+      flag: 5,  // 错误选项颜色
+      clickNum: 1,   // 下一题点击次数
       chronoScope: 0,
-      surplusAnswe: 10,
-      skip: '',
+      surplusAnswe: 20, // 还剩题数
       answertData: {
       },
       subjectAnswer: '',
+      subjectId: '',    // 答题编码
+      answerName: {},   // 答题选项
+      codes: '',        // 判断答题对错
       testData: [{
         img: require('../../../images/A.png')
+      },
+      {
+        img: require('../../../images/B.png')
+      },
+      {
+        img: require('../../../images/C.png')
+      },
+      {
+        img: require('../../../images/D.png')
       }]
     }
   },
   methods: {
-    // clickAnswer: function (clickIndex) {
-    //   this.isBtnShow = true
-    //   var answesData = {
-    //     classroomId: 2,
-    //     userId: '',
-    //     userPwd: '',
-    //     identityCard: '',
-    //     mobilephone: '',
-    //     drive: ''
-    //   }
-    //   resultPost(answers, answesData).then(json => {
-    //     // console.log(json)
-    //     this.testData[clickIndex].img = require('../../../images/fault.png')
-    //     this.tlag = clickIndex
-    //     this.answertData.forEach((obj, index) => {
-    //       console.log(obj.answertData)
-    //       if (obj.answertData === this.subjectAnswer) {
-    //         this.testData[index].img = require('../../../images/correct.png')
-    //         this.flag = index
-    //         this.answertData.answererror++
-    //       }
-    //     })
-    //   })
-    // },
-    clickAnswer: function () {
+    clickAnswer: function (index) {     // 选项答题
       this.isBtnShow = true
       var answesData = {
-        classroomId: 4,
+        classroomId: 5,
         userId: '',
-        userPwd: '',
-        identityCard: '',
+        identityCard: window.localStorage.getItem('identityCard'),
         mobilephone: '',
         drive: '',
-        subjectAnswer: ''
+        subjectId: this.subjectId
       }
-      resultPost(answers, answesData).then(json => {
-        this.testData.img = require('../../../images/fault.png')
+      resultPost(answers, answesData).then(json => {     // 答案数据接口
+        console.log(json)
+        console.log(json.code)
+        this.codes = json.code
+        this.testData[index].img = require('../../../images/fault.png')
+        this.tlag = index
+        if (this.codes === '0000') {
+          this.testData[index].img = require('../../../images/correct.png')
+          this.flag = index
+          this.answertData.answererror++
+        }
       })
     },
     popClick: function () {
@@ -130,33 +111,47 @@ export default {
         // window.clearInterval(timePiece)
       }
     },
-    countClick: function () {
+    countClick: function () {      // 获取下一题数据
       let isclickNum = this.clickNum++
       this.surplusAnswe--
       this.loadingData()
       console.log(isclickNum)
-      if (isclickNum === 10) {
+      if (isclickNum === 20) {
         document.getElementById('NofItems').innerHTML = '结束答题'
-      } else if (isclickNum === 11) {
+      } else if (isclickNum === 21) {
         this.$router.push('grade')
       }
     },
-    loadingData: function () {
+    loadingData: function () {     //  页面接口数据
       var answeData = {
-        classroomId: 4,
+        classroomId: 5,
         userId: '',
-        userPwd: '',
-        identityCard: '',
+        identityCard: window.localStorage.getItem('identityCard'),
         mobilephone: '',
         drive: ''
       }
+      this.testData = [{
+        img: require('../../../images/A.png')
+      },
+      {
+        img: require('../../../images/B.png')
+      },
+      {
+        img: require('../../../images/C.png')
+      },
+      {
+        img: require('../../../images/D.png')
+      }]
+      this.tlag = 5
+      this.flag = 5
       resultPost(answer, answeData).then(json => {
         this.answertData = json.data[0]
-        console.log(json)
+        this.answerName = json.data[0].answeroptions
+        this.subjectId = json.data[0].subjectId
         this.testQuestionsType = json.data[0].testQuestionsType
       })
     },
-    timePiece: function () {
+    timePiece: function () {    // 计时器
       var mm = 0
       var ss = 0
       var str = ''

@@ -325,7 +325,6 @@ export default {
         reportingMatters: this.reportingMatters, // 举报事项
         identityCard: this.identityCard, // 身份证号
         mobilephone: this.mobilephone, // 用户手机
-        ip: '103.253.2.152', // ip地址
         startTime: this.startTime, // 开始时间
         endTime: this.endTime, // 结束时间
         direction: this.direction, // 方向
@@ -340,7 +339,7 @@ export default {
         address: '广东省深圳市福田区体育中心' // 主题地点描述
       }
       for (let key in reqData) {
-        if (!reqData[key] && key !== 'ip') {
+        if (!reqData[key]) {
           console.log(key)
           this.msg = '信息填写不完整'
           this.tipsShow = true
