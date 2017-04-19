@@ -32,7 +32,7 @@ let url = window.location.href;
 let data = {
   url: encodeURIComponent(url)
 }
-resultGet(`http://gxg.tunnel.qydev.com/web/h5/sdkConfig.html?url=${data.url}`).then((r) => {
+resultGet(`http://gxg.tunnel.qydev.com/h5/sdkConfig.html?url=${data.url}`).then((r) => {
   if (r.code == '00000') {
       console.log(r);
       var res = r.data;
