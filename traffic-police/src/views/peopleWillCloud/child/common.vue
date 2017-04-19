@@ -87,14 +87,13 @@
     </ul>
     <button class="btn" type="button" name="button" @click.stop="submit()">提交</button>
   </div>
-  <alert-tips :tipsText="msg" @closeTips="closeTips()" v-if="tipsShow"></alert-tips>
 </div>
 </template>
 <script>
-import alertTips from '../../../components/alertTips'
 import uploadImgFun from '../../../service/uploadImg'
-// import { resultGet } from '../../../service/getData'
-// import { uploadImg } from '../../../config/baseUrl'
+import { resultGet } from '../../../service/getData'
+import { uploadImg } from '../../../config/baseUrl'
+import { Toast } from 'mint-ui'
 
 export default{
   name: 'common',
@@ -111,16 +110,14 @@ export default{
       detailAddress: '',
       emergency: '',
       description: '',
-      sceneImg: '',
-      tipsShow: false,
-      msg: ''
+      sceneImg: ''
     }
   },
   methods: {
     getToken: function () {
-      // resultGet(uploadImg).then(res => {
-      //   res.code === '0000' && this.uploadImgFn(res.upToken)
-      // })
+      resultGet(uploadImg).then(res => {
+        res.code === '0000' && this.uploadImgFn(res.upToken)
+      })
       this.uploadImgFn()
     },
     uploadImgFn: function (uptoken) {
@@ -128,7 +125,7 @@ export default{
       uploadImgFun({
         selfId: 'upload',
         parentId: 'container',
-        upToken: 'OayadC4VrxKhmgOGECo6qkCnkxsbTdMum1GGxwc9:RHWscJTU4TSwlq7sT5BFK3yQxrA=:eyJzY29wZSI6ImNka2otamoiLCJkZWFkbGluZSI6MTQ5MjU0MTM0Mn0=',
+        upToken: uptoken,
         fileUploaded: function (res) {
           that.sceneImg = res.imgUrl
         },
@@ -186,20 +183,16 @@ export default{
       console.log(reqData)
       for (let key in reqData) {
         if (!reqData[key]) {
-          this.msg = '信息填写不完整'
-          this.tipsShow = true
+          Toast({
+            message: '信息填写不完整',
+            position: 'bottom',
+            className: 'white'
+          })
           return false
         }
       }
       this.$emit('submit', reqData)
-    },
-    closeTips: function () {
-      this.tipsShow = false
-      this.msg = ''
     }
-  },
-  components: {
-    alertTips
   },
   created () {
     document.addEventListener('click', (e) => {
@@ -300,6 +293,11 @@ export default{
         object-fit: cover;
       }
     }
+  }
+}
+.white{
+  span{
+    color: #fff;
   }
 }
 </style>

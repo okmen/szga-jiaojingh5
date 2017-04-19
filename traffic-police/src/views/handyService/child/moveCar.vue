@@ -52,6 +52,7 @@
 <script>
 import { resultPost } from '../../../service/getData'
 import { moveCar } from '../../../config/baseUrl'
+import { MessageBox, Toast } from 'mint-ui'
 export default{
   name: 'moveCar',
   data () {
@@ -288,9 +289,29 @@ export default{
         doodgenAddress: '深圳', // 挪车地址
         identityCard: this.identityCard // 身份证
       }
-      console.log(reqData)
+      for (let key in reqData) {
+        if (!reqData[key]) {
+          Toast({
+            message: '信息填写不完整',
+            position: 'bottom',
+            className: 'white'
+          })
+          return false
+        }
+      }
       resultPost(moveCar, reqData).then(json => {
         console.log(json)
+        if (json.code === '0000') {
+          MessageBox({
+            title: '',
+            message: '已在交警系统发出通知，请耐心等待！'
+          })
+        } else {
+          MessageBox({
+            title: '',
+            message: json.msg
+          })
+        }
       })
     }
   },
@@ -351,6 +372,11 @@ export default{
       line-height: 34px;
       color: #353535;
     }
+  }
+}
+.white{
+  span{
+    color: #fff;
   }
 }
 </style>

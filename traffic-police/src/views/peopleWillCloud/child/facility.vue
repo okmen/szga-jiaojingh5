@@ -1,12 +1,11 @@
 <template>
 <div class="facility-outer">
   <common :typeData='typeData' :reportingMatters="reportingMatters" @submit="submit"></common>
-  <alert-tips :tipsText="msg" @closeTips="closeTips()" v-if="tipsShow"></alert-tips>
 </div>
 </template>
 <script>
 import common from './common'
-import alertTips from '../../../components/alertTips'
+import { MessageBox } from 'mint-ui'
 import { resultPost } from '../../../service/getData'
 import { facility } from '../../../config/baseUrl'
 export default {
@@ -148,14 +147,11 @@ export default {
             }
           ]
         }
-      ],
-      msg: '',
-      tipsShow: false
+      ]
     }
   },
   components: {
-    common,
-    alertTips
+    common
   },
   methods: {
     submit: function (reqData) {
@@ -163,15 +159,17 @@ export default {
       resultPost(facility, reqData).then(json => {
         this.tipsShow = true
         if (json.code !== '0000') {
-          this.msg = json.msg
+          MessageBox({
+            title: '',
+            message: json.msg
+          })
         } else {
-          this.msg = '感谢您参与举报，我们会依次不断改进'
+          MessageBox({
+            title: '',
+            message: '感谢您参与举报，我们会依次不断改进'
+          })
         }
       })
-    },
-    closeTips: function () {
-      this.tipsShow = false
-      this.msg = ''
     }
   },
   created () {

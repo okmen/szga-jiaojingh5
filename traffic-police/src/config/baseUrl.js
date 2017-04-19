@@ -53,3 +53,5 @@ export const sendSMS = `${commonUrl}user/sendSMSVerificatioCode.html` // 发送�
 export const deleteVehicle = `${commonUrl}user/deleteVehicle.htm.html` // 用戶中心解綁微信接口
 
 export const uploadImg = `${commonUrl}common/getUpToken.html` // 上传图片获取uptoken接口
+
+export const getLocation = 'http://api.careland.com.cn/api/v1/rgeo' // 通过经纬度获取位置信息接口

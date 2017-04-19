@@ -4,7 +4,7 @@
     <li class="updateMobile-item">
       <div class="updateMobile-name">旧手机号</div>
       <div class="updateMobile-text">
-        <input class="text-input" type="text" placeholder="请输入您的旧手机号" v-model:value="oldMobile" readonly>
+        <input class="text-input" type="text" placeholder="请输入您的旧手机号" v-model:value="oldMobile">
       </div>
     </li>
     <li class="updateMobile-item clear">
@@ -24,14 +24,13 @@
     </li>
   </ul>
   <button class="btn btn-blue"  type="button" name="button" @click.stop="submit()">修改手机号</button>
-  <alert-tips :tipsText="msg" @closeTips="closeTips()" v-if="tipsShow"></alert-tips>
 </div>
 </template>
 
 <script>
 import { updateMobile, sendSMS } from '../../../config/baseUrl'
 import { resultPost } from '../../../service/getData'
-import alertTips from '../../../components/alertTips'
+import { MessageBox, Toast } from 'mint-ui'
 export default{
   name: 'updateMobile',
   data () {
@@ -40,13 +39,8 @@ export default{
       validateCode: '',
       newMobile: '',
       btnValidateCode: '发送验证码',
-      isdisabled: false,
-      msg: '',
-      tipsShow: false
+      isdisabled: false
     }
-  },
-  components: {
-    alertTips
   },
   methods: {
     /* 发送验证码 */
@@ -76,31 +70,53 @@ export default{
     },
     /* 提交数据 */
     submit: function () {
-      console.log('提交数据并返回我的资料页面')
       let reqData = {
         oldMobile: this.oldMobile,
         validateCode: this.validateCode,
         newMobile: this.newMobile,
-        // identityCard: this.identityCard
-        identityCard: '123451234512345123'
+        identityCard: this.identityCard
+      }
+      for (let key in reqData) {
+        if (!reqData[key]) {
+          Toast({
+            message: '信息填写不完整',
+            position: 'bottom',
+            className: 'white'
+          })
+          return false
+        }
       }
       let phone = Number(this.newMobile)
       if (/^1[34578]\d{9}$/.test(phone)) {
         resultPost(updateMobile, reqData).then(json => {
+          console.log(reqData)
           console.log(json)
+          if (json.code === '0000') {
+            Toast({
+              message: '修改成功',
+              position: 'bottom',
+              className: 'white'
+            })
+            console.log('提交数据并返回我的资料页面')
+          } else {
+            MessageBox({
+              title: '',
+              message: json.msg
+            })
+          }
         })
       } else {
-        this.msg = '新号码输入有误'
-        this.tipsShow = true
+        Toast({
+          message: '新号码格式有误',
+          position: 'bottom',
+          className: 'white'
+        })
       }
-    },
-    closeTips: function () {
-      this.tipsShow = false
-      this.msg = ''
     }
   },
   created () {
     this.oldMobile = window.localStorage.getItem('mobilePhone')
+    this.identityCard = window.localStorage.getItem('identityCard')
   }
 }
 </script>
@@ -142,6 +158,11 @@ export default{
         }
       }
     }
+  }
+}
+.white{
+  span{
+    color: #fff;
   }
 }
 </style>

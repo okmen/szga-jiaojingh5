@@ -21,14 +21,13 @@
     </li>
   </ul>
   <button class="btn btn-blue"  type="button" name="button" @click.stop="submit()">修改密码</button>
-  <alert-tips :tipsText="msg" @closeTips="closeTips()" v-if="tipsShow"></alert-tips>
 </div>
 </template>
 
 <script>
 import { updatePwd } from '../../../config/baseUrl'
 import { resultPost } from '../../../service/getData'
-import alertTips from '../../../components/alertTips'
+import { MessageBox, Toast } from 'mint-ui'
 export default{
   name: 'updatePwd',
   data () {
@@ -36,32 +35,50 @@ export default{
       oldPwd: '',
       newPwd: '',
       comfirmPwd: '',
-      msg: '',
-      tipsShow: false,
       identityCard: ''
     }
   },
-  components: {
-    alertTips
-  },
   methods: {
     submit: function () {
-      if (this.newPwd !== this.comfirmPwd) {
-        this.msg = '新密码不一致'
-        this.tipsShow = true
-      } else if (this.oldPwd === this.newPwd) {
-        this.msg = '新密码与旧密码一致'
-        this.tipsShow = true
-      } else if (this.newPwd === this.comfirmPwd) {
-        console.log('提交数据并返回我的资料页面')
-        let reqData = {
-          oldPwd: this.oldPwd,
-          newPwd: this.newPwd,
-          // identityCard: this.identityCard // 暂无
-          identityCard: '123451234512345123'
+      let reqData = {
+        oldPwd: this.oldPwd,
+        newPwd: this.newPwd,
+        // identityCard: this.identityCard
+        identityCard: '420881198302280017'
+      }
+      for (let key in reqData) {
+        if (!reqData[key]) {
+          Toast({
+            message: '信息填写不完整',
+            position: 'bottom',
+            className: 'white'
+          })
+          return false
         }
+      }
+      if (this.newPwd !== this.comfirmPwd) {
+        Toast({
+          message: '新密码不一致',
+          position: 'bottom',
+          className: 'white'
+        })
+      } else if (this.oldPwd === this.newPwd) {
+        Toast({
+          message: '新密码不能与旧密码一致',
+          position: 'bottom',
+          className: 'white'
+        })
+      } else if (this.newPwd === this.comfirmPwd) {
         resultPost(updatePwd, reqData).then(json => {
           console.log(json)
+          if (json.code === '0000') {
+            console.log('提交数据并返回我的资料页面')
+          } else {
+            MessageBox({
+              title: '',
+              message: json.msg
+            })
+          }
         })
       }
     },
@@ -69,6 +86,9 @@ export default{
       this.tipsShow = false
       this.msg = ''
     }
+  },
+  created () {
+    this.identityCard = window.localStorage.getItem('identityCard')
   }
 }
 </script>
@@ -90,6 +110,11 @@ export default{
         left: 0;
       }
     }
+  }
+}
+.white{
+  span{
+    color: #fff;
   }
 }
 </style>
