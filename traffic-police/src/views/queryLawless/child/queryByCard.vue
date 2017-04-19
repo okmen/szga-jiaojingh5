@@ -24,9 +24,9 @@
               <span>验证码</span>
             </div>
             <div class="queryByCard-hbs-text width-40 left">
-              <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码">
+              <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码" id="inp">
             </div>
-            <div class="left queryByCard-hbs-code">获取验证码</div>
+            <div class="left queryByCard-hbs-code" id="code"></div>
           </li>
         </ul>
       </div>
@@ -37,6 +37,7 @@
 <script>
   import { resultPost } from '../../../service/getData'
   import { queryLawlessByCard } from '../../../config/baseUrl'
+  import { verifyCode } from '../../../config/verifyCode'
   export default {
     name: 'queryByCard',
     data () {
@@ -45,6 +46,9 @@
         recordNo: '',
         billNo: ''
       }
+    },
+    mounted () {
+      verifyCode(document.getElementById('inp'), document.getElementById('code'))
     },
     methods: {
       queryLawlessByCard: function () {
@@ -91,8 +95,11 @@
                display: inline-block;
             }
           .queryByCard-hbs-code {
-               text-indent: 28px;
-               text-decoration: underline;
+            margin-left: 40px;
+            text-indent: 28px;
+            width: 240px;
+            height: 56px;
+            text-decoration: underline;
             }
          }
         }

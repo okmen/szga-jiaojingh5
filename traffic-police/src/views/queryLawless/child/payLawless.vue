@@ -36,7 +36,10 @@
             <span>验证码</span>
           </div>
           <div class="form-line-item width-40">
-            <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码">
+            <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码" id="inp">
+          </div>
+          <div class="form-line-item right">
+            <div class="payLawless-hbs-code" id="code"></div>
           </div>
         </li>
       </ul>
@@ -97,6 +100,13 @@
                  position: absolute;
                  left: 0;
               }
+              .payLawless-hbs-code {
+                margin-left: 40px;
+                text-indent: 28px;
+                width: 240px;
+                height: 60px;
+                text-decoration: underline;
+              }
             }
       }
       .width-25 {
@@ -120,6 +130,7 @@
 <script>
   import { resultPost } from '../../../service/getData'
   import { queryPay } from '../../../config/baseUrl'
+  import { verifyCode } from '../../../config/verifyCode'
   export default {
     name: 'earlyLawless',
     data () {
@@ -224,6 +235,9 @@
           }
         ]
       }
+    },
+    mounted () {
+      verifyCode(document.getElementById('inp'), document.getElementById('code'))
     },
     methods: {
       abbreviationSelectClick: function (str) {

@@ -93,7 +93,7 @@
       </div>
     </div>
     <!-- 结果块(本人) -->
-    <div class="queryResults pad-side-50">
+    <div v-for="data in myIllegalData" class="queryResults pad-side-50">
       <div class="results-box">
         <div class="box-header">
           <div class="header-item left">我的违章</div>
@@ -101,18 +101,18 @@
         </div>
         <div class="box-body">
           <div class="body-left-side">
-            <div class="left-number">违法编号 :<i></i></div>
+            <div class="left-number">违法编号 :<i>{{ data.billNo }}</i></div>
             <div class="left-line">
               <span><i class="time"></i></span>
-              <p>时间</p>
+              <p>{{ data.illegalTime }}</p>
             </div>
             <div class="left-line"><span>
               <i class="local"></i></span>
-              <p>地点</p>
+              <p>{{ data.illegalAddr }}</p>
             </div>
             <div class="left-line">
               <span><i class="warn"></i></span>
-              <p>事件</p></div>
+              <p>{{ data.illegalDesc }}</p></div>
             <div class="left-line">
               <span><i class="punish"></i></span>
               <p>元</p>
@@ -140,6 +140,7 @@
         },
         cur_type_id: '01',
         illegalData: [],
+        myIllegalData: [],
         licensePlateNo: '',
         illegalTime: '',
         car_number: '',
@@ -362,7 +363,6 @@
         }
         console.log(reqData)
         resultPost(queryLawlessByCar, reqData).then(json => {
-          console.log(json)
           this.illegalData = json.data
         })
       },
@@ -375,7 +375,7 @@
         console.log(reqData)
         resultPost(queryLawlessByCar, reqData).then(json => {
           console.log(json)
-          this.illegalData = json.data
+          this.myIllegalData = json.data
         })
       }
     },
