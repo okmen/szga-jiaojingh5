@@ -22,7 +22,7 @@ export const order = `${commonUrl}convenience/sequenceChaos.html` // 秩序混�
 
 export const moveCar = `${commonUrl}convenience/oneKeyDodgen.html` // 一键挪车接口
 
-export const queryLawlessByCar = `http://192.168.1.243:8080/web/illegalHanding/queryInfoByLicensePlateNo.html` // 违法查询（车牌号）
+export const queryLawlessByCar = `${commonUrl}illegalHanding/queryInfoByLicensePlateNo.html` // 违法查询（车牌号）
 
 export const queryLawlessByCard = `${commonUrl}illegalHanding/queryInfoByDrivingLicenceNo.html` // 违法查询（驾驶证）
 
