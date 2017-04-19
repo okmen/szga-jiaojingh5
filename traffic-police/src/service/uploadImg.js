@@ -24,6 +24,7 @@ export default function uploadImgFun({selfId,parentId,upToken,fileUploaded,error
         drop_element: parentId,          // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
         chunk_size: '4mb',                  // 分块上传时，每块的体积
         auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+        multi_selection: false,
         init: {
           'FilesAdded': function(up, files) {
             plupload.each(files, function(file) {

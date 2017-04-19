@@ -1,113 +1,147 @@
 <template>
-  <div id="starUser-hbs">
-    <ul class="starUser-hbs-list">
-      <li class="starUser-hbs-item">
-        <div class="starUser-hbs-name">
-          <span>车辆类型</span>
-        </div>
-        <div class="div-select">
-          <span class="btn-select" @click.stop="licenseSelectClick()">{{ licenseSelectMassage }}</span>
-          <div class="div-select-ul" v-if="licenseSelectShow">
-            <ul>
-              <li v-for="item in licenseSelectData" @click.stop = "licenseSelectClick(item.str)">{{item.str}}</li>
-            </ul>
+  <div>
+    <div id="starUser-hbs">
+      <ul class="starUser-hbs-list">
+        <li class="starUser-hbs-item">
+          <div class="starUser-hbs-name">
+            <span>车辆类型</span>
           </div>
+          <div class="div-select">
+            <span class="btn-select" @click.stop="licenseSelectClick()" data-type="licenseSelectType">{{ licenseSelectMassage }}</span>
+            <div class="div-select-ul" v-if="licenseSelectShow">
+              <ul>
+                <li v-for="item in licenseSelectData" @click.stop = "licenseSelectClick(item.str)" data-Num="item.type">{{item.str}}</li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="starUser-hbs-item clear">
+          <div class="starUser-hbs-name">
+            <span>车牌号码</span>
+          </div>
+          <div class="div-select width-120 left">
+            <span class="btn-select min-btn-select" @click.stop="abbreviationSelectClick()">{{ abbreviationSelectMassage }}</span>
+            <div class="div-select-ul" v-if="abbreviationSelectShow">
+              <ul>
+                <li v-for="item in abbreviationSelectData" @click.stop = "abbreviationSelectClick(item.str)">{{item.str}}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="starUser-hbs-text width-70 right">
+            <input class="text-input" type="text" name="" v-model="carNumber">
+          </div>
+        </li>
+        <li class="starUser-hbs-item">
+          <div class="starUser-hbs-name">
+            <span>身份证号</span>
+          </div>
+          <div class="starUser-hbs-text">
+            <input class="text-input" type="text" name="" value="" v-model="idCardNumber" placeholder="外籍人士,请在证件号前加F">
+          </div>
+        </li>
+        <li class="starUser-hbs-item">
+          <div class="starUser-hbs-name">
+            <span>联系地址</span>
+          </div>
+          <div class="starUser-hbs-text">
+            <input class="text-input" type="text" name="" value="" v-model="connectAddress" placeholder="您的联系地址">
+          </div>
+        </li>
+        <li class="starUser-hbs-item">
+        <div class="starUser-hbs-name">
+          <span>手机号码</span>
+        </div>
+        <div class="starUser-hbs-text">
+          <input class="text-input" type="tel" name="" value="" v-model="telphone" placeholder="请输入您的手机号码">
         </div>
       </li>
       <li class="starUser-hbs-item clear">
         <div class="starUser-hbs-name">
-          <span>车牌号码</span>
+          <span>验证码</span>
         </div>
-        <div class="div-select width-120 left">
-          <span class="btn-select min-btn-select" @click.stop="abbreviationSelectClick()">{{ abbreviationSelectMassage }}</span>
-          <div class="div-select-ul" v-if="abbreviationSelectShow">
-            <ul>
-              <li v-for="item in abbreviationSelectData" @click.stop = "abbreviationSelectClick(item.str)">{{item.str}}</li>
-            </ul>
-          </div>
+        <div class="starUser-hbs-text width-40 left">
+          <input class="text-input" type="tel" name="" value="" v-model="validCode" placeholder="请输入验证码">
         </div>
-        <div class="starUser-hbs-text width-70 right">
-          <input class="text-input" type="text" name="" value="B">
-        </div>
+        <div class="left starUser-hbs-code" @click="getVerification">获取验证码</div>
       </li>
-      <li class="starUser-hbs-item">
-        <div class="starUser-hbs-name">
-          <span>身份证号</span>
-        </div>
-        <div class="starUser-hbs-text">
-          <input class="text-input" type="text" name="" value="" placeholder="外籍人士,请在证件号前加F">
-        </div>
-      </li>
-      <li class="starUser-hbs-item">
-        <div class="starUser-hbs-name">
-          <span>联系地址</span>
-        </div>
-        <div class="starUser-hbs-text">
-          <input class="text-input" type="text" name="" value="" placeholder="您的联系地址(非必填)">
-        </div>
-      </li>
-      <li class="starUser-hbs-item">
-        <div class="starUser-hbs-name">
-          <span>是否有驾驶证</span>
-        </div>
-        <div class="starUser-hbs-radio">
-          <div class="starUser-hbs-radio-box">
-            <input type="radio" id="starUserRadio4" checked="checked" name="haveDrivingLicence" value="有">
-            <label name="starUserRadio4" class="checked" for="starUserRadio4">有</label>
+        <li class="starUser-hbs-item">
+          <div class="starUser-hbs-name">
+            <span>是否有驾驶证</span>
           </div>
-          <div class="starUser-hbs-radio-box">
-            <input type="radio" id="starUserRadio5" name="haveDrivingLicence" value="无">
-            <label name="starUserRadio5" class="checked" for="starUserRadio5">无</label>
+          <div class="starUser-hbs-radio">
+            <div class="starUser-hbs-radio-box">
+              <input type="radio" id="starUserRadio4" name="haveDrivingLicence" 
+                v-model:checked="haveDrivingLicence" value="1">
+              <label name="starUserRadio4" class="checked" for="starUserRadio4">有</label>
+            </div>
+            <div class="starUser-hbs-radio-box">
+              <input type="radio" id="starUserRadio5" name="haveDrivingLicence" value="0" v-model:checked="haveDrivingLicence">
+              <label name="starUserRadio5" class="checked" for="starUserRadio5">无</label>
+            </div>
           </div>
-        </div>
-      </li>
-      <li class="starUser-hbs-item">
-        <div class="starUser-hbs-name">
-          <span>驾驶证核发地</span>
-        </div>
-        <div class="starUser-hbs-radio">
-          <div class="starUser-hbs-radio-box">
-            <input type="radio" id="starUserRadio1" checked="checked" name="drivingLicence" value="深圳本地">
-            <label name="starUserRadio1" class="checked" for="starUserRadio1">深圳本地</label>
+        </li>
+        <li class="starUser-hbs-item">
+          <div class="starUser-hbs-name">
+            <span>驾驶证核发地</span>
           </div>
-          <div class="starUser-hbs-radio-box">
-            <input type="radio" id="starUserRadio2" name="drivingLicence" value="本省外市">
-            <label name="starUserRadio2" class="checked" for="starUserRadio2">本省外市</label>
+          <div class="starUser-hbs-radio">
+            <div class="starUser-hbs-radio-box">
+              <input type="radio" id="starUserRadio1" name="drivingLicence" value="1" v-model:checked="originPlace">
+              <label name="starUserRadio1" class="checked" for="starUserRadio1">深圳本地</label>
+            </div>
+            <div class="starUser-hbs-radio-box">
+              <input type="radio" id="starUserRadio2" name="drivingLicence" value="2" v-model:checked="originPlace">
+              <label name="starUserRadio2" class="checked" for="starUserRadio2">本省外市</label>
+            </div>
+            <div class="starUser-hbs-radio-box">
+              <input type="radio" id="starUserRadio3" name="drivingLicence" value="3" v-model:checked="originPlace">
+              <label name="starUserRadio3" class="checked" for="starUserRadio3">外省</label>
+            </div>
           </div>
-          <div class="starUser-hbs-radio-box">
-            <input type="radio" id="starUserRadio3" name="drivingLicence" value="外省">
-            <label name="starUserRadio3" class="checked" for="starUserRadio3">外省</label>
-          </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
+    <common @btnSureStar="btnSureStar()" ref="getImgUrl"></common>
   </div>
 </template>
 <script>
+import common from './common'
+import { resultPost } from '../../../service/getData'
+import { carOwner } from '../../../config/baseUrl'
 export default{
   name: 'carOwner',
+  components: {
+    common
+  },
   data () {
     return {
       licenseSelectShow: false,
       licenseSelectMassage: '蓝牌',
+      licenseSelectType: '02',
       licenseSelectData: [
         {
-          'str': '蓝牌y'
+          'str': '蓝牌y',
+          'type': '02'
         },
         {
-          'str': '黄牌'
+          'str': '黄牌',
+          'type': '01'
         },
         {
-          'str': '黑牌'
+          'str': '黑牌',
+          'type': '06'
         },
         {
-          'str': '个性牌'
+          'str': '个性牌',
+          'type': '02'
         },
         {
-          'str': '小型新能源车号牌'
+          'str': '小型新能源车号牌',
+          'type': '02'
         },
         {
-          'str': '大型新能源车号牌'
+          'str': '大型新能源车号牌',
+          'type': '02'
         }
       ],
       abbreviationSelectShow: false,
@@ -206,7 +240,14 @@ export default{
         {
           'str': '新'
         }
-      ]
+      ],
+      carNumber: 'B',         // 车牌号
+      idCardNumber: '',       // 身份证号
+      connectAddress: '',     // 联系地址
+      telphone: '',           // 手机号码
+      validCode: '',          // 验证码
+      haveDrivingLicence: '', // 是否有驾驶证
+      originPlace: ''         // 所属地
     }
   },
   methods: {
@@ -233,6 +274,29 @@ export default{
         this.licenseSelectShow = false
         this.typeSelectShow = false
       }
+    },
+    btnSureStar: function () {
+      let idImgOne = this.$refs.getImgUrl.idCardImgPositive
+      let idImgTwo = this.$refs.getImgUrl.idCardImgNegative
+      let idImgThree = this.$refs.getImgUrl.idCardImgHandHeld
+      let carOwnerData = {
+        licensePlateType: this.licenseSelectType,
+        licensePlateNumber: this.carNumber,
+        identityCard: this.idCardNumber,
+        linkAddress: this.connectAddress,
+        mobilephone: this.telphone,
+        validateCode: this.validCode,
+        isDriverLicense: this.haveDrivingLicence,
+        driverLicenseIssuedAddress: this.originPlace,
+        idCardImgPositive: idImgOne,
+        idCardImgNegative: idImgTwo,
+        idCardImgHandHeld: idImgThree,
+        provinceAbbreviation: this.abbreviationSelectMassage
+      }
+      console.log(carOwnerData)
+      resultPost(carOwner, carOwnerData).then(json => {
+        console.log(json)
+      })
     },
     getVerification: function () {}
   },

@@ -47,6 +47,7 @@
  </div>
 </template>
 <script>
+import { Toast } from 'mint-ui'
 export default {
   data () {
     return {
@@ -57,6 +58,12 @@ export default {
     btnAgreeRequest: function () {
       if (this.checked === true) {
         this.$router.go(-1)
+      } else {
+        Toast({
+          message: '请勾选已阅读温馨提示',
+          position: 'bottom',
+          duration: 1500
+        })
       }
     }
   }
