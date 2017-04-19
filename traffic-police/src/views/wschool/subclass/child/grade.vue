@@ -1,61 +1,53 @@
 <template>
-  <div class="grade">
+  <div class="grade" :click="gradeclick()">
     <div class="grade-top">
-      <img v-if="answerResult == 1" src="../../../../images/qualified.png">
-      <img v-else-if="answerResult == 2" src="../../../../images/disqualification.png">
-      <img v-else-if="answerResult == 0" src="../../../../images/disqualification.png">
+      <img v-if="batchResult == '合格'" src="../../../../images/qualified.png">
+      <img v-else-if="batchResult == '不合格'" src="../../../../images/disqualification.png">
+      <img v-else-if="batchResult == '未完成'" src="../../../../images/disqualification.png">
     </div>
-    <p v-if="answerResult == 1" class="grade-head">本次学习通过,欢迎下次学习！</p>
-    <p v-else-if="answerResult == 2" class="grade-head">本次学习不通过,欢迎继续学习！</p>
-    <p v-else-if="answerResult == 0" class="grade-head">本次学习不合格,欢迎继续学习！</p>
+    <p v-if="batchResult == '合格'" class="grade-head">本次学习通过,欢迎下次学习！</p>
+    <p v-else-if="batchResult == '不合格'" class="grade-head">本次学习不通过,欢迎继续学习！</p>
+    <p v-else-if="batchResult == '未完成'" class="grade-head">本次学习不合格,欢迎继续学习！</p>
     <ul class="grade-footer" >
       <li class="grade-footer-center">
         <span>答题日期</span>
-        <em class="grade-footer-right">{{gradeData.answerDate}}</em>
+        <em class="grade-footer-right">{{answerDate}}</em>
       </li>
       <li class="grade-footer-center">
         <span>答题用时</span>
-        <em class="grade-footer-right">{{gradeData.answerTime}}</em>
+        <em class="grade-footer-right">{{ganswerTime}}</em>
       </li>
       <li class="grade-footer-center">
         <span>答对题数</span>
-        <em class="grade-footer-right">{{gradeData.answerCorrect}}</em>
+        <em class="grade-footer-right">{{answerCorrect}}</em>
       </li>
       <li class="grade-footer-center">
         <span>答错题数</span>
-        <em class="grade-footer-right">{{gradeData.answererror}}</em>
+        <em class="grade-footer-right">{{answererror}}</em>
       </li>
     </ul>
     <router-link class="grade-footer-bottom" to="result">好的</router-link>
   </div>
 </template>
 <script>
-import { resultPost } from '../../../../service/getData'
-import { grade } from '../../../../config/baseUrl'
 export default {
   name: 'grade',
   data () {
     return {
-      answerResult: 0,
-      gradeData: {
-      }
+      answererror: 0,
+      ganswerTime: 0,
+      chronoScope: 0,
+      answerCorrect: 0,
+      batchResult: ''
     }
   },
-  created () {
-    let grdData = {
-      classroomId: 4,
-      userId: '',
-      userPwd: '',
-      identityCard: this.identityCard,
-      drive: this.drive,
-      Mobilephone: this.Mobilephone
+  methods: {
+    gradeclick: function () {
+      this.answererror = window.sessionStorage.getItem('answererror')
+      this.ganswerTime = window.sessionStorage.getItem('chronoScope')
+      this.batchResult = window.sessionStorage.getItem('batchResult')
+      this.answerCorrect = window.sessionStorage.getItem('answerCorrect')
     }
-    resultPost(grade, grdData).then(json => {
-      console.log(json)
-      this.gradeData = json.data[0]
-      // this.answerResult = json.data[0].answerResult
-      console.log(grdData)
-    })
   }
 }
 </script>
