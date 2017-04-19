@@ -24,27 +24,78 @@
               <span>验证码</span>
             </div>
             <div class="queryByCard-hbs-text width-40 left">
-              <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码">
+              <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码" id="inp">
             </div>
-            <div class="left queryByCard-hbs-code">获取验证码</div>
+            <div class="left queryByCard-hbs-code" id="code"></div>
           </li>
         </ul>
       </div>
       <button class="btn btn-blue" type="button" name="button" @click.stop="queryLawlessByCard()">查询</button>
+    </div>
+    <!-- 结果块 -->
+    <div v-for="data in illegalData" class="queryResults pad-side-50">
+      <div class="results-box">
+        <div class="box-header">
+          <div class="header-item left">违章信息</div>
+          <div class="header-item right order-print">{{ claimList[data.isNeedClaim] }}</div>
+        </div>
+        <div class="box-body">
+          <div class="body-left-side">
+            <div class="left-number">违法编号 :<i>{{ data.billNo }}</i></div>
+            <div class="left-line">
+              <span><i class="car"></i></span>
+              <p>{{ data.licensePlateNo }}</p>
+            </div>
+            <div class="left-line">
+              <span><i class="time"></i></span>
+              <p>{{ data.illegalTime }}</p>
+            </div>
+            <div class="left-line"><span>
+              <i class="local"></i></span>
+              <p>{{ data.illegalAddr }}</p>
+            </div>
+            <div class="left-line">
+              <span><i class="warn"></i></span>
+              <p>{{ data.illegalDesc }}</p></div>
+            <div class="left-line">
+              <span><i class="punish"></i></span>
+              <p>{{ data.punishAmt }}元</p>
+            </div>
+          </div>
+          <a class="body-right-side">
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
   import { resultPost } from '../../../service/getData'
   import { queryLawlessByCard } from '../../../config/baseUrl'
+  import { verifyCode } from '../../../config/verifyCode'
+  import { Toast } from 'mint-ui'
   export default {
     name: 'queryByCard',
     data () {
       return {
-        drivingLicenceNo: '',
-        recordNo: '',
-        billNo: ''
+        claimList: {
+          '0': '无需打单',
+          '1': '需要打单',
+          '2': '需要窗口办理'
+        }, // 是否需要打单
+        illegalData: [], // 接口返回全部数据
+        billNo: '', // 违法编号
+        licensePlateNo: '', // 车牌号
+        illegalTime: '', // 违法时间
+        car_number: '', // 除去省字的车牌号
+        drivingLicenceNo: '', // 驾驶证号
+        recordNo: '', // 档案编号
+        msg: '',
+        tipsShow: false
       }
+    },
+    mounted () {
+      verifyCode(document.getElementById('inp'), document.getElementById('code'))
     },
     methods: {
       queryLawlessByCard: function () {
@@ -52,10 +103,19 @@
           drivingLicenceNo: this.drivingLicenceNo,
           recordNo: this.recordNo
         }
-        resultPost(queryLawlessByCard, reqData).then(json => {
-          this.billNo = json.data[0].billNo
-          console.log(json)
-        })
+        if (!this.drivingLicenceNo || !this.recordNo) {
+          Toast({
+            message: '信息填写不完整',
+            position: 'bottom',
+            duration: 3000
+          })
+          return false
+        } else {
+          resultPost(queryLawlessByCard, reqData).then(json => {
+            console.log(json)
+            this.illegalData = json.data
+          })
+        }
       }
     }
   }
@@ -91,10 +151,115 @@
                display: inline-block;
             }
           .queryByCard-hbs-code {
-               text-indent: 28px;
-               text-decoration: underline;
+            margin-left: 40px;
+            text-indent: 28px;
+            width: 240px;
+            height: 56px;
+            text-decoration: underline;
             }
          }
+        }
+      }
+    }
+    .queryResults {
+      color: #333 !important;
+      margin: 100px 0;
+      .results-box {
+        border: 1px solid #a7d9f9;
+        background-color: #fff;
+        border-radius: 4px;
+        .box-header {
+          height: 80px;
+          line-height: 80px;
+          border-bottom: 1px solid #a7d9f9;
+          &:after { display: block; content: "clear"; height: 0; clear: both; overflow: hidden; visibility: hidden; }
+          .header-item {
+            font-size: 1rem;
+            padding: 0 24px;
+            font-weight: bold;
+            &.order-print {
+               color: #2696dd;
+               text-decoration: underline;
+             }
+          }
+        }
+        .box-body {
+          color: #333;
+          padding: 0 24px 10px;
+          position: relative;
+          .body-left-side {
+            width: 80%;
+            .left-number {
+              font-size: 0.95rem;
+              font-weight: bold;
+              height: 80px;
+              line-height: 80px;
+              i {
+                color: #f46263;
+                margin-left: 30px;
+              }
+            }
+            .left-line {
+              padding: 8px 0;
+              font-size: 0.9rem;
+              &:after { display: block; content: "clear"; height: 0; clear: both; overflow: hidden; visibility: hidden; }
+              span {
+                display: inline-block;
+                width: 50px;
+                text-align: center;
+                position: absolute;
+              }
+              p {
+                display: inline-block;
+                position: relative;
+                left: 70px;
+                vertical-align: middle;
+              }
+              i {
+                display: inline-block;
+                width: 34px;
+                height: 34px;
+                background-image: url("./../../../images/A.png");
+                background-size: 100%;
+                vertical-align: middle;
+                &.time {
+                   background-image: url("./../../../images/time_2.png");
+                 }
+                &.car {
+                   background-image: url("./../../../images/car.png");
+                   background-repeat: no-repeat;
+                   width: 40px;
+                 }
+                &.punish {
+                   background-image: url("./../../../images/punish.png");
+                   background-repeat: no-repeat;
+                   width: 36px;
+                   height: 38px;
+                 }
+                &.local {
+                   background-image: url("./../../../images/local.png");
+                   width: 32px;
+                   height: 40px;
+                 }
+                &.warn {
+                   background-image: url("./../../../images/warn.png");
+                   width: 36px;
+                   height: 38px;
+                 }
+              }
+            }
+          }
+          .body-right-side {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            margin-top: -20px;
+            display: block;
+            width: 20px;
+            height: 40px;
+            background-image: url("./../../../images/login-right.png");
+            background-size: cover;
+          }
         }
       }
     }

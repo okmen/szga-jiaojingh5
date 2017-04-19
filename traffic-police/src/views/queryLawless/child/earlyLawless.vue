@@ -69,9 +69,9 @@
               <span>验证码</span>
             </div>
             <div class="earlyLawless-hbs-text width-40 left">
-              <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码">
+              <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码" id="inp">
             </div>
-            <div class="left earlyLawless-hbs-code">获取验证码</div>
+            <div class="left earlyLawless-hbs-code" id="code"></div>
           </li>
         </ul>
       </div>
@@ -88,6 +88,7 @@
 <script>
   import { resultPost } from '../../../service/getData'
   import { queryEarlyLawless } from '../../../config/baseUrl'
+  import { verifyCode } from '../../../config/verifyCode'
   export default {
     name: 'earlyLawless',
     data () {
@@ -277,6 +278,9 @@
         ]
       }
     },
+    mounted () {
+      verifyCode(document.getElementById('inp'), document.getElementById('code'))
+    },
     methods: {
       licenseSelectClick: function (str, id) {
         if (str) {
@@ -379,7 +383,10 @@
             align-items: center;
           }
           .earlyLawless-hbs-code {
+            margin-left: 40px;
             text-indent: 28px;
+            width: 240px;
+            height: 56px;
             text-decoration: underline;
           }
         }

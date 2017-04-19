@@ -14,7 +14,7 @@
             <div class="nav-footer-top"></div>
             <ul class="nav-footer-bottom">
               <li><span>{{record.answerDate}}</span>
-                <a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="isComplete == 0">未完成</a>
+                <a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="record.isComplete == '不合格' || record.isComplete == ''">未完成</a>
                 <a class="nav-xstudy-footer-rig" href="javascripit:void(0)" v-else>已完成</a>
               </li>
               <li><span>答对题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">{{record.ansLogarithm}}</a></li>
@@ -33,31 +33,33 @@ import { xstudy } from '../../../config/baseUrl'
 export default {
   data () {
     return {
-      isShow: false,
+      isShow: false,      // 控制学习记录样式
       listData: {
       },
-      itemData: [{
-      }],
-      isComplete: 1
+      itemData: [{       // 学习记录数据
+      }]
     }
   },
   methods: {
-    clickShow: function () {
+    clickShow: function () {     // 学习记录控制样式
       this.isShow = !this.isShow
-    },
-    learningInstructions: function () {
-      console.log(this)
     }
   },
-  mounted () {
-    let motorstudyData = {
-      classroomId: 4
+  created () {
+    let motorstudyData = {       // 获取页面数据
+      classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
+      identityCard: window.localStorage.getItem('identityCard'), // 身份证
+      mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
+      userSource: 'C'    // 用户来源
     }
+    console.log(motorstudyData)
+    console.log(window.sessionStorage.getItem('classroomId'))
+    console.log(window.localStorage.getItem('identityCard'))
+    console.log(window.localStorage.getItem('mobilePhone'))
     resultPost(xstudy, motorstudyData).then(json => {
       console.log(json)
       this.listData = json.data[0]
       this.itemData = json.data[0].studyRecord
-      this.isComplete = json.data[0].isComplete
     })
   }
 }

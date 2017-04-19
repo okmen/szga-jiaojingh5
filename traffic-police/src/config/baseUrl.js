@@ -22,7 +22,7 @@ export const order = `${commonUrl}convenience/sequenceChaos.html` // 秩序混�
 
 export const moveCar = `${commonUrl}convenience/oneKeyDodgen.html` // 一键挪车接口
 
-export const queryLawlessByCar = `http://192.168.1.243:8080/web/illegalHanding/queryInfoByLicensePlateNo.html` // 违法查询（车牌号）
+export const queryLawlessByCar = `${commonUrl}illegalHanding/queryInfoByLicensePlateNo.html` // 违法查询（车牌号）
 
 export const queryLawlessByCard = `${commonUrl}illegalHanding/queryInfoByDrivingLicenceNo.html` // 违法查询（驾驶证）
 
@@ -53,3 +53,8 @@ export const sendSMS = `${commonUrl}user/sendSMSVerificatioCode.html` // 发送�
 export const deleteVehicle = `${commonUrl}user/deleteVehicle.htm.html` // 用戶中心解綁微信接口
 
 export const uploadImg = `${commonUrl}common/getUpToken.html` // 上传图片获取uptoken接口
+
+export const drivingCard = `${commonUrl}user/search/getDrivingLicense.html` // 获取电子行驶证
+
+export const licenseCard = `${commonUrl}user/search/getElectronicDriverLicense.html` // 获取电子驾驶证
+

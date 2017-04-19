@@ -6,7 +6,7 @@
       <li class="nav-outer-center"><router-link to="ABstudy"><p>AB类驾驶人学习</p></router-link></li>
       <li class="nav-outer-center"><router-link to="motorstudy"><p>电动车学习</p></router-link></li>
       <li class="nav-outer-center"><router-link to="pedestrianstudy"><p>行人、非机动车安全学习</p><em class="nav-outer-right"></em></router-link></li> -->
-      <li class="nav-outer-center" v-for="(list, index) in listData">
+      <li class="nav-outer-center" v-for="(list, index) in listData" @click="wschoolClick(index)">
         <router-link :to="testData[index].name">
           <p>{{list.classroomName}}</p>
         </router-link>
@@ -19,21 +19,22 @@ export default {
   name: 'wschool',
   data () {
     return {
+      classroomId: 0,
       listData: [{
         classroomName: '消分学习',
-        classroomId: 'A01'
+        classroomId: 1
       }, {
         classroomName: '满分学习',
-        classroomId: 'A02'
+        classroomId: '2'
       }, {
         classroomName: 'AB类驾驶人学习',
-        classroomI: 'A03'
+        classroomI: '3'
       }, {
         classroomName: '电动车学习',
-        classroomId: 'A04'
+        classroomId: '4'
       }, {
         classroomName: '行人、非机动车安全学习',
-        classroomId: 'A05'
+        classroomId: '5'
       }],
       testData: [{
         name: 'xstudy'
@@ -44,8 +45,15 @@ export default {
       }, {
         name: 'motorstudy'
       }, {
-        name: 'pedestrianstudy'
+        name: 'motorstudy'
       }]
+    }
+  },
+  methods: {
+    wschoolClick: function (index) {
+      this.classroomId = index + 1
+      window.sessionStorage.setItem('classroomId', this.classroomId)
+      console.log(window.sessionStorage.getItem('classroomId'))
     }
   }
 }
