@@ -30,7 +30,10 @@ export default {
     }
   },
   created () {
-    resultPost(grade, 'hello').then(json => {
+    var resData = {
+      classroomId: 4
+    }
+    resultPost(grade, resData).then(json => {
       console.log(json)
       this.resultData = json.data[0]
     })
