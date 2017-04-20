@@ -34,7 +34,8 @@
       <span class="answer-center-left" v-else>选</span>
       <span class="answer-center-right">{{answertData.subjectName}}</span>
     </div>
-    <img class="answer-button" v-if="testQuestionsType == '选择题'" :src="'data:image/png;base64,'+answertData.subjectImg">
+    <img class="answer-button" :src="'data:image/jpg/png/gif;base64,'+answertData.subjectImg" v-show="answertData.subjectImg">
+    </style>
     <ul class="answer-foot">
       <li class="answer-foot-button" v-for="(item, index) in answerName" @click="clickAnswer(index)" 
       :class="[{'on':flag == index},{'off':tlag == index}]">
@@ -52,7 +53,7 @@ export default {
   name: 'answer',
   data () {
     return {
-      testQuestionsType: '',
+      testQuestionsType: '',   // 判断题型
       answererror: 0,
       surplusAnswe: 20,
       isBtnShow: false,   // 下一题样式
@@ -85,21 +86,21 @@ export default {
   methods: {
     clickAnswer: function (index) {     // 选项答题
       this.isBtnShow = true
+
       var answesData = {
-        classroomId: 4,   // 学习编号
-        userId: '',
-        identityCard: window.localStorage.getItem('identityCard'),
-        mobilephone: '',
-        drive: '',
-        subjectId: this.subjectId
+        classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
+        identityCard: window.localStorage.getItem('identityCard'), // 身份证
+        mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
+        userSource: 'C',     // 用户来源
+        SubjectAnswer: this.answertData.answeroptions[index].answerId,
+        subjectId: this.subjectId   // 答题编码
       }
+      console.log(answesData)
       resultPost(answers, answesData).then(json => {     // 答案数据接口
-        // console.log(json)
         this.answerCorrect = json.data[0].answerCorrect  // 答对题数
         this.batchResult = json.data[0].batchResult    // 答题合格判断
         this.answererror = json.data[0].answererror    // 答错题数
         this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
-        console.log(this.surplusAnswe)
         this.codes = json.code
         this.testData[index].img = require('../../../images/fault.png')
         this.tlag = index
@@ -109,7 +110,7 @@ export default {
         }
       })
     },
-    popClick: function () {
+    popClick: function () {       // 倒计时弹框
       let anData = this.chronoScope
       if (anData === '30:00') {
         this.isReveal = true
@@ -147,12 +148,12 @@ export default {
       this.flag = 5        //  初始化错误答案样式
       var answeData = {
         classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
-        identityCard: window.sessionStorage.getItem('identityCard'), // 身份证
-        mobilePhone: window.sessionStorage.getItem('mobilePhone'),   // 手机号码
-        userSource: 'C'
+        identityCard: window.localStorage.getItem('identityCard'), // 身份证
+        mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
+        userSource: 'C'   // 用户来源
       }
       resultPost(answer, answeData).then(json => {
-        // console.log(json)
+        console.log(json)
         this.answertData = json.data[0]
         this.answerName = json.data[0].answeroptions
         this.subjectId = json.data[0].subjectId
@@ -219,6 +220,9 @@ export default {
 }
 .answer-center-right {
   font-size: 24px;
+  display: inline-block;
+  width: 80%;
+  vertical-align: middle;
 }
 .answer-button {
   display: block;

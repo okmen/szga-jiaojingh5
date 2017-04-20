@@ -76,6 +76,7 @@
 <script>
 import { addVehicle } from '../../../config/baseUrl'
 import { resultPost } from '../../../service/getData'
+import { MessageBox, Toast } from 'mint-ui'
 export default{
   name: 'addVehicle',
   data () {
@@ -269,13 +270,35 @@ export default{
         frameNumber: this.frameNumber,
         ownerName: this.ownerName,
         identityCard: this.identityCard,
-        // mobilephone: this.mobilephone // 暂无
-        mobilephone: '13000000000' // 暂无
+        mobilephone: this.mobilephone
+      }
+      // 非空验证
+      for (let key in reqData) {
+        if (!reqData[key]) {
+          Toast({
+            message: '信息填写不完整',
+            position: 'bottom',
+            className: 'white'
+          })
+          return false
+        }
       }
       resultPost(addVehicle, reqData).then(json => {
         console.log(json)
+        if (json.code === '0000') {
+          console.log(json)
+          console.log('跳转预约申办成功页')
+        } else {
+          MessageBox({
+            title: '',
+            message: json.msg
+          })
+        }
       })
     }
+  },
+  created () {
+    this.mobilephone = window.localStorage.getItem('mobilePhone')
   }
 }
 </script>
@@ -316,6 +339,11 @@ export default{
         }
       }
     }
+  }
+}
+.white{
+  span{
+    color: #fff;
   }
 }
 </style>

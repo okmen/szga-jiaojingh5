@@ -48,11 +48,16 @@ export default {
   created () {
     let motorstudyData = {       // 获取页面数据
       classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
-      identityCard: window.sessionStorage.getItem('identityCard'), // 身份证
-      mobilePhone: window.sessionStorage.getItem('mobilePhone'),   // 手机号码
-      userSource: 'c'
+      identityCard: window.localStorage.getItem('identityCard'), // 身份证
+      mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
+      userSource: 'C'    // 用户来源
     }
+    console.log(motorstudyData)
+    console.log(window.sessionStorage.getItem('classroomId'))
+    console.log(window.localStorage.getItem('identityCard'))
+    console.log(window.localStorage.getItem('mobilePhone'))
     resultPost(xstudy, motorstudyData).then(json => {
+      console.log(json)
       this.listData = json.data[0]
       this.itemData = json.data[0].studyRecord
     })

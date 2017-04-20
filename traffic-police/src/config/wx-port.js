@@ -35,9 +35,16 @@ let url = window.location.href;
 let data = {
   url: encodeURIComponent(url)
 }
-resultGet(`http://gxg.tunnel.qydev.com/h5/sdkConfig.html?url=${data.url}`).then((r) => {
-  if (r.code == '00000') {
-      console.log(r);
+
+let ua = window.navigator.userAgent; //浏览器版本
+if(/MicroMessenger/i.test(ua)){
+  wxConfig();
+}else if(/AlipayClient/i.test(ua)){
+  alipayConfig();
+}
+function wxConfig(){
+  resultGet(`http://gxg.tunnel.qydev.com/h5/sdkConfig.html?url=${data.url}`).then((r) => {
+    if (r.code == '0000') {
       var res = r.data;
       wx.config({
         debug: false,
@@ -46,15 +53,16 @@ resultGet(`http://gxg.tunnel.qydev.com/h5/sdkConfig.html?url=${data.url}`).then(
         nonceStr: res.noncestr,
         signature: res.signature,
         jsApiList: [
-          'checkJsApi',
-          'chooseImage',
-          'uploadImage',
-          'getLocalImgData'
         ]
       });
     } else {
       alert('访问异常！');
     }
-})
+  })
+}
+
+function alipayConfig(){
+  alert('alipay');
+}
 
 /* eslint-enable */

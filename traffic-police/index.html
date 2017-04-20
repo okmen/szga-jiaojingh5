@@ -35,6 +35,11 @@
       }
       document.documentElement.className += ' ' + browserCls.join(' ')
     }());
+    function getMapInfoCallback (data) {
+      var setItemEvent = new Event("setItemEvent")
+      setItemEvent.mapData = data
+      window.dispatchEvent(setItemEvent)
+    }
   </script>
   <body>
     <div id="app">

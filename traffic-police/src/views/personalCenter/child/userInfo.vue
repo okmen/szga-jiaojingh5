@@ -39,14 +39,13 @@
       <p>取消关联后，将不可及时获取到您车辆的交通违法提醒、驾驶证到期换证提醒等信息。</p>
     </div>
   </div>
-  <select-tip v-if="hintShow" tipsText="是否确定取消绑定？" @confirm="submit()" @cancle="cancle()"></select-tip>
 </div>
 </template>
 
 <script>
-import { deleteVehicle } from '../../../config/baseUrl.js'
-import { resultPost } from '../../../service/getData.js'
-import selectTip from '../../../components/selectTip.vue'
+import { deleteVehicle } from '../../../config/baseUrl'
+import { resultPost } from '../../../service/getData'
+import { MessageBox } from 'mint-ui'
 
 export default{
   name: 'userInfo',
@@ -54,18 +53,22 @@ export default{
     return {
       avatar: '',
       userName: '',
-      mobile: '',
-      hintShow: false
+      mobile: ''
     }
-  },
-  components: {
-    selectTip
   },
   methods: {
     deleteVehicle: function () {
-      this.hintShow = true
+      MessageBox({
+        title: '',
+        message: '是否确定取消绑定？',
+        showCancelButton: true,
+        confirmButtonText: '是的'
+      }).then(action => {
+        action === 'confirm' && this.submit()
+      })
     },
     submit: function () {
+      this.hintShow = false
       let reqData = {
         identityCard: this.identityCard,
         openId: this.openId,
@@ -74,17 +77,17 @@ export default{
       }
       resultPost(deleteVehicle, reqData).then(json => {
         if (json.code === '0000') {
+          console.log(json)
           console.log('退出登录状态，返回星级用户页面')
           // 退出登录
-          window.location.hash = '/starUser'
+          // window.location.hash = '/starUser'
         } else {
-          this.msg = json.msg
-          this.hintShow = true
+          MessageBox({
+            title: '',
+            message: json.msg
+          })
         }
       })
-    },
-    cancle: function () {
-      this.hintShow = false
     }
   },
   created () {
