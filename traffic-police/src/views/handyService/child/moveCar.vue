@@ -316,7 +316,7 @@ export default{
         console.log(json)
         if (json.code === '0000') {
           MessageBox({
-            title: '',
+            title: '温馨提示',
             message: '已在交警系统发出通知，请耐心等待！'
           })
         } else {

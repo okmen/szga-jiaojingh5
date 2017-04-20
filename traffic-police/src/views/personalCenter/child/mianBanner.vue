@@ -7,7 +7,7 @@
       <div class="user-mobile">
         <i class="mobile"></i>{{ mobilePhone }}</div>
     </div>
-    <router-link to="updateUser" class="banner-edit"></router-link>
+    <router-link to="userInfo" class="banner-edit"></router-link>
   </div>
 </template>
 <style lang="less">
