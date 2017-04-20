@@ -312,7 +312,12 @@ export default{
       }
       resultPost(carOwner, carOwnerData).then(json => {
         let jsonMsg = json.msg
-        let getJsonMsg = jsonMsg.split('：')[1]
+        let getJsonMsg = ''
+        if (jsonMsg.indexOf('：') === -1) {
+          getJsonMsg = jsonMsg
+        } else {
+          getJsonMsg = jsonMsg.split('：')[1]
+        }
         if (json.code === '0000') {
           Toast({
             message: json.msg,

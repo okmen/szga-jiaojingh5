@@ -314,7 +314,12 @@
         }
         resultPost(carUser, usrData).then(json => {
           let jsonMsg = json.msg
-          let getJsonMsg = jsonMsg.split('：')[1]
+          let getJsonMsg = ''
+          if (jsonMsg.indexOf('：') === -1) {
+            getJsonMsg = jsonMsg
+          } else {
+            getJsonMsg = jsonMsg.split('：')[1]
+          }
           if (json.code === '0000') {
             Toast({
               message: json.msg,
@@ -332,10 +337,10 @@
       },
       getVerification: function () {
         let sendPhoneNumber = {
-          mobilephone: this.telphone
+          mobilephone: this.userTelphone
         }
         let time = 30
-        if (/^1[34578]\d{9}$/.test(this.telphone)) {
+        if (/^1[34578]\d{9}$/.test(this.userTelphone)) {
           this.getValidCodeMsg = `已发送（${time}）`
           this.isdisabled = true
           countDown(this)

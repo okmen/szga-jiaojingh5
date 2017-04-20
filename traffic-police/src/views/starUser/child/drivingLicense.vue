@@ -51,7 +51,7 @@
           <span>联系地址</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="text" name="" v-model="address" placeholder="您的联系地址(非必填)">
+          <input class="text-input" type="text" name="" v-model="address" placeholder="您的联系地址">
         </div>
       </li>
     </ul>
@@ -92,7 +92,7 @@
           resultPost(sendSMS, sendPhoneNumber).then(json => {
             if (json.code === '0000') {
               Toast({
-                message: '验证码已发送，请注意查收',
+                message: '验证码已发送，请查收',
                 position: 'bottom',
                 className: 'white',
                 duration: 1500
@@ -138,7 +138,12 @@
         resultPost(drivingLicense, driverLicenseData).then(json => {
           console.log(json)
           let jsonMsg = json.msg
-          let getJsonMsg = jsonMsg.split('：')[1]
+          let getJsonMsg = ''
+          if (jsonMsg.indexOf('：') === -1) {
+            getJsonMsg = jsonMsg
+          } else {
+            getJsonMsg = jsonMsg.split('：')[1]
+          }
           if (json.code === '0000') {
             Toast({
               message: json.msg,
