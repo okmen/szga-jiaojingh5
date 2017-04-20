@@ -1,5 +1,6 @@
 <template>
-  <div class="moveCar-outer pad-side-50">
+  <mymap v-if="mapShow" @submit="submitMap"></mymap>
+  <div class="moveCar-outer pad-side-50" v-else="mapShow">
     <p class="title">填写以下表单申请挪车：</p>
     <ul class="moveCar-list">
       <li class="moveCar-item clear">
@@ -36,7 +37,7 @@
           <span>挪车地址</span>
         </div>
         <div class="common-list-text left width-90">
-          <input class="text-input" type="text" name="" v-model:value="doodgenAddress" placeholder="点击右侧按钮选择地址" readonly>
+          <input class="text-input" type="text" name="" v-model:value="showAdd" placeholder="点击右侧按钮选择地址" readonly>
         </div>
         <div class="common-list-location right" @click.stop='getLocation()'></div>
       </li>
@@ -53,10 +54,12 @@
 import { resultPost } from '../../../service/getData'
 import { moveCar } from '../../../config/baseUrl'
 import { MessageBox, Toast } from 'mint-ui'
+import mymap from '../../map/map.vue'
 export default{
   name: 'moveCar',
   data () {
     return {
+      mapShow: false,
       abbreviationSelectShow: false,
       abbreviation: '粤',
       abbreviationSelectData: [
@@ -258,10 +261,20 @@ export default{
           'code': '24'
         }
       ],
-      doodgenAddress: ''
+      doodgenAddress: '',
+      showAdd: ''
     }
   },
+  components: {
+    mymap
+  },
   methods: {
+    submitMap: function (obj) {
+      this.mapShow = false
+      this.doodgenAddress = obj.addressSite
+      this.showAdd = obj.showAdd
+      console.log(obj)
+    },
     abbreviationSelectClick: function (str) {
       if (str) {
         this.abbreviation = str
@@ -278,15 +291,15 @@ export default{
       this.carTypeSelectShow = !this.carTypeSelectShow
     },
     getLocation: function () {
-      console.log('获取地址')
+      this.mapShow = true
     },
     submit: function () {
       let reqData = {
         abbreviation: this.abbreviation, // 车牌简称
         numberPlate: this.numberPlate, // 车牌号码
         carType: this.carType.code, // 汽车种类
-        // doodgenAddress: this.doodgenAddress, // 挪车地址
-        doodgenAddress: '深圳', // 挪车地址
+        doodgenAddress: this.doodgenAddress, // 挪车地址
+        // doodgenAddress: '深圳', // 挪车地址
         identityCard: this.identityCard // 身份证
       }
       for (let key in reqData) {

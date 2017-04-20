@@ -8,7 +8,7 @@
           <span>详细地址</span>
         </div>
         <div class="common-list-text left width-90">
-          <input class="text-input" type="text" name="" v-model:value="detailAddress" placeholder="点击右侧按钮选择地址" readonly>
+          <input class="text-input" type="text" name="" v-model:value="mapObj.showAdd" placeholder="点击右侧按钮选择地址" readonly>
         </div>
         <div class="common-list-location right" @click.stop='getLocation()'></div>
       </li>
@@ -97,7 +97,7 @@ import { Toast } from 'mint-ui'
 
 export default{
   name: 'common',
-  props: ['typeData', 'reportingMatters'],
+  props: ['typeData', 'reportingMatters', 'mapObj'],
   data () {
     return {
       typeSelectShow: false, // 类型选择
@@ -135,6 +135,7 @@ export default{
       })
     },
     getLocation: function () {
+      this.$emit('showMap')
       console.log('获取位置')
     },
     btnTypeSelect: function (index) {
@@ -163,15 +164,12 @@ export default{
       let reqData = {
         userName: this.userName, // 用户姓名 获取微信用户信息
         mobilephone: this.mobilephone, // 用户手机 获取微信用户信息
-        identityCard: this.identityCard, // 暂无 身份证号
+        identityCard: this.identityCard, // 身份证号
         reportingMatters: this.reportingMatters, // 举报事项
-        // addressRegion: this.addressRegion, // 暂无 地址-区域
-        addressRegion: '福田区', // 暂无 地址-区域
-        // addressStreet: this.addressStreet, // 暂无 地址-街道
-        addressStreet: '旺角海鲜菜馆', // 暂无 地址-街道
-        // addressSite: this.addressSite, // 暂无 地址-站点
-        addressSite: '旺角海鲜菜馆', // 暂无 地址-站点
-        detailAddress: '广东省深圳市福田区深圳市体育中心', // 详细地址
+        addressRegion: this.mapObj.addressRegion, // 暂无 地址-区域
+        addressStreet: this.mapObj.addressStreet, // 暂无 地址-街道
+        addressSite: this.mapObj.addressSite, // 暂无 地址-站点
+        detailAddress: this.mapObj.detailAddress, // 详细地址
         emergency: this.emergency, // 紧急程度
         selectTypeId: this.typeSelectData.id, // 选择类型Id
         selectType: this.typeSelectData.str, // 选择类型
