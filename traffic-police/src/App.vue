@@ -1,15 +1,25 @@
 <template>
 <div id="Home">
   <div id="banner">
-    <div class="not-login">
+    <div class="success-login" v-if="isLogin">
+      <div class="success-login-top">
+        <div class="success-login-userImg">
+          <img :src="userImg">
+        </div>
+        <div class="success-login-userName">
+          <p>{{ userName }}</p>
+          <router-link to="/login" class="success-login-btn">我的电子证件</router-link>
+        </div>
+      </div>
+      <div class="success-login-bottom">
+        <div class="success-login-identityCard">{{ userIdentityCard }}</div>
+        <div class="success-login-plateNumber">{{ userNumberPlate }}</div>
+      </div>
+    </div>
+    <div class="not-login" v-else>
       <div class="logo"></div>
       <p>请<router-link to="/login" class="enter">  登录 </router-link>/<router-link to="/starUser" class="enroll"> 注册 </router-link>星级用户</p>
     </div>
-    <!-- <div class="success-login">
-      <div class="success-login-top">
-      </div>
-      <div class="success-login-bottom"></div>
-    </div> -->
     <router-link to="/peopleWillCloud"><div class="login-right"></div></router-link>
   </div>
   <div id="nav-outer">
@@ -79,10 +89,24 @@
 </div>
 </template>
 <script>
-// import Hello from './components/Hello'
-
 export default {
-  name: 'app'
+  name: 'app',
+  data () {
+    return {
+      userName: '',
+      userImg: require('./images/no-network-logo.png'),
+      userIdentityCard: '',
+      userNumberPlate: '',
+      isLogin: false
+    }
+  },
+  created () {
+    this.userName = window.localStorage.getItem('userName')
+    this.userImg = window.localStorage.getItem('headImgUrl')
+    this.userIdentityCard = window.localStorage.getItem('identityCard')
+    this.userNumberPlate = window.localStorage.getItem('myNumberPlate')
+    this.isLogin = window.localStorage.getItem('isLogin')
+  }
 }
 </script>
 <style lang="less">
@@ -96,6 +120,9 @@ export default {
 }
 .pad-side-50 {
   padding: 0 50px;
+}
+.mint-toast-text{
+  color: #fff;
 }
 #banner{
   height: 360px;
@@ -142,6 +169,66 @@ export default {
     font-size: 28px;
     background-image: url('./images/success-login-banner.png');
     background-size: cover;
+    .success-login-top{
+      height: 174px;
+      padding-top: 36px;
+      padding-left: 30px;
+      box-sizing: border-box;
+      .success-login-userImg{
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid #e4e4e4;
+        box-sizing: border-box;
+        float: left;
+        img{
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
+      }
+      .success-login-userName{
+        float: left;
+        height: 100%;
+        padding-left: 20px;
+        p{
+          line-height: 80px;
+          color: #fff;
+          font-size: 30px;
+        }
+        .success-login-btn{
+          display: block;
+          padding: 0 10px;
+          line-height: 40px;
+          border: 4px solid #fff;
+          border-radius: 8px;
+          color: #fff;
+        }
+      }
+    }
+    .success-login-bottom{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 30px;
+      padding-top: 30px;
+      div{
+        color: #fff;
+      }
+      .success-login-identityCard{
+        background: url('./images/idCard.png') no-repeat left center;
+        background-size: 42px;
+        padding-left: 60px;
+        padding-right:30px; 
+      }
+      .success-login-plateNumber{
+        border-left: 2px solid #fff;
+        padding-left: 112px;
+        background: url('./images/plateNumber.png') no-repeat 34px center;
+        background-size: 60px;
+      }
+    }
   }
   .login-right{
     position: absolute;
@@ -171,7 +258,6 @@ export default {
     font-size: 22px;
     box-shadow:0 5px 5px rgba(0, 0, 0, .2);  
     dl{
-      width: 25%;
       height: 100%;
       text-align: center;
       img{

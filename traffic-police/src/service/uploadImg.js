@@ -1,12 +1,12 @@
 /* eslint-disable */
 /**
-* 使用七牛云SDK上传图片
+* 使用七牛云SDK上传图片添加水印
 * @author niepeng
 * @date 2017-4-18
 * @param {string} upToken 必传
 * @return {Array<object>} [{imgUrl:'图片地址',dateTime:'拍照时间',GPSLongitude:'经度',GPSLatitude:'纬度'}]
 */
-
+import { Indicator } from 'mint-ui';
 let domain = 'http://oojgfm8c9.bkt.clouddn.com/';
 export default function uploadImgFun({selfId,parentId,upToken,fileUploaded,error}){
 	var uploader = Qiniu.uploader({
@@ -25,14 +25,12 @@ export default function uploadImgFun({selfId,parentId,upToken,fileUploaded,error
         chunk_size: '4mb',                  // 分块上传时，每块的体积
         auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
         multi_selection: false,
-<<<<<<< HEAD
-=======
         deleteAfterDays:'1', 
->>>>>>> 44df409df7946639d7ae2d65f4d02806a5b804cc
         init: {
           'FilesAdded': function(up, files) {
             plupload.each(files, function(file) {
               // 文件添加进队列后，处理相关的事情
+              Indicator.open('上传中...');
             });
           },
           'BeforeUpload': function(up, file) {
@@ -46,11 +44,18 @@ export default function uploadImgFun({selfId,parentId,upToken,fileUploaded,error
             let res = JSON.parse(info); //图片信息
             let url = domain +"/"+ res.key;
             let exifOjb = Qiniu.exif(res.key);//图片exif信息
+            console.log(exifOjb);
           	let obj = {};
-          	obj.imgUrl = url;
           	obj.dateTime = exifOjb && exifOjb.DateTime ? exifOjb.DateTime.val : '';
           	obj.GPSLongitude = exifOjb && exifOjb.GPSLongitude ? exifOjb.GPSLongitude.val : '';
           	obj.GPSLatitude = exifOjb && exifOjb.GPSLatitude ? exifOjb.GPSLatitude.val : '';
+            let waterStr = `纬度:${obj.GPSLatitude}，经度:${obj.GPSLongitude}\n${obj.dateTime}`;
+            let watermarkImgUrl = watermark({
+              text:waterStr,
+              gravity:'SouthEast',
+              key:res.key
+            }); //添加水印
+            obj.imgUrl = watermarkImgUrl;
           	fileUploaded && fileUploaded(obj);
           },
           'Error': function(up, err, errTip) {
@@ -59,6 +64,7 @@ export default function uploadImgFun({selfId,parentId,upToken,fileUploaded,error
           },
           'UploadComplete': function() {
             //队列文件处理完毕后，处理相关的事情
+            Indicator.close();
           },
           'Key': function(up, file) {
             // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
@@ -69,5 +75,26 @@ export default function uploadImgFun({selfId,parentId,upToken,fileUploaded,error
           }
         }
       });
+}
+
+/**
+ * @param  {string} text 显示的文字
+ * @param  {string} gravity 显示的位置
+ * @param  {string} key 上传成功后图片的key值
+ * @return {string} 添加水印后图片的地址
+ */
+function watermark({text,gravity,key}){
+  var imgLink = Qiniu.watermark({
+         mode: 2,  // 文字水印
+         text: text, // 水印文字，mode = 2时，必需
+         dissolve: 85,          // 透明度，取值范围1-100，非必需，下同
+         gravity: gravity,  // 水印位置，同上
+         fontsize: 3000,         // 字体大小，单位：缇
+         font : '宋体',          // 水印文字字体
+         dx: 20,  // 横轴边距，单位：像素(px)
+         dy: 20,  // 纵轴边距，单位：像素(px)
+         fill: 'black'        // 水印文字颜色，RGB格式，可以是颜色名称
+  }, key);
+  return imgLink;
 }
 /* eslint-enable */

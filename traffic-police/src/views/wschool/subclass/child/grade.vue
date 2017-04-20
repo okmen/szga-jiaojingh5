@@ -26,7 +26,7 @@
         <em class="grade-footer-right">{{answererror}}</em>
       </li>
     </ul>
-    <router-link class="grade-footer-bottom" to="result">好的</router-link>
+    <router-link class="grade-footer-bottom" to="wschool">好的</router-link>
   </div>
 </template>
 <script>
@@ -34,19 +34,20 @@ export default {
   name: 'grade',
   data () {
     return {
-      answererror: 0,
-      ganswerTime: 0,
-      chronoScope: 0,
-      answerCorrect: 0,
-      batchResult: ''
+      answererror: 0,  // 答错题数
+      ganswerTime: 0,  // 答题用时
+      answerCorrect: 0,  // 答对题数
+      answerDate: '',   // 答题日期
+      batchResult: ''   // 合格判断
     }
   },
   methods: {
     gradeclick: function () {
-      this.answererror = window.sessionStorage.getItem('answererror')
-      this.ganswerTime = window.sessionStorage.getItem('chronoScope')
-      this.batchResult = window.sessionStorage.getItem('batchResult')
-      this.answerCorrect = window.sessionStorage.getItem('answerCorrect')
+      this.answererror = window.sessionStorage.getItem('answererror')    // 答错题数
+      this.ganswerTime = window.sessionStorage.getItem('chronoScope')   // 答题用时
+      this.batchResult = window.sessionStorage.getItem('batchResult')    // 合格判断
+      this.answerCorrect = window.sessionStorage.getItem('answerCorrect')  // 答对题数
+      this.answerDate = window.sessionStorage.getItem('answerDate')   // 答题日期
     }
   }
 }
