@@ -25,10 +25,7 @@ export default function uploadImgFun({selfId,parentId,upToken,fileUploaded,error
         chunk_size: '4mb',                  // 分块上传时，每块的体积
         auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
         multi_selection: false,
-<<<<<<< HEAD
-=======
         deleteAfterDays:'1', 
->>>>>>> 44df409df7946639d7ae2d65f4d02806a5b804cc
         init: {
           'FilesAdded': function(up, files) {
             plupload.each(files, function(file) {
