@@ -40,14 +40,14 @@
               <input  v-model="drivingLicenceNo" class="text-input" type="text" name="" value="" placeholder="请输入驾驶证号">
             </div>
           </li>
-          <li class="earlyLawless-hbs-item">
-            <div class="earlyLawless-hbs-name">
-              <span>车主身份证</span>
-            </div>
-            <div class="earlyLawless-hbs-text">
-              <input class="text-input" type="text" name="" value="" placeholder="车主是外籍人士,请在证件号前加F">
-            </div>
-          </li>
+          <!--<li class="earlyLawless-hbs-item">-->
+            <!--<div class="earlyLawless-hbs-name">-->
+              <!--<span>车主身份证</span>-->
+            <!--</div>-->
+            <!--<div class="earlyLawless-hbs-text">-->
+              <!--<input class="text-input" type="text" name="" value="" placeholder="车主是外籍人士,请在证件号前加F">-->
+            <!--</div>-->
+          <!--</li>-->
           <li class="earlyLawless-hbs-item">
             <div class="earlyLawless-hbs-name">
               <span>手机号码</span>
