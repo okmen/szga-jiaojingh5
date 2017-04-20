@@ -6,7 +6,7 @@
           <span>身份证号</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="text" name="" value="" placeholder="如果您是外籍人士,请在证件号前加F">
+          <input class="text-input" type="text" v-model="idCardNumber" placeholder="如果您是外籍人士,请在证件号前加F">
         </div>
       </li>
       <li class="starUser-hbs-item">
@@ -15,15 +15,15 @@
         </div>
         <div class="starUser-hbs-radio">
           <div class="starUser-hbs-radio-box">
-            <input type="radio" id="starUserRadio1" checked="checked" name="drivingLicence" value="深圳本地">
+            <input type="radio" id="starUserRadio1" name="drivingLicence" value="1" v-model:checked="originPlace">
             <label name="starUserRadio1" class="checked" for="starUserRadio1">深圳本地</label>
           </div>
           <div class="starUser-hbs-radio-box">
-            <input type="radio" id="starUserRadio2" name="drivingLicence" value="本省外市">
+            <input type="radio" id="starUserRadio2" name="drivingLicence" value="2" v-model:checked="originPlace">
             <label name="starUserRadio2" class="checked" for="starUserRadio2">本省外市</label>
           </div>
           <div class="starUser-hbs-radio-box">
-            <input type="radio" id="starUserRadio3" name="drivingLicence" value="外省">
+            <input type="radio" id="starUserRadio3" name="drivingLicence" value="3" v-model:checked="originPlace">
             <label name="starUserRadio3" class="checked" for="starUserRadio3">外省</label>
           </div>
         </div>
@@ -33,7 +33,7 @@
           <span>手机号码</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="tel" name="" value="" placeholder="请输入您的手机号码">
+          <input class="text-input" type="tel" v-model="telphoneNumber" placeholder="请输入您的手机号码">
         </div>
       </li>
       <li class="starUser-hbs-item clear">
@@ -41,180 +41,119 @@
           <span>验证码</span>
         </div>
         <div class="starUser-hbs-text width-40 left">
-          <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码">
+          <input class="text-input" type="tel" name="" v-model="verifCodeNum" placeholder="请输入验证码">
         </div>
-        <div class="left starUser-hbs-code" @click="getVerification()">获取验证码</div>
+        <div class="left starUser-hbs-code"><button type="button" name="button" @click.stop="getVerification()"
+          :class="{disabled: isdisabled}">{{getValidCodeMsg}}</button></div>
       </li>
-      <li class="starUser-hbs-item">
+      <li class="starUser-hbs-item driver-address">
         <div class="starUser-hbs-name">
           <span>联系地址</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="text" name="" value="" placeholder="您的联系地址(非必填)">
+          <input class="text-input" type="text" name="" v-model="address" placeholder="您的联系地址(非必填)">
         </div>
       </li>
     </ul>
+    <common @btnSureStar="btnSureStar()" ref="getImgUrl"></common>
   </div>
 </template>
 <script>
+  import common from './common'
+  import { resultPost } from '../../../service/getData'
+  import { drivingLicense, sendSMS } from '../../../config/baseUrl'
+  import { Toast } from 'mint-ui'
   export default{
     name: 'drivingLicense',
+    components: {
+      common
+    },
     data () {
       return {
-        licenseSelectShow: false,
-        licenseSelectMassage: '蓝牌',
-        licenseSelectData: [
-          {
-            'str': '蓝牌y'
-          },
-          {
-            'str': '黄牌'
-          },
-          {
-            'str': '黑牌'
-          },
-          {
-            'str': '个性牌'
-          },
-          {
-            'str': '小型新能源车号牌'
-          },
-          {
-            'str': '大型新能源车号牌'
-          }
-        ],
-        abbreviationSelectShow: false,
-        abbreviationSelectMassage: '粤',
-        abbreviationSelectData: [
-          {
-            'str': '粤'
-          },
-          {
-            'str': '鄂'
-          },
-          {
-            'str': '豫'
-          },
-          {
-            'str': '皖'
-          },
-          {
-            'str': '赣'
-          },
-          {
-            'str': '冀'
-          },
-          {
-            'str': '鲁'
-          },
-          {
-            'str': '浙'
-          },
-          {
-            'str': '苏'
-          },
-          {
-            'str': '湘'
-          },
-          {
-            'str': '闽'
-          },
-          {
-            'str': '蒙'
-          },
-          {
-            'str': '京'
-          },
-          {
-            'str': '辽'
-          },
-          {
-            'str': '渝'
-          },
-          {
-            'str': '沪'
-          },
-          {
-            'str': '陕'
-          },
-          {
-            'str': '川'
-          },
-          {
-            'str': '黑'
-          },
-          {
-            'str': '晋'
-          },
-          {
-            'str': '桂'
-          },
-          {
-            'str': '吉'
-          },
-          {
-            'str': '宁'
-          },
-          {
-            'str': '贵'
-          },
-          {
-            'str': '琼'
-          },
-          {
-            'str': '甘'
-          },
-          {
-            'str': '青'
-          },
-          {
-            'str': '津'
-          },
-          {
-            'str': '云'
-          },
-          {
-            'str': '藏'
-          },
-          {
-            'str': '新'
-          }
-        ]
+        getValidCodeMsg: '发送验证码',
+        isdisabled: false,
+        idCardNumber: '',   // 身份证号码
+        originPlace: '',    // 驾驶证所属地
+        telphoneNumber: '', // 电话号码
+        verifCodeNum: '',   // 验证码
+        address: ''         // 联系地址
       }
     },
     methods: {
-      licenseSelectClick: function (str) {
-        if (str) {
-          this.licenseSelectMassage = str
+      getVerification: function () {
+        let sendPhoneNumber = {
+          mobilephone: this.telphoneNumber
         }
-        if (this.licenseSelectShow === true) {
-          this.licenseSelectShow = false
+        let time = 30
+        if (/^1[34578]\d{9}$/.test(this.telphoneNumber)) {
+          this.getValidCodeMsg = `已发送（${time}）`
+          this.isdisabled = true
+          countDown(this)
+          resultPost(sendSMS, sendPhoneNumber).then(json => {
+            if (json.code === '0000') {
+              Toast({
+                message: '验证码已发送，请注意查收',
+                position: 'bottom',
+                className: 'white',
+                duration: 1500
+              })
+            }
+          })
         } else {
-          this.licenseSelectShow = true
-          this.typeSelectShow = false
-          this.abbreviationSelectShow = false
+          Toast({
+            message: '请输入正确的手机号码',
+            position: 'bottom',
+            className: 'white',
+            duration: 1500
+          })
+        }
+        function countDown (that) {
+          setTimeout(() => {
+            if (time === 0) {
+              that.isdisabled = false
+              that.getValidCodeMsg = '发送验证码'
+            } else {
+              time--
+              that.getValidCodeMsg = `已发送（${time}）`
+              countDown(that)
+            }
+          }, 1000)
         }
       },
-      abbreviationSelectClick: function (str) {
-        if (str) {
-          this.abbreviationSelectMassage = str
+      btnSureStar: function () {
+        let idImgOne = this.$refs.getImgUrl.idCardImgPositive
+        let idImgTwo = this.$refs.getImgUrl.idCardImgNegative
+        let idImgThree = this.$refs.getImgUrl.idCardImgHandHeld
+        let driverLicenseData = {
+          identityCard: this.idCardNumber,
+          driverLicenseIssuedAddress: this.originPlace,
+          mobilephone: this.telphoneNumber,
+          validateCode: this.verifCodeNum,
+          linkAddress: this.address,
+          idCardImgPositive: idImgOne,
+          idCardImgNegative: idImgTwo,
+          idCardImgHandHeld: idImgThree
         }
-        if (this.abbreviationSelectShow === true) {
-          this.abbreviationSelectShow = false
-        } else {
-          this.abbreviationSelectShow = true
-          this.licenseSelectShow = false
-          this.typeSelectShow = false
-        }
-      },
-      getVerification: function () {}
-    },
-    created () {
-      document.addEventListener('click', (e) => {
-        this.typeSelectShow = false
-        this.licenseSelectShow = false
-        this.abbreviationSelectShow = false
-      })
+        console.log(driverLicenseData)
+        resultPost(drivingLicense, driverLicenseData).then(json => {
+          console.log(json)
+          let jsonMsg = json.msg
+          let getJsonMsg = jsonMsg.split('：')[1]
+          if (json.code === '0000') {
+            Toast({
+              message: json.msg,
+              position: 'bottom',
+              className: 'white'
+            })
+          } else {
+            Toast({
+              message: getJsonMsg,
+              position: 'bottom',
+              className: 'white'
+            })
+          }
+        })
+      }
     }
   }
 </script>
@@ -245,8 +184,20 @@
       }
       .starUser-hbs-code {
         text-indent: 28px;
-        text-decoration: underline;
+        button{
+          background:none;
+          border:none;
+          text-decoration: underline;
+          outline:none;
+          &.disabled{
+            background: #ccc;
+            color: #fff;
+          }
+        }
       }
+    }
+    .driver-address{
+      margin-bottom:40px;
     }
   }
 }

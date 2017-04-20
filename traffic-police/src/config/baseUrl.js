@@ -60,3 +60,12 @@ export const licenseCard = `${commonUrl}user/search/getElectronicDriverLicense.h
 
 export const getLocation = 'http://api.careland.com.cn/api/v1/rgeo' // 通过经纬度获取位置信息接口
 
+export const takePictures = `${commonUrl}user/readilyShoot.html` // 随手拍举报接口
+
+export const carOwner = `${commonUrl}register/iAmTheOwner.html` // 星级用户认证 我是车主接口
+
+export const drivingLicense = `${commonUrl}register/haveDriverLicenseNotCar.html` // 星级用户认证 我有驾驶证接口
+
+export const passerBy = `${commonUrl}register/isPedestrianNotDriver.html` // 星级用户认证 我是行人接口
+
+export const carUser = `${commonUrl}register/iamALongtimeUser.html` // 星级用户认证 我是长期使用人接口
