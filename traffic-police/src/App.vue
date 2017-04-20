@@ -198,6 +198,7 @@ export default {
           font-size: 30px;
         }
         .success-login-btn{
+          display: block;
           padding: 0 10px;
           line-height: 40px;
           border: 4px solid #fff;
@@ -209,6 +210,7 @@ export default {
     .success-login-bottom{
       display: flex;
       justify-content: center;
+      align-items: center;
       font-size: 30px;
       padding-top: 30px;
       div{
@@ -256,7 +258,6 @@ export default {
     font-size: 22px;
     box-shadow:0 5px 5px rgba(0, 0, 0, .2);  
     dl{
-      width: 25%;
       height: 100%;
       text-align: center;
       img{
