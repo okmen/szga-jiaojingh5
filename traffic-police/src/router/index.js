@@ -257,6 +257,14 @@ const routes = [
       title: '地图'
     },
     component: require('../views/takePictures/map.vue')
+  },
+  {
+    name: 'getLocation',
+    path: '/getLocation',
+    meta: {
+      title: '互联网+民意投票'
+    },
+    component: require('../views/getLocation/getLocation.vue')
   }
 ]
 /* eslint-disable no-new */

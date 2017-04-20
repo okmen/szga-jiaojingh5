@@ -55,16 +55,13 @@
     </div>
   </div>
   <button class="btn" type="button" name="button" @click.stop="submitClick()">提交</button>
-  <alert-tips :tipsText="msg" @closeTips="closeTips()" v-if="tipsShow"></alert-tips>
 </div>
 </template>
 <script>
-import { updateUser } from '../../../config/baseUrl'
-import { resultPost } from '../../../service/getData'
-import alertTips from '../../../components/alertTips'
+import { updateUser, uploadImg } from '../../../config/baseUrl'
+import { resultPost, resultGet } from '../../../service/getData'
 import uploadImgFun from '../../../service/uploadImg'
-// import { resultGet } from '../../../service/getData'
-// import { uploadImg } from '../../../config/baseUrl'
+import { MessageBox, Toast } from 'mint-ui'
 
 export default{
   name: 'updateUser',
@@ -73,29 +70,23 @@ export default{
       tureName: '',
       identityCard: '',
       mailingAddress: '',
-      msg: '',
-      tipsShow: false,
       idCardImgPositive: '',
       idCardImgNegative: '',
       idCardImgHandHeld: ''
     }
   },
-  components: {
-    alertTips
-  },
   methods: {
     getToken: function () {
-      // resultGet(uploadImg).then(res => {
-      //   res.code === '0000' && this.uploadImgFn(res.upToken)
-      // })
-      this.uploadImgFn()
+      resultGet(uploadImg).then(res => {
+        res.code === '0000' && this.uploadImgFn(res.upToken)
+      })
     },
     uploadImgFn: function (uptoken) {
       var that = this
       uploadImgFun({
         selfId: 'idCardImgPositive',
         parentId: 'container',
-        upToken: 'OayadC4VrxKhmgOGECo6qkCnkxsbTdMum1GGxwc9:RHWscJTU4TSwlq7sT5BFK3yQxrA=:eyJzY29wZSI6ImNka2otamoiLCJkZWFkbGluZSI6MTQ5MjU0MTM0Mn0=',
+        upToken: uptoken,
         fileUploaded: function (res) {
           that.idCardImgPositive = res.imgUrl
         },
@@ -106,7 +97,7 @@ export default{
       uploadImgFun({
         selfId: 'idCardImgNegative',
         parentId: 'container',
-        upToken: 'OayadC4VrxKhmgOGECo6qkCnkxsbTdMum1GGxwc9:RHWscJTU4TSwlq7sT5BFK3yQxrA=:eyJzY29wZSI6ImNka2otamoiLCJkZWFkbGluZSI6MTQ5MjU0MTM0Mn0=',
+        upToken: uptoken,
         fileUploaded: function (res) {
           that.idCardImgNegative = res.imgUrl
         },
@@ -117,7 +108,7 @@ export default{
       uploadImgFun({
         selfId: 'idCardImgHandHeld',
         parentId: 'container',
-        upToken: 'OayadC4VrxKhmgOGECo6qkCnkxsbTdMum1GGxwc9:RHWscJTU4TSwlq7sT5BFK3yQxrA=:eyJzY29wZSI6ImNka2otamoiLCJkZWFkbGluZSI6MTQ5MjU0MTM0Mn0=',
+        upToken: uptoken,
         fileUploaded: function (res) {
           that.idCardImgHandHeld = res.imgUrl
         },
@@ -133,34 +124,30 @@ export default{
         mailingAddress: this.mailingAddress, // 通讯地址
         idCardImgPositive: this.idCardImgPositive, // 身份证正面
         idCardImgNegative: this.idCardImgNegative, // 身份证反面
-        IdCardImgHandHeld: this.idCardImgHandHeld // 手持身份证
+        idCardImgHandHeld: this.idCardImgHandHeld // 手持身份证
       }
       for (let key in reqData) {
         if (!reqData[key]) {
           console.log(key)
-          this.msg = '信息填写不完整'
-          this.tipsShow = true
+          Toast({
+            message: '信息填写不完整',
+            position: 'bottom',
+            className: 'white'
+          })
           return false
         }
-      }
-      if (!/^\d{17}(\d|x)$/i.test(this.identityCard)) {
-        this.msg = '身份证号码格式不正确'
-        this.tipsShow = true
-        return false
       }
       resultPost(updateUser, reqData).then(json => {
         console.log(json)
         if (json.code === '0000') {
           window.location.hash = '/userInfo'
         } else {
-          this.msg = json.msg
-          this.tipsShow = true
+          MessageBox({
+            title: '',
+            message: json.msg
+          })
         }
       })
-    },
-    closeTips: function () {
-      this.tipsShow = false
-      this.msg = ''
     }
   },
   mounted () {
@@ -242,6 +229,11 @@ export default{
         }
       }
     }
+  }
+}
+.white{
+  span{
+    color: #fff;
   }
 }
 </style>

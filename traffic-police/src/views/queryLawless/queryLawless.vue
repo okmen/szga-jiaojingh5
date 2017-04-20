@@ -17,28 +17,27 @@
   </div>
 </template>
 <script>
-  import { resultPost } from '../../service/getData'
-  import { LawlessBusiness } from '../../config/baseUrl'
+//  import { resultPost } from '../../service/getData'
+//  import { LawlessBusiness } from '../../config/baseUrl'
 export default {
-    name: 'queryLawless',
-    data () {
-      return {
-        isShow: false,
-        businesses: []
-      }
-    },
-    mounted () {
-      resultPost(LawlessBusiness).then(json => {
-//        查询违法业务，未实装
-        this.businesses = json.data
-        console.log(this.businesses)
-      })
-    },
-    methods: {
-      clickShow: function () {
-        this.isShow = !this.isShow
-      }
+  name: 'queryLawless',
+  data () {
+    return {
+      isShow: false,
+      businesses: []
     }
+  },
+//    mounted () {
+//      resultPost(LawlessBusiness).then(json => {
+//        this.businesses = json.data
+//        console.log(this.businesses)
+//      })
+//    },
+  methods: {
+    clickShow: function () {
+      this.isShow = !this.isShow
+    }
+  }
 }
 </script>
 <style lang="less">

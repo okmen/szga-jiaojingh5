@@ -129,6 +129,7 @@
   import { resultPost } from '../../../service/getData'
   import { queryLawlessByCar } from '../../../config/baseUrl'
   import { verifyCode } from '../../../config/verifyCode'
+  import { Toast } from 'mint-ui'
   export default {
     name: 'queryByCar',
     data () {
@@ -137,14 +138,15 @@
           '0': '无需打单',
           '1': '需要打单',
           '2': '需要窗口办理'
-        },
-        cur_type_id: '01',
-        illegalData: [],
-        myIllegalData: [],
-        licensePlateNo: '',
-        illegalTime: '',
-        car_number: '',
-        vehicleIdentifyNoLast4: '',
+        }, // 是否需要打单
+        cur_type_id: '01', // 默认首个车牌类型（黄牌大车）
+        illegalData: [], // 接口返回全部数据
+        myIllegalData: [], // 接口返回车主数据
+        licensePlateNo: '', // 车牌号
+        billNo: '', // 违法编号
+        illegalTime: '', // 违法时间
+        car_number: '', // 除去省字的车牌号
+        vehicleIdentifyNoLast4: '', // 车架号后4位
         licenseSelectShow: false,
         licenseSelectMassage: '大型汽车(黄牌)',
         licenseSelectData: [
@@ -321,7 +323,9 @@
           {
             'str': '新'
           }
-        ]
+        ],
+        msg: '',
+        tipsShow: false
       }
     },
     mounted () {
@@ -353,18 +357,26 @@
           this.typeSelectShow = false
         }
       },
-      getVerification: function () {
-      },
+      getVerification: function () {},
       queryLawlessByCar: function () {
         let reqData = {
           licensePlateNo: this.abbreviationSelectMassage + this.car_number,
           licensePlateType: this.cur_type_id,
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
         }
-        console.log(reqData)
-        resultPost(queryLawlessByCar, reqData).then(json => {
-          this.illegalData = json.data
-        })
+        if (!this.licensePlateNo || !this.licensePlateType || !this.vehicleIdentifyNoLast4) {
+          Toast({
+            message: '信息填写不完整',
+            position: 'bottom',
+            duration: 3000
+          })
+          return false
+        } else {
+          console.log(reqData)
+          resultPost(queryLawlessByCar, reqData).then(json => {
+            this.illegalData = json.data
+          })
+        }
       },
       queryMineByCar: function () {
         let reqData = {
@@ -437,103 +449,104 @@
     .queryResults {
       color: #333 !important;
       margin: 100px 0;
-    }
-    .results-box {
-      border: 1px solid #a7d9f9;
-      background-color: #fff;
-      border-radius: 4px;
-      .box-header {
-        height: 80px;
-        line-height: 80px;
-        border-bottom: 1px solid #a7d9f9;
-        &:after { display: block; content: "clear"; height: 0; clear: both; overflow: hidden; visibility: hidden; }
-        .header-item {
-          padding: 0 24px;
-          font-weight: bold;
-          &.order-print {
-            color: #2696dd;
-            text-decoration: underline;
+      .results-box {
+        border: 1px solid #a7d9f9;
+        background-color: #fff;
+        border-radius: 4px;
+        .box-header {
+          height: 80px;
+          line-height: 80px;
+          border-bottom: 1px solid #a7d9f9;
+          &:after { display: block; content: "clear"; height: 0; clear: both; overflow: hidden; visibility: hidden; }
+          .header-item {
+            font-size: 1rem;
+            padding: 0 24px;
+            font-weight: bold;
+            &.order-print {
+              color: #2696dd;
+              text-decoration: underline;
+            }
+          }
+        }
+        .box-body {
+          color: #333;
+          padding: 0 24px 10px;
+          position: relative;
+          .body-left-side {
+            width: 80%;
+            .left-number {
+              font-size: 0.95rem;
+              font-weight: bold;
+              height: 80px;
+              line-height: 80px;
+              i {
+                color: #f46263;
+                margin-left: 30px;
+              }
+            }
+            .left-line {
+              padding: 8px 0;
+              font-size: 0.9rem;
+              &:after { display: block; content: "clear"; height: 0; clear: both; overflow: hidden; visibility: hidden; }
+              span {
+                display: inline-block;
+                width: 50px;
+                text-align: center;
+                position: absolute;
+              }
+              p {
+                display: inline-block;
+                position: relative;
+                left: 70px;
+                vertical-align: middle;
+              }
+              i {
+                display: inline-block;
+                width: 34px;
+                height: 34px;
+                background-image: url("./../../../images/A.png");
+                background-size: 100%;
+                vertical-align: middle;
+                &.time {
+                  background-image: url("./../../../images/time_2.png");
+                }
+                &.car {
+                   background-image: url("./../../../images/car.png");
+                   background-repeat: no-repeat;
+                   width: 40px;
+                 }
+                &.punish {
+                   background-image: url("./../../../images/punish.png");
+                   background-repeat: no-repeat;
+                   width: 36px;
+                   height: 38px;
+                 }
+                &.local {
+                  background-image: url("./../../../images/local.png");
+                  width: 32px;
+                  height: 40px;
+                }
+                &.warn {
+                  background-image: url("./../../../images/warn.png");
+                  width: 36px;
+                  height: 38px;
+                }
+              }
+            }
+          }
+          .body-right-side {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            margin-top: -20px;
+            display: block;
+            width: 20px;
+            height: 40px;
+            background-image: url("./../../../images/login-right.png");
+            background-size: cover;
           }
         }
       }
-      .box-body {
-        color: #333;
-        padding: 0 24px 10px;
-        position: relative;
-        .body-left-side {
-          width: 80%;
-          .left-number {
-            font-size: 0.95rem;
-            font-weight: bold;
-            height: 80px;
-            line-height: 80px;
-            i {
-              color: #f46263;
-              margin-left: 30px;
-            }
-          }
-          .left-line {
-            padding: 8px 0;
-            font-size: 0.9rem;
-            &:after { display: block; content: "clear"; height: 0; clear: both; overflow: hidden; visibility: hidden; }
-            span {
-              display: inline-block;
-              width: 50px;
-              text-align: center;
-              position: absolute;
-            }
-            p {
-              display: inline-block;
-              position: relative;
-              left: 70px;
-              vertical-align: middle;
-            }
-            i {
-              display: inline-block;
-              width: 34px;
-              height: 34px;
-              background-image: url("./../../../images/A.png");
-              background-size: 100%;
-              vertical-align: middle;
-              &.time {
-                background-image: url("./../../../images/time_2.png");
-              }
-              &.car {
-                 background-image: url("./../../../images/car.png");
-                 background-repeat: no-repeat;
-                 width: 40px;
-               }
-              &.punish {
-                 background-image: url("./../../../images/punish.png");
-                 background-repeat: no-repeat;
-                 width: 36px;
-                 height: 38px;
-               }
-              &.local {
-                background-image: url("./../../../images/local.png");
-                width: 32px;
-                height: 40px;
-              }
-              &.warn {
-                background-image: url("./../../../images/warn.png");
-                width: 36px;
-                height: 38px;
-              }
-            }
-          }
-        }
-        .body-right-side {
-          position: absolute;
-          top: 50%;
-          right: 20px;
-          margin-top: -20px;
-          display: block;
-          width: 20px;
-          height: 40px;
-          background-image: url("./../../../images/login-right.png");
-          background-size: cover;
-        }
-       }
     }
     .btn-light-green {
       margin-top: 20px;

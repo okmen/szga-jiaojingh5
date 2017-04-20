@@ -40,13 +40,13 @@ export const addVehicle = `${commonUrl}user/addVehicle.html` // 添加车辆接�
 
 export const updateUser = `${commonUrl}user/updateUser.html` // 修改个人资料接口
 
-export const login = `http://192.168.1.161:8080/web/user/login.html` // 登录接口
+export const login = `${commonUrl}/user/login.html` // 登录接口
 
-export const bindCar = `http://192.168.1.161:8080/web/user/search/getBndTheVehicles.html` // 个人中心-绑定车辆接口(暂使用后端本地地址)
+export const bindCar = `${commonUrl}user/search/getBndTheVehicles.html` // 个人中心-绑定车辆接口(暂使用后端本地地址)
 
-export const bindCard = `http://192.168.1.161:8080/web/user/search/getMyDriverLicense.html` // 个人中心-驾驶证接口(暂使用后端本地地址)
+export const bindCard = `${commonUrl}user/search/getMyDriverLicense.html` // 个人中心-驾驶证接口(暂使用后端本地地址)
 
-export const bindBusiness = `http://192.168.1.161:8080/web/user/search/getMyBusiness.html` // 个人中心-业务查询(暂使用后端本地地址)
+export const bindBusiness = `${commonUrl}user/search/getMyBusiness.html` // 个人中心-业务查询(暂使用后端本地地址)
 
 export const sendSMS = `${commonUrl}user/sendSMSVerificatioCode.html` // 发送验证码接口
 
@@ -57,4 +57,6 @@ export const uploadImg = `${commonUrl}common/getUpToken.html` // 上传图片获
 export const drivingCard = `${commonUrl}user/search/getDrivingLicense.html` // 获取电子行驶证
 
 export const licenseCard = `${commonUrl}user/search/getElectronicDriverLicense.html` // 获取电子驾驶证
+
+export const getLocation = 'http://api.careland.com.cn/api/v1/rgeo' // 通过经纬度获取位置信息接口
 

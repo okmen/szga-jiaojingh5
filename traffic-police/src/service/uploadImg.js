@@ -1,6 +1,6 @@
 /* eslint-disable */
 /**
-* 使用七牛云SDK上传图片
+* 使用七牛云SDK上传图片添加水印
 * @author niepeng
 * @date 2017-4-18
 * @param {string} upToken 必传
@@ -43,11 +43,18 @@ export default function uploadImgFun({selfId,parentId,upToken,fileUploaded,error
             let res = JSON.parse(info); //图片信息
             let url = domain +"/"+ res.key;
             let exifOjb = Qiniu.exif(res.key);//图片exif信息
+            console.log(exifOjb);
           	let obj = {};
-          	obj.imgUrl = url;
           	obj.dateTime = exifOjb && exifOjb.DateTime ? exifOjb.DateTime.val : '';
           	obj.GPSLongitude = exifOjb && exifOjb.GPSLongitude ? exifOjb.GPSLongitude.val : '';
           	obj.GPSLatitude = exifOjb && exifOjb.GPSLatitude ? exifOjb.GPSLatitude.val : '';
+            let waterStr = `纬度:${obj.GPSLatitude}，经度:${obj.GPSLongitude}\n${obj.dateTime}`;
+            let watermarkImgUrl = watermark({
+              text:waterStr,
+              gravity:'SouthEast',
+              key:res.key
+            }); //添加水印
+            obj.imgUrl = watermarkImgUrl;
           	fileUploaded && fileUploaded(obj);
           },
           'Error': function(up, err, errTip) {
@@ -66,5 +73,26 @@ export default function uploadImgFun({selfId,parentId,upToken,fileUploaded,error
           }
         }
       });
+}
+
+/**
+ * @param  {string} text 显示的文字
+ * @param  {string} gravity 显示的位置
+ * @param  {string} key 上传成功后图片的key值
+ * @return {string} 添加水印后图片的地址
+ */
+function watermark({text,gravity,key}){
+  var imgLink = Qiniu.watermark({
+         mode: 2,  // 文字水印
+         text: text, // 水印文字，mode = 2时，必需
+         dissolve: 85,          // 透明度，取值范围1-100，非必需，下同
+         gravity: gravity,  // 水印位置，同上
+         fontsize: 3000,         // 字体大小，单位：缇
+         font : '宋体',          // 水印文字字体
+         dx: 20,  // 横轴边距，单位：像素(px)
+         dy: 20,  // 纵轴边距，单位：像素(px)
+         fill: 'black'        // 水印文字颜色，RGB格式，可以是颜色名称
+  }, key);
+  return imgLink;
 }
 /* eslint-enable */

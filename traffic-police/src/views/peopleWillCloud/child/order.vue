@@ -73,13 +73,12 @@
       </ul>
       <button class="btn" type="button" name="button" @click.stop="submit()">提交</button>
     </div>
-    <alert-tips :tipsText="msg" @closeTips="closeTips()" v-if="tipsShow"></alert-tips>
   </div>
 </template>
 <script>
 import { resultPost } from '../../../service/getData'
 import { order } from '../../../config/baseUrl'
-import alertTips from '../../../components/alertTips'
+import { MessageBox, Toast } from 'mint-ui'
 export default {
   name: 'order',
   data () {
@@ -174,9 +173,7 @@ export default {
         }
       ],
       orderSelectShow: false,
-      description: '',
-      msg: '',
-      tipsShow: false
+      description: ''
     }
   },
   methods: {
@@ -209,24 +206,29 @@ export default {
       for (let key in reqData) {
         if (!reqData[key]) {
           console.log(key)
-          this.msg = '信息填写不完整'
-          this.tipsShow = true
+          Toast({
+            message: '信息填写不完整',
+            position: 'bottom',
+            className: 'white'
+          })
           return false
         }
       }
       this.$emit('submit')
       resultPost(order, reqData).then(json => {
-        this.tipsShow = true
         if (json.code !== '0000') {
-          this.msg = json.msg
+          MessageBox({
+            title: '',
+            message: json.msg
+          })
         } else {
-          this.msg = '感谢您参与举报，我们会依次不断改进'
+          MessageBox({
+            title: '',
+            message: '感谢您参与举报，我们会依次不断改进'
+          })
         }
         console.log(json)
       })
-    },
-    closeTips: function () {
-      this.tipsShow = false
     }
   },
   created () {
@@ -235,10 +237,7 @@ export default {
     })
     this.reportingMatters = 1004
     this.identityCard = window.localStorage.getItem('identityCard')
-    this.mobilephone = window.localStorage.getItem('mobilephone')
-  },
-  components: {
-    alertTips
+    this.mobilephone = window.localStorage.getItem('mobilePhone')
   }
 }
 </script>
@@ -296,6 +295,11 @@ export default {
           display: flex;
         }
       }
+    }
+  }
+  .white{
+    span{
+      color: #fff;
     }
   }
 </style>

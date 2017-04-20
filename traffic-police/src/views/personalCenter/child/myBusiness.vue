@@ -131,7 +131,7 @@
         businessList: [],
         businessSelectShow: false,
         statusSelectShow: false,
-        cur_business_id: '',
+        cur_business_id: '0',
         businessType: '0',
         businessSelectMassage: '全部',
         businessSelectData: [
@@ -148,7 +148,7 @@
             'str': '驾驶'
           }
         ],
-        cur_status_id: '',
+        cur_status_id: '0',
         businessStatus: '0',
         statusSelectMassage: '全部',
         statusSelectData: [
@@ -171,10 +171,9 @@
       let reqData = {
         businessType: this.businessType,
         businessStatus: this.businessStatus,
-        identityCard: '440301199002101119',
+        identityCard: window.localStorage.getItem('identityCard'),
         sourceOfCertification: 'C'
       }
-      console.log(reqData)
       resultPost(bindBusiness, reqData).then(json => {
         this.businessList = json.data
         console.log(this.businessList)
@@ -185,7 +184,16 @@
         if (str) {
           this.businessSelectMassage = str
           this.cur_business_id = id
-          console.log(this.cur_business_id)
+          let reqData = {
+            businessType: this.cur_business_id,
+            businessStatus: this.cur_status_id,
+            identityCard: window.localStorage.getItem('identityCard'),
+            sourceOfCertification: 'C'
+          }
+          console.log(reqData)
+          resultPost(bindBusiness, reqData).then(json => {
+            this.businessList = json.data
+          })
         }
         if (this.businessSelectShow === true) {
           this.businessSelectShow = false
@@ -197,6 +205,16 @@
         if (str) {
           this.statusSelectMassage = str
           this.cur_status_id = id
+          let reqData = {
+            businessType: this.cur_business_id,
+            businessStatus: this.cur_status_id,
+            identityCard: window.localStorage.getItem('identityCard'),
+            sourceOfCertification: 'C'
+          }
+          console.log(reqData)
+          resultPost(bindBusiness, reqData).then(json => {
+            this.businessList = json.data
+          })
         }
         if (this.statusSelectShow === true) {
           this.statusSelectShow = false
