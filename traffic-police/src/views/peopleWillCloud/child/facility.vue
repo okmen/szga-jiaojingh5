@@ -1,6 +1,6 @@
 <template>
 <div class="facility-outer">
-  <common :typeData='typeData' :reportingMatters="reportingMatters" @submit="submit"></common>
+  <common :typeData='typeData' :reportingMatters="reportingMatters" @submit="submit" @showMap="showMap" :mapObj="mapObj"></common>
 </div>
 </template>
 <script>
@@ -153,7 +153,11 @@ export default {
   components: {
     common
   },
+  props: ['mapObj'],
   methods: {
+    showMap: function () {
+      this.$emit('showMap')
+    },
     submit: function (reqData) {
       this.$emit('submit')
       resultPost(facility, reqData).then(json => {

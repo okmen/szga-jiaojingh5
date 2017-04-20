@@ -23,6 +23,14 @@ const routes = [
     component: require('../views/login/login.vue')
   },
   {
+    name: 'personalCenter',
+    path: '/personalCenter',
+    meta: {
+      title: '登录'
+    },
+    component: require('../views/personalCenter/personalCenter.vue')
+  },
+  {
     name: 'starUser',
     path: '/starUser',
     meta: {
@@ -257,14 +265,6 @@ const routes = [
       title: '地图'
     },
     component: require('../views/takePictures/map.vue')
-  },
-  {
-    name: 'getLocation',
-    path: '/getLocation',
-    meta: {
-      title: '互联网+民意投票'
-    },
-    component: require('../views/getLocation/getLocation.vue')
   }
 ]
 /* eslint-disable no-new */
