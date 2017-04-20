@@ -16,13 +16,13 @@
       <div class="tp-photo-left">上传照片</div>
       <div class="tp-photo-right">
         <div id="imgBoxOne" class="tp-photo-1">
-          <img id="imgOne" src="">
+          <img id="imgOne" :src="imgOne">
         </div>
-        <div class="tp-photo-1">
-          <img src="http://www.qqbody.com/uploads/allimg/201308/19-201359_879.jpg">
+        <div id="imgBoxTwo" class="tp-photo-1">
+          <img id="imgTwo" :src="imgTwo">
         </div>
-        <div class="tp-photo-1">
-          <img src="http://www.qqw21.com/article/UploadPic/2013-10/2013101117151566869.jpg">
+        <div id="imgBoxThree" class="tp-photo-1">
+          <img id="imgThree" :src="imgThree">
         </div>
       </div>
     </div>
@@ -35,19 +35,22 @@
     <div class="tp-inform-box">
       <div class="tp-inform-left">举报人</div>
       <div class="tp-inform-right">
-        <input maxlength="50" type="text" v-model="informName" placeholder="请输入您的名字" >
+        <input maxlength="50" type="text" v-model="informName" placeholder="请输入您的名字" 
+         readonly="this.loginJudge ? true : false">
       </div>
     </div>
     <div class="tp-inform-box">
       <div class="tp-inform-left">身份证号</div>
       <div class="tp-inform-right">
-        <input maxlength="50" type="text" v-model="informIdNumber" placeholder="请输入身份证号码" >
+        <input maxlength="50" type="text" v-model="informIdNumber" placeholder="请输入身份证号码" 
+         readonly="this.loginJudge ? true : false">
       </div>
     </div>
     <div class="tp-inform-box">
       <div class="tp-inform-left">联系电话</div>
       <div class="tp-inform-right">
-        <input maxlength="50" type="text" v-model="informTel" placeholder="请输入正确的电话号码">
+        <input maxlength="50" type="text" v-model="informTel" placeholder="请输入正确的电话号码"
+          readonly="this.loginJudge ? true : false">
       </div>
     </div>
     <div class="tp-btn-submit" @click="btnSurePutInform">确认提交</div>
@@ -55,86 +58,126 @@
       <!--<a>点击查看温馨提示</a>-->
       <router-link to="takePicturesTips">点击查看温馨提示</router-link>
     </div>
-    <automateTip :options.sync="options" @onPropsChange="change"></automateTip>
   </div>
 </template>
 <script>
-  import { resultGet } from '../../service/getData'
-  import { uploadImg } from '../../config/baseUrl'
+  import { resultGet, resultPost } from '../../service/getData'
+  import { uploadImg, takePictures } from '../../config/baseUrl'
   import uploadImgFun from '../../service/uploadImg'
-  import automateTip from '../../components/automateTip'
+  import { Toast } from 'mint-ui'
   export default {
     name: 'takePicturesInform',
-    components: {
-      automateTip
-    },
     data () {
       return {
         informTime: '',          // 违法时间
         informRoad: '',          // 违法路段
+        imgOne: '',              // 上传照片
+        imgTwo: '',
+        imgThree: '',
         informIntroWhy: '',      // 情况说明
         informName: '',          // 举报人
         informIdNumber: '',      // 身份证号
         informTel: '',           // 电话号码
-        options: {
-          autoClose: true,
-          content: '',
-          showTip: false,
-          showTime: 2000
-        }
+        loginJudge: false        // 判读是否登录
       }
     },
-    mounted: function () {  // 组件加载完成之后立即获取token
+    mounted: function () {  // 组件加载完成之后立即获取
       this.getToken()
-      this.informIdNumber = window.localStorage.identityCard
+      this.loginJudge = window.localStorage.isLogin
+      if (this.loginJudge) {
+        this.informName = window.localStorage.userName
+        this.informIdNumber = window.localStorage.identityCard
+        this.informTel = window.localStorage.mobilePhone
+      }
     },
     computed: {
       regTel: function () {
-        return /^1\d{10}$/g.test(this.informTel)
+        return /^1[34578]\d{9}$/.test(this.informTel)
       }
     },
     methods: {
-      getTime: function () {
+      getTime: function () {           // 获取当前时间
         let getInformTime = this.currentTime()
         this.informTime = getInformTime
       },
-      btnSurePutInform: function () {  // 提交按钮
-        // let informData = {
-        //   situationStatement: this.informIntroWhy,
-        //   whistleblower: this.informName,
-        //   identityCard: this.informIdNumber,
-        //   mobilephone: this.informTel
-        // }
-        // resultPost(takePictures, JSON.stringify(informData)).then(json => {
-        //   console.log(json)
-        // })
-        if (!this.regTel) {
-          this.change()
-          this.options.content = '同志啊，请输入正确的手机号码'
-        } else {
-          this.$router.push('/takePicturesSuccess') // 成功之后
-        }
-      },
-      change: function () {
-        this.options.showTip = true
-      },
       getToken: function () {          // 获取token
         resultGet(uploadImg).then(res => {
-          res.code === '0000' && this.uploadImg(res.upToken)
+//          res.code === '0000' && this.uploadImg(res.upToken)
+          if (res.code === '0000') {
+            this.uploadImgOne(res.upToken)
+            this.uploadImgTwo(res.upToken)
+            this.uploadImgThree(res.upToken)
+          }
         })
       },
-      uploadImg: function (uptoken) {  // 上传照片
+      uploadImgOne: function (uptoken) {  // 上传照片
+        var that = this
         uploadImgFun({
           selfId: 'imgOne',
           parentId: 'imgBoxOne',
           upToken: uptoken,
           fileUploaded: function (res) {
             console.log(res)
+            that.imgOne = res.imgUrl
           },
           error: function (err) {
             console.log(err)
           }
         })
+      },
+      uploadImgTwo: function (uptoken) {  // 上传照片
+        var that = this
+        uploadImgFun({
+          selfId: 'imgTwo',
+          parentId: 'imgBoxTwo',
+          upToken: uptoken,
+          fileUploaded: function (res) {
+            console.log(res)
+            that.imgTwo = res.imgUrl
+          },
+          error: function (err) {
+            console.log(err)
+          }
+        })
+      },
+      uploadImgThree: function (uptoken) {  // 上传照片
+        var that = this
+        uploadImgFun({
+          selfId: 'imgThree',
+          parentId: 'imgBoxThree',
+          upToken: uptoken,
+          fileUploaded: function (res) {
+            console.log(res)
+            that.imgThree = res.imgUrl
+          },
+          error: function (err) {
+            console.log(err)
+          }
+        })
+      },
+      btnSurePutInform: function () {  // 提交按钮
+        let informData = {
+          illegalTime: this.informTime,             // 违法时间
+          illegalSections: this.informRoad,         // 违法路段
+          imgOne: this.imgOne,                      // 上传照片
+          imgTwo: this.imgTwo,
+          imgThree: this.imgThree,
+          situationStatement: this.informIntroWhy,  // 情况说明
+          whistleblower: this.informName,           // 举报人
+          identityCard: this.informIdNumber,        // 身份证号
+          mobilephone: this.informTel               // 电话号码
+        }
+        if (!this.regTel) {
+          Toast({
+            message: '请输入正确的电话号码',
+            position: 'bottom'
+          })
+        } else {
+          resultPost(takePictures, informData).then(json => {
+            console.log(json)
+          })
+//          this.$router.push('/takePicturesSuccess') // 成功之后
+        }
       },
       currentTime: function () {  // 获取时间
         let now = new Date()
@@ -143,6 +186,7 @@
         let day = now.getDate()            // 日
         let hh = now.getHours()            // 时
         let mm = now.getMinutes()          // 分
+        let ss = now.getSeconds()          // 秒
         let clock = year + '-'
         if (month < 10) {
           clock += '0'
@@ -159,7 +203,11 @@
         if (mm < 10) {
           clock += '0'
         }
-        clock += mm
+        clock += mm + ':'
+        if (ss < 10) {
+          clock += '0'
+        }
+        clock += ss
         return (clock)
       }
     }
@@ -299,6 +347,11 @@
       color:#24a6f8;
       text-decoration:underline;
     }
+  }
+}
+.mint-toast{
+  .mint-toast-text{
+    color:#FFF;
   }
 }
 </style>

@@ -125,13 +125,12 @@
       </ul>
       <button class="btn" type="button" name="button" @click.stop="submit()">提交</button>
     </div>
-    <alert-tips :tipsText="msg" @closeTips="closeTips()" v-if="tipsShow"></alert-tips>
   </div>
 </template>
 <script>
 import { resultPost } from '../../../service/getData'
 import { jam } from '../../../config/baseUrl'
-import alertTips from '../../../components/alertTips'
+import { MessageBox, Toast } from 'mint-ui'
 export default {
   name: 'jam',
   data () {
@@ -275,9 +274,7 @@ export default {
         'str': '车流过饱和'
       },
       congestionReasonShow: false,
-      improveAdvice: '',
-      msg: '',
-      tipsShow: false
+      improveAdvice: ''
     }
   },
   methods: {
@@ -341,23 +338,28 @@ export default {
       for (let key in reqData) {
         if (!reqData[key]) {
           console.log(key)
-          this.msg = '信息填写不完整'
-          this.tipsShow = true
+          Toast({
+            message: '信息填写不完整',
+            position: 'bottom',
+            className: 'white'
+          })
           return false
         }
       }
       this.$emit('submit')
       resultPost(jam, reqData).then(json => {
-        this.tipsShow = true
         if (json.code !== '0000') {
-          this.msg = json.msg
+          MessageBox({
+            title: '',
+            message: json.msg
+          })
         } else {
-          this.msg = '感谢您参与举报，我们会依次不断改进'
+          MessageBox({
+            title: '',
+            message: '感谢您参与举报，我们会依次不断改进'
+          })
         }
       })
-    },
-    closeTips: function () {
-      this.tipsShow = false
     }
   },
   created () {
@@ -372,9 +374,6 @@ export default {
     this.userName = window.localStorage.getItem('userName') // 用户姓名
     this.mobilephone = window.localStorage.getItem('mobilePhone') // 用户手机号码
     this.identityCard = window.localStorage.getItem('identityCard') // 用户身份证号码
-  },
-  components: {
-    alertTips
   }
 }
 </script>
@@ -434,6 +433,11 @@ export default {
           resize: none;
         }
       }
+    }
+  }
+  .white{
+    span{
+      color: #fff;
     }
   }
 </style>
