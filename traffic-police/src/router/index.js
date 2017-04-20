@@ -23,6 +23,14 @@ const routes = [
     component: require('../views/login/login.vue')
   },
   {
+    name: 'personalCenter',
+    path: '/personalCenter',
+    meta: {
+      title: '个人中心'
+    },
+    component: require('../views/personalCenter/personalCenter.vue')
+  },
+  {
     name: 'starUser',
     path: '/starUser',
     meta: {
@@ -94,26 +102,10 @@ const routes = [
     component: require('../views/wschool/wschool.vue')
   },
   {
-    name: 'xstudy',
-    path: '/xstudy',
-    meta: {
-      title: '消分学习'
-    },
-    component: require('../views/wschool/subclass/xstudy.vue')
-  },
-  {
-    name: 'mstudy',
-    path: '/mstudy',
-    meta: {
-      title: '满分学习'
-    },
-    component: require('../views/wschool/subclass/mstudy.vue')
-  },
-  {
     name: 'motorstudy',
     path: '/motorstudy',
     meta: {
-      title: '电动车学习'
+      title: '微学堂学习'
     },
     component: require('../views/wschool/subclass/motorstudy.vue')
   },
@@ -190,12 +182,12 @@ const routes = [
     component: require('../views/handyService/child/moveCar.vue')
   },
   {
-    name: 'ABstudy',
-    path: '/ABstudy',
+    name: 'answers',
+    path: '/answers',
     meta: {
-      title: 'AB类驾驶人学习'
+      title: '学习答题'
     },
-    component: require('../views/wschool/subclass/ABstudy.vue')
+    component: require('../views/wschool/subclass/answers.vue')
   },
   {
     name: 'takePicturesTips',
@@ -275,12 +267,12 @@ const routes = [
     component: require('../views/takePictures/map.vue')
   },
   {
-    name: 'getLocation',
-    path: '/getLocation',
+    name: 'appointSuccess',
+    path: '/appointSuccess',
     meta: {
-      title: '互联网+民意投票'
+      title: '预约申办成功'
     },
-    component: require('../views/getLocation/getLocation.vue')
+    component: require('../components/appointSuccess.vue')
   }
 ]
 /* eslint-disable no-new */

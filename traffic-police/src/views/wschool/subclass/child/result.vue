@@ -1,17 +1,17 @@
 <template>
-  <div class="result" >
+  <div class="result" :click="resultclick()">
     <div class="result-head" >
-      <span class="result-digit">{{resultData.answerCorrect}}</span>
-      <p class="result-head-bottom">驾驶证号：<i class="result-col">{{resultData.drive}}</i></p>
+      <span class="result-digit">{{integral}}</span>
+      <p class="result-head-bottom">驾驶证号：<i class="result-col">{{resultData.identityCard}}</i></p>
     </div>
     <div class="result-cen" >
       <dl class="result-center">
-        <dt class="result-center-colour tian">{{resultData.answerCorrect}}</dt>
+        <dt class="result-center-colour tian">{{surplusAnswe}}</dt>
         <dd class="result-center-colo">答题数</dd>
       </dl>
       <img class="result-xian" src="../../../../images/xian.png">
       <dl class="result-center">
-        <dt class="result-center-colour">{{resultData.answererror}}</dt>
+        <dt class="result-center-colour">{{answererror}}</dt>
         <dd class="result-center-colo">答错次数</dd>
       </dl>
     </div>
@@ -20,20 +20,36 @@
 </template>
 <script>
 import { resultPost } from '../../../../service/getData'
-import { grade } from '../../../../config/baseUrl'
+import { xstudy } from '../../../../config/baseUrl'
 export default {
   name: 'result',
   data () {
     return {
+      surplusAnswe: 0,    // 答题数
+      answererror: 0,     // 答错题数
+      answerCorrect: 0,   // 答对题数
+      integral: 0,        // 积分
       resultData: {
       }
     }
   },
+  methods: {
+    resultclick: function () {
+      this.surplusAnswe = window.sessionStorage.getItem('surplusAnswe')   // 答题数
+      this.answererror = window.sessionStorage.getItem('answererror')     // 答错题数
+      this.answerCorrect = window.sessionStorage.getItem('answerCorrect')  // 答对题数
+      this.integral = this.answerCorrect - window.sessionStorage.getItem('integral')   // 积分
+    }
+  },
   created () {
     var resData = {
-      classroomId: 4
+      classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
+      identityCard: window.localStorage.getItem('identityCard'), // 身份证
+      mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
+      userName: window.localStorage.getItem('userName'),         // 名字
+      userSource: 'C'    // 用户来源
     }
-    resultPost(grade, resData).then(json => {
+    resultPost(xstudy, resData).then(json => {
       console.log(json)
       this.resultData = json.data[0]
     })

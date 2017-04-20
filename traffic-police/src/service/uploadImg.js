@@ -6,7 +6,7 @@
 * @param {string} upToken 必传
 * @return {Array<object>} [{imgUrl:'图片地址',dateTime:'拍照时间',GPSLongitude:'经度',GPSLatitude:'纬度'}]
 */
-
+import { Indicator } from 'mint-ui';
 let domain = 'http://oojgfm8c9.bkt.clouddn.com/';
 export default function uploadImgFun({selfId,parentId,upToken,fileUploaded,error}){
 	var uploader = Qiniu.uploader({
@@ -30,6 +30,7 @@ export default function uploadImgFun({selfId,parentId,upToken,fileUploaded,error
           'FilesAdded': function(up, files) {
             plupload.each(files, function(file) {
               // 文件添加进队列后，处理相关的事情
+              Indicator.open('上传中...');
             });
           },
           'BeforeUpload': function(up, file) {
@@ -63,6 +64,7 @@ export default function uploadImgFun({selfId,parentId,upToken,fileUploaded,error
           },
           'UploadComplete': function() {
             //队列文件处理完毕后，处理相关的事情
+            Indicator.close();
           },
           'Key': function(up, file) {
             // 若想在前端对每个文件的key进行个性化处理，可以配置该函数

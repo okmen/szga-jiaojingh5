@@ -62,7 +62,11 @@
         <div class="starUser-hbs-text width-40 left">
           <input class="text-input" type="tel" name="" value="" v-model="validCode" placeholder="请输入验证码">
         </div>
-        <div class="left starUser-hbs-code" @click="getVerification">获取验证码</div>
+        <div class="left starUser-hbs-code">
+          <button type="button" name="button" @click.stop="getVerification()"
+            :class="{disabled: isdisabled}">{{getValidCodeMsg}}
+          </button>
+        </div>
       </li>
         <li class="starUser-hbs-item">
           <div class="starUser-hbs-name">
@@ -107,7 +111,8 @@
 <script>
 import common from './common'
 import { resultPost } from '../../../service/getData'
-import { carOwner } from '../../../config/baseUrl'
+import { carOwner, sendSMS } from '../../../config/baseUrl'
+import { Toast } from 'mint-ui'
 export default{
   name: 'carOwner',
   components: {
@@ -115,12 +120,14 @@ export default{
   },
   data () {
     return {
+      isdisabled: false,
+      getValidCodeMsg: '发送验证码',
       licenseSelectShow: false,
       licenseSelectMassage: '蓝牌',
       licenseSelectType: '02',
       licenseSelectData: [
         {
-          'str': '蓝牌y',
+          'str': '蓝牌',
           'type': '02'
         },
         {
@@ -293,12 +300,79 @@ export default{
         idCardImgHandHeld: idImgThree,
         provinceAbbreviation: this.abbreviationSelectMassage
       }
-      console.log(carOwnerData)
+      for (let key in carOwnerData) {
+        if (!carOwnerData[key]) {
+          Toast({
+            message: '信息填写不完整',
+            position: 'bottom',
+            className: 'white'
+          })
+          return false
+        }
+      }
       resultPost(carOwner, carOwnerData).then(json => {
-        console.log(json)
+        let jsonMsg = json.msg
+        let getJsonMsg = ''
+        if (jsonMsg.indexOf('：') === -1) {
+          getJsonMsg = jsonMsg
+        } else {
+          getJsonMsg = jsonMsg.split('：')[1]
+        }
+        if (json.code === '0000') {
+          Toast({
+            message: json.msg,
+            position: 'bottom',
+            className: 'white'
+          })
+        } else {
+          Toast({
+            message: getJsonMsg,
+            position: 'bottom',
+            className: 'white'
+          })
+        }
       })
     },
-    getVerification: function () {}
+    getVerification: function () {
+      let sendPhoneNumber = {
+        mobilephone: this.telphone
+      }
+      let time = 30
+      if (/^1[34578]\d{9}$/.test(this.telphone)) {
+        this.getValidCodeMsg = `已发送（${time}）`
+        this.isdisabled = true
+        countDown(this)
+        resultPost(sendSMS, sendPhoneNumber).then(json => {
+          if (json.code === '0000') {
+            Toast({
+              message: '验证码已发送，请查收',
+              position: 'bottom',
+              className: 'white',
+              duration: 1500
+            })
+          }
+        })
+      } else {
+        Toast({
+          message: '请输入正确的手机号码',
+          position: 'bottom',
+          className: 'white',
+          duration: 1500
+        })
+      }
+      function countDown (that) {
+        setTimeout(() => {
+          if (time === 0) {
+            that.isdisabled = false
+            that.getValidCodeMsg = '发送验证码'
+          } else {
+            time--
+            that.getValidCodeMsg = `已发送（${time}）`
+            countDown(that)
+          }
+        }, 1000)
+      }
+    }
   },
   created () {
     document.addEventListener('click', (e) => {
@@ -337,6 +411,16 @@ export default{
       .starUser-hbs-code {
         text-indent: 28px;
         text-decoration: underline;
+        button{
+          background:none;
+          border:none;
+          text-decoration: underline;
+          outline:none;
+          &.disabled{
+            background: #ccc;
+            color: #fff;
+          }
+        }
       }
     }
   }

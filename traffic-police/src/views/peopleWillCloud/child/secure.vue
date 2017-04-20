@@ -1,14 +1,13 @@
 <template>
 <div class="secure-outer">
-  <common :typeData='typeData' :reportingMatters="reportingMatters" @submit="submit"></common>
-  <alert-tips :tipsText="msg" @closeTips="closeTips()" v-if="tipsShow"></alert-tips>
+  <common :typeData='typeData' :reportingMatters="reportingMatters" @submit="submit" @showMap="showMap" :mapObj="mapObj"></common>
 </div>
 </template>
 <script>
 import common from './common'
+import { MessageBox } from 'mint-ui'
 import { resultPost } from '../../../service/getData'
 import { secure } from '../../../config/baseUrl'
-import alertTips from '../../../components/alertTips'
 export default {
   name: 'facility',
   data () {
@@ -106,30 +105,33 @@ export default {
             }
           ]
         }
-      ],
-      msg: '',
-      tipsShow: false
+      ]
     }
   },
+  props: ['mapObj'],
   components: {
-    common,
-    alertTips
+    common
   },
   methods: {
+    showMap: function () {
+      this.$emit('showMap')
+    },
     submit: function (reqData) {
       this.$emit('submit')
-      console.log(JSON.stringify(reqData))
       resultPost(secure, reqData).then(json => {
         this.tipsShow = true
         if (json.code !== '0000') {
-          this.msg = json.msg
+          MessageBox({
+            title: '',
+            message: json.msg
+          })
         } else {
-          this.msg = '感谢您参与举报，我们会依次不断改进'
+          MessageBox({
+            title: '',
+            message: '感谢您参与举报，我们会依次不断改进'
+          })
         }
       })
-    },
-    closeTips: function () {
-      this.tipsShow = false
     }
   },
   created () {

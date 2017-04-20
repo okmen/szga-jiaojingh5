@@ -2,15 +2,15 @@
 const commonUrl = 'http://192.168.1.120:8100/'
 // const uploadUrl = 'http://192.168.1.159:8080/web/'
 
-export const xstudy = `${commonUrl}Classroom/StudyHomepage.html` // 学习页面接口
+export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
 
-export const wschool = `${commonUrl}Classroom/homepage.html` // 列表接口
+export const wschool = `${commonUrl}Classroom/homepages.html` // 列表接口
 
-export const answer = `${commonUrl}Classroom/Study.html` // 取题接口
+export const answer = `${commonUrl}Classroom/Studys.html` // 取题接口
 
-export const grade = `${commonUrl}Classroom/anserEnd.html` // 成绩接口
+export const grade = `${commonUrl}Classroom/anserEnds.html` // 成绩接口
 
-export const answers = `${commonUrl}Classroom/ Answer.html` // 答题接口
+export const answers = `${commonUrl}Classroom/ Answers.html` // 答题接口
 
 export const facility = `${commonUrl}convenience/equipmentDamageReport.html` // 设备损坏通报接口
 
@@ -58,5 +58,14 @@ export const drivingCard = `${commonUrl}user/search/getDrivingLicense.html` // �
 
 export const licenseCard = `${commonUrl}user/search/getElectronicDriverLicense.html` // 获取电子驾驶证
 
-export const getLocation = 'http://api.careland.com.cn/api/v1/rgeo' // 通过经纬度获取位置信息接口
+export const getLocation = 'http://navi1.careland.com.cn/cgi/pub_getpositioninfo_j.ums' // 通过经纬度获取附近的路接口
 
+export const takePictures = `${commonUrl}user/readilyShoot.html` // 随手拍举报接口
+
+export const carOwner = `${commonUrl}register/iAmTheOwner.html` // 星级用户认证 我是车主接口
+
+export const drivingLicense = `${commonUrl}register/haveDriverLicenseNotCar.html` // 星级用户认证 我有驾驶证接口
+
+export const passerBy = `${commonUrl}register/isPedestrianNotDriver.html` // 星级用户认证 我是行人接口
+
+export const carUser = `${commonUrl}register/iamALongtimeUser.html` // 星级用户认证 我是长期使用人接口
