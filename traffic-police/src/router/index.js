@@ -23,6 +23,14 @@ const routes = [
     component: require('../views/login/login.vue')
   },
   {
+    name: 'personalCenter',
+    path: '/personalCenter',
+    meta: {
+      title: '登录'
+    },
+    component: require('../views/personalCenter/personalCenter.vue')
+  },
+  {
     name: 'starUser',
     path: '/starUser',
     meta: {

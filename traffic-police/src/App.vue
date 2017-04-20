@@ -20,7 +20,7 @@
       <div class="logo"></div>
       <p>请<router-link to="/login" class="enter">  登录 </router-link>/<router-link to="/starUser" class="enroll"> 注册 </router-link>星级用户</p>
     </div>
-    <router-link to="/peopleWillCloud"><div class="login-right"></div></router-link>
+    <router-link to="/personalCenter"><div class="login-right"></div></router-link>
   </div>
   <div id="nav-outer">
     <div class="home-nav-top">
