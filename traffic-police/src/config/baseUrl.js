@@ -40,7 +40,7 @@ export const addVehicle = `${commonUrl}user/addVehicle.html` // 添加车辆接�
 
 export const updateUser = `${commonUrl}user/updateUser.html` // 修改个人资料接口
 
-export const login = `http://192.168.1.161:8080/web/user/login.html` // 登录接口
+export const login = `${commonUrl}/user/login.html` // 登录接口
 
 export const bindCar = `http://192.168.1.161:8080/web/user/search/getBndTheVehicles.html` // 个人中心-绑定车辆接口(暂使用后端本地地址)
 

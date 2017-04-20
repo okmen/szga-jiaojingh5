@@ -16,6 +16,7 @@
 <script>
 import { resultPost } from '../../service/getData'
 import { login } from '../../config/baseUrl'
+import { Toast } from 'mint-ui'
 
 export default {
   name: 'login',
@@ -36,6 +37,7 @@ export default {
       }
       console.log(reqData)
       resultPost(login, reqData).then(data => {
+        console.log(data)
         if (data.code === '0000') {
           let userData = data.data.authenticationBasicInformation
           console.log(userData)
@@ -48,10 +50,11 @@ export default {
           window.localStorage.setItem('isLogin', true) // 是否登录
           window.location.href = '/'
         } else {
-          window.localStorage.setItem('identityCard', '440301199002101119') // 身份证
-          window.localStorage.setItem('mobilePhone', '18603017278') // 手机号码
-          window.localStorage.setItem('myNumberPlate', '粤B701NR') // 车牌号码
-          window.localStorage.setItem('userName', '杨明畅') // 用户名字
+          Toast({
+            message: data.msg,
+            position: 'bottom',
+            duration: 2000
+          })
         }
       })
     }
