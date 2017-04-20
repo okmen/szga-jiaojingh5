@@ -26,7 +26,7 @@ const routes = [
     name: 'personalCenter',
     path: '/personalCenter',
     meta: {
-      title: '登录'
+      title: '个人中心'
     },
     component: require('../views/personalCenter/personalCenter.vue')
   },
@@ -265,6 +265,14 @@ const routes = [
       title: '地图'
     },
     component: require('../views/takePictures/map.vue')
+  },
+  {
+    name: 'appointSuccess',
+    path: '/appointSuccess',
+    meta: {
+      title: '预约申办成功'
+    },
+    component: require('../components/appointSuccess.vue')
   }
 ]
 /* eslint-disable no-new */
