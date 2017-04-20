@@ -1,14 +1,14 @@
 Arguments: 
-  D:\node.js\node.exe D:\yarn\bin\yarn.js install
+  C:\Program Files\nodejs\node.exe C:\Users\Mbenben\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add qrcode
 
 PATH: 
-  C:\Users\Maibenben\bin;D:\Git\mingw64\bin;D:\Git\usr\local\bin;D:\Git\usr\bin;D:\Git\usr\bin;D:\Git\mingw64\bin;D:\Git\usr\bin;C:\Users\Maibenben\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files\Intel\WiFi\bin;C:\Program Files\Common Files\Intel\WirelessCommon;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;D:\Git\cmd;D:\node.js;D:\yarn\bin;C:\Users\Maibenben\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Intel\WiFi\bin;C:\Program Files\Common Files\Intel\WirelessCommon;C:\Users\Maibenben\AppData\Roaming\npm;C:\Users\Maibenben\AppData\Local\Yarn\.bin;D:\Git\usr\bin\vendor_perl;D:\Git\usr\bin\core_perl
+  C:\Users\Mbenben\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Mbenben\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Intel\WiFi\bin;C:\Program Files\Common Files\Intel\WirelessCommon;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files\Intel\WiFi\bin;C:\Program Files\Common Files\Intel\WirelessCommon;C:\Users\Mbenben\AppData\Roaming\npm;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
 
 Yarn version: 
-  0.23.2
+  0.21.3
 
 Node version: 
-  6.10.2
+  7.6.0
 
 Platform: 
   win32 x64
@@ -4374,7 +4374,7 @@ Lockfile:
       window-size "0.1.0"
 
 Trace: 
-  Error: connect ETIMEDOUT 104.16.59.173:443
-      at Object.exports._errnoException (util.js:1018:11)
-      at exports._exceptionWithHostPort (util.js:1041:20)
+  Error: connect ETIMEDOUT 104.16.61.173:443
+      at Object.exports._errnoException (util.js:1028:11)
+      at exports._exceptionWithHostPort (util.js:1051:20)
       at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1090:14)
