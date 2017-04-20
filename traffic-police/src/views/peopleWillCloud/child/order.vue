@@ -7,7 +7,7 @@
             <span>地点</span>
           </div>
           <div class="order-list-text left width-90">
-            <input class="text-input" type="text" name="" v-model:value="address" placeholder="点击右侧按钮选择地址" readonly>
+            <input class="text-input" type="text" name="" v-model:value="mapObj.showAdd" placeholder="点击右侧按钮选择地址" readonly>
           </div>
           <div class="order-list-location right" @click.stop='getLocation()'></div>
         </li>
@@ -23,7 +23,7 @@
               :picker-options="{
                 start: '00:00',
                 step: '00:30',
-                end: '23:00'
+                end: '23:30'
               }"
               placeholder="00:00"
               :editable=false>
@@ -42,7 +42,7 @@
               :picker-options="{
                 start: '00:00',
                 step: '00:30',
-                end: '23:00'
+                end: '23:30'
               }"
               placeholder="00:00"
               :editable=false>
@@ -176,8 +176,10 @@ export default {
       description: ''
     }
   },
+  props: ['mapObj'],
   methods: {
     getLocation: function () {
+      this.$emit('showMap')
       console.log('获取地理位置')
     },
     btnOrderTypeSelect: function (index) {
@@ -197,10 +199,8 @@ export default {
         congestionCode: this.congestionType.code, // 拥堵类型码
         congestionType: this.congestionType.str, // 拥堵类型
         description: this.description, // 现场描述
-        // addressCode: this.addressCode, // 地点代码 暂无
-        addressCode: 1321351, // 地点代码 暂无
-        // address: this.address // 主题地点描述
-        address: '广东省深圳市福田区深圳市体育中心' // 主题地点描述
+        addressCode: this.mapObj.addressCode, // 站点代码
+        address: this.mapObj.detailAddress // 主题地点描述
       }
       console.log(reqData)
       for (let key in reqData) {

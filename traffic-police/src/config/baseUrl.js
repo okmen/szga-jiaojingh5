@@ -58,5 +58,4 @@ export const drivingCard = `${commonUrl}user/search/getDrivingLicense.html` // �
 
 export const licenseCard = `${commonUrl}user/search/getElectronicDriverLicense.html` // 获取电子驾驶证
 
-export const getLocation = 'http://api.careland.com.cn/api/v1/rgeo' // 通过经纬度获取位置信息接口
-
+export const getLocation = 'http://navi1.careland.com.cn/cgi/pub_getpositioninfo_j.ums' // 通过经纬度获取附近的路接口
