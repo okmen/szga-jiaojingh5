@@ -1,14 +1,17 @@
 <template>
   <div class="navv">
-    <div class="nav-motorstudy">
+    <div class="nav-xstudy">
       <div class="nav-top">
       </div>
       <span class="nav-top-bottom">{{listData.userName}}</span>
     </div>
-    <ul class="nav-motorstudy-cengter">
-      <li class="nav-motorstudy-left"><span>驾驶证号</span><em class="nav-motorstudy-right">{{listData.identityCard}}</em></li>
-      <li class="nav-mstudy-left">
-        <p @click.stop="clickShow()"><span>学习记录</span></p>
+    <ul class="nav-xstudy-cengter">
+      <li class="nav-xstudy-left"><span>驾驶证号</span><em class="nav-xstudy-right">{{listData.identityCard}}</em></li>
+      <li class="nav-xstudy-left" v-show="listData.scoreStartDate"><span>记分周期(始)</span><em class="nav-xstudy-right">{{listData.scoreStartDate}}</em></li>
+      <li class="nav-xstudy-left" v-show="listData.scoreEndDate"><span>记分周期(末)</span><em class="nav-xstudy-right">{{listData.scoreEndDate}}</em></li>
+      <li class="nav-xstudy-left" v-show="listData.integral"><span>学习积分数</span><em class="nav-xstudy-right nav-col">{{listData.integral}}</em></li>
+      <li class="nav-xstudy-left" >
+        <p @click.stop="clickShow()" v-show="itemData"><span>学习记录</span></p>
         <div class="nav-xstudy-footer-lout" v-bind:class="{ 'show' : isShow}" v-for="record in itemData">
           <div class="nav-xstudy-footer">
             <div class="nav-footer-top"></div>
@@ -23,17 +26,21 @@
         </div>
       </li>
     </ul>
-    <router-link class="nav-xstudy-button" to="answer">开始学习</router-link>
-    <a class="nav-motorstudy-xst" href="#">学习须知</a>
+    <!-- <router-link class="nav-xstudy-button" to="answer">开始学习</router-link> -->
+    <div class="nav-xstudy-button" @click="pageDown()">开始学习</div>
+    <a class="nav-xstudy-xst" href="#">学习须知</a>
   </div>
 </template>
 <script>
 import { resultPost } from '../../../service/getData'
 import { xstudy } from '../../../config/baseUrl'
+import { MessageBox } from 'mint-ui'
 export default {
   data () {
     return {
       isShow: false,      // 控制学习记录样式
+      integral: '',       // 学习积分
+      codes: '',     // 消分学习判断
       listData: {
       },
       itemData: [{       // 学习记录数据
@@ -43,6 +50,21 @@ export default {
   methods: {
     clickShow: function () {     // 学习记录控制样式
       this.isShow = !this.isShow
+    },
+    pageDown: function () {
+      window.sessionStorage.setItem('integral', this.listData.integral)  // 学习积分
+      let classroomIds = window.sessionStorage.getItem('classroomId')
+      if (classroomIds === '1') {
+        if (this.codes === '0001') {
+          MessageBox('提示', '今天消费学习已答对10题,请明天继续').then(() => {
+            window.location.href = '/'
+          })
+        } else {
+          this.$router.push('answers')  // 进入消分答题页面
+        }
+      } else {
+        this.$router.push('answer')    // 其他学习页面
+      }
     }
   },
   created () {
@@ -50,25 +72,25 @@ export default {
       classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
       identityCard: window.localStorage.getItem('identityCard'), // 身份证
       mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
+      userName: window.localStorage.getItem('userName'),         // 名字
       userSource: 'C'    // 用户来源
     }
-    console.log(motorstudyData)
-    console.log(window.sessionStorage.getItem('classroomId'))
-    console.log(window.localStorage.getItem('identityCard'))
-    console.log(window.localStorage.getItem('mobilePhone'))
     resultPost(xstudy, motorstudyData).then(json => {
-      console.log(json)
       this.listData = json.data[0]
       this.itemData = json.data[0].studyRecord
+      this.isComplete = json.data[0].isComplete
+      this.integral = json.data[0].integral   // 学习积分
+      this.codes = json.code    // 状态码
     })
   }
 }
 </script>
 <style lang="less">
 @import "./../../../style/base";
-.nav-motorstudy {
-  background: url('../../../images/xstudyBackground.png');
+.nav-xstudy {
+  width: 100%;
   height: 350px;
+  background: url('../../../images/xstudyBackground.png');
   position: relative;
   background-size: 100% 100%;
 }
@@ -85,8 +107,8 @@ export default {
   margin-top: -140px;
 }
 
-.nav-motorstudy .nav-top-bottom {
- position: absolute;
+.nav-xstudy .nav-top-bottom {
+  position: absolute;
   left: 38%;
   top: 70%;
   display: block;
@@ -96,18 +118,68 @@ export default {
   text-align: center;
 }
 
-.nav-motorstudy-left {
+.nav-xstudy-left {
   width: 100%;
   line-height: 108px;
   font-size: 26px;
   border-bottom: 1px solid #ddd;
 }
 
-.nav-motorstudy-left span {
+.nav-xstudy-left span {
   margin-left: 46px;
 }
 
-.nav-motorstudy-button {
+.nav-xstudy-footer {
+  width: 100%;
+  background-color: #f0f1f3;
+  overflow: hidden;
+}
+
+.nav-footer-top {
+  background: url('../../../images/xstudy-tu.png')no-repeat;
+  width: 104px;
+  height: 126px;
+  float: left;
+  background-position: right center;
+}
+
+.nav-footer-bottom {
+  float: left;
+  width: 86%;
+}
+
+.nav-footer-bottom li {
+  width: 100%;
+  border-bottom: 1px solid #dadada;
+  line-height: 126px;
+}
+
+.nav-footer-bottom .nav-xstudy-footer-right {
+  display: inline-block;
+  width: 98px;
+  font-size: 26px;
+  background: #939393;
+  margin: 50px 0 50px 310px;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 40px;
+  color: #fff;
+}
+
+.nav-xstudy-footer-rig {
+  display: inline-block;
+  width: 98px;
+  font-size: 26px;
+  background: #ffae00;
+  margin: 50px 0 50px 310px;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 40px;
+  color: #fff;
+}
+
+.nav-xstudy-button {
+  display: inline-block;
   width: 650px;
   margin: 48px 50px 12px;
   line-height: 80px;
@@ -115,18 +187,31 @@ export default {
   font-size: 30px;
   background-color: #09bb07;
   border-radius: 8px;
+  text-align: center;
 }
 
-.nav-motorstudy-xst {
+.nav-xstudy-xst {
   margin-left: 26px;
   color: #3da8e8;
   font-size: 26px;
   text-decoration: underline;
 }
 
-.nav-motorstudy-right {
+.nav-xstudy-right {
   float: right;
   margin-right: 48px;
   font-style: normal;
+}
+
+.nav-col {
+  color: #ff0000;
+}
+
+.nav-xstudy-footer-lout {
+  display: none;
+}
+
+.nav-mstudy-left.show {
+  display: block;
 }
 </style>
