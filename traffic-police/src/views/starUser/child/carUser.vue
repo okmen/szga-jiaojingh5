@@ -1,12 +1,12 @@
 <template>
-  <div id="starUser-hbs">
+  <div id="starUser-car-user">
     <ul class="starUser-hbs-list">
       <li class="starUser-hbs-item">
         <div class="starUser-hbs-name">
           <span>车辆类型</span>
         </div>
         <div class="div-select">
-          <span class="btn-select" @click.stop="licenseSelectClick()">{{ licenseSelectMassage }}</span>
+          <span class="btn-select" @click.stop="licenseSelectClick()" data-type="licenseSelectType">{{ licenseSelectMassage }}</span>
           <div class="div-select-ul" v-if="licenseSelectShow">
             <ul>
               <li v-for="item in licenseSelectData" @click.stop = "licenseSelectClick(item.str)">{{item.str}}</li>
@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="starUser-hbs-text width-70 right">
-          <input class="text-input" type="text" name="" value="B">
+          <input class="text-input" type="text" name="" v-model="carNumber">
         </div>
       </li>
       <li class="starUser-hbs-item">
@@ -35,7 +35,7 @@
           <span>车主姓名</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="text" name="" value="" placeholder="车主姓名">
+          <input class="text-input" type="text" name="" v-model="carOwnerName" placeholder="车主姓名">
         </div>
       </li>
       <li class="starUser-hbs-item">
@@ -43,7 +43,7 @@
           <span>车主身份证</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="text" name="" value="" placeholder="车主是外籍人士,请在证件号前加F">
+          <input class="text-input" type="text" name="" v-model="carIdCardNumber" placeholder="车主是外籍人士,请在证件号前加F">
         </div>
       </li>
       <li class="starUser-hbs-item">
@@ -51,7 +51,7 @@
           <span>使用人身份证</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="text" name="" value="" placeholder="如果您是外籍人士,请在证件号前加F">
+          <input class="text-input" type="text" name="" v-model="userIdCardNumber" placeholder="如果您是外籍人士,请在证件号前加F">
         </div>
       </li>
       <li class="starUser-hbs-item">
@@ -60,15 +60,15 @@
         </div>
         <div class="starUser-hbs-radio">
           <div class="starUser-hbs-radio-box">
-            <input type="radio" id="starUserRadio1" checked="checked" name="drivingLicence" value="深圳本地">
+            <input type="radio" id="starUserRadio1" name="drivingLicence" value="1" v-model:checked="driverCardPlace">
             <label name="starUserRadio1" class="checked" for="starUserRadio1">深圳本地</label>
           </div>
           <div class="starUser-hbs-radio-box">
-            <input type="radio" id="starUserRadio2" name="drivingLicence" value="本省外市">
+            <input type="radio" id="starUserRadio2" name="drivingLicence" value="2" v-model:checked="driverCardPlace">
             <label name="starUserRadio2" class="checked" for="starUserRadio2">本省外市</label>
           </div>
           <div class="starUser-hbs-radio-box">
-            <input type="radio" id="starUserRadio3" name="drivingLicence" value="外省">
+            <input type="radio" id="starUserRadio3" name="drivingLicence" value="3" v-model:checked="driverCardPlace">
             <label name="starUserRadio3" class="checked" for="starUserRadio3">外省</label>
           </div>
         </div>
@@ -78,7 +78,7 @@
           <span>手机号码</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="tel" name="" value="" placeholder="请输入您的手机号码">
+          <input class="text-input" type="tel" name="" v-model="userTelphone" placeholder="请输入您的手机号码">
         </div>
       </li>
       <li class="starUser-hbs-item clear">
@@ -86,46 +86,67 @@
           <span>验证码</span>
         </div>
         <div class="starUser-hbs-text width-40 left">
-          <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码">
+          <input class="text-input" type="tel" name="" v-model="validCode" placeholder="请输入验证码">
         </div>
-        <div class="left starUser-hbs-code" @click="getVerification()">获取验证码</div>
+        <div class="left starUser-hbs-code">
+          <button type="button" name="button" @click.stop="getVerification()"
+            :class="{disabled: isdisabled}">{{getValidCodeMsg}}
+          </button>
+        </div>
       </li>
       <li class="starUser-hbs-item">
         <div class="starUser-hbs-name">
           <span>联系地址</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="text" name="" value="" placeholder="您的联系地址(非必填)">
+          <input class="text-input" type="text" name="" v-model="userAddress" placeholder="您的联系地址">
         </div>
       </li>
     </ul>
+    <userUpload @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
   </div>
 </template>
 <script>
+  import userUpload from './userUpload'
+  import { resultPost } from '../../../service/getData'
+  import { carUser, sendSMS } from '../../../config/baseUrl'
+  import { Toast } from 'mint-ui'
   export default{
     name: 'carUser',
+    components: {
+      userUpload
+    },
     data () {
       return {
+        getValidCodeMsg: '获取验证码',
+        isdisabled: false,
         licenseSelectShow: false,
         licenseSelectMassage: '蓝牌',
+        licenseSelectType: '02',
         licenseSelectData: [
           {
-            'str': '蓝牌y'
+            'str': '蓝牌',
+            'type': '02'
           },
           {
-            'str': '黄牌'
+            'str': '黄牌',
+            'type': '01'
           },
           {
-            'str': '黑牌'
+            'str': '黑牌',
+            'type': '06'
           },
           {
-            'str': '个性牌'
+            'str': '个性牌',
+            'type': '02'
           },
           {
-            'str': '小型新能源车号牌'
+            'str': '小型新能源车号牌',
+            'type': '02'
           },
           {
-            'str': '大型新能源车号牌'
+            'str': '大型新能源车号牌',
+            'type': '02'
           }
         ],
         abbreviationSelectShow: false,
@@ -224,7 +245,15 @@
           {
             'str': '新'
           }
-        ]
+        ],
+        carNumber: 'B',        // 车牌号
+        carOwnerName: '',      // 车主姓名
+        carIdCardNumber: '',   // 车主身份证号
+        userIdCardNumber: '',  // 使用人身份证号
+        driverCardPlace: '',   // 驾驶证核发地
+        userTelphone: '',      // 使用人手机号
+        validCode: '',         // 验证码
+        userAddress: ''        // 联系地址
       }
     },
     methods: {
@@ -252,7 +281,100 @@
           this.typeSelectShow = false
         }
       },
-      getVerification: function () {}
+      btnSureStar: function () {
+        let ownerIdImgOne = this.$refs.getImgUrl.ownerIdCardPositive
+        let ownerIdImgTwo = this.$refs.getImgUrl.ownerIdCardHandHeld
+        let userIdImgThree = this.$refs.getImgUrl.userIdCardPositive
+        let userIdImgFour = this.$refs.getImgUrl.userIdCardHandHeld
+        let usrData = {
+          licensePlateType: this.licenseSelectType,             // 车牌类型
+          provinceAbbreviation: this.abbreviationSelectMassage, // 省简称
+          licensePlateNumber: this.carNumber,                   // 车牌号
+          ownerName: this.carOwnerName,                         // 车主姓名
+          ownerIdCard: this.carIdCardNumber,                    // 车主身份证号码
+          userIdCard: this.userIdCardNumber,                    // 使用人身份证号码
+          linkAddress: this.userAddress,                        // 联系地址
+          mobilephone: this.userTelphone,                       // 电话号码
+          validateCode: this.validCode,                         // 验证码
+          driverLicenseIssuedAddress: this.driverCardPlace,     // 驾驶证核发地
+          idCardImgPositive: userIdImgThree,                    // 使用人身份证照片
+          idCardImgHandHeld: userIdImgFour,
+          ownerIdCardImgPositive: ownerIdImgOne,                // 车主身份证照片
+          ownerIdCardImgHandHeld: ownerIdImgTwo
+        }
+        for (let key in usrData) {
+          if (!usrData[key]) {
+            Toast({
+              message: '信息填写不完整',
+              position: 'bottom',
+              className: 'white'
+            })
+            return false
+          }
+        }
+        resultPost(carUser, usrData).then(json => {
+          let jsonMsg = json.msg
+          let getJsonMsg = ''
+          if (jsonMsg.indexOf('：') === -1) {
+            getJsonMsg = jsonMsg
+          } else {
+            getJsonMsg = jsonMsg.split('：')[1]
+          }
+          if (json.code === '0000') {
+            Toast({
+              message: json.msg,
+              position: 'bottom',
+              className: 'white'
+            })
+          } else {
+            Toast({
+              message: getJsonMsg,
+              position: 'bottom',
+              className: 'white'
+            })
+          }
+        })
+      },
+      getVerification: function () {
+        let sendPhoneNumber = {
+          mobilephone: this.userTelphone
+        }
+        let time = 30
+        if (/^1[34578]\d{9}$/.test(this.userTelphone)) {
+          this.getValidCodeMsg = `已发送（${time}）`
+          this.isdisabled = true
+          countDown(this)
+          resultPost(sendSMS, sendPhoneNumber).then(json => {
+            if (json.code === '0000') {
+              Toast({
+                message: '验证码已发送，请查收',
+                position: 'bottom',
+                className: 'white',
+                duration: 1500
+              })
+            }
+          })
+        } else {
+          Toast({
+            message: '请输入正确的手机号码',
+            position: 'bottom',
+            className: 'white',
+            duration: 1500
+          })
+        }
+        function countDown (that) {
+          setTimeout(() => {
+            if (time === 0) {
+              that.isdisabled = false
+              that.getValidCodeMsg = '发送验证码'
+            } else {
+              time--
+              that.getValidCodeMsg = `已发送（${time}）`
+              countDown(that)
+            }
+          }, 1000)
+        }
+      }
     },
     created () {
       document.addEventListener('click', (e) => {
@@ -264,7 +386,7 @@
   }
 </script>
 <style lang="less">
-#starUser-hbs {
+#starUser-car-user {
   padding-bottom: 20px;
   .starUser-hbs-list {
     overflow: hidden;
@@ -291,9 +413,18 @@
       .starUser-hbs-code {
         text-indent: 28px;
         text-decoration: underline;
+        button{
+          background:none;
+          border:none;
+          text-decoration: underline;
+          outline:none;
+          &.disabled{
+            background: #ccc;
+            color: #fff;
+          }
+        }
       }
     }
   }
 }
-
 </style>
