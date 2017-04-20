@@ -68,7 +68,7 @@
     name: 'myCard',
     data () {
       return {
-        identityCard: '622822198502074110',
+        identityCard: '',
         fileNumber: '',
         status: '',
         availableScore: '',

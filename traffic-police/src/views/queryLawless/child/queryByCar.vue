@@ -368,7 +368,7 @@
           Toast({
             message: '信息填写不完整',
             position: 'bottom',
-            duration: 3000
+            className: 'white'
           })
           return false
         } else {
