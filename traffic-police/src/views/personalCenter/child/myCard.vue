@@ -52,12 +52,12 @@
           }
         }
       }
-      .own-card {
-        text-align: right;
-        margin-top: 60px;
-        font-size: 0.9rem;
-        color:#aaa;
-      }
+      /*.own-card {*/
+        /*text-align: right;*/
+        /*margin-top: 60px;*/
+        /*font-size: 0.9rem;*/
+        /*color:#aaa;*/
+      /*}*/
     }
   }
 </style>
@@ -68,13 +68,12 @@
     name: 'myCard',
     data () {
       return {
-        identityCard: '',
         fileNumber: '',
         status: '',
         availableScore: '',
         physicalExaminationDate: '',
-        effectiveDate: '',
-        isReceive: ''
+        effectiveDate: ''
+//        isReceive: ''
       }
     },
     mounted () {
@@ -88,7 +87,7 @@
         this.availableScore = json.data.availableScore
         this.physicalExaminationDate = json.data.physicalExaminationDate
         this.effectiveDate = json.data.effectiveDate
-        this.isReceive = json.data.isReceive
+//        this.isReceive = json.data.isReceive
       })
     }
   }
