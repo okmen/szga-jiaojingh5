@@ -43,8 +43,10 @@
         </router-link>
       </dl>
       <dl>
+        <router-link to="/#">
         <dt><img class="top4" src="./images/nav4.png" alt=""></dt>
         <dd>车管规费缴纳</dd>
+        </router-link>
       </dl>
     </div>
     <div class="home-nav-bottom">
@@ -263,6 +265,9 @@ export default {
       img{
         display: block;
         margin: 0 auto;
+      }
+      dt{
+        height: 45px;
       }
       .top1{
         width: 67px;
