@@ -55,17 +55,17 @@ export default {
     },
     pageDown: function () {
       window.sessionStorage.setItem('integral', this.listData.integral)  // 学习积分
-      let classroomIds = window.sessionStorage.getItem('classroomId')
-      if (classroomIds === '1') {
+      let hashRoomId = window.location.hash.split('#')[2]
+      if (hashRoomId === '1') {
         if (this.codes === '0001') {
           MessageBox('提示', '今天消费学习已答对10题,请明天继续').then(() => {
             window.location.href = '/'
           })
         } else {
-          this.$router.push('answers')  // 进入消分答题页面
+          this.$router.push('answers#1')  // 进入消分答题页面
         }
       } else {
-        this.$router.push('answer')    // 其他学习页面
+        this.$router.push(`answer#${hashRoomId}`) // 其他学习页面
       }
     }
   },

@@ -89,9 +89,9 @@ export default {
   methods: {
     clickAnswer: function (index) {     // 选项答题
       this.isBtnShow = true
-
+      let hashRoomId = window.location.hash.split('#')[2]
       var answesData = {
-        classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
+        classroomId: hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
         mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
         userName: window.localStorage.getItem('userName'),         // 名字
@@ -166,8 +166,9 @@ export default {
       this.isBtnShow = false  // 初始化下一题选项样式
       this.tlag = 5        // 初始化正确答案样式
       this.flag = 5        //  初始化错误答案样式
+      let hashRoomId = window.location.hash.split('#')[2]
       var answeData = {
-        classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
+        classroomId: hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
         mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
         userName: window.localStorage.getItem('userName'),         // 名字
