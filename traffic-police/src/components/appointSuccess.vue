@@ -14,7 +14,7 @@
       <p class="appoint-margin">业务类型：<span>{{showAppoin.appoinType}}</span></p>
       <p>流水号码：<span class="running-number">{{showAppoin.appoinNum}}</span></p>
     </section>
-    <div class="btn-appoint-backword">返回</div>
+    <div class="btn-appoint-backword" @click="btnBackword">返回</div>
   </div>
 </template>
 <script>
@@ -24,6 +24,12 @@ export default {
     ...mapGetters([
       'showAppoin'
     ])
+  },
+  methods: {
+    btnBackword: function () {
+      console.log('1111')
+      // this.$router.go(-1)
+    }
   }
 }
 </script>
