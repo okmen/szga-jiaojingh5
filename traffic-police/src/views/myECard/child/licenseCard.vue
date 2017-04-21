@@ -1,6 +1,5 @@
 <template>
-  <div class="drivingCard-outer">
-    <div class="title">我的行驶证</div>
+  <div class="licenseCard-outer">
     <div class="body">
       <img :src="imageUrl">
       <!--<img :src="codeUrl">-->
@@ -8,8 +7,8 @@
   </div>
 </template>
 <script>
-  import { resultPost } from '../../service/getData'
-  import { drivingCard } from '../../config/baseUrl'
+  import { resultPost } from '../../../service/getData'
+  import { licenseCard } from '../../../config/baseUrl'
   export default {
     name: 'drivingCard',
     data () {
@@ -20,22 +19,21 @@
     },
     mounted () {
       let reqData = {
-        numberPlatenumber: window.localStorage.getItem('myNumberPlate'),
-        plateType: window.localStorage.getItem('plateType'),
+        driverLicenseNumber: window.localStorage.getItem('identityCard'),
+        userName: window.localStorage.getItem('userName'),
         mobileNumber: window.localStorage.getItem('mobilePhone')
       }
-      console.log(reqData)
-      resultPost(drivingCard, reqData).then(json => {
-        this.imageUrl = 'data:image/png;base64,' + json.data.electronicDrivingLicense
-//        this.codeUrl = json.data.electronicDrivingLicenseQRCode
+      resultPost(licenseCard, reqData).then(json => {
+        this.imageUrl = 'data:image/png;base64,' + json.data.electronicDriverLicense
+//        this.codeUrl = json.data.electronicDriverLicenseQRCode
         console.log(json)
       })
     }
   }
 </script>
 <style lang="less">
-  .drivingCard-outer {
-    background-color:#fff;
+  @import "./../../../style/base";
+  .licenseCard-outer {
     .title {
       height: 100px;
       line-height: 100px;
@@ -43,11 +41,9 @@
       text-align: center;
     }
     .body {
-      padding: 0 40px;
       img {
         width: 100%;
       }
     }
   }
 </style>
-
