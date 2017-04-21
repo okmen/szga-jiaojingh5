@@ -9,7 +9,10 @@
     <div class="tp-inform-box">
       <div class="tp-inform-left">违法路段</div>
       <div class="tp-inform-right">
-        <input maxlength="50" type="text" v-model="informRoad" placeholder="请输入违法路段" >
+        <input maxlength="50" type="text" v-model="informRoad" placeholder="请输入违法路段(例如深南大道)" v-on:blur="btnGetRoad">
+        <ul v-if="showSelectRoad">
+          <li v-for="(roadSelect, index) in roadSelectLists" @click="roadLiClick(index)">{{roadSelect.wfdd}}</li>
+        </ul>
       </div>
     </div>
     <div class="tp-photo-box">
@@ -62,15 +65,18 @@
 </template>
 <script>
   import { resultGet, resultPost } from '../../service/getData'
-  import { uploadImg, takePictures } from '../../config/baseUrl'
+  import { uploadImg, takePictures, getRoad } from '../../config/baseUrl'
   import uploadImgFun from '../../service/uploadImg'
   import { Toast } from 'mint-ui'
   export default {
     name: 'takePicturesInform',
     data () {
       return {
+        showSelectRoad: false,    // 是否显示路段列表
+        roadSelectLists: [],     // 路段列表
         informTime: '',          // 违法时间
         informRoad: '',          // 违法路段
+        informType: '',          // 违法路段数值
         imgOne: '',              // 上传照片
         imgTwo: '',
         imgThree: '',
@@ -155,29 +161,65 @@
           }
         })
       },
-      btnSurePutInform: function () {  // 提交按钮
+      btnSurePutInform: function () {  // 提交拍照举报按钮
         let informData = {
           illegalTime: this.informTime,             // 违法时间
-          illegalSections: this.informRoad,         // 违法路段
-          imgOne: this.imgOne,                      // 上传照片
-          imgTwo: this.imgTwo,
-          imgThree: this.imgThree,
-          situationStatement: this.informIntroWhy,  // 情况说明
-          whistleblower: this.informName,           // 举报人
+          illegalSections: this.informType,            // 违法路段
+          reportImgOne: this.imgOne,                      // 上传照片
+          reportImgTwo: this.imgTwo,
+          reportImgThree: this.imgThree,
+          illegalActivitieOne: this.informIntroWhy,  // 情况说明
+          inputManName: this.informName,           // 举报人
           identityCard: this.informIdNumber,        // 身份证号
-          mobilephone: this.informTel               // 电话号码
+          inputManPhone: this.informTel,              // 电话号码
+          userSource: 'C',
+          openId: window.localStorage.openId
         }
-        if (!this.regTel) {
-          Toast({
-            message: '请输入正确的电话号码',
-            position: 'bottom'
-          })
-        } else {
-          resultPost(takePictures, informData).then(json => {
-            console.log(json)
-          })
+        console.log(informData)
+        for (let key in informData) {
+          if (!informData[key]) {
+            Toast({
+              message: '信息填写不完整',
+              position: 'bottom',
+              className: 'white'
+            })
+            return false
+          }
+        }
+        resultPost(takePictures, informData).then(json => { // 调取随手拍举报接口
+          console.log(json)
+          if (json.code === '0000') {
+            console.log('举报成功')
+          }
+        })
 //          this.$router.push('/takePicturesSuccess') // 成功之后
+      },
+      btnGetRoad: function () {  // 选择路段
+        this.showSelectRoad = true
+        let getRoadData = {
+          keyword: this.informRoad
         }
+        let that = this
+        resultPost(getRoad, getRoadData).then(json => {
+          if (json.data) {
+            let roadLists = json.data.list
+            let roadArry = []
+            roadLists.forEach((item, index) => {
+              let roadObj = {
+                'wfdd': item.wfdd.split('---')[1],
+                'type': item.wfdd.split('---')[0]
+              }
+              roadArry.push(roadObj)
+              that.roadSelectLists = roadArry
+            })
+          } else {
+            Toast({
+              message: '请输入正确的路段，不用太详细',
+              position: 'bottom',
+              className: 'white'
+            })
+          }
+        })
       },
       currentTime: function () {  // 获取时间
         let now = new Date()
@@ -209,6 +251,11 @@
         }
         clock += ss
         return (clock)
+      },
+      roadLiClick: function (index) { // Li的点击事件
+        this.informRoad = this.roadSelectLists[index].wfdd
+        this.informType = this.roadSelectLists[index].type
+        this.showSelectRoad = false
       }
     }
   }
@@ -250,6 +297,27 @@
       }
       input:focus{
         background:#efeff4;
+      }
+      ul{
+        position:relative;
+        overflow:hidden;
+        overflow-y:auto;
+        width:518px;
+        height:520px;
+        z-index:999;
+        li{
+          width:100%;
+          height:50px;
+          background:#FFF;
+          border-bottom:1px solid #efeff4;
+          font-size:26px;
+          line-height:50px;
+          text-align:center;
+          z-index:999;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
       }
     }
   }

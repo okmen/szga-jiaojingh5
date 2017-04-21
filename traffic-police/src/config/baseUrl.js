@@ -26,7 +26,7 @@ export const queryLawlessByCar = `${commonUrl}illegalHanding/queryInfoByLicenseP
 
 export const queryLawlessByCard = `${commonUrl}illegalHanding/queryInfoByDrivingLicenceNo.html` // 违法查询（驾驶证）
 
-export const queryPay = `${commonUrl}illegalHanding/toQueryPunishmentPage.html` // 违法缴款
+export const queryPay = `http://192.168.1.243:8080/web/illegalHanding/toQueryPunishmentPage.html` // 违法缴款
 
 export const queryEarlyLawless = `${commonUrl}illegalHanding/toQuerySubscribe.html` // 违法预约查询
 
@@ -69,3 +69,5 @@ export const drivingLicense = `${commonUrl}register/haveDriverLicenseNotCar.html
 export const passerBy = `${commonUrl}register/isPedestrianNotDriver.html` // 星级用户认证 我是行人接口
 
 export const carUser = `${commonUrl}register/iamALongtimeUser.html` // 星级用户认证 我是长期使用人接口
+
+export const getRoad = `${commonUrl}user/getPositioningAddress.html` // 获取路段地址 随手拍举报接口

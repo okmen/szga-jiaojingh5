@@ -124,6 +124,7 @@
 <script>
   import { bindBusiness } from '../../../config/baseUrl'
   import { resultPost } from '../../../service/getData'
+  import { Indicator } from 'mint-ui'
   export default {
     name: 'myBusiness',
     data () {
@@ -168,6 +169,7 @@
       }
     },
     mounted () {
+      Indicator.open()
       let reqData = {
         businessType: this.businessType,
         businessStatus: this.businessStatus,
@@ -175,8 +177,15 @@
         sourceOfCertification: 'C'
       }
       resultPost(bindBusiness, reqData).then(json => {
+        Indicator.close()
         this.businessList = json.data
         console.log(this.businessList)
+      })
+      this.$watch('businessSelectMassage', () => {
+        Indicator.open()
+      })
+      this.$watch('statusSelectMassage', () => {
+        Indicator.open()
       })
     },
     methods: {
@@ -193,6 +202,7 @@
           console.log(reqData)
           resultPost(bindBusiness, reqData).then(json => {
             this.businessList = json.data
+            Indicator.close()
           })
         }
         if (this.businessSelectShow === true) {
@@ -214,6 +224,7 @@
           console.log(reqData)
           resultPost(bindBusiness, reqData).then(json => {
             this.businessList = json.data
+            Indicator.close()
           })
         }
         if (this.statusSelectShow === true) {

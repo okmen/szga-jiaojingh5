@@ -9,7 +9,7 @@
           <span class="btn-select" @click.stop="licenseSelectClick()" data-type="licenseSelectType">{{ licenseSelectMassage }}</span>
           <div class="div-select-ul" v-if="licenseSelectShow">
             <ul>
-              <li v-for="item in licenseSelectData" @click.stop = "licenseSelectClick(item.str)">{{item.str}}</li>
+              <li v-for="(item, index) in licenseSelectData" @click.stop = "licenseSelectClick(item.str, index)">{{item.str}}</li>
             </ul>
           </div>
         </div>
@@ -257,9 +257,10 @@
       }
     },
     methods: {
-      licenseSelectClick: function (str) {
+      licenseSelectClick: function (str, index) {
         if (str) {
           this.licenseSelectMassage = str
+          this.licenseSelectType = this.licenseSelectData[index].type
         }
         if (this.licenseSelectShow === true) {
           this.licenseSelectShow = false
