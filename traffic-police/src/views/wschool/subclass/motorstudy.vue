@@ -17,8 +17,9 @@
             <div class="nav-footer-top"></div>
             <ul class="nav-footer-bottom">
               <li><span>{{record.answerDate}}</span>
-                <a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="record.isComplete == '不合格' || record.isComplete == ''">不合格</a>
-                <a class="nav-xstudy-footer-rig" href="javascripit:void(0)" v-else>合格</a>
+                <a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="record.isComplete == '不合格'">不合格</a>
+                <a class="nav-xstudy-footer-rig" href="javascripit:void(0)" v-if="record.isComplete == '合格'">合格</a>
+                <a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="record.isComplete == ''">未完成</a>
               </li>
               <li><span>答对题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">{{record.ansLogarithm}}</a></li>
             </ul>
@@ -26,8 +27,8 @@
         </div>
       </li>
     </ul>
-    <!-- <router-link class="nav-xstudy-button" to="answer">开始学习</router-link> -->
-    <div class="nav-xstudy-button" @click="pageDown()">开始学习</div>
+    <div class="nav-xstudy-button" @click="pageDown()" v-if="questionsDatas == ''">继续学习</div>
+    <div class="nav-xstudy-button" @click="pageDown()" v-else>开始学习</div>
     <a class="nav-xstudy-xst" href="#">学习须知</a>
   </div>
 </template>
@@ -41,6 +42,7 @@ export default {
       isShow: false,      // 控制学习记录样式
       integral: '',       // 学习积分
       codes: '',     // 消分学习判断
+      questionsDatas: '',
       listData: {
       },
       itemData: [{       // 学习记录数据
@@ -83,7 +85,9 @@ export default {
     resultPost(xstudy, motorstudyData).then(json => {
       this.listData = json.data[0]
       this.itemData = json.data[0].studyRecord
-      this.isComplete = json.data[0].isComplete
+      this.isComplete = json.data[0].isComplete  // 学习记录
+      this.questionsDatas = json.data[0].studyRecord[0].isComplete
+      console.log(this.questionsDatas)
       this.integral = json.data[0].integral   // 学习积分
       this.codes = json.code    // 状态码
     })
