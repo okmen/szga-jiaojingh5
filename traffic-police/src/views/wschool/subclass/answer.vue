@@ -70,6 +70,8 @@ export default {
       subjectId: '',    // 答题编码
       answerName: {},   // 答题选项
       codes: '',        // 判断答题对错
+      scoreStartDate: '',  // 答题周期
+      scoreEndDate: '',     // 答题周期
       testData: [{
         img: require('../../../images/A.png')
       },
@@ -95,7 +97,9 @@ export default {
         userName: window.localStorage.getItem('userName'),         // 名字
         userSource: 'C',     // 用户来源
         SubjectAnswer: this.answertData.answeroptions[index].answerId,
-        subjectId: this.subjectId   // 答题编码
+        subjectId: this.subjectId,  // 答题编码
+        scoreStartDate: this.scoreStartDate,
+        scoreEndDate: this.scoreEndDate
       }
       resultPost(answers, answesData).then(json => {     // 答案数据接口
         this.answerCorrect = json.data[0].answerCorrect  // 答对题数
@@ -165,6 +169,8 @@ export default {
         this.answerName = json.data[0].answeroptions
         this.subjectId = json.data[0].subjectId
         this.testQuestionsType = json.data[0].testQuestionsType
+        this.scoreEndDate = json.data[0].scoreEndDate
+        this.scoreStartDate = json.data[0].scoreStartDate
       })
     },
     timePiece: function () {    // 计时器

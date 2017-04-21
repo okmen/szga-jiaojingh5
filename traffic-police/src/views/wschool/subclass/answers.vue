@@ -89,7 +89,6 @@ export default {
   methods: {
     clickAnswer: function (index) {     // 选项答题
       this.isBtnShow = true
-
       var answesData = {
         classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
@@ -101,9 +100,7 @@ export default {
         scoreStartDate: this.scoreStartDate,
         scoreEndDate: this.scoreEndDate
       }
-      console.log(answesData)
       resultPost(answers, answesData).then(json => {     // 答案数据接口
-        console.log(json)
         this.batchResult = json.data[0].batchResult    // 答题合格判断
         this.codes = json.code
         this.testData[index].img = require('../../../images/fault.png')
@@ -159,16 +156,13 @@ export default {
         mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
         userSource: 'C'   // 用户来源
       }
-      resultPost(answer, answeData).then(json => {
-        console.log(json)
+      resultPost(answer, answeData).then(json => {     // 取题接口
         this.answertData = json.data[0]
         this.answerName = json.data[0].answeroptions
         this.subjectId = json.data[0].subjectId
         this.testQuestionsType = json.data[0].testQuestionsType
         this.scoreEndDate = json.data[0].scoreEndDate
         this.scoreStartDate = json.data[0].scoreStartDate
-        console.log(this.scoreEndDate)
-        console.log(this.scoreStartDate)
       })
     },
     timePiece: function () {    // 计时器

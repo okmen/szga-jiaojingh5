@@ -38,7 +38,7 @@ export default {
       this.surplusAnswe = window.sessionStorage.getItem('surplusAnswe')   // 答题数
       this.answererror = window.sessionStorage.getItem('answererror')     // 答错题数
       this.answerCorrect = window.sessionStorage.getItem('answerCorrect')  // 答对题数
-      this.integral = this.answerCorrect - window.sessionStorage.getItem('integral')   // 积分
+      this.integral = parseInt(this.answerCorrect) - parseInt(window.sessionStorage.getItem('integral'))   // 积分
     }
   },
   created () {
@@ -50,7 +50,6 @@ export default {
       userSource: 'C'    // 用户来源
     }
     resultPost(xstudy, resData).then(json => {
-      console.log(json)
       this.resultData = json.data[0]
     })
   }

@@ -17,8 +17,8 @@
             <div class="nav-footer-top"></div>
             <ul class="nav-footer-bottom">
               <li><span>{{record.answerDate}}</span>
-                <a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="record.isComplete == '不合格' || record.isComplete == ''">未完成</a>
-                <a class="nav-xstudy-footer-rig" href="javascripit:void(0)" v-else>已完成</a>
+                <a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="record.isComplete == '不合格' || record.isComplete == ''">不合格</a>
+                <a class="nav-xstudy-footer-rig" href="javascripit:void(0)" v-else>合格</a>
               </li>
               <li><span>答对题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">{{record.ansLogarithm}}</a></li>
             </ul>
@@ -67,6 +67,11 @@ export default {
       }
     }
   },
+  // computed: {
+  //   filteredItems: function () {   // 学习记录数据显示
+  //     return this.itemData.slice(0, 6)
+  //   }
+  // },
   created () {
     let motorstudyData = {       // 获取页面数据
       classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
