@@ -101,13 +101,15 @@ export default {
         scoreEndDate: this.scoreEndDate
       }
       resultPost(answers, answesData).then(json => {     // 答案数据接口
+        console.log(json)
         this.batchResult = json.data[0].batchResult    // 答题合格判断
         this.codes = json.code
-        this.testData[index].img = require('../../../images/fault.png')
-        this.tlag = index
         if (this.codes === '0000') {
           this.testData[index].img = require('../../../images/correct.png')
           this.flag = index
+        } else if (this.codes === '0001') {
+          this.testData[index].img = require('../../../images/fault.png')
+          this.tlag = index
         }
       })
     },

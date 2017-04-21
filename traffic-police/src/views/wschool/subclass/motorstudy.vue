@@ -74,14 +74,16 @@ export default {
   //     return this.itemData.slice(0, 6)
   //   }
   // },
-  created () {
+  mounted () {
+    let hashRoomId = window.location.hash.split('#')[2]
     let motorstudyData = {       // 获取页面数据
-      classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
+      classroomId: hashRoomId, // 列表请求参数
       identityCard: window.localStorage.getItem('identityCard'), // 身份证
       mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
       userName: window.localStorage.getItem('userName'),         // 名字
       userSource: 'C'    // 用户来源
     }
+    console.log(motorstudyData)
     resultPost(xstudy, motorstudyData).then(json => {
       this.listData = json.data[0]
       this.itemData = json.data[0].studyRecord
