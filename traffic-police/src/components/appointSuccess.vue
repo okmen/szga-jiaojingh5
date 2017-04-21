@@ -14,15 +14,22 @@
       <p class="appoint-margin">业务类型：<span>{{businessType}}</span></p>
       <p>流水号码：<span class="running-number">{{getSuccessMsg}}</span></p>
     </section>
-    <div class="btn-appoint-backword">返回</div>
+    <div class="btn-appoint-backword" @click="btnBackword">返回</div>
   </div>
 </template>
 <script>
 export default {
+  name: 'appointSuccess',
   data () {
     return {
       getSuccessMsg: '4579997663555',
       businessType: '星级用户认证'
+    }
+  },
+  methods: {
+    btnBackword: function () {
+      console.log('1111')
+      // this.$router.go(-1)
     }
   }
 }
