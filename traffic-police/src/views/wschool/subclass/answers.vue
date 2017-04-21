@@ -48,7 +48,7 @@
 <script>
 import { resultPost } from '../../../service/getData'
 import { answer, answers } from '../../../config/baseUrl'
-import { MessageBox } from 'mint-ui'
+import { MessageBox, Toast } from 'mint-ui'
 
 export default {
   name: 'answer',
@@ -89,9 +89,9 @@ export default {
   methods: {
     clickAnswer: function (index) {     // 选项答题
       this.isBtnShow = true
-
+      let hashRoomId = window.location.hash.split('#')[2]
       var answesData = {
-        classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
+        classroomId: hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
         mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
         userName: window.localStorage.getItem('userName'),         // 名字
@@ -101,16 +101,18 @@ export default {
         scoreStartDate: this.scoreStartDate,
         scoreEndDate: this.scoreEndDate
       }
-      console.log(answesData)
       resultPost(answers, answesData).then(json => {     // 答案数据接口
         console.log(json)
         this.batchResult = json.data[0].batchResult    // 答题合格判断
         this.codes = json.code
-        this.testData[index].img = require('../../../images/fault.png')
-        this.tlag = index
         if (this.codes === '0000') {
           this.testData[index].img = require('../../../images/correct.png')
           this.flag = index
+        } else if (this.codes === '0001') {
+          this.testData[index].img = require('../../../images/fault.png')
+          this.tlag = index
+        } else {
+          Toast(json.msg)
         }
       })
     },
@@ -153,22 +155,20 @@ export default {
       this.isBtnShow = false  // 初始化下一题选项样式
       this.tlag = 5        // 初始化正确答案样式
       this.flag = 5        //  初始化错误答案样式
+      let hashRoomId = window.location.hash.split('#')[2]
       var answeData = {
-        classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
+        classroomId: hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
         mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
         userSource: 'C'   // 用户来源
       }
-      resultPost(answer, answeData).then(json => {
-        console.log(json)
+      resultPost(answer, answeData).then(json => {     // 取题接口
         this.answertData = json.data[0]
         this.answerName = json.data[0].answeroptions
         this.subjectId = json.data[0].subjectId
         this.testQuestionsType = json.data[0].testQuestionsType
         this.scoreEndDate = json.data[0].scoreEndDate
         this.scoreStartDate = json.data[0].scoreStartDate
-        console.log(this.scoreEndDate)
-        console.log(this.scoreStartDate)
       })
     },
     timePiece: function () {    // 计时器
@@ -190,7 +190,7 @@ export default {
       }, 1000)
     },
     secede: () => {
-      MessageBox('提示', '是否退出学习').then(() => {
+      MessageBox.confirm('是否退出学习', '提示').then(action => {
         window.location.href = '/#/wschool'
       })
     }

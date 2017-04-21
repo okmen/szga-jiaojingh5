@@ -14,9 +14,9 @@
           <dt><img src="../../../images/sand.png"></dt>
           <dd>剩余{{surplusAnswe}}题</dd>
         </dl>
-        <dl class="answer-head-rgt">
+        <dl class="answer-head-rgt" @click="secede()">
           <dt><img src="../../../images/exit.png"></dt>
-          <dd @click="secede()">退出</dd>
+          <dd>退出</dd>
         </dl>
         <div class="pop-up" v-bind:class="{ 'reveal' : isReveal}">
           <ul class="pop-up-center" >
@@ -42,20 +42,20 @@
         <img class="answer-foot-img" :src="testData[index].img">{{item.answerName}}
       </li>
     </ul>
-    <div id="NofItems" class="answer-option" v-bind:class="{ 'show' : isBtnShow}" @click="countClick()">下一题</div>
+    <div id="NofItems" class="answer-option" v-bind:class="{ 'show' : isBtnShow}" @click.stop="countClick()">下一题</div>
   </div>
 </template>
 <script>
 import { resultPost } from '../../../service/getData'
 import { answer, answers } from '../../../config/baseUrl'
-import { MessageBox } from 'mint-ui'
+import { MessageBox, Toast } from 'mint-ui'
 export default {
   name: 'answer',
   data () {
     return {
       testQuestionsType: '',   // 判断题型
       answererror: 0,
-      surplusAnswe: '',
+      surplusAnswe: 0,
       isBtnShow: false,   // 下一题样式
       isReveal: false,    // 弹框控制
       tlag: 5,   // 正确选项颜色
@@ -70,6 +70,8 @@ export default {
       subjectId: '',    // 答题编码
       answerName: {},   // 答题选项
       codes: '',        // 判断答题对错
+      scoreStartDate: '',  // 答题周期
+      scoreEndDate: '',     // 答题周期
       testData: [{
         img: require('../../../images/A.png')
       },
@@ -87,28 +89,38 @@ export default {
   methods: {
     clickAnswer: function (index) {     // 选项答题
       this.isBtnShow = true
-
+      let hashRoomId = window.location.hash.split('#')[2]
       var answesData = {
-        classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
+        classroomId: hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
         mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
         userName: window.localStorage.getItem('userName'),         // 名字
         userSource: 'C',     // 用户来源
         SubjectAnswer: this.answertData.answeroptions[index].answerId,
-        subjectId: this.subjectId   // 答题编码
+        subjectId: this.subjectId,  // 答题编码
+        scoreStartDate: this.scoreStartDate,
+        scoreEndDate: this.scoreEndDate
       }
       resultPost(answers, answesData).then(json => {     // 答案数据接口
-        this.answerCorrect = json.data[0].answerCorrect  // 答对题数
-        this.batchResult = json.data[0].batchResult    // 答题合格判断
-        this.answererror = json.data[0].answererror    // 答错题数
-        this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
-        this.answerDate = json.data[0].answerDate  // 答题日期
         this.codes = json.code
-        this.testData[index].img = require('../../../images/fault.png')
-        this.tlag = index
         if (this.codes === '0000') {
+          this.answerCorrect = json.data[0].answerCorrect  // 答对题数
+          this.batchResult = json.data[0].batchResult    // 答题合格判断
+          this.answererror = json.data[0].answererror    // 答错题数
+          this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
+          this.answerDate = json.data[0].answerDate  // 答题日期
           this.testData[index].img = require('../../../images/correct.png')
           this.flag = index
+        } else if (this.codes === '0001') {
+          this.answerCorrect = json.data[0].answerCorrect  // 答对题数
+          this.batchResult = json.data[0].batchResult    // 答题合格判断
+          this.answererror = json.data[0].answererror    // 答错题数
+          this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
+          this.answerDate = json.data[0].answerDate  // 答题日期
+          this.testData[index].img = require('../../../images/fault.png')
+          this.tlag = index
+        } else {
+          Toast(json.msg)   // 多次答题提示
         }
       })
     },
@@ -153,8 +165,9 @@ export default {
       this.isBtnShow = false  // 初始化下一题选项样式
       this.tlag = 5        // 初始化正确答案样式
       this.flag = 5        //  初始化错误答案样式
+      let hashRoomId = window.location.hash.split('#')[2]
       var answeData = {
-        classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
+        classroomId: hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
         mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
         userName: window.localStorage.getItem('userName'),         // 名字
@@ -165,6 +178,8 @@ export default {
         this.answerName = json.data[0].answeroptions
         this.subjectId = json.data[0].subjectId
         this.testQuestionsType = json.data[0].testQuestionsType
+        this.scoreEndDate = json.data[0].scoreEndDate
+        this.scoreStartDate = json.data[0].scoreStartDate
       })
     },
     timePiece: function () {    // 计时器
@@ -186,7 +201,7 @@ export default {
       }, 1000)
     },
     secede: () => {
-      MessageBox('提示', '是否退出学习').then(() => {
+      MessageBox.confirm('是否退出学习', '提示').then(action => {
         window.location.href = '/#/wschool'
       })
     }

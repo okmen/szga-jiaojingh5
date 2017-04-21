@@ -38,19 +38,19 @@ export default {
       this.surplusAnswe = window.sessionStorage.getItem('surplusAnswe')   // 答题数
       this.answererror = window.sessionStorage.getItem('answererror')     // 答错题数
       this.answerCorrect = window.sessionStorage.getItem('answerCorrect')  // 答对题数
-      this.integral = this.answerCorrect - window.sessionStorage.getItem('integral')   // 积分
+      this.integral = parseInt(this.answerCorrect) - parseInt(window.sessionStorage.getItem('integral'))   // 积分
     }
   },
   created () {
+    let hashRoomId = window.location.hash.split('#')[2]
     var resData = {
-      classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
+      classroomId: hashRoomId, // 列表请求参数
       identityCard: window.localStorage.getItem('identityCard'), // 身份证
       mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
       userName: window.localStorage.getItem('userName'),         // 名字
       userSource: 'C'    // 用户来源
     }
     resultPost(xstudy, resData).then(json => {
-      console.log(json)
       this.resultData = json.data[0]
     })
   }

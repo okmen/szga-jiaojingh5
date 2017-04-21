@@ -31,6 +31,14 @@ const routes = [
     component: require('../views/personalCenter/personalCenter.vue')
   },
   {
+    name: 'myECard',
+    path: '/myECard',
+    meta: {
+      title: '我的证件'
+    },
+    component: require('../views/myECard/myECard.vue')
+  },
+  {
     name: 'starUser',
     path: '/starUser',
     meta: {

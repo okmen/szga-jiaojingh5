@@ -1,7 +1,7 @@
 <template>
   <div class="navv">
     <ul class="nav-outer">
-      <li class="nav-outer-center" v-for="(list, index) in listData" @click="wschoolClick(index)">
+      <li class="nav-outer-center" v-for="(list, index) in listData">
         <router-link :to="testData[index].name">
           <p>{{list.classroomName}}</p>
         </router-link>
@@ -16,39 +16,27 @@ export default {
     return {
       classroomId: 0,
       listData: [{
-        classroomName: '消分学习',
-        classroomId: 1
+        classroomName: '消分学习'
       }, {
-        classroomName: '满分学习',
-        classroomId: '2'
+        classroomName: '满分学习'
       }, {
-        classroomName: 'AB类驾驶人学习',
-        classroomI: '3'
+        classroomName: 'AB类驾驶人学习'
       }, {
-        classroomName: '电动车学习',
-        classroomId: '4'
+        classroomName: '电动车学习'
       }, {
-        classroomName: '行人、非机动车安全学习',
-        classroomId: '5'
+        classroomName: '行人、非机动车安全学习'
       }],
       testData: [{
-        name: 'motorstudy'
+        name: 'motorstudy#1'
       }, {
-        name: 'motorstudy'
+        name: 'motorstudy#2'
       }, {
-        name: 'motorstudy'
+        name: 'motorstudy#3'
       }, {
-        name: 'motorstudy'
+        name: 'motorstudy#4'
       }, {
-        name: 'motorstudy'
+        name: 'motorstudy#5'
       }]
-    }
-  },
-  methods: {
-    wschoolClick: function (index) {
-      this.classroomId = index + 1
-      window.sessionStorage.setItem('classroomId', this.classroomId)
-      console.log(window.sessionStorage.getItem('classroomId'))
     }
   }
 }
