@@ -12,7 +12,7 @@
       <li class="nav-xstudy-left" v-show="listData.integral"><span>学习积分数</span><em class="nav-xstudy-right nav-col">{{listData.integral}}</em></li>
       <li class="nav-xstudy-left" >
         <p @click.stop="clickShow()" v-show="itemData"><span>学习记录</span></p>
-        <div class="nav-xstudy-footer-lout" v-bind:class="{ 'show' : isShow}" v-for="record in itemData">
+        <div class="nav-xstudy-footer-lout" v-bind:class="{ 'show' : isShow}" v-for="record in filteredItems">
           <div class="nav-xstudy-footer">
             <div class="nav-footer-top"></div>
             <ul class="nav-footer-bottom">
@@ -40,8 +40,9 @@ export default {
     return {
       isShow: false,      // 控制学习记录样式
       integral: '',       // 学习积分
-      codes: '',     // 消分学习判断
-      hashRoomId: '',
+      codes: '',          // 消分学习判断
+      hashRoomId: '',     // 列表号
+      msg: '',
       listData: {
       },
       itemData: [{       // 学习记录数据
@@ -56,12 +57,16 @@ export default {
       window.sessionStorage.setItem('integral', this.listData.integral)  // 学习积分
       if (this.hashRoomId === '1') {
         if (this.codes === '0001') {
-          MessageBox('提示', '今天消费学习已答对10题,请明天继续').then(() => {
+          MessageBox('提示', this.msg).then(() => {
             window.location.href = '/#/wschool'
           })
         } else {
           this.$router.push('answers#1')  // 进入消分答题页面
         }
+      } else if (this.hashRoomId === '2' || this.hashRoomId === '3') {
+        MessageBox('提示', this.msg).then(() => {
+          window.location.href = '/#/wschool'
+        })
       } else {
         this.$router.push(`answer#${this.hashRoomId}`) // 其他学习页面
       }
@@ -75,18 +80,19 @@ export default {
       }
       resultPost(answer, ansData).then(json => {     // 取题接口
         this.codes = json.code    // 状态码
-        console.log(this.codes)
+        this.msg = json.msg       // 状态返回
       })
     }
   },
-  // computed: {
-  //   filteredItems: function () {   // 学习记录数据显示
-  //     return this.itemData.slice(0, 6)
-  //   }
-  // },
+  computed: {
+    filteredItems: function () {   // 学习记录数据显示
+      if (this.hashRoomId !== '1') {
+        return this.itemData.slice(0, 6)
+      }
+    }
+  },
   created () {
     this.hashRoomId = window.location.hash.split('#')[2]
-    console.log(this.hashRoomId)
     let motorstudyData = {       // 获取页面数据
       classroomId: this.hashRoomId, // 列表请求参数
       identityCard: window.localStorage.getItem('identityCard'), // 身份证
@@ -95,7 +101,6 @@ export default {
       userSource: 'C'    // 用户来源
     }
     resultPost(xstudy, motorstudyData).then(json => {
-      console.log(json)
       this.listData = json.data[0]
       this.itemData = json.data[0].studyRecord
       this.isComplete = json.data[0].isComplete  // 学习记录
