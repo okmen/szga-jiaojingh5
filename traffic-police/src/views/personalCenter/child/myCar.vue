@@ -106,6 +106,10 @@
       }
     }
     .addCar-box {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom:60px;
       text-align: center;
       .add-car {
         display: inline-block;
@@ -116,7 +120,6 @@
       }
     }
   }
-
 </style>
 <script>
   import { bindCar } from '../../../config/baseUrl'

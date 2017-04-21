@@ -161,7 +161,7 @@
           }
         })
       },
-      btnSurePutInform: function () {  // 提交按钮
+      btnSurePutInform: function () {  // 提交拍照举报按钮
         let informData = {
           illegalTime: this.informTime,             // 违法时间
           illegalSections: this.informType,            // 违法路段
@@ -186,8 +186,11 @@
             return false
           }
         }
-        resultPost(takePictures, informData).then(json => {
+        resultPost(takePictures, informData).then(json => { // 调取随手拍举报接口
           console.log(json)
+          if (json.code === '0000') {
+            console.log('举报成功')
+          }
         })
 //          this.$router.push('/takePicturesSuccess') // 成功之后
       },
@@ -198,16 +201,24 @@
         }
         let that = this
         resultPost(getRoad, getRoadData).then(json => {
-          let roadLists = json.data.list
-          let roadArry = []
-          roadLists.forEach((item, index) => {
-            let roadObj = {
-              'wfdd': item.wfdd.split('---')[1],
-              'type': item.wfdd.split('---')[0]
-            }
-            roadArry.push(roadObj)
-            that.roadSelectLists = roadArry
-          })
+          if (json.data) {
+            let roadLists = json.data.list
+            let roadArry = []
+            roadLists.forEach((item, index) => {
+              let roadObj = {
+                'wfdd': item.wfdd.split('---')[1],
+                'type': item.wfdd.split('---')[0]
+              }
+              roadArry.push(roadObj)
+              that.roadSelectLists = roadArry
+            })
+          } else {
+            Toast({
+              message: '请输入正确的路段，不用太详细',
+              position: 'bottom',
+              className: 'white'
+            })
+          }
         })
       },
       currentTime: function () {  // 获取时间
