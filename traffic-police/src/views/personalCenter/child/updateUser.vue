@@ -140,6 +140,11 @@ export default{
       resultPost(updateUser, reqData).then(json => {
         console.log(json)
         if (json.code === '0000') {
+          Toast({
+            message: '修改成功',
+            position: 'bottom',
+            className: 'white'
+          })
           window.location.hash = '/userInfo'
         } else {
           MessageBox({

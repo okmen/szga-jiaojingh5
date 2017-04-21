@@ -20,6 +20,7 @@
 </template>
 <script>
 import { getLocation } from '../../config/baseUrl'
+import wx from 'weixin-js-sdk'
 
 export default{
   name: 'getLocation',
@@ -46,8 +47,6 @@ export default{
           y = this.dragendY || 81392068, // 纬度
           point = new Careland.Point(x, y), // 创建地图中心点
           map = new Careland.Map('mymap', point, 18) // 创建地图对象
-
-      console.log(window.Careland)
 
       this.head = document.head
 
@@ -227,6 +226,24 @@ export default{
           console.log(obj)
           this.$emit('submit', obj)
         }
+      }
+    })
+    wx.getLocation({
+      type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+      success: function (res) {
+        console.log(res)
+        // var latitude = res.latitude // 纬度，浮点数，范围为90 ~ -90
+        // var longitude = res.longitude // 经度，浮点数，范围为180 ~ -180。
+        // var speed = res.speed // 速度，以米/每秒计
+        // var accuracy = res.accuracy // 位置精度
+      }
+    })
+    var geolocation = new window.Careland.Geolocation({enableHighAccuracy: true, map: this.map})
+    geolocation.getCurrentPosition(function (f) {
+      console.log('dingwei')
+      if (f.getStatus()) {
+      } else {
+        window.alert('failed: ' + f.getStatus())
       }
     })
   }

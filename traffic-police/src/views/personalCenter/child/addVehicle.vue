@@ -100,9 +100,9 @@
 </div>
 </template>
 <script>
-import { uploadImg } from '../../../config/baseUrl'
-import { resultGet } from '../../../service/getData'
-import { Toast } from 'mint-ui'
+import { addVehicle, uploadImg } from '../../../config/baseUrl'
+import { resultPost, resultGet } from '../../../service/getData'
+import { MessageBox, Toast } from 'mint-ui'
 import uploadImgFun from '../../../service/uploadImg'
 export default{
   name: 'addVehicle',
@@ -360,7 +360,7 @@ export default{
           frameNumber: this.frameNumber, // 车架号码
           provinceAbbreviation: this.plateType, // 省简称
           userIdCard: this.identityCard, // 当前登录用户身份证
-          inputIP: '', // 录入ip
+          inputIP: '192.168.1.1', // 录入ip
           userSource: 'C', // 用户来源/登录的平台
           certifiedSource: 'C' // 绑定类型
         }
@@ -374,7 +374,7 @@ export default{
           ownerIdCard: this.ownerIdCard, // 车主身份证号
           provinceAbbreviation: this.plateType.str, // 省简称
           userIdCard: this.identityCard, // 当前登录用户身份证
-          inputIP: '', // 录入ip
+          inputIP: '192.168.1.1', // 录入ip
           userSource: 'C', // 用户来源/登录的平台
           certifiedSource: 'C', // 绑定类型
           idCardImgPositive: this.idCardImgPositive, // 车主身份证正面照
@@ -393,6 +393,7 @@ export default{
           return false
         }
       }
+      console.log(reqData)
       resultPost(addVehicle, reqData).then(json => {
         console.log(json)
         if (json.code === '0000') {

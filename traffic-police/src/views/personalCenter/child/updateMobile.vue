@@ -97,6 +97,7 @@ export default{
               position: 'bottom',
               className: 'white'
             })
+            window.location.hash = '/userInfo'
             console.log('提交数据并返回我的资料页面')
           } else {
             MessageBox({
