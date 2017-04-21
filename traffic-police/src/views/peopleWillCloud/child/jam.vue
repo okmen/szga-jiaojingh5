@@ -7,7 +7,7 @@
             <span>地点</span>
           </div>
           <div class="jam-list-text left width-90">
-            <input class="text-input" type="text" name="" v-model:value="address" placeholder="点击右侧按钮选择地址" readonly>
+            <input class="text-input" type="text" name="" v-model:value="mapObj.showAdd" placeholder="点击右侧按钮选择地址" readonly>
           </div>
           <div class="jam-list-location right" @click.stop='getLocation()'></div>
         </li>
@@ -22,7 +22,7 @@
               :picker-options="{
                 start: '00:00',
                 step: '00:30',
-                end: '24:00'
+                end: '23:30'
               }"
               placeholder="00:00"
               :editable=false>
@@ -41,7 +41,7 @@
               :picker-options="{
                 start: '00:00',
                 step: '00:30',
-                end: '24:00'
+                end: '23:30'
               }"
               placeholder="00:00"
               :editable=false>
@@ -277,8 +277,10 @@ export default {
       improveAdvice: ''
     }
   },
+  props: ['mapObj'],
   methods: {
     getLocation: function () {
+      this.$emit('showMap')
       console.log('获取地理位置')
     },
     btnDirectionSelect: function (str) {
@@ -330,10 +332,8 @@ export default {
         roadServiceLevel: this.roadServiceLevel.str, // 道路服务水平
         congestionReason: this.congestionReason.str, // 拥堵成因
         improveAdvice: this.improveAdvice, // 改善建议
-        // addressCode: this.addressCode, // 站点代码 暂无
-        addressCode: '103560', // 站点代码 暂无
-        // address: this.address // 主题地点描述
-        address: '广东省深圳市福田区体育中心' // 主题地点描述
+        addressCode: this.mapObj.addressCode, // 站点代码
+        address: this.mapObj.detailAddress // 主题地点描述
       }
       for (let key in reqData) {
         if (!reqData[key]) {
@@ -347,6 +347,7 @@ export default {
         }
       }
       this.$emit('submit')
+      console.log(reqData)
       resultPost(jam, reqData).then(json => {
         if (json.code !== '0000') {
           MessageBox({
@@ -355,7 +356,7 @@ export default {
           })
         } else {
           MessageBox({
-            title: '',
+            title: '温馨提示',
             message: '感谢您参与举报，我们会依次不断改进'
           })
         }

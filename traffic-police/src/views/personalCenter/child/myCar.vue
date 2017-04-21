@@ -1,28 +1,28 @@
 <template>
   <div class="myCar-outer">
-    <div class="car-box">
+    <div class="car-box" v-for="car in carMsg">
       <div class="car-number">
         <i class="car-icon"></i>
-        {{ numberPlateNumber }}
-        <span class="myself" v-if="isMyself == '本人'">本人</span>
+        {{ car.numberPlateNumber }}
+        <span class="myself" v-if="car.isMyself == '本人'">本人</span>
         <span class="others" v-else>他人</span>
       </div>
       <div class="car-deal">
-        当前本车有0宗违法尚未处理
+        {{ car.illegalNumber }}
         <i class="arrow"></i>
       </div>
       <div class="car-status">
         <ul>
-          <li>号牌种类:<span>{{ plateType }}</span></li>
-          <li>年审时间:<span>{{ annualReviewDate }}</span><span style="color:#aaa">{{ annualReviewDateRemind }}</span></li>
-          <li>车辆其他使用人:<span></span></li>
+          <li>号牌种类:<span>{{ plateTypeList[car.plateType] }}</span></li>
+          <li>年审时间:<span>{{ car.annualReviewDate }}</span><span style="color:#aaa">{{ car.annualReviewDateRemind }}</span></li>
+          <li>{{ car.otherPeopleUse }}<span></span></li>
         </ul>
       </div>
       <div class="car-owner">
         <ul>
-          <li>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<span>{{ name }}</span></li>
-          <li>身份证号:<span>{{ identityCard }}</span></li>
-          <li>手机号码:<span>{{ mobilephone }}</span></li>
+          <li>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<span>{{ car.name }}</span></li>
+          <li>身份证号:<span>{{ car.identityCard }}</span></li>
+          <li>手机号码:<span>{{ car.mobilephone }}</span></li>
         </ul>
       </div>
     </div>
@@ -123,16 +123,15 @@
     name: 'myCar',
     data () {
       return {
+        carMsg: [],
         identityCard: window.localStorage.getItem('identityCard'),
         numberPlateNumber: window.localStorage.getItem('myNumberPlate'),
-        plateType: '',
-        annualReviewDate: '',
-        annualReviewDateRemind: '',
-        name: '',
-        isMyself: '',
         mobilephone: window.localStorage.getItem('mobilePhone'),
-        illegalNumber: '',
-        otherPeopleUse: ''
+        plateTypeList: {
+          '02': '蓝牌',
+          '01': '黄牌',
+          '06': '黑牌'
+        }
       }
     },
     mounted () {
@@ -141,16 +140,8 @@
         mobilephone: this.mobilephone
       }
       resultPost(bindCar, reqData).then(json => {
-        console.log(json)
-        this.annualReviewDate = json.data[0].annualReviewDate
-        this.illegalNumber = json.data[0].illegalNumber
-        this.numberPlateNumber = json.data[0].numberPlateNumber
-        this.name = json.data[0].name
-        this.annualReviewDate = json.data[0].annualReviewDate
-        this.annualReviewDateRemind = json.data[0].annualReviewDateRemind
-        this.otherPeopleUse = json.data[0].otherPeopleUse
-        this.isMyself = json.data[0].isMyself
-        this.plateType = json.data[0].plateType
+        this.carMsg = json.data
+        console.log(this.carMsg)
       })
     }
   }

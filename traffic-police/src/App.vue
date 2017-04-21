@@ -20,7 +20,7 @@
       <div class="logo"></div>
       <p>请<router-link to="/login" class="enter">  登录 </router-link>/<router-link to="/starUser" class="enroll"> 注册 </router-link>星级用户</p>
     </div>
-    <router-link to="/peopleWillCloud"><div class="login-right"></div></router-link>
+    <router-link to="/personalCenter"><div class="login-right"></div></router-link>
   </div>
   <div id="nav-outer">
     <div class="home-nav-top">
@@ -198,6 +198,7 @@ export default {
           font-size: 30px;
         }
         .success-login-btn{
+          display: block;
           padding: 0 10px;
           line-height: 40px;
           border: 4px solid #fff;
@@ -209,6 +210,7 @@ export default {
     .success-login-bottom{
       display: flex;
       justify-content: center;
+      align-items: center;
       font-size: 30px;
       padding-top: 30px;
       div{
@@ -256,7 +258,6 @@ export default {
     font-size: 22px;
     box-shadow:0 5px 5px rgba(0, 0, 0, .2);  
     dl{
-      width: 25%;
       height: 100%;
       text-align: center;
       img{

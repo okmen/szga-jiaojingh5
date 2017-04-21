@@ -23,6 +23,14 @@ const routes = [
     component: require('../views/login/login.vue')
   },
   {
+    name: 'personalCenter',
+    path: '/personalCenter',
+    meta: {
+      title: '个人中心'
+    },
+    component: require('../views/personalCenter/personalCenter.vue')
+  },
+  {
     name: 'starUser',
     path: '/starUser',
     meta: {
@@ -259,12 +267,12 @@ const routes = [
     component: require('../views/takePictures/map.vue')
   },
   {
-    name: 'getLocation',
-    path: '/getLocation',
+    name: 'appointSuccess',
+    path: '/appointSuccess',
     meta: {
-      title: '互联网+民意投票'
+      title: '预约申办成功'
     },
-    component: require('../views/getLocation/getLocation.vue')
+    component: require('../components/appointSuccess.vue')
   }
 ]
 /* eslint-disable no-new */

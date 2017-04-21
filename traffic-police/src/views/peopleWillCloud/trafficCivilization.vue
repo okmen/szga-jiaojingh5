@@ -1,5 +1,5 @@
 <template>
-  <div class="civilization-outer">
+  <div class="civilization-outer pad-side-50">
     <!-- 导航上部分 -->
     <div class="civilization-nav margin-center radius-top border-bot-1">
       <router-link class="civilization-link border-right-1" to="/peopleWillCloud/facility">
@@ -111,7 +111,7 @@ export default {
   }
   .civilization-nav{
     display: flex;
-    width: 680px;
+    width: 100%;
     height: 300px;
     overflow: hidden;
     text-align: center;
@@ -152,7 +152,7 @@ export default {
     }
   }
   .civilization-news{
-    width: 680px;
+    width: 100%;
     margin-top: 28px;
     background: #fff;
     border-radius: 5px;

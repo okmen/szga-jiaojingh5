@@ -12,7 +12,7 @@
     <meta name="screen-orientation" content="portrait">
     <meta name="x5-orientation" content="portrait">
     <title>深圳交警</title>
-    <script language="javascript" type="text/javascript" src="http://mapapi.careland.com.cn/mobile/api/?key=5b960a81da658aae9e0405f4&v=1.2" charset="utf-8"></script>
+    <script language="javascript" type="text/javascript" src="http://mapapi.careland.com.cn/mobile/api/?key=6302756d6a93c4190b745564&v=1.2" charset="utf-8"></script>
     <script src="./static/moxie.js"></script>
   </head>
   <script>
@@ -39,6 +39,16 @@
       var setItemEvent = new Event("setItemEvent")
       setItemEvent.mapData = data
       window.dispatchEvent(setItemEvent)
+    }
+    function searchCallback (data) {
+      var searchCallback = new Event("searchCallback")
+      searchCallback.searchData = data
+      window.dispatchEvent(searchCallback)
+    }
+    function mapSubmit (data) {
+      var mapSubmit = new Event("mapSubmit")
+      mapSubmit.submitData = data
+      window.dispatchEvent(mapSubmit)
     }
   </script>
   <body>
