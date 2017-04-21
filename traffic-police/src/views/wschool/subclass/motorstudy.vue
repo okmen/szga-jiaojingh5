@@ -12,13 +12,14 @@
       <li class="nav-xstudy-left" v-show="listData.integral"><span>学习积分数</span><em class="nav-xstudy-right nav-col">{{listData.integral}}</em></li>
       <li class="nav-xstudy-left" >
         <p @click.stop="clickShow()" v-show="itemData"><span>学习记录</span></p>
-        <div class="nav-xstudy-footer-lout" v-bind:class="{ 'show' : isShow}" v-for="record in itemData">
+        <div class="nav-xstudy-footer-lout" v-bind:class="{ 'show' : isShow}" v-for="record in filteredItems">
           <div class="nav-xstudy-footer">
             <div class="nav-footer-top"></div>
             <ul class="nav-footer-bottom">
               <li><span>{{record.answerDate}}</span>
-                <a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="record.isComplete == '不合格' || record.isComplete == ''">未完成</a>
-                <a class="nav-xstudy-footer-rig" href="javascripit:void(0)" v-else>已完成</a>
+                <a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="record.isComplete == '不合格'">不合格</a>
+                <a class="nav-xstudy-footer-rig" href="javascripit:void(0)" v-if="record.isComplete == '合格'">合格</a>
+                <a class="nav-xstudy-footer-right" href="javascripit:void(0)" v-if="record.isComplete == ''">未完成</a>
               </li>
               <li><span>答对题数</span><a class="nav-xstudy-right nav-col" href="javascripit:void(0)">{{record.ansLogarithm}}</a></li>
             </ul>
@@ -26,21 +27,22 @@
         </div>
       </li>
     </ul>
-    <!-- <router-link class="nav-xstudy-button" to="answer">开始学习</router-link> -->
-    <div class="nav-xstudy-button" @click="pageDown()">开始学习</div>
+    <div class="nav-xstudy-button" @click="pageDown()" >开始学习</div>
     <a class="nav-xstudy-xst" href="#">学习须知</a>
   </div>
 </template>
 <script>
 import { resultPost } from '../../../service/getData'
-import { xstudy } from '../../../config/baseUrl'
+import { xstudy, answer } from '../../../config/baseUrl'
 import { MessageBox } from 'mint-ui'
 export default {
   data () {
     return {
       isShow: false,      // 控制学习记录样式
       integral: '',       // 学习积分
-      codes: '',     // 消分学习判断
+      codes: '',          // 消分学习判断
+      hashRoomId: '',     // 列表号
+      msg: '',
       listData: {
       },
       itemData: [{       // 学习记录数据
@@ -53,23 +55,46 @@ export default {
     },
     pageDown: function () {
       window.sessionStorage.setItem('integral', this.listData.integral)  // 学习积分
-      let classroomIds = window.sessionStorage.getItem('classroomId')
-      if (classroomIds === '1') {
+      if (this.hashRoomId === '1') {
         if (this.codes === '0001') {
-          MessageBox('提示', '今天消费学习已答对10题,请明天继续').then(() => {
-            window.location.href = '/'
+          MessageBox('提示', this.msg).then(() => {
+            window.location.href = '/#/wschool'
           })
         } else {
-          this.$router.push('answers')  // 进入消分答题页面
+          this.$router.push('answers#1')  // 进入消分答题页面
         }
+      } else if (this.hashRoomId === '2' || this.hashRoomId === '3') {
+        MessageBox('提示', this.msg).then(() => {
+          window.location.href = '/#/wschool'
+        })
       } else {
-        this.$router.push('answer')    // 其他学习页面
+        this.$router.push(`answer#${this.hashRoomId}`) // 其他学习页面
+      }
+    },
+    reminder: function () {
+      var ansData = {
+        classroomId: this.hashRoomId, // 列表请求参数
+        identityCard: window.localStorage.getItem('identityCard'), // 身份证
+        mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
+        userSource: 'C'   // 用户来源
+      }
+      resultPost(answer, ansData).then(json => {     // 取题接口
+        this.codes = json.code    // 状态码
+        this.msg = json.msg       // 状态返回
+      })
+    }
+  },
+  computed: {
+    filteredItems: function () {   // 学习记录数据显示
+      if (this.hashRoomId !== '1') {
+        return this.itemData.slice(0, 6)
       }
     }
   },
   created () {
+    this.hashRoomId = window.location.hash.split('#')[2]
     let motorstudyData = {       // 获取页面数据
-      classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
+      classroomId: this.hashRoomId, // 列表请求参数
       identityCard: window.localStorage.getItem('identityCard'), // 身份证
       mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
       userName: window.localStorage.getItem('userName'),         // 名字
@@ -78,10 +103,10 @@ export default {
     resultPost(xstudy, motorstudyData).then(json => {
       this.listData = json.data[0]
       this.itemData = json.data[0].studyRecord
-      this.isComplete = json.data[0].isComplete
+      this.isComplete = json.data[0].isComplete  // 学习记录
       this.integral = json.data[0].integral   // 学习积分
-      this.codes = json.code    // 状态码
     })
+    this.reminder()
   }
 }
 </script>

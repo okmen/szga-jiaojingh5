@@ -54,6 +54,8 @@ function wxConfig(){
         nonceStr: res.noncestr,
         signature: res.signature,
         jsApiList: [
+          'scanQRCode',
+          'getLocation'
         ]
       });
     } else {
