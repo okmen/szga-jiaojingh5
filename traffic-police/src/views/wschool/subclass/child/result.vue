@@ -42,8 +42,9 @@ export default {
     }
   },
   created () {
+    let hashRoomId = window.location.hash.split('#')[2]
     var resData = {
-      classroomId: window.sessionStorage.getItem('classroomId'), // 列表请求参数
+      classroomId: hashRoomId, // 列表请求参数
       identityCard: window.localStorage.getItem('identityCard'), // 身份证
       mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
       userName: window.localStorage.getItem('userName'),         // 名字

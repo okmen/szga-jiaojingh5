@@ -3,7 +3,7 @@
       <div class="logo"></div>
       <div class="login-form">
         <input v-model:value="loginName" type="tel" placeholder="请输入手机号或身份证号">
-        <input v-model:value="password" id="login-password" type="text" placeholder="请输入密码">
+        <input v-model:value="password" id="login-password" type="password" placeholder="请输入密码">
         <button id="login-btn" @click.stop="loginClick()">登 录</button>
         <div class="login-link">
           <router-link to="/peopleWillCloud" class="login-link-forget">忘记密码</router-link>

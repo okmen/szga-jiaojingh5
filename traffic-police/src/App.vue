@@ -73,7 +73,7 @@
         </router-link>
       </dl>
       <dl>
-        <router-link to="/motorstudy">
+        <router-link to="/motorstudy#4">
         <dt><img class="top9" src="./images/nav9.png" alt=""></dt>
         <dd>电动车管理</dd>
         </router-link>
