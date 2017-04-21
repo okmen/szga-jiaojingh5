@@ -47,6 +47,8 @@ export default{
           point = new Careland.Point(x, y), // 创建地图中心点
           map = new Careland.Map('mymap', point, 18) // 创建地图对象
 
+      console.log(window.Careland)
+
       this.head = document.head
 
       this.map = map
@@ -71,6 +73,7 @@ export default{
       });
 
       map.addEventListener('mapchange', () => { // 为拖拽地图后添加事件
+        console.log('change change change')
         this.getLocationInfo(map)
       })
     },
@@ -84,6 +87,7 @@ export default{
       this.dragendY = center.y
       let getLocationInfo = `${getLocation}?d=15&r=100&p=${this.dragendX}+${this.dragendY}&callback=getMapInfoCallback`,
           script = document.createElement('script')
+      console.log(getLocationInfo)
       script.src = getLocationInfo
       script.id = 'map'
       this.head.appendChild(script)
@@ -212,7 +216,7 @@ export default{
           let obj = {
             lng: this.selectLocation.location.x,
             lat: this.selectLocation.location.y,
-            addressCode: `${poi.pcd.adcode}`,
+            addressCode: '-1',
             addressRegion: poi.pcd.district,
             addressStreet: this.selectLocation.text,
             addressSite: poi.name,

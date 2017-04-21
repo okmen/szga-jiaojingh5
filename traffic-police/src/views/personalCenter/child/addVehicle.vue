@@ -40,7 +40,7 @@
             </div>
           </div>
           <div class="addVehicle-hbs-text width-70 right">
-            <input class="text-input" type="text" v-model:value="licensePlateNumber" placeholder="请输入车牌号码">
+            <input class="text-input" type="text" v-model:value="licensePlateNumber" placeholder="请输入车牌号码" style="text-transform:uppercase;">
           </div>
         </li>
         <li class="addVehicle-hbs-item">
@@ -64,19 +64,46 @@
             <span>身份证号</span>
           </div>
           <div class="addVehicle-hbs-text">
-            <input class="text-input" type="text" placeholder="外籍人士请在证件号前加F" v-model:value="identityCard">
+            <input class="text-input" type="text" placeholder="外籍人士请在证件号前加F" v-model:value="ownerIdCard">
           </div>
         </li>
       </ul>
+      <div class="addVehicle-upload" :class="{height0: bindType.code==1}">
+        <p>请按提示上传以下证件照片</p>
+        <div id="container" class="addVehicle-upload-inner">
+          <div id="idCardImgPositive" class="addVehicle-upload-left addVehicle-upload-box">
+            <img :src="idCardImgPositive" v-if="idCardImgPositive">
+            <div class="box" v-else="idCardImgPositive">
+              <em></em>
+              <span>车主身份证(正面)</span>
+            </div>
+          </div>
+          <div id="idCardImgNegative" class="addVehicle-upload-center addVehicle-upload-box">
+            <img :src="idCardImgNegative" v-if="idCardImgNegative">
+            <div class="box" v-else="idCardImgNegative">
+              <em></em>
+              <span>车主身份证(反面)</span>
+            </div>
+          </div>
+          <div id="idCardImgHandHeld" class="addVehicle-upload-right addVehicle-upload-box">
+            <img :src="idCardImgHandHeld" v-if="idCardImgHandHeld">
+            <div class="box" v-else="idCardImgHandHeld">
+              <em></em>
+              <span>车主手持身份证</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <button class="btn" type="button" name="button" @click.stop="submitClick()">提交</button>
     </div>
   </div>
 </div>
 </template>
 <script>
-import { addVehicle } from '../../../config/baseUrl'
-import { resultPost } from '../../../service/getData'
-import { MessageBox, Toast } from 'mint-ui'
+import { uploadImg } from '../../../config/baseUrl'
+import { resultGet } from '../../../service/getData'
+import { Toast } from 'mint-ui'
+import uploadImgFun from '../../../service/uploadImg'
 export default{
   name: 'addVehicle',
   data () {
@@ -100,25 +127,32 @@ export default{
       /* 车辆类型 */
       vehicleTypeData: [
         {
+          'code': '02',
           'str': '蓝牌'
         },
         {
+          'code': '01',
           'str': '黄牌'
         },
         {
+          'code': '06',
           'str': '黑牌'
         },
         {
+          'code': '02',
           'str': '个性牌'
         },
         {
+          'code': '52',
           'str': '小型新能源车号牌'
         },
         {
+          'code': '51',
           'str': '大型新能源车号牌'
         }
       ],
       vehicleType: {
+        'code': '02',
         'str': '蓝牌'
       },
       vehicleTypeShow: false,
@@ -226,15 +260,61 @@ export default{
       frameNumber: '',
       ownerName: '',
       identityCard: '',
-      mobilephone: ''
+      ownerIdCard: '', // 车主身份证号
+      mobilephone: '',
+      idCardImgPositive: '',
+      idCardImgNegative: '',
+      idCardImgHandHeld: ''
     }
   },
   methods: {
+    getToken: function () {
+      resultGet(uploadImg).then(res => {
+        res.code === '0000' && this.uploadImgFn(res.upToken)
+      })
+    },
+    uploadImgFn: function (uptoken) {
+      var that = this
+      uploadImgFun({
+        selfId: 'idCardImgPositive',
+        parentId: 'container',
+        upToken: uptoken,
+        fileUploaded: function (res) {
+          that.idCardImgPositive = res.imgUrl
+        },
+        error: function (err) {
+          console.log(err)
+        }
+      })
+      uploadImgFun({
+        selfId: 'idCardImgNegative',
+        parentId: 'container',
+        upToken: uptoken,
+        fileUploaded: function (res) {
+          that.idCardImgNegative = res.imgUrl
+        },
+        error: function (err) {
+          console.log(err)
+        }
+      })
+      uploadImgFun({
+        selfId: 'idCardImgHandHeld',
+        parentId: 'container',
+        upToken: uptoken,
+        fileUploaded: function (res) {
+          that.idCardImgHandHeld = res.imgUrl
+        },
+        error: function (err) {
+          console.log(err)
+        }
+      })
+    },
     /* 类型选择 */
     bindTypeClick: function (index) {
       if (index) {
         index--
         this.bindType = this.bindTypeData[index]
+        console.log(this.bindType)
       }
       this.vehicleTypeShow = false
       this.plateTypeShow = false
@@ -262,19 +342,49 @@ export default{
     },
     /* 提交 */
     submitClick: function () {
-      let reqData = {
-        bindType: this.bindType.code,
-        vehicleType: this.vehicleType.str,
-        plateType: this.plateType.str,
-        licensePlateNumber: this.licensePlateNumber,
-        frameNumber: this.frameNumber,
-        ownerName: this.ownerName,
-        identityCard: this.identityCard,
-        mobilephone: this.mobilephone
+      let reqData = {}
+      if (this.bindType.code === 1) {
+        reqData = {
+          // bindType: this.bindType.code,
+          // vehicleType: this.vehicleType.str,
+          // plateType: this.plateType.str,
+          // licensePlateNumber: this.licensePlateNumber,
+          // frameNumber: this.frameNumber,
+          // ownerName: this.ownerName,
+          // identityCard: this.identityCard,
+          // mobilephone: this.mobilephone
+
+          bindType: this.bindType.code, // 绑定类型
+          licensePlateType: this.vehicleType.code, // 号牌种类
+          licensePlateNumber: this.plateType.str + this.licensePlateNumber, // 车牌号码
+          frameNumber: this.frameNumber, // 车架号码
+          provinceAbbreviation: this.plateType, // 省简称
+          userIdCard: this.identityCard, // 当前登录用户身份证
+          inputIP: '', // 录入ip
+          userSource: 'C', // 用户来源/登录的平台
+          certifiedSource: 'C' // 绑定类型
+        }
+      } else {
+        reqData = {
+          bindType: this.bindType.code, // 绑定类型
+          licensePlateType: this.vehicleType.code, // 号牌种类
+          licensePlateNumber: this.plateType.str + this.licensePlateNumber, // 车牌号码
+          frameNumber: this.frameNumber, // 车架号码
+          ownerName: this.ownerName, // 车主姓名
+          ownerIdCard: this.ownerIdCard, // 车主身份证号
+          provinceAbbreviation: this.plateType.str, // 省简称
+          userIdCard: this.identityCard, // 当前登录用户身份证
+          inputIP: '', // 录入ip
+          userSource: 'C', // 用户来源/登录的平台
+          certifiedSource: 'C', // 绑定类型
+          idCardImgPositive: this.idCardImgPositive, // 车主身份证正面照
+          idCardImgHandHeld: this.idCardImgHandHeld // 车主身份证手持照
+        }
       }
       // 非空验证
       for (let key in reqData) {
-        if (!reqData[key]) {
+        if (reqData[key] === '' && key !== 'inputIP') {
+          console.log(key)
           Toast({
             message: '信息填写不完整',
             position: 'bottom',
@@ -298,7 +408,16 @@ export default{
     }
   },
   created () {
-    this.mobilephone = window.localStorage.getItem('mobilePhone')
+    document.addEventListener('click', (e) => {
+      this.bindTypeShow = false
+      this.vehicleTypeShow = false
+      this.plateTypeShow = false
+    })
+    this.mobilephone = window.localStorage.getItem('userName')
+    this.identityCard = window.localStorage.getItem('identityCard')
+  },
+  mounted () {
+    this.getToken()
   }
 }
 </script>
@@ -311,6 +430,10 @@ export default{
   }
   .width-70 {
     width: 70% !important;
+  }
+  .height0{
+    height: 0;
+    overflow: hidden;
   }
   .addVehicle-bindType{
     background: #fff;
@@ -335,6 +458,62 @@ export default{
           .addVehicle-hbs-name{
             position: absolute;
             left: 0;
+          }
+        }
+      }
+      .addVehicle-upload{
+        p{
+          font-size: 28px;
+          margin: 34px 0;
+        }
+        .addVehicle-upload-inner{
+          display: flex;
+          justify-content: space-between;
+          .addVehicle-upload-box {
+            width: 190px;
+            height: 190px;
+            .box{
+              width: 190px;
+              height: 190px;
+              background-color: #efeff4;
+              border: 2px solid #dddde1;
+              border-radius: 15px;
+              color: #666;
+              font-size: 22px;
+              text-align: center;
+              em {
+                display: inline-block;
+                width: 162px;
+                height: 111px;
+                margin-top: 20px;
+                margin-bottom: 10px;
+              }
+              span {
+                display: block;
+              }
+            }
+            img{
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .addVehicle-upload-left {
+            em {
+              background-image: url('../../../images/ID-front.png');
+              background-size: cover;
+            }
+          }
+          .addVehicle-upload-center {
+            em {
+              background-image: url('../../../images/ID-rear.png');
+              background-size: cover;
+            }
+          }
+          .addVehicle-upload-right {
+            em {
+              background-image: url('../../../images/ID-hand.png');
+              background-size: cover;
+            }
           }
         }
       }
