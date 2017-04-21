@@ -195,6 +195,7 @@
               appoinNum: json.msg,
               appoinType: '随手拍举报'
             })
+            window.location.href = '/appoinSuccess'
           }
         })
 //          this.$router.push('/takePicturesSuccess') // 成功之后
