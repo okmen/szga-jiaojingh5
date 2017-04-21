@@ -364,19 +364,20 @@
           licensePlateType: this.cur_type_id,
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
         }
-        if (!this.licensePlateNo || !this.licensePlateType || !this.vehicleIdentifyNoLast4) {
-          Toast({
-            message: '信息填写不完整',
-            position: 'bottom',
-            className: 'white'
-          })
-          return false
-        } else {
-          console.log(reqData)
-          resultPost(queryLawlessByCar, reqData).then(json => {
-            this.illegalData = json.data
-          })
+        for (let key in reqData) {
+          if (!reqData[key]) {
+            console.log(key)
+            Toast({
+              message: '信息填写不完整',
+              position: 'bottom',
+              className: 'white'
+            })
+            return false
+          }
         }
+        resultPost(queryLawlessByCar, reqData).then(json => {
+          this.illegalData = json.data
+        })
       },
       queryMineByCar: function () {
         let reqData = {
@@ -386,7 +387,6 @@
         }
         console.log(reqData)
         resultPost(queryLawlessByCar, reqData).then(json => {
-          console.log(json)
           this.myIllegalData = json.data
         })
       }

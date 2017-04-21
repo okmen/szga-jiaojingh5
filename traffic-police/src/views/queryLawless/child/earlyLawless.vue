@@ -53,7 +53,7 @@
               <span>手机号码</span>
             </div>
             <div class="earlyLawless-hbs-text">
-              <input v-model="mobileNo" class="text-input" type="tel" name="" value="" placeholder="请输入您的手机号码">
+              <input v-model="mobilephone" class="text-input" type="tel" name="" value="" placeholder="请输入您的手机号码">
             </div>
           </li>
           <li class="earlyLawless-hbs-item">
@@ -97,7 +97,7 @@
         licensePlateType: '',
         car_number: '',
         vehicleIdentifyNoLast4: '',
-        mobileNo: '13333333333',
+        mobilephone: '',
         drivingLicenceNo: '',
         licenseSelectShow: false,
         licenseSelectMassage: '大型汽车(黄牌)',
@@ -313,7 +313,7 @@
           licensePlateType: this.cur_id,
           licensePlateNo: this.abbreviationSelectMassage + this.car_number,
           drivingLicenceNo: this.drivingLicenceNo,
-          mobileNo: '',
+          mobilephone: '',
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
         }
         console.log(reqData)
