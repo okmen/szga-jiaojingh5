@@ -11,18 +11,24 @@
       <p>
         您的信息已成功提交，我们将会在3个工作日内通过短信告知您的审核结果，您还可以凭身份证信息在深圳交警微信号中查询审核。
       </p>
-      <p class="appoint-margin">业务类型：<span>{{businessType}}</span></p>
-      <p>流水号码：<span class="running-number">{{getSuccessMsg}}</span></p>
+      <p class="appoint-margin">业务类型：<span>{{showAppoin.appoinType}}</span></p>
+      <p>流水号码：<span class="running-number">{{showAppoin.appoinNum}}</span></p>
     </section>
-    <div class="btn-appoint-backword">返回</div>
+    <div class="btn-appoint-backword" @click="btnBackword">返回</div>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
-  data () {
-    return {
-      getSuccessMsg: '4579997663555',
-      businessType: '星级用户认证'
+  computed: {
+    ...mapGetters([
+      'showAppoin'
+    ])
+  },
+  methods: {
+    btnBackword: function () {
+      console.log('1111')
+      // this.$router.go(-1)
     }
   }
 }

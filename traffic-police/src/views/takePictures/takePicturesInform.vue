@@ -68,6 +68,7 @@
   import { uploadImg, takePictures, getRoad } from '../../config/baseUrl'
   import uploadImgFun from '../../service/uploadImg'
   import { Toast } from 'mint-ui'
+  import { mapActions } from 'vuex'
   export default {
     name: 'takePicturesInform',
     data () {
@@ -190,6 +191,11 @@
           console.log(json)
           if (json.code === '0000') {
             console.log('举报成功')
+            this.postAppoin({
+              appoinNum: json.msg,
+              appoinType: '随手拍举报'
+            })
+            window.location.href = '/appoinSuccess'
           }
         })
 //          this.$router.push('/takePicturesSuccess') // 成功之后
@@ -256,7 +262,10 @@
         this.informRoad = this.roadSelectLists[index].wfdd
         this.informType = this.roadSelectLists[index].type
         this.showSelectRoad = false
-      }
+      },
+      ...mapActions({
+        postAppoin: 'postAppoin'
+      })
     }
   }
 </script>
