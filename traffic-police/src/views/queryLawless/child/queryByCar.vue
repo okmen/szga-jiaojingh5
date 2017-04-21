@@ -376,6 +376,14 @@
           }
         }
         resultPost(queryLawlessByCar, reqData).then(json => {
+          if (!json.data) {
+            Toast({
+              message: json.msg,
+              position: 'middle',
+              className: 'white',
+              duration: 3000
+            })
+          }
           this.illegalData = json.data
         })
       },

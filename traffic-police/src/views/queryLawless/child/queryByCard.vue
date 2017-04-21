@@ -89,9 +89,7 @@
         illegalTime: '', // 违法时间
         car_number: '', // 除去省字的车牌号
         drivingLicenceNo: '', // 驾驶证号
-        recordNo: '', // 档案编号
-        msg: '',
-        tipsShow: false
+        recordNo: '' // 档案编号
       }
     },
     mounted () {
@@ -103,19 +101,28 @@
           drivingLicenceNo: this.drivingLicenceNo,
           recordNo: this.recordNo
         }
-        if (!this.drivingLicenceNo || !this.recordNo) {
-          Toast({
-            message: '信息填写不完整',
-            position: 'bottom',
-            className: 'white'
-          })
-          return false
-        } else {
-          resultPost(queryLawlessByCard, reqData).then(json => {
-            console.log(json)
-            this.illegalData = json.data
-          })
+        for (let key in reqData) {
+          if (!reqData[key]) {
+            console.log(key)
+            Toast({
+              message: '信息填写不完整',
+              position: 'bottom',
+              className: 'white'
+            })
+            return false
+          }
         }
+        resultPost(queryLawlessByCard, reqData).then(json => {
+          if (!json.data) {
+            Toast({
+              message: json.msg,
+              position: 'middle',
+              className: 'white',
+              duration: 3000
+            })
+          }
+          this.illegalData = json.data
+        })
       }
     }
   }
