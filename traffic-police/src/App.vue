@@ -8,7 +8,7 @@
         </div>
         <div class="success-login-userName">
           <p>{{ userName }}</p>
-          <router-link to="/login" class="success-login-btn">我的电子证件</router-link>
+          <router-link to="/myECard" class="success-login-btn">我的电子证件</router-link>
         </div>
       </div>
       <div class="success-login-bottom">
@@ -222,7 +222,7 @@ export default {
         background: url('./images/idCard.png') no-repeat left center;
         background-size: 42px;
         padding-left: 60px;
-        padding-right:30px; 
+        padding-right:30px;
       }
       .success-login-plateNumber{
         border-left: 2px solid #fff;
@@ -258,7 +258,7 @@ export default {
     background-color: #fff;
     border-radius: 6px;
     font-size: 22px;
-    box-shadow:0 5px 5px rgba(0, 0, 0, .2);  
+    box-shadow:0 5px 5px rgba(0, 0, 0, .2);
     dl{
       height: 100%;
       text-align: center;
@@ -290,8 +290,8 @@ export default {
   .home-nav-bottom{
     overflow: hidden;
     margin-top: 20px;
-    box-shadow:0 5px 5px rgba(0, 0, 0, .2); 
-    border-radius: 6px; 
+    box-shadow:0 5px 5px rgba(0, 0, 0, .2);
+    border-radius: 6px;
     dl{
       width: 50%;
       height: 138px;

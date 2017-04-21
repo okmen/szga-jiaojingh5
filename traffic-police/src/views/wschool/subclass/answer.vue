@@ -14,9 +14,9 @@
           <dt><img src="../../../images/sand.png"></dt>
           <dd>剩余{{surplusAnswe}}题</dd>
         </dl>
-        <dl class="answer-head-rgt">
+        <dl class="answer-head-rgt" @click="secede()">
           <dt><img src="../../../images/exit.png"></dt>
-          <dd @click="secede()">退出</dd>
+          <dd>退出</dd>
         </dl>
         <div class="pop-up" v-bind:class="{ 'reveal' : isReveal}">
           <ul class="pop-up-center" >
@@ -54,8 +54,8 @@ export default {
   data () {
     return {
       testQuestionsType: '',   // 判断题型
-      answererror: 10,
-      surplusAnswe: 10,
+      answererror: 0,
+      surplusAnswe: 0,
       isBtnShow: false,   // 下一题样式
       isReveal: false,    // 弹框控制
       tlag: 5,   // 正确选项颜色
@@ -102,7 +102,6 @@ export default {
         scoreEndDate: this.scoreEndDate
       }
       resultPost(answers, answesData).then(json => {     // 答案数据接口
-        console.log(json)
         this.codes = json.code
         if (this.codes === '0000') {
           this.answerCorrect = json.data[0].answerCorrect  // 答对题数
@@ -121,7 +120,7 @@ export default {
           this.testData[index].img = require('../../../images/fault.png')
           this.tlag = index
         } else {
-          Toast(json.msg)
+          Toast(json.msg)   // 多次答题提示
         }
       })
     },
@@ -202,7 +201,7 @@ export default {
       }, 1000)
     },
     secede: () => {
-      MessageBox('提示', '是否退出学习').then(() => {
+      MessageBox.confirm('是否退出学习', '提示').then(action => {
         window.location.href = '/#/wschool'
       })
     }

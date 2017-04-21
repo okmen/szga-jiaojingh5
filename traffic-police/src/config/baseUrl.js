@@ -60,7 +60,7 @@ export const licenseCard = `${commonUrl}user/search/getElectronicDriverLicense.h
 
 export const getLocation = 'http://navi1.careland.com.cn/cgi/pub_getpositioninfo_j.ums' // 通过经纬度获取附近的路接口
 
-export const takePictures = `${commonUrl}user/readilyShoot.html` // 随手拍举报接口
+export const takePictures = `http://192.168.1.222:8080/web/user/readilyShoot.html` // 随手拍举报接口
 
 export const carOwner = `${commonUrl}register/iAmTheOwner.html` // 星级用户认证 我是车主接口
 
@@ -69,3 +69,5 @@ export const drivingLicense = `${commonUrl}register/haveDriverLicenseNotCar.html
 export const passerBy = `${commonUrl}register/isPedestrianNotDriver.html` // 星级用户认证 我是行人接口
 
 export const carUser = `${commonUrl}register/iamALongtimeUser.html` // 星级用户认证 我是长期使用人接口
+
+export const getRoad = `${commonUrl}user/getPositioningAddress.html` // 获取路段地址 随手拍举报接口

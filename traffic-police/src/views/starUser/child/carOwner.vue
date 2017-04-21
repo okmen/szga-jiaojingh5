@@ -10,7 +10,7 @@
             <span class="btn-select" @click.stop="licenseSelectClick()" data-type="licenseSelectType">{{ licenseSelectMassage }}</span>
             <div class="div-select-ul" v-if="licenseSelectShow">
               <ul>
-                <li v-for="item in licenseSelectData" @click.stop = "licenseSelectClick(item.str)" data-Num="item.type">{{item.str}}</li>
+                <li v-for="(item, index) in licenseSelectData" @click.stop = "licenseSelectClick(item.str, index)">{{item.str}}</li>
               </ul>
             </div>
           </div>
@@ -258,9 +258,10 @@ export default{
     }
   },
   methods: {
-    licenseSelectClick: function (str) {
+    licenseSelectClick: function (str, index) {
       if (str) {
         this.licenseSelectMassage = str
+        this.licenseSelectType = this.licenseSelectData[index].type
       }
       if (this.licenseSelectShow === true) {
         this.licenseSelectShow = false
@@ -300,6 +301,7 @@ export default{
         idCardImgHandHeld: idImgThree,
         provinceAbbreviation: this.abbreviationSelectMassage
       }
+      console.log(carOwnerData)
       for (let key in carOwnerData) {
         if (!carOwnerData[key]) {
           Toast({

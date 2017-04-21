@@ -1,7 +1,7 @@
 <template>
   <div class="navv">
     <ul class="nav-outer">
-      <li class="nav-outer-center" v-for="(list, index) in listData" @click="wschoolClick(index)">
+      <li class="nav-outer-center" v-for="(list, index) in listData">
         <router-link :to="testData[index].name">
           <p>{{list.classroomName}}</p>
         </router-link>

@@ -1,6 +1,6 @@
 <template>
   <div class="mainBanner-outer">
-    <div class="banner-qr"></div>
+    <router-link to="myECard" class="banner-qr"></router-link>
     <div class="banner-user">
       <div class="user-avatar"><img :src="avatar"></div>
       <div class="user-name">{{ userName }}</div>
