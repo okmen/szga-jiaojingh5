@@ -193,6 +193,7 @@
           console.log(reqData)
           resultPost(bindBusiness, reqData).then(json => {
             this.businessList = json.data
+            console.log(this.businessList)
           })
         }
         if (this.businessSelectShow === true) {

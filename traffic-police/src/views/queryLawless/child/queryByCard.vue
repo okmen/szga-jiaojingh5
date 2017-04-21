@@ -78,18 +78,17 @@
     name: 'queryByCard',
     data () {
       return {
+        drivingLicenceNo: '',            // 请求-驾驶证号
+        recordNo: '',                    // 请求-档案编号
+        illegalData: [],                 // 返回-全部数据存入数组
         claimList: {
           '0': '无需打单',
           '1': '需要打单',
           '2': '需要窗口办理'
-        }, // 是否需要打单
-        illegalData: [], // 接口返回全部数据
-        billNo: '', // 违法编号
-        licensePlateNo: '', // 车牌号
-        illegalTime: '', // 违法时间
-        car_number: '', // 除去省字的车牌号
-        drivingLicenceNo: '', // 驾驶证号
-        recordNo: '' // 档案编号
+        }   // 返回-是否需要打单（编号转换）
+//        billNo: '',                     // 违法编号
+//        illegalTime: '',                 // 违法时间
+//        licensePlateNo: '',              // 车牌号
       }
     },
     mounted () {

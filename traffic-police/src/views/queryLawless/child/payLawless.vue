@@ -131,14 +131,15 @@
   import { resultPost } from '../../../service/getData'
   import { queryPay } from '../../../config/baseUrl'
   import { verifyCode } from '../../../config/verifyCode'
+  import { Toast } from 'mint-ui'
   export default {
     name: 'earlyLawless',
     data () {
       return {
-        car_number: '',
-        billNo: '',
-        abbreviationSelectShow: false,
-        abbreviationSelectMassage: '粤',
+        billNo: '',                        // 请求-缴款编号
+        car_number: '',                    // 请求-除去省字的车牌号
+        abbreviationSelectShow: false,     // 省字列表显示与否
+        abbreviationSelectMassage: '粤',   // 默认省字
         abbreviationSelectData: [
           {
             'str': '粤'
@@ -233,7 +234,7 @@
           {
             'str': '新'
           }
-        ]
+        ]      // 省字列表
       }
     },
     mounted () {
@@ -259,8 +260,21 @@
           mobilephone: window.localStorage.getItem('mobilePhone')
         }
         console.log(reqData)
+        for (let key in reqData) {
+          if (!reqData[key]) {
+            Toast({
+              message: '信息填写不完整',
+              position: 'bottom',
+              className: 'white'
+            })
+            return false
+          }
+        }
         resultPost(queryPay, reqData).then(json => {
-          console.log(json)
+          console.log(json.code)
+          if (json.code === '0000') {
+            window.location.href = json.msg
+          }
         })
       }
     },
