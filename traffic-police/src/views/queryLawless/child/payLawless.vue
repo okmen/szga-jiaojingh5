@@ -256,9 +256,10 @@
         let reqData = {
           billNo: this.billNo,
           licensePlateNo: this.abbreviationSelectMassage + this.car_number,
-          mobilephone: '18502668481'
+          mobilephone: window.localStorage.getItem('mobilePhone')
         }
-        resultPost(queryPay, JSON.stringify(reqData)).then(json => {
+        console.log(reqData)
+        resultPost(queryPay, reqData).then(json => {
           console.log(json)
         })
       }
