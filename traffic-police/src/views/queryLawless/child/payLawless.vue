@@ -10,7 +10,7 @@
             <input v-model="billNo" class="text-input" type="text" name="" value="" placeholder="请输入缴款编号">
           </div>
           <div class="form-line-item right width-35">
-            <span class="btn-blue browse-code"><i class="code-icon"></i>扫一扫</span>
+            <span class="btn-blue browse-code" @click="scanQRCode()"><i class="code-icon"></i>扫一扫</span>
           </div>
         </li>
         <li class="form-line">
@@ -131,6 +131,7 @@
   import { resultPost } from '../../../service/getData'
   import { queryPay } from '../../../config/baseUrl'
   import { verifyCode } from '../../../config/verifyCode'
+  import wx from 'weixin-js-sdk'
   import { Toast } from 'mint-ui'
   export default {
     name: 'earlyLawless',
@@ -274,6 +275,17 @@
           console.log(json.code)
           if (json.code === '0000') {
             window.location.href = json.msg
+          }
+        })
+      },
+      scanQRCode: function () {
+        let that = this
+        wx.scanQRCode({
+          needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+          scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有
+          success: function (res) {
+            var result = res.resultStr // 当needResult 为 1 时，扫码返回的结果
+            that.billNo = result.split(',')[1]
           }
         })
       }

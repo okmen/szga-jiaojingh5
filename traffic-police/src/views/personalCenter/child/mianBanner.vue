@@ -2,7 +2,7 @@
   <div class="mainBanner-outer">
     <router-link to="myECard" class="banner-qr"></router-link>
     <div class="banner-user">
-      <div class="user-avatar"></div>
+      <div class="user-avatar"><img :src="avatar"></div>
       <div class="user-name">{{ userName }}</div>
       <div class="user-mobile">
         <i class="mobile"></i>{{ mobilePhone }}</div>
@@ -50,6 +50,12 @@
         border-radius: 50%;
         background-color: #09bb07;
         display: inline-block;
+        img{
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          vertical-align: top;
+        }
       }
       .user-name {
         padding: 10px 0;
@@ -76,6 +82,7 @@
     name: 'mainBanner',
     data () {
       return {
+        avatar: window.localStorage.getItem('headImgUrl'),
         mobilePhone: window.localStorage.getItem('mobilePhone'),
         userName: window.localStorage.getItem('userName')
       }
