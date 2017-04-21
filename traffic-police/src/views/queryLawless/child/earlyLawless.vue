@@ -40,14 +40,6 @@
               <input  v-model="drivingLicenceNo" class="text-input" type="text" name="" value="" placeholder="请输入驾驶证号">
             </div>
           </li>
-          <!--<li class="earlyLawless-hbs-item">-->
-            <!--<div class="earlyLawless-hbs-name">-->
-              <!--<span>车主身份证</span>-->
-            <!--</div>-->
-            <!--<div class="earlyLawless-hbs-text">-->
-              <!--<input class="text-input" type="text" name="" value="" placeholder="车主是外籍人士,请在证件号前加F">-->
-            <!--</div>-->
-          <!--</li>-->
           <li class="earlyLawless-hbs-item">
             <div class="earlyLawless-hbs-name">
               <span>手机号码</span>
@@ -89,16 +81,15 @@
   import { resultPost } from '../../../service/getData'
   import { queryEarlyLawless } from '../../../config/baseUrl'
   import { verifyCode } from '../../../config/verifyCode'
+  import { Toast } from 'mint-ui'
   export default {
     name: 'earlyLawless',
     data () {
       return {
-        cur_id: '01',
-        licensePlateType: '',
-        car_number: '',
-        vehicleIdentifyNoLast4: '',
-        mobilephone: '',
-        drivingLicenceNo: '',
+        licensePlateType: '',       // 请求-车牌类型（编号转换）
+        car_number: '',             // 请求-除去省字的车牌号码
+        mobilephone: '',            // 请求-手机号码
+        cur_id: '01',               // 请求-车牌类型编号
         licenseSelectShow: false,
         licenseSelectMassage: '大型汽车(黄牌)',
         licenseSelectData: [
@@ -275,7 +266,9 @@
           {
             'str': '新'
           }
-        ]
+        ],
+        vehicleIdentifyNoLast4: '',
+        drivingLicenceNo: ''
       }
     },
     mounted () {
@@ -307,20 +300,39 @@
           this.typeSelectShow = false
         }
       },
-      getVerification: function () {},
       queryEarlyLawless: function () {
         let reqData = {
           licensePlateType: this.cur_id,
           licensePlateNo: this.abbreviationSelectMassage + this.car_number,
-          drivingLicenceNo: this.drivingLicenceNo,
-          mobilephone: '',
-          vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
+          mobilephone: this.mobilephone,
+          vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
+          drivingLicenceNo: this.drivingLicenceNo
+        }
+        for (let key in reqData) {
+          if (!reqData[key]) {
+            console.log(key)
+            Toast({
+              message: '信息填写不完整',
+              position: 'bottom',
+              className: 'white'
+            })
+            return false
+          }
         }
         console.log(reqData)
         resultPost(queryEarlyLawless, reqData).then(json => {
+          if (!json.data) {
+            Toast({
+              message: json.msg,
+              position: 'middle',
+              className: 'white',
+              duration: 3000
+            })
+          }
           console.log(json)
         })
-      }
+      },
+      getVerification: function () {}
     },
     created () {
       document.addEventListener('click', (e) => {

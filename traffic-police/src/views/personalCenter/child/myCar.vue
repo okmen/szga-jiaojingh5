@@ -1,33 +1,35 @@
 <template>
   <div class="myCar-outer">
-    <div class="car-box" v-for="car in carMsg">
-      <div class="car-number">
-        <i class="car-icon"></i>
-        {{ car.numberPlateNumber }}
-        <span class="myself" v-if="car.isMyself == '本人'">本人</span>
-        <span class="others" v-else>他人</span>
+    <div v-show="show">
+      <div class="car-box" v-for="car in carMsg">
+        <div class="car-number">
+          <i class="car-icon"></i>
+          {{ car.numberPlateNumber }}
+          <span class="myself" v-if="car.isMyself == '本人'">本人</span>
+          <span class="others" v-else>他人</span>
+        </div>
+        <div class="car-deal">
+          {{ car.illegalNumber }}
+          <i class="arrow"></i>
+        </div>
+        <div class="car-status">
+          <ul>
+            <li>号牌种类:<span>{{ plateTypeList[car.plateType] }}</span></li>
+            <li>年审时间:<span>{{ car.annualReviewDate }}</span><span style="color:#aaa">{{ car.annualReviewDateRemind }}</span></li>
+            <li>{{ car.otherPeopleUse }}<span></span></li>
+          </ul>
+        </div>
+        <div class="car-owner">
+          <ul>
+            <li>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<span>{{ car.name }}</span></li>
+            <li>身份证号:<span>{{ car.identityCard }}</span></li>
+            <li>手机号码:<span>{{ car.mobilephone }}</span></li>
+          </ul>
+        </div>
       </div>
-      <div class="car-deal">
-        {{ car.illegalNumber }}
-        <i class="arrow"></i>
+      <div class="addCar-box">
+        <router-link to="addVehicle" class="add-car btn">添加车辆</router-link>
       </div>
-      <div class="car-status">
-        <ul>
-          <li>号牌种类:<span>{{ plateTypeList[car.plateType] }}</span></li>
-          <li>年审时间:<span>{{ car.annualReviewDate }}</span><span style="color:#aaa">{{ car.annualReviewDateRemind }}</span></li>
-          <li>{{ car.otherPeopleUse }}<span></span></li>
-        </ul>
-      </div>
-      <div class="car-owner">
-        <ul>
-          <li>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<span>{{ car.name }}</span></li>
-          <li>身份证号:<span>{{ car.identityCard }}</span></li>
-          <li>手机号码:<span>{{ car.mobilephone }}</span></li>
-        </ul>
-      </div>
-    </div>
-    <div class="addCar-box">
-      <router-link to="addVehicle" class="add-car btn">添加车辆</router-link>
     </div>
   </div>
 </template>
@@ -104,6 +106,10 @@
       }
     }
     .addCar-box {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom:60px;
       text-align: center;
       .add-car {
         display: inline-block;
@@ -114,15 +120,16 @@
       }
     }
   }
-
 </style>
 <script>
   import { bindCar } from '../../../config/baseUrl'
   import { resultPost } from '../../../service/getData'
+  import { Indicator } from 'mint-ui'
   export default {
     name: 'myCar',
     data () {
       return {
+        show: false,
         carMsg: [],
         identityCard: window.localStorage.getItem('identityCard'),
         numberPlateNumber: window.localStorage.getItem('myNumberPlate'),
@@ -135,13 +142,15 @@
       }
     },
     mounted () {
+      Indicator.open()
       let reqData = {
         identityCard: this.identityCard,
         mobilephone: this.mobilephone
       }
       resultPost(bindCar, reqData).then(json => {
+        Indicator.close()
+        this.show = true
         this.carMsg = json.data
-        console.log(this.carMsg)
       })
     }
   }

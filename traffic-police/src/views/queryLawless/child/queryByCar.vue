@@ -134,21 +134,19 @@
     name: 'queryByCar',
     data () {
       return {
+        licensePlateNo: '',                   // 请求-车牌号
+        cur_type_id: '01',                    // 请求-车牌类型（编号转换）
+        car_number: '',                       // 请求-除去省字的车牌号
+        vehicleIdentifyNoLast4: '',           // 请求-车架号后4位
+        illegalData: [],                      // 返回-全部数据存入数组
         claimList: {
           '0': '无需打单',
           '1': '需要打单',
           '2': '需要窗口办理'
-        }, // 是否需要打单
-        cur_type_id: '01', // 默认首个车牌类型（黄牌大车）
-        illegalData: [], // 接口返回全部数据
-        myIllegalData: [], // 接口返回车主数据
-        licensePlateNo: '', // 车牌号
-        billNo: '', // 违法编号
-        illegalTime: '', // 违法时间
-        car_number: '', // 除去省字的车牌号
-        vehicleIdentifyNoLast4: '', // 车架号后4位
-        licenseSelectShow: false,
-        licenseSelectMassage: '大型汽车(黄牌)',
+        },       // 返回-是否需要打单（编号转换）
+        myIllegalData: [],                    // 返回-查询我的违章
+        licenseSelectShow: false,             // 车牌列表显示与否
+        licenseSelectMassage: '大型汽车(黄牌)', // 默认车牌类型
         licenseSelectData: [
           {
             'id': '01',
@@ -226,9 +224,9 @@
             'id': '20',
             'str': '临时入境车'
           }
-        ],
-        abbreviationSelectShow: false,
-        abbreviationSelectMassage: '粤',
+        ],             // 车牌类型列表（编号转换）
+        abbreviationSelectShow: false,        // 省字列表显示与否
+        abbreviationSelectMassage: '粤',      // 默认省字
         abbreviationSelectData: [
           {
             'str': '粤'
@@ -323,9 +321,9 @@
           {
             'str': '新'
           }
-        ],
-        msg: '',
-        tipsShow: false
+        ]         // 省字列表
+        //        billNo: '',                      // 返回-违法编号
+        //        illegalTime: '',                 // 违法时间
       }
     },
     mounted () {
@@ -357,13 +355,16 @@
           this.typeSelectShow = false
         }
       },
-      getVerification: function () {},
       queryLawlessByCar: function () {
         let reqData = {
           licensePlateNo: this.abbreviationSelectMassage + this.car_number,
           licensePlateType: this.cur_type_id,
-          vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
+          vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
+          identityCard: window.localStorage.getItem('identityCard'),
+          sourceOfCertification: 'C',
+          mobilephone: window.localStorage.getItem('mobilePhone')
         }
+        console.log(reqData)
         for (let key in reqData) {
           if (!reqData[key]) {
             console.log(key)
@@ -391,13 +392,25 @@
         let reqData = {
           licensePlateNo: window.localStorage.getItem('myNumberPlate'),
           licensePlateType: window.localStorage.getItem('plateType'),
-          vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits')
+          vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits'),
+          identityCard: window.localStorage.getItem('identityCard'),
+          sourceOfCertification: 'C',
+          mobilephone: window.localStorage.getItem('mobilePhone')
         }
-        console.log(reqData)
         resultPost(queryLawlessByCar, reqData).then(json => {
+          if (!json.data) {
+            Toast({
+              message: json.msg,
+              position: 'middle',
+              className: 'white',
+              duration: 3000
+            })
+          }
           this.myIllegalData = json.data
+          console.log(json)
         })
-      }
+      },
+      getVerification: function () {}
     },
     created () {
       document.addEventListener('click', (e) => {
