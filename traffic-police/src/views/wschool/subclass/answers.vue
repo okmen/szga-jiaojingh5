@@ -48,7 +48,7 @@
 <script>
 import { resultPost } from '../../../service/getData'
 import { answer, answers } from '../../../config/baseUrl'
-import { MessageBox } from 'mint-ui'
+import { MessageBox, Toast } from 'mint-ui'
 
 export default {
   name: 'answer',
@@ -111,6 +111,8 @@ export default {
         } else if (this.codes === '0001') {
           this.testData[index].img = require('../../../images/fault.png')
           this.tlag = index
+        } else {
+          Toast(json.msg)
         }
       })
     },
@@ -188,7 +190,7 @@ export default {
       }, 1000)
     },
     secede: () => {
-      MessageBox('提示', '是否退出学习').then(() => {
+      MessageBox.confirm('是否退出学习', '提示').then(action => {
         window.location.href = '/#/wschool'
       })
     }
