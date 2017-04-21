@@ -98,7 +98,10 @@
       queryLawlessByCard: function () {
         let reqData = {
           drivingLicenceNo: this.drivingLicenceNo,
-          recordNo: this.recordNo
+          recordNo: this.recordNo,
+          identityCard: window.localStorage.getItem('identityCard'),
+          sourceOfCertification: 'C',
+          mobilephone: window.localStorage.getItem('mobilePhone')
         }
         for (let key in reqData) {
           if (!reqData[key]) {

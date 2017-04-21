@@ -359,8 +359,12 @@
         let reqData = {
           licensePlateNo: this.abbreviationSelectMassage + this.car_number,
           licensePlateType: this.cur_type_id,
-          vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
+          vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
+          identityCard: window.localStorage.getItem('identityCard'),
+          sourceOfCertification: 'C',
+          mobilephone: window.localStorage.getItem('mobilePhone')
         }
+        console.log(reqData)
         for (let key in reqData) {
           if (!reqData[key]) {
             console.log(key)
@@ -388,9 +392,11 @@
         let reqData = {
           licensePlateNo: window.localStorage.getItem('myNumberPlate'),
           licensePlateType: window.localStorage.getItem('plateType'),
-          vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits')
+          vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits'),
+          identityCard: window.localStorage.getItem('identityCard'),
+          sourceOfCertification: 'C',
+          mobilephone: window.localStorage.getItem('mobilePhone')
         }
-        console.log(reqData)
         resultPost(queryLawlessByCar, reqData).then(json => {
           if (!json.data) {
             Toast({
