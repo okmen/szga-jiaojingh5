@@ -113,6 +113,7 @@ import common from './common'
 import { resultPost } from '../../../service/getData'
 import { carOwner, sendSMS } from '../../../config/baseUrl'
 import { Toast } from 'mint-ui'
+import { mapActions } from 'vuex'
 export default{
   name: 'carOwner',
   components: {
@@ -321,11 +322,11 @@ export default{
           getJsonMsg = jsonMsg.split('：')[1]
         }
         if (json.code === '0000') {
-          Toast({
-            message: json.msg,
-            position: 'bottom',
-            className: 'white'
+          this.postAppoin({
+            appoinNum: json.msg,
+            appoinType: '星级用户认证'
           })
+          this.$router.push('/appointSuccess')
         } else {
           Toast({
             message: getJsonMsg,
@@ -374,7 +375,10 @@ export default{
           }
         }, 1000)
       }
-    }
+    },
+    ...mapActions({
+      postAppoin: 'postAppoin'
+    })
   },
   created () {
     document.addEventListener('click', (e) => {
