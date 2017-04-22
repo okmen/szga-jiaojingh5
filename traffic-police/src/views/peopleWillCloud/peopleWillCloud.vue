@@ -19,7 +19,7 @@
       <secure v-else-if="curTab === 'secure'" @submit="submit()"></secure>
       <jam v-else-if="curTab === 'jam'" @submit="submit()"></jam>
       <order v-else @submit="submit()"></order> -->
-      <router-view @showMap="showMap" :mapObj="mapObj"></router-view>
+      <router-view @showMap="showMap" :mapObj="mapObj" @submitSuccess="submitSuccess()"></router-view>
     </div>
   </div>
 </template>
@@ -80,6 +80,10 @@ export default {
     },
     select: function () {
       this.typeSelectShow = false
+    },
+    submitSuccess: function () {
+      console.log('举报成功')
+      window.location.hash = '/appointSuccess'
     }
   },
   created () {

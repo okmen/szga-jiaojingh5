@@ -191,16 +191,17 @@
           console.log(json)
           if (json.code === '0000') {
             console.log('举报成功')
-            this.postAppoin({
-              appoinNum: json.msg,
-              appoinType: '随手拍举报'
+            // this.$router.push('/takePicturesSuccess')
+          } else {
+            Toast({
+              message: json.msg,
+              position: 'bottom',
+              className: 'white'
             })
-            window.location.href = '/appoinSuccess'
           }
         })
-//          this.$router.push('/takePicturesSuccess') // 成功之后
       },
-      btnGetRoad: function () {  // 选择路段
+      btnGetRoad: function () {  // 点击选择交通路段
         this.showSelectRoad = true
         let getRoadData = {
           keyword: this.informRoad
