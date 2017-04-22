@@ -126,6 +126,22 @@ const routes = [
     component: require('../views/queryLawless/child/queryLawlessPage.vue')
   },
   {
+    name: 'illegalAppealResult',
+    path: '/illegalAppealResult',
+    meta: {
+      title: '违法申诉结果页'
+    },
+    component: require('../views/queryLawless/child/illegalAppealResult.vue')
+  },
+  {
+    name: 'illegalOrderDeal',
+    path: '/illegalOrderDeal',
+    meta: {
+      title: '违法预约结果查询'
+    },
+    component: require('../views/queryLawless/child/illegalOrderDeal.vue')
+  },
+  {
     name: 'wschool',
     path: '/wschool',
     meta: {
