@@ -1,29 +1,29 @@
 <template>
-  <div class="appealQuery-outer">
-    <div class="appealForm">
-      <div class="form-item">
-        <div class="item-left">姓名</div>
-        <div class="item-right">
-          <input class="text-input" v-model="this.name">
+  <div class='appealQuery-outer'>
+    <div class='appealForm'>
+      <div class='form-item'>
+        <div class='item-left'>姓名</div>
+        <div class='item-right'>
+          <input class='text-input' v-model='this.name'>
         </div>
       </div>
-      <div class="form-item">
-        <div class="item-left">联系方式</div>
-        <div class="item-right">
-          <input class="text-input" v-model="this.mobilePhone">
+      <div class='form-item'>
+        <div class='item-left'>联系方式</div>
+        <div class='item-right'>
+          <input class='text-input' v-model='this.mobilePhone'>
         </div>
       </div>
-      <div class="form-item">
-        <div class="item-left">身份证号</div>
-        <div class="item-right">
-          <input class="text-input" v-model="this.identityCard">
+      <div class='form-item'>
+        <div class='item-left'>身份证号</div>
+        <div class='item-right'>
+          <input class='text-input' v-model='this.identityCard'>
         </div>
       </div>
-      <div class="form-item">
-        <div class="item-left">名下车辆</div>
-        <div class="item-right div-select">
-          <span class="btn-select min-btn-select" @click.stop="bindCarSelect()">{{ cur_bindCar }}</span>
-          <div class="div-select-ul" v-if="bindCarListShow">
+      <div class='form-item'>
+        <div class='item-left'>名下车辆</div>
+        <div class='item-right div-select'>
+          <span class='btn-select min-btn-select' @click.stop='bindCarSelect()'>{{ cur_bindCar }}</span>
+          <div class='div-select-ul' v-if='bindCarListShow'>
             <ul>
               <li>1</li>
               <li>2</li>
@@ -32,28 +32,28 @@
           </div>
         </div>
       </div>
-      <div class="form-item">
-        <div class="item-left">号牌种类</div>
-        <div class="item-right">
-          <input class="text-input" v-model="plateTypeList[plateType]">
+      <div class='form-item'>
+        <div class='item-left'>号牌种类</div>
+        <div class='item-right'>
+          <input class='text-input' v-model='plateTypeList[plateType]'>
         </div>
       </div>
-      <div class="form-item">
-        <div class="item-left">车架号</div>
-        <div class="item-right">
-          <input class="text-input" v-model="this.vehicleIdentifyNoLast4">
+      <div class='form-item'>
+        <div class='item-left'>车架号</div>
+        <div class='item-right'>
+          <input class='text-input' v-model='this.vehicleIdentifyNoLast4'>
         </div>
       </div>
     </div>
-    <button class="btn btn-blue" type="button" name="button" @click="btnClick">查询</button>
-    <div class="hint">
+    <button class='btn btn-blue' type='button' name='button' @click='btnClick'>查询</button>
+    <div class='hint'>
       <h4>温馨提示：</h4>
       <p>对交通安全违法行为记录有异议的（如已作出处罚决定，应该申请行政复议和提起行政诉讼），请详细填写申诉内容，我们会安排专人与您联系办理</p>
     </div>
   </div>
 </template>
-<style lang="less">
-  @import "./../../../style/base";
+<style lang='less'>
+  @import './../../../style/base';
   .appealQuery-outer {
     padding:0 50px;
     .appealForm {
@@ -140,7 +140,11 @@
           if (json.code === '0000') {
             MessageBox('提示', json.msg)
           } else {
+            json.data.forEach((item, index) => { // 循环dataList 给每个item上面添加 check关联属性
+              item.checkAddBorder = false
+            })
             this.postAppealQuery(json.data)
+            this.$router.push('/illegalAppealResult')
           }
         })
       },

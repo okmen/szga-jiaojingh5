@@ -2,34 +2,36 @@
   <div id="illegalResult">
     <div class="illegal-box">
       <!-- 违法结果查询结果 -->
-      <div class="illegal-list" v-bind:class="{ green: checkAddBorder }">
+      <div v-for="(item, index) in AppealQueryData" class="illegal-list" :class="{ green: item.checkAddBorder }">
         <div class="illegal-record">
-          <p>通知书号：<span>62258xxxxxxx</span></p>
-          <p>违法时间：<span>2017-04-18  18:26:23</span></p>
-          <p>执法单位：<span>宝安西乡支队</span></p>
-          <p>违法行为：<span>违法停车</span></p>
-          <p>违法地点：<span>深圳市宝安区西乡街道宝业路</span></p>
+          <p>通知书号：<span>{{item.billNo}}</span></p>
+          <p>违法时间：<span>{{item.illegalTime}}</span></p>
+          <p>执法单位：<span>{{item.illegalUnit}}</span></p>
+          <p>违法行为：<span>{{item.illegalDesc}}</span></p>
+          <p>违法地点：<span>{{item.illegalAddress}}</span></p>
         </div>
         <div class="illegal-query">
           <section class="illegal-query-score">
-            <p class="illegal-score-num">2</p>
+            <p class="illegal-score-num">{{item.punishScore}}</p>
             <p>违法记分</p>
           </section>
           <section class="illegal-query-score">
-            <p class="illegal-score-num">500</p>
+            <p class="illegal-score-num">{{item.punishAmount}}</p>
             <p>罚款金额</p>
           </section>
         </div>
         <div class="illegal-select">
-          <input type="checkbox" id="illegalSelectRadio" name="illegalSelectRadio" v-model:checked="checkAddBorder">
-          <label for="illegalSelectRadio"></label>
+          <input type="checkbox" :id="'illegalSelectRadio'+ index" :name="'illegalSelectRadio'+ index" v-model:checked="item.checkAddBorder">
+          <label :for="'illegalSelectRadio'+ index"></label>
         </div>
       </div>
+      
+
       <!-- 提交申诉表单 -->
       <div class="illegal-form">
         <div class="illegal-address">
           <p>联系地址</p>
-          <input type="text" name="address" placeholder="请输入您的联系地址">
+          <input type="text" name="address" placeholder="请输入您的联系地址" v-model="claimantPhone">
         </div>
         <div class="illegal-type">
           <p>申诉类型</p>
@@ -42,7 +44,7 @@
         </div>
         <div class="illegal-content">
           <p class="illegal-con-color">申诉内容</p>
-          <textarea placeholder="请输入..."></textarea>
+          <textarea placeholder="请输入..." v-model="appealContent"></textarea>
         </div>
       </div>
       <div class="illegal-btn" @click="btnSubmitIllegal">提交</div>
@@ -50,12 +52,12 @@
   </div>
 </template>
 <script>
+  import { mapGetters } from 'vuex'
   export default {
     data () {
       return {
         illegalSelectShow: false,   // 是否显示申诉下拉列表
-        checkAddBorder: false,      // 选中后显示绿色边框
-        selectInformTypeMsg: '记录的机动车号牌信息错误的',
+        selectInformTypeMsg: '记录的机动车号牌信息错误的', // 申诉类型
         illegalSelectData: [
           {
             'str': '记录的机动车号牌信息错误的'
@@ -72,8 +74,14 @@
           {
             'str': '交通技术监控设备收集的违法行为记录材料包括车辆类型、违法时间、违法地点不准确的'
           }
-        ]
+        ],
+        AppealQueryData: '',
+        claimantPhone: '', // 申诉联系电话
+        appealContent: '' // 申诉内容
       }
+    },
+    created () {
+      this.AppealQueryData = this.showAppealQuery
     },
     methods: {
       selectInformType: function (str) {  // li的点击事件
@@ -87,8 +95,14 @@
         }
       },
       btnSubmitIllegal: function () {
-        console.log('111111')
+        console.log(this.AppealQueryData)
+        console.log(this.showAppealQuery)
       }
+    },
+    computed: {
+      ...mapGetters([
+        'showAppealQuery'
+      ])
     }
   }
 </script>
