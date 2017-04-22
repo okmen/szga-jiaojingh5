@@ -28,6 +28,7 @@ export default {
   },
   methods: {
     loginClick: function () {
+      let that = this
       let openId = window.localStorage.getItem('openId')
       let reqData = {
         loginName: this.loginName,
@@ -48,7 +49,7 @@ export default {
           window.localStorage.setItem('behindTheFrame4Digits', decodeURIComponent(userData.behindTheFrame4Digits)) // 车架号后4位
           window.localStorage.setItem('plateType', decodeURIComponent(userData.plateType)) // 车牌类型
           window.localStorage.setItem('isLogin', true) // 是否登录
-          window.location.href = '/'
+          that.$router.push('/')
         } else {
           Toast({
             message: data.msg,
