@@ -48,6 +48,7 @@ export default {
       identityCard: window.localStorage.getItem('identityCard'), // 身份证
       mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
       userName: window.localStorage.getItem('userName'),         // 名字
+      openId: window.localStorage.getItem('openId'),
       userSource: 'C'    // 用户来源
     }
     resultPost(xstudy, resData).then(json => {

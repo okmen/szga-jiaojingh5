@@ -72,6 +72,8 @@ export default {
       codes: '',        // 判断答题对错
       scoreStartDate: '',  // 答题周期
       scoreEndDate: '',     // 答题周期
+      hashRoomId: '', // 列表号
+      Timepiece: '',   // 停止计时器
       testData: [{
         img: require('../../../images/A.png')
       },
@@ -89,12 +91,12 @@ export default {
   methods: {
     clickAnswer: function (index) {     // 选项答题
       this.isBtnShow = true
-      let hashRoomId = window.location.hash.split('#')[2]
       var answesData = {
-        classroomId: hashRoomId, // 列表请求参数
+        classroomId: this.hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
         mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
         userName: window.localStorage.getItem('userName'),         // 名字
+        openId: window.localStorage.getItem('openId'),
         userSource: 'C',     // 用户来源
         SubjectAnswer: this.answertData.answeroptions[index].answerId,
         subjectId: this.subjectId,  // 答题编码
@@ -102,7 +104,6 @@ export default {
         scoreEndDate: this.scoreEndDate
       }
       resultPost(answers, answesData).then(json => {     // 答案数据接口
-        console.log(json)
         this.batchResult = json.data[0].batchResult    // 答题合格判断
         this.codes = json.code
         if (this.codes === '0000') {
@@ -122,6 +123,7 @@ export default {
     popClick: function () {       // 倒计时弹框
       let anData = this.chronoScope
       if (anData === '30:00') {
+        clearInterval(this.Timepiece)
         this.isReveal = true
       }
     },
@@ -158,11 +160,12 @@ export default {
       this.isBtnShow = false  // 初始化下一题选项样式
       this.tlag = 5        // 初始化正确答案样式
       this.flag = 5        //  初始化错误答案样式
-      let hashRoomId = window.location.hash.split('#')[2]
+      this.hashRoomId = window.location.hash.split('#')[2]
       var answeData = {
-        classroomId: hashRoomId, // 列表请求参数
+        classroomId: this.hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
         mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
+        openId: window.localStorage.getItem('openId'),
         userSource: 'C'   // 用户来源
       }
       resultPost(answer, answeData).then(json => {     // 取题接口
@@ -175,6 +178,7 @@ export default {
       })
     },
     timePiece: function () {    // 计时器
+      clearInterval(this.Timepiece)
       var mm = 0
       var ss = 0
       var str = ''

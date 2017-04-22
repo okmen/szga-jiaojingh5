@@ -2,6 +2,7 @@
   <div class="navv">
     <div class="nav-xstudy">
       <div class="nav-top">
+        <img class="xstudy-img" :src="userImg">
       </div>
       <span class="nav-top-bottom">{{listData.userName}}</span>
     </div>
@@ -54,6 +55,7 @@ export default {
       codes: '', // 消分学习判断
       hashRoomId: '', // 列表号
       msg: '',
+      userImg: '',  // 头像
       listData: {},
       itemData: [{ // 学习记录数据
       }]
@@ -74,9 +76,13 @@ export default {
           this.$router.push('answers#1') // 进入消分答题页面
         }
       } else if (this.hashRoomId === '2' || this.hashRoomId === '3') {
-        MessageBox('提示', this.msg).then(() => {
-          window.location.href = '/#/wschool'
-        })
+        if (this.codes === '0001') {
+          MessageBox('提示', this.msg).then(() => {
+            window.location.href = '/#/wschool'
+          })
+        } else {
+          this.$router.push(`answer#${this.hashRoomId}`) // 进入答题页面
+        }
       } else {
         this.$router.push(`answer#${this.hashRoomId}`) // 其他学习页面
       }
@@ -96,11 +102,13 @@ export default {
   },
   created () {
     this.hashRoomId = window.location.hash.split('#')[2]
+    this.userImg = window.localStorage.getItem('headImgUrl')
     let motorstudyData = { // 获取页面数据
       classroomId: this.hashRoomId, // 列表请求参数
       identityCard: window.localStorage.getItem('identityCard'), // 身份证
       mobilephone: window.localStorage.getItem('mobilePhone'), // 手机号码
       userName: window.localStorage.getItem('userName'), // 名字
+      openId: window.localStorage.getItem('openId'),
       userSource: 'C' // 用户来源
     }
     resultPost(xstudy, motorstudyData).then(json => {
@@ -133,6 +141,12 @@ export default {
   top: 50%;
   margin-left: -87px;
   margin-top: -140px;
+  overflow: hidden;
+}
+.xstudy-img {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
 }
 
 .nav-xstudy .nav-top-bottom {
