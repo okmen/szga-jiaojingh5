@@ -79,8 +79,10 @@ export default{
         if (json.code === '0000') {
           console.log(json)
           console.log('退出登录状态，返回星级用户页面')
+          window.localStorage.setItem('isLogin', false)
+          window.localStorage.setItem('openId', '')
           // 退出登录
-          // window.location.hash = '/starUser'
+          window.location.hash = '/starUser'
         } else {
           MessageBox({
             title: '',
