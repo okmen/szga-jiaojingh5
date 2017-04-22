@@ -63,6 +63,7 @@
   import { resultPost } from '../../../service/getData'
   import { drivingLicense, sendSMS } from '../../../config/baseUrl'
   import { Toast } from 'mint-ui'
+  import { mapActions } from 'vuex'
   export default{
     name: 'drivingLicense',
     components: {
@@ -80,7 +81,7 @@
       }
     },
     methods: {
-      getVerification: function () {
+      getVerification: function () {  // 获取验证码
         let sendPhoneNumber = {
           mobilephone: this.telphoneNumber
         }
@@ -120,7 +121,7 @@
           }, 1000)
         }
       },
-      btnSureStar: function () {
+      btnSureStar: function () {   // 确认提交按钮
         let idImgOne = this.$refs.getImgUrl.idCardImgPositive
         let idImgTwo = this.$refs.getImgUrl.idCardImgNegative
         let idImgThree = this.$refs.getImgUrl.idCardImgHandHeld
@@ -134,7 +135,16 @@
           idCardImgNegative: idImgTwo,
           idCardImgHandHeld: idImgThree
         }
-        console.log(driverLicenseData)
+        for (let key in driverLicenseData) {
+          if (!driverLicenseData[key]) {
+            Toast({
+              message: '信息填写不完整',
+              position: 'bottom',
+              className: 'white'
+            })
+            return false
+          }
+        }
         resultPost(drivingLicense, driverLicenseData).then(json => {
           console.log(json)
           let jsonMsg = json.msg
@@ -145,11 +155,11 @@
             getJsonMsg = jsonMsg.split('：')[1]
           }
           if (json.code === '0000') {
-            Toast({
-              message: json.msg,
-              position: 'bottom',
-              className: 'white'
+            this.postAppoin({
+              appoinNum: json.msg,
+              appoinType: '星级用户认证'
             })
+            this.$router.push('/appointSuccess')
           } else {
             Toast({
               message: getJsonMsg,
@@ -158,7 +168,10 @@
             })
           }
         })
-      }
+      },
+      ...mapActions({
+        postAppoin: 'postAppoin'
+      })
     }
   }
 </script>

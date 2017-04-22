@@ -1,5 +1,5 @@
 // 添加URL需注释 哪个模块哪个接口
-const commonUrl = 'http://192.168.1.120:8100/'
+const commonUrl = 'http://testjava.chudaokeji.com/'
 // const uploadUrl = 'http://192.168.1.159:8080/web/'
 
 export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
@@ -62,7 +62,7 @@ export const licenseCard = `${commonUrl}user/search/getElectronicDriverLicense.h
 
 export const getLocation = 'http://navi1.careland.com.cn/cgi/pub_getpositioninfo_j.ums' // 通过经纬度获取附近的路接口
 
-export const takePictures = `http://192.168.1.222:8080/web/user/readilyShoot.html` // 随手拍举报接口
+export const takePictures = `http://192.168.1.120:8100/user/readilyShoot.html` // 随手拍举报接口
 
 export const carOwner = `${commonUrl}register/iAmTheOwner.html` // 星级用户认证 我是车主接口
 

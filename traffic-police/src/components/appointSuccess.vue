@@ -11,17 +11,34 @@
       <p>
         您的信息已成功提交，我们将会在3个工作日内通过短信告知您的审核结果，您还可以凭身份证信息在深圳交警微信号中查询审核。
       </p>
-      <p class="appoint-margin">业务类型：<span>机动车打刻原车发动机号码变更备案</span></p>
-      <p>流水号码：<span class="running-number">J5647988412564</span></p>
+      <p class="appoint-margin" v-if="showAppoin.appoinType">业务类型：<span>{{showAppoin.appoinType}}</span></p>
+      <p v-if="showAppoin.appoinNum">流水号码：<span class="running-number">{{showAppoin.appoinNum}}</span></p>
     </section>
-    <div class="btn-appoint-backword">返回</div>
+    <div class="btn-appoint-backword" @click="btnBackword">返回</div>
   </div>
 </template>
+<script>
+import { mapGetters } from 'vuex'
+export default {
+  computed: {
+    ...mapGetters([
+      'showAppoin'
+    ])
+  },
+  methods: {
+    btnBackword: function () {
+      // console.log('1111')
+      this.$router.go(-1)
+    }
+  }
+}
+</script>
 <style lang="less">
 #appointSuccess{
-  background:#FFF;
   height:100%;
   width:100%;
+  background:#FFF url('../images/appointBack.png') bottom no-repeat;
+  background-size:100% 32%;
   .appoint-img{
     width:100%;
     height:250px;

@@ -4,7 +4,7 @@
     <li class="updateMobile-item">
       <div class="updateMobile-name">旧手机号</div>
       <div class="updateMobile-text">
-        <input class="text-input" type="text" placeholder="请输入您的旧手机号" v-model:value="oldMobile">
+        <input class="text-input" type="text" placeholder="请输入您的旧手机号" v-model:value="oldMobile" readonly>
       </div>
     </li>
     <li class="updateMobile-item clear">
@@ -97,6 +97,7 @@ export default{
               position: 'bottom',
               className: 'white'
             })
+            window.location.hash = '/userInfo'
             console.log('提交数据并返回我的资料页面')
           } else {
             MessageBox({

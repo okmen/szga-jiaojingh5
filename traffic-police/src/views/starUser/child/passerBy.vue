@@ -38,6 +38,7 @@
   import { resultPost } from '../../../service/getData'
   import { passerBy, sendSMS } from '../../../config/baseUrl'
   import { Toast } from 'mint-ui'
+  import { mapActions } from 'vuex'
   export default{
     name: 'passerBy',
     components: {
@@ -114,11 +115,16 @@
             getJsonMsg = jsonMsg.split('：')[1]
           }
           if (json.code === '0000') {
-            Toast({
-              message: json.msg,
-              position: 'bottom',
-              className: 'white'
+            // Toast({
+            //   message: json.msg,
+            //   position: 'bottom',
+            //   className: 'white'
+            // })
+            this.postAppoin({
+              appoinNum: json.msg,
+              appoinType: '星级用户认证'
             })
+            this.$router.push('/appointSuccess')
           } else {
             Toast({
               message: getJsonMsg,
@@ -127,7 +133,10 @@
             })
           }
         })
-      }
+      },
+      ...mapActions({
+        postAppoin: 'postAppoin'
+      })
     },
     created () {
       document.addEventListener('click', (e) => {

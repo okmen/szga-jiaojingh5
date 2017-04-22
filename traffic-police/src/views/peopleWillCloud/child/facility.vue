@@ -171,6 +171,9 @@ export default {
           MessageBox({
             title: '温馨提示',
             message: '感谢您参与举报，我们会依次不断改进'
+          }).then(action => {
+            console.log(this)
+            this.$emit('submitSuccess')
           })
         }
       })

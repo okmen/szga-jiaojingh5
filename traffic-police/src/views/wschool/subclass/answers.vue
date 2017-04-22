@@ -6,7 +6,7 @@
           <dt><img src="../../../images/mistake.png"></dt>
           <dd>已错{{answererror}}题</dd>
         </dl>
-        <dl class="answer-head-rgt">
+        <dl class="answer-head-rgt" :click="popClick()">
           <dt><img src="../../../images/time.png"></dt>
           <dd>{{chronoScope}}</dd>
         </dl>
@@ -14,7 +14,7 @@
           <dt><img src="../../../images/sand.png"></dt>
           <dd>已答{{surplusAnswe}}题</dd>
         </dl>
-        <dl class="answer-head-rgt" :click="popClick()">
+        <dl class="answer-head-rgt">
           <dt><img src="../../../images/exit.png"></dt>
           <dd @click="secede()">退出</dd>
         </dl>
@@ -61,7 +61,7 @@ export default {
       isReveal: false,    // 弹框控制
       tlag: 5,   // 正确选项颜色
       flag: 5,  // 错误选项颜色
-      chronoScope: 0,    // 答题时间
+      chronoScope: '00:00',    // 答题时间
       answerCorrect: 0,  // 答对题数
       batchResult: '',  // 答题合格判断
       answertData: {
@@ -72,6 +72,8 @@ export default {
       codes: '',        // 判断答题对错
       scoreStartDate: '',  // 答题周期
       scoreEndDate: '',     // 答题周期
+      hashRoomId: '', // 列表号
+      Timepiece: '',   // 停止计时器
       testData: [{
         img: require('../../../images/A.png')
       },
@@ -89,12 +91,12 @@ export default {
   methods: {
     clickAnswer: function (index) {     // 选项答题
       this.isBtnShow = true
-      let hashRoomId = window.location.hash.split('#')[2]
       var answesData = {
-        classroomId: hashRoomId, // 列表请求参数
+        classroomId: this.hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
         mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
         userName: window.localStorage.getItem('userName'),         // 名字
+        openId: window.localStorage.getItem('openId'),
         userSource: 'C',     // 用户来源
         SubjectAnswer: this.answertData.answeroptions[index].answerId,
         subjectId: this.subjectId,  // 答题编码
@@ -102,7 +104,6 @@ export default {
         scoreEndDate: this.scoreEndDate
       }
       resultPost(answers, answesData).then(json => {     // 答案数据接口
-        console.log(json)
         this.batchResult = json.data[0].batchResult    // 答题合格判断
         this.codes = json.code
         if (this.codes === '0000') {
@@ -112,13 +113,17 @@ export default {
           this.testData[index].img = require('../../../images/fault.png')
           this.tlag = index
         } else {
-          Toast(json.msg)
+          Toast({
+            message: json.msg,
+            duration: 1000
+          })
         }
       })
     },
     popClick: function () {       // 倒计时弹框
       let anData = this.chronoScope
       if (anData === '30:00') {
+        clearInterval(this.Timepiece)
         this.isReveal = true
       }
     },
@@ -155,11 +160,12 @@ export default {
       this.isBtnShow = false  // 初始化下一题选项样式
       this.tlag = 5        // 初始化正确答案样式
       this.flag = 5        //  初始化错误答案样式
-      let hashRoomId = window.location.hash.split('#')[2]
+      this.hashRoomId = window.location.hash.split('#')[2]
       var answeData = {
-        classroomId: hashRoomId, // 列表请求参数
+        classroomId: this.hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
         mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
+        openId: window.localStorage.getItem('openId'),
         userSource: 'C'   // 用户来源
       }
       resultPost(answer, answeData).then(json => {     // 取题接口
@@ -172,6 +178,7 @@ export default {
       })
     },
     timePiece: function () {    // 计时器
+      clearInterval(this.Timepiece)
       var mm = 0
       var ss = 0
       var str = ''
