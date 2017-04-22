@@ -9,6 +9,7 @@
 <script>
   import { resultPost } from '../../../service/getData'
   import { licenseCard } from '../../../config/baseUrl'
+  import { Indicator } from 'mint-ui'
   export default {
     name: 'drivingCard',
     data () {
@@ -18,12 +19,14 @@
       }
     },
     mounted () {
+      Indicator.open()
       let reqData = {
         driverLicenseNumber: window.localStorage.getItem('identityCard'),
         userName: window.localStorage.getItem('userName'),
         mobileNumber: window.localStorage.getItem('mobilePhone')
       }
       resultPost(licenseCard, reqData).then(json => {
+        Indicator.close()
         this.imageUrl = 'data:image/png;base64,' + json.data.electronicDriverLicense
 //        this.codeUrl = json.data.electronicDriverLicenseQRCode
         console.log(json)

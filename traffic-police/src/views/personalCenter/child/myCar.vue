@@ -9,7 +9,7 @@
           <span class="others" v-else>他人</span>
         </div>
         <div class="car-deal">
-          {{ car.illegalNumber }}
+          当前本车有{{ car.illegalNumber }}宗违法尚未处理
           <i class="arrow"></i>
         </div>
         <div class="car-status">
@@ -106,10 +106,6 @@
       }
     }
     .addCar-box {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom:60px;
       text-align: center;
       .add-car {
         display: inline-block;

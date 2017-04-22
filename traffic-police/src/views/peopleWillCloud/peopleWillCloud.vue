@@ -8,7 +8,7 @@
         <div class="div-select-ul" v-if='typeSelectShow'>
           <ul>
             <li v-for="(item, index) in typeSelectData" @click.stop="typeSelectClick(index+1)">
-              <router-link class="link" :to="item.path">{{item.str}}</router-link>
+              <span class="link">{{item.str}}</span>
             </li>
           </ul>
         </div>
@@ -19,7 +19,7 @@
       <secure v-else-if="curTab === 'secure'" @submit="submit()"></secure>
       <jam v-else-if="curTab === 'jam'" @submit="submit()"></jam>
       <order v-else @submit="submit()"></order> -->
-      <router-view @showMap="showMap" :mapObj="mapObj"></router-view>
+      <router-view @showMap="showMap" :mapObj="mapObj" @submitSuccess="submitSuccess()"></router-view>
     </div>
   </div>
 </template>
@@ -32,7 +32,6 @@ export default {
     return {
       mapShow: false,
       mapObj: '',
-      curTab: 'facility',
       typeSelectShow: false,
       typeSelectData: [
         {
@@ -74,12 +73,17 @@ export default {
       if (index) {
         index--
         this.typeSelectMassage = this.typeSelectData[index]
-        this.curTab = this.typeSelectMassage.name
+        // 二级路由a标签跳转问题
+        window.location.replace(`#${this.typeSelectMassage.path}`)
       }
       this.typeSelectShow = !this.typeSelectShow
     },
     select: function () {
       this.typeSelectShow = false
+    },
+    submitSuccess: function () {
+      console.log('举报成功')
+      window.location.hash = '/appointSuccess'
     }
   },
   created () {

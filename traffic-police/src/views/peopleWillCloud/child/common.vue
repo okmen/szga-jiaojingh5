@@ -118,7 +118,6 @@ export default{
       resultGet(uploadImg).then(res => {
         res.code === '0000' && this.uploadImgFn(res.upToken)
       })
-      this.uploadImgFn()
     },
     uploadImgFn: function (uptoken) {
       var that = this
@@ -212,10 +211,12 @@ export default{
 <style lang='less'>
 .common-outer{
   font-size: 26px;
+  padding-bottom: 40px;
   .width-90{
     width: 90%;
   }
   .top-56{
+    left: 0;
     top: 56px !important;
   }
   .padding-right-43{

@@ -39,21 +39,21 @@
       <div class="tp-inform-left">举报人</div>
       <div class="tp-inform-right">
         <input maxlength="50" type="text" v-model="informName" placeholder="请输入您的名字" 
-         readonly="this.loginJudge ? true : false">
+         v-bind:readonly="this.loginJudge">
       </div>
     </div>
     <div class="tp-inform-box">
       <div class="tp-inform-left">身份证号</div>
       <div class="tp-inform-right">
         <input maxlength="50" type="text" v-model="informIdNumber" placeholder="请输入身份证号码" 
-         readonly="this.loginJudge ? true : false">
+         v-bind:readonly="this.loginJudge">
       </div>
     </div>
     <div class="tp-inform-box">
       <div class="tp-inform-left">联系电话</div>
       <div class="tp-inform-right">
         <input maxlength="50" type="text" v-model="informTel" placeholder="请输入正确的电话号码"
-          readonly="this.loginJudge ? true : false">
+          v-bind:readonly="this.loginJudge">
       </div>
     </div>
     <div class="tp-btn-submit" @click="btnSurePutInform">确认提交</div>
@@ -85,12 +85,11 @@
         informName: '',          // 举报人
         informIdNumber: '',      // 身份证号
         informTel: '',           // 电话号码
-        loginJudge: false        // 判读是否登录
+        loginJudge: window.localStorage.isLogin        // 判读是否登录
       }
     },
     mounted: function () {  // 组件加载完成之后立即获取
       this.getToken()
-      this.loginJudge = window.localStorage.isLogin
       if (this.loginJudge) {
         this.informName = window.localStorage.userName
         this.informIdNumber = window.localStorage.identityCard
@@ -191,7 +190,11 @@
           console.log(json)
           if (json.code === '0000') {
             console.log('举报成功')
-            // this.$router.push('/takePicturesSuccess')
+            this.postInform({
+              takePicturesRecord: json.data.recordNumber,
+              takePicturesPassword: json.data.queryPassword
+            })
+            this.$router.push('/takePicturesSuccess')
           } else {
             Toast({
               message: json.msg,
@@ -265,7 +268,7 @@
         this.showSelectRoad = false
       },
       ...mapActions({
-        postAppoin: 'postAppoin'
+        postInform: 'postInform'
       })
     }
   }

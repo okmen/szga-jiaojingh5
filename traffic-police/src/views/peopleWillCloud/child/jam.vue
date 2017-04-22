@@ -22,7 +22,7 @@
               :picker-options="{
                 start: '00:00',
                 step: '00:30',
-                end: '23:30'
+                end: endTime || '23:30'
               }"
               placeholder="00:00"
               :editable=false>
@@ -39,7 +39,7 @@
               class="time-select"
               v-model="endTime"
               :picker-options="{
-                start: '00:00',
+                start: startTime || '00:00',
                 step: '00:30',
                 end: '23:30'
               }"
@@ -358,6 +358,8 @@ export default {
           MessageBox({
             title: '温馨提示',
             message: '感谢您参与举报，我们会依次不断改进'
+          }).then(action => {
+            this.$emit('submitSuccess')
           })
         }
       })

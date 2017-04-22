@@ -78,6 +78,30 @@ const routes = [
     component: require('../views/queryLawless/queryLawless.vue')
   },
   {
+    name: 'appeal',
+    path: '/appeal',
+    meta: {
+      title: '违法申诉'
+    },
+    component: require('../views/queryLawless/child/appealQuery.vue')
+  },
+  {
+    name: 'confirm',
+    path: '/confirm',
+    meta: {
+      title: '违法确认'
+    },
+    component: require('../views/queryLawless/child/confirmLawless.vue')
+  },
+  {
+    name: 'confirmLawlessPrint',
+    path: '/confirmLawlessPrint',
+    meta: {
+      title: '交通违法打单'
+    },
+    component: require('../views/queryLawless/child/confirmLawlessPrint.vue')
+  },
+  {
     name: 'earlyLawless',
     path: '/earlyLawless',
     meta: {
