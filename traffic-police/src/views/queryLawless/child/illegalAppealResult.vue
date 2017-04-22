@@ -53,6 +53,8 @@
 </template>
 <script>
   import { mapGetters } from 'vuex'
+  // import { resultPost } from '../../../service/getData'
+  // import { illegalAppeal } from '../../../config/baseUrl'
   export default {
     data () {
       return {
@@ -95,8 +97,15 @@
         }
       },
       btnSubmitIllegal: function () {
-        console.log(this.AppealQueryData)
-        console.log(this.showAppealQuery)
+        // let checkedItem = ''
+        // this.AppealQueryData.forEach((item) => {
+        //   if (item.checkAddBorder) {
+        //     checkedItem = item
+        //   }
+        // })
+        // let illegalAppealData = {
+        // }
+        // resultPost(illegalAppeal,)
       }
     },
     computed: {
