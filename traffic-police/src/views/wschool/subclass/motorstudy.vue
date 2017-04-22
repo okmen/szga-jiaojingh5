@@ -90,6 +90,7 @@ export default {
         classroomId: this.hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
         mobilephone: window.localStorage.getItem('mobilePhone'), // 手机号码
+        userName: window.localStorage.getItem('userName'), // 名字
         openId: window.localStorage.getItem('openId'),
         userSource: 'C' // 用户来源
       }
@@ -111,6 +112,7 @@ export default {
       userSource: 'C' // 用户来源
     }
     resultPost(xstudy, motorstudyData).then(json => {
+      console.log(json)
       this.listData = json.data[0]
       this.itemData = json.data[0].studyRecord
       this.isComplete = json.data[0].isComplete // 学习记录
