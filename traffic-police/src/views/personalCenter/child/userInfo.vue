@@ -79,8 +79,7 @@ export default{
         if (json.code === '0000') {
           console.log(json)
           console.log('退出登录状态，返回星级用户页面')
-          window.localStorage.setItem('isLogin', false)
-          window.localStorage.setItem('openId', '')
+          window.localStorage.clear()
           // 退出登录
           window.location.hash = '/starUser'
         } else {
@@ -97,7 +96,7 @@ export default{
     this.openId = window.localStorage.getItem('openId') // 微信openId
     this.userName = window.localStorage.getItem('userName') // 用户名
     this.mobile = window.localStorage.getItem('mobilePhone') // 用户手机号码
-    this.avatar = window.localStorage.getItem('headImgUrl') === 'null' ? 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSdWgUYimT51r4FGMGtDoQGZ6S32U9TraS8BWgJ-JgHSDi2GhsUtQ' : window.localStorage.getItem('headImgUrl') // 用户头像
+    this.avatar = window.localStorage.getItem('headImgUrl') // 用户头像
   }
 }
 </script>
