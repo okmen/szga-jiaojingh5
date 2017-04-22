@@ -38,7 +38,8 @@
       </ul>
     </div>
     <ul class="civilization-pagination">
-      <li v-for="i in newsLength" :class="{active: i==index}" @click.stop="changeIndex(i)">{{i}}</li>
+      <li v-for="i in newsLength" :class="{active: i==index}" @click.stop="changeIndex(i)" v-if="i == index || i == index+1 || i == index-1">{{i}}</li>
+      <li v-if="(length > 3)" class="more">···</li>
     </ul>
 
   </div>
@@ -87,7 +88,8 @@ export default {
           'href': 'http://szjj.u-road.com/szjjpro/assets/doc/20161213-20161208.doc'
         }
       ],
-      index: 2
+      index: 1,
+      length: 0
     }
   },
   methods: {
@@ -100,8 +102,9 @@ export default {
       return this.news.slice((this.index - 1) * 5, this.index * 5)
     },
     newsLength: function () {
-      let length = this.news.length
-      return Math.ceil(length / 5)
+      this.length = Math.ceil(this.news.length / 5)
+      this.length = 5
+      return this.length
     }
   }
 }
@@ -217,7 +220,7 @@ export default {
       font-size: 28px;
       color: #999;
       background: #fff;
-      margin-right: 1px;
+      margin-left: 1px;
       &.active{
         color: #658fb2;
       }
