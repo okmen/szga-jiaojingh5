@@ -30,7 +30,9 @@ export const queryPay = `http://192.168.1.243:8080/web/illegalHanding/toQueryPun
 
 export const queryEarlyLawless = `${commonUrl}illegalHanding/toQuerySubscribe.html` // 违法预约查询
 
-export const LawlessBusiness = `${commonUrl}illegalHanding/illegalBusinessListQuery.html` // 违法业务列表
+export const claimConfirm = `${commonUrl}illegalHanding/trafficIllegalClaim.html` // 打单确认
+
+// export const LawlessBusiness = `${commonUrl}illegalHanding/illegalBusinessListQuery.html` // 违法业务列表
 
 export const updatePwd = `${commonUrl}user/updatePwd.html` // 修改密码接口
 
