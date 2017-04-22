@@ -63,7 +63,7 @@ export default {
       flag: 5,  // 错误选项颜色
       chronoScope: '00:00',    // 答题时间
       answerCorrect: 0,  // 答对题数
-      batchResult: '',  // 答题合格判断
+      batchResult: '',  // 答题对错判断
       answertData: {
       },
       subjectAnswer: '',
@@ -104,7 +104,7 @@ export default {
         scoreEndDate: this.scoreEndDate
       }
       resultPost(answers, answesData).then(json => {     // 答案数据接口
-        this.batchResult = json.data[0].batchResult    // 答题合格判断
+        this.batchResult = json.data[0].batchResult    // 答题对错判断
         this.codes = json.code
         if (this.codes === '0000') {
           this.testData[index].img = require('../../../images/correct.png')
