@@ -33,7 +33,7 @@
       </li>
     </ul>
     <div class="nav-xstudy-button" @click="pageDown()">开始学习</div>
-    <a class="nav-xstudy-xst" href="#">学习须知</a>
+    <a class="nav-xstudy-xst" href="javascripit:void(0)">学习须知</a>
   </div>
 </template>
 <script>
@@ -67,7 +67,7 @@ export default {
     },
     pageDown: function () {
       window.sessionStorage.setItem('integral', this.listData.integral) // 学习积分
-      if (this.hashRoomId === '1') {
+      if (this.hashRoomId === '1') {      // 进入消分答题判断
         if (this.codes === '0001') {
           MessageBox('提示', this.msg).then(() => {
             window.location.href = '/#/wschool'
@@ -75,7 +75,7 @@ export default {
         } else {
           this.$router.push('answers#1') // 进入消分答题页面
         }
-      } else if (this.hashRoomId === '2' || this.hashRoomId === '3') {
+      } else {
         if (this.codes === '0001') {
           MessageBox('提示', this.msg).then(() => {
             window.location.href = '/#/wschool'
@@ -83,8 +83,6 @@ export default {
         } else {
           this.$router.push(`answer#${this.hashRoomId}`) // 进入答题页面
         }
-      } else {
-        this.$router.push(`answer#${this.hashRoomId}`) // 其他学习页面
       }
     },
     reminder: function () {
