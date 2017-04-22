@@ -3,13 +3,13 @@
     <div class="tp-inform-box">
       <div class="tp-inform-left">违法时间</div>
       <div class="tp-inform-right" @click="getTime">
-        <input maxlength="50" type="text" v-model="informTime" placeholder="点击获取当前时间">
+        <input maxlength="50" type="text" v-model="informTime" placeholder="点击获取当前时间" readonly>
       </div>
     </div>
     <div class="tp-inform-box">
       <div class="tp-inform-left">违法路段</div>
       <div class="tp-inform-right">
-        <input maxlength="50" type="text" v-model="informRoad" placeholder="请输入违法路段(例如深南大道)" v-on:blur="btnGetRoad">
+        <input maxlength="50" type="text" v-model="informRoad" placeholder="请输入违法路段(例如深南大道)" v-on:input="btnGetRoad">
         <ul v-if="showSelectRoad">
           <li v-for="(roadSelect, index) in roadSelectLists" @click="roadLiClick(index)">{{roadSelect.wfdd}}</li>
         </ul>
