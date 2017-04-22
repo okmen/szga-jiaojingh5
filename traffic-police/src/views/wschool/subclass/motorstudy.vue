@@ -11,10 +11,10 @@
       <li class="nav-xstudy-left" v-show="listData.scoreStartDate"><span>记分周期(始)</span><em class="nav-xstudy-right">{{listData.scoreStartDate}}</em></li>
       <li class="nav-xstudy-left" v-show="listData.scoreEndDate"><span>记分周期(末)</span><em class="nav-xstudy-right">{{listData.scoreEndDate}}</em></li>
       <li class="nav-xstudy-left" v-show="listData.integral"><span>学习积分数</span><em class="nav-xstudy-right nav-col">{{listData.integral}}</em></li>
-      <li class="nav-xstudy-left trrrr">
+      <li class="nav-xstudy-left">
         <p @click.stop="clickShow()" v-show="itemData"><span>学习记录</span></p>
         <div class="nav-xstudy-footer-lout" v-bind:class="{ 'show' : isShow}">
-          <ul class="box">
+          <ul class="nav-box">
             <li v-for="record in itemData">
               <div class="nav-xstudy-footer">
                 <div class="nav-footer-top"></div>
@@ -249,7 +249,7 @@ export default {
   color: #ff0000;
 }
 
-.box {
+.nav-box {
   width: 100%;
   height: 534px;
   z-index: 666;
