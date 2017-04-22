@@ -1,7 +1,7 @@
 <template>
   <div class="confirmLawless-outer">
     <div class="confirm-item" v-for="car in carMsg">
-      <router-link to="claimConfirm/:car.licensePlateNo/:car.plateType">
+      <router-link :to="{ name: 'confirmClaim', params: { licensePlateNo: car.numberPlateNumber, plateType: car.plateType }}" >
         <div class="car-number">
           <i class="car-icon"></i>
           {{ car.numberPlateNumber }}
@@ -50,6 +50,7 @@
       width: 100%;
       border: 2px solid #2696dd;
       border-radius: 16px;
+      margin-bottom: 40px;
       .car-number {
         height: 100px;
         line-height: 100px;
