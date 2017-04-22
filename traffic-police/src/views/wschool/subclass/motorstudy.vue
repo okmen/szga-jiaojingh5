@@ -218,7 +218,7 @@ export default {
 
 .nav-box {
   width: 100%;
-  height: 534px;
+  height: 266px;
   z-index: 666;
   overflow: scroll;
 }
