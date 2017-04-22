@@ -11,7 +11,8 @@ const state = {
   informSuccess: {
     takePicturesRecord: '',
     takePicturesPassword: ''
-  }
+  },
+  appealQuery: []
 }
 
 const actions = {
@@ -20,6 +21,9 @@ const actions = {
   },
   postInform ({ commit }, informSuccess) {
     commit('saveInform', informSuccess)
+  },
+  postAppealQuery ({ commit }, appealQuery) {
+    commit('saveAppealQuery', appealQuery)
   }
 }
 
@@ -29,6 +33,9 @@ const mutations = {
   },
   saveInform (state, informSuccess) {
     state.informSuccess = informSuccess
+  },
+  saveAppealQuery (state, appealQuery) {
+    state.appealQuery = appealQuery
   }
 }
 
@@ -38,6 +45,9 @@ const getters = {
   },
   showInform (state) {
     return state.informSuccess
+  },
+  showAppealQuery (state) {
+    return state.appealQuery
   }
 }
 

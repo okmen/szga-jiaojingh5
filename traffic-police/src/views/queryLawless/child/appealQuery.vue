@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <button class="btn btn-blue" type="button" name="button">查询</button>
+    <button class="btn btn-blue" type="button" name="button" @click="btnClick">查询</button>
     <div class="hint">
       <h4>温馨提示：</h4>
       <p>对交通安全违法行为记录有异议的（如已作出处罚决定，应该申请行政复议和提起行政诉讼），请详细填写申诉内容，我们会安排专人与您联系办理</p>
@@ -83,6 +83,8 @@
 <script>
   import { resultPost } from '../../../service/getData'
   import { queryLawlessByCar } from '../../../config/baseUrl'
+  import { MessageBox } from 'mint-ui'
+  import { mapActions } from 'vuex'
   export default {
     name: 'appealQuery',
     data () {
@@ -126,7 +128,25 @@
           this.typeSelectShow = false
           this.abbreviationSelectShow = false
         }
-      }
+      },
+      btnClick: function () {
+        let reqData = {
+          licensePlateNo: window.localStorage.getItem('myNumberPlate'),
+          licensePlateType: window.localStorage.getItem('plateType'),
+          vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits')
+        }
+        console.log(reqData)
+        resultPost(queryLawlessByCar, reqData).then(json => {
+          if (json.code === '0000') {
+            MessageBox('提示', json.msg)
+          } else {
+            this.postAppealQuery(json.data)
+          }
+        })
+      },
+      ...mapActions({
+        postAppealQuery: 'postAppealQuery'
+      })
     }
   }
 </script>
