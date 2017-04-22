@@ -20,8 +20,8 @@
 </template>
 <script>
 import { getLocation } from '../../config/baseUrl'
-import wx from 'weixin-js-sdk'
-import {MessageBox} from 'mint-ui'
+// import wx from 'weixin-js-sdk'
+import { Toast } from 'mint-ui'
 
 export default{
   name: 'getLocation',
@@ -226,23 +226,23 @@ export default{
     // 浏览器定位
     var geolocation = new window.Careland.Geolocation({enableHighAccuracy: true, map: this.map})
     geolocation.getCurrentPosition(function (f) {
-      console.log(f)
       if (f.getStatus()) {
       } else {
-        wx.getLocation({
-          type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-          success: function (res) {
-            console.log(res)
-            var latitude = res.latitude // 纬度，浮点数，范围为90 ~ -90
-            var longitude = res.longitude // 经度，浮点数，范围为180 ~ -180。
-            MessageBox({
-              title: 'wgs84坐标',
-              message: `longitude:${longitude}, latitude:${latitude}`
-            })
-            // var speed = res.speed // 速度，以米/每秒计
-            // var accuracy = res.accuracy // 位置精度
-          }
+        Toast({
+          message: '定位失败',
+          position: 'bottom',
+          className: 'white'
         })
+        // wx.getLocation({
+        //   type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+        //   success: function (res) {
+        //     console.log(res)
+        //     var latitude = res.latitude // 纬度，浮点数，范围为90 ~ -90
+        //     var longitude = res.longitude // 经度，浮点数，范围为180 ~ -180。
+        //     var speed = res.speed // 速度，以米/每秒计
+        //     var accuracy = res.accuracy // 位置精度
+        //   }
+        // })
       }
     })
   }
@@ -340,6 +340,11 @@ export default{
       font-weight: blod;
       text-align: center;
     }
+  }
+}
+.white{
+  span{
+    color: #fff;
   }
 }
 </style>

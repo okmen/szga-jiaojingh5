@@ -30,7 +30,9 @@ export const queryPay = `http://192.168.1.243:8080/web/illegalHanding/toQueryPun
 
 export const queryEarlyLawless = `${commonUrl}illegalHanding/toQuerySubscribe.html` // 违法预约查询
 
-export const LawlessBusiness = `${commonUrl}illegalHanding/illegalBusinessListQuery.html` // 违法业务列表
+export const claimConfirm = `${commonUrl}illegalHanding/trafficIllegalClaim.html` // 打单确认
+
+// export const LawlessBusiness = `${commonUrl}illegalHanding/illegalBusinessListQuery.html` // 违法业务列表
 
 export const updatePwd = `${commonUrl}user/updatePwd.html` // 修改密码接口
 
@@ -60,7 +62,7 @@ export const licenseCard = `${commonUrl}user/search/getElectronicDriverLicense.h
 
 export const getLocation = 'http://navi1.careland.com.cn/cgi/pub_getpositioninfo_j.ums' // 通过经纬度获取附近的路接口
 
-export const takePictures = `${commonUrl}user/readilyShoot.html` // 随手拍举报接口
+export const takePictures = `http://192.168.1.120:8100/user/readilyShoot.html` // 随手拍举报接口
 
 export const carOwner = `${commonUrl}register/iAmTheOwner.html` // 星级用户认证 我是车主接口
 

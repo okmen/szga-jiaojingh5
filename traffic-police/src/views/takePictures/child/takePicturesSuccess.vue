@@ -13,13 +13,20 @@
       <div class="tp-success-line"></div>
     </div>
     <div class="tp-success-record">
-      <p>记录号码：<span>W20170116623129</span></p>
-      <p>查询密码：<span>114152</span></p>
+      <p>记录号码：<span>{{takePicturesRecord}}</span></p>
+      <p>查询密码：<span>{{takePicturesPassword}}</span></p>
     </div>
   </div>
 </template>
 <script>
-  export default{}
+  export default{
+    data () {
+      return {
+        takePicturesRecord: '',
+        takePicturesPassword: ''
+      }
+    }
+  }
 </script>
 <style lang="less">
 #takePhotosSuccess{
