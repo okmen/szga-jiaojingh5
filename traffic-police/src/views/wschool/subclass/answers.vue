@@ -6,7 +6,7 @@
           <dt><img src="../../../images/mistake.png"></dt>
           <dd>已错{{answererror}}题</dd>
         </dl>
-        <dl class="answer-head-rgt">
+        <dl class="answer-head-rgt" :click="popClick()">
           <dt><img src="../../../images/time.png"></dt>
           <dd>{{chronoScope}}</dd>
         </dl>
@@ -14,7 +14,7 @@
           <dt><img src="../../../images/sand.png"></dt>
           <dd>已答{{surplusAnswe}}题</dd>
         </dl>
-        <dl class="answer-head-rgt" :click="popClick()">
+        <dl class="answer-head-rgt">
           <dt><img src="../../../images/exit.png"></dt>
           <dd @click="secede()">退出</dd>
         </dl>
@@ -61,7 +61,7 @@ export default {
       isReveal: false,    // 弹框控制
       tlag: 5,   // 正确选项颜色
       flag: 5,  // 错误选项颜色
-      chronoScope: 0,    // 答题时间
+      chronoScope: '00:00',    // 答题时间
       answerCorrect: 0,  // 答对题数
       batchResult: '',  // 答题合格判断
       answertData: {
@@ -112,7 +112,10 @@ export default {
           this.testData[index].img = require('../../../images/fault.png')
           this.tlag = index
         } else {
-          Toast(json.msg)
+          Toast({
+            message: json.msg,
+            duration: 1000
+          })
         }
       })
     },

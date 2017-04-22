@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="moveCar-item-text right width-67">
-          <input class="text-input" type="text" name="" v-model:value="numberPlate" placeholder="请输入车牌号码">
+          <input class="text-input" type="text" name="" v-model:value="numberPlate" placeholder="请输入车牌号码" style="text-transform:uppercase;">
         </div>
       </li>
       <li class="moveCar-item">
