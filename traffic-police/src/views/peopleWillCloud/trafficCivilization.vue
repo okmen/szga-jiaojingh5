@@ -32,11 +32,16 @@
     </div>
     <div class="civilization-news margin-center">
       <ul>
-        <li v-for='item in news'>
+        <li v-for='item in sliceNews'>
           <a :href="item.href">{{item.str}}</a>
         </li>
       </ul>
     </div>
+    <ul class="civilization-pagination">
+      <li v-for="i in newsLength" :class="{active: i==index}" @click.stop="changeIndex(i)" v-if="i == index || i == index+1 || i == index-1">{{i}}</li>
+      <li v-if="(length > 3)" class="more">···</li>
+    </ul>
+
   </div>
 </template>
 
@@ -82,7 +87,24 @@ export default {
           'str': '深圳交警民意云2016年第一期办理情况通报（2016年12月2日至2016年12月8日）',
           'href': 'http://szjj.u-road.com/szjjpro/assets/doc/20161213-20161208.doc'
         }
-      ]
+      ],
+      index: 1,
+      length: 0
+    }
+  },
+  methods: {
+    changeIndex: function (index) {
+      this.index = index
+    }
+  },
+  computed: {
+    sliceNews: function () {
+      return this.news.slice((this.index - 1) * 5, this.index * 5)
+    },
+    newsLength: function () {
+      this.length = Math.ceil(this.news.length / 5)
+      this.length = 5
+      return this.length
     }
   }
 }
@@ -180,9 +202,33 @@ export default {
             background: url('../../images/list-style.png') no-repeat;
             background-size: cover;
             left: -16px;
-            top: 35px;
+            top: 28px;
           }
         }
+      }
+    }
+  }
+  .civilization-pagination{
+    display: flex;
+    justify-content: flex-end;
+    margin: 30px 0;
+    li{
+      width: 60px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      font-size: 28px;
+      color: #999;
+      background: #fff;
+      margin-left: 1px;
+      &.active{
+        color: #658fb2;
+      }
+      &:first-child{
+        border-radius: 8px 0 0 8px;
+      }
+      &:last-child{
+        border-radius: 0 8px 8px 0;
       }
     }
   }

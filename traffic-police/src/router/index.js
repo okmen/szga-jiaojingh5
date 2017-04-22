@@ -94,8 +94,8 @@ const routes = [
     component: require('../views/queryLawless/child/confirmLawless.vue')
   },
   {
-    name: 'confirmLawlessPrint',
-    path: '/confirmLawlessPrint',
+    name: 'confirmClaim',
+    path: '/confirmClaim/licensePlateNo/:licensePlateNo/plateType/:plateType',
     meta: {
       title: '交通违法打单'
     },

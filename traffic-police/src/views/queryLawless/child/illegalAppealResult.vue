@@ -139,7 +139,7 @@
         width:100%;
         section{
           float:left;
-          margin-left:120px;
+          margin-left:100px;
           margin-top:20px;
           text-align:center;
           .illegal-score-num{
