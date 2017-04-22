@@ -64,6 +64,8 @@ export default {
       chronoScope: '00:00',    // 答题时间
       answerCorrect: 0,  // 答对题数
       batchResult: '',  // 答题合格判断
+      code: '', // 消分学习判断
+      msg: '',
       answertData: {
       },
       subjectAnswer: '',
@@ -165,16 +167,26 @@ export default {
         classroomId: this.hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
         mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
+        userName: window.localStorage.getItem('userName'), // 名字
         openId: window.localStorage.getItem('openId'),
         userSource: 'C'   // 用户来源
       }
       resultPost(answer, answeData).then(json => {     // 取题接口
+        console.log(json)
         this.answertData = json.data[0]
         this.answerName = json.data[0].answeroptions
         this.subjectId = json.data[0].subjectId
         this.testQuestionsType = json.data[0].testQuestionsType
         this.scoreEndDate = json.data[0].scoreEndDate
         this.scoreStartDate = json.data[0].scoreStartDate
+        this.code = json.code // 状态码
+        this.msg = json.msg // 状态返回
+        if (this.code === '0001') {      // 消分答题判断
+          clearInterval(this.Timepiece)
+          MessageBox('提示', this.msg).then(() => {
+            window.location.href = '/#/wschool'
+          })
+        }
       })
     },
     timePiece: function () {    // 计时器

@@ -9,6 +9,7 @@
 <script>
   import { resultPost } from '../../../service/getData'
   import { drivingCard } from '../../../config/baseUrl'
+  import { Indicator } from 'mint-ui'
   export default {
     name: 'drivingCard',
     data () {
@@ -18,6 +19,7 @@
       }
     },
     mounted () {
+      Indicator.open()
       let reqData = {
         numberPlatenumber: window.localStorage.getItem('myNumberPlate'),
         plateType: window.localStorage.getItem('plateType'),
@@ -25,6 +27,7 @@
       }
       console.log(reqData)
       resultPost(drivingCard, reqData).then(json => {
+        Indicator.close()
         this.imageUrl = 'data:image/png;base64,' + json.data.electronicDrivingLicense
 //        this.codeUrl = json.data.electronicDrivingLicenseQRCode
         console.log(json)

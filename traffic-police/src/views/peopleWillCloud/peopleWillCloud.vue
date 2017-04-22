@@ -8,7 +8,7 @@
         <div class="div-select-ul" v-if='typeSelectShow'>
           <ul>
             <li v-for="(item, index) in typeSelectData" @click.stop="typeSelectClick(index+1)">
-              <router-link class="link" :to="item.path">{{item.str}}</router-link>
+              <span class="link">{{item.str}}</span>
             </li>
           </ul>
         </div>
@@ -32,7 +32,6 @@ export default {
     return {
       mapShow: false,
       mapObj: '',
-      curTab: 'facility',
       typeSelectShow: false,
       typeSelectData: [
         {
@@ -74,7 +73,8 @@ export default {
       if (index) {
         index--
         this.typeSelectMassage = this.typeSelectData[index]
-        this.curTab = this.typeSelectMassage.name
+        // 二级路由a标签跳转问题
+        window.location.replace(`#${this.typeSelectMassage.path}`)
       }
       this.typeSelectShow = !this.typeSelectShow
     },
