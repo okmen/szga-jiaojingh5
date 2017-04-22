@@ -13,20 +13,20 @@
       <div class="tp-success-line"></div>
     </div>
     <div class="tp-success-record">
-      <p>记录号码：<span>{{takePicturesRecord}}</span></p>
-      <p>查询密码：<span>{{takePicturesPassword}}</span></p>
+      <p>记录号码：<span>{{showInform.takePicturesRecord}}</span></p>
+      <p>查询密码：<span>{{showInform.takePicturesPassword}}</span></p>
     </div>
   </div>
 </template>
 <script>
-  export default{
-    data () {
-      return {
-        takePicturesRecord: '',
-        takePicturesPassword: ''
-      }
-    }
+import { mapGetters } from 'vuex'
+export default{
+  computed: {
+    ...mapGetters([
+      'showInform'
+    ])
   }
+}
 </script>
 <style lang="less">
 #takePhotosSuccess{
