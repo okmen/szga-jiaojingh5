@@ -118,7 +118,6 @@ export default{
       resultGet(uploadImg).then(res => {
         res.code === '0000' && this.uploadImgFn(res.upToken)
       })
-      this.uploadImgFn()
     },
     uploadImgFn: function (uptoken) {
       var that = this
