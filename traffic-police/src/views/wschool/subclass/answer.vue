@@ -163,6 +163,7 @@ export default {
       this.tlag = 5        // 初始化正确答案样式
       this.flag = 5        //  初始化错误答案样式
       this.hashRoomId = window.location.hash.split('#')[2]
+      console.log(this.hashRoomId)
       var answeData = {
         classroomId: this.hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
