@@ -33,7 +33,7 @@
       </li>
     </ul>
     <div class="nav-xstudy-button" @click="pageDown()">开始学习</div>
-    <a class="nav-xstudy-xst" href="#">学习须知</a>
+    <a class="nav-xstudy-xst" href="javascripit:void(0)">学习须知</a>
   </div>
 </template>
 <script>
@@ -67,7 +67,7 @@ export default {
     },
     pageDown: function () {
       window.sessionStorage.setItem('integral', this.listData.integral) // 学习积分
-      if (this.hashRoomId === '1') {
+      if (this.hashRoomId === '1') {      // 进入消分答题判断
         if (this.codes === '0001') {
           MessageBox('提示', this.msg).then(() => {
             window.location.href = '/#/wschool'
@@ -75,7 +75,7 @@ export default {
         } else {
           this.$router.push('answers#1') // 进入消分答题页面
         }
-      } else if (this.hashRoomId === '2' || this.hashRoomId === '3') {
+      } else {
         if (this.codes === '0001') {
           MessageBox('提示', this.msg).then(() => {
             window.location.href = '/#/wschool'
@@ -83,8 +83,6 @@ export default {
         } else {
           this.$router.push(`answer#${this.hashRoomId}`) // 进入答题页面
         }
-      } else {
-        this.$router.push(`answer#${this.hashRoomId}`) // 其他学习页面
       }
     },
     reminder: function () {
@@ -92,6 +90,7 @@ export default {
         classroomId: this.hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
         mobilephone: window.localStorage.getItem('mobilePhone'), // 手机号码
+        userName: window.localStorage.getItem('userName'), // 名字
         openId: window.localStorage.getItem('openId'),
         userSource: 'C' // 用户来源
       }
@@ -113,6 +112,7 @@ export default {
       userSource: 'C' // 用户来源
     }
     resultPost(xstudy, motorstudyData).then(json => {
+      console.log(json)
       this.listData = json.data[0]
       this.itemData = json.data[0].studyRecord
       this.isComplete = json.data[0].isComplete // 学习记录
