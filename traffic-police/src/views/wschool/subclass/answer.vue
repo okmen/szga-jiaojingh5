@@ -64,6 +64,8 @@ export default {
       answerDate: 0,    // 答题日期
       answerCorrect: 0,  // 答对题数
       batchResult: '',  // 答题合格判断
+      code: '', // 消分学习判断
+      msg: '',
       answertData: {
       },
       subjectAnswer: '',
@@ -180,6 +182,13 @@ export default {
         this.testQuestionsType = json.data[0].testQuestionsType
         this.scoreEndDate = json.data[0].scoreEndDate
         this.scoreStartDate = json.data[0].scoreStartDate
+        this.code = json.code // 状态码
+        this.msg = json.msg // 状态返回
+        if (this.code === '0001') {      // 消分答题判断
+          MessageBox('提示', this.msg).then(() => {
+            window.location.href = '/#/wschool'
+          })
+        }
       })
     },
     timePiece: function () {    // 计时器

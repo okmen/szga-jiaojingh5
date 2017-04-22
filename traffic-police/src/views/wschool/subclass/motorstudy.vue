@@ -37,16 +37,9 @@
   </div>
 </template>
 <script>
-import {
-  resultPost
-} from '../../../service/getData'
-import {
-  xstudy,
-  answer
-} from '../../../config/baseUrl'
-import {
-  MessageBox
-} from 'mint-ui'
+import { resultPost } from '../../../service/getData'
+import { xstudy } from '../../../config/baseUrl'
+// import { MessageBox } from 'mint-ui'
 export default {
   data () {
     return {
@@ -67,37 +60,11 @@ export default {
     },
     pageDown: function () {
       window.sessionStorage.setItem('integral', this.listData.integral) // 学习积分
-      if (this.hashRoomId === '1') {      // 进入消分答题判断
-        if (this.codes === '0001') {
-          MessageBox('提示', this.msg).then(() => {
-            window.location.href = '/#/wschool'
-          })
-        } else {
-          this.$router.push('answers#1') // 进入消分答题页面
-        }
+      if (this.hashRoomId === '1') {  // 进入消分答题判断
+        this.$router.push('answers#1') // 进入消分答题页面
       } else {
-        if (this.codes === '0001') {
-          MessageBox('提示', this.msg).then(() => {
-            window.location.href = '/#/wschool'
-          })
-        } else {
-          this.$router.push(`answer#${this.hashRoomId}`) // 进入答题页面
-        }
+        this.$router.push(`answer#${this.hashRoomId}`) // 进入答题页面
       }
-    },
-    reminder: function () {
-      var ansData = {
-        classroomId: this.hashRoomId, // 列表请求参数
-        identityCard: window.localStorage.getItem('identityCard'), // 身份证
-        mobilephone: window.localStorage.getItem('mobilePhone'), // 手机号码
-        userName: window.localStorage.getItem('userName'), // 名字
-        openId: window.localStorage.getItem('openId'),
-        userSource: 'C' // 用户来源
-      }
-      resultPost(answer, ansData).then(json => { // 取题接口
-        this.codes = json.code // 状态码
-        this.msg = json.msg // 状态返回
-      })
     }
   },
   created () {
@@ -118,7 +85,6 @@ export default {
       this.isComplete = json.data[0].isComplete // 学习记录
       this.integral = json.data[0].integral // 学习积分
     })
-    this.reminder()
   }
 }
 </script>
