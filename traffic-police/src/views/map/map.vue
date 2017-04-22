@@ -20,7 +20,7 @@
 </template>
 <script>
 import { getLocation } from '../../config/baseUrl'
-import wx from 'weixin-js-sdk'
+// import wx from 'weixin-js-sdk'
 import { Toast } from 'mint-ui'
 
 export default{
