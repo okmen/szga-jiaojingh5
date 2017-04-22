@@ -124,7 +124,7 @@
               appoinNum: json.msg,
               appoinType: '星级用户认证'
             })
-            this.$route.push('/appoinSuccess')
+            this.$router.push('/appointSuccess')
           } else {
             Toast({
               message: getJsonMsg,
