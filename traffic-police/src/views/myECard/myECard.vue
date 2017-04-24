@@ -44,6 +44,9 @@
     position: fixed;
     bottom:220px;
     text-align: center;
+    width: 620px;
+    left: 50%;
+    margin-left: -310px;
     .tab-btn {
       display: inline-block;
       height: 90px;
