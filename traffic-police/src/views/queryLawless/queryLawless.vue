@@ -4,7 +4,7 @@
       <router-link to="queryLawlessPage">交通违法查询</router-link>
     </div>
     <div  class="query-link">
-      <p>违法在线确认</p>
+      <router-link to="confirm">违法在线确认</router-link>
     </div>
     <div class="query-link" v-bind:class="{ 'show' : isShow}">
       <p @click.stop="clickShow()">违法在线处理</p>

@@ -62,6 +62,7 @@
       <router-link to="takePicturesTips">点击查看温馨提示</router-link>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
+    <el-date-picker type="datetime"></el-date-picker>
   </div>
 </template>
 <script>
@@ -86,7 +87,33 @@
         informName: '',          // 举报人
         informIdNumber: '',      // 身份证号
         informTel: '',           // 电话号码
-        loginJudge: window.localStorage.isLogin        // 判读是否登录
+        loginJudge: window.localStorage.isLogin,        // 判读是否登录
+        pickerOptions1: {        // element-ui时间组件
+          shortcuts: [
+            {
+              text: '今天',
+              onClick (picker) {
+                picker.$emit('pick', new Date())
+              }
+            },
+            {
+              text: '昨天',
+              onClick (picker) {
+                const date = new Date()
+                date.setTime(date.getTime() - 3600 * 1000 * 24)
+                picker.$emit('pick', date)
+              }
+            },
+            {
+              text: '一周前',
+              onClick (picker) {
+                const date = new Date()
+                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+                picker.$emit('pick', date)
+              }
+            }
+          ]
+        }
       }
     },
     mounted: function () {  // 组件加载完成之后立即获取
