@@ -1,7 +1,7 @@
 <template>
   <div class="peopleWillCloud-wrap">
-    <mymap v-show="mapShow" @submit="submitMap" @hide="hideMap()"></mymap>
-    <div class="peopleWillCloud-outer"  v-show="!mapShow">
+    <mymap v-if="mapShow" @submit="submitMap" @hide="hideMap()"></mymap>
+    <div class="peopleWillCloud-outer"  v-else="mapShow">
       <div class="peopleWillCloud-select pad-side-50">
         <p>请选择需要举报的事项</p>
         <div class="div-select">
@@ -89,7 +89,7 @@ export default {
     },
     submitSuccess: function () {
       console.log('举报成功')
-      window.location.hash = '/appointSuccess'
+      window.location.replace('#/trafficCivilization')
     }
   },
   created () {

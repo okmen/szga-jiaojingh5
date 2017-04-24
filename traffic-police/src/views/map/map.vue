@@ -20,8 +20,8 @@
 </template>
 <script>
 import { getLocation } from '../../config/baseUrl'
-// import wx from 'weixin-js-sdk'
-import { Toast } from 'mint-ui'
+import wx from 'weixin-js-sdk'
+// import { Toast } from 'mint-ui'
 
 export default{
   name: 'getLocation',
@@ -43,39 +43,39 @@ export default{
   methods: {
     /* eslint-disable */
     init: function () {
-      this.dragendX = ''
-      this.dragendY = ''
-      console.log('地图', map)
       let x = this.dragendX || 410942332, // 经度
-          y = this.dragendY || 81392068, // 纬度
-          point = new Careland.Point(x, y), // 创建地图中心点
-          map = new Careland.Map('mymap', point, 18) // 创建地图对象
+          y = this.dragendY || 81392068 // 纬度
+
+      let point = new Careland.Point(x, y) // 创建地图中心点
+      window.map = new Careland.Map('mymap', point, 18) // 创建地图对象
+      window.map.enableCenterIcon() // 启用地图中心点图标
+      window.map.enableAutoResize() // 启用自动适应容器尺寸变化
+      window.map.load() // 加载地图
+
 
       this.head = document.head
-      this.map = map
-      map.enableCenterIcon() // 启用地图中心点图标
-      map.enableAutoResize() // 启用自动适应容器尺寸变化
-      map.load() // 加载地图
-      this.getLocationInfo(map)
+      // this.map = window.map
+      console.log('初始化', window.map)
+      this.getLocationInfo(window.map)
 
       // 创建一个自动完成的实例
       let ac = new Careland.Autocomplete({
             input : "keywordId",
-            location : map})
-      ac.setLocation(map)
+            location : window.map})
+      ac.setLocation(window.map)
       ac.setInputForm('keywordId')
       this.ac = ac
       ac.addEventListener("onConfirm", (e) =>{
         let x = e.item.poi.point.x
         let y = e.item.poi.point.y
-        map.centerAndZoom(e.item.poi.point, 17)
-        this.getLocationInfo(map)
+        window.map.centerAndZoom(e.item.poi.point, 17)
+        this.getLocationInfo(window.map)
         ac.hide()
       });
 
       console.log('map addEventListener')
-      map.addEventListener('mapchange', () => { // 为拖拽地图后添加事件
-        this.getLocationInfo(map)
+      window.map.addEventListener('mapchange', () => { // 为拖拽地图后添加事件
+        this.getLocationInfo(window.map)
       })
     },
     getLocationInfo: function (map) {
@@ -105,7 +105,7 @@ export default{
       let y = location.y
       let point = new window.Careland.Point(x, y)
       let pointLayer = new window.Careland.Layer('point', 'layer') // 创建点图层
-      this.map.addLayer(pointLayer)
+      window.map.addLayer(pointLayer)
 
       pointLayer.clear()
 
@@ -127,7 +127,7 @@ export default{
       this.marker.setPoint(point)
     },
     removeFlag: function () {
-      this.map.removeLayer(this.pointLayer)
+      window.map.removeLayer(this.pointLayer)
       this.pointLayer = ''
       this.marker = ''
     },
@@ -200,8 +200,9 @@ export default{
     window.addEventListener('searchCallback', (e) => {
       if (e.searchData.errorCode === 0) {
         let resData = e.searchData
+        console.log(resData)
         let cp = new window.Careland.GbPoint(resData.pois[0].xy.y, resData.pois[0].xy.x)
-        this.map.setCenter(cp)
+        window.map.setCenter(cp)
         this.ac.hide()
       }
     })
@@ -225,30 +226,52 @@ export default{
         }
       }
     })
-    // 浏览器定位
-    var geolocation = new window.Careland.Geolocation({enableHighAccuracy: true, map: this.map})
-    console.log(geolocation)
-    geolocation.getCurrentPosition(function (f) {
-      console.log(f)
-      if (f.getStatus()) {
-      } else {
-        Toast({
-          message: '定位失败',
-          position: 'bottom',
-          className: 'white'
-        })
-        // wx.getLocation({
-        //   type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-        //   success: function (res) {
-        //     console.log(res)
-        //     var latitude = res.latitude // 纬度，浮点数，范围为90 ~ -90
-        //     var longitude = res.longitude // 经度，浮点数，范围为180 ~ -180。
-        //     var speed = res.speed // 速度，以米/每秒计
-        //     var accuracy = res.accuracy // 位置精度
-        //   }
-        // })
+    // var geolocation = new window.Careland.Geolocation({enableHighAccuracy: true, map: window.map})
+    // geolocation.getCurrentPosition()
+    //
+    wx.getLocation({
+      type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+      success: function (res) {
+        let latitude = res.latitude // 纬度，浮点数，范围为90 ~ -90
+        let longitude = res.longitude // 经度，浮点数，范围为180 ~ -180。
+        let cp = new window.Careland.GbPoint(latitude, longitude)
+        window.map.setCenter(cp)
       }
     })
+
+    // 浏览器定位
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(locationSuccess, locationError, {
+    //     // 指示浏览器获取高精度的位置，默认为false
+    //     enableHighAccuracy: true,
+    //     // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
+    //     timeout: 5000,
+    //     // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
+    //     maximumAge: 3000
+    //   })
+    // } else {
+    //   Toast({
+    //     message: '定位失败',
+    //     position: 'bottom',
+    //     className: 'white'
+    //   })
+    // }
+
+    // function locationSuccess (position) {
+    //   console.log(position)
+    //   let cp = new window.Careland.GbPoint(position.coords.latitude - 0.0031, position.coords.longitude + 0.00521)
+    //   window.map.setCenter(cp)
+    // }
+
+    // function locationError (err) {
+    //   Toast({
+    //     message: '定位失败',
+    //     position: 'bottom',
+    //     className: 'white'
+    //   })
+    //   console.log(err)
+    // }
+
     window.addEventListener('popstate', ($event) => {
       this.$emit('hide')
       return false
