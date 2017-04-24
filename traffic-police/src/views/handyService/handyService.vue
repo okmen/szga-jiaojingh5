@@ -32,8 +32,8 @@
       }
     },
     mounted () {
-      if (window.localStorage.getItem('isLogin')) {
-        this.$router.push('/login')
+      if (window.localStorage.getItem('isLogin') === 'false') {
+        this.$router.push('login')
       }
     }
   }
