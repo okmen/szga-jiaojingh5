@@ -78,10 +78,10 @@ export default{
       resultPost(deleteVehicle, reqData).then(json => {
         if (json.code === '0000') {
           console.log(json)
-          console.log('退出登录状态，返回星级用户页面')
+          console.log('退出登录状态，返回首页')
           window.localStorage.clear()
           // 退出登录
-          window.location.hash = '/starUser'
+          this.$router.push('/')
         } else {
           MessageBox({
             title: '',

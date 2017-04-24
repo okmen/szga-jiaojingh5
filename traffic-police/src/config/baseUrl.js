@@ -75,3 +75,5 @@ export const passerBy = `${commonUrl}register/isPedestrianNotDriver.html` // 星
 export const carUser = `${commonUrl}register/iamALongtimeUser.html` // 星级用户认证 我是长期使用人接口
 
 export const getRoad = `${commonUrl}user/getPositioningAddress.html` // 获取路段地址 随手拍举报接口
+
+export const illegalAppeal = `${commonUrl}illegalHanding/trafficIllegalAppeal.html` // 违法申诉接口

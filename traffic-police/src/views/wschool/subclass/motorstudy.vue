@@ -67,7 +67,7 @@ export default {
       }
     }
   },
-  created () {
+  mounted () {
     this.hashRoomId = window.location.hash.split('#')[2]
     this.userImg = window.localStorage.getItem('headImgUrl')
     let motorstudyData = { // 获取页面数据
