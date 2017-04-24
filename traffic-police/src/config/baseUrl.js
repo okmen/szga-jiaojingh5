@@ -53,7 +53,7 @@ export const bindCard = `${commonUrl}user/search/getMyDriverLicense.html` // 个
 
 export const bindBusiness = `${commonUrl}user/search/getMyBusiness.html` // 个人中心-业务查询(暂使用后端本地地址)
 
-export const sendSMS = `${commonUrl}user/sendSMSVerificatioCode.html` // 发送验证码接口
+export const sendSMS = `${commonUrlIn}user/sendSMSVerificatioCode.html` // 发送验证码接口
 
 export const deleteVehicle = `${commonUrl}user/deleteVehicle.htm.html` // 用戶中心解綁微信接口
 
