@@ -43,7 +43,7 @@ export default {
           let userData = data.data.authenticationBasicInformation
           console.log(userData)
           window.localStorage.setItem('identityCard', decodeURIComponent(userData.identityCard)) // 身份证照
-          window.localStorage.setItem('mobilePhone', decodeURIComponent(userData.mobilePhone)) // 手机号码
+          window.localStorage.setItem('mobilePhone', decodeURIComponent(userData.mobilephone)) // 手机号码
           window.localStorage.setItem('myNumberPlate', decodeURIComponent(userData.myNumberPlate)) // 车牌号码
           window.localStorage.setItem('userName', decodeURIComponent(userData.trueName)) // 用户名字
           window.localStorage.setItem('behindTheFrame4Digits', decodeURIComponent(userData.behindTheFrame4Digits)) // 车架号后4位

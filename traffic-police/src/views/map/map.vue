@@ -164,7 +164,8 @@ export default{
       document.head.appendChild(script)
     }
   },
-  mounted: function () {
+  mounted () {
+    console.log('mounted')
     this.init()
     window.addEventListener('setItemEvent', (e) => {
       let resData = e.mapData

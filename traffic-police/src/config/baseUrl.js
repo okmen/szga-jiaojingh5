@@ -30,6 +30,8 @@ export const queryPay = `http://192.168.1.243:8080/web/illegalHanding/toQueryPun
 
 export const queryEarlyLawless = `${commonUrl}illegalHanding/toQuerySubscribe.html` // 违法预约查询
 
+export const getClaimConfirm = `${commonUrl}illegalHanding/illegalOnlineConfirm.html` // 在线确认-获取违章列表
+
 export const claimConfirm = `${commonUrl}illegalHanding/trafficIllegalClaim.html` // 打单确认
 
 // export const LawlessBusiness = `${commonUrl}illegalHanding/illegalBusinessListQuery.html` // 违法业务列表
@@ -73,3 +75,5 @@ export const passerBy = `${commonUrl}register/isPedestrianNotDriver.html` // 星
 export const carUser = `${commonUrl}register/iamALongtimeUser.html` // 星级用户认证 我是长期使用人接口
 
 export const getRoad = `${commonUrl}user/getPositioningAddress.html` // 获取路段地址 随手拍举报接口
+
+export const illegalAppeal = `${commonUrl}illegalHanding/trafficIllegalAppeal.html` // 违法申诉接口

@@ -1,37 +1,37 @@
 <template>
   <div class="confirmLawlessPrint-outer">
     <!-- 结果块 -->
-    <div class="queryResults pad-side-50">
+    <div class="queryResults pad-side-50" v-for="confirm in confirmList">
       <div class="results-box">
         <div class="box-header">
           <div class="header-item left">违章信息</div>
-          <div class="header-item right order-print" @click.stop="claimConfirm()">需要打单</div>
+          <div class="header-item right order-print" @click.stop="claimConfirm()">{{ dealTypeList[confirm.dealType] }}</div>
         </div>
         <div class="box-body">
           <div class="body-left-side">
-            <div class="left-number">违法编号 :<i>12222121212</i></div>
+            <div class="left-number">违法编号 :<i>{{ confirm.illegalNo }}</i></div>
             <div class="left-line">
               <span><i class="car"></i></span>
-              <p>12345</p>
+              <p>{{ confirm.licensePlateNo }}</p>
             </div>
             <div class="left-line">
               <span><i class="time"></i></span>
-              <p>2017.1.1</p>
+              <p>{{ confirm.illegalTime }}</p>
             </div>
             <div class="left-line"><span>
               <i class="local"></i></span>
-              <p>哪条路</p>
+              <p>{{ confirm.illegalAddr }}</p>
             </div>
             <div class="left-line">
               <span><i class="warn"></i></span>
-              <p>行为</p></div>
+              <p>{{ confirm.illegalDesc }}</p></div>
             <div class="left-line">
               <span><i class="punish"></i></span>
-              <p>100元</p>
+              <p>{{ confirm.punishAmt }}元</p>
             </div>
             <div class="left-line">
               <span><i class="score"></i></span>
-              <p>1分</p>
+              <p>{{ confirm.punishScore }}分</p>
             </div>
           </div>
           <a class="body-right-side">
@@ -43,14 +43,33 @@
 </template>
 <script>
   import { resultPost } from '../../../service/getData'
-  import { claimConfirm } from '../../../config/baseUrl'
+  import { getClaimConfirm, claimConfirm } from '../../../config/baseUrl'
   import { MessageBox, Toast } from 'mint-ui'
   export default {
     name: '',
     data () {
       return {
-        illegalNo: '122222'
+        confirmList: [],
+        dealTypeList: {
+          '0': '无需打单',
+          '1': '需要打单',
+          '2': '需要窗口办理'
+        }       // 返回-是否需要打单（编号转换）
       }
+    },
+    mounted () {
+      let reqData = {
+        licensePlateNo: this.$route.params.licensePlateNo,
+        licensePlateType: this.$route.params.plateType,
+        mobilephone: window.localStorage.getItem('mobilePhone'),
+        identityCard: window.localStorage.getItem('identityCard'),
+        sourceOfCertification: 'C'
+      }
+      console.log(reqData)
+      resultPost(getClaimConfirm, reqData).then(json => {
+        this.confirmList = json.data
+        console.log(json)
+      })
     },
     methods: {
       claimConfirm: function () {
