@@ -31,7 +31,6 @@ export default {
   methods: {
     loginClick: function () {
       let that = this
-      this.openId = window.localStorage.getItem('openId')
       let reqData = {
         loginName: this.loginName,
         password: this.password,
@@ -62,6 +61,7 @@ export default {
     }
   },
   mounted () {
+    this.openId = window.localStorage.getItem('openId')
     let url = window.location.href
     let data = {
       url: encodeURIComponent(url.split('#')[0])
