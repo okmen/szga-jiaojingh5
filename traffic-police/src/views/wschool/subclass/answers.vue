@@ -108,7 +108,6 @@ export default {
       resultPost(answers, answesData).then(json => {     // 答案数据接口
         this.batchResult = json.data[0].batchResult    // 答题合格判断
         this.codes = json.code
-        console.log(this.codes)
         if (this.codes === '0000') {
           this.testData[index].img = require('../../../images/correct.png')
           this.flag = index
@@ -187,7 +186,7 @@ export default {
         if (this.code === '0001') {      // 消分答题判断
           clearInterval(this.Timepiece)
           MessageBox('提示', this.msg).then(() => {
-            window.location.href = '/#/wschool'
+            this.$router.push('wschool')
           })
         }
       })
@@ -211,9 +210,9 @@ export default {
         this.chronoScope = str
       }, 1000)
     },
-    secede: () => {
-      MessageBox.confirm('是否退出学习', '提示').then(action => {
-        window.location.href = '/#/wschool'
+    secede: function () {
+      MessageBox.confirm('是否退出学习').then(action => {
+        this.$router.push('wschool')
       })
     }
   },
