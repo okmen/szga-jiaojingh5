@@ -185,6 +185,7 @@ export default {
         this.code = json.code // 状态码
         this.msg = json.msg // 状态返回
         if (this.code === '0001') {      // 消分答题判断
+          clearInterval(this.Timepiece)
           MessageBox('提示', this.msg).then(() => {
             window.location.href = '/#/wschool'
           })
