@@ -317,10 +317,10 @@
         resultPost(carUser, usrData).then(json => {
           let jsonMsg = json.msg
           let getJsonMsg = ''
-          if (jsonMsg.indexOf('：') === -1) {
+          if (jsonMsg.indexOf(' ') === -1) {
             getJsonMsg = jsonMsg
           } else {
-            getJsonMsg = jsonMsg.split('：')[1]
+            getJsonMsg = jsonMsg.split(' ')[0]
           }
           if (json.code === '0000') {
             this.postAppoin({
@@ -433,6 +433,12 @@
         }
       }
     }
+  }
+}
+.mint-indicator{
+  position:relative;
+  .mint-indicator-wrapper{
+    z-index:9999999;
   }
 }
 </style>

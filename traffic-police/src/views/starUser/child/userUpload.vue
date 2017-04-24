@@ -182,4 +182,10 @@ export default {
     border:none;
   }
 }
+.mint-indicator{
+  position:relative;
+  .mint-indicator-wrapper{
+    z-index:9999999;
+  }
+}
 </style>

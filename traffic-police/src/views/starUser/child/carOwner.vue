@@ -284,7 +284,7 @@ export default{
         this.typeSelectShow = false
       }
     },
-    btnSureStar: function () {
+    btnSureStar: function () {  // 提交按钮
       let idImgOne = this.$refs.getImgUrl.idCardImgPositive
       let idImgTwo = this.$refs.getImgUrl.idCardImgNegative
       let idImgThree = this.$refs.getImgUrl.idCardImgHandHeld
@@ -316,10 +316,10 @@ export default{
       resultPost(carOwner, carOwnerData).then(json => {
         let jsonMsg = json.msg
         let getJsonMsg = ''
-        if (jsonMsg.indexOf('：') === -1) {
+        if (jsonMsg.indexOf(' ') === -1) {
           getJsonMsg = jsonMsg
         } else {
-          getJsonMsg = jsonMsg.split('：')[1]
+          getJsonMsg = jsonMsg.split(' ')[0]
         }
         if (json.code === '0000') {
           this.postAppoin({
@@ -336,7 +336,7 @@ export default{
         }
       })
     },
-    getVerification: function () {
+    getVerification: function () {  // 发送验证码 按钮
       let sendPhoneNumber = {
         mobilephone: this.telphone
       }
@@ -386,9 +386,6 @@ export default{
       this.licenseSelectShow = false
       this.abbreviationSelectShow = false
     })
-  },
-  beforeDestory () {
-    Toast.close()
   }
 }
 </script>

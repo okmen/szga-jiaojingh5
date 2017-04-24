@@ -135,24 +135,24 @@
           idCardImgNegative: idImgTwo,
           idCardImgHandHeld: idImgThree
         }
-        for (let key in driverLicenseData) {
-          if (!driverLicenseData[key]) {
-            Toast({
-              message: '信息填写不完整',
-              position: 'bottom',
-              className: 'white'
-            })
-            return false
-          }
-        }
+        // for (let key in driverLicenseData) {
+        //   if (!driverLicenseData[key]) {
+        //     Toast({
+        //       message: '信息填写不完整',
+        //       position: 'bottom',
+        //       className: 'white'
+        //     })
+        //     return false
+        //   }
+        // }
         resultPost(drivingLicense, driverLicenseData).then(json => {
           console.log(json)
           let jsonMsg = json.msg
           let getJsonMsg = ''
-          if (jsonMsg.indexOf('：') === -1) {
+          if (jsonMsg.indexOf(' ') === -1) {
             getJsonMsg = jsonMsg
           } else {
-            getJsonMsg = jsonMsg.split('：')[1]
+            getJsonMsg = jsonMsg.split(' ')[0]
           }
           if (json.code === '0000') {
             this.postAppoin({

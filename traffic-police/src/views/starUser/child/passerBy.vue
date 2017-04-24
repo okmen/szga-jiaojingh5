@@ -54,7 +54,7 @@
       }
     },
     methods: {
-      getVerification: function () {
+      getVerification: function () {  // 获取验证码
         let sendPhoneNumber = {
           mobilephone: this.telphoneNumber
         }
@@ -94,7 +94,7 @@
           }, 1000)
         }
       },
-      btnSureStar: function () {
+      btnSureStar: function () {  // 确认注册按钮
         let idImgOne = this.$refs.getImgUrl.idCardImgPositive
         let idImgTwo = this.$refs.getImgUrl.idCardImgNegative
         let idImgThree = this.$refs.getImgUrl.idCardImgHandHeld
@@ -109,17 +109,12 @@
         resultPost(passerBy, passerData).then(json => {
           let jsonMsg = json.msg
           let getJsonMsg = ''
-          if (jsonMsg.indexOf('：') === -1) {
+          if (jsonMsg.indexOf(' ') === -1) {
             getJsonMsg = jsonMsg
           } else {
-            getJsonMsg = jsonMsg.split('：')[1]
+            getJsonMsg = jsonMsg.split(' ')[0]
           }
           if (json.code === '0000') {
-            // Toast({
-            //   message: json.msg,
-            //   position: 'bottom',
-            //   className: 'white'
-            // })
             this.postAppoin({
               appoinNum: json.msg,
               appoinType: '星级用户认证'
