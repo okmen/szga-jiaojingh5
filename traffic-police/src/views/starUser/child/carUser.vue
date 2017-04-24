@@ -99,7 +99,7 @@
           <span>联系地址</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="text" maxlength="18" v-model="userAddress" placeholder="您的联系地址">
+          <input class="text-input" type="text" maxlength="18" v-model="userAddress" placeholder="请输入您的联系地址(非必填)">
         </div>
       </li>
     </ul>

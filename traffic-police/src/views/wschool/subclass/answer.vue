@@ -30,9 +30,11 @@
       </div>
     </div>
     <div class="answer-center">
-    <span class="answer-center-left" v-if="testQuestionsType == '判断题'">判</span>
+      <span class="answer-center-left" v-if="testQuestionsType == '判断题'">判</span>
       <span class="answer-center-left" v-else>选</span>
-      <span class="answer-center-right">{{answertData.subjectName}}</span>
+      <span class="answer-center-right">{{answertData.subjectName}}
+        <span class="answer-select" v-show="testQuestionsType == '不定选'">(不定选)</span>
+      </span>
     </div>
     <img class="answer-button" :src="'data:image/jpg/png/gif;base64,'+answertData.subjectImg" v-show="answertData.subjectImg">
     </style>
@@ -76,6 +78,7 @@ export default {
       scoreEndDate: '',     // 答题周期
       hashRoomId: '', // 列表号
       Timepiece: '',   // 停止计时器
+      answerId: '',    // 答题选择
       testData: [{
         img: require('../../../images/A.png')
       },
@@ -93,6 +96,12 @@ export default {
   methods: {
     clickAnswer: function (index) {     // 选项答题
       this.isBtnShow = true
+      if (this.testQuestionsType === '不定选') {
+        // this.answerId = this.answertData.answeroptions[index].answerId
+        this.answerId
+      } else {
+        this.answerId = this.answertData.answeroptions[index].answerId
+      }
       var answesData = {
         classroomId: this.hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
@@ -100,40 +109,40 @@ export default {
         userName: window.localStorage.getItem('userName'),         // 名字
         openId: window.localStorage.getItem('openId'),
         userSource: 'C',     // 用户来源
-        SubjectAnswer: this.answertData.answeroptions[index].answerId,
+        SubjectAnswer: this.answerId,
         subjectId: this.subjectId,  // 答题编码
         scoreStartDate: this.scoreStartDate,
         scoreEndDate: this.scoreEndDate
       }
       resultPost(answers, answesData).then(json => {     // 答案数据接口
         this.codes = json.code
-        if (this.codes === '0000') {
-          this.answerCorrect = json.data[0].answerCorrect  // 答对题数
-          this.batchResult = json.data[0].batchResult    // 答题合格判断
-          this.answererror = json.data[0].answererror    // 答错题数
-          this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
-          this.answerDate = json.data[0].answerDate  // 答题日期
-          this.testData[index].img = require('../../../images/correct.png')
-          this.flag = index
-        } else if (this.codes === '0001') {
-          this.answerCorrect = json.data[0].answerCorrect  // 答对题数
-          this.batchResult = json.data[0].batchResult    // 答题合格判断
-          this.answererror = json.data[0].answererror    // 答错题数
-          this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
-          this.answerDate = json.data[0].answerDate  // 答题日期
-          this.testData[index].img = require('../../../images/fault.png')
-          this.tlag = index
+        if (this.testQuestionsType === '不定选') {
+          // console.log('dddd')
         } else {
-          Toast({
-            message: json.msg,
-            duration: 1000
-          })
+          if (this.codes === '0000') {
+            this.answerCorrect = json.data[0].answerCorrect  // 答对题数
+            this.batchResult = json.data[0].batchResult    // 答题合格判断
+            this.answererror = json.data[0].answererror    // 答错题数
+            this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
+            this.answerDate = json.data[0].answerDate  // 答题日期
+            this.testData[index].img = require('../../../images/correct.png')
+            this.flag = index
+          } else if (this.codes === '0001') {
+            this.answerCorrect = json.data[0].answerCorrect  // 答对题数
+            this.batchResult = json.data[0].batchResult    // 答题合格判断
+            this.answererror = json.data[0].answererror    // 答错题数
+            this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
+            this.answerDate = json.data[0].answerDate  // 答题日期
+            this.testData[index].img = require('../../../images/fault.png')
+            this.tlag = index
+          } else {
+            Toast({
+              message: json.msg,
+              duration: 1000
+            })
+          }
         }
       })
-    },
-    againclick: function () {
-      this.isReveal = false
-      this.loadingData()
     },
     countClick: function () {      // 获取下一题数据
       this.loadingData()
@@ -180,6 +189,7 @@ export default {
         this.answerName = json.data[0].answeroptions
         this.subjectId = json.data[0].subjectId
         this.testQuestionsType = json.data[0].testQuestionsType
+        console.log(this.testQuestionsType)
         this.scoreEndDate = json.data[0].scoreEndDate
         this.scoreStartDate = json.data[0].scoreStartDate
         this.code = json.code // 状态码
@@ -217,6 +227,10 @@ export default {
         clearInterval(this.Timepiece)
         this.isReveal = true
       }
+    },
+    againclick: function () {
+      this.isReveal = false
+      this.loadingData()
     },
     secede: function () {
       MessageBox.confirm('是否退出学习').then(action => {
@@ -361,4 +375,5 @@ export default {
 }
 .off{ color: #f53f31; }
 .on{ color: #09bb07; }
+.answer-select{color:red}
 </style>

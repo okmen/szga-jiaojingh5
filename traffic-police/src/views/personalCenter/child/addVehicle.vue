@@ -48,7 +48,7 @@
             <span>车架号码</span>
           </div>
           <div class="addVehicle-hbs-text">
-            <input class="text-input" type="text" placeholder="请输入车架号后4位" v-model:value="frameNumber">
+            <input class="text-input" type="text" placeholder="请输入车架号后4位" v-model:value="frameNumber" maxlength="4">
           </div>
         </li>
         <li class="addVehicle-hbs-item">
@@ -358,7 +358,7 @@ export default{
           licensePlateType: this.vehicleType.code, // 号牌种类
           licensePlateNumber: this.plateType.str + this.licensePlateNumber, // 车牌号码
           frameNumber: this.frameNumber, // 车架号码
-          provinceAbbreviation: this.plateType, // 省简称
+          provinceAbbreviation: this.plateType.str, // 省简称
           userIdCard: this.identityCard, // 当前登录用户身份证
           inputIP: '192.168.1.1', // 录入ip
           userSource: 'C', // 用户来源/登录的平台
@@ -399,6 +399,7 @@ export default{
         if (json.code === '0000') {
           console.log(json)
           console.log('跳转预约申办成功页')
+          this.$router.push('/appointSuccess')
         } else {
           MessageBox({
             title: '',
