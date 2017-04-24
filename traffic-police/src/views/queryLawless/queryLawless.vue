@@ -14,6 +14,7 @@
         <router-link to="appeal">交通违法申诉</router-link>
       </div>
     </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>

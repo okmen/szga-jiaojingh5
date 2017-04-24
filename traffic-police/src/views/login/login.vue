@@ -10,6 +10,7 @@
           <router-link to="/starUser" class="login-link-register">注册</router-link>
         </div>
       </div>
+      <div v-wechat-title="$route.meta.title"></div>
     </div>
 </template>
 
@@ -23,17 +24,21 @@ export default {
   data () {
     return {
       loginName: '',
-      password: ''
+      password: '',
+      openId: ''
     }
   },
   methods: {
     loginClick: function () {
       let that = this
-      let openId = window.localStorage.getItem('openId')
+      this.openId = window.localStorage.getItem('openId')
+      if (this.openId === 'null') {
+        window.alert('12121')
+      }
       let reqData = {
         loginName: this.loginName,
         password: this.password,
-        openId: openId,
+        openId: this.openId,
         loginClient: 'weixin'
       }
       console.log(reqData)
@@ -59,6 +64,14 @@ export default {
         }
       })
     }
+  },
+  mounted () {
+    let keys = {
+      'noticeKey': 'testKey'
+    }
+    resultPost('http://192.168.1.161:8080/web/user/getDocumentationORMByNoticeKey.html', keys).then(data => {
+      console.log(data)
+    })
   }
 }
 </script>

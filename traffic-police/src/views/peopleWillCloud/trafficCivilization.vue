@@ -41,7 +41,7 @@
       <li v-for="i in newsLength" :class="{active: i==index}" @click.stop="changeIndex(i)" v-if="i == index || i == index+1 || i == index-1">{{i}}</li>
       <li v-if="(length > 3)" class="more">···</li>
     </ul>
-
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 

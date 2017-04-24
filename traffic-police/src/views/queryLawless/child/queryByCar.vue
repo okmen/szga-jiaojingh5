@@ -45,7 +45,7 @@
               <span>验证码</span>
             </div>
             <div class="queryByCar-hbs-text width-40 left">
-              <input class="text-input" type="tel" name="" maxlength="4" value="" placeholder="请输入验证码" id="inp">
+              <input class="text-input" type="text" name="" maxlength="4" value="" placeholder="请输入验证码" id="inp">
             </div>
             <div class="left queryByCar-hbs-code" id="code"></div>
           </li>

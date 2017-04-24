@@ -39,7 +39,7 @@
 <script>
 import { resultPost } from '../../../service/getData'
 import { xstudy } from '../../../config/baseUrl'
-// import { MessageBox } from 'mint-ui'
+
 export default {
   data () {
     return {
@@ -70,6 +70,7 @@ export default {
   mounted () {
     this.hashRoomId = window.location.hash.split('#')[2]
     this.userImg = window.localStorage.getItem('headImgUrl')
+    console.log(this.userImg)
     let motorstudyData = { // 获取页面数据
       classroomId: this.hashRoomId, // 列表请求参数
       identityCard: window.localStorage.getItem('identityCard'), // 身份证
@@ -79,7 +80,6 @@ export default {
       userSource: 'C' // 用户来源
     }
     resultPost(xstudy, motorstudyData).then(json => {
-      console.log(json)
       this.listData = json.data[0]
       this.itemData = json.data[0].studyRecord
       this.isComplete = json.data[0].isComplete // 学习记录

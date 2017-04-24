@@ -111,9 +111,14 @@ export default {
         if (this.codes === '0000') {
           this.testData[index].img = require('../../../images/correct.png')
           this.flag = index
+          this.answerCorrect++
+          if (this.answerCorrect === 2) {
+            document.getElementById('NofItemss').innerHTML = '结束答题'
+          }
         } else if (this.codes === '0001') {
           this.testData[index].img = require('../../../images/fault.png')
           this.tlag = index
+          this.answererror++
         } else {
           Toast({
             message: json.msg,
@@ -136,14 +141,11 @@ export default {
     countClick: function () {      // 获取下一题数据
       this.surplusAnswe++
       this.loadingData()
-      let codess = this.codes
-      codess === '0000' ? this.answerCorrect++ : this.answererror++   // 判断对错数
-      if (this.answerCorrect === 10) {
-        document.getElementById('NofItemss').innerHTML = '结束答题'
+      if (this.answerCorrect === 2) {
         window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
         window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
         window.sessionStorage.setItem('surplusAnswe', this.surplusAnswe)  // 答题数
-        this.$router.push('result')
+        this.$router.push('result#1')
       }
     },
     loadingData: function () {     //  页面接口数据
@@ -184,7 +186,7 @@ export default {
         if (this.code === '0001') {      // 消分答题判断
           clearInterval(this.Timepiece)
           MessageBox('提示', this.msg).then(() => {
-            window.location.href = '/#/wschool'
+            this.$router.push('wschool')
           })
         }
       })
@@ -208,9 +210,9 @@ export default {
         this.chronoScope = str
       }, 1000)
     },
-    secede: () => {
-      MessageBox.confirm('是否退出学习', '提示').then(action => {
-        window.location.href = '/#/wschool'
+    secede: function () {
+      MessageBox.confirm('是否退出学习').then(action => {
+        this.$router.push('wschool')
       })
     }
   },
