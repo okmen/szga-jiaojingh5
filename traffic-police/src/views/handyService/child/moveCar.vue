@@ -46,7 +46,7 @@
     <div class="moveCar-tip">
       <p class="moveCar-tip-titlte">拨打专线通知挪车：</p>
       <p class="moveCar-tip-content">深圳交警全新推出电话挪车服务，星级用户如遇见正常停车后被其他车辆堵住，可拨打专线电话，交警将联系对方车主移车；或者提交表单发起挪车需求，交警将发起挪车需求，交警将发送提示短信通知对方车主移车。对方拒绝移车且违法停放的，交警将依法处罚。</p>
-      <button class="btn btn-blue" type="button" name="button">拨打专线</button>
+      <button class="btn btn-blue" type="button" name="button"><a href="tel:83333333">拨打专线</a></button>
     </div>
   </div>
 </template>
@@ -384,6 +384,16 @@ export default{
     .moveCar-tip-content{
       line-height: 34px;
       color: #353535;
+    }
+    .btn{
+      a{
+        display: flex;
+        width: 100%;
+        height: 100%;
+        color: #fff;
+        align-items: center;
+        justify-content: center;
+      }
     }
   }
 }
