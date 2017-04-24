@@ -176,18 +176,15 @@
           openId: window.localStorage.openId
         }
         console.log(informData)
-        // for (let key in informData) {
-        //   if (!informData[key]) {
-        //     Toast({
-        //       message: '信息填写不完整',
-        //       position: 'bottom',
-        //       className: 'white'
-        //     })
-        //     return false
-        //   }
-        // }
         resultPost(takePictures, informData).then(json => { // 调取随手拍举报接口
           console.log(json)
+          let jsonMsg = json.msg
+          let getJsonMsg = ''
+          if (jsonMsg.indexOf(' ') === -1) {
+            getJsonMsg = jsonMsg
+          } else {
+            getJsonMsg = jsonMsg.split(' ')[0]
+          }
           if (json.code === '0000') {
             console.log('举报成功')
             this.postInform({
@@ -197,7 +194,7 @@
             this.$router.push('/takePicturesSuccess')
           } else {
             Toast({
-              message: json.msg,
+              message: getJsonMsg,
               position: 'bottom',
               className: 'white'
             })
