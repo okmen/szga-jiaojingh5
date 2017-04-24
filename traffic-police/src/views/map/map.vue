@@ -21,8 +21,8 @@
 </template>
 <script>
 import { getLocation } from '../../config/baseUrl'
-import wx from 'weixin-js-sdk'
-// import { Toast } from 'mint-ui'
+// import wx from 'weixin-js-sdk'
+import { Toast } from 'mint-ui'
 
 export default{
   name: 'getLocation',
@@ -38,7 +38,10 @@ export default{
       pointLayer: '',
       map: '',
       head: '',
-      ac: '' // 输入框提示
+      ac: '', // 输入框提示
+      PI: 3.1415926535897932384626,
+      a: 6378245.0,
+      ee: 0.00669342162296594323
     }
   },
   methods: {
@@ -165,6 +168,40 @@ export default{
       script.id = 'mapSubmit'
       script.src = `http://api.careland.com.cn/api/v1/rgeo?pn=3&range=10&p=${this.selectLocation.location.x},${this.selectLocation.location.y}&ak=3ec66fcdaf712f8647bd6c0d&callback=mapSubmit`
       document.head.appendChild(script)
+    },
+    wgs84togcj02: function (lng, lat) {
+      if (this.out_of_china(lng, lat)) {
+        return [lng, lat]
+      } else {
+        var dlat = this.transformlat(lng - 105.0, lat - 35.0)
+        var dlng = this.transformlng(lng - 105.0, lat - 35.0)
+        var radlat = lat / 180.0 * this.PI
+        var magic = Math.sin(radlat)
+        magic = 1 - this.ee * magic * magic
+        var sqrtmagic = Math.sqrt(magic)
+        dlat = (dlat * 180.0) / ((this.a * (1 - this.ee)) / (magic * sqrtmagic) * this.PI)
+        dlng = (dlng * 180.0) / (this.a / sqrtmagic * Math.cos(radlat) * this.PI)
+        var mglat = lat + dlat
+        var mglng = lng + dlng
+        return [mglng, mglat]
+      }
+    },
+    out_of_china: function (lng, lat) {
+      return (lng < 72.004 || lng > 137.8347) || ((lat < 0.8293 || lat > 55.8271) || false)
+    },
+    transformlat: function (lng, lat) {
+      var ret = -100.0 + 2.0 * lng + 3.0 * lat + 0.2 * lat * lat + 0.1 * lng * lat + 0.2 * Math.sqrt(Math.abs(lng))
+      ret += (20.0 * Math.sin(6.0 * lng * this.PI) + 20.0 * Math.sin(2.0 * lng * this.PI)) * 2.0 / 3.0
+      ret += (20.0 * Math.sin(lat * this.PI) + 40.0 * Math.sin(lat / 3.0 * this.PI)) * 2.0 / 3.0
+      ret += (160.0 * Math.sin(lat / 12.0 * this.PI) + 320 * Math.sin(lat * this.PI / 30.0)) * 2.0 / 3.0
+      return ret
+    },
+    transformlng: function (lng, lat) {
+      var ret = 300.0 + lng + 2.0 * lat + 0.1 * lng * lng + 0.1 * lng * lat + 0.1 * Math.sqrt(Math.abs(lng))
+      ret += (20.0 * Math.sin(6.0 * lng * this.PI) + 20.0 * Math.sin(2.0 * lng * this.PI)) * 2.0 / 3.0
+      ret += (20.0 * Math.sin(lng * this.PI) + 40.0 * Math.sin(lng / 3.0 * this.PI)) * 2.0 / 3.0
+      ret += (150.0 * Math.sin(lng / 12.0 * this.PI) + 300.0 * Math.sin(lng / 30.0 * this.PI)) * 2.0 / 3.0
+      return ret
     }
   },
   mounted () {
@@ -230,48 +267,57 @@ export default{
     // var geolocation = new window.Careland.Geolocation({enableHighAccuracy: true, map: window.map})
     // geolocation.getCurrentPosition()
     //
-    wx.getLocation({
-      type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-      success: function (res) {
-        let latitude = res.latitude // 纬度，浮点数，范围为90 ~ -90
-        let longitude = res.longitude // 经度，浮点数，范围为180 ~ -180。
-        let cp = new window.Careland.GbPoint(latitude, longitude)
-        window.map.setCenter(cp)
-      }
-    })
+    // wx.getLocation({
+    //   type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+    //   success: function (res) {
+    //     let latitude = res.latitude // 纬度，浮点数，范围为90 ~ -90
+    //     let longitude = res.longitude // 经度，浮点数，范围为180 ~ -180。
+    //     let cp = new window.Careland.GbPoint(latitude, longitude)
+    //     window.map.setCenter(cp)
+    //   }
+    // })
 
     // 浏览器定位
-    // if (navigator.geolocation) {
-    //   navigator.geolocation.getCurrentPosition(locationSuccess, locationError, {
-    //     // 指示浏览器获取高精度的位置，默认为false
-    //     enableHighAccuracy: true,
-    //     // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
-    //     timeout: 5000,
-    //     // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
-    //     maximumAge: 3000
-    //   })
-    // } else {
-    //   Toast({
-    //     message: '定位失败',
-    //     position: 'bottom',
-    //     className: 'white'
-    //   })
-    // }
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(locationSuccess, locationError, {
+        // 指示浏览器获取高精度的位置，默认为false
+        enableHighAccuracy: true,
+        // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
+        timeout: 5000,
+        // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
+        maximumAge: 3000
+      })
+    } else {
+      Toast({
+        message: '定位失败',
+        position: 'bottom',
+        className: 'white'
+      })
+    }
+    let that = this
+    function locationSuccess (position) {
+      console.log(position)
+      let xy = that.wgs84togcj02(position.coords.longitude, position.coords.latitude)
+      // let cp = new window.Careland.GbPoint(position.coords.latitude - 0.0031, position.coords.longitude + 0.00521)
+      let cp = new window.Careland.GbPoint(xy[1], xy[0])
+      let pointLayer1 = new window.Careland.Layer('point', 'layer1') // 创建点图层
+      window.map.addLayer(pointLayer1)
+      let style1 = new window.Careland.PointStyle({offsetX: -7, offsetY: -7, src: 'http://mapapi.careland.com.cn/mobile/images/geopoint.png'}) // 创建图片标注点
+      let marker1 = new window.Careland.Marker('image')
+      marker1.setStyle(style1) // 设置图片标注点样式
+      marker1.setPoint(cp) // 设置标注点位置
+      pointLayer1.add(marker1)
+      window.map.setCenter(cp)
+    }
 
-    // function locationSuccess (position) {
-    //   console.log(position)
-    //   let cp = new window.Careland.GbPoint(position.coords.latitude - 0.0031, position.coords.longitude + 0.00521)
-    //   window.map.setCenter(cp)
-    // }
-
-    // function locationError (err) {
-    //   Toast({
-    //     message: '定位失败',
-    //     position: 'bottom',
-    //     className: 'white'
-    //   })
-    //   console.log(err)
-    // }
+    function locationError (err) {
+      Toast({
+        message: '定位失败',
+        position: 'bottom',
+        className: 'white'
+      })
+      console.log(err)
+    }
 
     window.addEventListener('popstate', ($event) => {
       this.$emit('hide')
