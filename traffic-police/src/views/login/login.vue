@@ -32,16 +32,12 @@ export default {
     loginClick: function () {
       let that = this
       this.openId = window.localStorage.getItem('openId')
-      if (this.openId === 'null') {
-        window.alert('12121')
-      }
       let reqData = {
         loginName: this.loginName,
         password: this.password,
         openId: this.openId,
         loginClient: 'weixin'
       }
-      console.log(reqData)
       resultPost(login, reqData).then(data => {
         console.log(data)
         if (data.code === '0000') {
@@ -66,13 +62,15 @@ export default {
     }
   },
   mounted () {
-    let keys = {
-      'noticeKey': 'testKey'
+    let url = window.location.href
+    let data = {
+      url: encodeURIComponent(url.split('#')[0])
     }
-    resultPost('http://192.168.1.161:8080/web/user/getDocumentationORMByNoticeKey.html', keys).then(data => {
-      console.log(data)
-    })
+    if (!this.openId) {
+      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48a8104946507c1e&redirect_uri=http%3A%2F%2Ftestjava.chudaokeji.com%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
+    }
   }
+
 }
 </script>
 

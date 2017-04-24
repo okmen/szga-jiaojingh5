@@ -22,7 +22,7 @@
       <div class='form-item'>
         <div class='item-left'>名下车辆</div>
         <div class='item-right div-select'>
-          <span class='btn-select min-btn-select' @click.stop='bindCarSelect()'>{{ cur_bindCar }}</span>
+          <span class='btn-select min-btn-select' @click.stop='bindCarSelect()'>{{ cur_bindCar ? cur_bindCar : '无' }}</span>
           <div class='div-select-ul' v-if='bindCarListShow'>
             <ul>
               <li>1</li>
@@ -95,23 +95,22 @@
         cur_bindCar: window.localStorage.getItem('myNumberPlate'),
         bindCarList: [],
         bindCarListShow: false,
-        plateType: window.localStorage.getItem('plateType'),
+        plateType: window.localStorage.getItem('plateType') || '99',
         plateTypeList: {
           '02': '蓝牌',
           '01': '黄牌',
-          '06': '黑牌'
+          '06': '黑牌',
+          '99': '无'
         },
-        vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits')
+        vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits') || '无'
       }
     },
     mounted () {
-      console.log(this.name)
       let reqData = {
         licensePlateNo: window.localStorage.getItem('myNumberPlate'),
         licensePlateType: window.localStorage.getItem('plateType'),
         vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits')
       }
-      console.log(reqData)
       resultPost(queryLawlessByCar, reqData).then(json => {
         console.log(json)
       })

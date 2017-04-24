@@ -9,7 +9,7 @@
 <script>
   import { resultPost } from '../../../service/getData'
   import { licenseCard } from '../../../config/baseUrl'
-  import { Indicator } from 'mint-ui'
+  import { Toast, Indicator } from 'mint-ui'
   export default {
     name: 'drivingCard',
     data () {
@@ -30,6 +30,14 @@
         this.imageUrl = 'data:image/png;base64,' + json.data.electronicDriverLicense
 //        this.codeUrl = json.data.electronicDriverLicenseQRCode
         console.log(json)
+        if (!json.data.electronicDriverLicense) {
+          Toast({
+            message: json.data.code,
+            position: 'middle',
+            className: 'white',
+            duration: 3000
+          })
+        }
       })
     }
   }
