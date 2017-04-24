@@ -27,7 +27,7 @@ export const queryLawlessByCar = `${commonUrl}illegalHanding/queryInfoByLicenseP
 
 export const queryLawlessByCard = `${commonUrl}illegalHanding/queryInfoByDrivingLicenceNo.html` // 违法查询（驾驶证）
 
-export const queryPay = `http://192.168.1.243:8080/web/illegalHanding/toQueryPunishmentPage.html` // 违法缴款
+export const queryPay = `${commonUrl}illegalHanding/toQueryPunishmentPage.html` // 违法缴款
 
 export const queryEarlyLawless = `${commonUrl}illegalHanding/toQuerySubscribe.html` // 违法预约查询
 
@@ -53,7 +53,7 @@ export const bindCard = `${commonUrl}user/search/getMyDriverLicense.html` // 个
 
 export const bindBusiness = `${commonUrl}user/search/getMyBusiness.html` // 个人中心-业务查询(暂使用后端本地地址)
 
-export const sendSMS = `${commonUrl}user/sendSMSVerificatioCode.html` // 发送验证码接口
+export const sendSMS = `${commonUrlIn}user/sendSMSVerificatioCode.html` // 发送验证码接口
 
 export const deleteVehicle = `${commonUrl}user/deleteVehicle.htm.html` // 用戶中心解綁微信接口
 

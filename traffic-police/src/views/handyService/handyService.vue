@@ -30,6 +30,11 @@
           }
         ]
       }
+    },
+    mounted () {
+      if (window.localStorage.getItem('isLogin') === 'false') {
+        this.$router.push('login')
+      }
     }
   }
 </script>
