@@ -37,7 +37,7 @@
               <span>车架号</span>
             </div>
             <div class="queryByCar-hbs-text">
-              <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" name="" value="" placeholder="请输入车架号后四位">
+              <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" maxlength="4" name="" value="" placeholder="请输入车架号后四位">
             </div>
           </li>
           <li class="queryByCar-hbs-item clear">
@@ -45,7 +45,7 @@
               <span>验证码</span>
             </div>
             <div class="queryByCar-hbs-text width-40 left">
-              <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码" id="inp">
+              <input class="text-input" type="tel" name="" maxlength="4" value="" placeholder="请输入验证码" id="inp">
             </div>
             <div class="left queryByCar-hbs-code" id="code"></div>
           </li>

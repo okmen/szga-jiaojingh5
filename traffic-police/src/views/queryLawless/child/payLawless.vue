@@ -36,7 +36,7 @@
             <span>验证码</span>
           </div>
           <div class="form-line-item width-40">
-            <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码" id="inp">
+            <input class="text-input" type="tel" name="" value="" maxlength="4" placeholder="请输入验证码" id="inp">
           </div>
           <div class="form-line-item right">
             <div class="payLawless-hbs-code" id="code"></div>
