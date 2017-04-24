@@ -28,7 +28,7 @@
             </div>
           </div>
           <div class="starUser-hbs-text width-70 right">
-            <input class="text-input" type="text" name="" v-model="carNumber">
+            <input class="text-input" type="text" maxlength="10" v-model="carNumber">
           </div>
         </li>
         <li class="starUser-hbs-item">
@@ -36,7 +36,7 @@
             <span>身份证号</span>
           </div>
           <div class="starUser-hbs-text">
-            <input class="text-input" type="text" name="" value="" v-model="idCardNumber" placeholder="外籍人士,请在证件号前加F">
+            <input class="text-input" type="text" maxlength="19" v-model="idCardNumber" placeholder="外籍人士,请在证件号前加F">
           </div>
         </li>
         <li class="starUser-hbs-item">
@@ -44,7 +44,7 @@
             <span>联系地址</span>
           </div>
           <div class="starUser-hbs-text">
-            <input class="text-input" type="text" name="" value="" v-model="connectAddress" placeholder="您的联系地址">
+            <input class="text-input" type="text" maxlength="18" v-model="connectAddress" placeholder="您的联系地址">
           </div>
         </li>
         <li class="starUser-hbs-item">
@@ -52,7 +52,7 @@
           <span>手机号码</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="tel" name="" value="" v-model="telphone" placeholder="请输入您的手机号码">
+          <input class="text-input" type="tel" maxlength="11" v-model="telphone" placeholder="请输入您的手机号码">
         </div>
       </li>
       <li class="starUser-hbs-item clear">
@@ -60,7 +60,7 @@
           <span>验证码</span>
         </div>
         <div class="starUser-hbs-text width-40 left">
-          <input class="text-input" type="tel" name="" value="" v-model="validCode" placeholder="请输入验证码">
+          <input class="text-input" type="tel" maxlength="6" v-model="validCode" placeholder="请输入验证码">
         </div>
         <div class="left starUser-hbs-code">
           <button type="button" name="button" @click.stop="getVerification()"
@@ -84,7 +84,7 @@
             </div>
           </div>
         </li>
-        <li class="starUser-hbs-item">
+        <li class="starUser-hbs-item" v-show="haveDrivingLicence == 1">
           <div class="starUser-hbs-name">
             <span>驾驶证核发地</span>
           </div>
@@ -254,7 +254,7 @@ export default{
       connectAddress: '',     // 联系地址
       telphone: '',           // 手机号码
       validCode: '',          // 验证码
-      haveDrivingLicence: '', // 是否有驾驶证
+      haveDrivingLicence: '1', // 是否有驾驶证
       originPlace: ''         // 所属地
     }
   },
@@ -284,7 +284,7 @@ export default{
         this.typeSelectShow = false
       }
     },
-    btnSureStar: function () {
+    btnSureStar: function () {  // 提交按钮
       let idImgOne = this.$refs.getImgUrl.idCardImgPositive
       let idImgTwo = this.$refs.getImgUrl.idCardImgNegative
       let idImgThree = this.$refs.getImgUrl.idCardImgHandHeld
@@ -316,10 +316,10 @@ export default{
       resultPost(carOwner, carOwnerData).then(json => {
         let jsonMsg = json.msg
         let getJsonMsg = ''
-        if (jsonMsg.indexOf('：') === -1) {
+        if (jsonMsg.indexOf(' ') === -1) {
           getJsonMsg = jsonMsg
         } else {
-          getJsonMsg = jsonMsg.split('：')[1]
+          getJsonMsg = jsonMsg.split(' ')[0]
         }
         if (json.code === '0000') {
           this.postAppoin({
@@ -336,7 +336,7 @@ export default{
         }
       })
     },
-    getVerification: function () {
+    getVerification: function () {  // 发送验证码 按钮
       let sendPhoneNumber = {
         mobilephone: this.telphone
       }

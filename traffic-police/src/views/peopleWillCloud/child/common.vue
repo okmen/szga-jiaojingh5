@@ -199,9 +199,9 @@ export default{
     this.typeSelectData = this.typeData[this.typeIndex] // 选择类型
     this.subTypeSelectData = this.typeData[this.typeIndex].subTypeData[this.subTypeIndex] // 选择子类型
     this.subTypeData = this.typeSelectData.subTypeData
-    this.userName = window.localStorage.getItem('userName') // 用户姓名
-    this.mobilephone = window.localStorage.getItem('mobilePhone') // 用户手机号码
-    this.identityCard = window.localStorage.getItem('identityCard') // 用户身份证号码
+    this.userName = window.localStorage.getItem('userName') || '' // 用户姓名
+    this.mobilephone = window.localStorage.getItem('mobilePhone') || '' // 用户手机号码
+    this.identityCard = window.localStorage.getItem('identityCard') || '' // 用户身份证号码
   },
   mounted () {
     this.getToken()

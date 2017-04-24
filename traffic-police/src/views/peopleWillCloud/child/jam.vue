@@ -374,9 +374,9 @@ export default {
       this.congestionReasonShow = false
     })
     this.reportingMatters = 1003
-    this.userName = window.localStorage.getItem('userName') // 用户姓名
-    this.mobilephone = window.localStorage.getItem('mobilePhone') // 用户手机号码
-    this.identityCard = window.localStorage.getItem('identityCard') // 用户身份证号码
+    this.userName = window.localStorage.getItem('userName') || '' // 用户姓名
+    this.mobilephone = window.localStorage.getItem('mobilePhone') || '' // 用户手机号码
+    this.identityCard = window.localStorage.getItem('identityCard') || '' // 用户身份证号码
   }
 }
 </script>
@@ -402,6 +402,9 @@ export default {
         .time-select{
           width: 100%;
           margin: 0;
+          i{
+            visibility: hidden;
+          }
           input{
             width: 100%;
             height: 1.6875rem;

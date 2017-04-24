@@ -24,7 +24,7 @@
               <span>验证码</span>
             </div>
             <div class="queryByCard-hbs-text width-40 left">
-              <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码" id="inp">
+              <input class="text-input" type="tel" name="" value="" maxlength="4" placeholder="请输入验证码" id="inp">
             </div>
             <div class="left queryByCard-hbs-code" id="code"></div>
           </li>
