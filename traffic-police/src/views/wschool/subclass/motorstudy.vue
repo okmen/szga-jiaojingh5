@@ -70,7 +70,8 @@ export default {
   mounted () {
     this.hashRoomId = window.location.hash.split('#')[2]
     this.userImg = window.localStorage.getItem('headImgUrl')
-    console.log(this.userImg)
+    console.log(this.hashRoomId)
+    window.alert(this.hashRoomId)
     let motorstudyData = { // 获取页面数据
       classroomId: this.hashRoomId, // 列表请求参数
       identityCard: window.localStorage.getItem('identityCard'), // 身份证

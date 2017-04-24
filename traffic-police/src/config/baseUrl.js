@@ -47,11 +47,11 @@ export const updateUser = `${commonUrl}user/updateUser.html` // 修改个人资�
 
 export const login = `${commonUrl}/user/login.html` // 登录接口
 
-export const bindCar = `${commonUrl}user/search/getBndTheVehicles.html` // 个人中心-绑定车辆接口(暂使用后端本地地址)
+export const bindCar = `${commonUrl}user/search/getBndTheVehicles.html` // 个人中心-绑定车辆接口
 
-export const bindCard = `${commonUrl}user/search/getMyDriverLicense.html` // 个人中心-驾驶证接口(暂使用后端本地地址)
+export const bindCard = `${commonUrl}user/search/getMyDriverLicense.html` // 个人中心-驾驶证接口
 
-export const bindBusiness = `${commonUrl}user/search/getMyBusiness.html` // 个人中心-业务查询(暂使用后端本地地址)
+export const bindBusiness = `${commonUrl}user/search/getMyBusiness.html` // 个人中心-业务查询
 
 export const sendSMS = `${commonUrlIn}user/sendSMSVerificatioCode.html` // 发送验证码接口
 
