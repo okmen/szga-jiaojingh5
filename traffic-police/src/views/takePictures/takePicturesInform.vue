@@ -3,7 +3,7 @@
     <div class="tp-inform-box">
       <div class="tp-inform-left">违法时间</div>
       <div class="tp-inform-right" @click="getTime">
-        <input type="text" v-model="informTime" placeholder="点击获取当前时间" v-bind:blur="inputTime">
+        <el-date-picker v-model="informTime" type="datetime" format></el-date-picker>
       </div>
     </div>
     <div class="tp-inform-box">
@@ -62,7 +62,6 @@
       <router-link to="takePicturesTips">点击查看温馨提示</router-link>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
-    <el-date-picker type="datetime"></el-date-picker>
   </div>
 </template>
 <script>
@@ -340,6 +339,22 @@
       }
       input:focus{
         background:#efeff4;
+      }
+      .el-date-editor{
+         border:none;
+         .el-input__icon{
+           display:none;
+         }
+         .el-input__inner{
+           width:518px;
+           height:100%;
+           border:none;
+         }
+      }
+      .el-input{
+        width:518px;
+        height:60px;
+        line-height:60px;
       }
       ul{
         position:relative;
