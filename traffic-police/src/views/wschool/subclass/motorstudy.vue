@@ -39,7 +39,7 @@
 <script>
 import { resultPost } from '../../../service/getData'
 import { xstudy } from '../../../config/baseUrl'
-// import { MessageBox } from 'mint-ui'
+
 export default {
   data () {
     return {

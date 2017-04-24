@@ -108,12 +108,18 @@ export default {
       resultPost(answers, answesData).then(json => {     // 答案数据接口
         this.batchResult = json.data[0].batchResult    // 答题合格判断
         this.codes = json.code
+        console.log(this.codes)
         if (this.codes === '0000') {
           this.testData[index].img = require('../../../images/correct.png')
           this.flag = index
+          this.answerCorrect++
+          if (this.answerCorrect === 2) {
+            document.getElementById('NofItemss').innerHTML = '结束答题'
+          }
         } else if (this.codes === '0001') {
           this.testData[index].img = require('../../../images/fault.png')
           this.tlag = index
+          this.answererror++
         } else {
           Toast({
             message: json.msg,
@@ -136,14 +142,11 @@ export default {
     countClick: function () {      // 获取下一题数据
       this.surplusAnswe++
       this.loadingData()
-      let codess = this.codes
-      codess === '0000' ? this.answerCorrect++ : this.answererror++   // 判断对错数
-      if (this.answerCorrect === 10) {
-        document.getElementById('NofItemss').innerHTML = '结束答题'
+      if (this.answerCorrect === 2) {
         window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
         window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
         window.sessionStorage.setItem('surplusAnswe', this.surplusAnswe)  // 答题数
-        this.$router.push('result')
+        this.$router.push('result#1')
       }
     },
     loadingData: function () {     //  页面接口数据
