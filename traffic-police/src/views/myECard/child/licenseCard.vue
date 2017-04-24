@@ -31,6 +31,9 @@
 //        this.codeUrl = json.data.electronicDriverLicenseQRCode
         console.log(json)
       })
+    },
+    beforeDestory () {
+      Indicator.close()
     }
   }
 </script>
