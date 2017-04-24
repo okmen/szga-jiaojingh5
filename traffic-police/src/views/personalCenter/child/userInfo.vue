@@ -76,10 +76,10 @@ export default{
         unionId: ''
       }
       resultPost(deleteVehicle, reqData).then(json => {
+        window.localStorage.clear()
         if (json.code === '0000') {
           console.log(json)
           console.log('退出登录状态，返回首页')
-          window.localStorage.clear()
           // 退出登录
           this.$router.push('/')
         } else {

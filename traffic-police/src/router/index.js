@@ -10,7 +10,7 @@ const routes = [
     name: 'Home',
     path: '/',
     meta: {
-      title: '首页'
+      title: '深圳交警'
     },
     component: require('../App.vue')
   },
@@ -186,7 +186,7 @@ const routes = [
     name: 'peopleWillCloud',
     path: '/peopleWillCloud',
     meta: {
-      title: '深圳交警'
+      title: '交通文明我做主'
     },
     component: require('../views/peopleWillCloud/peopleWillCloud.vue'),
     redirect: '/peopleWillCloud/facility',
