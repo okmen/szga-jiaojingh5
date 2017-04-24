@@ -238,8 +238,8 @@ export default {
       this.orderSelectShow = false
     })
     this.reportingMatters = 1004
-    this.identityCard = window.localStorage.getItem('identityCard')
-    this.mobilephone = window.localStorage.getItem('mobilePhone')
+    this.identityCard = window.localStorage.getItem('identityCard') || ''
+    this.mobilephone = window.localStorage.getItem('mobilePhone') || ''
   }
 }
 </script>
@@ -264,6 +264,9 @@ export default {
         .time-select{
           width: 100%;
           margin: 0;
+          i{
+            visibility: hidden;
+          }
           input{
             width: 100%;
             height: 1.6875rem;

@@ -37,20 +37,21 @@ export default{
       pointLayer: '',
       map: '',
       head: '',
-      ac: ''
+      ac: '' // 输入框提示
     }
   },
   methods: {
     /* eslint-disable */
     init: function () {
-      let that = this,
-          x = this.dragendX || 410942332, // 经度
+      this.dragendX = ''
+      this.dragendY = ''
+      console.log('地图', map)
+      let x = this.dragendX || 410942332, // 经度
           y = this.dragendY || 81392068, // 纬度
           point = new Careland.Point(x, y), // 创建地图中心点
           map = new Careland.Map('mymap', point, 18) // 创建地图对象
 
       this.head = document.head
-
       this.map = map
       map.enableCenterIcon() // 启用地图中心点图标
       map.enableAutoResize() // 启用自动适应容器尺寸变化
@@ -72,6 +73,7 @@ export default{
         ac.hide()
       });
 
+      console.log('map addEventListener')
       map.addEventListener('mapchange', () => { // 为拖拽地图后添加事件
         this.getLocationInfo(map)
       })
@@ -165,7 +167,6 @@ export default{
     }
   },
   mounted () {
-    console.log('mounted')
     this.init()
     window.addEventListener('setItemEvent', (e) => {
       let resData = e.mapData
@@ -226,7 +227,9 @@ export default{
     })
     // 浏览器定位
     var geolocation = new window.Careland.Geolocation({enableHighAccuracy: true, map: this.map})
+    console.log(geolocation)
     geolocation.getCurrentPosition(function (f) {
+      console.log(f)
       if (f.getStatus()) {
       } else {
         Toast({
@@ -245,6 +248,10 @@ export default{
         //   }
         // })
       }
+    })
+    window.addEventListener('popstate', ($event) => {
+      this.$emit('hide')
+      return false
     })
   }
 }

@@ -103,7 +103,6 @@ export default {
     },
     newsLength: function () {
       this.length = Math.ceil(this.news.length / 5)
-      this.length = 5
       return this.length
     }
   }
