@@ -23,6 +23,7 @@
 import { getLocation } from '../../config/baseUrl'
 // import wx from 'weixin-js-sdk'
 import { Toast } from 'mint-ui'
+import { flagGreen, geopoint } from '../../config/base64'
 
 export default{
   name: 'getLocation',
@@ -114,7 +115,7 @@ export default{
       pointLayer.clear()
 
       // 创建样式，包括标注点位置的偏移以及文本的偏移
-      let style = new window.Careland.PointStyle({offsetX: -6, offsetY: -30, textOffsetX: -5, textOffsetY: -30, src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABBlJREFUeNrsl29oG2Ucx393S5MsS9wl1bZpnWYmS8rs6K2tjGmrQcG9EQbulUzQV74o21hBKX3VijJU9kJw6wtBYTBWfSOiQxG1ZhNXFLKlq/tD02uSnfnXmjZZtiRNcnf+nrv8uZaO7TIrvugDX+65y939Pr/f832eJ0dJkgRr2/unzi3zPM+g0t9PnLbCv9zUMXXr3UBRFDM4OAgjIyPM8Emvg6JgFC+zbY+1snq9Dm5FowE89+F7znz4ti/wMDC6+91g0BuvvHrgMON+ygGilIFCMQ13C2n2ejDIcpHo8Xc+eh5BpKGTw782BELf74biipD3OD0gQR4B8iCIRAXosG+Hvd1Pwv59nV6TyXhl6ET/2IZUYGkpcymamDvU1mJGgAJqBQGIiiCJEpjNW6GnpxOCwejo0ImBg6VSeejU6JRv7XuOvLufwYMXhzOMx8ADA9zOFM7P3Awcam3pkwFI9gqAgOfEUIqp2h9vA/MjDBuPJX459t5zYQT5Gh/PoLpRjic6WtjEwjKE51K7NVUgEkz/PDvPwUsDT1cASPCSHFRRHaJJrwenaycYDTpHIZc/vtXQBMx2E+zc0QqGpi0w+sHZ2a8+v8bBZxoApn68FXN1Nc+KsOIWMbiIpRdFsRZYVEHIM0iZRfBoMwPmbQawoGiaAi4ch9yd4nfEVppMiE0olYRAcD6kjL+kZK8OXO1X5rAMQGFQmqprbj4O+Vx5UvMskAkEiSOZy6VXZb96COTYsmhZCgjJnoiPLsI3Z274GgKgaChG/lrATMsV40mVzNV9qbqI1USrqvDndX4Wf842BFAuC9But2Cge2evVICqVIGqVYBCegKC9ycbWogUALHbZjXWAqunn7oKxIDVjGseoEmfxuETLQ0D2Kwmb7PVdI/s6wZcVX45eB3I4+pgG1oJXz7sfLO9zcJcnApBPJGFUllZ/ex2G+gNBpUX6iasq25Cm9UCB153eX84O+fTBIDlf+O3S2H/5CTnzy6t+Mk1i83QazTpvG6P3d3V5QBrM1O1az37Ndrt3gE/+aa9ZBfVthck8hcCFxLnsHtH5eLzqI+DzpTraif/1i5P+yvP9u8BPa521TWAouvZE+3r2wWl0+JBfG5MEwAG/wQPqTWXCUgsymU51Ewqnv+W5/8e6x/osu9lnasyr3pim8kILw7sYbGirKbNaJ3gq3ZrVDh4OTWxyN+dSadyR2/e4F/r63HBM70uoCxGiPCLkEwuQyichMvTIcBVtVcrwIO0bHqx8EdgMjEc425PXJvmX/jiy4tkvEEUpLhQlmK5TMkfupomHgprGgINTUDxC5FcEvU79j9VValYGbas5mnYQCPBFip6+L9kG902ATYBNgH+vwDj4+P/CQC13uc57l69qlP/Rn6e/yPAAOu0M3zUUdHGAAAAAElFTkSuQmCC', fontColor: '#FFF'}) // 创建图片标注点
+      let style = new window.Careland.PointStyle({offsetX: -6, offsetY: -30, textOffsetX: -5, textOffsetY: -30, src: flagGreen, fontColor: '#FFF'}) // 创建图片标注点
       let marker = new window.Careland.Marker('image')
       marker.setStyle(style) // 设置图片标注点样式
       marker.setPoint(point) // 设置标注点位置
@@ -302,7 +303,7 @@ export default{
       let cp = new window.Careland.GbPoint(xy[1], xy[0])
       let pointLayer1 = new window.Careland.Layer('point', 'layer1') // 创建点图层
       window.map.addLayer(pointLayer1)
-      let style1 = new window.Careland.PointStyle({offsetX: -7, offsetY: -7, src: 'http://mapapi.careland.com.cn/mobile/images/geopoint.png'}) // 创建图片标注点
+      let style1 = new window.Careland.PointStyle({offsetX: -7, offsetY: -7, src: geopoint}) // 创建图片标注点
       let marker1 = new window.Careland.Marker('image')
       marker1.setStyle(style1) // 设置图片标注点样式
       marker1.setPoint(cp) // 设置标注点位置
