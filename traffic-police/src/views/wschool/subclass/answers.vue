@@ -112,8 +112,12 @@ export default {
           this.testData[index].img = require('../../../images/correct.png')
           this.flag = index
           this.answerCorrect++
-          if (this.answerCorrect === 2) {
+          if (this.answerCorrect === 10) {
             document.getElementById('NofItemss').innerHTML = '结束答题'
+            Toast({
+              message: json.msg,
+              duration: 1000
+            })
           }
         } else if (this.codes === '0001') {
           this.testData[index].img = require('../../../images/fault.png')
@@ -141,7 +145,7 @@ export default {
     countClick: function () {      // 获取下一题数据
       this.surplusAnswe++
       this.loadingData()
-      if (this.answerCorrect === 2) {
+      if (this.answerCorrect === 10) {
         window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
         window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
         window.sessionStorage.setItem('surplusAnswe', this.surplusAnswe)  // 答题数

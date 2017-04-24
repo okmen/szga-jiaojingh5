@@ -16,6 +16,7 @@
     <div class="starUser-from pad-side-50">
       <router-view></router-view>
     </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>

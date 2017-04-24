@@ -16,7 +16,7 @@
   </div>
   <!-- 网络不给力,出错的组件 -->
   <error v-if="errorShow"></error>
-
+  <div v-wechat-title="$route.meta.title"></div>
 </div>
 </template>
 

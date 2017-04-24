@@ -15,12 +15,12 @@
         <div class="success-login-identityCard">{{ userIdentityCard }}</div>
         <div class="success-login-plateNumber">{{ userNumberPlate }}</div>
       </div>
+      <router-link to="/personalCenter"><div class="login-right"></div></router-link>
     </div>
     <div class="not-login" v-else>
       <div class="logo"></div>
       <p>请<router-link to="/login" class="enter">  登录 </router-link>/<router-link to="/starUser" class="enroll"> 注册 </router-link>星级用户</p>
     </div>
-    <router-link to="/personalCenter"><div class="login-right"></div></router-link>
   </div>
   <div id="nav-outer">
     <div class="home-nav-top">
@@ -88,6 +88,7 @@
       </dl>
     </div>
   </div>
+  <div v-wechat-title="$route.meta.title"></div>
 </div>
 </template>
 <script>
@@ -106,7 +107,9 @@ export default {
     this.userName = window.localStorage.getItem('userName')
     this.userImg = window.localStorage.getItem('headImgUrl')
     this.userIdentityCard = window.localStorage.getItem('identityCard')
-    this.userNumberPlate = window.localStorage.getItem('myNumberPlate')
+    if (window.localStorage.getItem('myNumberPlate') !== 'undefined') {
+      this.userNumberPlate = window.localStorage.getItem('myNumberPlate')
+    }
     this.isLogin = window.localStorage.getItem('isLogin')
   }
 }

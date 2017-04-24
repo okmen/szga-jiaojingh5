@@ -81,8 +81,8 @@ export default {
     }
     resultPost(xstudy, motorstudyData).then(json => {
       this.listData = json.data[0]
-      this.itemData = json.data[0].studyRecord
-      this.isComplete = json.data[0].isComplete // 学习记录
+      this.itemData = json.data[0].studyRecord  // 学习记录
+      this.isComplete = json.data[0].isComplete
       this.integral = json.data[0].integral // 学习积分
     })
   }

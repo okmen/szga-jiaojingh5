@@ -17,7 +17,7 @@
           <span>发现人姓名</span>
         </div>
         <div class="common-list-text">
-          <input class="text-input" type="text" name="" v-model:value="userName" readonly>
+          <input class="text-input" type="text" name="" v-model:value="userName" :readonly="isReadobly" placeholder="请输入您的姓名">
         </div>
       </li>
       <li class="common-form-item">
@@ -25,7 +25,7 @@
           <span>发现人手机</span>
         </div>
         <div class="common-list-text">
-          <input class="text-input" type="text" name="" v-model:value="mobilephone" readonly>
+          <input class="text-input" type="text" name="" v-model:value="mobilephone" :readonly="isReadobly" placeholder="请输入您的手机" minlength="11" maxlength="11">
         </div>
       </li>
       <li class="common-form-item">
@@ -202,6 +202,8 @@ export default{
     this.userName = window.localStorage.getItem('userName') || '' // 用户姓名
     this.mobilephone = window.localStorage.getItem('mobilePhone') || '' // 用户手机号码
     this.identityCard = window.localStorage.getItem('identityCard') || '' // 用户身份证号码
+    this.isReadobly = window.localStorage.getItem('isLogin') === 'true'
+    console.log(typeof this.isReadobly)
   },
   mounted () {
     this.getToken()

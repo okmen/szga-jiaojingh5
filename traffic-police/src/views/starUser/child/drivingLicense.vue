@@ -51,7 +51,7 @@
           <span>联系地址</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="text" maxlength="18" v-model="address" placeholder="您的联系地址">
+          <input class="text-input" type="text" maxlength="18" v-model="address" placeholder="请输入您的联系地址(非必填)">
         </div>
       </li>
     </ul>
@@ -135,16 +135,7 @@
           idCardImgNegative: idImgTwo,
           idCardImgHandHeld: idImgThree
         }
-        // for (let key in driverLicenseData) {
-        //   if (!driverLicenseData[key]) {
-        //     Toast({
-        //       message: '信息填写不完整',
-        //       position: 'bottom',
-        //       className: 'white'
-        //     })
-        //     return false
-        //   }
-        // }
+        console.log(driverLicenseData)
         resultPost(drivingLicense, driverLicenseData).then(json => {
           console.log(json)
           let jsonMsg = json.msg
