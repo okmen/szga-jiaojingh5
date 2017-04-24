@@ -44,7 +44,7 @@
             <span>联系地址</span>
           </div>
           <div class="starUser-hbs-text">
-            <input class="text-input" type="text" maxlength="18" v-model="connectAddress" placeholder="您的联系地址">
+            <input class="text-input" type="text" maxlength="18" v-model="connectAddress" placeholder="请输入您的联系地址(非必填)">
           </div>
         </li>
         <li class="starUser-hbs-item">
@@ -303,16 +303,6 @@ export default{
         provinceAbbreviation: this.abbreviationSelectMassage
       }
       console.log(carOwnerData)
-      for (let key in carOwnerData) {
-        if (!carOwnerData[key]) {
-          Toast({
-            message: '信息填写不完整',
-            position: 'bottom',
-            className: 'white'
-          })
-          return false
-        }
-      }
       resultPost(carOwner, carOwnerData).then(json => {
         let jsonMsg = json.msg
         let getJsonMsg = ''

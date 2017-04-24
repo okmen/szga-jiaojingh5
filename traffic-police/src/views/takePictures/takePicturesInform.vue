@@ -3,7 +3,7 @@
     <div class="tp-inform-box">
       <div class="tp-inform-left">违法时间</div>
       <div class="tp-inform-right" @click="getTime">
-        <input type="text" v-model="informTime" placeholder="点击获取当前时间" readonly>
+        <input type="text" v-model="informTime" placeholder="点击获取当前时间" v-bind:blur="inputTime">
       </div>
     </div>
     <div class="tp-inform-box">
@@ -73,7 +73,7 @@
     name: 'takePicturesInform',
     data () {
       return {
-        showSelectRoad: false,    // 是否显示路段列表
+        showSelectRoad: false,   // 是否显示路段列表
         roadSelectLists: [],     // 路段列表
         informTime: '',          // 违法时间
         informRoad: '',          // 违法路段
@@ -95,16 +95,12 @@
         this.informIdNumber = window.localStorage.identityCard
         this.informTel = window.localStorage.mobilePhone
       }
-    },
-    computed: {
-      regTel: function () {
-        return /^1[34578]\d{9}$/.test(this.informTel)
-      }
+      let getInformTime = this.currentTime()
+      this.informTime = getInformTime
     },
     methods: {
       getTime: function () {           // 获取当前时间
-        let getInformTime = this.currentTime()
-        this.informTime = getInformTime
+        console.log(111)
       },
       getToken: function () {          // 获取token
         resultGet(uploadImg).then(res => {
@@ -164,14 +160,14 @@
       btnSurePutInform: function () {  // 提交拍照举报按钮
         let informData = {
           illegalTime: this.informTime,             // 违法时间
-          illegalSections: this.informType,            // 违法路段
-          reportImgOne: this.imgOne,                      // 上传照片
+          illegalSections: this.informType,         // 违法路段
+          reportImgOne: this.imgOne,                // 上传照片
           reportImgTwo: this.imgTwo,
           reportImgThree: this.imgThree,
-          illegalActivitieOne: this.informIntroWhy,  // 情况说明
-          inputManName: this.informName,           // 举报人
+          illegalActivitieOne: this.informIntroWhy, // 情况说明
+          inputManName: this.informName,            // 举报人
           identityCard: this.informIdNumber,        // 身份证号
-          inputManPhone: this.informTel,              // 电话号码
+          inputManPhone: this.informTel,            // 电话号码
           userSource: 'C',
           openId: window.localStorage.openId
         }
@@ -215,14 +211,16 @@
           if (json.data) {
             let roadLists = json.data.list
             let roadArry = []
-            roadLists.forEach((item, index) => {
-              let roadObj = {
-                'wfdd': item.wfdd.split('---')[1],
-                'type': item.wfdd.split('---')[0]
-              }
-              roadArry.push(roadObj)
-              that.roadSelectLists = roadArry
-            })
+            if (roadLists.length >= 2) {
+              roadLists.forEach((item, index) => {
+                let roadObj = {
+                  'wfdd': item.wfdd.split('---')[1],
+                  'type': item.wfdd.split('---')[0]
+                }
+                roadArry.push(roadObj)
+                that.roadSelectLists = roadArry
+              })
+            }
           } else {
             Toast({
               message: '请输入正确的路段，不用太详细',
@@ -268,8 +266,8 @@
         this.informType = this.roadSelectLists[index].type
         this.showSelectRoad = false
       },
-      beforeDestory () {
-        Toast.close()
+      inputTime: function () {
+        console.log(111)
       },
       ...mapActions({
         postInform: 'postInform'
