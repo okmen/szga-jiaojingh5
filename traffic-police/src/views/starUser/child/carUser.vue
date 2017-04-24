@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="starUser-hbs-text width-70 right">
-          <input class="text-input" type="text" name="" v-model="carNumber">
+          <input class="text-input" type="text" maxlength="10" v-model="carNumber">
         </div>
       </li>
       <li class="starUser-hbs-item">
@@ -35,7 +35,7 @@
           <span>车主姓名</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="text" name="" v-model="carOwnerName" placeholder="车主姓名">
+          <input class="text-input" maxlength="10" v-model="carOwnerName" placeholder="车主姓名">
         </div>
       </li>
       <li class="starUser-hbs-item">
@@ -43,7 +43,7 @@
           <span>车主身份证</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="text" name="" v-model="carIdCardNumber" placeholder="车主是外籍人士,请在证件号前加F">
+          <input class="text-input" type="text" maxlength="19" v-model="carIdCardNumber" placeholder="车主是外籍人士,请在证件号前加F">
         </div>
       </li>
       <li class="starUser-hbs-item">
@@ -51,7 +51,7 @@
           <span>使用人身份证</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="text" name="" v-model="userIdCardNumber" placeholder="如果您是外籍人士,请在证件号前加F">
+          <input class="text-input" type="text" maxlength="19" v-model="userIdCardNumber" placeholder="如果您是外籍人士,请在证件号前加F">
         </div>
       </li>
       <li class="starUser-hbs-item">
@@ -78,7 +78,7 @@
           <span>手机号码</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="tel" name="" v-model="userTelphone" placeholder="请输入您的手机号码">
+          <input class="text-input" type="tel" maxlength="11" v-model="userTelphone" placeholder="请输入您的手机号码">
         </div>
       </li>
       <li class="starUser-hbs-item clear">
@@ -86,7 +86,7 @@
           <span>验证码</span>
         </div>
         <div class="starUser-hbs-text width-40 left">
-          <input class="text-input" type="tel" name="" v-model="validCode" placeholder="请输入验证码">
+          <input class="text-input" type="tel" maxlength="6" v-model="validCode" placeholder="请输入验证码">
         </div>
         <div class="left starUser-hbs-code">
           <button type="button" name="button" @click.stop="getVerification()"
@@ -99,7 +99,7 @@
           <span>联系地址</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="text" name="" v-model="userAddress" placeholder="您的联系地址">
+          <input class="text-input" type="text" maxlength="18" v-model="userAddress" placeholder="请输入您的联系地址(非必填)">
         </div>
       </li>
     </ul>
@@ -317,10 +317,10 @@
         resultPost(carUser, usrData).then(json => {
           let jsonMsg = json.msg
           let getJsonMsg = ''
-          if (jsonMsg.indexOf('：') === -1) {
+          if (jsonMsg.indexOf(' ') === -1) {
             getJsonMsg = jsonMsg
           } else {
-            getJsonMsg = jsonMsg.split('：')[1]
+            getJsonMsg = jsonMsg.split(' ')[0]
           }
           if (json.code === '0000') {
             this.postAppoin({
@@ -387,6 +387,9 @@
         this.licenseSelectShow = false
         this.abbreviationSelectShow = false
       })
+    },
+    beforeDestory () {
+      Toast.close()
     }
   }
 </script>
@@ -430,6 +433,12 @@
         }
       }
     }
+  }
+}
+.mint-indicator{
+  position:relative;
+  .mint-indicator-wrapper{
+    z-index:9999999;
   }
 }
 </style>

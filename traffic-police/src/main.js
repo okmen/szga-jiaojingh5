@@ -11,9 +11,14 @@ import '../static/plupload.dev.js'
 import '../static/qiniu.min.js'
 import 'mint-ui/lib/style.css'
 import store from './store/index'
+import { Indicator } from 'mint-ui'
 
-// Vue.use(require('vue-wechat-title'))
+Vue.use(require('vue-wechat-title'))
 Vue.component(TimeSelect.name, TimeSelect)
+
+window.addEventListener('popstate', function (e) { // 监听手机返回按钮, 清除loading效果
+  Indicator.close()
+}, false)
 
 /* eslint-disable */
 new Vue({

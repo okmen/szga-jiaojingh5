@@ -10,7 +10,7 @@
       <div class='form-item'>
         <div class='item-left'>联系方式</div>
         <div class='item-right'>
-          <input class='text-input' v-model='this.mobilePhone'>
+          <input class='text-input' maxlength="11" v-model='this.mobilePhone'>
         </div>
       </div>
       <div class='form-item'>
@@ -41,7 +41,7 @@
       <div class='form-item'>
         <div class='item-left'>车架号</div>
         <div class='item-right'>
-          <input class='text-input' v-model='this.vehicleIdentifyNoLast4'>
+          <input class='text-input' maxlength="4" v-model='this.vehicleIdentifyNoLast4'>
         </div>
       </div>
     </div>

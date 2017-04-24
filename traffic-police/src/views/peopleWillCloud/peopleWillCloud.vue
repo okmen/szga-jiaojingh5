@@ -23,6 +23,7 @@
         <router-view @showMap="showMap" :mapObj="mapObj" @submitSuccess="submitSuccess()"></router-view>
       </div>
     </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 

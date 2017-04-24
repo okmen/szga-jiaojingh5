@@ -8,7 +8,7 @@
           <span class="myself" v-if="car.isMyself == '本人'">本人</span>
           <span class="others" v-else>他人</span>
         </div>
-        <div class="item-bottom">您有 <i>0</i> 笔违章需要处理</div>
+        <div class="item-bottom">您有 <i>{{ car.illegalNumber }}</i> 笔违章需要处理</div>
         <div class="item-arrow"></div>
       </router-link>
     </div>
