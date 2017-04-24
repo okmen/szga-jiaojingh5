@@ -43,8 +43,7 @@ export default{
       let reqData = {
         oldPwd: this.oldPwd,
         newPwd: this.newPwd,
-        // identityCard: this.identityCard
-        identityCard: '420881198302280017'
+        identityCard: this.identityCard
       }
       for (let key in reqData) {
         if (!reqData[key]) {
