@@ -68,7 +68,7 @@ export default {
     }
   },
   mounted () {
-    this.hashRoomId = window.location.hash.split('#')[2]
+    this.hashRoomId = parseInt(window.location.hash.split('#')[2])
     this.userImg = window.localStorage.getItem('headImgUrl')
     console.log(this.hashRoomId)
     window.alert(this.hashRoomId)
