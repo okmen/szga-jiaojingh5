@@ -18,12 +18,12 @@
           <dt><img src="../../../images/exit.png"></dt>
           <dd>退出</dd>
         </dl>
-        <div class="pop-up" v-bind:class="{ 'reveal' : isReveal}">
+        <div id="select" class="pop-up" v-bind:class="{ 'reveal' : isReveals}">
           <ul class="pop-up-center" >
             <li class="up-cengter-hint">限时时间到！</li>
             <li class="up-cengter-hint">请退出做题或者从新做题</li>
             <li class="up-cengter-hint">本次学习将不做记分</li>
-            <li class="up-cengter-hint" @click="againclick()">重新学习</li>
+            <li class="up-cengter-hint" @click="againclicks()" >重新学习</li>
             <li class="up-cengter-hint"><router-link to="wschool" class="quit">退出学习</router-link></li>
           </ul>
         </div>
@@ -59,7 +59,7 @@ export default {
       answererror: 0,
       surplusAnswe: 0,
       isBtnShow: false,   // 下一题样式
-      isReveal: false,    // 弹框控制
+      isReveals: false,    // 弹框控制
       tlag: 5,   // 正确选项颜色
       flag: 5,  // 错误选项颜色
       chronoScope: '00:00',    // 答题时间
@@ -97,8 +97,9 @@ export default {
     clickAnswer: function (index) {     // 选项答题
       this.isBtnShow = true
       if (this.testQuestionsType === '不定选') {
-        // this.answerId = this.answertData.answeroptions[index].answerId
-        this.answerId
+        let att = this.answertData.answeroptions[index].answerId
+        this.answerId += att
+        console.log(this.answerId)
       } else {
         this.answerId = this.answertData.answeroptions[index].answerId
       }
@@ -117,7 +118,7 @@ export default {
       resultPost(answers, answesData).then(json => {     // 答案数据接口
         this.codes = json.code
         if (this.testQuestionsType === '不定选') {
-          // console.log('dddd')
+
         } else {
           if (this.codes === '0000') {
             this.answerCorrect = json.data[0].answerCorrect  // 答对题数
@@ -145,6 +146,7 @@ export default {
       })
     },
     countClick: function () {      // 获取下一题数据
+      this.answerId = ''
       this.loadingData()
       if (this.surplusAnswe === 1) {
         document.getElementById('NofItems').innerHTML = '结束答题'
@@ -202,6 +204,19 @@ export default {
         }
       })
     },
+    popClick: function () {       // 倒计时弹框
+      let anData = this.chronoScope
+      if (anData === '30:00') {
+        this.isReveals = true
+      }
+    },
+    againclicks: function () {
+      document.getElementById('select').style.display = 'none'
+      // this.isReveals = false
+      console.log(this.isReveals)
+      this.timePiece()
+      this.loadingData()
+    },
     timePiece: function () {    // 计时器
       clearInterval(this.Timepiece)
       var mm = 0
@@ -220,17 +235,6 @@ export default {
         str += ss < 10 ? '0' + ss : ss
         this.chronoScope = str
       }, 1000)
-    },
-    popClick: function () {       // 倒计时弹框
-      let anData = this.chronoScope
-      if (anData === '30:00') {
-        clearInterval(this.Timepiece)
-        this.isReveal = true
-      }
-    },
-    againclick: function () {
-      this.isReveal = false
-      this.loadingData()
     },
     secede: function () {
       MessageBox.confirm('是否退出学习').then(action => {
