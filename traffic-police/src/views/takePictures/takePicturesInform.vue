@@ -61,6 +61,7 @@
       <!--<a>点击查看温馨提示</a>-->
       <router-link to="takePicturesTips">点击查看温馨提示</router-link>
     </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>

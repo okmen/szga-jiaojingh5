@@ -16,6 +16,7 @@
     </ul>
     <p v-else="roads">附近没有道路，请移动地图中心点到道路附近</p>
   </div>
+  <div v-wechat-title="$route.meta.title"></div>
 </div>
 </template>
 <script>

@@ -7,6 +7,7 @@
         </router-link>
       </li>
     </ul>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>

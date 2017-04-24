@@ -8,6 +8,7 @@
       <div class="tab-btn" :class="{ 'active': cur_tab == 'license'}" @click="cur_tab = 'license'">驾驶证</div>
       <div class="tab-btn" :class="{ 'active': cur_tab == 'driving'}" @click="cur_tab = 'driving'">行驶证</div>
     </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
