@@ -187,7 +187,7 @@ export default {
         if (this.code === '0001') {      // 消分答题判断
           clearInterval(this.Timepiece)
           MessageBox('提示', this.msg).then(() => {
-            window.location.href = '/#/wschool'
+            this.$router.push('wschool')
           })
         }
       })
@@ -218,9 +218,9 @@ export default {
         this.isReveal = true
       }
     },
-    secede: () => {
-      MessageBox.confirm('是否退出学习', '提示').then(action => {
-        window.location.href = '/#/wschool'
+    secede: function () {
+      MessageBox.confirm('是否退出学习').then(action => {
+        this.$router.push('wschool')
       })
     }
   },

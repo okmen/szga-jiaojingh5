@@ -3,13 +3,13 @@
     <div class="tp-inform-box">
       <div class="tp-inform-left">违法时间</div>
       <div class="tp-inform-right" @click="getTime">
-        <input maxlength="50" type="text" v-model="informTime" placeholder="点击获取当前时间" readonly>
+        <input type="text" v-model="informTime" placeholder="点击获取当前时间" readonly>
       </div>
     </div>
     <div class="tp-inform-box">
       <div class="tp-inform-left">违法路段</div>
       <div class="tp-inform-right">
-        <input maxlength="50" type="text" v-model="informRoad" placeholder="请输入违法路段(例如深南大道)" v-on:input="btnGetRoad">
+        <input type="text" maxlength="8" v-model="informRoad" placeholder="请输入违法路段(例如深南大道)" v-on:input="btnGetRoad">
         <ul v-if="showSelectRoad">
           <li v-for="(roadSelect, index) in roadSelectLists" @click="roadLiClick(index)">{{roadSelect.wfdd}}</li>
         </ul>
@@ -38,21 +38,21 @@
     <div class="tp-inform-box">
       <div class="tp-inform-left">举报人</div>
       <div class="tp-inform-right">
-        <input maxlength="50" type="text" v-model="informName" placeholder="请输入您的名字" 
+        <input type="text" maxlength="10" v-model="informName" placeholder="请输入您的名字" 
          v-bind:readonly="this.loginJudge">
       </div>
     </div>
     <div class="tp-inform-box">
       <div class="tp-inform-left">身份证号</div>
       <div class="tp-inform-right">
-        <input maxlength="50" type="text" v-model="informIdNumber" placeholder="请输入身份证号码" 
+        <input type="text" maxlength="19" v-model="informIdNumber" placeholder="请输入身份证号码" 
          v-bind:readonly="this.loginJudge">
       </div>
     </div>
     <div class="tp-inform-box">
       <div class="tp-inform-left">联系电话</div>
       <div class="tp-inform-right">
-        <input maxlength="50" type="text" v-model="informTel" placeholder="请输入正确的电话号码"
+        <input type="text" maxlength="11" v-model="informTel" placeholder="请输入正确的电话号码"
           v-bind:readonly="this.loginJudge">
       </div>
     </div>
@@ -177,18 +177,15 @@
           openId: window.localStorage.openId
         }
         console.log(informData)
-        for (let key in informData) {
-          if (!informData[key]) {
-            Toast({
-              message: '信息填写不完整',
-              position: 'bottom',
-              className: 'white'
-            })
-            return false
-          }
-        }
         resultPost(takePictures, informData).then(json => { // 调取随手拍举报接口
           console.log(json)
+          let jsonMsg = json.msg
+          let getJsonMsg = ''
+          if (jsonMsg.indexOf(' ') === -1) {
+            getJsonMsg = jsonMsg
+          } else {
+            getJsonMsg = jsonMsg.split(' ')[0]
+          }
           if (json.code === '0000') {
             console.log('举报成功')
             this.postInform({
@@ -198,7 +195,7 @@
             this.$router.push('/takePicturesSuccess')
           } else {
             Toast({
-              message: json.msg,
+              message: getJsonMsg,
               position: 'bottom',
               className: 'white'
             })
@@ -206,7 +203,11 @@
         })
       },
       btnGetRoad: function () {  // 点击选择交通路段
-        this.showSelectRoad = true
+        if (this.informRoad === '') { // 判断输入为空时不显示下拉列表
+          this.showSelectRoad = false
+        } else {
+          this.showSelectRoad = true
+        }
         let getRoadData = {
           keyword: this.informRoad
         }
@@ -267,6 +268,9 @@
         this.informRoad = this.roadSelectLists[index].wfdd
         this.informType = this.roadSelectLists[index].type
         this.showSelectRoad = false
+      },
+      beforeDestory () {
+        Toast.close()
       },
       ...mapActions({
         postInform: 'postInform'

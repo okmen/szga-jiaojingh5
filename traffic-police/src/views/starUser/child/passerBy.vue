@@ -6,7 +6,7 @@
           <span>身份证号</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="text" name=""  v-model="idCardNumber" placeholder="如果您是外籍人士,请在证件号前加F">
+          <input class="text-input" type="text" maxlength="19"  v-model="idCardNumber" placeholder="如果您是外籍人士,请在证件号前加F">
         </div>
       </li>
       <li class="starUser-hbs-item">
@@ -14,7 +14,7 @@
           <span>手机号码</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="tel" name="" v-model="telphoneNumber" placeholder="请输入您的手机号码">
+          <input class="text-input" type="tel" maxlength="11" v-model="telphoneNumber" placeholder="请输入您的手机号码">
         </div>
       </li>
       <li class="starUser-hbs-item margin-passer">
@@ -22,7 +22,7 @@
           <span>验证码</span>
         </div>
         <div class="starUser-hbs-text width-40 left">
-          <input class="text-input" type="tel" name="" v-model="validCode" placeholder="请输入验证码">
+          <input class="text-input" type="tel" maxlength="6" v-model="validCode" placeholder="请输入验证码">
         </div>
         <div class="left starUser-hbs-code">
           <button type="button" name="button" @click.stop="getVerification()"
@@ -54,7 +54,7 @@
       }
     },
     methods: {
-      getVerification: function () {
+      getVerification: function () {  // 获取验证码
         let sendPhoneNumber = {
           mobilephone: this.telphoneNumber
         }
@@ -94,7 +94,7 @@
           }, 1000)
         }
       },
-      btnSureStar: function () {
+      btnSureStar: function () {  // 确认注册按钮
         let idImgOne = this.$refs.getImgUrl.idCardImgPositive
         let idImgTwo = this.$refs.getImgUrl.idCardImgNegative
         let idImgThree = this.$refs.getImgUrl.idCardImgHandHeld
@@ -109,17 +109,12 @@
         resultPost(passerBy, passerData).then(json => {
           let jsonMsg = json.msg
           let getJsonMsg = ''
-          if (jsonMsg.indexOf('：') === -1) {
+          if (jsonMsg.indexOf(' ') === -1) {
             getJsonMsg = jsonMsg
           } else {
-            getJsonMsg = jsonMsg.split('：')[1]
+            getJsonMsg = jsonMsg.split(' ')[0]
           }
           if (json.code === '0000') {
-            // Toast({
-            //   message: json.msg,
-            //   position: 'bottom',
-            //   className: 'white'
-            // })
             this.postAppoin({
               appoinNum: json.msg,
               appoinType: '星级用户认证'

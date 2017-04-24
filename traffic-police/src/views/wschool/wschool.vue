@@ -11,6 +11,8 @@
   </div>
 </template>
 <script>
+import { MessageBox } from 'mint-ui'
+
 export default {
   name: 'wschool',
   data () {
@@ -38,6 +40,14 @@ export default {
       }, {
         name: 'motorstudy#5'
       }]
+    }
+  },
+  mounted () {
+    let isLogin = window.localStorage.getItem('isLogin') // 是否登录
+    if (isLogin === 'false') {
+      MessageBox('提示', '请先登录,才可以进入学习').then(() => {
+        window.location.href = '/#/login'
+      })
     }
   }
 }

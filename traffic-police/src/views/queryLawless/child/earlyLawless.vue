@@ -45,7 +45,7 @@
               <span>手机号码</span>
             </div>
             <div class="earlyLawless-hbs-text">
-              <input v-model="mobilephone" class="text-input" type="tel" name="" value="" placeholder="请输入您的手机号码">
+              <input v-model="mobilephone" class="text-input" type="tel" name="" maxlength="11" value="" placeholder="请输入您的手机号码">
             </div>
           </li>
           <li class="earlyLawless-hbs-item">
@@ -53,7 +53,7 @@
               <span>车架号</span>
             </div>
             <div class="earlyLawless-hbs-text">
-              <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" name="" value="" placeholder="请输入车架号后四位">
+              <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" maxlength="4" name="" value="" placeholder="请输入车架号后四位">
             </div>
           </li>
           <li class="earlyLawless-hbs-item clear">
@@ -61,7 +61,7 @@
               <span>验证码</span>
             </div>
             <div class="earlyLawless-hbs-text width-40 left">
-              <input class="text-input" type="tel" name="" value="" placeholder="请输入验证码" id="inp">
+              <input class="text-input" type="text" name="" value="" maxlength="4" placeholder="请输入验证码" id="inp">
             </div>
             <div class="left earlyLawless-hbs-code" id="code"></div>
           </li>

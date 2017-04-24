@@ -6,7 +6,7 @@
           <span>身份证号</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="text" v-model="idCardNumber" placeholder="如果您是外籍人士,请在证件号前加F">
+          <input class="text-input" type="text" maxlength="19" v-model="idCardNumber" placeholder="如果您是外籍人士,请在证件号前加F">
         </div>
       </li>
       <li class="starUser-hbs-item">
@@ -33,7 +33,7 @@
           <span>手机号码</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="tel" v-model="telphoneNumber" placeholder="请输入您的手机号码">
+          <input class="text-input" type="tel" maxlength="11" v-model="telphoneNumber" placeholder="请输入您的手机号码">
         </div>
       </li>
       <li class="starUser-hbs-item clear">
@@ -41,7 +41,7 @@
           <span>验证码</span>
         </div>
         <div class="starUser-hbs-text width-40 left">
-          <input class="text-input" type="tel" name="" v-model="verifCodeNum" placeholder="请输入验证码">
+          <input class="text-input" type="tel" maxlength="6" v-model="verifCodeNum" placeholder="请输入验证码">
         </div>
         <div class="left starUser-hbs-code"><button type="button" name="button" @click.stop="getVerification()"
           :class="{disabled: isdisabled}">{{getValidCodeMsg}}</button></div>
@@ -51,7 +51,7 @@
           <span>联系地址</span>
         </div>
         <div class="starUser-hbs-text">
-          <input class="text-input" type="text" name="" v-model="address" placeholder="您的联系地址">
+          <input class="text-input" type="text" maxlength="18" v-model="address" placeholder="您的联系地址">
         </div>
       </li>
     </ul>
@@ -135,24 +135,24 @@
           idCardImgNegative: idImgTwo,
           idCardImgHandHeld: idImgThree
         }
-        for (let key in driverLicenseData) {
-          if (!driverLicenseData[key]) {
-            Toast({
-              message: '信息填写不完整',
-              position: 'bottom',
-              className: 'white'
-            })
-            return false
-          }
-        }
+        // for (let key in driverLicenseData) {
+        //   if (!driverLicenseData[key]) {
+        //     Toast({
+        //       message: '信息填写不完整',
+        //       position: 'bottom',
+        //       className: 'white'
+        //     })
+        //     return false
+        //   }
+        // }
         resultPost(drivingLicense, driverLicenseData).then(json => {
           console.log(json)
           let jsonMsg = json.msg
           let getJsonMsg = ''
-          if (jsonMsg.indexOf('：') === -1) {
+          if (jsonMsg.indexOf(' ') === -1) {
             getJsonMsg = jsonMsg
           } else {
-            getJsonMsg = jsonMsg.split('：')[1]
+            getJsonMsg = jsonMsg.split(' ')[0]
           }
           if (json.code === '0000') {
             this.postAppoin({
@@ -168,6 +168,9 @@
             })
           }
         })
+      },
+      beforeDestory () {
+        Toast.close()
       },
       ...mapActions({
         postAppoin: 'postAppoin'
