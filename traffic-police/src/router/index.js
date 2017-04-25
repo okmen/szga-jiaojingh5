@@ -345,6 +345,16 @@ const routes = [
       title: '预约申办成功'
     },
     component: require('../components/appointSuccess.vue')
+  },
+  {
+    name: 'userAgreement',
+    path: '/userAgreement',
+    meta: {
+      meta: {
+        title: '用户须知'
+      }
+    },
+    component: require('../components/userAgreement.vue')
   }
 ]
 /* eslint-disable no-new */

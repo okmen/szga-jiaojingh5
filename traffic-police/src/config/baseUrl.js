@@ -1,7 +1,7 @@
 // 添加URL需注释 哪个模块哪个接口
 const commonUrl = 'http://testjava.chudaokeji.com/'
 // const uploadUrl = 'http://192.168.1.159:8080/web/'
-// const commonUrlIn = 'http://192.168.1.120:8100/'
+const commonUrlIn = 'http://192.168.1.120:8100/'
 
 export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
 
@@ -78,3 +78,5 @@ export const carUser = `${commonUrl}register/iamALongtimeUser.html` // 星级用
 export const getRoad = `${commonUrl}user/getPositioningAddress.html` // 获取路段地址 随手拍举报接口
 
 export const illegalAppeal = `${commonUrl}illegalHanding/trafficIllegalAppeal.html` // 违法申诉接口
+
+export const userAgreement = `${commonUrlIn}user/getDocumentationORMByNoticeKey.html` // 用户须知接口

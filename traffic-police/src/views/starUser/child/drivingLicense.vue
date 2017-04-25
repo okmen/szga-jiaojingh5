@@ -154,6 +154,7 @@
             })
             this.$router.push('/appointSuccess')
           } else {
+            Indicator.close()
             Toast({
               message: getJsonMsg,
               position: 'bottom',

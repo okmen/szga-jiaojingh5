@@ -316,11 +316,12 @@
           if (json.code === '0000') {
             Indicator.close()
             this.postAppoin({
-              appoinNum: json.msg,
+              appoinNum: json.msg.split(':')[1],
               appoinType: '星级用户认证'
             })
             this.$router.push('/appointSuccess')
           } else {
+            Indicator.close()
             Toast({
               message: getJsonMsg,
               position: 'bottom',
