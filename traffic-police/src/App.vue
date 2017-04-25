@@ -43,7 +43,7 @@
         </router-link>
       </dl>
       <dl>
-        <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/feePayment/['+openId+']'">
+        <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/feePayment/'+openId">
         <dt><img class="top4" src="./images/nav4.png" alt=""></dt>
         <dd>车管规费缴纳</dd>
         </a>
@@ -51,19 +51,19 @@
     </div>
     <div class="home-nav-bottom">
       <dl>
-        <a :href="'http://szjj.u-road.com/Business/HomePage/appointList/['+openId+']'">
+        <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/appointList/'+openId">
         <dt><img class="top5" src="./images/nav5.png" alt=""></dt>
         <dd>预约类服务</dd>
         </a>
       </dl>
       <dl>
-        <a :href="'http://szjj.u-road.com/Business/HomePage/businessList/['+openId+']'">
+        <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/businessList/'+openId">
         <dt><img class="top6" src="./images/nav6.png" alt=""></dt>
         <dd>办理类服务</dd>
         </a>
       </dl>
       <dl>
-        <a :href="'http://szjj.u-road.com/Business/HomePage/proveList/['+openId+']'">
+        <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/proveList/'+openId">
         <dt><img class="top7" src="./images/nav7.png" alt=""></dt>
         <dd>信息单据证明</dd>
         </a>
