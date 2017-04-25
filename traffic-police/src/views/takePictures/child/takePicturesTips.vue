@@ -57,7 +57,7 @@ export default {
   methods: {
     btnAgreeRequest: function () {
       if (this.checked === true) {
-        this.$router.go(-1)
+        this.$router.push('/takePicturesInform')
       } else {
         Toast({
           message: '请勾选已阅读温馨提示',
