@@ -5,7 +5,7 @@
       <div class="results-box">
         <div class="box-header">
           <div class="header-item left">违章信息</div>
-          <div class="header-item right order-print" @click.stop="claimConfirm()">{{ dealTypeList[confirm.dealType] }}</div>
+          <div class="header-item right order-print" @click.stop="claimConfirm(confirm.illegalNo)">{{ dealTypeList[confirm.dealType] }}</div>
         </div>
         <div class="box-body">
           <div class="body-left-side">
@@ -49,6 +49,7 @@
     name: '',
     data () {
       return {
+        illegalNo: '',
         confirmList: [],
         dealTypeList: {
           '0': '无需打单',
@@ -68,23 +69,22 @@
       console.log(reqData)
       resultPost(getClaimConfirm, reqData).then(json => {
         this.confirmList = json.data
-        console.log(json)
       })
     },
     methods: {
-      claimConfirm: function () {
+      claimConfirm: function (illegalNo) {
         MessageBox({
           title: '',
           message: '用户您好，一旦确认或打印了处罚决定书后，15日内不处理将会产生滞纳金，是否确认马上打印决定书？',
           showCancelButton: true,
           confirmButtonText: '是的'
         }).then(action => {
-          action === 'confirm' && this.claim()
+          action === 'confirm' && this.claim(illegalNo)
         })
       },
-      claim: function () {
+      claim: function (illegalNo) {
         let reqData = {
-          illegalNo: this.illegalNo,
+          illegalNo: illegalNo,
           identityCard: window.localStorage.getItem('identityCard'),
           sourceOfCertification: 'C',
           mobilephone: window.localStorage.getItem('mobilePhone')

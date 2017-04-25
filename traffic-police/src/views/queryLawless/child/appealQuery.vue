@@ -22,7 +22,7 @@
       <div class='form-item'>
         <div class='item-left'>名下车辆</div>
         <div class='item-right div-select'>
-          <span class='btn-select min-btn-select' @click.stop='bindCarSelect()'>{{ cur_bindCar ? cur_bindCar : '无' }}</span>
+          <span class='btn-select min-btn-select' @click.stop='bindCarSelect()'>{{ cur_bindCar }}</span>
           <div class='div-select-ul' v-if='bindCarListShow'>
             <ul>
               <li>1</li>
@@ -92,7 +92,7 @@
         name: window.localStorage.getItem('userName'),
         mobilePhone: window.localStorage.getItem('mobilePhone'),
         identityCard: window.localStorage.getItem('identityCard'),
-        cur_bindCar: window.localStorage.getItem('myNumberPlate'),
+        cur_bindCar: window.localStorage.getItem('myNumberPlate') || '无',
         bindCarList: [],
         bindCarListShow: false,
         plateType: window.localStorage.getItem('plateType') || '99',
