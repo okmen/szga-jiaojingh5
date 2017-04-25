@@ -1,5 +1,6 @@
 <template>
   <div class="jam-outer">
+  <div v-wechat-title="$route.meta.title"></div>
     <div class="jam-form">
       <ul class="jam-form-list pad-right-43 pad-top-24">
         <li class="jam-form-item clear">

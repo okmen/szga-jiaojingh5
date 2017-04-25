@@ -1,6 +1,7 @@
 <template>
 <!-- 设施损坏、安全隐患通报公用组件 -->
 <div class="common-outer">
+<div v-wechat-title="$route.meta.title"></div>
   <div class="common-form">
     <ul class="common-form-list padding-right-43">
       <li class="common-form-item clear">
