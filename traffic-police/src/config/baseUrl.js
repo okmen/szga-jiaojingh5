@@ -1,7 +1,7 @@
 // 添加URL需注释 哪个模块哪个接口
 const commonUrl = 'http://testjava.chudaokeji.com/'
 // const uploadUrl = 'http://192.168.1.159:8080/web/'
-const commonUrlIn = 'http://192.168.1.120:8100/'
+// const commonUrlIn = 'http://192.168.1.120:8100/'
 
 export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
 
@@ -53,7 +53,7 @@ export const bindCard = `${commonUrl}user/search/getMyDriverLicense.html` // 个
 
 export const bindBusiness = `${commonUrl}user/search/getMyBusiness.html` // 个人中心-业务查询
 
-export const sendSMS = `${commonUrlIn}user/sendSMSVerificatioCode.html` // 发送验证码接口
+export const sendSMS = `${commonUrl}user/sendSMSVerificatioCode.html` // 发送验证码接口
 
 export const deleteVehicle = `${commonUrl}user/deleteVehicle.htm.html` // 用戶中心解綁微信接口
 
@@ -65,15 +65,15 @@ export const licenseCard = `${commonUrl}user/search/getElectronicDriverLicense.h
 
 export const getLocation = 'http://navi1.careland.com.cn/cgi/pub_getpositioninfo_j.ums' // 通过经纬度获取附近的路接口
 
-export const takePictures = `http://192.168.1.120:8100/user/readilyShoot.html` // 随手拍举报接口
+export const takePictures = `${commonUrl}user/readilyShoot.html` // 随手拍举报接口
 
-export const carOwner = `${commonUrlIn}register/iAmTheOwner.html` // 星级用户认证 我是车主接口
+export const carOwner = `${commonUrl}register/iAmTheOwner.html` // 星级用户认证 我是车主接口
 
-export const drivingLicense = `${commonUrlIn}register/haveDriverLicenseNotCar.html` // 星级用户认证 我有驾驶证接口
+export const drivingLicense = `${commonUrl}register/haveDriverLicenseNotCar.html` // 星级用户认证 我有驾驶证接口
 
-export const passerBy = `${commonUrlIn}register/isPedestrianNotDriver.html` // 星级用户认证 我是行人接口
+export const passerBy = `${commonUrl}register/isPedestrianNotDriver.html` // 星级用户认证 我是行人接口
 
-export const carUser = `${commonUrlIn}register/iamALongtimeUser.html` // 星级用户认证 我是长期使用人接口
+export const carUser = `${commonUrl}register/iamALongtimeUser.html` // 星级用户认证 我是长期使用人接口
 
 export const getRoad = `${commonUrl}user/getPositioningAddress.html` // 获取路段地址 随手拍举报接口
 
