@@ -30,7 +30,7 @@
 <script>
 import { updateMobile, sendSMS } from '../../../config/baseUrl'
 import { resultPost } from '../../../service/getData'
-import { MessageBox, Toast } from 'mint-ui'
+import { MessageBox, Toast, Indicator } from 'mint-ui'
 export default{
   name: 'updateMobile',
   data () {
@@ -88,7 +88,9 @@ export default{
       }
       let phone = Number(this.newMobile)
       if (/^1[34578]\d{9}$/.test(phone)) {
+        Indicator.open('正在提交...')
         resultPost(updateMobile, reqData).then(json => {
+          Indicator.close()
           console.log(reqData)
           console.log(json)
           if (json.code === '0000') {
@@ -118,6 +120,9 @@ export default{
   created () {
     this.oldMobile = window.localStorage.getItem('mobilePhone')
     this.identityCard = window.localStorage.getItem('identityCard')
+  },
+  beforeDestory () {
+    Indicator.close()
   }
 }
 </script>

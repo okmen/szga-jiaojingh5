@@ -2,28 +2,30 @@
   <div class="star-upload-user starUser-upload">
       <p>请上传以下照片</p>
       <div class="starUser-upload-inner">
-        <div class="starUser-upload-four starUser-upload-box" id="uploadIdBoxFour">
-          <img :src="userIdCardPositive" id="uploadIdImgFour">
-        </div>
-        <div class="starUser-upload-five starUser-upload-box" id="uploadIdBoxFive">
-          <img :src="userIdCardHandHeld" id="uploadIdImgFive">
-        </div>
+        <label class="starUser-upload-four starUser-upload-box" for="file4">
+          <input id="file4" type="file" accept="image/*" >
+          <img :src="userIdCardPositive">
+        </label>
+        <label class="starUser-upload-five starUser-upload-box" for="file5">
+          <input id="file5" type="file" accept="image/*" >
+          <img :src="userIdCardHandHeld">
+        </label>
       </div>
       <div class="starUser-upload-inner">
-        <div class="starUser-upload-left starUser-upload-box" id="uploadIdBoxOne">
-          <img :src="ownerIdCardPositive" id="uploadIdImgOne">
-        </div>
-        <div class="starUser-upload-right starUser-upload-box" id="uploadIdBoxTwo">
-          <img :src="ownerIdCardHandHeld" id="uploadIdImgTwo">
-        </div>
+        <label class="starUser-upload-left starUser-upload-box" for="file6">
+          <input id="file6" type="file" accept="image/*" >
+          <img :src="ownerIdCardPositive">
+        </label>
+        <label class="starUser-upload-right starUser-upload-box" for="file7">
+          <input id="file7" type="file" accept="image/*" >
+          <img :src="ownerIdCardHandHeld">
+        </label>
       </div>
       <button class="btn" type="button" name="button" @click="btnSureStar">确认提交</button>
     </div>
 </template>
 <script>
-import { resultGet } from '../../../service/getData'
-import { uploadImg } from '../../../config/baseUrl'
-import uploadImgFun from '../../../service/uploadImg'
+import UploadFile from '../../../service/uploadFile'
 export default {
   name: 'common',
   data () {
@@ -35,77 +37,36 @@ export default {
     }
   },
   mounted: function () {
-    this.getToken()
+    this.init()
   },
   methods: {
-    getToken: function () {             // 获取token
-      resultGet(uploadImg).then(res => {
-        if (res.code === '0000') {
-          this.uploadIdImgOne(res.upToken)
-          this.uploadIdImgTwo(res.upToken)
-          this.uploadIdImgFour(res.upToken)
-          this.uploadIdImgFive(res.upToken)
+    init: function () {
+      UploadFile.upload({
+        id: 'file4',
+        callback: (res) => {
+          console.log(res)
+          this.userIdCardPositive = res.imgUrl
         }
       })
-    },
-    uploadIdImgOne: function (uptoken) {    // 上传照片
-      console.log(uptoken)
-      var that = this
-      uploadImgFun({
-        selfId: 'uploadIdImgOne',
-        parentId: 'uploadIdBoxOne',
-        upToken: uptoken,
-        fileUploaded: function (res) {
+      UploadFile.upload({
+        id: 'file5',
+        callback: (res) => {
           console.log(res)
-          that.ownerIdCardPositive = res.imgUrl
-        },
-        error: function (err) {
-          console.log(err)
+          this.userIdCardHandHeld = res.imgUrl
         }
       })
-    },
-    uploadIdImgTwo: function (uptoken) {    // 上传照片
-      var that = this
-      uploadImgFun({
-        selfId: 'uploadIdImgTwo',
-        parentId: 'uploadIdBoxTwo',
-        upToken: uptoken,
-        fileUploaded: function (res) {
+      UploadFile.upload({
+        id: 'file6',
+        callback: (res) => {
           console.log(res)
-          that.ownerIdCardHandHeld = res.imgUrl
-        },
-        error: function (err) {
-          console.log(err)
+          this.ownerIdCardPositive = res.imgUrl
         }
       })
-    },
-    uploadIdImgFour: function (uptoken) {  // 上传照片
-      var that = this
-      uploadImgFun({
-        selfId: 'uploadIdImgFour',
-        parentId: 'uploadIdBoxFour',
-        upToken: uptoken,
-        fileUploaded: function (res) {
+      UploadFile.upload({
+        id: 'file7',
+        callback: (res) => {
           console.log(res)
-          that.userIdCardPositive = res.imgUrl
-        },
-        error: function (err) {
-          console.log(err)
-        }
-      })
-    },
-    uploadIdImgFive: function (uptoken) {  // 上传照片
-      var that = this
-      uploadImgFun({
-        selfId: 'uploadIdImgFive',
-        parentId: 'uploadIdBoxFive',
-        upToken: uptoken,
-        fileUploaded: function (res) {
-          console.log(res)
-          that.userIdCardHandHeld = res.imgUrl
-        },
-        error: function (err) {
-          console.log(err)
+          this.ownerIdCardHandHeld = res.imgUrl
         }
       })
     },
@@ -132,20 +93,19 @@ export default {
       color: #666;
       font-size: 22px;
       text-align: center;
-      em {
-        display: inline-block;
-        width: 162px;
-        height: 111px;
-        margin-top: 20px;
-        margin-bottom: 10px;
-      }
-      span {
-        display: block;
-      }
       img{
         width:100%;
         height:100%;
         border-radius: 15px;
+      }
+      input{
+        position:absolute;
+        width:100%;
+        height:100%;
+        visibility:hidden;
+        top:0;
+        left:0;
+        z-index:998;
       }
     }
     .starUser-upload-left {

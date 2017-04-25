@@ -2,8 +2,8 @@
   <div id="takePhotosInform">
     <div class="tp-inform-box">
       <div class="tp-inform-left">违法时间</div>
-      <div class="tp-inform-right" @click="getTime">
-        <el-date-picker v-model="informTime" type="datetime" format></el-date-picker>
+      <div class="tp-inform-right">
+        <el-date-picker v-model="informTime" type="datetime" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
       </div>
     </div>
     <div class="tp-inform-box">
@@ -18,15 +18,18 @@
     <div class="tp-photo-box">
       <div class="tp-photo-left">上传照片</div>
       <div class="tp-photo-right">
-        <div id="imgBoxOne" class="tp-photo-1">
-          <img id="imgOne" :src="imgOne">
-        </div>
-        <div id="imgBoxTwo" class="tp-photo-1">
-          <img id="imgTwo" :src="imgTwo">
-        </div>
-        <div id="imgBoxThree" class="tp-photo-1">
-          <img id="imgThree" :src="imgThree">
-        </div>
+        <label class="tp-photo-1" for="file1">
+          <input id="file1" type="file" accept="image/*" >
+          <img :src="imgOne">
+        </label>
+        <label class="tp-photo-1" for="file2">
+          <input id="file2" type="file" accept="image/*">
+          <img :src="imgTwo">
+        </label>
+        <label class="tp-photo-1" for="file3">
+          <input id="file3" type="file" accept="image/*">
+          <img :src="imgThree">
+        </label>
       </div>
     </div>
     <div class="tp-case-intro">
@@ -59,16 +62,16 @@
     <div class="tp-btn-submit" @click="btnSurePutInform">确认提交</div>
     <div class="tp-look-tips">
       <!--<a>点击查看温馨提示</a>-->
-      <router-link to="takePicturesTips">点击查看温馨提示</router-link>
+      <!-- <router-link to="takePicturesTips">点击查看温馨提示</router-link> -->
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
-  import { resultGet, resultPost } from '../../service/getData'
-  import { uploadImg, takePictures, getRoad } from '../../config/baseUrl'
-  import uploadImgFun from '../../service/uploadImg'
-  import { Toast } from 'mint-ui'
+  import { resultPost } from '../../service/getData'
+  import { takePictures, getRoad } from '../../config/baseUrl'
+  import UploadFile from '../../service/uploadFile'
+  import { Toast, Indicator } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
     name: 'takePicturesInform',
@@ -115,78 +118,46 @@
         }
       }
     },
+    created: function () {
+      let getTime = this.currentTime()
+      this.informTime = getTime
+    },
     mounted: function () {  // 组件加载完成之后立即获取
-      this.getToken()
+      this.init()
       if (this.loginJudge) {
         this.informName = window.localStorage.userName
         this.informIdNumber = window.localStorage.identityCard
         this.informTel = window.localStorage.mobilePhone
       }
-      let getInformTime = this.currentTime()
-      this.informTime = getInformTime
     },
     methods: {
-      getTime: function () {           // 获取当前时间
-        console.log(111)
-      },
-      getToken: function () {          // 获取token
-        resultGet(uploadImg).then(res => {
-//          res.code === '0000' && this.uploadImg(res.upToken)
-          if (res.code === '0000') {
-            this.uploadImgOne(res.upToken)
-            this.uploadImgTwo(res.upToken)
-            this.uploadImgThree(res.upToken)
+      init: function () {
+        UploadFile.upload({
+          id: 'file1',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne = res.imgUrl
           }
         })
-      },
-      uploadImgOne: function (uptoken) {  // 上传照片
-        var that = this
-        uploadImgFun({
-          selfId: 'imgOne',
-          parentId: 'imgBoxOne',
-          upToken: uptoken,
-          fileUploaded: function (res) {
+        UploadFile.upload({
+          id: 'file2',
+          callback: (res) => {
             console.log(res)
-            that.imgOne = res.imgUrl
-          },
-          error: function (err) {
-            console.log(err)
+            this.imgTwo = res.imgUrl
           }
         })
-      },
-      uploadImgTwo: function (uptoken) {  // 上传照片
-        var that = this
-        uploadImgFun({
-          selfId: 'imgTwo',
-          parentId: 'imgBoxTwo',
-          upToken: uptoken,
-          fileUploaded: function (res) {
+        UploadFile.upload({
+          id: 'file3',
+          callback: (res) => {
             console.log(res)
-            that.imgTwo = res.imgUrl
-          },
-          error: function (err) {
-            console.log(err)
-          }
-        })
-      },
-      uploadImgThree: function (uptoken) {  // 上传照片
-        var that = this
-        uploadImgFun({
-          selfId: 'imgThree',
-          parentId: 'imgBoxThree',
-          upToken: uptoken,
-          fileUploaded: function (res) {
-            console.log(res)
-            that.imgThree = res.imgUrl
-          },
-          error: function (err) {
-            console.log(err)
+            this.imgThree = res.imgUrl
           }
         })
       },
       btnSurePutInform: function () {  // 提交拍照举报按钮
+        let formatTime = this.format(this.informTime, 'yyyy-MM-dd HH:mm:ss')
         let informData = {
-          illegalTime: this.informTime,             // 违法时间
+          illegalTime: formatTime,             // 违法时间
           illegalSections: this.informType,         // 违法路段
           reportImgOne: this.imgOne,                // 上传照片
           reportImgTwo: this.imgTwo,
@@ -209,6 +180,7 @@
             getJsonMsg = jsonMsg.split(' ')[0]
           }
           if (json.code === '0000') {
+            Indicator.close()
             console.log('举报成功')
             this.postInform({
               takePicturesRecord: json.data.recordNumber,
@@ -221,8 +193,10 @@
               position: 'bottom',
               className: 'white'
             })
+            Indicator.close()
           }
         })
+        Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
       },
       btnGetRoad: function () {  // 点击选择交通路段
         if (this.informRoad === '') { // 判断输入为空时不显示下拉列表
@@ -298,7 +272,27 @@
       },
       ...mapActions({
         postInform: 'postInform'
-      })
+      }),
+      format: function (time, format) {   // 中国标准时间转换为datetime格式
+        var t = new Date(time)
+        var tf = function (i) { return (i < 10 ? '0' : '') + i }
+        return format.replace(/yyyy|MM|dd|HH|mm|ss/g, function (a) {
+          switch (a) {
+            case 'yyyy':
+              return tf(t.getFullYear())
+            case 'MM':
+              return tf(t.getMonth() + 1)
+            case 'mm':
+              return tf(t.getMinutes())
+            case 'dd':
+              return tf(t.getDate())
+            case 'HH':
+              return tf(t.getHours())
+            case 'ss':
+              return tf(t.getSeconds())
+          }
+        })
+      }
     }
   }
 </script>
@@ -394,8 +388,9 @@
       float:left;
       width:520px;
       .tp-photo-1{
+        position:relative;
         float:left;
-        margin-right:15px;
+        margin-right:8px;
         width:163px;
         height:163px;
         background:#FFF url("../../images/tpInformAngle.png") center no-repeat;
@@ -411,9 +406,19 @@
           -moz-border-radius:8px;
           border-radius:8px;
         }
+        input{
+          position:absolute;
+          width:100%;
+          height:100%;
+          visibility:hidden;
+          top:0;
+          left:0;
+          z-index:998;
+        }
       }
       .tp-photo-1:last-child{
         margin-right:0;
+        float:right;
       }
     }
   }

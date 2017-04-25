@@ -25,13 +25,13 @@
   <div id="nav-outer">
     <div class="home-nav-top">
       <dl>
-        <router-link to="/trafficCivilization">
+        <router-link :to="isLogin ? '/trafficCivilization' : '/login'">
         <dt><img class="top1" src="./images/nav1.png" alt=""></dt>
         <dd>交通文明我做主</dd>
         </router-link>
       </dl>
       <dl>
-        <router-link to="/queryLawless">
+        <router-link :to="isLogin ? '/queryLawless' : '/login'">
         <dt><img class="top2" src="./images/nav2.png" alt=""></dt>
         <dd>违法处理</dd>
         </router-link>
@@ -43,45 +43,45 @@
         </router-link>
       </dl>
       <dl>
-        <router-link to="/#">
+        <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/feePayment/'+openId">
         <dt><img class="top4" src="./images/nav4.png" alt=""></dt>
         <dd>车管规费缴纳</dd>
-        </router-link>
+        </a>
       </dl>
     </div>
     <div class="home-nav-bottom">
       <dl>
-        <router-link to="/#">
+        <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/appointList/'+openId">
         <dt><img class="top5" src="./images/nav5.png" alt=""></dt>
         <dd>预约类服务</dd>
-        </router-link>
+        </a>
       </dl>
       <dl>
-        <router-link to="/#">
+        <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/businessList/'+openId">
         <dt><img class="top6" src="./images/nav6.png" alt=""></dt>
         <dd>办理类服务</dd>
-        </router-link>
+        </a>
       </dl>
       <dl>
-        <router-link to="/#">
+        <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/proveList/'+openId">
         <dt><img class="top7" src="./images/nav7.png" alt=""></dt>
         <dd>信息单据证明</dd>
-        </router-link>
+        </a>
       </dl>
       <dl>
-        <router-link to="/handyService">
+        <router-link :to="isLogin ? '/handyService' : '/login'">
         <dt><img class="top8" src="./images/nav8.png" alt=""></dt>
         <dd>便民服务</dd>
         </router-link>
       </dl>
       <dl>
-        <router-link to="/motorstudy#4">
+        <router-link :to="isLogin ? '/motorstudy' : '/login'">
         <dt><img class="top9" src="./images/nav9.png" alt=""></dt>
         <dd>电动车管理</dd>
         </router-link>
       </dl>
       <dl>
-        <router-link to="/wschool">
+        <router-link :to="isLogin ? '/wschool' : '/login'">
         <dt><img class="top10" src="./images/nav10.png" alt=""></dt>
         <dd>微课堂</dd>
         </router-link>
@@ -100,10 +100,12 @@ export default {
       userImg: require('./images/no-network-logo.png'),
       userIdentityCard: '',
       userNumberPlate: '',
-      isLogin: false
+      isLogin: false,
+      openId: ''
     }
   },
   created () {
+    this.openId = window.localStorage.getItem('openId')
     this.userName = window.localStorage.getItem('userName')
     this.userImg = window.localStorage.getItem('headImgUrl')
     this.userIdentityCard = window.localStorage.getItem('identityCard')

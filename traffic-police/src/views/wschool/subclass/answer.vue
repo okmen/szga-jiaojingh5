@@ -39,29 +39,31 @@
     <img class="answer-button" :src="'data:image/jpg/png/gif;base64,'+answertData.subjectImg" v-show="answertData.subjectImg">
     </style>
     <ul class="answer-foot">
-      <li class="answer-foot-button" v-for="(item, index) in answerName" @click="clickAnswer(index)" 
-      :class="[{'on':flag == index},{'off':tlag == index}]">
+      <li class="answer-foot-button" v-for="(item, index) in answerName" @click="clickAnswer(index)" :class="{off: item.isSure }">
         <img class="answer-foot-img" :src="testData[index].img">{{item.answerName}}
       </li>
     </ul>
+    <span id="swer" class="answer-ansr" v-bind:class="{ 'anshow' : answerShow}">{{judgeTrue}}</span>
+    <div id="NofItem" class="answer-options" v-bind:class="{ 'shows' : isBtnShows}" @click.stop="answerClick()">答题</div>
     <div id="NofItems" class="answer-option" v-bind:class="{ 'show' : isBtnShow}" @click.stop="countClick()">下一题</div>
   </div>
 </template>
 <script>
 import { resultPost } from '../../../service/getData'
 import { answer, answers } from '../../../config/baseUrl'
-import { MessageBox, Toast } from 'mint-ui'
+import { MessageBox } from 'mint-ui'
 export default {
   name: 'answer',
   data () {
     return {
       testQuestionsType: '',   // 判断题型
       answererror: 0,
-      surplusAnswe: 0,
+      surplusAnswe: '',
+      isBtnShows: false,   // 答题样式
       isBtnShow: false,   // 下一题样式
       isReveals: false,    // 弹框控制
-      tlag: 5,   // 正确选项颜色
-      flag: 5,  // 错误选项颜色
+      answerShow: false,  // 对错显示
+      flag: 5,   // 答案选项颜色
       chronoScope: '00:00',    // 答题时间
       answerDate: 0,    // 答题日期
       answerCorrect: 0,  // 答对题数
@@ -79,6 +81,7 @@ export default {
       hashRoomId: '', // 列表号
       Timepiece: '',   // 停止计时器
       answerId: '',    // 答题选择
+      judgeTrue: '',
       testData: [{
         img: require('../../../images/A.png')
       },
@@ -95,62 +98,73 @@ export default {
   },
   methods: {
     clickAnswer: function (index) {     // 选项答题
-      this.isBtnShow = true
+      let that = this
+      that.answerId = ''
+      this.isBtnShows = true
       if (this.testQuestionsType === '不定选') {
-        let att = this.answertData.answeroptions[index].answerId
-        this.answerId += att
-        console.log(this.answerId)
+        this.answerName[index].isSure = !this.answerName[index].isSure
+        this.answerName.forEach((item) => {
+          if (!item.isSure) {
+          } else {
+            that.answerId += item.answerId
+          }
+        })
       } else {
-        this.answerId = this.answertData.answeroptions[index].answerId
+        this.answerName.forEach((item, indexs) => {
+          if (indexs === index) {
+            this.answerName[index].isSure = !this.answerName[index].isSure
+            that.answerId = item.answerId
+          } else {
+            item.isSure = false
+          }
+        })
       }
+      console.log(this.answerId)
+    },
+    answerClick: function () {     // 答题
+      this.isBtnShows = false  // 答题显示
+      this.answerShow = true  // 对错显示
+      this.isBtnShow = true    // 下一题显示
       var answesData = {
         classroomId: this.hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
         mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
         userName: window.localStorage.getItem('userName'),         // 名字
         openId: window.localStorage.getItem('openId'),
+        testQuestionsType: this.testQuestionsType,
         userSource: 'C',     // 用户来源
         SubjectAnswer: this.answerId,
         subjectId: this.subjectId,  // 答题编码
-        scoreStartDate: this.scoreStartDate,
-        scoreEndDate: this.scoreEndDate
+        scoreStartDate: this.scoreStartDate,  // 答题周期
+        scoreEndDate: this.scoreEndDate   // 答题周期
       }
       resultPost(answers, answesData).then(json => {     // 答案数据接口
+        console.log(json)
         this.codes = json.code
-        if (this.testQuestionsType === '不定选') {
-
-        } else {
-          if (this.codes === '0000') {
-            this.answerCorrect = json.data[0].answerCorrect  // 答对题数
-            this.batchResult = json.data[0].batchResult    // 答题合格判断
-            this.answererror = json.data[0].answererror    // 答错题数
-            this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
-            this.answerDate = json.data[0].answerDate  // 答题日期
-            this.testData[index].img = require('../../../images/correct.png')
-            this.flag = index
-          } else if (this.codes === '0001') {
-            this.answerCorrect = json.data[0].answerCorrect  // 答对题数
-            this.batchResult = json.data[0].batchResult    // 答题合格判断
-            this.answererror = json.data[0].answererror    // 答错题数
-            this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
-            this.answerDate = json.data[0].answerDate  // 答题日期
-            this.testData[index].img = require('../../../images/fault.png')
-            this.tlag = index
-          } else {
-            Toast({
-              message: json.msg,
-              duration: 1000
-            })
-          }
+        if (this.codes === '0000') {
+          this.answerCorrect = json.data[0].answerCorrect  // 答对题数
+          this.batchResult = json.data[0].batchResult    // 答题合格判断
+          this.answererror = json.data[0].answererror    // 答错题数
+          this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
+          this.answerDate = json.data[0].answerDate  // 答题日期
+          this.judgeTrue = '答题正确'
+          document.getElementById('swer').style.color = 'green'
+        } else if (this.codes === '0001') {
+          this.answerCorrect = json.data[0].answerCorrect  // 答对题数
+          this.batchResult = json.data[0].batchResult    // 答题合格判断
+          this.answererror = json.data[0].answererror    // 答错题数
+          this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
+          this.answerDate = json.data[0].answerDate  // 答题日期
+          this.judgeTrue = '答题错误'
+          document.getElementById('swer').style.color = 'red'
         }
       })
     },
     countClick: function () {      // 获取下一题数据
-      this.answerId = ''
+      this.judgeTrue = ''
+      this.answerShow = false
       this.loadingData()
-      if (this.surplusAnswe === 1) {
-        document.getElementById('NofItems').innerHTML = '结束答题'
-      } else if (this.surplusAnswe === 0) {
+      if (this.surplusAnswe === 0) {
         window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
         window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
         window.sessionStorage.setItem('batchResult', this.batchResult)  // 答题合格判断
@@ -173,8 +187,6 @@ export default {
         img: require('../../../images/D.png')
       }]
       this.isBtnShow = false  // 初始化下一题选项样式
-      this.tlag = 5        // 初始化正确答案样式
-      this.flag = 5        //  初始化错误答案样式
       this.hashRoomId = window.location.hash.split('#')[2]
       console.log(this.hashRoomId)
       var answeData = {
@@ -187,21 +199,23 @@ export default {
       }
       resultPost(answer, answeData).then(json => {
         console.log(json)
-        this.answertData = json.data[0]
-        this.answerName = json.data[0].answeroptions
-        this.subjectId = json.data[0].subjectId
-        this.testQuestionsType = json.data[0].testQuestionsType
-        console.log(this.testQuestionsType)
-        this.scoreEndDate = json.data[0].scoreEndDate
-        this.scoreStartDate = json.data[0].scoreStartDate
         this.code = json.code // 状态码
         this.msg = json.msg // 状态返回
-        if (this.code === '0001') {      // 消分答题判断
+        if (this.code === '0001') {      // 答题判断
           clearInterval(this.Timepiece)
           MessageBox('提示', this.msg).then(() => {
             this.$router.push('wschool')
           })
         }
+        this.answertData = json.data[0]
+        this.answerName = json.data[0].answeroptions  // 答题选项
+        this.subjectId = json.data[0].subjectId  // 答题编码
+        this.testQuestionsType = json.data[0].testQuestionsType   // 题目类型
+        this.answerName.forEach((item) => {
+          item.isSure = false
+        })
+        this.scoreEndDate = json.data[0].scoreEndDate  // 答题周期
+        this.scoreStartDate = json.data[0].scoreStartDate  // 答题周期
       })
     },
     popClick: function () {       // 倒计时弹框
@@ -325,10 +339,24 @@ export default {
   font-size: 28px;
   text-align: center;
 }
+.answer-options {
+  display: none;
+  width: 430px;
+  line-height: 80px;
+  margin: 54px auto;
+  background: #4c9ff4;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 28px;
+  text-align: center;
+}
 .answer-foot-button.color{
   color: #16b221
 }
 .answer-option.show {
+  display: block;
+}
+.answer-options.shows {
   display: block;
 }
 .pop-up {
@@ -377,7 +405,17 @@ export default {
   height: 100%;
   font-weight:normal;
 }
-.off{ color: #f53f31; }
-.on{ color: #09bb07; }
+.answer-ansr{
+  display: none;
+  width: 600px;
+  margin: 0 auto;
+}
+.answer-ansr.anshow{
+  display: block;
+}
+.off{
+  color: #4c9ff4
+}
+.on{ color: #4c9ff4; }
 .answer-select{color:red}
 </style>

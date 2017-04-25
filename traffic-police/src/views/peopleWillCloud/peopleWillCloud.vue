@@ -29,6 +29,7 @@
 
 <script>
 import mymap from '../map/map'
+import { Indicator } from 'mint-ui'
 export default {
   name: 'peopleWillCloud',
   data () {
@@ -89,6 +90,7 @@ export default {
       this.typeSelectShow = false
     },
     submitSuccess: function () {
+      Indicator.close()
       console.log('举报成功')
       window.location.replace('#/trafficCivilization')
     }
@@ -96,7 +98,7 @@ export default {
   created () {
     let isLogin = window.localStorage.getItem('isLogin')
     if (isLogin !== 'true') {
-      this.$router.push('/login')
+      window.location.replace('#/login')
     }
     document.addEventListener('click', (e) => {
       this.typeSelectShow = false

@@ -11,33 +11,33 @@
   </div>
 </template>
 <script>
-  export default {
-    name: 'handyService',
-    data () {
-      return {
-        listData: [
-          {
-            'serviceName': '一键挪车',
-            'serviceLink': '/moveCar'
-          },
-          {
-            'serviceName': '一键救援',
-            'serviceLink': '/'
-          },
-          {
-            'serviceName': '自主考试',
-            'serviceLink': '/'
-          }
-        ]
-      }
-    },
-    mounted () {
-      console.log(window.localStorage.getItem('isLogin'))
-      if (window.localStorage.getItem('isLogin') === 'false' || window.localStorage.getItem('isLogin') === null) {
-        this.$router.push('login')
-      }
+export default {
+  name: 'handyService',
+  data () {
+    return {
+      listData: [
+        {
+          'serviceName': '一键挪车',
+          'serviceLink': '/moveCar'
+        },
+        {
+          'serviceName': '一键救援',
+          'serviceLink': '/'
+        },
+        {
+          'serviceName': '自主考试',
+          'serviceLink': '/'
+        }
+      ]
+    }
+  },
+  mounted () {
+    console.log(window.localStorage.getItem('isLogin'))
+    if (window.localStorage.getItem('isLogin') !== 'true') {
+      window.location.replace('#/login')
     }
   }
+}
 </script>
 <style lang='less'>
   @import "./../../style/base";

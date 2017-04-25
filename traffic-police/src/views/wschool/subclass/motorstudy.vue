@@ -60,7 +60,7 @@ export default {
     },
     pageDown: function () {
       window.sessionStorage.setItem('integral', this.listData.integral) // 学习积分
-      if (this.hashRoomId === '1') {  // 进入消分答题判断
+      if (this.hashRoomId === 1) {  // 进入消分答题判断
         this.$router.push('answers#1') // 进入消分答题页面
       } else {
         this.$router.push(`answer#${this.hashRoomId}`) // 进入答题页面
@@ -70,8 +70,6 @@ export default {
   mounted () {
     this.hashRoomId = parseInt(window.location.hash.split('#')[2])
     this.userImg = window.localStorage.getItem('headImgUrl')
-    console.log(this.hashRoomId)
-    window.alert(this.hashRoomId)
     let motorstudyData = { // 获取页面数据
       classroomId: this.hashRoomId, // 列表请求参数
       identityCard: window.localStorage.getItem('identityCard'), // 身份证
