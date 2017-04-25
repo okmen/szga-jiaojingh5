@@ -51,7 +51,7 @@
 <script>
 import { resultPost } from '../../../service/getData'
 import { answer, answers } from '../../../config/baseUrl'
-import { MessageBox } from 'mint-ui'
+import { MessageBox, Toast } from 'mint-ui'
 export default {
   name: 'answer',
   data () {
@@ -157,11 +157,17 @@ export default {
           this.answerDate = json.data[0].answerDate  // 答题日期
           this.judgeTrue = '答题错误'
           document.getElementById('swer').style.color = 'red'
+        } else if (this.codes === '0002') {
+          Toast({
+            message: json.msg,
+            duration: 1000
+          })
         }
       })
     },
     countClick: function () {      // 获取下一题数据
       this.judgeTrue = ''
+      this.isBtnShows = false
       this.answerShow = false
       this.loadingData()
       if (this.surplusAnswe === 0) {
