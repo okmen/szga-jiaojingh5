@@ -120,7 +120,7 @@
             <span>改善建议</span>
           </div>
           <div class="common-list-text">
-            <textarea class="text-input textarea" name="localeDescript" id="localeDescript" v-model:value="improveAdvice" placeholder="请填写改善建议"></textarea>
+            <textarea class="text-input textarea" name="localeDescript" id="localeDescript" v-model:value="improveAdvice" placeholder="请填写改善建议" maxlength="100"></textarea>
           </div>
         </li>
       </ul>

@@ -94,6 +94,10 @@ export default {
     }
   },
   created () {
+    let isLogin = window.localStorage.getItem('isLogin')
+    if (isLogin !== 'true') {
+      this.$router.push('/login')
+    }
     document.addEventListener('click', (e) => {
       this.typeSelectShow = false
     })

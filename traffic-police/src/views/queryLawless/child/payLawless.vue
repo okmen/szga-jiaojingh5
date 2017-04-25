@@ -134,7 +134,7 @@
   import wx from 'weixin-js-sdk'
   import { Toast } from 'mint-ui'
   export default {
-    name: 'earlyLawless',
+    name: 'payLawless',
     data () {
       return {
         billNo: '',                        // 请求-缴款编号
@@ -272,7 +272,7 @@
           }
         }
         resultPost(queryPay, reqData).then(json => {
-          console.log(json.code)
+          console.log(json)
           if (json.code === '0000') {
             window.location.href = json.msg
           }
