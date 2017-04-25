@@ -74,7 +74,7 @@
           <span>现场描述</span>
         </div>
         <div class="common-list-text">
-          <textarea class="text-input textarea" name="localeDescript" id="localeDescript" placeholder="简要对现场进行描述" v-model:value="description"></textarea>
+          <textarea class="text-input textarea" name="localeDescript" id="localeDescript" placeholder="简要对现场进行描述" v-model:value="description" maxlength="100"></textarea>
         </div>
       </li>
       <div id="container" class="common-upload">
