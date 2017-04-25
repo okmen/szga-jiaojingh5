@@ -1,6 +1,7 @@
 <template>
 <!-- 设施损坏、安全隐患通报公用组件 -->
 <div class="common-outer">
+<div v-wechat-title="$route.meta.title"></div>
   <div class="common-form">
     <ul class="common-form-list padding-right-43">
       <li class="common-form-item clear">
@@ -74,7 +75,7 @@
           <span>现场描述</span>
         </div>
         <div class="common-list-text">
-          <textarea class="text-input textarea" name="localeDescript" id="localeDescript" placeholder="简要对现场进行描述" v-model:value="description"></textarea>
+          <textarea class="text-input textarea" name="localeDescript" id="localeDescript" placeholder="简要对现场进行描述" v-model:value="description" maxlength="100"></textarea>
         </div>
       </li>
       <div id="container" class="common-upload">
@@ -110,7 +111,8 @@ export default{
       detailAddress: '',
       emergency: '',
       description: '',
-      sceneImg: ''
+      sceneImg: '',
+      imgTime: ''
     }
   },
   methods: {
@@ -175,11 +177,12 @@ export default{
         subTypeId: this.subTypeSelectData.id, // 子类型选择Id
         subType: this.subTypeSelectData.str, // 子类型选择
         description: this.description, // 现场描述
-        sceneImg: this.sceneImg // 现场图片
+        sceneImg: this.sceneImg, // 现场图片
+        imgTime: this.imgTime || ''
       }
       console.log(reqData)
       for (let key in reqData) {
-        if (!reqData[key]) {
+        if (!reqData[key] && key !== 'imgTime') {
           Toast({
             message: '信息填写不完整',
             position: 'bottom',

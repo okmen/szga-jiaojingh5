@@ -1,5 +1,6 @@
 <template>
 <div class="secure-outer">
+<div v-wechat-title="$route.meta.title"></div>
   <common :typeData='typeData' :reportingMatters="reportingMatters" @submit="submit" @showMap="showMap" :mapObj="mapObj"></common>
 </div>
 </template>

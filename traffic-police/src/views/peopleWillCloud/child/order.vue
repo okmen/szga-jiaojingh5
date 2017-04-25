@@ -1,5 +1,6 @@
 <template>
   <div class="order-outer">
+  <div v-wechat-title="$route.meta.title"></div>
     <div class="order-form">
       <ul class="order-form-list padding-right-43">
         <li class="order-form-item clear">
@@ -67,7 +68,7 @@
             <span>现场描述</span>
           </div>
           <div class="order-list-textarea">
-            <textarea class="text-input textarea" name="localeDescript" id="localeDescript" v-model:value="description" placeholder="请填写改善建议"></textarea>
+            <textarea class="text-input textarea" name="localeDescript" id="localeDescript" v-model:value="description" placeholder="请填写改善建议" maxlength="100"></textarea>
           </div>
         </li>
       </ul>
