@@ -10,7 +10,7 @@
       <p @click.stop="clickShow()">违法在线处理</p>
       <div class="li-box">
         <router-link to="payLawless">违法缴款</router-link>
-        <router-link to="earlyLawless">交通违法预约处理</router-link>
+        <router-link to="early">交通违法预约处理</router-link>
         <router-link to="appeal">交通违法申诉</router-link>
       </div>
     </div>

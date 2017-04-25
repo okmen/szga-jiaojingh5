@@ -80,3 +80,7 @@ export const getRoad = `${commonUrl}user/getPositioningAddress.html` // 获取�
 export const illegalAppeal = `${commonUrl}illegalHanding/trafficIllegalAppeal.html` // 违法申诉接口
 
 export const userAgreement = `${commonUrlIn}user/getDocumentationORMByNoticeKey.html` // 用户须知接口
+
+export const earlyQuery = `${commonUrl}illegalHanding/toQuerySubscribe.html` // 违法预约查询接口
+
+export const earlyCancel = `${commonUrl}illegalHanding/trafficIllegalAppeal.html` // 违法预约取消接口
