@@ -110,7 +110,7 @@
   import userUpload from './userUpload'
   import { resultPost } from '../../../service/getData'
   import { carUser, sendSMS } from '../../../config/baseUrl'
-  import { Toast } from 'mint-ui'
+  import { Toast, Indicator } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default{
     name: 'carUser',
@@ -283,7 +283,8 @@
           this.typeSelectShow = false
         }
       },
-      btnSureStar: function () {
+      btnSureStar: function () {  // 提交按钮
+        Indicator.open('提交中...')
         let ownerIdImgOne = this.$refs.getImgUrl.ownerIdCardPositive
         let ownerIdImgTwo = this.$refs.getImgUrl.ownerIdCardHandHeld
         let userIdImgThree = this.$refs.getImgUrl.userIdCardPositive
@@ -304,16 +305,6 @@
           ownerIdCardImgPositive: ownerIdImgOne,                // 车主身份证照片
           ownerIdCardImgHandHeld: ownerIdImgTwo
         }
-        for (let key in usrData) {
-          if (!usrData[key]) {
-            Toast({
-              message: '信息填写不完整',
-              position: 'bottom',
-              className: 'white'
-            })
-            return false
-          }
-        }
         resultPost(carUser, usrData).then(json => {
           let jsonMsg = json.msg
           let getJsonMsg = ''
@@ -323,6 +314,7 @@
             getJsonMsg = jsonMsg.split(' ')[0]
           }
           if (json.code === '0000') {
+            Indicator.close()
             this.postAppoin({
               appoinNum: json.msg,
               appoinType: '星级用户认证'
@@ -337,7 +329,7 @@
           }
         })
       },
-      getVerification: function () {
+      getVerification: function () {  // 获取验证码
         let sendPhoneNumber = {
           mobilephone: this.userTelphone
         }
@@ -387,9 +379,6 @@
         this.licenseSelectShow = false
         this.abbreviationSelectShow = false
       })
-    },
-    beforeDestory () {
-      Toast.close()
     }
   }
 </script>
