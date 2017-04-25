@@ -1,7 +1,7 @@
 <template>
   <div class="result" :click="resultclick()">
     <div class="result-head" >
-      <span class="result-digit">{{integral}}</span>
+      <span class="result-digit">{{integrals}}</span>
       <p class="result-head-bottom">驾驶证号：<i class="result-col">{{resultData.identityCard}}</i></p>
     </div>
     <div class="result-cen" >
@@ -29,6 +29,7 @@ export default {
       answererror: 0,     // 答错题数
       answerCorrect: 0,   // 答对题数
       integral: 0,        // 积分
+      integrals: 0,
       resultData: {
       }
     }
@@ -38,13 +39,14 @@ export default {
       this.surplusAnswe = window.sessionStorage.getItem('surplusAnswe')   // 答题数
       this.answererror = window.sessionStorage.getItem('answererror')     // 答错题数
       this.answerCorrect = window.sessionStorage.getItem('answerCorrect')  // 答对题数
-      this.integral = parseInt(this.answerCorrect) - parseInt(window.sessionStorage.getItem('integral'))   // 积分
+      this.integrals = parseInt(this.integral) - parseInt(window.sessionStorage.getItem('integral'))   // 积分
+      console.log(window.sessionStorage.getItem('integral'))
     }
   },
   created () {
-    let hashRoomId = window.location.hash.split('#')[2]
+    // let hashRoomId = window.location.hash.split('#')[2]
     var resData = {
-      classroomId: hashRoomId, // 列表请求参数
+      classroomId: 1, // 列表请求参数
       identityCard: window.localStorage.getItem('identityCard'), // 身份证
       mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
       userName: window.localStorage.getItem('userName'),         // 名字
@@ -52,7 +54,10 @@ export default {
       userSource: 'C'    // 用户来源
     }
     resultPost(xstudy, resData).then(json => {
+      console.log(json)
       this.resultData = json.data[0]
+      this.integral = json.data[0].integral
+      console.log(this.integral)
     })
   }
 }
