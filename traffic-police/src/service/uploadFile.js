@@ -26,23 +26,24 @@ const UploadFile = {
 		let el = document.getElementById(id);
 		let self = this;
 		el.onchange = function(e){
-			Indicator.open('上传中...');
 			var file = this;
 			var f = file.files[0];
-			EXIF.getData(f, function() {
-		        imgObj.dateTime = EXIF.getTag(this,'DateTime') || '';
-		        imgObj.GPSLongitude = EXIF.getTag(this,'GPSLongitude') ? transLongAndLat(EXIF.getTag(this,'GPSLongitude')) : '';
-		        imgObj.GPSLatitude = EXIF.getTag(this,'GPSLatitude') ? transLongAndLat(EXIF.getTag(this,'GPSLatitude')) : '' ;
-		        console.log(imgObj);
-		    });
-			if (window.FileReader) {
-				var fr = new FileReader();  
-	            fr.onload = function(e) {  
-	                var src = e.target.result;
-	                self.compressImg(src,maxHeight,quality,callback);
-	            }  
-	            fr.readAsDataURL(f); 
-		    } 
+			if(f){
+				Indicator.open('上传中...');
+				EXIF.getData(f, function() {
+			        imgObj.dateTime = EXIF.getTag(this,'DateTime') || '';
+			        imgObj.GPSLongitude = EXIF.getTag(this,'GPSLongitude') ? transLongAndLat(EXIF.getTag(this,'GPSLongitude')) : '';
+			        imgObj.GPSLatitude = EXIF.getTag(this,'GPSLatitude') ? transLongAndLat(EXIF.getTag(this,'GPSLatitude')) : '' ;
+			    });
+				if (window.FileReader) {
+					var fr = new FileReader();  
+		            fr.onload = function(e) {  
+		                var src = e.target.result;
+		                self.compressImg(src,maxHeight,quality,callback);
+		            }  
+		            fr.readAsDataURL(f); 
+			    } 
+			}
 		}
 	},
 	/**
