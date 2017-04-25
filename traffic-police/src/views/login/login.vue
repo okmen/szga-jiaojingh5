@@ -31,6 +31,29 @@ export default {
   methods: {
     loginClick: function () {
       let that = this
+      if (!this.loginName) {
+        Toast({
+          message: '用户名不能为空',
+          position: 'bottom',
+          duration: 2000
+        })
+        return false
+      }
+      if (!this.password) {
+        Toast({
+          message: '密码不能为空',
+          position: 'bottom',
+          duration: 2000
+        })
+        return false
+      }
+      let url = window.location.href
+      let data = {
+        url: encodeURIComponent(url)
+      }
+      if (!this.openId) {
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48a8104946507c1e&redirect_uri=http%3A%2F%2Ftestjava.chudaokeji.com%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
+      }
       let reqData = {
         loginName: this.loginName,
         password: this.password,
@@ -64,7 +87,7 @@ export default {
     this.openId = window.localStorage.getItem('openId')
     let url = window.location.href
     let data = {
-      url: encodeURIComponent(url.split('#')[0])
+      url: encodeURIComponent(url)
     }
     if (!this.openId) {
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48a8104946507c1e&redirect_uri=http%3A%2F%2Ftestjava.chudaokeji.com%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`

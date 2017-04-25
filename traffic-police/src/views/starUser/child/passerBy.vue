@@ -37,7 +37,7 @@
   import common from './common'
   import { resultPost } from '../../../service/getData'
   import { passerBy, sendSMS } from '../../../config/baseUrl'
-  import { Toast } from 'mint-ui'
+  import { Toast, Indicator } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default{
     name: 'passerBy',
@@ -95,6 +95,7 @@
         }
       },
       btnSureStar: function () {  // 确认注册按钮
+        Indicator.open('提交中...')
         let idImgOne = this.$refs.getImgUrl.idCardImgPositive
         let idImgTwo = this.$refs.getImgUrl.idCardImgNegative
         let idImgThree = this.$refs.getImgUrl.idCardImgHandHeld
@@ -115,12 +116,14 @@
             getJsonMsg = jsonMsg.split(' ')[0]
           }
           if (json.code === '0000') {
+            Indicator.close()
             this.postAppoin({
-              appoinNum: json.msg,
+              appoinNum: json.msg.split(':')[1],
               appoinType: '星级用户认证'
             })
             this.$router.push('/appointSuccess')
           } else {
+            Indicator.close()
             Toast({
               message: getJsonMsg,
               position: 'bottom',

@@ -3,35 +3,7 @@
     <div class="tp-title">
       随手拍举报温馨提示
     </div>
-   <div class="tp-tips-intro">
-     <p>
-       欢迎使用随手拍举报交通违法功能。举报人应仔细阅读举报范
-       围说明、举报注意事项，确保举报信息真实有效，并承担相应法律
-       责任。遇紧急、重大交通违法或其它违法行为请立即拨打110报警，
-       感谢您的支持！
-     </p>
-     <p>
-       根据相关法律规定，请属实举报，如提供虚假举报信息将承担
-       相关法律责任。同时，交警部门会保护好您的个人隐私，敬请放心。
-     </p>
-   </div>
-   <div class="tp-red-packet">
-     <h3>红包领取须知</h3>
-     <div class="tp-red-intro">
-       <p>
-         1、为便于市民有奖举报奖金的领取，深圳交警“星级用户”登录举报
-         的，将根据用户注册信息以“微信红包”方式发放奖金；非“星级用户”
-         通过填报个人信息采取其它方式（现金、转账等）发放奖金。
-       </p>
-       <p>
-         2、“微信红包”领取奖金仅限于人民币200元及以下金额。
-       </p>
-     </div>
-     <div class="tp-inform-box">
-       <a>举报范围说明</a>
-       <a>举报注意事项</a>
-     </div>
-   </div>
+   <div class="tp-tips-intro" v-html="userAgreementCon"></div>
    <div class="tp-read">
      <div class="tp-read-checkbox">
        <input type="checkbox" id="informReadCheckbox" name="informReadCheckbox" v-model="checked">
@@ -47,17 +19,30 @@
  </div>
 </template>
 <script>
+import { resultPost } from '../service/getData'
+import { userAgreement } from '../config/baseUrl'
 import { Toast } from 'mint-ui'
 export default {
   data () {
     return {
+      userAgreementCon: '',
       checked: ''
     }
+  },
+  created: function () {
+    let userAgreementData = {
+      noticeKey: 'mfNotice'  // 随手拍举报温馨提示
+    }
+    resultPost(userAgreement, userAgreementData).then(json => { // 调取随手拍举报接口
+      console.log(json)
+      this.userAgreementCon = json.data.content
+    })
   },
   methods: {
     btnAgreeRequest: function () {
       if (this.checked === true) {
-        this.$router.push('/takePicturesInform')
+        // this.$router.push('/takePicturesInform')
+        console.log('1111')
       } else {
         Toast({
           message: '请勾选已阅读温馨提示',
@@ -75,7 +60,7 @@ export default {
 .tp-title{
   width:100%;
   height:74px;
-  background:url("../../../images/takePictureTipBg.png") no-repeat;
+  background:url("../images/takePictureTipBg.png") no-repeat;
   background-size:100% 100%;
   font-size:30px;
   line-height:74px;
@@ -85,9 +70,8 @@ export default {
 .tp-tips-intro{
   padding:0 50px;
   width:100%;
-  height:350px;
+  height:auto;
   p{
-    text-indent:60px;
     font-size:24px;
     line-height:36px;
   }
@@ -107,7 +91,6 @@ export default {
   }
   .tp-red-intro{
     width:100%;
-    height:260px;
     p{
       font-size:24px;
       line-height:36px;

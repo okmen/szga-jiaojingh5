@@ -50,21 +50,33 @@ const routes = [
       {
         name: 'carOwner',
         path: '/starUser/carOwner',
+        meta: {
+          title: '星级用户认证'
+        },
         component: require('../views/starUser/child/carOwner.vue')
       },
       {
         name: 'carUser',
         path: '/starUser/carUser',
+        meta: {
+          title: '星级用户认证'
+        },
         component: require('../views/starUser/child/carUser.vue')
       },
       {
         name: 'drivingLicense',
         path: '/starUser/drivingLicense',
+        meta: {
+          title: '星级用户认证'
+        },
         component: require('../views/starUser/child/drivingLicense.vue')
       },
       {
         name: 'passerBy',
         path: '/starUser/passerBy',
+        meta: {
+          title: '星级用户认证'
+        },
         component: require('../views/starUser/child/passerBy.vue')
       }
     ]
@@ -194,21 +206,33 @@ const routes = [
       {
         name: 'facility',
         path: '/peopleWillCloud/facility',
+        meta: {
+          title: '交通文明我做主'
+        },
         component: require('../views/peopleWillCloud/child/facility.vue')
       },
       {
         name: 'secure',
         path: '/peopleWillCloud/secure',
+        meta: {
+          title: '交通文明我做主'
+        },
         component: require('../views/peopleWillCloud/child/secure.vue')
       },
       {
         name: 'jam',
         path: '/peopleWillCloud/jam',
+        meta: {
+          title: '交通文明我做主'
+        },
         component: require('../views/peopleWillCloud/child/jam.vue')
       },
       {
         name: 'order',
         path: '/peopleWillCloud/order',
+        meta: {
+          title: '交通文明我做主'
+        },
         component: require('../views/peopleWillCloud/child/order.vue')
       }
     ]
@@ -321,6 +345,16 @@ const routes = [
       title: '预约申办成功'
     },
     component: require('../components/appointSuccess.vue')
+  },
+  {
+    name: 'userAgreement',
+    path: '/userAgreement',
+    meta: {
+      meta: {
+        title: '用户须知'
+      }
+    },
+    component: require('../components/userAgreement.vue')
   }
 ]
 /* eslint-disable no-new */

@@ -1,6 +1,7 @@
 <template>
 <!-- 设施损坏、安全隐患通报公用组件 -->
 <div class="common-outer">
+<div v-wechat-title="$route.meta.title"></div>
   <div class="common-form">
     <ul class="common-form-list padding-right-43">
       <li class="common-form-item clear">
@@ -17,7 +18,7 @@
           <span>发现人姓名</span>
         </div>
         <div class="common-list-text">
-          <input class="text-input" type="text" name="" v-model:value="userName" :readonly="isReadobly" placeholder="请输入您的姓名">
+          <input class="text-input" type="text" name="" v-model:value="userName" :readonly="isReadonly" placeholder="请输入您的姓名">
         </div>
       </li>
       <li class="common-form-item">
@@ -25,7 +26,7 @@
           <span>发现人手机</span>
         </div>
         <div class="common-list-text">
-          <input class="text-input" type="text" name="" v-model:value="mobilephone" :readonly="isReadobly" placeholder="请输入您的手机" minlength="11" maxlength="11">
+          <input class="text-input" type="text" name="" v-model:value="mobilephone" :readonly="isReadonly" placeholder="请输入您的手机" minlength="11" maxlength="11">
         </div>
       </li>
       <li class="common-form-item">
@@ -74,15 +75,16 @@
           <span>现场描述</span>
         </div>
         <div class="common-list-text">
-          <textarea class="text-input textarea" name="localeDescript" id="localeDescript" placeholder="简要对现场进行描述" v-model:value="description"></textarea>
+          <textarea class="text-input textarea" name="localeDescript" id="localeDescript" placeholder="简要对现场进行描述" v-model:value="description" maxlength="100"></textarea>
         </div>
       </li>
       <div id="container" class="common-upload">
         <p>请上传现场照片</p>
-        <div id="upload" class="common-upload-inner">
+        <label id="upload" class="common-upload-inner" for="file">
+          <input type="file" id="file" accept="image/*">
           <img class="img" :src="sceneImg" v-if="sceneImg">
           <em v-else="sceneImg"></em>
-        </div>
+        </label>
       </div>
     </ul>
     <button class="btn" type="button" name="button" @click.stop="submit()">提交</button>
@@ -90,9 +92,10 @@
 </div>
 </template>
 <script>
-import uploadImgFun from '../../../service/uploadImg'
-import { resultGet } from '../../../service/getData'
-import { uploadImg } from '../../../config/baseUrl'
+import UploadFile from '../../../service/uploadFile'
+// import uploadImgFun from '../../../service/uploadImg'
+// import { resultGet } from '../../../service/getData'
+// import { uploadImg } from '../../../config/baseUrl'
 import { Toast } from 'mint-ui'
 
 export default{
@@ -110,26 +113,37 @@ export default{
       detailAddress: '',
       emergency: '',
       description: '',
-      sceneImg: ''
+      sceneImg: '',
+      imgTime: ''
     }
   },
   methods: {
-    getToken: function () {
-      resultGet(uploadImg).then(res => {
-        res.code === '0000' && this.uploadImgFn(res.upToken)
-      })
-    },
-    uploadImgFn: function (uptoken) {
-      var that = this
-      uploadImgFun({
-        selfId: 'upload',
-        parentId: 'container',
-        upToken: uptoken,
-        fileUploaded: function (res) {
-          that.sceneImg = res.imgUrl
-        },
-        error: function (err) {
-          console.log(err)
+    // getToken: function () {
+    //   resultGet(uploadImg).then(res => {
+    //     res.code === '0000' && this.uploadImgFn(res.upToken)
+    //   })
+    // },
+    // uploadImgFn: function (uptoken) {
+    //   var that = this
+    //   uploadImgFun({
+    //     selfId: 'upload',
+    //     parentId: 'container',
+    //     upToken: uptoken,
+    //     fileUploaded: function (res) {
+    //       that.sceneImg = res.imgUrl
+    //     },
+    //     error: function (err) {
+    //       console.log(err)
+    //     }
+    //   })
+    // },
+    init: function () {
+      UploadFile.upload({
+        id: 'file',
+        callback: (res) => {
+          console.log(res)
+          this.sceneImg = res.imgUrl
+          this.imgTime = res.dateTime
         }
       })
     },
@@ -175,11 +189,12 @@ export default{
         subTypeId: this.subTypeSelectData.id, // 子类型选择Id
         subType: this.subTypeSelectData.str, // 子类型选择
         description: this.description, // 现场描述
-        sceneImg: this.sceneImg // 现场图片
+        sceneImg: this.sceneImg, // 现场图片
+        imgTime: this.imgTime || ''
       }
       console.log(reqData)
       for (let key in reqData) {
-        if (!reqData[key]) {
+        if (!reqData[key] && key !== 'imgTime') {
           Toast({
             message: '信息填写不完整',
             position: 'bottom',
@@ -202,11 +217,11 @@ export default{
     this.userName = window.localStorage.getItem('userName') || '' // 用户姓名
     this.mobilephone = window.localStorage.getItem('mobilePhone') || '' // 用户手机号码
     this.identityCard = window.localStorage.getItem('identityCard') || '' // 用户身份证号码
-    this.isReadobly = window.localStorage.getItem('isLogin') === 'true'
-    console.log(typeof this.isReadobly)
+    this.isReadonly = window.localStorage.getItem('isLogin') === 'true'
   },
   mounted () {
-    this.getToken()
+    // this.getToken()
+    this.init()
   }
 }
 </script>
@@ -275,12 +290,16 @@ export default{
   .common-upload{
     line-height: 56px;
     .common-upload-inner{
+      display: block;
       width: 190px;
       height: 190px;
       background-color: #efeff4;
       border: 2px solid #dddde1;
       border-radius: 15px;
       text-align: center;
+      #file{
+        display: none;
+      }
       em{
         display: inline-block;
         width: 162px;
@@ -291,7 +310,7 @@ export default{
       }
       img{
         width: 100%;
-        object-fit: cover;
+        height: 100%;
       }
     }
   }

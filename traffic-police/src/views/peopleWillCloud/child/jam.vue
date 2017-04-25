@@ -1,5 +1,6 @@
 <template>
   <div class="jam-outer">
+  <div v-wechat-title="$route.meta.title"></div>
     <div class="jam-form">
       <ul class="jam-form-list pad-right-43 pad-top-24">
         <li class="jam-form-item clear">
@@ -119,7 +120,7 @@
             <span>改善建议</span>
           </div>
           <div class="common-list-text">
-            <textarea class="text-input textarea" name="localeDescript" id="localeDescript" v-model:value="improveAdvice" placeholder="请填写改善建议"></textarea>
+            <textarea class="text-input textarea" name="localeDescript" id="localeDescript" v-model:value="improveAdvice" placeholder="请填写改善建议" maxlength="100"></textarea>
           </div>
         </li>
       </ul>
@@ -130,7 +131,7 @@
 <script>
 import { resultPost } from '../../../service/getData'
 import { jam } from '../../../config/baseUrl'
-import { MessageBox, Toast } from 'mint-ui'
+import { MessageBox, Toast, Indicator } from 'mint-ui'
 export default {
   name: 'jam',
   data () {
@@ -347,8 +348,9 @@ export default {
         }
       }
       this.$emit('submit')
-      console.log(reqData)
+      Indicator.open('正在提交...')
       resultPost(jam, reqData).then(json => {
+        Indicator.close()
         if (json.code !== '0000') {
           MessageBox({
             title: '',
@@ -377,6 +379,9 @@ export default {
     this.userName = window.localStorage.getItem('userName') || '' // 用户姓名
     this.mobilephone = window.localStorage.getItem('mobilePhone') || '' // 用户手机号码
     this.identityCard = window.localStorage.getItem('identityCard') || '' // 用户身份证号码
+  },
+  beforeDestory () {
+    Indicator.close()
   }
 }
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div class="peopleWillCloud-wrap">
+  <div v-wechat-title="$route.meta.title"></div>
     <mymap v-if="mapShow" @submit="submitMap" @hide="hideMap()"></mymap>
     <div class="peopleWillCloud-outer"  v-else="mapShow">
       <div class="peopleWillCloud-select pad-side-50">
@@ -23,12 +24,12 @@
         <router-view @showMap="showMap" :mapObj="mapObj" @submitSuccess="submitSuccess()"></router-view>
       </div>
     </div>
-    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 
 <script>
 import mymap from '../map/map'
+import { Indicator } from 'mint-ui'
 export default {
   name: 'peopleWillCloud',
   data () {
@@ -89,11 +90,16 @@ export default {
       this.typeSelectShow = false
     },
     submitSuccess: function () {
+      Indicator.close()
       console.log('举报成功')
       window.location.replace('#/trafficCivilization')
     }
   },
   created () {
+    let isLogin = window.localStorage.getItem('isLogin')
+    if (isLogin !== 'true') {
+      window.location.replace('#/login')
+    }
     document.addEventListener('click', (e) => {
       this.typeSelectShow = false
     })
