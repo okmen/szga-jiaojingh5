@@ -1,5 +1,6 @@
 <template>
   <div class="order-outer">
+  <div v-wechat-title="$route.meta.title"></div>
     <div class="order-form">
       <ul class="order-form-list padding-right-43">
         <li class="order-form-item clear">

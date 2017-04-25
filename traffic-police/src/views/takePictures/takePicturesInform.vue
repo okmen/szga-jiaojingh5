@@ -2,8 +2,8 @@
   <div id="takePhotosInform">
     <div class="tp-inform-box">
       <div class="tp-inform-left">违法时间</div>
-      <div class="tp-inform-right" @click="getTime">
-        <el-date-picker v-model="informTime" type="datetime" format></el-date-picker>
+      <div class="tp-inform-right">
+        <el-date-picker v-model="informTime" type="datetime" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
       </div>
     </div>
     <div class="tp-inform-box">
@@ -59,7 +59,7 @@
     <div class="tp-btn-submit" @click="btnSurePutInform">确认提交</div>
     <div class="tp-look-tips">
       <!--<a>点击查看温馨提示</a>-->
-      <router-link to="takePicturesTips">点击查看温馨提示</router-link>
+      <!-- <router-link to="takePicturesTips">点击查看温馨提示</router-link> -->
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -115,6 +115,10 @@
         }
       }
     },
+    created: function () {
+      let getTime = this.currentTime()
+      this.informTime = getTime
+    },
     mounted: function () {  // 组件加载完成之后立即获取
       this.getToken()
       if (this.loginJudge) {
@@ -122,16 +126,10 @@
         this.informIdNumber = window.localStorage.identityCard
         this.informTel = window.localStorage.mobilePhone
       }
-      let getInformTime = this.currentTime()
-      this.informTime = getInformTime
     },
     methods: {
-      getTime: function () {           // 获取当前时间
-        console.log(111)
-      },
       getToken: function () {          // 获取token
         resultGet(uploadImg).then(res => {
-//          res.code === '0000' && this.uploadImg(res.upToken)
           if (res.code === '0000') {
             this.uploadImgOne(res.upToken)
             this.uploadImgTwo(res.upToken)
@@ -185,8 +183,9 @@
         })
       },
       btnSurePutInform: function () {  // 提交拍照举报按钮
+        let formatTime = this.format(this.informTime, 'yyyy-MM-dd HH:mm:ss')
         let informData = {
-          illegalTime: this.informTime,             // 违法时间
+          illegalTime: formatTime,             // 违法时间
           illegalSections: this.informType,         // 违法路段
           reportImgOne: this.imgOne,                // 上传照片
           reportImgTwo: this.imgTwo,
@@ -298,7 +297,27 @@
       },
       ...mapActions({
         postInform: 'postInform'
-      })
+      }),
+      format: function (time, format) {   // 中国标准时间转换为datetime格式
+        var t = new Date(time)
+        var tf = function (i) { return (i < 10 ? '0' : '') + i }
+        return format.replace(/yyyy|MM|dd|HH|mm|ss/g, function (a) {
+          switch (a) {
+            case 'yyyy':
+              return tf(t.getFullYear())
+            case 'MM':
+              return tf(t.getMonth() + 1)
+            case 'mm':
+              return tf(t.getMinutes())
+            case 'dd':
+              return tf(t.getDate())
+            case 'HH':
+              return tf(t.getHours())
+            case 'ss':
+              return tf(t.getSeconds())
+          }
+        })
+      }
     }
   }
 </script>

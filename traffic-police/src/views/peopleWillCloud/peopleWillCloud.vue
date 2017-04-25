@@ -1,5 +1,6 @@
 <template>
   <div class="peopleWillCloud-wrap">
+  <div v-wechat-title="$route.meta.title"></div>
     <mymap v-if="mapShow" @submit="submitMap" @hide="hideMap()"></mymap>
     <div class="peopleWillCloud-outer"  v-else="mapShow">
       <div class="peopleWillCloud-select pad-side-50">
@@ -23,7 +24,6 @@
         <router-view @showMap="showMap" :mapObj="mapObj" @submitSuccess="submitSuccess()"></router-view>
       </div>
     </div>
-    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 
