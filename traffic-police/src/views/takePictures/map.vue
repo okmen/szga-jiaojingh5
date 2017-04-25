@@ -1,40 +1,32 @@
 <template>
-  <div id="container">
-    <span id="btn">点击上传</span>
+  <div>
+    <input id="file" type="file" accept="image/*" >
+    <img :src="src" alt="">
   </div>
 </template>
 <script>
 /* eslint-disable */
-import { resultGet } from '../../service/getData';
-import { uploadImg } from '../../config/baseUrl';
-import uploadImgFun from '../../service/uploadImg';
+import UploadFile from '../../service/uploadFile'
 export default {
   name: 'map',
   data () {
-    return {}
+    return {
+      src:''
+    }
   },
   methods: {
-  	getToken:function(){
-      resultGet(uploadImg).then(res => {
-        res.code == '0000' && this.uploadImg(res.upToken);
-      })
-    },
-    uploadImg:function(uptoken){
-      uploadImgFun({
-        selfId:'btn',
-        parentId:'container',
-        upToken:uptoken,
-        fileUploaded:function(res){
+  	init: function() {
+      UploadFile.upload({
+        id:'file',
+        callback:(res)=>{
           console.log(res);
-        },
-        error:function(err){
-          console.log(err);
+          this.src = res.imgUrl;
         }
       });
     }
   },
   mounted: function(){
-    this.getToken();
+    this.init();
   }
 }
 /* eslint-enable */
