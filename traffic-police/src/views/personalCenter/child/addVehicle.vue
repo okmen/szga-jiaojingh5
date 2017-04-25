@@ -71,27 +71,30 @@
       <div class="addVehicle-upload" :class="{height0: bindType.code==1}">
         <p>请按提示上传以下证件照片</p>
         <div id="container" class="addVehicle-upload-inner">
-          <div id="idCardImgPositive" class="addVehicle-upload-left addVehicle-upload-box">
+          <label id="idCardImgPositive" class="addVehicle-upload-left addVehicle-upload-box" for="idCardImgPositiveInput">
+            <input type="file" id="idCardImgPositiveInput" accept="image/*">
             <img :src="idCardImgPositive" v-if="idCardImgPositive">
             <div class="box" v-else="idCardImgPositive">
               <em></em>
               <span>车主身份证(正面)</span>
             </div>
-          </div>
-          <div id="idCardImgNegative" class="addVehicle-upload-center addVehicle-upload-box">
+          </label>
+          <label id="idCardImgNegative" class="addVehicle-upload-center addVehicle-upload-box" for="idCardImgNegativeInput">
+            <input type="file" id="idCardImgNegativeInput" accept="image/*">
             <img :src="idCardImgNegative" v-if="idCardImgNegative">
             <div class="box" v-else="idCardImgNegative">
               <em></em>
               <span>车主身份证(反面)</span>
             </div>
-          </div>
-          <div id="idCardImgHandHeld" class="addVehicle-upload-right addVehicle-upload-box">
+          </label>
+          <label id="idCardImgHandHeld" class="addVehicle-upload-right addVehicle-upload-box" for="idCardImgHandHeldInput">
+            <input type="file" id="idCardImgHandHeldInput" accept="image/*">
             <img :src="idCardImgHandHeld" v-if="idCardImgHandHeld">
             <div class="box" v-else="idCardImgHandHeld">
               <em></em>
               <span>车主手持身份证</span>
             </div>
-          </div>
+          </label>
         </div>
       </div>
       <button class="btn" type="button" name="button" @click.stop="submitClick()">提交</button>
@@ -100,10 +103,11 @@
 </div>
 </template>
 <script>
-import { addVehicle, uploadImg } from '../../../config/baseUrl'
-import { resultPost, resultGet } from '../../../service/getData'
-import { MessageBox, Toast } from 'mint-ui'
-import uploadImgFun from '../../../service/uploadImg'
+import UploadFile from '../../../service/uploadFile'
+import { addVehicle } from '../../../config/baseUrl'
+import { resultPost } from '../../../service/getData'
+import { MessageBox, Toast, Indicator } from 'mint-ui'
+// import uploadImgFun from '../../../service/uploadImg'
 export default{
   name: 'addVehicle',
   data () {
@@ -268,44 +272,67 @@ export default{
     }
   },
   methods: {
-    getToken: function () {
-      resultGet(uploadImg).then(res => {
-        res.code === '0000' && this.uploadImgFn(res.upToken)
-      })
-    },
-    uploadImgFn: function (uptoken) {
-      var that = this
-      uploadImgFun({
-        selfId: 'idCardImgPositive',
-        parentId: 'container',
-        upToken: uptoken,
-        fileUploaded: function (res) {
-          that.idCardImgPositive = res.imgUrl
-        },
-        error: function (err) {
-          console.log(err)
+    // getToken: function () {
+    //   resultGet(uploadImg).then(res => {
+    //     res.code === '0000' && this.uploadImgFn(res.upToken)
+    //   })
+    // },
+    // uploadImgFn: function (uptoken) {
+    //   var that = this
+    //   uploadImgFun({
+    //     selfId: 'idCardImgPositive',
+    //     parentId: 'container',
+    //     upToken: uptoken,
+    //     fileUploaded: function (res) {
+    //       that.idCardImgPositive = res.imgUrl
+    //     },
+    //     error: function (err) {
+    //       console.log(err)
+    //     }
+    //   })
+    //   uploadImgFun({
+    //     selfId: 'idCardImgNegative',
+    //     parentId: 'container',
+    //     upToken: uptoken,
+    //     fileUploaded: function (res) {
+    //       that.idCardImgNegative = res.imgUrl
+    //     },
+    //     error: function (err) {
+    //       console.log(err)
+    //     }
+    //   })
+    //   uploadImgFun({
+    //     selfId: 'idCardImgHandHeld',
+    //     parentId: 'container',
+    //     upToken: uptoken,
+    //     fileUploaded: function (res) {
+    //       that.idCardImgHandHeld = res.imgUrl
+    //     },
+    //     error: function (err) {
+    //       console.log(err)
+    //     }
+    //   })
+    // },
+    init: function () {
+      UploadFile.upload({
+        id: 'idCardImgPositiveInput',
+        callback: (res) => {
+          console.log(res)
+          this.idCardImgPositive = res.imgUrl
         }
       })
-      uploadImgFun({
-        selfId: 'idCardImgNegative',
-        parentId: 'container',
-        upToken: uptoken,
-        fileUploaded: function (res) {
-          that.idCardImgNegative = res.imgUrl
-        },
-        error: function (err) {
-          console.log(err)
+      UploadFile.upload({
+        id: 'idCardImgNegativeInput',
+        callback: (res) => {
+          console.log(res)
+          this.idCardImgNegative = res.imgUrl
         }
       })
-      uploadImgFun({
-        selfId: 'idCardImgHandHeld',
-        parentId: 'container',
-        upToken: uptoken,
-        fileUploaded: function (res) {
-          that.idCardImgHandHeld = res.imgUrl
-        },
-        error: function (err) {
-          console.log(err)
+      UploadFile.upload({
+        id: 'idCardImgHandHeldInput',
+        callback: (res) => {
+          console.log(res)
+          this.idCardImgHandHeld = res.imgUrl
         }
       })
     },
@@ -394,8 +421,10 @@ export default{
         }
       }
       console.log(reqData)
+      Indicator.open('正在上传...')
       resultPost(addVehicle, reqData).then(json => {
         console.log(json)
+        Indicator.close()
         if (json.code === '0000') {
           console.log(json)
           console.log('跳转预约申办成功页')
@@ -419,7 +448,11 @@ export default{
     this.identityCard = window.localStorage.getItem('identityCard')
   },
   mounted () {
-    this.getToken()
+    // this.getToken()
+    this.init()
+  },
+  beforeDestory () {
+    Indicator.close()
   }
 }
 </script>
@@ -472,8 +505,12 @@ export default{
           display: flex;
           justify-content: space-between;
           .addVehicle-upload-box {
+            display: block;
             width: 190px;
             height: 190px;
+            input[type=file]{
+              display: none;
+            }
             .box{
               width: 190px;
               height: 190px;

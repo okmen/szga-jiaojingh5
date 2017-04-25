@@ -6,7 +6,7 @@
 </template>
 <script>
 import common from './common'
-import { MessageBox } from 'mint-ui'
+import { MessageBox, Indicator } from 'mint-ui'
 import { resultPost } from '../../../service/getData'
 import { facility } from '../../../config/baseUrl'
 export default {
@@ -161,8 +161,9 @@ export default {
     },
     submit: function (reqData) {
       this.$emit('submit')
+      Indicator.open('正在提交...')
       resultPost(facility, reqData).then(json => {
-        this.tipsShow = true
+        Indicator.close()
         if (json.code !== '0000') {
           MessageBox({
             title: '',
@@ -182,6 +183,9 @@ export default {
   },
   created () {
     this.reportingMatters = 1001
+  },
+  beforeDestory () {
+    Indicator.close()
   }
 }
 </script>
