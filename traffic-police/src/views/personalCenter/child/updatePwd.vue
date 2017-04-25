@@ -27,7 +27,7 @@
 <script>
 import { updatePwd } from '../../../config/baseUrl'
 import { resultPost } from '../../../service/getData'
-import { MessageBox, Toast } from 'mint-ui'
+import { MessageBox, Toast, Indicator } from 'mint-ui'
 export default{
   name: 'updatePwd',
   data () {
@@ -68,7 +68,9 @@ export default{
           className: 'white'
         })
       } else if (this.newPwd === this.comfirmPwd) {
+        Indicator.open('正在提交...')
         resultPost(updatePwd, reqData).then(json => {
+          Indicator.close()
           console.log(json)
           if (json.code === '0000') {
             Toast({
@@ -94,6 +96,9 @@ export default{
   },
   created () {
     this.identityCard = window.localStorage.getItem('identityCard')
+  },
+  beforeDestory () {
+    Indicator.close()
   }
 }
 </script>

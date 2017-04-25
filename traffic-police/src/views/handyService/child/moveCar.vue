@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="moveCar-item-text right width-67">
-          <input class="text-input" type="text" name="" v-model:value="numberPlate" placeholder="请输入车牌号码" style="text-transform:uppercase;">
+          <input class="text-input" type="text" name="" v-model:value="numberPlate" placeholder="请输入车牌号码" style="text-transform:uppercase;" maxlength="10">
         </div>
       </li>
       <li class="moveCar-item">
@@ -53,7 +53,7 @@
 <script>
 import { resultPost } from '../../../service/getData'
 import { moveCar } from '../../../config/baseUrl'
-import { MessageBox, Toast } from 'mint-ui'
+import { MessageBox, Toast, Indicator } from 'mint-ui'
 import mymap from '../../map/map.vue'
 export default{
   name: 'moveCar',
@@ -312,7 +312,9 @@ export default{
           return false
         }
       }
+      Indicator.open('正在提交...')
       resultPost(moveCar, reqData).then(json => {
+        Indicator.close()
         console.log(json)
         if (json.code === '0000') {
           MessageBox({
@@ -334,6 +336,9 @@ export default{
       this.carTypeSelectShow = false
     })
     this.identityCard = window.localStorage.getItem('identityCard')
+  },
+  beforeDestory () {
+    Indicator.close()
   }
 }
 </script>

@@ -31,37 +31,41 @@
   <div class="updateUser-upload">
     <p>请按提示上传以下证件照片</p>
     <div id="container" class="updateUser-upload-inner">
-      <div id="idCardImgPositive" class="updateUser-upload-left updateUser-upload-box">
+      <label id="idCardImgPositive" class="updateUser-upload-left updateUser-upload-box" for="idCardImgPositiveInput">
+        <input type="file" id="idCardImgPositiveInput" accept="image/*">
         <img :src="idCardImgPositive" v-if="idCardImgPositive">
         <div class="box" v-else="idCardImgPositive">
           <em></em>
           <span>身份证(正面)</span>
         </div>
-      </div>
-      <div id="idCardImgNegative" class="updateUser-upload-center updateUser-upload-box">
+      </label>
+      <label id="idCardImgNegative" class="updateUser-upload-center updateUser-upload-box" for="idCardImgNegativeInput">
+        <input type="file" id="idCardImgNegativeInput" accept="image/*">
         <img :src="idCardImgNegative" v-if="idCardImgNegative">
         <div class="box" v-else="idCardImgNegative">
           <em></em>
           <span>身份证(反面)</span>
         </div>
-      </div>
-      <div id="idCardImgHandHeld" class="updateUser-upload-right updateUser-upload-box">
+      </label>
+      <label id="idCardImgHandHeld" class="updateUser-upload-right updateUser-upload-box" for="idCardImgHandHeldInput">
+        <input type="file" id="idCardImgHandHeldInput" accept="image/*">
         <img :src="idCardImgHandHeld" v-if="idCardImgHandHeld">
         <div class="box" v-else="idCardImgHandHeld">
           <em></em>
           <span>手持身份证</span>
         </div>
-      </div>
+      </label>
     </div>
   </div>
   <button class="btn" type="button" name="button" @click.stop="submitClick()">提交</button>
 </div>
 </template>
 <script>
-import { updateUser, uploadImg } from '../../../config/baseUrl'
-import { resultPost, resultGet } from '../../../service/getData'
-import uploadImgFun from '../../../service/uploadImg'
-import { MessageBox, Toast } from 'mint-ui'
+import UploadFile from '../../../service/uploadFile'
+import { updateUser } from '../../../config/baseUrl'
+import { resultPost } from '../../../service/getData'
+// import uploadImgFun from '../../../service/uploadImg'
+import { MessageBox, Toast, Indicator } from 'mint-ui'
 
 export default{
   name: 'updateUser',
@@ -76,44 +80,64 @@ export default{
     }
   },
   methods: {
-    getToken: function () {
-      resultGet(uploadImg).then(res => {
-        res.code === '0000' && this.uploadImgFn(res.upToken)
-      })
-    },
-    uploadImgFn: function (uptoken) {
-      var that = this
-      uploadImgFun({
-        selfId: 'idCardImgPositive',
-        parentId: 'container',
-        upToken: uptoken,
-        fileUploaded: function (res) {
-          that.idCardImgPositive = res.imgUrl
-        },
-        error: function (err) {
-          console.log(err)
+    // getToken: function () {
+    //   resultGet(uploadImg).then(res => {
+    //     res.code === '0000' && this.uploadImgFn(res.upToken)
+    //   })
+    // },
+    // uploadImgFn: function (uptoken) {
+    //   var that = this
+    //   uploadImgFun({
+    //     selfId: 'idCardImgPositive',
+    //     parentId: 'container',
+    //     upToken: uptoken,
+    //     fileUploaded: function (res) {
+    //       that.idCardImgPositive = res.imgUrl
+    //     },
+    //     error: function (err) {
+    //       console.log(err)
+    //     }
+    //   })
+    //   uploadImgFun({
+    //     selfId: 'idCardImgNegative',
+    //     parentId: 'container',
+    //     upToken: uptoken,
+    //     fileUploaded: function (res) {
+    //       that.idCardImgNegative = res.imgUrl
+    //     },
+    //     error: function (err) {
+    //       console.log(err)
+    //     }
+    //   })
+    //   uploadImgFun({
+    //     selfId: 'idCardImgHandHeld',
+    //     parentId: 'container',
+    //     upToken: uptoken,
+    //     fileUploaded: function (res) {
+    //       that.idCardImgHandHeld = res.imgUrl
+    //     },
+    //     error: function (err) {
+    //       console.log(err)
+    //     }
+    //   })
+    // },
+    init: function () {
+      UploadFile.upload({
+        id: 'idCardImgPositiveInput',
+        callback: (res) => {
+          this.idCardImgPositive = res.imgUrl
         }
       })
-      uploadImgFun({
-        selfId: 'idCardImgNegative',
-        parentId: 'container',
-        upToken: uptoken,
-        fileUploaded: function (res) {
-          that.idCardImgNegative = res.imgUrl
-        },
-        error: function (err) {
-          console.log(err)
+      UploadFile.upload({
+        id: 'idCardImgNegativeInput',
+        callback: (res) => {
+          this.idCardImgNegative = res.imgUrl
         }
       })
-      uploadImgFun({
-        selfId: 'idCardImgHandHeld',
-        parentId: 'container',
-        upToken: uptoken,
-        fileUploaded: function (res) {
-          that.idCardImgHandHeld = res.imgUrl
-        },
-        error: function (err) {
-          console.log(err)
+      UploadFile.upload({
+        id: 'idCardImgHandHeldInput',
+        callback: (res) => {
+          this.idCardImgHandHeld = res.imgUrl
         }
       })
     },
@@ -137,7 +161,9 @@ export default{
           return false
         }
       }
+      Indicator.open('正在提交...')
       resultPost(updateUser, reqData).then(json => {
+        Indicator.close()
         console.log(json)
         if (json.code === '0000') {
           Toast({
@@ -156,7 +182,11 @@ export default{
     }
   },
   mounted () {
-    this.getToken()
+    // this.getToken()
+    this.init()
+  },
+  beforeDestory () {
+    Indicator.close()
   }
 }
 </script>
@@ -188,8 +218,12 @@ export default{
       display: flex;
       justify-content: space-between;
       .updateUser-upload-box {
+        display: block;
         width: 190px;
         height: 190px;
+        input[type=file]{
+          display: none;
+        }
         .box{
           width: 190px;
           height: 190px;

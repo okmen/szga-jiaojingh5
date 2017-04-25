@@ -79,7 +79,7 @@
 <script>
 import { resultPost } from '../../../service/getData'
 import { order } from '../../../config/baseUrl'
-import { MessageBox, Toast } from 'mint-ui'
+import { MessageBox, Toast, Indicator } from 'mint-ui'
 export default {
   name: 'order',
   data () {
@@ -216,7 +216,9 @@ export default {
         }
       }
       this.$emit('submit')
+      Indicator.open('正在提交...')
       resultPost(order, reqData).then(json => {
+        Indicator.close()
         if (json.code !== '0000') {
           MessageBox({
             title: '',
@@ -241,6 +243,9 @@ export default {
     this.reportingMatters = 1004
     this.identityCard = window.localStorage.getItem('identityCard') || ''
     this.mobilephone = window.localStorage.getItem('mobilePhone') || ''
+  },
+  beforeDestory () {
+    Indicator.close()
   }
 }
 </script>

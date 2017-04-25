@@ -45,7 +45,7 @@
 <script>
 import { deleteVehicle } from '../../../config/baseUrl'
 import { resultPost } from '../../../service/getData'
-import { MessageBox } from 'mint-ui'
+import { MessageBox, Indicator } from 'mint-ui'
 
 export default{
   name: 'userInfo',
@@ -75,7 +75,9 @@ export default{
         // unionId: this.unionId
         unionId: ''
       }
+      Indicator.open('正在提交...')
       resultPost(deleteVehicle, reqData).then(json => {
+        Indicator.close()
         window.localStorage.clear()
         if (json.code === '0000') {
           console.log(json)
@@ -97,6 +99,9 @@ export default{
     this.userName = window.localStorage.getItem('userName') // 用户名
     this.mobile = window.localStorage.getItem('mobilePhone') // 用户手机号码
     this.avatar = window.localStorage.getItem('headImgUrl') // 用户头像
+  },
+  beforeDestory () {
+    Indicator.close()
   }
 }
 </script>
