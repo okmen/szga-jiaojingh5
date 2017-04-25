@@ -32,7 +32,7 @@
     <p>请按提示上传以下证件照片</p>
     <div id="container" class="updateUser-upload-inner">
       <label id="idCardImgPositive" class="updateUser-upload-left updateUser-upload-box" for="idCardImgPositiveInput">
-        <input type="file" id="idCardImgPositiveInput">
+        <input type="file" id="idCardImgPositiveInput" accept="image/*">
         <img :src="idCardImgPositive" v-if="idCardImgPositive">
         <div class="box" v-else="idCardImgPositive">
           <em></em>
@@ -40,7 +40,7 @@
         </div>
       </label>
       <label id="idCardImgNegative" class="updateUser-upload-center updateUser-upload-box" for="idCardImgNegativeInput">
-        <input type="file" id="idCardImgNegativeInput">
+        <input type="file" id="idCardImgNegativeInput" accept="image/*">
         <img :src="idCardImgNegative" v-if="idCardImgNegative">
         <div class="box" v-else="idCardImgNegative">
           <em></em>
@@ -48,7 +48,7 @@
         </div>
       </label>
       <label id="idCardImgHandHeld" class="updateUser-upload-right updateUser-upload-box" for="idCardImgHandHeldInput">
-        <input type="file" id="idCardImgHandHeldInput">
+        <input type="file" id="idCardImgHandHeldInput" accept="image/*">
         <img :src="idCardImgHandHeld" v-if="idCardImgHandHeld">
         <div class="box" v-else="idCardImgHandHeld">
           <em></em>

@@ -81,7 +81,7 @@
       <div id="container" class="common-upload">
         <p>请上传现场照片</p>
         <label id="upload" class="common-upload-inner" for="file">
-          <input type="file" id="file">
+          <input type="file" id="file" accept="image/*">
           <img class="img" :src="sceneImg" v-if="sceneImg">
           <em v-else="sceneImg"></em>
         </label>
