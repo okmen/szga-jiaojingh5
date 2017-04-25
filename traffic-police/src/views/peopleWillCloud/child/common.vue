@@ -110,7 +110,8 @@ export default{
       detailAddress: '',
       emergency: '',
       description: '',
-      sceneImg: ''
+      sceneImg: '',
+      imgTime: ''
     }
   },
   methods: {
@@ -175,11 +176,12 @@ export default{
         subTypeId: this.subTypeSelectData.id, // 子类型选择Id
         subType: this.subTypeSelectData.str, // 子类型选择
         description: this.description, // 现场描述
-        sceneImg: this.sceneImg // 现场图片
+        sceneImg: this.sceneImg, // 现场图片
+        imgTime: this.imgTime || ''
       }
       console.log(reqData)
       for (let key in reqData) {
-        if (!reqData[key]) {
+        if (!reqData[key] && key !== 'imgTime') {
           Toast({
             message: '信息填写不完整',
             position: 'bottom',

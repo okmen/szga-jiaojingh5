@@ -22,11 +22,11 @@
           },
           {
             'serviceName': '一键救援',
-            'serviceLink': '/starUser'
+            'serviceLink': '/'
           },
           {
             'serviceName': '自主考试',
-            'serviceLink': '/starUser'
+            'serviceLink': '/'
           }
         ]
       }
