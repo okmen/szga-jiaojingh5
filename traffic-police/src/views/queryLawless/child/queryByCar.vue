@@ -357,6 +357,7 @@
       },
       queryLawlessByCar: function () {
         let reqData = {
+          car_number: this.car_number,
           licensePlateNo: this.abbreviationSelectMassage + this.car_number,
           licensePlateType: this.cur_type_id,
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
@@ -368,12 +369,21 @@
         for (let key in reqData) {
           if (!reqData[key]) {
             console.log(key)
-            Toast({
-              message: '信息填写不完整',
-              position: 'bottom',
-              className: 'white'
-            })
-            return false
+            if (key === 'identityCard' || key === 'mobilephone') {
+              Toast({
+                message: '请先登录',
+                position: 'middle',
+                className: 'white'
+              })
+              window.location.href = '/login'
+            } else {
+              Toast({
+                message: '信息填写不完整',
+                position: 'bottom',
+                className: 'white'
+              })
+              return false
+            }
           }
         }
         resultPost(queryLawlessByCar, reqData).then(json => {

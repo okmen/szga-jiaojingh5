@@ -1,5 +1,6 @@
 <template>
   <div class="jam-outer">
+  <div v-wechat-title="$route.meta.title"></div>
     <div class="jam-form">
       <ul class="jam-form-list pad-right-43 pad-top-24">
         <li class="jam-form-item clear">
@@ -119,7 +120,7 @@
             <span>改善建议</span>
           </div>
           <div class="common-list-text">
-            <textarea class="text-input textarea" name="localeDescript" id="localeDescript" v-model:value="improveAdvice" placeholder="请填写改善建议"></textarea>
+            <textarea class="text-input textarea" name="localeDescript" id="localeDescript" v-model:value="improveAdvice" placeholder="请填写改善建议" maxlength="100"></textarea>
           </div>
         </li>
       </ul>
