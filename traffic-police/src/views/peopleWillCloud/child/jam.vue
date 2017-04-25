@@ -131,7 +131,7 @@
 <script>
 import { resultPost } from '../../../service/getData'
 import { jam } from '../../../config/baseUrl'
-import { MessageBox, Toast } from 'mint-ui'
+import { MessageBox, Toast, Indicator } from 'mint-ui'
 export default {
   name: 'jam',
   data () {
@@ -348,8 +348,9 @@ export default {
         }
       }
       this.$emit('submit')
-      console.log(reqData)
+      Indicator.open('正在提交...')
       resultPost(jam, reqData).then(json => {
+        Indicator.close()
         if (json.code !== '0000') {
           MessageBox({
             title: '',
@@ -378,6 +379,9 @@ export default {
     this.userName = window.localStorage.getItem('userName') || '' // 用户姓名
     this.mobilephone = window.localStorage.getItem('mobilePhone') || '' // 用户手机号码
     this.identityCard = window.localStorage.getItem('identityCard') || '' // 用户身份证号码
+  },
+  beforeDestory () {
+    Indicator.close()
   }
 }
 </script>
