@@ -9,7 +9,7 @@
 <script>
   import { resultPost } from '../../../service/getData'
   import { drivingCard } from '../../../config/baseUrl'
-  import { Indicator } from 'mint-ui'
+  import { Toast, Indicator } from 'mint-ui'
   export default {
     name: 'drivingCard',
     data () {
@@ -19,13 +19,23 @@
       }
     },
     mounted () {
-      Indicator.open()
       let reqData = {
-        numberPlatenumber: window.localStorage.getItem('myNumberPlate'),
-        plateType: window.localStorage.getItem('plateType'),
+        numberPlatenumber: window.localStorage.getItem('myNumberPlate') || '',
+        plateType: window.localStorage.getItem('plateType') || '',
         mobileNumber: window.localStorage.getItem('mobilePhone')
       }
       console.log(reqData)
+      for (let key in reqData) {
+        if (!reqData[key]) {
+          Toast({
+            message: '未绑定车辆',
+            position: 'middle',
+            className: 'white'
+          })
+          return false
+        }
+      }
+      Indicator.open()
       resultPost(drivingCard, reqData).then(json => {
         Indicator.close()
         this.imageUrl = 'data:image/png;base64,' + json.data.electronicDrivingLicense
