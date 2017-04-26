@@ -142,17 +142,25 @@ export default {
   },
   methods: {
     init: function () {
+      Indicator.open('正在加载...')
       resultGet(processingPoint).then(json => {
         if (json.code === '0000') {
           this.processingPointData = json.data
           this.processingPoint = this.processingPointData[0]
           this.getDetailData()
+        } else {
+          MessageBox({
+            title: '',
+            message: json.msg
+          })
         }
       })
     },
     getDetailData: function () {
       this.cldbmid = this.processingPoint.cldbmid
+      Indicator.open('正在加载...')
       resultGet(`${subscribeSorts}?cldbmid=${this.cldbmid}`).then(json => {
+        Indicator.close()
         if (json.code === '0000') {
           this.timeData = json.data.data
           this.newData = {}
@@ -176,6 +184,11 @@ export default {
           this.year = this.years[0]
 
           this.snm = json.data.snm
+        } else {
+          MessageBox({
+            title: '',
+            message: json.msg
+          })
         }
       })
     },
@@ -265,6 +278,7 @@ export default {
     }
   },
   created () {
+    Indicator.open('正在加载...')
     document.addEventListener('click', (e) => {
       this.processingPointShow = false
       this.yearShow = false
@@ -284,6 +298,9 @@ export default {
     } else if (/AlipayClient/i.test(ua)) {
       this.sourceOfCertification = 'Z' // 支付宝
     }
+  },
+  beforeDestory () {
+    Indicator.close()
   }
 }
 </script>
