@@ -58,6 +58,9 @@ export default {
   methods: {
     clickShow: function () { // 学习记录控制样式
       this.isShow = !this.isShow
+      this.itemData.sort(function (a, b) {
+        return Date.parse(b.answerDate) - Date.parse(a.answerDate)  // 时间正序
+      })
     },
     pageDown: function () {
       window.sessionStorage.setItem('integral', this.listData.integral) // 学习积分
