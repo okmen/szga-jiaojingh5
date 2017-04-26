@@ -28,15 +28,15 @@ export default {
     return {
       userAgreementCon: '',
       getNoticeTitle: '',
-      checked: ''
+      checked: '',
+      entryHash: ''
     }
   },
-  mounted: function () {
+  created: function () {
     let locationHref = window.location.href
-    let entryHash = locationHref.split('#')[2]
-    console.log(entryHash)
+    this.entryHash = locationHref.split('#')[2]  // 截取#后的值
     let userAgreementData = {
-      noticeKey: entryHash
+      noticeKey: this.entryHash
     }
     resultPost(userAgreement, userAgreementData).then(json => { // 调取随手拍举报接口
       console.log(json)
@@ -47,8 +47,15 @@ export default {
   methods: {
     btnAgreeRequest: function () {
       if (this.checked === true) {
-        // this.$router.push('/takePicturesInform')
-        console.log('1111')
+        console.log(this.entryHash)
+        switch (this.entryHash) {
+          case 'wfsspjbzy':  // 随手拍举报范围说明
+            this.$router.push('/takePicturesInform')
+            break
+          case 'sspjbzysx': // 随手拍举报注意事项
+            this.$router.push('/takePicturesInform')
+            break
+        }
       } else {
         Toast({
           message: '请勾选已阅读温馨提示',

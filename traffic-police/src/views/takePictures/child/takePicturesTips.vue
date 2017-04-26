@@ -28,8 +28,8 @@
        </p>
      </div>
      <div class="tp-inform-box">
-       <a>举报范围说明</a>
-       <a>举报注意事项</a>
+       <router-link to="/userAgreement#wfsspjbzy">举报范围说明</router-link>
+       <router-link to="/userAgreement#sspjbzysx">举报注意事项</router-link>
      </div>
    </div>
    <div class="tp-read">
