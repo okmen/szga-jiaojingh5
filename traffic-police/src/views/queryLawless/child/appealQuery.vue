@@ -92,17 +92,17 @@
         name: window.localStorage.getItem('userName'),
         mobilePhone: window.localStorage.getItem('mobilePhone'),
         identityCard: window.localStorage.getItem('identityCard'),
-        cur_bindCar: window.localStorage.getItem('myNumberPlate') || '无',
+        cur_bindCar: window.localStorage.getItem('myNumberPlate') === 'undefined' ? '无' : window.localStorage.getItem('myNumberPlate'),
         bindCarList: [],
         bindCarListShow: false,
-        plateType: window.localStorage.getItem('plateType') || '99',
+        plateType: window.localStorage.getItem('plateType') === 'undefined' ? '99' : window.localStorage.getItem('plateType'),
         plateTypeList: {
           '02': '蓝牌',
           '01': '黄牌',
           '06': '黑牌',
           '99': '无'
         },
-        vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits') || '无'
+        vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits') === 'undefined' ? '无' : window.localStorage.getItem('behindTheFrame4Digits')
       }
     },
     mounted () {
