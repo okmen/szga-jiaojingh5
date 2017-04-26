@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <button class='btn btn-blue' type='button' name='button' @click='btnClick'>查询</button>
+    <button class='btn btn-blue' type='button' name='button' @click='btnClick()'>查询</button>
     <div class='hint'>
       <h4>温馨提示：</h4>
       <p>对交通安全违法行为记录有异议的（如已作出处罚决定，应该申请行政复议和提起行政诉讼），请详细填写申诉内容，我们会安排专人与您联系办理</p>
@@ -92,17 +92,17 @@
         name: window.localStorage.getItem('userName'),
         mobilePhone: window.localStorage.getItem('mobilePhone'),
         identityCard: window.localStorage.getItem('identityCard'),
-        cur_bindCar: window.localStorage.getItem('myNumberPlate') || '无',
+        cur_bindCar: window.localStorage.getItem('myNumberPlate') === 'undefined' ? '无' : window.localStorage.getItem('myNumberPlate'),
         bindCarList: [],
         bindCarListShow: false,
-        plateType: window.localStorage.getItem('plateType') || '99',
+        plateType: window.localStorage.getItem('plateType') === 'undefined' ? '99' : window.localStorage.getItem('plateType'),
         plateTypeList: {
           '02': '蓝牌',
           '01': '黄牌',
           '06': '黑牌',
           '99': '无'
         },
-        vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits') || '无'
+        vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits') === 'undefined' ? '无' : window.localStorage.getItem('behindTheFrame4Digits')
       }
     },
     mounted () {

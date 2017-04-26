@@ -30,15 +30,15 @@ export default {
         classroomName: '行人、非机动车安全学习'
       }],
       testData: [{
-        name: '/userAgreement#xfNotice#1'
+        name: '/userAgreement#xfNotice'
       }, {
-        name: '/userAgreement#mfNotice#2'
+        name: '/userAgreement#mfNotice'
       }, {
-        name: '/userAgreement#abNotice#3'
+        name: '/userAgreement#abNotice'
       }, {
-        name: '/userAgreement#ddcNotice#4'
+        name: '/userAgreement#ddcNotice'
       }, {
-        name: '/userAgreement#xrNotice#5'
+        name: '/userAgreement#xrNotice'
       }]
     }
   },
