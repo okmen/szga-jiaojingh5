@@ -25,15 +25,16 @@ export default {
   data () {
     return {
       isShow: false,
-      businesses: []
+      businesses: [],
+      isLogin: false
     }
   },
-//    mounted () {
-//      resultPost(LawlessBusiness).then(json => {
-//        this.businesses = json.data
-//        console.log(this.businesses)
-//      })
-//    },
+  mounted () {
+    this.isLogin = window.localStorage.getItem('isLogin')
+    if (!this.isLogin) {
+      this.$router.push('/login')
+    }
+  },
   methods: {
     clickShow: function () {
       this.isShow = !this.isShow
