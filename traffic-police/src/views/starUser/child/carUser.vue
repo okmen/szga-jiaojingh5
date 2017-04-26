@@ -284,51 +284,69 @@
         }
       },
       btnSureStar: function () {  // 提交按钮
-        Indicator.open('提交中...')
         let ownerIdImgOne = this.$refs.getImgUrl.ownerIdCardPositive
         let ownerIdImgTwo = this.$refs.getImgUrl.ownerIdCardHandHeld
         let userIdImgThree = this.$refs.getImgUrl.userIdCardPositive
         let userIdImgFour = this.$refs.getImgUrl.userIdCardHandHeld
-        let usrData = {
-          licensePlateType: this.licenseSelectType,             // 车牌类型
-          provinceAbbreviation: this.abbreviationSelectMassage, // 省简称
-          licensePlateNumber: this.carNumber,                   // 车牌号
-          ownerName: this.carOwnerName,                         // 车主姓名
-          ownerIdCard: this.carIdCardNumber,                    // 车主身份证号码
-          userIdCard: this.userIdCardNumber,                    // 使用人身份证号码
-          linkAddress: this.userAddress,                        // 联系地址
-          mobilephone: this.userTelphone,                       // 电话号码
-          validateCode: this.validCode,                         // 验证码
-          driverLicenseIssuedAddress: this.driverCardPlace,     // 驾驶证核发地
-          idCardImgPositive: userIdImgThree,                    // 使用人身份证照片
-          idCardImgHandHeld: userIdImgFour,
-          ownerIdCardImgPositive: ownerIdImgOne,                // 车主身份证照片
-          ownerIdCardImgHandHeld: ownerIdImgTwo
+        if (this.carNumber.length < 2) {
+          Toast({message: '请输入车牌号', position: 'bottom', className: 'white'})
+        } else if (!this.carOwnerName) {
+          Toast({message: '请输入车主姓名', position: 'bottom', className: 'white'})
+        } else if (!this.carIdCardNumber) {
+          Toast({message: '请输入车主身份证号码', position: 'bottom', className: 'white'})
+        } else if (!this.userIdCardNumber) {
+          Toast({message: '请输入您的身份证号码', position: 'bottom', className: 'white'})
+        } else if (!this.driverCardPlace) {
+          Toast({message: '请选择驾驶证核发地', position: 'bottom', className: 'white'})
+        } else if (!this.userTelphone) {
+          Toast({message: '请输入您的手机号码', position: 'bottom', className: 'white'})
+        } else if (!this.validCode) {
+          Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
+        } else if (!ownerIdImgOne || !ownerIdImgTwo || !userIdImgThree || !userIdImgFour) {
+          Toast({message: '请上传身份证照片', position: 'bottom', className: 'white'})
+        } else {
+          Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
+          let usrData = {
+            licensePlateType: this.licenseSelectType,             // 车牌类型
+            provinceAbbreviation: this.abbreviationSelectMassage, // 省简称
+            licensePlateNumber: this.carNumber,                   // 车牌号
+            ownerName: this.carOwnerName,                         // 车主姓名
+            ownerIdCard: this.carIdCardNumber,                    // 车主身份证号码
+            userIdCard: this.userIdCardNumber,                    // 使用人身份证号码
+            linkAddress: this.userAddress,                        // 联系地址
+            mobilephone: this.userTelphone,                       // 电话号码
+            validateCode: this.validCode,                         // 验证码
+            driverLicenseIssuedAddress: this.driverCardPlace,     // 驾驶证核发地
+            idCardImgPositive: userIdImgThree,                    // 使用人身份证照片
+            idCardImgHandHeld: userIdImgFour,
+            ownerIdCardImgPositive: ownerIdImgOne,                // 车主身份证照片
+            ownerIdCardImgHandHeld: ownerIdImgTwo
+          }
+          resultPost(carUser, usrData).then(json => {
+            let jsonMsg = json.msg
+            let getJsonMsg = ''
+            if (jsonMsg.indexOf(' ') === -1) {
+              getJsonMsg = jsonMsg
+            } else {
+              getJsonMsg = jsonMsg.split(' ')[0]
+            }
+            if (json.code === '0000') {
+              Indicator.close()
+              this.postAppoin({
+                appoinNum: json.msg.split(':')[1],
+                appoinType: '星级用户认证'
+              })
+              this.$router.push('/appointSuccess')
+            } else {
+              Indicator.close()
+              Toast({
+                message: getJsonMsg,
+                position: 'bottom',
+                className: 'white'
+              })
+            }
+          })
         }
-        resultPost(carUser, usrData).then(json => {
-          let jsonMsg = json.msg
-          let getJsonMsg = ''
-          if (jsonMsg.indexOf(' ') === -1) {
-            getJsonMsg = jsonMsg
-          } else {
-            getJsonMsg = jsonMsg.split(' ')[0]
-          }
-          if (json.code === '0000') {
-            Indicator.close()
-            this.postAppoin({
-              appoinNum: json.msg.split(':')[1],
-              appoinType: '星级用户认证'
-            })
-            this.$router.push('/appointSuccess')
-          } else {
-            Indicator.close()
-            Toast({
-              message: getJsonMsg,
-              position: 'bottom',
-              className: 'white'
-            })
-          }
-        })
       },
       getVerification: function () {  // 获取验证码
         let sendPhoneNumber = {
