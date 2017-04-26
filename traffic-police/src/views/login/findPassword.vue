@@ -2,8 +2,8 @@
     <div id="login-outer">
       <div class="logo"></div>
       <div class="login-form">
-        <input v-model:value="userName" type="tel" placeholder="请输入您的姓名">
-        <input class="identityCard" v-model:value="identityCard" type="tel" placeholder="请输入您的身份证号码">
+        <input v-model:value="userName" type="text" placeholder="请输入您的姓名">
+        <input class="identityCard" v-model:value="identityCard" type="text" placeholder="请输入您的身份证号码">
         <input class="mobilephone" v-model:value="mobilephone" type="tel" placeholder="请输入手机号">
         <div class="validateCode">
           <input class="inpValidateCode" v-model:value="validateCode" type="tel" placeholder="输入验证码">
@@ -147,6 +147,7 @@ export default {
 #login-outer{
   width: 100%;
   height: 100%;
+  min-height: 1218px;
   background-image: url('../../images/login-banner.png');
   background-size: cover;
   padding-top: 330px;
