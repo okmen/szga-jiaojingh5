@@ -70,6 +70,9 @@ export default {
           case 'ddcNotice': // 行人学习须知
             this.$router.push('/answer#5')
             break
+          case 'xjyhrz': // 行人学习须知
+            this.$router.push('/starUser')
+            break
         }
       } else {
         Toast({
