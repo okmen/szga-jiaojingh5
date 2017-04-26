@@ -44,7 +44,7 @@
       </li>
     </ul>
     <span id="swer" class="answer-ansr" v-bind:class="{ 'anshow' : answerShow}">{{judgeTrue}}</span>
-    <div id="NofItem Nofs" class="answer-options" v-bind:class="{ 'shows' : isBtnShows}" @click.stop="answerClick()">答题</div>
+    <div class="answer-options" v-bind:class="{ 'shows' : isBtnShows}" @click.stop="answerClick()">答题</div>
     <div id="NofItemss" class="answer-option" v-bind:class="{ 'show' : isBtnShow}" @click="countClick()">下一题</div>
   </div>
 </template>
@@ -113,7 +113,8 @@ export default {
       } else {
         this.answerName.forEach((item, indexs) => {
           if (indexs === index) {
-            this.answerName[index].isSure = !this.answerName[index].isSure
+            // this.answerName[index].isSure = !this.answerName[index].isSure
+            this.answerName[index].isSure = true
             that.answerId = item.answerId
           } else {
             item.isSure = false
@@ -140,7 +141,7 @@ export default {
       this.isBtnShow = true    // 下一题显示
       this.isBtnShows = false  // 答题显示
       this.answerShow = true  // 对错显示
-      this.surplusAnswe++
+      this.surplusAnswe++     // 答题数
       var answesData = {
         classroomId: this.hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
@@ -160,11 +161,14 @@ export default {
         if (this.codes === '0000') {
           this.judgeTrue = '答题正确'
           document.getElementById('swer').style.color = 'green'
-          this.answerCorrect++
+          this.answerCorrect++ // 答对题数
+          if (this.answerCorrect === 10) {
+            document.getElementById('NofItemss').innerHTML = '结束答题'
+          }
         } else if (this.codes === '0001') {
           this.judgeTrue = '答题错误'
           document.getElementById('swer').style.color = 'red'
-          this.answererror++
+          this.answererror++   // 答错题数
         } else if (this.codes === '0002') {
           Toast({
             message: json.msg,
@@ -178,26 +182,13 @@ export default {
       this.answerShow = false
       this.loadingData()
       if (this.answerCorrect === 10) {
-        // document.getElementById('NofItem').innerHTML = '结束答题'
         window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
         window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
         window.sessionStorage.setItem('surplusAnswe', this.surplusAnswe)  // 答题数
-        this.$router.push('result')
+        this.$router.push('result#1')
       }
     },
     loadingData: function () {     //  页面接口数据
-      this.testData = [{          // 答题选项样式初始化
-        img: require('../../../images/A.png')
-      },
-      {
-        img: require('../../../images/B.png')
-      },
-      {
-        img: require('../../../images/C.png')
-      },
-      {
-        img: require('../../../images/D.png')
-      }]
       this.isBtnShow = false  // 初始化下一题选项样式
       this.hashRoomId = window.location.hash.split('#')[2]
       var answeData = {

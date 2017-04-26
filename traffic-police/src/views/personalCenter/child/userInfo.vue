@@ -72,8 +72,7 @@ export default{
       let reqData = {
         identityCard: this.identityCard,
         openId: this.openId,
-        // unionId: this.unionId
-        unionId: ''
+        unionId: this.unionId
       }
       Indicator.open('正在提交...')
       resultPost(deleteVehicle, reqData).then(json => {
@@ -99,6 +98,7 @@ export default{
     this.userName = window.localStorage.getItem('userName') // 用户名
     this.mobile = window.localStorage.getItem('mobilePhone') // 用户手机号码
     this.avatar = window.localStorage.getItem('headImgUrl') // 用户头像
+    this.unionId = window.localStorage.getItem('unionId') // 支付宝unionId
   },
   beforeDestory () {
     Indicator.close()
