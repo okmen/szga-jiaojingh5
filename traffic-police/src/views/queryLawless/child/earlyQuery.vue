@@ -81,7 +81,7 @@
               <p>{{ reserve.yydate }}{{ reserve.yydate_sjd }}</p>
             </div>
             <div class="left-line" v-if="reserve.zt == '正常'">
-              <div class="cancel">
+              <div class="cancel" @click.stop="earlyCancel(reserve.yylsh)">
                 取消预约
               </div>
             </div>
@@ -97,7 +97,7 @@
 </template>
 <script>
   import { resultPost } from '../../../service/getData'
-  import { earlyQuery } from '../../../config/baseUrl'
+  import { earlyQuery, earlyCancel } from '../../../config/baseUrl'
   import { verifyCode } from '../../../config/verifyCode'
   import { Toast } from 'mint-ui'
   export default {
@@ -349,6 +349,30 @@
 //          }
           this.reserveList = json.data
           console.log(json)
+        })
+      },
+      earlyCancel: function (subscribeNo) {
+        let reqData = {
+          subscribeNo: subscribeNo
+        }
+        resultPost(earlyCancel, reqData).then(json => {
+          console.log(json)
+          if (json.code === '0000') {
+            Toast({
+              message: json.msg,
+              position: 'middle',
+              className: 'white',
+              duration: 3000
+            })
+            window.location.reload()
+          } else {
+            Toast({
+              message: json.msg,
+              position: 'middle',
+              className: 'white',
+              duration: 3000
+            })
+          }
         })
       },
       getVerification: function () {}

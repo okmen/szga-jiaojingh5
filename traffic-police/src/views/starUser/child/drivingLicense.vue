@@ -44,7 +44,7 @@
           <input class="text-input" type="tel" maxlength="6" v-model="verifCodeNum" placeholder="请输入验证码">
         </div>
         <div class="left starUser-hbs-code"><button type="button" name="button" @click.stop="getVerification()"
-          :class="{disabled: isdisabled}">{{getValidCodeMsg}}</button></div>
+          :class="{disabled: isdisabled}" :disabled="this.isdisabled">{{getValidCodeMsg}}</button></div>
       </li>
       <li class="starUser-hbs-item driver-address">
         <div class="starUser-hbs-name">

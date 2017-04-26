@@ -23,6 +23,14 @@ const routes = [
     component: require('../views/login/login.vue')
   },
   {
+    name: 'findPassword',
+    path: '/findPassword',
+    meta: {
+      title: '深圳交警'
+    },
+    component: require('../views/login/findPassword.vue')
+  },
+  {
     name: 'personalCenter',
     path: '/personalCenter',
     meta: {
@@ -120,6 +128,14 @@ const routes = [
       title: '交通违法预约'
     },
     component: require('../views/queryLawless/child/early.vue')
+  },
+  {
+    name: 'illegalTimeSelect',
+    path: '/illegalTimeSelect',
+    meta: {
+      title: '交通违法预约'
+    },
+    component: require('../views/queryLawless/child/illegalTimeSelect.vue')
   },
   {
     name: 'payLawless',
@@ -350,9 +366,7 @@ const routes = [
     name: 'userAgreement',
     path: '/userAgreement',
     meta: {
-      meta: {
-        title: '用户须知'
-      }
+      title: '用户须知'
     },
     component: require('../components/userAgreement.vue')
   }
