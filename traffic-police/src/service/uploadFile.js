@@ -28,6 +28,7 @@ const UploadFile = {
 		el.onchange = function(e){
 			var file = this;
 			var f = file.files[0];
+			var size = f.size;
 			if(f){
 				Indicator.open('上传中...');
 				EXIF.getData(f, function() {
@@ -39,7 +40,7 @@ const UploadFile = {
 					var fr = new FileReader();  
 		            fr.onload = function(e) {  
 		                var src = e.target.result;
-		                self.compressImg(src,maxHeight,quality,callback);
+		                self.compressImg(src,size,maxHeight,quality,callback);
 		            }  
 		            fr.readAsDataURL(f); 
 			    } 
@@ -54,12 +55,27 @@ const UploadFile = {
 	 * @param  {Function} callback  [回调]
 	 * @return {[type]}             [description]
 	 */
-	compressImg: function(src,maxHeight,quality,callback){
+	compressImg: function(src,size,maxHeight,quality,callback){
+		if(!src) return;
 		let img = document.createElement('img');
 		img.src = src;
 		img.onload = function(){
 		    var canvas = document.createElement('canvas');
 		    var context = canvas.getContext('2d');
+		    //压缩率设置
+		    let s = size / 1024;
+		    if(s < 200){
+		    	maxHeight = img.height;
+		    }else if(s >= 200 && s < 500){
+		    	maxHeight = 1024;
+		    }else if(s >= 500 && s < 1024){
+		    	maxHeight = 800;
+		    }else if(s >= 1024 && s < 2*1024){
+		    	maxHeight = 700;
+		    }else{
+		    	maxHeight = 600;
+		    }
+
 		    if(img.height > maxHeight) {//按最大高度等比缩放
 				img.width *= maxHeight / img.height; 
 				img.height = maxHeight; 
