@@ -95,42 +95,52 @@
         }
       },
       btnSureStar: function () {  // 确认注册按钮
-        Indicator.open('提交中...')
         let idImgOne = this.$refs.getImgUrl.idCardImgPositive
         let idImgTwo = this.$refs.getImgUrl.idCardImgNegative
         let idImgThree = this.$refs.getImgUrl.idCardImgHandHeld
-        let passerData = {
-          identityCard: this.idCardNumber,
-          mobilephone: this.telphoneNumber,
-          validateCode: this.validCode,
-          idCardImgPositive: idImgOne,
-          idCardImgNegative: idImgTwo,
-          idCardImgHandHeld: idImgThree
+        if (!this.idCardNumber) {
+          Toast({message: '请输入您的身份证号码', position: 'bottom', className: 'white'})
+        } else if (!this.telphoneNumber) {
+          Toast({message: '请输入您的手机号码', position: 'bottom', className: 'white'})
+        } else if (!this.validCode) {
+          Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
+        } else if (!idImgOne || !idImgTwo || !idImgThree) {
+          Toast({message: '请上传身份证照片', position: 'bottom', className: 'white'})
+        } else {
+          Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
+          let passerData = {
+            identityCard: this.idCardNumber,
+            mobilephone: this.telphoneNumber,
+            validateCode: this.validCode,
+            idCardImgPositive: idImgOne,
+            idCardImgNegative: idImgTwo,
+            idCardImgHandHeld: idImgThree
+          }
+          resultPost(passerBy, passerData).then(json => {
+            let jsonMsg = json.msg
+            let getJsonMsg = ''
+            if (jsonMsg.indexOf(' ') === -1) {
+              getJsonMsg = jsonMsg
+            } else {
+              getJsonMsg = jsonMsg.split(' ')[0]
+            }
+            if (json.code === '0000') {
+              Indicator.close()
+              this.postAppoin({
+                appoinNum: json.msg.split(':')[1],
+                appoinType: '星级用户认证'
+              })
+              this.$router.push('/appointSuccess')
+            } else {
+              Indicator.close()
+              Toast({
+                message: getJsonMsg,
+                position: 'bottom',
+                className: 'white'
+              })
+            }
+          })
         }
-        resultPost(passerBy, passerData).then(json => {
-          let jsonMsg = json.msg
-          let getJsonMsg = ''
-          if (jsonMsg.indexOf(' ') === -1) {
-            getJsonMsg = jsonMsg
-          } else {
-            getJsonMsg = jsonMsg.split(' ')[0]
-          }
-          if (json.code === '0000') {
-            Indicator.close()
-            this.postAppoin({
-              appoinNum: json.msg.split(':')[1],
-              appoinType: '星级用户认证'
-            })
-            this.$router.push('/appointSuccess')
-          } else {
-            Indicator.close()
-            Toast({
-              message: getJsonMsg,
-              position: 'bottom',
-              className: 'white'
-            })
-          }
-        })
       },
       ...mapActions({
         postAppoin: 'postAppoin'

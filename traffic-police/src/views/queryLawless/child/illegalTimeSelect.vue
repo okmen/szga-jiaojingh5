@@ -67,7 +67,7 @@
     </li>
   </ul>
   <ul class="illegalTimeSelect-detail">
-    <li class="illegalTimeSelect-item" v-for="(item, index) in selectData" :class="{disabled: item.yy_zs - item.yy_yysl === 0, active: item.yy_zs - item.yy_yysl != 0 && tab == item.ccsjd}" @click.stop="select(item.ccsjd, index+1, item.yy_zs - item.yy_yysl === 0)">
+    <li class="illegalTimeSelect-item" v-for="(item, index) in selectData" :class="{disabled: item.yy_zs - item.yy_yysl === 0, active: item.yy_zs - item.yy_yysl != 0 && tab == item.ccsjd}" @click.stop="select(item.ccsjd, index, item.yy_zs - item.yy_yysl === 0)">
       <p>{{item.ccsjd}}</p>
       <p v-if="item.yy_zs - item.yy_yysl === 0">已满</p>
       <p v-else="item.yy_zs - item.yy_yysl === 0">剩余名额<span class="yy_yysl">{{item.yy_zs - item.yy_yysl}}</span>位</p>
@@ -84,8 +84,9 @@
 </div>
 </template>
 <script>
-import { processingPoint, subscribeSorts } from '../../../config/baseUrl'
-import { resultGet } from '../../../service/getData'
+import { processingPoint, subscribeSorts, changeSubscribe } from '../../../config/baseUrl'
+import { resultGet, resultPost } from '../../../service/getData'
+import { Toast, Indicator, MessageBox } from 'mint-ui'
 export default {
   data () {
     return {
@@ -105,6 +106,7 @@ export default {
       cldbmid: '',
       newData: '',
       tab: '',
+      cczb_id: '',
       years: [],
       months: [],
       dates: []
@@ -140,19 +142,25 @@ export default {
   },
   methods: {
     init: function () {
-      console.log('初始化')
-      console.log(processingPoint)
+      Indicator.open('正在加载...')
       resultGet(processingPoint).then(json => {
         if (json.code === '0000') {
           this.processingPointData = json.data
           this.processingPoint = this.processingPointData[0]
           this.getDetailData()
+        } else {
+          MessageBox({
+            title: '',
+            message: json.msg
+          })
         }
       })
     },
     getDetailData: function () {
       this.cldbmid = this.processingPoint.cldbmid
+      Indicator.open('正在加载...')
       resultGet(`${subscribeSorts}?cldbmid=${this.cldbmid}`).then(json => {
+        Indicator.close()
         if (json.code === '0000') {
           this.timeData = json.data.data
           this.newData = {}
@@ -176,6 +184,11 @@ export default {
           this.year = this.years[0]
 
           this.snm = json.data.snm
+        } else {
+          MessageBox({
+            title: '',
+            message: json.msg
+          })
         }
       })
     },
@@ -220,25 +233,52 @@ export default {
       if (isDisable) {
         return false
       } else {
+        this.cczb_id = this.selectData[index].cczb_id
         this.tab = str
       }
     },
     submit: function () {
-      // let reqData = {
-      //   snm: this.snm,
-      //   cldbmid: this.cldbmid,
-      //   cczb_id: 140595,
-      //   sourceOfCertification: 'C',
-      //   custName: 'll',
-      //   certificateNo: 12,
-      //   drivingLicenceNo: 899,
-      //   licensePlateNo: '粤B6F7M2',
-      //   licensePlateType: 2,
-      //   mobileNo: 18601174358
-      // }
+      let reqData = {
+        snm: this.snm,
+        cldbmid: this.cldbmid,
+        cczb_id: this.cczb_id,
+        sourceOfCertification: this.sourceOfCertification || 'C', // 来源
+        custName: this.custName, // 用户姓名
+        certificateNo: this.certificateNo, // 身份证号码
+        drivingLicenceNo: this.certificateNo, // 驾驶证号码
+        licensePlateNo: this.licensePlateNo, // 车牌号码
+        licensePlateType: this.licensePlateType, // 车牌类型
+        mobileNo: this.mobileNo // 手机号码
+      }
+      console.log(reqData)
+      for (let key in reqData) {
+        if (!reqData[key]) {
+          Toast({
+            message: '信息填写不完整',
+            position: 'bottom',
+            className: 'white'
+          })
+          return false
+        }
+      }
+      Indicator.open('正在提交...')
+      resultPost(changeSubscribe, reqData).then(json => {
+        Indicator.close()
+        console.log(json)
+        if (json.code === '0') {
+          console.log('流水号', json.msg)
+          console.log('预约成功,跳转预约成功的页面')
+        } else {
+          MessageBox({
+            title: '',
+            message: json.msg
+          })
+        }
+      })
     }
   },
   created () {
+    Indicator.open('正在加载...')
     document.addEventListener('click', (e) => {
       this.processingPointShow = false
       this.yearShow = false
@@ -246,9 +286,21 @@ export default {
       this.dateShow = false
     })
     this.init()
+    this.custName = window.localStorage.getItem('userName') // 姓名
+    this.certificateNo = window.localStorage.getItem('identityCard') // 身份证
+    this.licensePlateNo = window.localStorage.getItem('myNumberPlate') // 车牌号码
+    this.licensePlateType = window.localStorage.getItem('plateType') // 车牌类型
+    this.mobileNo = window.localStorage.getItem('mobilePhone') // 手机号码
+
+    let ua = window.navigator.userAgent // 浏览器版本
+    if (/MicroMessenger/i.test(ua)) {
+      this.sourceOfCertification = 'C' // 微信
+    } else if (/AlipayClient/i.test(ua)) {
+      this.sourceOfCertification = 'Z' // 支付宝
+    }
   },
-  mounted () {
-    // this.init()
+  beforeDestory () {
+    Indicator.close()
   }
 }
 </script>
@@ -332,6 +384,11 @@ export default {
       line-height: 34px;
       color: #666;
     }
+  }
+}
+.white{
+  span{
+    color: #fff;
   }
 }
 </style>
