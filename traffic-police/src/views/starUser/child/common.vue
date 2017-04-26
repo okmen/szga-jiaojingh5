@@ -2,23 +2,24 @@
   <div class="starUser-upload">
     <p>请上传以下照片</p>
     <div class="starUser-upload-inner">
-      <div class="starUser-upload-left starUser-upload-box" id="uploadIdBoxOne">
-        <img :src="idCardImgPositive" id="uploadIdImgOne">
-      </div>
-      <div class="starUser-upload-center starUser-upload-box" id="uploadIdBoxTwo">
-        <img :src="idCardImgNegative" id="uploadIdImgTwo">
-      </div>
-      <div class="starUser-upload-right starUser-upload-box" id="uploadIdBoxThree">
-        <img :src="idCardImgHandHeld" id="uploadIdImgThree">
-      </div>
+      <label class="starUser-upload-left starUser-upload-box" for="file1">
+        <input id="file1" type="file" accept="image/*" >
+        <img :src="idCardImgPositive">
+      </label>
+      <label class="starUser-upload-center starUser-upload-box" for="file2">
+        <input id="file2" type="file" accept="image/*" >
+        <img :src="idCardImgNegative">
+      </label>
+      <label class="starUser-upload-right starUser-upload-box" for="file3">
+        <input id="file3" type="file" accept="image/*" >
+        <img :src="idCardImgHandHeld">
+      </label>
     </div>
     <button class="btn" type="button" name="button" @click="btnSureStar">确认提交</button>
   </div>
 </template>
 <script>
-import { resultGet } from '../../../service/getData'
-import { uploadImg } from '../../../config/baseUrl'
-import uploadImgFun from '../../../service/uploadImg'
+import UploadFile from '../../../service/uploadFile'
 export default {
   name: 'common',
   data () {
@@ -29,61 +30,29 @@ export default {
     }
   },
   mounted: function () {
-    this.getToken()
+    this.init()
   },
   methods: {
-    getToken: function () {             // 获取token
-      resultGet(uploadImg).then(res => {
-        if (res.code === '0000') {
-          this.uploadIdImgOne(res.upToken)
-          this.uploadIdImgTwo(res.upToken)
-          this.uploadIdImgThree(res.upToken)
+    init: function () {
+      UploadFile.upload({
+        id: 'file1',
+        callback: (res) => {
+          console.log(res)
+          this.idCardImgPositive = res.imgUrl
         }
       })
-    },
-    uploadIdImgOne: function (uptoken) {    // 上传照片
-      console.log(uptoken)
-      var that = this
-      uploadImgFun({
-        selfId: 'uploadIdImgOne',
-        parentId: 'uploadIdBoxOne',
-        upToken: uptoken,
-        fileUploaded: function (res) {
+      UploadFile.upload({
+        id: 'file2',
+        callback: (res) => {
           console.log(res)
-          that.idCardImgPositive = res.imgUrl
-        },
-        error: function (err) {
-          console.log(err)
+          this.idCardImgNegative = res.imgUrl
         }
       })
-    },
-    uploadIdImgTwo: function (uptoken) {    // 上传照片
-      var that = this
-      uploadImgFun({
-        selfId: 'uploadIdImgTwo',
-        parentId: 'uploadIdBoxTwo',
-        upToken: uptoken,
-        fileUploaded: function (res) {
+      UploadFile.upload({
+        id: 'file3',
+        callback: (res) => {
           console.log(res)
-          that.idCardImgNegative = res.imgUrl
-        },
-        error: function (err) {
-          console.log(err)
-        }
-      })
-    },
-    uploadIdImgThree: function (uptoken) {  // 上传照片
-      var that = this
-      uploadImgFun({
-        selfId: 'uploadIdImgThree',
-        parentId: 'uploadIdBoxThree',
-        upToken: uptoken,
-        fileUploaded: function (res) {
-          console.log(res)
-          that.idCardImgHandHeld = res.imgUrl
-        },
-        error: function (err) {
-          console.log(err)
+          this.idCardImgHandHeld = res.imgUrl
         }
       })
     },
@@ -102,28 +71,28 @@ export default {
     display: flex;
     justify-content: space-between;
     .starUser-upload-box {
+      position:relative;
       width: 190px;
       height: 190px;
       background-color: #efeff4;
-      border: 2px solid #dddde1;
+      border: 1px solid #dddde1;
       border-radius: 15px;
       color: #666;
       font-size: 22px;
       text-align: center;
-      em {
-        display: inline-block;
-        width: 162px;
-        height: 111px;
-        margin-top: 20px;
-        margin-bottom: 10px;
-      }
-      span {
-        display: block;
-      }
       img{
         width:100%;
         height:100%;
         border-radius: 15px;
+      }
+      input{
+        position:absolute;
+        width:100%;
+        height:100%;
+        visibility:hidden;
+        top:0;
+        left:0;
+        z-index:998;
       }
     }
     .starUser-upload-left {

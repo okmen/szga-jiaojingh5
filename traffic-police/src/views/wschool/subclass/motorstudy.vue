@@ -39,6 +39,7 @@
 <script>
 import { resultPost } from '../../../service/getData'
 import { xstudy } from '../../../config/baseUrl'
+import { MessageBox } from 'mint-ui'
 
 export default {
   data () {
@@ -60,7 +61,7 @@ export default {
     },
     pageDown: function () {
       window.sessionStorage.setItem('integral', this.listData.integral) // 学习积分
-      if (this.hashRoomId === '1') {  // 进入消分答题判断
+      if (this.hashRoomId === 1) {  // 进入消分答题判断
         this.$router.push('answers#1') // 进入消分答题页面
       } else {
         this.$router.push(`answer#${this.hashRoomId}`) // 进入答题页面
@@ -68,24 +69,29 @@ export default {
     }
   },
   mounted () {
-    this.hashRoomId = parseInt(window.location.hash.split('#')[2])
-    this.userImg = window.localStorage.getItem('headImgUrl')
-    console.log(this.hashRoomId)
-    window.alert(this.hashRoomId)
-    let motorstudyData = { // 获取页面数据
-      classroomId: this.hashRoomId, // 列表请求参数
-      identityCard: window.localStorage.getItem('identityCard'), // 身份证
-      mobilephone: window.localStorage.getItem('mobilePhone'), // 手机号码
-      userName: window.localStorage.getItem('userName'), // 名字
-      openId: window.localStorage.getItem('openId'),
-      userSource: 'C' // 用户来源
+    let isLogin = window.localStorage.getItem('isLogin') // 是否登录
+    if (isLogin === 'false') {
+      MessageBox('提示', '请先登录,才可以进入学习').then(() => {
+        this.$router.push(`login`)
+      })
+    } else {
+      this.hashRoomId = parseInt(window.location.hash.split('#')[2])
+      this.userImg = window.localStorage.getItem('headImgUrl')
+      let motorstudyData = { // 获取页面数据
+        classroomId: this.hashRoomId, // 列表请求参数
+        identityCard: window.localStorage.getItem('identityCard'), // 身份证
+        mobilephone: window.localStorage.getItem('mobilePhone'), // 手机号码
+        userName: window.localStorage.getItem('userName'), // 名字
+        openId: window.localStorage.getItem('openId'),
+        userSource: 'C' // 用户来源
+      }
+      resultPost(xstudy, motorstudyData).then(json => {
+        this.listData = json.data[0]
+        this.itemData = json.data[0].studyRecord  // 学习记录
+        this.isComplete = json.data[0].isComplete
+        this.integral = json.data[0].integral // 学习积分
+      })
     }
-    resultPost(xstudy, motorstudyData).then(json => {
-      this.listData = json.data[0]
-      this.itemData = json.data[0].studyRecord  // 学习记录
-      this.isComplete = json.data[0].isComplete
-      this.integral = json.data[0].integral // 学习积分
-    })
   }
 }
 </script>

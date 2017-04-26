@@ -22,7 +22,7 @@
       <div class='form-item'>
         <div class='item-left'>名下车辆</div>
         <div class='item-right div-select'>
-          <span class='btn-select min-btn-select' @click.stop='bindCarSelect()'>{{ cur_bindCar ? cur_bindCar : '无' }}</span>
+          <span class='btn-select min-btn-select' @click.stop='bindCarSelect()'>{{ cur_bindCar }}</span>
           <div class='div-select-ul' v-if='bindCarListShow'>
             <ul>
               <li>1</li>
@@ -83,7 +83,7 @@
 <script>
   import { resultPost } from '../../../service/getData'
   import { queryLawlessByCar } from '../../../config/baseUrl'
-  import { MessageBox } from 'mint-ui'
+  import { Toast, MessageBox } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
     name: 'appealQuery',
@@ -92,7 +92,7 @@
         name: window.localStorage.getItem('userName'),
         mobilePhone: window.localStorage.getItem('mobilePhone'),
         identityCard: window.localStorage.getItem('identityCard'),
-        cur_bindCar: window.localStorage.getItem('myNumberPlate'),
+        cur_bindCar: window.localStorage.getItem('myNumberPlate') || '无',
         bindCarList: [],
         bindCarListShow: false,
         plateType: window.localStorage.getItem('plateType') || '99',
@@ -107,9 +107,9 @@
     },
     mounted () {
       let reqData = {
-        licensePlateNo: window.localStorage.getItem('myNumberPlate'),
-        licensePlateType: window.localStorage.getItem('plateType'),
-        vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits')
+        licensePlateNo: this.cur_bindCar,
+        licensePlateType: this.plateType,
+        vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
       }
       resultPost(queryLawlessByCar, reqData).then(json => {
         console.log(json)
@@ -150,6 +150,18 @@
       ...mapActions({
         postAppealQuery: 'postAppealQuery'
       })
+    },
+    created () {
+      var userCar = ''
+      if (!userCar) {
+        Toast({
+          message: '您还未绑定车辆',
+          position: 'middle',
+          className: 'white',
+          duration: 3000
+        })
+        window.location.href = 'personalCenter'
+      }
     }
   }
 </script>

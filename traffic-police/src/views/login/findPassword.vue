@@ -2,12 +2,14 @@
     <div id="login-outer">
       <div class="logo"></div>
       <div class="login-form">
-        <input v-model:value="loginName" type="tel" placeholder="请输入手机号或身份证号">
-        <input v-model:value="password" id="login-password" type="password" placeholder="请输入密码">
-        <button id="login-btn" @click.stop="loginClick()">登 录</button>
+        <input v-model:value="loginName" type="tel" placeholder="请输入手机号">
+        <input v-model:value="loginName" type="tel" placeholder="请输入手机号">
+        <input v-model:value="password" id="login-password" type="password" placeholder="请输入新密码">
+        <input v-model:value="password" id="login-password" type="password" placeholder="请再次输入新密码">
+        <button id="login-btn" @click.stop="loginClick()">更 改 密 码</button>
         <div class="login-link">
-          <router-link to="/peopleWillCloud" class="login-link-forget">忘记密码</router-link>
-          <router-link to="/starUser" class="login-link-register">注册</router-link>
+          <router-link to="/starUser" class="login-link-forget">注册</router-link>
+          <router-link to="/login" class="login-link-register">登录</router-link>
         </div>
       </div>
       <div v-wechat-title="$route.meta.title"></div>

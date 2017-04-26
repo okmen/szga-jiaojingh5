@@ -114,12 +114,12 @@ const routes = [
     component: require('../views/queryLawless/child/confirmLawlessPrint.vue')
   },
   {
-    name: 'earlyLawless',
-    path: '/earlyLawless',
+    name: 'early',
+    path: '/early',
     meta: {
       title: '交通违法预约'
     },
-    component: require('../views/queryLawless/child/earlyLawless.vue')
+    component: require('../views/queryLawless/child/early.vue')
   },
   {
     name: 'illegalTimeSelect',
@@ -353,6 +353,16 @@ const routes = [
       title: '预约申办成功'
     },
     component: require('../components/appointSuccess.vue')
+  },
+  {
+    name: 'userAgreement',
+    path: '/userAgreement',
+    meta: {
+      meta: {
+        title: '用户须知'
+      }
+    },
+    component: require('../components/userAgreement.vue')
   }
 ]
 /* eslint-disable no-new */

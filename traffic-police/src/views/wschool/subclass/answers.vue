@@ -18,7 +18,7 @@
           <dt><img src="../../../images/exit.png"></dt>
           <dd @click="secede()">退出</dd>
         </dl>
-        <div class="pop-up" v-bind:class="{ 'reveal' : isReveal}">
+        <div id="selects" class="pop-up" v-bind:class="{ 'reveal' : isReveal}">
           <ul class="pop-up-center" >
             <li class="up-cengter-hint">限时时间到！</li>
             <li class="up-cengter-hint">请退出做题或者从新做题</li>
@@ -32,16 +32,19 @@
     <div class="answer-center">
     <span class="answer-center-left" v-if="testQuestionsType == '判断题'">判</span>
       <span class="answer-center-left" v-else>选</span>
-      <span class="answer-center-right">{{answertData.subjectName}}</span>
+      <span class="answer-center-right">{{answertData.subjectName}}
+        <span class="answer-select" v-show="testQuestionsType == '不定选'">(不定选)</span>
+      </span>
     </div>
     <img class="answer-button" :src="'data:image/jpg/png/gif;base64,'+answertData.subjectImg" v-show="answertData.subjectImg">
     </style>
     <ul class="answer-foot">
-      <li class="answer-foot-button" v-for="(item, index) in answerName" @click="clickAnswer(index)" 
-      :class="[{'on':flag == index},{'off':tlag == index}]">
+       <li class="answer-foot-button" v-for="(item, index) in answerName" @click="clickAnswer(index)" :class="{off: item.isSure }">
         <img class="answer-foot-img" :src="testData[index].img">{{item.answerName}}
       </li>
     </ul>
+    <span id="swer" class="answer-ansr" v-bind:class="{ 'anshow' : answerShow}">{{judgeTrue}}</span>
+    <div id="NofItem Nofs" class="answer-options" v-bind:class="{ 'shows' : isBtnShows}" @click.stop="answerClick()">答题</div>
     <div id="NofItemss" class="answer-option" v-bind:class="{ 'show' : isBtnShow}" @click="countClick()">下一题</div>
   </div>
 </template>
@@ -57,6 +60,7 @@ export default {
       testQuestionsType: '',   // 判断题型
       answererror: 0,
       surplusAnswe: 0,
+      isBtnShows: false,
       isBtnShow: false,   // 下一题样式
       isReveal: false,    // 弹框控制
       tlag: 5,   // 正确选项颜色
@@ -66,6 +70,7 @@ export default {
       batchResult: '',  // 答题合格判断
       code: '', // 消分学习判断
       msg: '',
+      judgeTrue: '',
       answertData: {
       },
       subjectAnswer: '',
@@ -76,6 +81,7 @@ export default {
       scoreEndDate: '',     // 答题周期
       hashRoomId: '', // 列表号
       Timepiece: '',   // 停止计时器
+      answerShow: false,  // 对错显示
       testData: [{
         img: require('../../../images/A.png')
       },
@@ -92,44 +98,29 @@ export default {
   },
   methods: {
     clickAnswer: function (index) {     // 选项答题
-      this.isBtnShow = true
-      var answesData = {
-        classroomId: this.hashRoomId, // 列表请求参数
-        identityCard: window.localStorage.getItem('identityCard'), // 身份证
-        mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
-        userName: window.localStorage.getItem('userName'),         // 名字
-        openId: window.localStorage.getItem('openId'),
-        userSource: 'C',     // 用户来源
-        SubjectAnswer: this.answertData.answeroptions[index].answerId,
-        subjectId: this.subjectId,  // 答题编码
-        scoreStartDate: this.scoreStartDate,
-        scoreEndDate: this.scoreEndDate
-      }
-      resultPost(answers, answesData).then(json => {     // 答案数据接口
-        this.batchResult = json.data[0].batchResult    // 答题合格判断
-        this.codes = json.code
-        if (this.codes === '0000') {
-          this.testData[index].img = require('../../../images/correct.png')
-          this.flag = index
-          this.answerCorrect++
-          if (this.answerCorrect === 10) {
-            document.getElementById('NofItemss').innerHTML = '结束答题'
-            Toast({
-              message: json.msg,
-              duration: 1000
-            })
+      let that = this
+      that.answerId = ''      // 答题选择
+      this.isBtnShows = true  // 答题显示
+      this.isBtnShow = false  // 下一题显示
+      if (this.testQuestionsType === '不定选') {
+        this.answerName[index].isSure = !this.answerName[index].isSure
+        this.answerName.forEach((item) => {
+          if (!item.isSure) {
+          } else {
+            that.answerId += item.answerId
           }
-        } else if (this.codes === '0001') {
-          this.testData[index].img = require('../../../images/fault.png')
-          this.tlag = index
-          this.answererror++
-        } else {
-          Toast({
-            message: json.msg,
-            duration: 1000
-          })
-        }
-      })
+        })
+      } else {
+        this.answerName.forEach((item, indexs) => {
+          if (indexs === index) {
+            this.answerName[index].isSure = !this.answerName[index].isSure
+            that.answerId = item.answerId
+          } else {
+            item.isSure = false
+          }
+        })
+      }
+      console.log(this.answerId)
     },
     popClick: function () {       // 倒计时弹框
       let anData = this.chronoScope
@@ -139,17 +130,59 @@ export default {
       }
     },
     againclick: function () {
-      this.isReveal = false
+      document.getElementById('selects').style.display = 'none'
+      // this.isReveals = false
+      console.log(this.isReveals)
+      this.timePiece()
       this.loadingData()
     },
-    countClick: function () {      // 获取下一题数据
+    answerClick: function () {     // 答题
+      this.isBtnShow = true    // 下一题显示
+      this.isBtnShows = false  // 答题显示
+      this.answerShow = true  // 对错显示
       this.surplusAnswe++
+      var answesData = {
+        classroomId: this.hashRoomId, // 列表请求参数
+        identityCard: window.localStorage.getItem('identityCard'), // 身份证
+        mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
+        userName: window.localStorage.getItem('userName'),         // 名字
+        openId: window.localStorage.getItem('openId'),
+        testQuestionsType: this.testQuestionsType,
+        userSource: 'C',     // 用户来源
+        SubjectAnswer: this.answerId,
+        subjectId: this.subjectId,  // 答题编码
+        scoreStartDate: this.scoreStartDate,
+        scoreEndDate: this.scoreEndDate
+      }
+      resultPost(answers, answesData).then(json => {     // 答案数据接口
+        console.log(json)
+        this.codes = json.code
+        if (this.codes === '0000') {
+          this.judgeTrue = '答题正确'
+          document.getElementById('swer').style.color = 'green'
+          this.answerCorrect++
+        } else if (this.codes === '0001') {
+          this.judgeTrue = '答题错误'
+          document.getElementById('swer').style.color = 'red'
+          this.answererror++
+        } else if (this.codes === '0002') {
+          Toast({
+            message: json.msg,
+            duration: 1000
+          })
+        }
+      })
+    },
+    countClick: function () {      // 获取下一题数据
+      this.judgeTrue = ''
+      this.answerShow = false
       this.loadingData()
       if (this.answerCorrect === 10) {
+        // document.getElementById('NofItem').innerHTML = '结束答题'
         window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
         window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
         window.sessionStorage.setItem('surplusAnswe', this.surplusAnswe)  // 答题数
-        this.$router.push('result#1')
+        this.$router.push('result')
       }
     },
     loadingData: function () {     //  页面接口数据
@@ -166,8 +199,6 @@ export default {
         img: require('../../../images/D.png')
       }]
       this.isBtnShow = false  // 初始化下一题选项样式
-      this.tlag = 5        // 初始化正确答案样式
-      this.flag = 5        //  初始化错误答案样式
       this.hashRoomId = window.location.hash.split('#')[2]
       var answeData = {
         classroomId: this.hashRoomId, // 列表请求参数
@@ -179,12 +210,6 @@ export default {
       }
       resultPost(answer, answeData).then(json => {     // 取题接口
         console.log(json)
-        this.answertData = json.data[0]
-        this.answerName = json.data[0].answeroptions
-        this.subjectId = json.data[0].subjectId
-        this.testQuestionsType = json.data[0].testQuestionsType
-        this.scoreEndDate = json.data[0].scoreEndDate
-        this.scoreStartDate = json.data[0].scoreStartDate
         this.code = json.code // 状态码
         this.msg = json.msg // 状态返回
         if (this.code === '0001') {      // 消分答题判断
@@ -193,6 +218,15 @@ export default {
             this.$router.push('wschool')
           })
         }
+        this.answertData = json.data[0]
+        this.answerName = json.data[0].answeroptions
+        this.subjectId = json.data[0].subjectId
+        this.testQuestionsType = json.data[0].testQuestionsType
+        this.answerName.forEach((item) => {
+          item.isSure = false
+        })
+        this.scoreEndDate = json.data[0].scoreEndDate
+        this.scoreStartDate = json.data[0].scoreStartDate
       })
     },
     timePiece: function () {    // 计时器
