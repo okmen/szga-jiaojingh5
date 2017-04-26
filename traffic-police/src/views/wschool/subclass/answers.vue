@@ -1,5 +1,6 @@
 <template>
   <div class="answer">
+  <div v-wechat-title="$route.meta.title"></div>
     <div class="answer-head">
       <div class="answer-head-regit">
         <dl class="answer-head-rgt">
@@ -148,7 +149,7 @@ export default {
         mobilephone: window.localStorage.getItem('mobilePhone'),   // 手机号码
         userName: window.localStorage.getItem('userName'),         // 名字
         openId: window.localStorage.getItem('openId'),
-        testQuestionsType: this.testQuestionsType,
+        testQuestionsType: this.testQuestionsType,   // 答题类型
         userSource: 'C',     // 用户来源
         SubjectAnswer: this.answerId,
         subjectId: this.subjectId,  // 答题编码

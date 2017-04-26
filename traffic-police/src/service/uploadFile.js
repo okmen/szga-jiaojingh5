@@ -21,7 +21,7 @@ const UploadFile = {
 	 * @param  {[function]} options.callback  [回调]
 	 * @return {[type]}                   [null]
 	 */
-	upload: function({id,maxHeight=1024,quality=0.92,callback}){
+	upload: function({id,maxHeight=768,quality=0.92,callback}){
 		if(!id) return;
 		let el = document.getElementById(id);
 		let self = this;

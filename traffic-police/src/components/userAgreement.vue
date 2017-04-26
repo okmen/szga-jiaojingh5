@@ -55,6 +55,24 @@ export default {
           case 'sspjbzysx': // 随手拍举报注意事项
             this.$router.push('/takePicturesInform')
             break
+          case 'xfNotice': // 消分学习须知
+            this.$router.push('/motorstudy#1')
+            break
+          case 'mfNotice': // 满分学习须知
+            this.$router.push('/answer#2')
+            break
+          case 'abNotice': // ab类学习须知
+            this.$router.push('/answer#3')
+            break
+          case 'ddcNotice': // 电动车学习须知
+            this.$router.push('/answer#4')
+            break
+          case 'xrNotice': // 行人学习须知
+            this.$router.push('/answer#5')
+            break
+          case 'xjyhrz': // 星级用户认证须知
+            this.$router.push('/starUser')
+            break
         }
       } else {
         Toast({

@@ -23,6 +23,14 @@ const routes = [
     component: require('../views/login/login.vue')
   },
   {
+    name: 'findPassword',
+    path: '/findPassword',
+    meta: {
+      title: '深圳交警'
+    },
+    component: require('../views/login/findPassword.vue')
+  },
+  {
     name: 'personalCenter',
     path: '/personalCenter',
     meta: {
