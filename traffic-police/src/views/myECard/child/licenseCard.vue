@@ -27,16 +27,18 @@
       }
       resultPost(licenseCard, reqData).then(json => {
         Indicator.close()
-        this.imageUrl = 'data:image/png;base64,' + json.data.electronicDriverLicense
-//        this.codeUrl = json.data.electronicDriverLicenseQRCode
         console.log(json)
         if (!json.data.electronicDriverLicense) {
           Toast({
-            message: json.data.code,
+            message: json.msg,
             position: 'middle',
-            className: 'white',
-            duration: 3000
+            className: 'white'
           })
+//          window.location.href = '/personalCenter'
+        } else {
+          this.imageUrl = 'data:image/png;base64,' + json.data.electronicDriverLicense
+//        this.codeUrl = json.data.electronicDriverLicenseQRCode
+          console.log(json)
         }
       })
     }
