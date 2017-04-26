@@ -140,6 +140,8 @@ export default {
   },
   methods: {
     init: function () {
+      console.log('初始化')
+      console.log(processingPoint)
       resultGet(processingPoint).then(json => {
         if (json.code === '0000') {
           this.processingPointData = json.data
