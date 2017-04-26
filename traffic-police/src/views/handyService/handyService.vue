@@ -12,7 +12,7 @@
         </a>
       </li>
       <li class="handyService-item">
-        <a href="http://szjj.u-road.com/szjjpro/Business/Member/login?arrJson=oPyqQjmrzSdjhfKsjMK-36__pvIA&dealFun=roadRescue&inType=0">
+        <a :href="'http://szjj.u-road.com/szjjpro/index.php/Business/Member/unlogin/selfbook/'+openId">
           <p>自主考试</p>
         </a>
       </li>

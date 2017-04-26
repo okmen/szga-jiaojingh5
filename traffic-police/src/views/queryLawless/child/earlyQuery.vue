@@ -357,13 +357,22 @@
         }
         resultPost(earlyCancel, reqData).then(json => {
           console.log(json)
-          Toast({
-            message: json.msg,
-            position: 'middle',
-            className: 'white',
-            duration: 3000
-          })
-          window.location.reload()
+          if (json.code === '0000') {
+            Toast({
+              message: json.msg,
+              position: 'middle',
+              className: 'white',
+              duration: 3000
+            })
+            window.location.reload()
+          } else {
+            Toast({
+              message: json.msg,
+              position: 'middle',
+              className: 'white',
+              duration: 3000
+            })
+          }
         })
       },
       getVerification: function () {}
