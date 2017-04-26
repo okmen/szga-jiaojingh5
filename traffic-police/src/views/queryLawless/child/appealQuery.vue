@@ -83,7 +83,7 @@
 <script>
   import { resultPost } from '../../../service/getData'
   import { queryLawlessByCar } from '../../../config/baseUrl'
-  import { Toast, MessageBox } from 'mint-ui'
+  import { MessageBox } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
     name: 'appealQuery',
@@ -150,18 +150,18 @@
       ...mapActions({
         postAppealQuery: 'postAppealQuery'
       })
-    },
-    created () {
-      var userCar = ''
-      if (!userCar) {
-        Toast({
-          message: '您还未绑定车辆',
-          position: 'middle',
-          className: 'white',
-          duration: 3000
-        })
-        window.location.href = 'personalCenter'
-      }
     }
+//    created () {
+//      var userCar = window.localStorage.getItem('myNumberPlate')
+//      if (!userCar) {
+//        Toast({
+//          message: '您还未绑定车辆',
+//          position: 'middle',
+//          className: 'white',
+//          duration: 3000
+//        })
+//        window.location.href = 'personalCenter'
+//      }
+//    }
   }
 </script>
