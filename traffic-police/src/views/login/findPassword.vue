@@ -2,10 +2,13 @@
     <div id="login-outer">
       <div class="logo"></div>
       <div class="login-form">
-        <input v-model:value="loginName" type="tel" placeholder="请输入手机号">
-        <input v-model:value="loginName" type="tel" placeholder="请输入手机号">
-        <input v-model:value="password" id="login-password" type="password" placeholder="请输入新密码">
-        <input v-model:value="password" id="login-password" type="password" placeholder="请再次输入新密码">
+        <input v-model:value="userName" type="tel" placeholder="请输入您的姓名">
+        <input v-model:value="identityCard" type="tel" placeholder="请输入您的身份证号码">
+        <input v-model:value="mobilephone" type="tel" placeholder="请输入手机号">
+        <div>
+          <input v-model:value="validateCode" type="tel" placeholder="输入验证码">
+          <button>获取验证码</button>
+        </div>
         <button id="login-btn" @click.stop="loginClick()">更 改 密 码</button>
         <div class="login-link">
           <router-link to="/starUser" class="login-link-forget">注册</router-link>
@@ -25,25 +28,43 @@ export default {
   name: 'login',
   data () {
     return {
-      loginName: '',
-      password: '',
+      userName: '',
+      identityCard: '',
+      validateCode: '',
+      mobilephone: '',
       openId: ''
     }
   },
   methods: {
     loginClick: function () {
       let that = this
-      if (!this.loginName) {
+      if (!this.userName) {
         Toast({
-          message: '用户名不能为空',
+          message: '姓名不能为空',
           position: 'bottom',
           duration: 2000
         })
         return false
       }
-      if (!this.password) {
+      if (!this.identityCard) {
         Toast({
-          message: '密码不能为空',
+          message: '身份证不能为空',
+          position: 'bottom',
+          duration: 2000
+        })
+        return false
+      }
+      if (!this.mobilephone) {
+        Toast({
+          message: '手机号不能为空',
+          position: 'bottom',
+          duration: 2000
+        })
+        return false
+      }
+      if (!this.validateCode) {
+        Toast({
+          message: '验证码不能为空',
           position: 'bottom',
           duration: 2000
         })
