@@ -102,7 +102,7 @@ export default {
         return false
       }
       let reqData = {
-        mobilephone: this.oldMobile
+        mobilephone: this.mobilephone
       }
       let time = 30
       this.btnValidateCode = `已发送（${time}）`
