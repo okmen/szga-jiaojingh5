@@ -139,24 +139,28 @@ export default {
         scoreEndDate: this.scoreEndDate   // 答题周期
       }
       resultPost(answers, answesData).then(json => {     // 答案数据接口
-        this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
         this.codes = json.code
-        if (this.surplusAnswe === 0) {
-          document.getElementById('NofItems').innerHTML = '结束答题'
-          this.batchResult = json.data[0].batchResult    // 答题合格判断
-        } else if (this.codes === '0000') {
+        if (this.codes === '0000') {
+          this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
           this.answerCorrect = json.data[0].answerCorrect  // 答对题数
           this.batchResult = json.data[0].batchResult    // 答题合格判断
           this.answererror = json.data[0].answererror    // 答错题数
           this.answerDate = json.data[0].answerDate  // 答题日期
           this.judgeTrue = '答题正确'
+          if (this.surplusAnswe === 0) {
+            document.getElementById('NofItems').innerHTML = '结束答题'
+          }
           document.getElementById('swer').style.color = 'green'
         } else if (this.codes === '0001') {
+          this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
           this.answerCorrect = json.data[0].answerCorrect  // 答对题数
           this.batchResult = json.data[0].batchResult    // 答题合格判断
           this.answererror = json.data[0].answererror    // 答错题数
           this.answerDate = json.data[0].answerDate  // 答题日期
           this.judgeTrue = '答题错误'
+          if (this.surplusAnswe === 0) {
+            document.getElementById('NofItems').innerHTML = '结束答题'
+          }
           document.getElementById('swer').style.color = 'red'
         } else if (this.codes === '0002') {
           Toast({
@@ -172,7 +176,6 @@ export default {
       this.isBtnShows = false      // 答题显示
       this.answerShow = false      // 对错显示
       if (this.surplusAnswe === 0) {
-        // document.getElementById('NofItems').innerHTML = '结束答题'
         window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
         window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
         window.sessionStorage.setItem('batchResult', this.batchResult)  // 答题合格判断

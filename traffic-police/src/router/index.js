@@ -366,9 +366,7 @@ const routes = [
     name: 'userAgreement',
     path: '/userAgreement',
     meta: {
-      meta: {
-        title: '用户须知'
-      }
+      title: '用户须知'
     },
     component: require('../components/userAgreement.vue')
   }
