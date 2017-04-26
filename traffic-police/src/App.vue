@@ -75,7 +75,7 @@
         </router-link>
       </dl>
       <dl>
-        <router-link :to="isLogin ? '/motorstudy' : '/login'">
+        <router-link :to="isLogin ? '/motorstudy#4' : '/login'">
         <dt><img class="top9" src="./images/nav9.png" alt=""></dt>
         <dd>电动车管理</dd>
         </router-link>

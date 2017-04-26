@@ -122,6 +122,14 @@ const routes = [
     component: require('../views/queryLawless/child/early.vue')
   },
   {
+    name: 'illegalTimeSelect',
+    path: '/illegalTimeSelect',
+    meta: {
+      title: '交通违法预约'
+    },
+    component: require('../views/queryLawless/child/illegalTimeSelect.vue')
+  },
+  {
     name: 'payLawless',
     path: '/payLawless',
     meta: {
@@ -350,9 +358,7 @@ const routes = [
     name: 'userAgreement',
     path: '/userAgreement',
     meta: {
-      meta: {
-        title: '用户须知'
-      }
+      title: '用户须知'
     },
     component: require('../components/userAgreement.vue')
   }

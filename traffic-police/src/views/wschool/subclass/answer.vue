@@ -36,7 +36,7 @@
         <span class="answer-select" v-show="testQuestionsType == '不定选'">(不定选)</span>
       </span>
     </div>
-    <img class="answer-button" :src="'data:image/jpg/png/gif;base64,'+answertData.subjectImg" v-show="answertData.subjectImg">
+    <img class="answer-button" :src="'data:image/jpg/png;base64,'+answertData.subjectImg" v-show="answertData.subjectImg">
     </style>
     <ul class="answer-foot">
       <li class="answer-foot-button" v-for="(item, index) in answerName" @click="clickAnswer(index)" :class="{off: item.isSure }">
@@ -44,7 +44,7 @@
       </li>
     </ul>
     <span id="swer" class="answer-ansr" v-bind:class="{ 'anshow' : answerShow}">{{judgeTrue}}</span>
-    <div id="NofItem" class="answer-options" v-bind:class="{ 'shows' : isBtnShows}" @click.stop="answerClick()">答题</div>
+    <div class="answer-options" v-bind:class="{ 'shows' : isBtnShows}" @click.stop="answerClick()">答题</div>
     <div id="NofItems" class="answer-option" v-bind:class="{ 'show' : isBtnShow}" @click.stop="countClick()">下一题</div>
   </div>
 </template>
@@ -57,8 +57,8 @@ export default {
   data () {
     return {
       testQuestionsType: '',   // 判断题型
-      answererror: 0,
-      surplusAnswe: '',
+      answererror: 0,        // 答错题数
+      surplusAnswe: '',     // 剩余题数
       isBtnShows: false,   // 答题样式
       isBtnShow: false,   // 下一题样式
       isReveals: false,    // 弹框控制
@@ -113,14 +113,13 @@ export default {
       } else {
         this.answerName.forEach((item, indexs) => {
           if (indexs === index) {
-            this.answerName[index].isSure = !this.answerName[index].isSure
+            this.answerName[index].isSure = true
             that.answerId = item.answerId
           } else {
             item.isSure = false
           }
         })
       }
-      console.log(this.answerId)
     },
     answerClick: function () {     // 答题
       this.isBtnShows = false  // 答题显示
@@ -140,23 +139,28 @@ export default {
         scoreEndDate: this.scoreEndDate   // 答题周期
       }
       resultPost(answers, answesData).then(json => {     // 答案数据接口
-        console.log(json)
         this.codes = json.code
         if (this.codes === '0000') {
+          this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
           this.answerCorrect = json.data[0].answerCorrect  // 答对题数
           this.batchResult = json.data[0].batchResult    // 答题合格判断
           this.answererror = json.data[0].answererror    // 答错题数
-          this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
           this.answerDate = json.data[0].answerDate  // 答题日期
           this.judgeTrue = '答题正确'
+          if (this.surplusAnswe === 0) {
+            document.getElementById('NofItems').innerHTML = '结束答题'
+          }
           document.getElementById('swer').style.color = 'green'
         } else if (this.codes === '0001') {
+          this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
           this.answerCorrect = json.data[0].answerCorrect  // 答对题数
           this.batchResult = json.data[0].batchResult    // 答题合格判断
           this.answererror = json.data[0].answererror    // 答错题数
-          this.surplusAnswe = json.data[0].surplusAnswe  // 还剩题数
           this.answerDate = json.data[0].answerDate  // 答题日期
           this.judgeTrue = '答题错误'
+          if (this.surplusAnswe === 0) {
+            document.getElementById('NofItems').innerHTML = '结束答题'
+          }
           document.getElementById('swer').style.color = 'red'
         } else if (this.codes === '0002') {
           Toast({
@@ -167,10 +171,10 @@ export default {
       })
     },
     countClick: function () {      // 获取下一题数据
+      this.loadingData()
       this.judgeTrue = ''
       this.isBtnShows = false      // 答题显示
       this.answerShow = false      // 对错显示
-      this.loadingData()
       if (this.surplusAnswe === 0) {
         window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
         window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
@@ -183,7 +187,6 @@ export default {
     loadingData: function () {     //  页面接口数据
       this.isBtnShow = false  // 初始化下一题选项样式
       this.hashRoomId = window.location.hash.split('#')[2]
-      console.log(this.hashRoomId)
       var answeData = {
         classroomId: this.hashRoomId, // 列表请求参数
         identityCard: window.localStorage.getItem('identityCard'), // 身份证
@@ -193,7 +196,6 @@ export default {
         userSource: 'C'   // 用户来源
       }
       resultPost(answer, answeData).then(json => {
-        console.log(json)
         this.code = json.code // 状态码
         this.msg = json.msg // 状态返回
         if (this.code === '0001') {      // 答题判断
