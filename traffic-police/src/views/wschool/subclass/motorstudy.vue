@@ -33,8 +33,6 @@
       </li>
     </ul>
     <div class="nav-xstudy-button" @click="pageDown()">开始学习</div>
-    <!-- <a class="nav-xstudy-xst" href="javascripit:void(0)">学习须知</a> -->
-    <!-- <router-link class="nav-xstudy-xst" to="/userAgreement#xrNotice">学习须知</router-link> -->
   </div>
 </template>
 <script>
@@ -206,14 +204,6 @@ export default {
   border-radius: 8px;
   text-align: center;
 }
-
-.nav-xstudy-xst {
-  margin-left: 26px;
-  color: #3da8e8;
-  font-size: 26px;
-  text-decoration: underline;
-}
-
 .nav-xstudy-right {
   float: right;
   margin-right: 48px;
