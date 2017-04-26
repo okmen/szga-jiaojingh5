@@ -85,7 +85,8 @@
         AppealQueryData: '',
         claimantPhone: '', // 申诉联系电话
         claimantAddress: '', // 申诉联系地址
-        appealContent: '' // 申诉内容
+        appealContent: '', // 申诉内容
+        previousChecked: '' // 上一个点击的item
       }
     },
     created () {
@@ -103,12 +104,19 @@
         }
       },
       btnSubmitIllegal: function () {
+        let that = this
         let checkedItem = ''
-        this.AppealQueryData.forEach((item) => {
+        this.AppealQueryData[previousChecked].checkAddBorder = false // 上个点击的check设置成false
+        this.AppealQueryData.forEach((item, index) => {
           if (item.checkAddBorder) {
             checkedItem = item
+            that.previousChecked = index
           }
         })
+        if (this.AppealQueryData[previousChecked].checkAddBorder) { // 如果上个点击的还是为false 说明没item选中
+          MessageBox('提示', '至少选中一个违法进行申诉')
+          return false
+        }
         let reqData = {
           billNo: checkedItem.billNo, // 违法书单编号
           illegalTime: checkedItem.illegalTime, // 违法时间
