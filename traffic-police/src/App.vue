@@ -19,7 +19,7 @@
     </div>
     <div class="not-login" v-else>
       <div class="logo"></div>
-      <p>请<router-link to="/login" class="enter">  登录 </router-link>/<router-link to="/starUser" class="enroll"> 注册 </router-link>星级用户</p>
+      <p>请<router-link to="/login" class="enter">  登录 </router-link>/<router-link to="/userAgreement#xjyhrz" class="enroll"> 注册 </router-link>星级用户</p>
     </div>
   </div>
   <div id="nav-outer">
@@ -75,7 +75,7 @@
         </router-link>
       </dl>
       <dl>
-        <router-link :to="isLogin ? '/motorstudy#4' : '/login'">
+        <router-link :to="isLogin ? '/userAgreement#ddcNotice' : '/login'">
         <dt><img class="top9" src="./images/nav9.png" alt=""></dt>
         <dd>电动车管理</dd>
         </router-link>

@@ -70,6 +70,9 @@ export default {
           case 'xrNotice': // 行人学习须知
             this.$router.push('/answer#5')
             break
+          case 'xjyhrz': // 星级用户认证须知
+            this.$router.push('/starUser')
+            break
         }
       } else {
         Toast({
