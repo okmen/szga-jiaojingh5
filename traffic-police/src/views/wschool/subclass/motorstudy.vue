@@ -33,7 +33,8 @@
       </li>
     </ul>
     <div class="nav-xstudy-button" @click="pageDown()">开始学习</div>
-    <a class="nav-xstudy-xst" href="javascripit:void(0)">学习须知</a>
+    <!-- <a class="nav-xstudy-xst" href="javascripit:void(0)">学习须知</a> -->
+    <!-- <router-link class="nav-xstudy-xst" to="/userAgreement#xrNotice">学习须知</router-link> -->
   </div>
 </template>
 <script>
