@@ -19,7 +19,7 @@
         <span>电话</span>
       </div>
       <div class="illegalTimeSelect-list-text">
-        <input type="text" class="text-input" v-model:value="processingPoint.cldlxdh">
+        <input type="text" class="text-input" v-model:value="processingPoint.cldlxdh" readonly>
       </div>
     </li>
     <li class="illegalTimeSelect-item" v-if="processingPoint.cldaddress">
@@ -27,29 +27,39 @@
         <span>地址</span>
       </div>
       <div class="illegalTimeSelect-list-text">
-        <input type="text" class="text-input" v-model:value="processingPoint.cldaddress">
+        <input type="text" class="text-input" v-model:value="processingPoint.cldaddress" readonly>
       </div>
     </li>
     <li class="illegalTimeSelect-item pad-0">
       <p>选择预约日期</p>
     </li>
     <li class="illegalTimeSelect-item pad-0 flex">
-      <input type="text" class="text-input year" v-model:value="year" readonly>
+      <input type="text" class="text-input year" v-model:value="getYear" readonly v-if="years.length <= 1">
+      <div class="div-select year" v-else="years.length <= 1">
+        <span class="btn-select" @click.stop="yearClick()">{{getYear}}</span>
+        <div class="div-select-ul" v-if="yearShow">
+          <ul>
+              <li v-for="item in years" @click.stop="yearClick(item)">{{item}}</li>
+            </ul>
+        </div>
+      </div>
       年
+      <input type="text" class="text-input month" v-model:value="getMonth" readonly v-if="months.length <= 1">
       <div class="div-select month">
-        <span class="btn-select" @click.stop="monthClick()">{{month}}</span>
+        <span class="btn-select" @click.stop="monthClick()">{{getMonth}}</span>
         <div class="div-select-ul" v-if="monthShow">
           <ul>
-              <li v-for="(item, index) in months" @click.stop="monthClick(index+1)">{{item}}</li>
+              <li v-for="item in months" @click.stop="monthClick(item)">{{item}}</li>
             </ul>
         </div>
       </div>
       月
-      <div class="div-select date">
-        <span class="btn-select" @click.stop="dateClick()">{{date}}</span>
+      <input type="text" class="text-input date" v-model:value="getDate" readonly v-if="dates.length <= 1">
+      <div class="div-select date" v-else="dates.length <= 1">
+        <span class="btn-select" @click.stop="dateClick()">{{getDate}}</span>
         <div class="div-select-ul" v-if="dateShow">
           <ul>
-              <li v-for="(item, index) in dates" @click.stop="dateClick(index+1)">{{item}}</li>
+              <li v-for="item in dates" @click.stop="dateClick(item)">{{item}}</li>
             </ul>
         </div>
       </div>
@@ -57,10 +67,10 @@
     </li>
   </ul>
   <ul class="illegalTimeSelect-detail">
-    <li class="illegalTimeSelect-item" v-for="(item, index) in selectData" :class="{disabled: item.yy_zs - item.yy_yysl === 0}">
+    <li class="illegalTimeSelect-item" v-for="(item, index) in selectData" :class="{disabled: item.yy_zs - item.yy_yysl === 0, active: item.yy_zs - item.yy_yysl != 0 && tab == item.ccsjd}" @click.stop="select(item.ccsjd, index, item.yy_zs - item.yy_yysl === 0)">
       <p>{{item.ccsjd}}</p>
-      <p v-if="item.yy_zs - item.yy_yysl">剩余名额<span class="yy_yysl">{{item.yy_zs - item.yy_yysl}}</span>位</p>
-      <p v-else="item.yy_zs - item.yy_yysl">已满</p>
+      <p v-if="item.yy_zs - item.yy_yysl === 0">已满</p>
+      <p v-else="item.yy_zs - item.yy_yysl === 0">剩余名额<span class="yy_yysl">{{item.yy_zs - item.yy_yysl}}</span>位</p>
     </li>
   </ul>
   <div class="illegal-tip">
@@ -70,12 +80,13 @@
     <p>3、预约成功的用户凭预约成功短信到窗口进行违章业务办理。</p>
     <p>4、成功预约后，如未能在预约时间段内前往办理的，须至少提前两个工作日，在网站预约申请界面进行撤销预约，否认视为失约。</p>
   </div>
-  <button class="btn btn-blue" type="button" name="button">预约</button>
+  <button class="btn btn-blue" type="button" name="button" @click.stop="submit()">预约</button>
 </div>
 </template>
 <script>
-import { processingPoint, subscribeSorts } from '../../../config/baseUrl'
-import { resultGet } from '../../../service/getData'
+import { processingPoint, subscribeSorts, changeSubscribe } from '../../../config/baseUrl'
+import { resultGet, resultPost } from '../../../service/getData'
+import { Toast, Indicator, MessageBox } from 'mint-ui'
 export default {
   data () {
     return {
@@ -83,63 +94,101 @@ export default {
       processingPointData: '',
       processingPointShow: false,
       timeData: '',
-      time: '',
       year: '',
+      yearShow: false,
       month: '',
       monthShow: false,
       date: '',
       dateShow: false,
-      years: '',
-      months: '',
-      dates: '',
       yydate: '',
+      selectData: '',
       snm: '',
-      selectData: ''
+      cldbmid: '',
+      newData: '',
+      tab: '',
+      cczb_id: '',
+      years: [],
+      months: [],
+      dates: []
     }
   },
   computed: {
     getYydate: function () {
       let yydate = `${this.year}-${this.month}-${this.date}`
-      console.log(yydate)
       return yydate
+    },
+    getYear: function () {
+      this.months = []
+      for (let month in this.newData[this.year]) {
+        this.months.push(month)
+      }
+      this.months.sort(function (a, b) { return a - b })
+      this.month = this.months[0]
+      return this.year
+    },
+    getMonth: function () {
+      this.dates = []
+      for (let date in this.newData[this.year][this.month]) {
+        this.dates.push(date)
+      }
+      this.dates.sort(function (a, b) { return a - b })
+      this.date = this.dates[0]
+      return this.month
+    },
+    getDate: function () {
+      this.selectData = this.newData[this.year][this.month][this.date].yydate_sjd.sditem
+      return this.date
     }
   },
   methods: {
     init: function () {
+      Indicator.open('正在加载...')
       resultGet(processingPoint).then(json => {
         if (json.code === '0000') {
           this.processingPointData = json.data
           this.processingPoint = this.processingPointData[0]
           this.getDetailData()
+        } else {
+          MessageBox({
+            title: '',
+            message: json.msg
+          })
         }
       })
     },
     getDetailData: function () {
-      resultGet(`${subscribeSorts}?cldbmid=${this.processingPoint.cldbmid}`).then(json => {
+      this.cldbmid = this.processingPoint.cldbmid
+      Indicator.open('正在加载...')
+      resultGet(`${subscribeSorts}?cldbmid=${this.cldbmid}`).then(json => {
+        Indicator.close()
         if (json.code === '0000') {
           this.timeData = json.data.data
-          this.snm = json.data.snm
-          this.time = this.timeData[0]
-          this.selectData = this.time.yydate_sjd.sditem
-          console.log(this.selectData)
-          this.year = this.time.yydate.substr(0, 4)
-          this.month = this.time.yydate.substr(5, 2)
-          this.date = this.time.yydate.substr(8, 2)
-          let years = new Set()
-          let months = new Set()
-          let dates = []
+          this.newData = {}
           for (let i = 0; i < this.timeData.length; i++) {
-            let yydate = this.timeData[i].yydate
-            let year = yydate.substr(0, 4)
-            let month = yydate.substr(5, 2)
-            let date = yydate.substr(8, 2)
-            years.add(year)
-            months.add(month)
-            dates.push(date)
+            let year = this.timeData[i].yydate.substr(0, 4)
+            let month = this.timeData[i].yydate.substr(5, 2)
+            let date = this.timeData[i].yydate.substr(8, 2)
+            if (!this.newData[year]) {
+              this.newData[year] = {}
+            }
+            if (!this.newData[year][month]) {
+              this.newData[year][month] = {}
+            }
+            this.newData[year][month][date] = this.timeData[i]
           }
-          this.years = new Array(...years)
-          this.months = new Array(...months)
-          this.dates = dates
+          this.years = []
+          for (let year in this.newData) {
+            this.years.push(year)
+          }
+          this.years.sort(function (a, b) { return a - b })
+          this.year = this.years[0]
+
+          this.snm = json.data.snm
+        } else {
+          MessageBox({
+            title: '',
+            message: json.msg
+          })
         }
       })
     },
@@ -151,33 +200,107 @@ export default {
       this.processingPointShow = !this.processingPointShow
       this.monthShow = false
       this.dateShow = false
+      this.yearShow = false
     },
-    monthClick: function (index) {
-      if (index) {
-        index--
+    yearClick: function (str) {
+      if (str) {
+        this.year = str
       }
       this.processingPointShow = false
+      this.monthShow = false
+      this.dateShow = false
+      this.yearShow = !this.yearShow
+    },
+    monthClick: function (str) {
+      if (str) {
+        this.month = str
+      }
+      this.processingPointShow = false
+      this.yearShow = false
       this.dateShow = false
       this.monthShow = !this.monthShow
     },
-    dateClick: function (index) {
-      if (index) {
-        index--
+    dateClick: function (str) {
+      if (str) {
+        this.date = str
       }
       this.processingPointShow = false
+      this.yearShow = false
       this.monthShow = false
       this.dateShow = !this.dateShow
+    },
+    select: function (str, index, isDisable) {
+      if (isDisable) {
+        return false
+      } else {
+        this.cczb_id = this.selectData[index].cczb_id
+        this.tab = str
+      }
+    },
+    submit: function () {
+      let reqData = {
+        snm: this.snm,
+        cldbmid: this.cldbmid,
+        cczb_id: this.cczb_id,
+        sourceOfCertification: this.sourceOfCertification || 'C', // 来源
+        custName: this.custName, // 用户姓名
+        certificateNo: this.certificateNo, // 身份证号码
+        drivingLicenceNo: this.certificateNo, // 驾驶证号码
+        licensePlateNo: this.licensePlateNo, // 车牌号码
+        licensePlateType: this.licensePlateType, // 车牌类型
+        mobileNo: this.mobileNo // 手机号码
+      }
+      console.log(reqData)
+      for (let key in reqData) {
+        if (!reqData[key]) {
+          Toast({
+            message: '信息填写不完整',
+            position: 'bottom',
+            className: 'white'
+          })
+          return false
+        }
+      }
+      Indicator.open('正在提交...')
+      resultPost(changeSubscribe, reqData).then(json => {
+        Indicator.close()
+        console.log(json)
+        if (json.code === '0') {
+          console.log('流水号', json.msg)
+          console.log('预约成功,跳转预约成功的页面')
+        } else {
+          MessageBox({
+            title: '',
+            message: json.msg
+          })
+        }
+      })
     }
   },
   created () {
+    Indicator.open('正在加载...')
     document.addEventListener('click', (e) => {
       this.processingPointShow = false
+      this.yearShow = false
       this.monthShow = false
       this.dateShow = false
     })
-  },
-  mounted () {
     this.init()
+    this.custName = window.localStorage.getItem('userName') // 姓名
+    this.certificateNo = window.localStorage.getItem('identityCard') // 身份证
+    this.licensePlateNo = window.localStorage.getItem('myNumberPlate') // 车牌号码
+    this.licensePlateType = window.localStorage.getItem('plateType') // 车牌类型
+    this.mobileNo = window.localStorage.getItem('mobilePhone') // 手机号码
+
+    let ua = window.navigator.userAgent // 浏览器版本
+    if (/MicroMessenger/i.test(ua)) {
+      this.sourceOfCertification = 'C' // 微信
+    } else if (/AlipayClient/i.test(ua)) {
+      this.sourceOfCertification = 'Z' // 支付宝
+    }
+  },
+  beforeDestory () {
+    Indicator.close()
   }
 }
 </script>
@@ -212,6 +335,8 @@ export default {
       }
       .month,.date{
         width: 22%;
+        text-align: center;
+        text-indent: 0;
         span{
           text-indent: 0;
           text-align: center;
@@ -224,20 +349,28 @@ export default {
     height: 420px;
     border: 1px solid #eaeaed;
     border-radius: 8px;
+    overflow-x: hidden;
     overflow-y: scroll;
     margin-bottom: 55px;
     .disabled{
+      padding: 0 80px 0 35px;
       background: #eaeaed;
     }
     .illegalTimeSelect-item{
+      padding: 0 70px 0 35px;
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
       line-height: 80px;
-      border-bottom: 2px solid #eaeaed;
+      border: 2px solid #eaeaed;
+      border-color: transparent;
+      border-bottom-color: #eaeaed;
       .yy_yysl{
         margin: 0 10px 0 34px;
         color: #19d051;
       }
+    }
+    .active{
+      border-color: #2696dd;
     }
   }
   .illegal-tip{
@@ -251,6 +384,11 @@ export default {
       line-height: 34px;
       color: #666;
     }
+  }
+}
+.white{
+  span{
+    color: #fff;
   }
 }
 </style>

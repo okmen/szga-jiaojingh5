@@ -263,28 +263,59 @@ export default{
         }
       })
     }
-
-    // 浏览器定位
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(locationSuccess, locationError, {
-        // 指示浏览器获取高精度的位置，默认为false
-        enableHighAccuracy: true,
-        // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
-        timeout: 5000,
-        // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
-        maximumAge: 3000
-      })
+    if (/AlipayClient/i.test(window.navigator.userAgent)) {
+      if ((window.Ali.alipayVersion).slice(0, 3) >= 8.1) {
+        window.Ali.geolocation.getCurrentPosition({
+          timeout: 10000
+        }, function (result) {
+          if (result.errorCode) {
+            // 没有成功定位的情况
+            // errorCode=5，调用超时
+            switch (result.errorCode) {
+              case 5:
+                Toast({
+                  message: '定位超时',
+                  position: 'bottom',
+                  className: 'white'
+                })
+                break
+              default:
+                Toast({
+                  message: '定位失败',
+                  position: 'bottom',
+                  className: 'white'
+                })
+            }
+          } else {
+            // 成功定位的情况
+            let cp = new window.Careland.GbPoint(result.coords.latitude, result.coords.longitude)
+            setCenter(cp)
+          }
+        })
+      } else {
+        Toast({
+          message: '请在钱包8.1以上版本运行',
+          position: 'bottom',
+          className: 'white'
+        })
+      }
     } else {
-      Toast({
-        message: '不支持浏览器定位',
-        position: 'bottom',
-        className: 'white'
-      })
+      // 浏览器定位
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(locationSuccess, locationError, {
+          // 指示浏览器获取高精度的位置，默认为false
+          enableHighAccuracy: true,
+          // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
+          timeout: 5000,
+          // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
+          maximumAge: 3000
+        })
+      }
     }
 
     // 浏览器定位成功的回调
     function locationSuccess (position) {
-      console.log(position)
+      window.alert('浏览器定位成功')
       let xy = wgs84togcj02(position.coords.longitude, position.coords.latitude)
       let cp = new window.Careland.GbPoint(xy[1], xy[0])
       setCenter(cp)
@@ -299,49 +330,7 @@ export default{
           let cp = new window.Careland.GbPoint(res.latitude, res.longitude)
           setCenter(cp)
         })
-      } else if (/AlipayClient/i.test(ua)) {
-        if ((window.Ali.alipayVersion).slice(0, 3) >= 8.1) {
-          window.Ali.geolocation.getCurrentPosition({
-            timeout: 5000
-          }, function (result) {
-            if (result.errorCode) {
-              // 没有成功定位的情况
-              // errorCode=5，调用超时
-              switch (result.errorCode) {
-                case 5:
-                  Toast({
-                    message: '定位超时',
-                    position: 'bottom',
-                    className: 'white'
-                  })
-                  break
-                default:
-                  Toast({
-                    message: '定位失败',
-                    position: 'bottom',
-                    className: 'white'
-                  })
-              }
-            } else {
-              // 成功定位的情况
-              let cp = new window.Careland.GbPoint(result.coords.latitude, result.coords.longitude)
-              setCenter(cp)
-            }
-          })
-        } else {
-          Toast({
-            message: '请在钱包8.1以上版本运行',
-            position: 'bottom',
-            className: 'white'
-          })
-        }
       }
-      // Toast({
-      //   message: '定位失败',
-      //   position: 'bottom',
-      //   className: 'white'
-      // })
-
       console.log('err', err)
     }
   }

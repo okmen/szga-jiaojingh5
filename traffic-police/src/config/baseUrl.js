@@ -86,3 +86,9 @@ export const earlyQuery = `${commonUrl}illegalHanding/toQuerySubscribe.html` // 
 export const earlyCancel = `${commonUrl}illegalHanding/toCancelSubscribe.html ` // 违法预约取消接口
 
 export const resetPwd = `${commonUrl}user/resetPwd.html` // 忘记密码接口
+
+export const processingPoint = `${commonUrl}illegalHanding/getIllegalProcessingPoint.html` // 违法预约时间选择处理点接口
+
+export const subscribeSorts = `${commonUrl}illegalHanding/toGetSubscribeSorts.html` // 违法预约时间选择列表接口
+
+export const changeSubscribe = `${commonUrl}illegalHanding/toChangeSubscribe.html` // 违法预约时间选择接口

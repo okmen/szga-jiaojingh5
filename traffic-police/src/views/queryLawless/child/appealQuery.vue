@@ -105,16 +105,6 @@
         vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits') === 'undefined' ? '无' : window.localStorage.getItem('behindTheFrame4Digits')
       }
     },
-    mounted () {
-      let reqData = {
-        licensePlateNo: this.cur_bindCar,
-        licensePlateType: this.plateType,
-        vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
-      }
-      resultPost(queryLawlessByCar, reqData).then(json => {
-        console.log(json)
-      })
-    },
     methods: {
       bindCarSelect: function (str) {
         if (str) {
@@ -130,20 +120,27 @@
       },
       btnClick: function () {
         let reqData = {
-          licensePlateNo: window.localStorage.getItem('myNumberPlate'),
-          licensePlateType: window.localStorage.getItem('plateType'),
-          vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits')
+          licensePlateNo: '粤BMF688', // this.cur_bindCar,
+          licensePlateType: this.plateType,
+          vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
+          identityCard: this.identityCard,
+          sourceOfCertification: 'C',
+          mobilephone: this.mobilePhone
         }
-        console.log(reqData)
         resultPost(queryLawlessByCar, reqData).then(json => {
+          console.log(json)
           if (json.code === '0000') {
-            MessageBox('提示', json.msg)
+            if (json.msg === '成功') {
+              json.data.forEach((item, index) => { // 循环dataList 给每个item上面添加 check关联属性
+                item.checkAddBorder = false
+              })
+              this.postAppealQuery(json.data)
+              this.$router.push('/illegalAppealResult')
+            } else {
+              MessageBox('提示', json.msg)
+            }
           } else {
-            json.data.forEach((item, index) => { // 循环dataList 给每个item上面添加 check关联属性
-              item.checkAddBorder = false
-            })
-            this.postAppealQuery(json.data)
-            this.$router.push('/illegalAppealResult')
+            MessageBox('提示', json.msg)
           }
         })
       },

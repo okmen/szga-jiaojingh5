@@ -26,7 +26,8 @@ export default{
   data () {
     return {
       cur_tab: 'card',
-      errorShow: false
+      errorShow: false,
+      isLogin: false
     }
   },
   components: {
@@ -35,6 +36,12 @@ export default{
     myCard: require('./child/myCard.vue'),
     myBusiness: require('./child/myBusiness.vue'),
     myCar: require('./child/myCar.vue')
+  },
+  mounted () {
+    this.isLogin = window.localStorage.getItem('isLogin')
+    if (!this.isLogin) {
+      this.$router.push('/login')
+    }
   }
 }
 </script>
