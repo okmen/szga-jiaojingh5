@@ -1,10 +1,20 @@
 <template>
   <div class="handyService-outer">
     <ul class="handyService-list">
-      <li class="handyService-item" v-for="item in listData">
-        <router-link :to='item.serviceLink'>
-          <p>{{item.serviceName}}</p>
+      <li class="handyService-item">
+        <router-link :to="isLogin ? '/moveCar' : '/login'">
+          <p>一键挪车</p>
         </router-link>
+      </li>
+      <li class="handyService-item">
+        <a href="http://szjj.u-road.com/szjjpro/Business/Member/login?arrJson=oPyqQjmrzSdjhfKsjMK-36__pvIA&dealFun=roadRescue&inType=0">
+          <p>一键救援</p>
+        </a>
+      </li>
+      <li class="handyService-item">
+        <a href="http://szjj.u-road.com/szjjpro/Business/Member/login?arrJson=oPyqQjmrzSdjhfKsjMK-36__pvIA&dealFun=roadRescue&inType=0">
+          <p>自主考试</p>
+        </a>
       </li>
     </ul>
     <div v-wechat-title="$route.meta.title"></div>
@@ -15,27 +25,13 @@ export default {
   name: 'handyService',
   data () {
     return {
-      listData: [
-        {
-          'serviceName': '一键挪车',
-          'serviceLink': '/moveCar'
-        },
-        {
-          'serviceName': '一键救援',
-          'serviceLink': '/'
-        },
-        {
-          'serviceName': '自主考试',
-          'serviceLink': '/'
-        }
-      ]
+      openId: '',
+      isLogin: false
     }
   },
   mounted () {
-    console.log(window.localStorage.getItem('isLogin'))
-    if (window.localStorage.getItem('isLogin') !== 'true') {
-      window.location.replace('#/login')
-    }
+    this.openId = window.localStorage.getItem('openId')
+    this.isLogin = window.localStorage.getItem('isLogin')
   }
 }
 </script>
