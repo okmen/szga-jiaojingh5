@@ -331,6 +331,7 @@ export default{
           setCenter(cp)
         })
       }
+      console.log('err', err)
     }
   }
 }
