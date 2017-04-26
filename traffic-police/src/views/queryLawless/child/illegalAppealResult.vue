@@ -8,7 +8,7 @@
           <p>违法时间：<span>{{item.illegalTime}}</span></p>
           <p>执法单位：<span>{{item.illegalUnit}}</span></p>
           <p>违法行为：<span>{{item.illegalDesc}}</span></p>
-          <p>违法地点：<span>{{item.illegalAddress}}</span></p>
+          <p>违法地点：<span>{{item.illegalAddr}}</span></p>
         </div>
         <div class="illegal-query">
           <section class="illegal-query-score">
@@ -16,7 +16,7 @@
             <p>违法记分</p>
           </section>
           <section class="illegal-query-score">
-            <p class="illegal-score-num">{{item.punishAmount}}</p>
+            <p class="illegal-score-num">{{item.punishAmt}}</p>
             <p>罚款金额</p>
           </section>
         </div>
@@ -31,7 +31,11 @@
       <div class="illegal-form">
         <div class="illegal-address">
           <p>联系地址</p>
-          <input type="text" name="address" placeholder="请输入您的联系地址" v-model="claimantPhone">
+          <input type="text" name="address" placeholder="请输入您的联系地址" v-model="claimantAddress">
+        </div>
+        <div class="illegal-address">
+          <p>联系电话</p>
+          <input type="text" name="address" placeholder="请输入您的联系电话" v-model="claimantPhone">
         </div>
         <div class="illegal-type">
           <p>申诉类型</p>
@@ -47,14 +51,15 @@
           <textarea placeholder="请输入..." v-model="appealContent"></textarea>
         </div>
       </div>
-      <div class="illegal-btn" @click="btnSubmitIllegal">提交</div>
+      <div class="illegal-btn" @click="btnSubmitIllegal()">提交</div>
     </div>
   </div>
 </template>
 <script>
   import { mapGetters } from 'vuex'
-  // import { resultPost } from '../../../service/getData'
-  // import { illegalAppeal } from '../../../config/baseUrl'
+  import { resultPost } from '../../../service/getData'
+  import { illegalAppeal } from '../../../config/baseUrl'
+  import { MessageBox } from 'mint-ui'
   export default {
     data () {
       return {
@@ -79,6 +84,7 @@
         ],
         AppealQueryData: '',
         claimantPhone: '', // 申诉联系电话
+        claimantAddress: '', // 申诉联系地址
         appealContent: '' // 申诉内容
       }
     },
@@ -97,15 +103,33 @@
         }
       },
       btnSubmitIllegal: function () {
-        // let checkedItem = ''
-        // this.AppealQueryData.forEach((item) => {
-        //   if (item.checkAddBorder) {
-        //     checkedItem = item
-        //   }
-        // })
-        // let illegalAppealData = {
-        // }
-        // resultPost(illegalAppeal,)
+        let checkedItem = ''
+        this.AppealQueryData.forEach((item) => {
+          if (item.checkAddBorder) {
+            checkedItem = item
+          }
+        })
+        let reqData = {
+          billNo: checkedItem.billNo, // 违法书单编号
+          illegalTime: checkedItem.illegalTime, // 违法时间
+          illegalAddress: checkedItem.illegalAddr, // 违法地点
+          illegalDesc: checkedItem.illegalDesc, // 违法行为
+          punishAmount: checkedItem.punishAmt, // 罚款金额
+          punishScore: checkedItem.punishScore, // 罚分
+          agency: checkedItem.illegalUnit, // 执法单位
+          claimant: checkedItem.carOwner, // 申诉人姓名
+          claimantAddress: this.claimantAddress, // 申诉联系地址
+          claimantPhone: this.claimantPhone, // 申人联系电话
+          appealType: '1', // 申诉类型
+          appealContent: this.appealContent, // 申诉内容
+          licensePlateNo: checkedItem.licensePlateNo,
+          identityCard: window.localStorage.getItem('identityCard'),
+          sourceOfCertification: 'C',
+          userCode: ''
+        }
+        resultPost(illegalAppeal, reqData).then(json => {
+          MessageBox('提示', json.msg)
+        })
       }
     },
     computed: {
@@ -118,17 +142,17 @@
 <style lang="less">
 #illegalResult{
   width:100%;
-  height:100%;
   background:#FFF;
   .illegal-box{
     padding:38px 50px 0;
     width:100%;
+    box-sizing: border-box;
     .illegal-list{
       position:relative;
       padding:20px 40px;
       margin-bottom:86px;
-      width:644px;
-      height:400px;
+      width:100%;
+      box-sizing: border-box;
       border-radius:8px;
       box-shadow:0 0 18px rgba(0,0,0,.3);
       .illegal-record{
@@ -146,6 +170,7 @@
       }
       .illegal-query{
         width:100%;
+        overflow: hidden;
         section{
           float:left;
           margin-left:100px;

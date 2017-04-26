@@ -2,11 +2,14 @@
     <div id="login-outer">
       <div class="logo"></div>
       <div class="login-form">
-        <input v-model:value="loginName" type="tel" placeholder="请输入手机号">
-        <input v-model:value="loginName" type="tel" placeholder="请输入手机号">
-        <input v-model:value="password" id="login-password" type="password" placeholder="请输入新密码">
-        <input v-model:value="password" id="login-password" type="password" placeholder="请再次输入新密码">
-        <button id="login-btn" @click.stop="loginClick()">更 改 密 码</button>
+        <input v-model:value="userName" type="tel" placeholder="请输入您的姓名">
+        <input class="identityCard" v-model:value="identityCard" type="tel" placeholder="请输入您的身份证号码">
+        <input class="mobilephone" v-model:value="mobilephone" type="tel" placeholder="请输入手机号">
+        <div class="validateCode">
+          <input class="inpValidateCode" v-model:value="validateCode" type="tel" placeholder="输入验证码">
+          <button type="button" name="button" :disabled="isdisabled" @click.stop="sendValidateCode()" :class="{disabled: isdisabled}">{{btnValidateCode}}</button>
+        </div>
+        <button id="login-btn" @click.stop="loginClick()"> 找 回 密 码</button>
         <div class="login-link">
           <router-link to="/starUser" class="login-link-forget">注册</router-link>
           <router-link to="/login" class="login-link-register">登录</router-link>
@@ -18,63 +21,68 @@
 
 <script>
 import { resultPost } from '../../service/getData'
-import { login } from '../../config/baseUrl'
+import { resetPwd, sendSMS } from '../../config/baseUrl'
 import { Toast } from 'mint-ui'
 
 export default {
   name: 'login',
   data () {
     return {
-      loginName: '',
-      password: '',
-      openId: ''
+      userName: '',
+      identityCard: '',
+      validateCode: '',
+      mobilephone: '',
+      btnValidateCode: '获取验证码',
+      openId: '',
+      isdisabled: false
     }
   },
   methods: {
     loginClick: function () {
       let that = this
-      if (!this.loginName) {
+      if (!this.userName) {
         Toast({
-          message: '用户名不能为空',
+          message: '姓名不能为空',
           position: 'bottom',
           duration: 2000
         })
         return false
       }
-      if (!this.password) {
+      if (!this.identityCard) {
         Toast({
-          message: '密码不能为空',
+          message: '身份证不能为空',
           position: 'bottom',
           duration: 2000
         })
         return false
       }
-      let url = window.location.href
-      let data = {
-        url: encodeURIComponent(url)
+      if (!this.mobilephone) {
+        Toast({
+          message: '手机号不能为空',
+          position: 'bottom',
+          duration: 2000
+        })
+        return false
       }
-      if (!this.openId) {
-        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48a8104946507c1e&redirect_uri=http%3A%2F%2Ftestjava.chudaokeji.com%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
+      if (!this.validateCode) {
+        Toast({
+          message: '验证码不能为空',
+          position: 'bottom',
+          duration: 2000
+        })
+        return false
       }
       let reqData = {
-        loginName: this.loginName,
-        password: this.password,
-        openId: this.openId,
-        loginClient: 'weixin'
+        identityCard: this.identityCard,
+        mobilephone: this.mobilephone,
+        userName: this.userName,
+        sourceOfCertification: 'C',
+        validateCode: this.validateCode
       }
-      resultPost(login, reqData).then(data => {
+      resultPost(resetPwd, reqData).then(data => {
         console.log(data)
         if (data.code === '0000') {
-          let userData = data.data.authenticationBasicInformation
-          console.log(userData)
-          window.localStorage.setItem('identityCard', decodeURIComponent(userData.identityCard)) // 身份证照
-          window.localStorage.setItem('mobilePhone', decodeURIComponent(userData.mobilephone)) // 手机号码
-          window.localStorage.setItem('myNumberPlate', decodeURIComponent(userData.myNumberPlate)) // 车牌号码
-          window.localStorage.setItem('userName', decodeURIComponent(userData.trueName)) // 用户名字
-          window.localStorage.setItem('behindTheFrame4Digits', decodeURIComponent(userData.behindTheFrame4Digits)) // 车架号后4位
-          window.localStorage.setItem('plateType', decodeURIComponent(userData.plateType)) // 车牌类型
-          window.localStorage.setItem('isLogin', true) // 是否登录
-          that.$router.push('/')
+          that.$router.push('/login')
         } else {
           Toast({
             message: data.msg,
@@ -83,17 +91,49 @@ export default {
           })
         }
       })
+    },
+    sendValidateCode: function () {
+      if (!this.mobilephone) {
+        Toast({
+          message: '手机号不能为空',
+          position: 'bottom',
+          duration: 2000
+        })
+        return false
+      }
+      let reqData = {
+        mobilephone: this.mobilephone
+      }
+      let time = 30
+      this.btnValidateCode = `已发送（${time}）`
+      this.isdisabled = true
+      resultPost(sendSMS, reqData).then(json => {
+        console.log(json)
+      })
+      function countDown (that) {
+        setTimeout(() => {
+          if (time === 0) {
+            that.isdisabled = false
+            that.btnValidateCode = '发送验证码'
+          } else {
+            time--
+            that.btnValidateCode = `已发送（${time}）`
+            countDown(that)
+          }
+        }, 1000)
+      }
+      countDown(this)
     }
   },
   mounted () {
-    this.openId = window.localStorage.getItem('openId')
-    let url = window.location.href
-    let data = {
-      url: encodeURIComponent(url)
-    }
-    if (!this.openId) {
-      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48a8104946507c1e&redirect_uri=http%3A%2F%2Ftestjava.chudaokeji.com%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
-    }
+    // this.openId = window.localStorage.getItem('openId')
+    // let url = window.location.href
+    // let data = {
+    //   url: encodeURIComponent(url)
+    // }
+    // if (!this.openId) {
+    //   window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48a8104946507c1e&redirect_uri=http%3A%2F%2Ftestjava.chudaokeji.com%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
+    // }
   }
 
 }
@@ -146,8 +186,31 @@ export default {
         color: rgba(255, 255, 255, .5);
       }
     }
-    #login-password{
-      background-image: url('../../images/login-password.png');
+    .validateCode{
+      overflow: hidden;
+      input{
+        float: left;
+        width: 60%;
+      }
+      button{
+        float: left;
+        color: #fff;
+        font-size: 30px;
+        background-color: rgba(255, 255, 255, .0);
+        line-height: 80px;
+        margin-left: 60px;
+        text-decoration: underline;
+        outline: none;
+      }
+    }
+    .mobilephone{
+      background-image: url('../../images/phoneIoc.png');
+    }
+    .identityCard{
+      background-image: url('../../images/IDIoc.png');
+    }
+    .inpValidateCode{
+      background-image: url('../../images/validationIoc.png');
     }
     #login-btn{
       display: block;

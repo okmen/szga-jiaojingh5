@@ -1,7 +1,7 @@
 // 添加URL需注释 哪个模块哪个接口
 const commonUrl = 'http://testjava.chudaokeji.com/'
 // const uploadUrl = 'http://192.168.1.159:8080/web/'
-const commonUrlIn = 'http://192.168.1.120:8100/'
+// const commonUrlIn = 'http://192.168.1.120:8100/'
 
 export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
 
@@ -79,12 +79,10 @@ export const getRoad = `${commonUrl}user/getPositioningAddress.html` // 获取�
 
 export const illegalAppeal = `${commonUrl}illegalHanding/trafficIllegalAppeal.html` // 违法申诉接口
 
-export const userAgreement = `${commonUrlIn}user/getDocumentationORMByNoticeKey.html` // 用户须知接口
+export const userAgreement = `${commonUrl}user/getDocumentationORMByNoticeKey.html` // 用户须知接口
 
 export const earlyQuery = `${commonUrl}illegalHanding/toQuerySubscribe.html` // 违法预约查询接口
 
-export const earlyCancel = `${commonUrl}illegalHanding/trafficIllegalAppeal.html` // 违法预约取消接口
+export const earlyCancel = `${commonUrl}illegalHanding/toCancelSubscribe.html ` // 违法预约取消接口
 
-export const processingPoint = `${commonUrl}illegalHanding/getIllegalProcessingPoint.html` // 预约违法处理点
-
-export const subscribeSorts = `${commonUrl}illegalHanding/toGetSubscribeSorts.html` // 预约列表
+export const resetPwd = `${commonUrl}user/resetPwd.html` // 忘记密码接口

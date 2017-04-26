@@ -90,7 +90,7 @@
         </div>
         <div class="left starUser-hbs-code">
           <button type="button" name="button" @click.stop="getVerification()"
-            :class="{disabled: isdisabled}">{{getValidCodeMsg}}
+            :class="{disabled: isdisabled}" :disabled="this.isdisabled">{{getValidCodeMsg}}
           </button>
         </div>
       </li>

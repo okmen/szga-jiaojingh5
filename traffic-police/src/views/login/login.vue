@@ -6,7 +6,7 @@
         <input v-model:value="password" id="login-password" type="password" placeholder="请输入密码">
         <button id="login-btn" @click.stop="loginClick()">登 录</button>
         <div class="login-link">
-          <router-link to="/peopleWillCloud" class="login-link-forget">忘记密码</router-link>
+          <router-link to="/findPassword" class="login-link-forget">忘记密码</router-link>
           <router-link to="/starUser" class="login-link-register">注册</router-link>
         </div>
       </div>
