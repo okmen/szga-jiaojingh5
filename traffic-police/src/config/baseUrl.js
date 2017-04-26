@@ -78,3 +78,7 @@ export const carUser = `${commonUrlIn}register/iamALongtimeUser.html` // 星级�
 export const getRoad = `${commonUrl}user/getPositioningAddress.html` // 获取路段地址 随手拍举报接口
 
 export const illegalAppeal = `${commonUrl}illegalHanding/trafficIllegalAppeal.html` // 违法申诉接口
+
+export const processingPoint = `${commonUrl}illegalHanding/getIllegalProcessingPoint.html` // 预约违法处理点
+
+export const subscribeSorts = `${commonUrl}illegalHanding/toGetSubscribeSorts.html` // 预约列表

@@ -122,6 +122,14 @@ const routes = [
     component: require('../views/queryLawless/child/earlyLawless.vue')
   },
   {
+    name: 'illegalTimeSelect',
+    path: '/illegalTimeSelect',
+    meta: {
+      title: '交通违法预约'
+    },
+    component: require('../views/queryLawless/child/illegalTimeSelect.vue')
+  },
+  {
     name: 'payLawless',
     path: '/payLawless',
     meta: {
