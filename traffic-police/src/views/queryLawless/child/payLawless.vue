@@ -280,47 +280,47 @@
       },
       scanQRCode: function () {
         let that = this
-        let ua = window.navigator.userAgent // 浏览器版本
-        if (/MicroMessenger/i.test(ua)) {
-          wx.scanQRCode({
-            needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-            scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有
-            success: function (res) {
-              var result = res.resultStr // 当needResult 为 1 时，扫码返回的结果
-              that.billNo = result.split(',')[1]
-            }
-          })
-        } else {
-          if ((window.Ali.alipayVersion).slice(0, 3) >= 8.1) {
-            window.Ali.scan({
-              type: 'qr'
-            }, function (result) {
-              if (result.errorCode) {
-                // 没有扫码的情况
-                // errorCode=10，用户取消
-                // errorCode=11，操作失败
-                switch (result.errorCode) {
-                  case 10:
-                    window.alert('用户取消')
-                    break
-                  default:
-                    window.alert('操作失败')
-                }
-              } else {
-                  // 成功扫码的情况
-                if (result.barCode !== undefined) { // 条码
-                  // result.barCode 返回结果
-                } else if (result.qrCode !== undefined) { // 二维码
-                  // result.barCode 返回结果
-                } else if (result.cardNumber !== undefined) { // 银行卡
-                  // result.barCode 返回结果
-                }
-              }
-            })
-          } else {
-            window.alert('请在钱包8.1以上版本运行')
+        // let ua = window.navigator.userAgent // 浏览器版本
+        // if (/MicroMessenger/i.test(ua)) {
+        wx.scanQRCode({
+          needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+          scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有
+          success: function (res) {
+            var result = res.resultStr // 当needResult 为 1 时，扫码返回的结果
+            that.billNo = result.split(',')[1]
           }
-        }
+        })
+      //   } else {
+      //     if ((window.Ali.alipayVersion).slice(0, 3) >= 8.1) {
+      //       window.Ali.scan({
+      //         type: 'qr'
+      //       }, function (result) {
+      //         if (result.errorCode) {
+      //           // 没有扫码的情况
+      //           // errorCode=10，用户取消
+      //           // errorCode=11，操作失败
+      //           switch (result.errorCode) {
+      //             case 10:
+      //               window.alert('用户取消')
+      //               break
+      //             default:
+      //               window.alert('操作失败')
+      //           }
+      //         } else {
+      //             // 成功扫码的情况
+      //           if (result.barCode !== undefined) { // 条码
+      //             // result.barCode 返回结果
+      //           } else if (result.qrCode !== undefined) { // 二维码
+      //             // result.barCode 返回结果
+      //           } else if (result.cardNumber !== undefined) { // 银行卡
+      //             // result.barCode 返回结果W
+      //           }
+      //         }
+      //       })
+      //     } else {
+      //       window.alert('请在钱包8.1以上版本运行')
+      //     }
+      //   }
       }
     },
     created () {
@@ -332,4 +332,3 @@
     }
   }
 </script>
-

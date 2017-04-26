@@ -85,6 +85,4 @@ export const earlyQuery = `${commonUrl}illegalHanding/toQuerySubscribe.html` // 
 
 export const earlyCancel = `${commonUrl}illegalHanding/trafficIllegalAppeal.html` // 违法预约取消接口
 
-export const processingPoint = `${commonUrl}illegalHanding/getIllegalProcessingPoint.html` // 预约违法处理点
-
-export const subscribeSorts = `${commonUrl}illegalHanding/toGetSubscribeSorts.html` // 预约列表
+export const resetPwd = `${commonUrl}user/resetPwd.html` // 忘记密码接口
