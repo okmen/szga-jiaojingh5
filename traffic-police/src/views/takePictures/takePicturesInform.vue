@@ -155,11 +155,13 @@
         })
       },
       btnSurePutInform: function () {  // 提交拍照举报按钮
+        let imgArr = [this.imgOne, this.imgTwo, this.imgThree].filter(x => x !== '')
+        console.log(imgArr, imgArr.length)
         if (!this.informTime) {
           Toast({message: '请点击设置违法时间', position: 'bottom', className: 'white'})
         } else if (!this.informRoad) {
           Toast({message: '请输入违法路段', position: 'bottom', className: 'white'})
-        } else if (!this.imgOne || !this.imgTwo) {
+        } else if (imgArr.length < 2) {
           Toast({message: '举报图片不得少于两张', position: 'bottom', className: 'white'})
         } else if (!this.informIntroWhy) {
           Toast({message: '请输入情况说明', position: 'bottom', className: 'white'})
@@ -171,41 +173,41 @@
           Toast({message: '请输入您的电话号码', position: 'bottom', className: 'white'})
         } else {
           Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
-        }
-        let formatTime = this.format(this.informTime, 'yyyy-MM-dd HH:mm:ss')
-        let informData = {
-          illegalTime: formatTime,             // 违法时间
-          illegalSections: this.informType,         // 违法路段
-          reportImgOne: this.imgOne,                // 上传照片
-          reportImgTwo: this.imgTwo,
-          reportImgThree: this.imgThree,
-          illegalActivitieOne: this.informIntroWhy, // 情况说明
-          inputManName: this.informName,            // 举报人
-          identityCard: this.informIdNumber,        // 身份证号
-          inputManPhone: this.informTel,            // 电话号码
-          userSource: 'C',
-          openId: window.localStorage.openId
-        }
-        console.log(informData)
-        resultPost(takePictures, informData).then(json => { // 调取随手拍举报接口
-          console.log(json)
-          // let jsonMsg = json.msg
-          // let getJsonMsg = ''
-          // if (jsonMsg.indexOf(' ') === -1) {
-          //   getJsonMsg = jsonMsg
-          // } else {
-          //   getJsonMsg = jsonMsg.split(' ')[0]
-          // }
-          if (json.code === '0000') {
-            Indicator.close()
-            console.log('举报成功')
-            this.postInform({
-              takePicturesRecord: json.data.recordNumber,
-              takePicturesPassword: json.data.queryPassword
-            })
-            this.$router.push('/takePicturesSuccess')
+          let formatTime = this.format(this.informTime, 'yyyy-MM-dd HH:mm:ss')
+          let informData = {
+            illegalTime: formatTime,             // 违法时间
+            illegalSections: this.informType,         // 违法路段
+            reportImgOne: this.imgOne,                // 上传照片
+            reportImgTwo: this.imgTwo,
+            reportImgThree: this.imgThree,
+            illegalActivitieOne: this.informIntroWhy, // 情况说明
+            inputManName: this.informName,            // 举报人
+            identityCard: this.informIdNumber,        // 身份证号
+            inputManPhone: this.informTel,            // 电话号码
+            userSource: 'C',
+            openId: window.localStorage.openId
           }
-        })
+          console.log(informData)
+          resultPost(takePictures, informData).then(json => { // 调取随手拍举报接口
+            console.log(json)
+            // let jsonMsg = json.msg
+            // let getJsonMsg = ''
+            // if (jsonMsg.indexOf(' ') === -1) {
+            //   getJsonMsg = jsonMsg
+            // } else {
+            //   getJsonMsg = jsonMsg.split(' ')[0]
+            // }
+            if (json.code === '0000') {
+              Indicator.close()
+              console.log('举报成功')
+              this.postInform({
+                takePicturesRecord: json.data.recordNumber,
+                takePicturesPassword: json.data.queryPassword
+              })
+              this.$router.push('/takePicturesSuccess')
+            }
+          })
+        }
       },
       btnGetRoad: function () {  // 点击选择交通路段
         if (this.informRoad === '') { // 判断输入为空时不显示下拉列表

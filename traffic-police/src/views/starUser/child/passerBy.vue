@@ -107,6 +107,7 @@
         } else if (!idImgOne || !idImgTwo || !idImgThree) {
           Toast({message: '请上传身份证照片', position: 'bottom', className: 'white'})
         } else {
+          Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
           let passerData = {
             identityCard: this.idCardNumber,
             mobilephone: this.telphoneNumber,
