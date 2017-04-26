@@ -33,6 +33,7 @@
       </li>
     </ul>
     <div class="nav-xstudy-button" @click="pageDown()">开始学习</div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
