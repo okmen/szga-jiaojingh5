@@ -83,7 +83,7 @@
 <script>
   import { resultPost } from '../../../service/getData'
   import { queryLawlessByCar } from '../../../config/baseUrl'
-  import { MessageBox } from 'mint-ui'
+  import { Toast, MessageBox } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
     name: 'appealQuery',
@@ -107,9 +107,9 @@
     },
     mounted () {
       let reqData = {
-        licensePlateNo: window.localStorage.getItem('myNumberPlate'),
-        licensePlateType: window.localStorage.getItem('plateType'),
-        vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits')
+        licensePlateNo: this.cur_bindCar,
+        licensePlateType: this.plateType,
+        vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
       }
       resultPost(queryLawlessByCar, reqData).then(json => {
         console.log(json)
@@ -150,6 +150,18 @@
       ...mapActions({
         postAppealQuery: 'postAppealQuery'
       })
+    },
+    created () {
+      var userCar = ''
+      if (!userCar) {
+        Toast({
+          message: '您还未绑定车辆',
+          position: 'middle',
+          className: 'white',
+          duration: 3000
+        })
+        window.location.href = 'personalCenter'
+      }
     }
   }
 </script>

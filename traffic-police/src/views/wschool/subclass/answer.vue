@@ -99,8 +99,9 @@ export default {
   methods: {
     clickAnswer: function (index) {     // 选项答题
       let that = this
-      that.answerId = ''
-      this.isBtnShows = true
+      that.answerId = ''      // 答题选择
+      this.isBtnShows = true  // 答题显示
+      this.isBtnShow = false  // 下一题显示
       if (this.testQuestionsType === '不定选') {
         this.answerName[index].isSure = !this.answerName[index].isSure
         this.answerName.forEach((item) => {
@@ -167,8 +168,8 @@ export default {
     },
     countClick: function () {      // 获取下一题数据
       this.judgeTrue = ''
-      this.isBtnShows = false
-      this.answerShow = false
+      this.isBtnShows = false      // 答题显示
+      this.answerShow = false      // 对错显示
       this.loadingData()
       if (this.surplusAnswe === 0) {
         window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
@@ -180,18 +181,6 @@ export default {
       }
     },
     loadingData: function () {     //  页面接口数据
-      this.testData = [{          // 答题选项样式初始化
-        img: require('../../../images/A.png')
-      },
-      {
-        img: require('../../../images/B.png')
-      },
-      {
-        img: require('../../../images/C.png')
-      },
-      {
-        img: require('../../../images/D.png')
-      }]
       this.isBtnShow = false  // 初始化下一题选项样式
       this.hashRoomId = window.location.hash.split('#')[2]
       console.log(this.hashRoomId)

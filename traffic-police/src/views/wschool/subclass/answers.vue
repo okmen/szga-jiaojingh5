@@ -99,8 +99,9 @@ export default {
   methods: {
     clickAnswer: function (index) {     // 选项答题
       let that = this
-      that.answerId = ''
-      this.isBtnShows = true
+      that.answerId = ''      // 答题选择
+      this.isBtnShows = true  // 答题显示
+      this.isBtnShow = false  // 下一题显示
       if (this.testQuestionsType === '不定选') {
         this.answerName[index].isSure = !this.answerName[index].isSure
         this.answerName.forEach((item) => {

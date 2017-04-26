@@ -44,7 +44,6 @@ export default {
   },
   mounted () {
     let isLogin = window.localStorage.getItem('isLogin') // 是否登录
-    console.log(isLogin)
     if (isLogin === 'false') {
       MessageBox('提示', '请先登录,才可以进入学习').then(() => {
         this.$router.push(`login`)
