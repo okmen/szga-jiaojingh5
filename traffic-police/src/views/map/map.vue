@@ -296,10 +296,45 @@ export default{
       let ua = window.navigator.userAgent // 浏览器版本
       if (/MicroMessenger/i.test(ua)) {
         wxGetLocation(function (res) {
-          console.log(res)
           let cp = new window.Careland.GbPoint(res.latitude, res.longitude)
           setCenter(cp)
         })
+      } else if (/AlipayClient/i.test(ua)) {
+        if ((window.Ali.alipayVersion).slice(0, 3) >= 8.1) {
+          window.Ali.geolocation.getCurrentPosition({
+            timeout: 5000
+          }, function (result) {
+            if (result.errorCode) {
+              // 没有成功定位的情况
+              // errorCode=5，调用超时
+              switch (result.errorCode) {
+                case 5:
+                  Toast({
+                    message: '定位超时',
+                    position: 'bottom',
+                    className: 'white'
+                  })
+                  break
+                default:
+                  Toast({
+                    message: '定位失败',
+                    position: 'bottom',
+                    className: 'white'
+                  })
+              }
+            } else {
+              // 成功定位的情况
+              let cp = new window.Careland.GbPoint(result.coords.latitude, result.coords.longitude)
+              setCenter(cp)
+            }
+          })
+        } else {
+          Toast({
+            message: '请在钱包8.1以上版本运行',
+            position: 'bottom',
+            className: 'white'
+          })
+        }
       }
       // Toast({
       //   message: '定位失败',
