@@ -1,5 +1,6 @@
 <template>
   <div class="answer">
+  <div v-wechat-title="$route.meta.title"></div>
     <div class="answer-head">
       <div class="answer-head-regit">
         <dl class="answer-head-rgt">
