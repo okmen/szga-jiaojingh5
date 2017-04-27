@@ -68,12 +68,12 @@ export default{
       })
     },
     submit: function () {
-      this.hintShow = false
       let reqData = {
         identityCard: this.identityCard,
         openId: this.openId,
         unionId: this.unionId
       }
+      console.log(reqData)
       Indicator.open('正在提交...')
       resultPost(deleteVehicle, reqData).then(json => {
         Indicator.close()
