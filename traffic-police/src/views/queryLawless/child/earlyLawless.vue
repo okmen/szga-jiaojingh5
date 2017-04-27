@@ -305,7 +305,7 @@
         const that = this
         let reqData = {
           licensePlateType: this.cur_id,
-          licensePlateNo: '粤BMF688', // this.abbreviationSelectMassage + this.car_number,
+          licensePlateNo: this.abbreviationSelectMassage + this.car_number,
           mobilephone: this.mobilephone,
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
           drivingLicenceNo: this.drivingLicenceNo,
