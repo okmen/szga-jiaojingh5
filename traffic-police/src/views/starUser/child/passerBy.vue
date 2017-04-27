@@ -100,6 +100,8 @@
         let idImgThree = this.$refs.getImgUrl.idCardImgHandHeld
         if (!this.idCardNumber) {
           Toast({message: '请输入您的身份证号码', position: 'bottom', className: 'white'})
+        } else if (/[（* | ）* ]/g.test(this.idCardNumber)) {
+          Toast({message: '请使用英文状态下的括号', position: 'bottom', className: 'white'})
         } else if (!this.telphoneNumber) {
           Toast({message: '请输入您的手机号码', position: 'bottom', className: 'white'})
         } else if (!this.validCode) {
