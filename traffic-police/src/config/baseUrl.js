@@ -29,8 +29,6 @@ export const queryLawlessByCard = `${commonUrl}illegalHanding/queryInfoByDriving
 
 export const queryPay = `${commonUrl}illegalHanding/toQueryPunishmentPage.html` // 违法缴款
 
-export const queryEarlyLawless = `${commonUrl}illegalHanding/toQuerySubscribe.html` // 违法预约查询
-
 export const getClaimConfirm = `${commonUrl}illegalHanding/illegalOnlineConfirm.html` // 在线确认-获取违章列表
 
 export const claimConfirm = `${commonUrl}illegalHanding/trafficIllegalClaim.html` // 打单确认
