@@ -87,6 +87,7 @@
 import { processingPoint, subscribeSorts, changeSubscribe } from '../../../config/baseUrl'
 import { resultGet, resultPost } from '../../../service/getData'
 import { Toast, Indicator, MessageBox } from 'mint-ui'
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -266,8 +267,11 @@ export default {
         Indicator.close()
         console.log(json)
         if (json.code === '0') {
-          console.log('流水号', json.msg)
-          console.log('预约成功,跳转预约成功的页面')
+          this.postAppoin({
+            appoinNum: json.msg,
+            appoinType: '违法预约处理'
+          })
+          this.$router.push('/appointSuccess')
         } else {
           MessageBox({
             title: '',
@@ -275,7 +279,10 @@ export default {
           })
         }
       })
-    }
+    },
+    ...mapActions({
+      postAppoin: 'postAppoin'
+    })
   },
   created () {
     Indicator.open('正在加载...')
