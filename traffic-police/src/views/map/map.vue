@@ -315,7 +315,6 @@ export default{
 
     // 浏览器定位成功的回调
     function locationSuccess (position) {
-      window.alert('浏览器定位成功')
       let xy = wgs84togcj02(position.coords.longitude, position.coords.latitude)
       let cp = new window.Careland.GbPoint(xy[1], xy[0])
       setCenter(cp)
