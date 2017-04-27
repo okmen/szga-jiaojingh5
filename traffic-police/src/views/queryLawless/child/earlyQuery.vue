@@ -339,15 +339,14 @@
           }
         }
         resultPost(earlyQuery, reqData).then(json => {
-//          if (!json.data) {
-//            Toast({
-//              message: json.msg,
-//              position: 'middle',
-//              className: 'white',
-//              duration: 3000
-//            })
-//          }
-          this.reserveList = json.data
+          if (json.code === '0000') {
+            this.reserveList = json.data
+            if(json.data.length === 0) {
+              MessageBox('提示', '该车辆暂无预约信息')
+            }
+          } else {
+            MessageBox('提示', json.msg)
+          }
           console.log(json)
         })
       },
