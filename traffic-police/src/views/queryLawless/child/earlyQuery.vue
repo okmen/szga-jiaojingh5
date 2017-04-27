@@ -81,7 +81,7 @@
               <p>{{ reserve.yydate }}{{ reserve.yydate_sjd }}</p>
             </div>
             <div class="left-line" v-if="reserve.zt == '正常'">
-              <div class="cancel" @click.stop="earlyCancel(reserve.yylsh)">
+              <div class="cancel" @click.stop="CancelConfirm(reserve.yylsh)">
                 取消预约
               </div>
             </div>
@@ -99,7 +99,7 @@
   import { resultPost } from '../../../service/getData'
   import { earlyQuery, earlyCancel } from '../../../config/baseUrl'
   import { verifyCode } from '../../../config/verifyCode'
-  import { Toast } from 'mint-ui'
+  import { Toast, MessageBox } from 'mint-ui'
   export default {
     name: 'earlyQuery',
     data () {
@@ -349,6 +349,16 @@
 //          }
           this.reserveList = json.data
           console.log(json)
+        })
+      },
+      CancelConfirm: function (subscribeNo) {
+        MessageBox({
+          title: '',
+          message: '确定要取消预约吗？',
+          showCancelButton: true,
+          confirmButtonText: '是的'
+        }).then(action => {
+          action === 'confirm' && this.earlyCancel(subscribeNo)
         })
       },
       earlyCancel: function (subscribeNo) {
