@@ -219,7 +219,7 @@ export default {
       font-size: 28px;
       color: #999;
       background: #fff;
-      margin-left: 1px;
+      margin-left: 2px;
       &.active{
         color: #658fb2;
       }
