@@ -2,6 +2,7 @@ import 'whatwg-fetch'
 /* eslint-disable */
 
 var dataFun = (obj) => {
+  obj.sourceOfCertification = window.localStorage.getItem('sourceOfCertification')
 	 var length = obj && obj.length,
          idx = 0,
          url = '&';
