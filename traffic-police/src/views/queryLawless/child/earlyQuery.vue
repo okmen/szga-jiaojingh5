@@ -341,7 +341,7 @@
         resultPost(earlyQuery, reqData).then(json => {
           if (json.code === '0000') {
             this.reserveList = json.data
-            if(json.data.length === 0) {
+            if (json.data.length === 0) {
               MessageBox('提示', '该车辆暂无预约信息')
             }
           } else {
