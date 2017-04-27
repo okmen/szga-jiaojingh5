@@ -45,7 +45,7 @@
       </div>
       年
       <input type="text" class="text-input month" v-model:value="getMonth" readonly v-if="months.length <= 1">
-      <div class="div-select month">
+      <div class="div-select month" v-else="months.length <= 1">
         <span class="btn-select" @click.stop="monthClick()">{{getMonth}}</span>
         <div class="div-select-ul" v-if="monthShow">
           <ul>
