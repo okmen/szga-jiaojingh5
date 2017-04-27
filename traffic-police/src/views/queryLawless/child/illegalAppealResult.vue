@@ -106,14 +106,14 @@
       btnSubmitIllegal: function () {
         let that = this
         let checkedItem = ''
-        this.AppealQueryData[previousChecked].checkAddBorder = false // 上个点击的check设置成false
+        this.AppealQueryData[this.previousChecked].checkAddBorder = false // 上个点击的check设置成false
         this.AppealQueryData.forEach((item, index) => {
           if (item.checkAddBorder) {
             checkedItem = item
             that.previousChecked = index
           }
         })
-        if (this.AppealQueryData[previousChecked].checkAddBorder) { // 如果上个点击的还是为false 说明没item选中
+        if (this.AppealQueryData[this.previousChecked].checkAddBorder) { // 如果上个点击的还是为false 说明没item选中
           MessageBox('提示', '至少选中一个违法进行申诉')
           return false
         }
@@ -152,7 +152,7 @@
   width:100%;
   background:#FFF;
   .illegal-box{
-    padding:38px 50px 0;
+    padding:38px 50px 80px;
     width:100%;
     box-sizing: border-box;
     .illegal-list{
