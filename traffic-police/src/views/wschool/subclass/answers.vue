@@ -114,7 +114,6 @@ export default {
       } else {
         this.answerName.forEach((item, indexs) => {
           if (indexs === index) {
-            // this.answerName[index].isSure = !this.answerName[index].isSure
             this.answerName[index].isSure = true
             that.answerId = item.answerId
           } else {
@@ -133,8 +132,6 @@ export default {
     },
     againclick: function () {
       document.getElementById('selects').style.display = 'none'
-      // this.isReveals = false
-      console.log(this.isReveals)
       this.timePiece()
       this.loadingData()
     },
@@ -157,7 +154,6 @@ export default {
         scoreEndDate: this.scoreEndDate
       }
       resultPost(answers, answesData).then(json => {     // 答案数据接口
-        console.log(json)
         this.codes = json.code
         if (this.codes === '0000') {
           this.judgeTrue = '答题正确'
@@ -170,7 +166,7 @@ export default {
           this.judgeTrue = '答题错误'
           document.getElementById('swer').style.color = 'red'
           this.answererror++   // 答错题数
-        } else if (this.codes === '0002') {
+        } else {
           Toast({
             message: json.msg,
             duration: 1000
@@ -204,7 +200,7 @@ export default {
         console.log(json)
         this.code = json.code // 状态码
         this.msg = json.msg // 状态返回
-        if (this.code === '0001') {      // 消分答题判断
+        if (this.code === '0001') {      // 答题判断
           clearInterval(this.Timepiece)
           MessageBox('提示', this.msg).then(() => {
             this.$router.push('wschool')
