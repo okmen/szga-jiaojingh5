@@ -115,7 +115,7 @@
               <p>{{ data.illegalDesc }}</p></div>
             <div class="left-line">
               <span><i class="punish"></i></span>
-              <p>元</p>
+              <p>{{ data.punishAmt }}元</p>
             </div>
           </div>
           <a class="body-right-side">
