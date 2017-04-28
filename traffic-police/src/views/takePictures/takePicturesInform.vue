@@ -95,12 +95,10 @@
         formatTime: ''           // 使用mt组件后，时间是中国标准时间，格式转换
       }
     },
-    created: function () {
-      let getTime = this.currentTime()
-      this.mtDateTimeMsg = getTime
-    },
     mounted: function () {  // 组件加载完成之后立即获取
       this.init()
+      let getTime = this.currentTime()
+      this.mtDateTimeMsg = getTime
       if (this.loginJudge) {
         this.informName = window.localStorage.userName
         this.informIdNumber = window.localStorage.identityCard
@@ -114,6 +112,7 @@
       handleTime: function (informTime) {
         this.formatTime = this.format(this.informTime.toString(), 'yyyy-MM-dd HH:mm:ss')
         this.mtDateTimeMsg = this.formatTime
+        console.log(this.mtDateTimeMsg)
       },
       init: function () {  // 上传图片
         UploadFile.upload({
@@ -158,7 +157,7 @@
         } else {
           Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
           let informData = {
-            illegalTime: this.formatTime,             // 违法时间
+            illegalTime: this.mtDateTimeMsg,             // 违法时间
             illegalSections: this.informType,         // 违法路段
             reportImgOne: this.imgOne,                // 上传照片
             reportImgTwo: this.imgTwo,
