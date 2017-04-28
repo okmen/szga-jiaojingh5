@@ -151,7 +151,9 @@
         } else if (!this.informName) {
           Toast({message: '请输入举报人姓名', position: 'bottom', className: 'white'})
         } else if (!this.informIdNumber) {
-          Toast({message: '请输入您的姓名', position: 'bottom', className: 'white'})
+          Toast({message: '请输入您的身份证号', position: 'bottom', className: 'white'})
+        } else if (/[（* | ）* ]/g.test(this.informIdNumber)) {
+          Toast({message: '请使用英文状态下的括号', position: 'bottom', className: 'white'})
         } else if (!this.informTel) {
           Toast({message: '请输入您的电话号码', position: 'bottom', className: 'white'})
         } else {
