@@ -53,7 +53,7 @@
               <span>车架号</span>
             </div>
             <div class="earlyLawless-hbs-text">
-              <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" maxlength="4" name="" value="" placeholder="请输入车架号后四位s">
+              <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" maxlength="4" name="" value="" placeholder="请输入车架号后四位">
             </div>
           </li>
           <li class="earlyLawless-hbs-item clear">
