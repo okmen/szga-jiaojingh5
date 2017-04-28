@@ -120,7 +120,7 @@
       },
       btnClick: function () {
         let reqData = {
-          licensePlateNo: '粤BMF688', // this.cur_bindCar,
+          licensePlateNo: this.cur_bindCar,
           licensePlateType: this.plateType,
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
           identityCard: this.identityCard,

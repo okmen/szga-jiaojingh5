@@ -8,7 +8,7 @@
           <span class="myself" v-if="car.isMyself == '本人'">本人</span>
           <span class="others" v-else>他人</span>
         </div>
-        <div class="car-deal">
+        <div class="car-deal" @click="hrefBtn()">
           当前本车有{{ car.illegalNumber }}宗违法尚未处理
           <i class="arrow"></i>
         </div>
@@ -135,6 +135,11 @@
           '01': '黄牌',
           '06': '黑牌'
         }
+      }
+    },
+    methods: {
+      hrefBtn: function () {
+        this.$router.push('/early')
       }
     },
     mounted () {
