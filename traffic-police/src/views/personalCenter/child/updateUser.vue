@@ -161,6 +161,14 @@ export default{
           return false
         }
       }
+      if (/[(*|)*]/g.test(this.identityCard)) {
+        Toast({
+          message: '请使用英文状态下的括号',
+          position: 'bottom',
+          className: 'white'
+        })
+        return false
+      }
       Indicator.open('正在提交...')
       resultPost(updateUser, reqData).then(json => {
         Indicator.close()

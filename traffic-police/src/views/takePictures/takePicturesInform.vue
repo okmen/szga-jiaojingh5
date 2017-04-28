@@ -2,8 +2,8 @@
   <div id="takePhotosInform">
     <div class="tp-inform-box">
       <div class="tp-inform-left">违法时间</div>
-      <div class="tp-inform-right">
-        <el-date-picker v-model="informTime" type="datetime" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+      <div class="tp-inform-right tp-pick-time" @click="datetimePick('picker')">
+        {{mtDateTimeMsg}}
       </div>
     </div>
     <div class="tp-inform-box">
@@ -65,6 +65,7 @@
       <!-- <router-link to="takePicturesTips">点击查看温馨提示</router-link> -->
     </div>
     <div v-wechat-title="$route.meta.title"></div>
+    <mt-datetime-picker ref="picker" v-model="informTime" @confirm="handleTime"></mt-datetime-picker>
   </div>
 </template>
 <script>
@@ -77,9 +78,10 @@
     name: 'takePicturesInform',
     data () {
       return {
+        mtDateTimeMsg: '',       // 一进来默认当前时间
         showSelectRoad: false,   // 是否显示路段列表
         roadSelectLists: [],     // 路段列表
-        informTime: '',          // 违法时间
+        informTime: this.currentTime(),          // 违法时间
         informRoad: '',          // 违法路段
         informType: '',          // 违法路段数值
         imgOne: '',              // 上传照片
@@ -89,41 +91,14 @@
         informName: '',          // 举报人
         informIdNumber: '',      // 身份证号
         informTel: '',           // 电话号码
-        loginJudge: window.localStorage.isLogin,        // 判读是否登录
-        pickerOptions1: {        // element-ui时间组件
-          shortcuts: [
-            {
-              text: '今天',
-              onClick (picker) {
-                picker.$emit('pick', new Date())
-              }
-            },
-            {
-              text: '昨天',
-              onClick (picker) {
-                const date = new Date()
-                date.setTime(date.getTime() - 3600 * 1000 * 24)
-                picker.$emit('pick', date)
-              }
-            },
-            {
-              text: '一周前',
-              onClick (picker) {
-                const date = new Date()
-                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-                picker.$emit('pick', date)
-              }
-            }
-          ]
-        }
+        loginJudge: window.localStorage.isLogin,       // 判读是否登录
+        formatTime: ''           // 使用mt组件后，时间是中国标准时间，格式转换
       }
-    },
-    created: function () {
-      let getTime = this.currentTime()
-      this.informTime = getTime
     },
     mounted: function () {  // 组件加载完成之后立即获取
       this.init()
+      let getTime = this.currentTime()
+      this.mtDateTimeMsg = getTime
       if (this.loginJudge) {
         this.informName = window.localStorage.userName
         this.informIdNumber = window.localStorage.identityCard
@@ -131,7 +106,15 @@
       }
     },
     methods: {
-      init: function () {
+      datetimePick: function (picker) {
+        this.$refs.picker.open()
+      },
+      handleTime: function (informTime) {
+        this.formatTime = this.format(this.informTime.toString(), 'yyyy-MM-dd HH:mm:ss')
+        this.mtDateTimeMsg = this.formatTime
+        console.log(this.mtDateTimeMsg)
+      },
+      init: function () {  // 上传图片
         UploadFile.upload({
           id: 'file1',
           callback: (res) => {
@@ -168,14 +151,15 @@
         } else if (!this.informName) {
           Toast({message: '请输入举报人姓名', position: 'bottom', className: 'white'})
         } else if (!this.informIdNumber) {
-          Toast({message: '请输入您的姓名', position: 'bottom', className: 'white'})
+          Toast({message: '请输入您的身份证号', position: 'bottom', className: 'white'})
+        } else if (/[（* | ）* ]/g.test(this.informIdNumber)) {
+          Toast({message: '请使用英文状态下的括号', position: 'bottom', className: 'white'})
         } else if (!this.informTel) {
           Toast({message: '请输入您的电话号码', position: 'bottom', className: 'white'})
         } else {
           Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
-          let formatTime = this.format(this.informTime, 'yyyy-MM-dd HH:mm:ss')
           let informData = {
-            illegalTime: formatTime,             // 违法时间
+            illegalTime: this.mtDateTimeMsg,             // 违法时间
             illegalSections: this.informType,         // 违法路段
             reportImgOne: this.imgOne,                // 上传照片
             reportImgTwo: this.imgTwo,
@@ -190,6 +174,7 @@
           console.log(informData)
           resultPost(takePictures, informData).then(json => { // 调取随手拍举报接口
             console.log(json)
+            Indicator.close()
             // let jsonMsg = json.msg
             // let getJsonMsg = ''
             // if (jsonMsg.indexOf(' ') === -1) {
@@ -198,13 +183,18 @@
             //   getJsonMsg = jsonMsg.split(' ')[0]
             // }
             if (json.code === '0000') {
-              Indicator.close()
               console.log('举报成功')
               this.postInform({
                 takePicturesRecord: json.data.recordNumber,
                 takePicturesPassword: json.data.queryPassword
               })
               this.$router.push('/takePicturesSuccess')
+            } else {
+              Toast({
+                message: json.msg,
+                position: 'bottom',
+                className: 'white'
+              })
             }
           })
         }
@@ -382,6 +372,13 @@
           text-overflow: ellipsis;
         }
       }
+    }
+    .tp-pick-time{
+      padding:10px 0 17px 20px;
+      width:518px;
+      height:100%;
+      background:#efeff4;
+      font-size:26px;
     }
   }
   .tp-photo-box{

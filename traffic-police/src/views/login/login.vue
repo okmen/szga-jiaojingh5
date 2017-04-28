@@ -58,7 +58,7 @@ export default {
         loginName: this.loginName,
         password: this.password,
         openId: this.openId,
-        loginClient: 'weixin'
+        loginClient: window.localStorage.getItem('sourceOfCertification')
       }
       resultPost(login, reqData).then(data => {
         console.log(data)
@@ -92,8 +92,10 @@ export default {
     }
     if (!this.openId) {
       if (/MicroMessenger/i.test(ua)) { // 微信跳转获取openId
+        window.localStorage.setItem('sourceOfCertification', 'C')
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48a8104946507c1e&redirect_uri=http%3A%2F%2Ftestjava.chudaokeji.com%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
       } else if (/AlipayClient/i.test(ua)) { // 支付宝
+        window.localStorage.setItem('sourceOfCertification', 'Z')
         window.location.href = `https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=2016082201786470&scope=auth_user&redirect_uri=http%3A%2F%2Fgxg2.tunnel.qydev.com%2FoauthAlipay%2Fcallback.html&state=${data.url}`
       }
     }

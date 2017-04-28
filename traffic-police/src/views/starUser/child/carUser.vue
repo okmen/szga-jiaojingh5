@@ -296,6 +296,8 @@
           Toast({message: '请输入车主身份证号码', position: 'bottom', className: 'white'})
         } else if (!this.userIdCardNumber) {
           Toast({message: '请输入您的身份证号码', position: 'bottom', className: 'white'})
+        } else if (/[（* | ）* ]/g.test(this.userIdCardNumber) || /[（* | ）* ]/g.test(this.carIdCardNumber)) {
+          Toast({message: '请使用英文状态下的括号', position: 'bottom', className: 'white'})
         } else if (!this.driverCardPlace) {
           Toast({message: '请选择驾驶证核发地', position: 'bottom', className: 'white'})
         } else if (!this.userTelphone) {

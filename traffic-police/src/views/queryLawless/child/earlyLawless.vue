@@ -79,9 +79,10 @@
 </template>
 <script>
   import { resultPost } from '../../../service/getData'
-  import { queryEarlyLawless } from '../../../config/baseUrl'
+  import { queryLawlessByCar } from '../../../config/baseUrl'
   import { verifyCode } from '../../../config/verifyCode'
-  import { Toast } from 'mint-ui'
+  import { Toast, MessageBox } from 'mint-ui'
+  import { mapActions } from 'vuex'
   export default {
     name: 'earlyLawless',
     data () {
@@ -301,16 +302,17 @@
         }
       },
       queryEarlyLawless: function () {
+        const that = this
         let reqData = {
           licensePlateType: this.cur_id,
           licensePlateNo: this.abbreviationSelectMassage + this.car_number,
           mobilephone: this.mobilephone,
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
-          drivingLicenceNo: this.drivingLicenceNo
+          drivingLicenceNo: this.drivingLicenceNo,
+          identityCard: window.localStorage.getItem('identityCard')
         }
         for (let key in reqData) {
           if (!reqData[key]) {
-            console.log(key)
             Toast({
               message: '信息填写不完整',
               position: 'bottom',
@@ -320,19 +322,28 @@
           }
         }
         console.log(reqData)
-        resultPost(queryEarlyLawless, reqData).then(json => {
-          if (!json.data) {
-            Toast({
-              message: json.msg,
-              position: 'middle',
-              className: 'white',
-              duration: 3000
-            })
-          }
+        resultPost(queryLawlessByCar, reqData).then(json => {
           console.log(json)
+          if (json.code === '0000') {
+            this.reserveList = json.data
+            if (!json.data) {
+              MessageBox('提示', '该车辆暂无预约信息')
+            } else {
+              json.data.forEach((item, index) => { // 循环dataList 给每个item上面添加 check关联属性
+                item.checkAddBorder = false
+              })
+              console.log(that)
+              that.postAppealQuery(json.data)
+              that.$router.push('/illegalOrderDeal')
+            }
+          } else {
+            MessageBox('提示', json.msg)
+          }
         })
       },
-      getVerification: function () {}
+      ...mapActions({
+        postAppealQuery: 'postAppealQuery'
+      })
     },
     created () {
       document.addEventListener('click', (e) => {
