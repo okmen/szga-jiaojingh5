@@ -174,6 +174,7 @@
           console.log(informData)
           resultPost(takePictures, informData).then(json => { // 调取随手拍举报接口
             console.log(json)
+            Indicator.close()
             // let jsonMsg = json.msg
             // let getJsonMsg = ''
             // if (jsonMsg.indexOf(' ') === -1) {
@@ -182,13 +183,18 @@
             //   getJsonMsg = jsonMsg.split(' ')[0]
             // }
             if (json.code === '0000') {
-              Indicator.close()
               console.log('举报成功')
               this.postInform({
                 takePicturesRecord: json.data.recordNumber,
                 takePicturesPassword: json.data.queryPassword
               })
               this.$router.push('/takePicturesSuccess')
+            } else {
+              Toast({
+                message: json.msg,
+                position: 'bottom',
+                className: 'white'
+              })
             }
           })
         }
