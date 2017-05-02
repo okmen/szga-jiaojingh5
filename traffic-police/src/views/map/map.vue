@@ -24,7 +24,7 @@ import { getLocation } from '../../config/baseUrl'
 import wx from 'weixin-js-sdk'
 import { Toast } from 'mint-ui'
 import { flagGreen, geopoint } from '../../config/base64'
-import { wgs84togcj02 } from './wgs84togcj02'
+// import { wgs84togcj02 } from './wgs84togcj02'
 
 export default{
   name: 'getLocation',
