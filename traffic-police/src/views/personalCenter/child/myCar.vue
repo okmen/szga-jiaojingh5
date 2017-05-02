@@ -8,7 +8,7 @@
           <span class="myself" v-if="car.isMyself == '本人'">本人</span>
           <span class="others" v-else>他人</span>
         </div>
-        <div class="car-deal" @click="hrefBtn()">
+        <div class="car-deal" @click="hrefBtn(car)">
           当前本车有{{ car.illegalNumber }}宗违法尚未处理
           <i class="arrow"></i>
         </div>
@@ -118,9 +118,10 @@
   }
 </style>
 <script>
-  import { bindCar } from '../../../config/baseUrl'
+  import { bindCar, queryLawlessByCar } from '../../../config/baseUrl'
   import { resultPost } from '../../../service/getData'
-  import { Indicator } from 'mint-ui'
+  import { Indicator, MessageBox } from 'mint-ui'
+  import { mapActions } from 'vuex'
   export default {
     name: 'myCar',
     data () {
@@ -130,6 +131,7 @@
         identityCard: window.localStorage.getItem('identityCard'),
         numberPlateNumber: window.localStorage.getItem('myNumberPlate'),
         mobilephone: window.localStorage.getItem('mobilePhone'),
+        vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits'),
         plateTypeList: {
           '02': '蓝牌',
           '01': '黄牌',
@@ -138,9 +140,36 @@
       }
     },
     methods: {
-      hrefBtn: function () {
-        this.$router.push('/early')
-      }
+      hrefBtn: function (item) {
+        let that = this
+        let reqData = {
+          licensePlateType: item.plateType,
+          licensePlateNo: item.numberPlateNumber,
+          vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
+          identityCard: item.identityCard,
+          mobilephone: item.mobilephone,
+          drivingLicenceNo: this.identityCard
+        }
+        resultPost(queryLawlessByCar, reqData).then(json => {
+          if (json.code === '0000') {
+            this.reserveList = json.data
+            if (!json.data) {
+              MessageBox('提示', '该车辆暂无预约信息')
+            } else {
+              json.data.forEach((item, index) => { // 循环dataList 给每个item上面添加 check关联属性
+                item.checkAddBorder = false
+              })
+              that.postAppealQuery(json.data)
+              that.$router.push('/illegalOrderDeal')
+            }
+          } else {
+            MessageBox('提示', json.msg)
+          }
+        })
+      },
+      ...mapActions({
+        postAppealQuery: 'postAppealQuery'
+      })
     },
     mounted () {
       Indicator.open()

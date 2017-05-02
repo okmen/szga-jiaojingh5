@@ -82,7 +82,7 @@ export default{
           console.log(json)
           console.log('退出登录状态，返回首页')
           // 退出登录
-          this.$router.push('/')
+          window.location.href = 'http://testh5.chudaokeji.com'
         } else {
           MessageBox({
             title: '',
