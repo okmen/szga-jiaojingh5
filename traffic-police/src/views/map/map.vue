@@ -332,6 +332,9 @@ export default{
       }
       console.log('err', err)
     }
+  },
+  beforeDestroy () {
+    this.ac.hide()
   }
 }
 </script>
