@@ -301,37 +301,41 @@ export default{
       }
     } else {
       // 浏览器定位
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(locationSuccess, locationError, {
-          // 指示浏览器获取高精度的位置，默认为false
-          enableHighAccuracy: true,
-          // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
-          timeout: 5000,
-          // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
-          maximumAge: 3000
-        })
-      }
+      // if (navigator.geolocation) {
+      //   navigator.geolocation.getCurrentPosition(locationSuccess, locationError, {
+      //     // 指示浏览器获取高精度的位置，默认为false
+      //     enableHighAccuracy: true,
+      //     // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
+      //     timeout: 5000,
+      //     // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
+      //     maximumAge: 3000
+      //   })
+      // }
+      wxGetLocation(function (res) {
+        let cp = new window.Careland.GbPoint(res.latitude, res.longitude)
+        setCenter(cp)
+      })
     }
 
     // 浏览器定位成功的回调
-    function locationSuccess (position) {
-      let xy = wgs84togcj02(position.coords.longitude, position.coords.latitude)
-      let cp = new window.Careland.GbPoint(xy[1], xy[0])
-      setCenter(cp)
-    }
+    // function locationSuccess (position) {
+    //   let xy = wgs84togcj02(position.coords.longitude, position.coords.latitude)
+    //   let cp = new window.Careland.GbPoint(xy[1], xy[0])
+    //   setCenter(cp)
+    // }
 
     // 浏览器定位失败的回调
-    function locationError (err) {
-      // 定位失败调用微信定位
-      let ua = window.navigator.userAgent // 浏览器版本
-      if (/MicroMessenger/i.test(ua)) {
-        wxGetLocation(function (res) {
-          let cp = new window.Careland.GbPoint(res.latitude, res.longitude)
-          setCenter(cp)
-        })
-      }
-      console.log('err', err)
-    }
+    // function locationError (err) {
+    //   // 定位失败调用微信定位
+    //   let ua = window.navigator.userAgent // 浏览器版本
+    //   if (/MicroMessenger/i.test(ua)) {
+    //     wxGetLocation(function (res) {
+    //       let cp = new window.Careland.GbPoint(res.latitude, res.longitude)
+    //       setCenter(cp)
+    //     })
+    //   }
+    //   console.log('err', err)
+    // }
   },
   beforeDestroy () {
     this.ac.hide()
