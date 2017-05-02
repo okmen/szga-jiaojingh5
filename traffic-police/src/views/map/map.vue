@@ -264,6 +264,7 @@ export default{
       })
     }
     if (/AlipayClient/i.test(window.navigator.userAgent)) {
+      // 支付宝定位
       if ((window.Ali.alipayVersion).slice(0, 3) >= 8.1) {
         window.Ali.geolocation.getCurrentPosition({
           timeout: 10000
@@ -299,18 +300,29 @@ export default{
           className: 'white'
         })
       }
-    } else {
+    } else if (/MicroMessenger/i.test(window.navigator.userAgent)) {
+      // 微信定位
+      wxGetLocation(function (res) {
+        let cp = new window.Careland.GbPoint(res.latitude, res.longitude)
+        setCenter(cp)
+      })
+    } else if (navigator.geolocation) {
       // 浏览器定位
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(locationSuccess, locationError, {
-          // 指示浏览器获取高精度的位置，默认为false
-          enableHighAccuracy: true,
-          // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
-          timeout: 5000,
-          // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
-          maximumAge: 3000
-        })
-      }
+      navigator.geolocation.getCurrentPosition(locationSuccess, locationError, {
+        // 指示浏览器获取高精度的位置，默认为false
+        enableHighAccuracy: true,
+        // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
+        timeout: 5000,
+        // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
+        maximumAge: 3000
+      })
+    } else {
+      // 定位失败
+      Toast({
+        message: '定位失败',
+        position: 'bottom',
+        className: 'white'
+      })
     }
 
     // 浏览器定位成功的回调
@@ -321,17 +333,17 @@ export default{
     }
 
     // 浏览器定位失败的回调
-    function locationError (err) {
+    function locationError () {
       // 定位失败调用微信定位
-      let ua = window.navigator.userAgent // 浏览器版本
-      if (/MicroMessenger/i.test(ua)) {
-        wxGetLocation(function (res) {
-          let cp = new window.Careland.GbPoint(res.latitude, res.longitude)
-          setCenter(cp)
-        })
-      }
-      console.log('err', err)
+      Toast({
+        message: '定位失败',
+        position: 'bottom',
+        className: 'white'
+      })
     }
+  },
+  beforeDestroy () {
+    this.ac.hide()
   }
 }
 </script>
