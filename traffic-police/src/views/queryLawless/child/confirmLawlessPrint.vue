@@ -59,6 +59,7 @@
       }
     },
     mounted () {
+      let that = this
       let reqData = {
         licensePlateNo: this.$route.params.licensePlateNo,
         licensePlateType: this.$route.params.plateType,
@@ -68,7 +69,16 @@
       }
       console.log(reqData)
       resultPost(getClaimConfirm, reqData).then(json => {
-        this.confirmList = json.data
+        if (!json.data) {
+          MessageBox({
+            title: '',
+            message: '该车辆暂无违章处理信息'
+          }).then(() => {
+            that.$router.push('/queryLawless')
+          })
+        } else {
+          this.confirmList = json.data
+        }
       })
     },
     methods: {
