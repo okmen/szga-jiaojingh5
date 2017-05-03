@@ -1,7 +1,7 @@
 /**
  * 纯js验证码校验
  */
-import { Toast } from 'mint-ui'
+// import { Toast } from 'mint-ui'
 /* eslint-disable */
 function KinerCode(options) {
 
@@ -367,7 +367,7 @@ KinerCode.prototype.extend = function (flag, destination, source) {
     }
 };
 
-export const verifyCode = (inpDom, codeHtml) => {
+export const verifyCode = (inpDom, codeHtml, callBack) => {
   new KinerCode({
     len: 4,//需要产生的验证码长度
 //        chars: ["1+2","3+15","6*8","8/4","22-15"],//问题模式:指定产生验证码的词典，若不给或数组长度为0则试用默认字典
@@ -387,19 +387,7 @@ export const verifyCode = (inpDom, codeHtml) => {
     false2refresh: false,//在填错验证码后是否刷新验证码
     validateEven: "blur",//触发验证的方法名，如click，blur等
     validateFn: function (result, code) {//验证回调函数
-        if (result) {
-            Toast({
-              message: '验证成功',
-              position: 'bottom',
-              duration: 3000
-            });
-        } else {
-          Toast({
-              message: '验证码输入错误',
-              position: 'bottom',
-              duration: 3000
-            });
-        }
+        callBack ? callBack(result, code) : null
     }
   });
 }

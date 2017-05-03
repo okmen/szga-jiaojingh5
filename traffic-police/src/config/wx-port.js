@@ -13,38 +13,40 @@ function getQueryString(name) {
   return false;
 }
 
-var openId = getQueryString('openId') || localStorage.getItem('openId');
-var headImgUrl = getQueryString('headimgurl') || localStorage.getItem('headimgurl');
-var nickname = getQueryString('nickname') || localStorage.getItem('nickname');
-localStorage.setItem('openId', decodeURIComponent('000000xxx'));
-localStorage.setItem('identityCard', '440301199002101119') // 身份证
-localStorage.setItem('mobilePhone', '18603017278') // 手机号码
-localStorage.setItem('myNumberPlate', '粤B701NR') // 车牌号码
-localStorage.setItem('userName', '杨明畅') // 用户名字
-localStorage.setItem('behindTheFrame4Digits', '7336') // 车架号后4位
-localStorage.setItem('plateType', '02') // 车牌类型
-localStorage.setItem('isLogin', true) // 是否登录
+let ua = window.navigator.userAgent; //浏览器版本
 
-if (openId != 'null' || openId != 'undefined') {
-  localStorage.setItem('openId', decodeURIComponent('000000xxx'));
-  localStorage.setItem('headImgUrl', decodeURIComponent(headImgUrl));
-  localStorage.setItem('nickname', decodeURIComponent(nickname));
-} else{
-  alert('网络错误，请稍后重试')
-}
+var openId = getQueryString('openId') ? getQueryString('openId') : localStorage.getItem('openId');
+var headImgUrl = getQueryString('headimgurl') ? getQueryString('headimgurl') : localStorage.getItem('headImgUrl');
+var nickname = getQueryString('nickname') ? getQueryString('nickname') : localStorage.getItem('nickname');
 let url = window.location.href;
 let data = {
-  url: encodeURIComponent(url)
+  url: encodeURIComponent(url.split('#')[0])
+}
+if (!!openId) {
+  localStorage.setItem('openId', decodeURIComponent(openId));
+  localStorage.setItem('headImgUrl', decodeURIComponent(headImgUrl));
+  localStorage.setItem('nickname', decodeURIComponent(nickname));
+} else {
+  if (/MicroMessenger/i.test(ua)) { // 微信跳转获取openId
+    window.localStorage.setItem('sourceOfCertification', 'C')
+    // 测试环境
+  // window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48a8104946507c1e&redirect_uri=http%3A%2F%2Ftestjava.chudaokeji.com%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
+    // 正式环境
+  window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx629dea91ac256691&redirect_uri=https%3A%2F%2Fszjjapi.stc.gov.cn%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
+  
+  } else if (/AlipayClient/i.test(ua)) { // 支付宝
+    window.localStorage.setItem('sourceOfCertification', 'Z')
+    window.location.href = `https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=2016082201786470&scope=auth_user&redirect_uri=https%3A%2F%2Fszjjapi.stc.gov.cn%2FoauthAlipay%2Fcallback.html&state=${data.url}`
+  }
 }
 
-let ua = window.navigator.userAgent; //浏览器版本
-if(/MicroMessenger/i.test(ua)){
+if (/MicroMessenger/i.test(ua)) {
   wxConfig();
-}else if(/AlipayClient/i.test(ua)){
-  alipayConfig();
 }
-function wxConfig(){
-  resultGet(`http://testjava.chudaokeji.com/h5/sdkConfig.html?url=${data.url}`).then((r) => {
+
+function wxConfig() {
+  resultGet(`https://szjjapi.stc.gov.cn/h5/sdkConfig.html?url=${data.url}`).then((r) => { // 测试环境
+    // resultGet(`http://gxg.tunnel.qydev.com/h5/sdkConfig.html?url=${data.url}`).then((r) => { // 开发环境
     if (r.code == '0000') {
       var res = r.data;
       wx.config({
@@ -62,10 +64,6 @@ function wxConfig(){
       alert('访问异常！');
     }
   })
-}
-
-function alipayConfig(){
-  alert('alipay');
 }
 
 /* eslint-enable */

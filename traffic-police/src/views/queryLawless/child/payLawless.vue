@@ -140,6 +140,7 @@
         billNo: '',                        // 请求-缴款编号
         car_number: '',                    // 请求-除去省字的车牌号
         abbreviationSelectShow: false,     // 省字列表显示与否
+        verifyCode: false,                    // 验证码验证
         abbreviationSelectMassage: '粤',   // 默认省字
         abbreviationSelectData: [
           {
@@ -239,7 +240,9 @@
       }
     },
     mounted () {
-      verifyCode(document.getElementById('inp'), document.getElementById('code'))
+      verifyCode(document.getElementById('inp'), document.getElementById('code'), (result, code) => {
+        this.verifyCode = result
+      })
     },
     methods: {
       abbreviationSelectClick: function (str) {
@@ -270,6 +273,14 @@
             })
             return false
           }
+        }
+        if (!this.verifyCode) {
+          Toast({
+            message: '验证码输入错误',
+            position: 'bottom',
+            className: 'white'
+          })
+          return false
         }
         resultPost(queryPay, reqData).then(json => {
           console.log(json)

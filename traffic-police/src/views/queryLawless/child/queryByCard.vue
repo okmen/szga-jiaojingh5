@@ -81,6 +81,7 @@
         drivingLicenceNo: '',            // 请求-驾驶证号
         recordNo: '',                    // 请求-档案编号
         illegalData: [],                 // 返回-全部数据存入数组
+        verifyCode: false,                    // 验证码验证
         claimList: {
           '0': '无需打单',
           '1': '需要打单',
@@ -92,7 +93,9 @@
       }
     },
     mounted () {
-      verifyCode(document.getElementById('inp'), document.getElementById('code'))
+      verifyCode(document.getElementById('inp'), document.getElementById('code'), (result, code) => {
+        this.verifyCode = result
+      })
     },
     methods: {
       queryLawlessByCard: function () {
@@ -113,6 +116,14 @@
             })
             return false
           }
+        }
+        if (!this.verifyCode) {
+          Toast({
+            message: '验证码输入错误',
+            position: 'bottom',
+            className: 'white'
+          })
+          return false
         }
         resultPost(queryLawlessByCard, reqData).then(json => {
           if (!json.data) {
