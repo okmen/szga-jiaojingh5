@@ -254,15 +254,6 @@ export default{
       window.map.setCenter(point)
     }
 
-    // 微信定位
-    function wxGetLocation (callback) {
-      wx.getLocation({
-        type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-        success: function (res) {
-          callback(res)
-        }
-      })
-    }
     if (/AlipayClient/i.test(window.navigator.userAgent)) {
       // 支付宝定位
       if ((window.Ali.alipayVersion).slice(0, 3) >= 8.1) {
@@ -302,11 +293,22 @@ export default{
       }
     } else if (/MicroMessenger/i.test(window.navigator.userAgent)) {
       // 微信定位
-      wxGetLocation(function (res) {
-        let cp = new window.Careland.GbPoint(res.latitude, res.longitude)
-        setCenter(cp)
+      wx.getLocation({
+        type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+        success: function (res) {
+          let cp = new window.Careland.GbPoint(res.latitude, res.longitude)
+          setCenter(cp)
+        },
+        fail: function () {
+          Toast({
+            message: '定位失败',
+            position: 'bottom',
+            className: 'white'
+          })
+        }
       })
     } else if (navigator.geolocation) {
+      console.log('浏览器定位')
       // 浏览器定位
       navigator.geolocation.getCurrentPosition(locationSuccess, locationError, {
         // 指示浏览器获取高精度的位置，默认为false
@@ -334,7 +336,6 @@ export default{
 
     // 浏览器定位失败的回调
     function locationError () {
-      // 定位失败调用微信定位
       Toast({
         message: '定位失败',
         position: 'bottom',
