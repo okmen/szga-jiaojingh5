@@ -24,7 +24,7 @@ import { getLocation } from '../../config/baseUrl'
 import wx from 'weixin-js-sdk'
 import { Toast } from 'mint-ui'
 import { flagGreen, geopoint } from '../../config/base64'
-import { wgs84togcj02 } from './wgs84togcj02'
+// import { wgs84togcj02 } from './wgs84togcj02'
 
 export default{
   name: 'getLocation',
@@ -291,11 +291,15 @@ export default{
           className: 'white'
         })
       }
-    } else if (/MicroMessenger/i.test(window.navigator.userAgent)) {
+    }
+
+    if (/MicroMessenger/i.test(window.navigator.userAgent)) {
+      window.alert('微信定位')
       // 微信定位
       wx.getLocation({
         type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
         success: function (res) {
+          window.alert('经度:' + res.longitude + ' 纬度:' + res.latitude)
           let cp = new window.Careland.GbPoint(res.latitude, res.longitude)
           setCenter(cp)
         },
@@ -307,41 +311,42 @@ export default{
           })
         }
       })
-    } else if (navigator.geolocation) {
-      console.log('浏览器定位')
-      // 浏览器定位
-      navigator.geolocation.getCurrentPosition(locationSuccess, locationError, {
-        // 指示浏览器获取高精度的位置，默认为false
-        enableHighAccuracy: true,
-        // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
-        timeout: 5000,
-        // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
-        maximumAge: 3000
-      })
-    } else {
-      // 定位失败
-      Toast({
-        message: '定位失败',
-        position: 'bottom',
-        className: 'white'
-      })
     }
+    //  else if (navigator.geolocation) {
+    //   console.log('浏览器定位')
+    //   // 浏览器定位
+    //   navigator.geolocation.getCurrentPosition(locationSuccess, locationError, {
+    //     // 指示浏览器获取高精度的位置，默认为false
+    //     enableHighAccuracy: true,
+    //     // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
+    //     timeout: 5000,
+    //     // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
+    //     maximumAge: 3000
+    //   })
+    // } else {
+    //   // 定位失败
+    //   Toast({
+    //     message: '定位失败',
+    //     position: 'bottom',
+    //     className: 'white'
+    //   })
+    // }
 
-    // 浏览器定位成功的回调
-    function locationSuccess (position) {
-      let xy = wgs84togcj02(position.coords.longitude, position.coords.latitude)
-      let cp = new window.Careland.GbPoint(xy[1], xy[0])
-      setCenter(cp)
-    }
+    // // 浏览器定位成功的回调
+    // function locationSuccess (position) {
+    //   let xy = wgs84togcj02(position.coords.longitude, position.coords.latitude)
+    //   let cp = new window.Careland.GbPoint(xy[1], xy[0])
+    //   setCenter(cp)
+    // }
 
-    // 浏览器定位失败的回调
-    function locationError () {
-      Toast({
-        message: '定位失败',
-        position: 'bottom',
-        className: 'white'
-      })
-    }
+    // // 浏览器定位失败的回调
+    // function locationError () {
+    //   Toast({
+    //     message: '浏览器定位失败',
+    //     position: 'bottom',
+    //     className: 'white'
+    //   })
+    // }
   },
   beforeDestroy () {
     this.ac.hide()
