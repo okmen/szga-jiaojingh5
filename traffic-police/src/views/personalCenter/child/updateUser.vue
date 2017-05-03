@@ -65,7 +65,7 @@ import UploadFile from '../../../service/uploadFile'
 import { updateUser } from '../../../config/baseUrl'
 import { resultPost } from '../../../service/getData'
 // import uploadImgFun from '../../../service/uploadImg'
-import { MessageBox, Toast, Indicator } from 'mint-ui'
+import { Toast, Indicator } from 'mint-ui'
 
 export default{
   name: 'updateUser',
@@ -181,9 +181,10 @@ export default{
           })
           window.location.hash = '/userInfo'
         } else {
-          MessageBox({
-            title: '',
-            message: json.msg
+          Toast({
+            message: json.msg,
+            position: 'bottom',
+            duration: 2000
           })
         }
       })

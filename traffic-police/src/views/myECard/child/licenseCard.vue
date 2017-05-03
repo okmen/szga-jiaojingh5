@@ -27,19 +27,24 @@
       }
       resultPost(licenseCard, reqData).then(json => {
         Indicator.close()
-        console.log(json)
-        if (!json.data.electronicDriverLicense) {
+        if (json.code === '0000') {
+          this.imageUrl = 'data:image/png;base64,' + json.data.electronicDriverLicense
+        } else {
           Toast({
             message: json.msg,
-            position: 'middle',
-            className: 'white'
+            position: 'bottom',
+            duration: 2000
           })
-//          window.location.href = '/personalCenter'
-        } else {
-          this.imageUrl = 'data:image/png;base64,' + json.data.electronicDriverLicense
-//        this.codeUrl = json.data.electronicDriverLicenseQRCode
-          console.log(json)
         }
+        // if (!json.data.electronicDriverLicense) {
+        //   Toast({
+        //     message: json.msg,
+        //     position: 'middle',
+        //     className: 'white'
+        //   })
+        // } else {
+        //   this.imageUrl = 'data:image/png;base64,' + json.data.electronicDriverLicense
+        // }
       })
     }
   }

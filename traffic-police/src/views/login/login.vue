@@ -17,7 +17,7 @@
 <script>
 import { resultPost } from '../../service/getData'
 import { login } from '../../config/baseUrl'
-import { Toast } from 'mint-ui'
+import { Toast, Indicator } from 'mint-ui'
 
 export default {
   name: 'login',
@@ -60,7 +60,9 @@ export default {
         openId: this.openId,
         loginClient: window.localStorage.getItem('sourceOfCertification')
       }
+      Indicator.open()
       resultPost(login, reqData).then(data => {
+        Indicator.close()
         console.log(data)
         if (data.code === '0000') {
           let userData = data.data.authenticationBasicInformation

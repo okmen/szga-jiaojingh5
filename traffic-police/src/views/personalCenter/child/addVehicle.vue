@@ -106,7 +106,7 @@
 import UploadFile from '../../../service/uploadFile'
 import { addVehicle } from '../../../config/baseUrl'
 import { resultPost } from '../../../service/getData'
-import { MessageBox, Toast, Indicator } from 'mint-ui'
+import { Toast, Indicator } from 'mint-ui'
 // import uploadImgFun from '../../../service/uploadImg'
 export default{
   name: 'addVehicle',
@@ -430,9 +430,10 @@ export default{
           console.log('跳转预约申办成功页')
           this.$router.push('/appointSuccess')
         } else {
-          MessageBox({
-            title: '',
-            message: json.msg
+          Toast({
+            message: json.msg,
+            position: 'bottom',
+            duration: 2000
           })
         }
       })

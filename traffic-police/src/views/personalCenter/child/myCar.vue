@@ -120,7 +120,7 @@
 <script>
   import { bindCar, queryLawlessByCar } from '../../../config/baseUrl'
   import { resultPost } from '../../../service/getData'
-  import { Indicator, MessageBox } from 'mint-ui'
+  import { Indicator, MessageBox, Toast } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
     name: 'myCar',
@@ -179,8 +179,16 @@
       }
       resultPost(bindCar, reqData).then(json => {
         Indicator.close()
-        this.show = true
-        this.carMsg = json.data
+        if (json.code === '0000') {
+          this.show = true
+          this.carMsg = json.data
+        } else {
+          Toast({
+            message: json.msg,
+            position: 'bottom',
+            duration: 2000
+          })
+        }
       })
     }
   }

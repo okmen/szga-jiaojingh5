@@ -81,7 +81,7 @@
   import { resultPost } from '../../../service/getData'
   import { queryLawlessByCar } from '../../../config/baseUrl'
   import { verifyCode } from '../../../config/verifyCode'
-  import { Toast, MessageBox } from 'mint-ui'
+  import { Toast, MessageBox, Indicator } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
     name: 'earlyLawless',
@@ -332,9 +332,9 @@
           })
           return false
         }
-        console.log(reqData)
+        Indicator.open()
         resultPost(queryLawlessByCar, reqData).then(json => {
-          console.log(json)
+          Indicator.close()
           if (json.code === '0000') {
             this.reserveList = json.data
             if (!json.data) {

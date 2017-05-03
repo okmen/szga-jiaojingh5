@@ -17,6 +17,7 @@
 <script>
   import { bindCar } from '../../../config/baseUrl'
   import { resultPost } from '../../../service/getData'
+  import { Indicator, Toast } from 'mint-ui'
   export default {
     name: 'confirm',
     data () {
@@ -33,9 +34,18 @@
         identityCard: window.localStorage.getItem('identityCard'),
         mobilephone: window.localStorage.getItem('mobilePhone')
       }
+      Indicator.open()
       resultPost(bindCar, reqData).then(json => {
-        console.log(json)
-        this.carMsg = json.data
+        Indicator.close()
+        if (json.code === '0000') {
+          this.carMsg = json.data
+        } else {
+          Toast({
+            message: json.msg,
+            position: 'bottom',
+            duration: 2000
+          })
+        }
       })
     }
   }

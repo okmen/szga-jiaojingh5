@@ -22,7 +22,7 @@
 <script>
 import { resultPost } from '../../service/getData'
 import { resetPwd, sendSMS } from '../../config/baseUrl'
-import { Toast } from 'mint-ui'
+import { Toast, Indicator } from 'mint-ui'
 
 export default {
   name: 'login',
@@ -79,7 +79,9 @@ export default {
         sourceOfCertification: 'C',
         validateCode: this.validateCode
       }
+      Indicator.open()
       resultPost(resetPwd, reqData).then(data => {
+        Indicator.close()
         console.log(data)
         if (data.code === '0000') {
           that.$router.push('/login')

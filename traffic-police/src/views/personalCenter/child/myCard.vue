@@ -64,6 +64,7 @@
 <script>
   import { bindCard } from '../../../config/baseUrl'
   import { resultPost } from '../../../service/getData'
+  import { Indicator, Toast } from 'mint-ui'
   export default {
     name: 'myCard',
     data () {
@@ -77,17 +78,25 @@
       }
     },
     mounted () {
+      Indicator.open()
       let reqData = {
         identityCard: window.localStorage.getItem('identityCard')
       }
       resultPost(bindCard, reqData).then(json => {
-        console.log(json)
-        this.fileNumber = json.data.fileNumber
-        this.status = json.data.status
-        this.availableScore = json.data.availableScore
-        this.physicalExaminationDate = json.data.physicalExaminationDate
-        this.effectiveDate = json.data.effectiveDate
-//        this.isReceive = json.data.isReceive
+        Indicator.close()
+        if (json.code === '0000') {
+          this.fileNumber = json.data.fileNumber
+          this.status = json.data.status
+          this.availableScore = json.data.availableScore
+          this.physicalExaminationDate = json.data.physicalExaminationDate
+          this.effectiveDate = json.data.effectiveDate
+        } else {
+          Toast({
+            message: json.msg,
+            position: 'bottom',
+            duration: 2000
+          })
+        }
       })
     }
   }
