@@ -82,7 +82,7 @@ export default{
           console.log(json)
           console.log('退出登录状态，返回首页')
           // 退出登录
-          window.location.href = 'http://testh5.chudaokeji.com'
+          window.location.href = 'https://gzh.stc.gov.cn/'
         } else {
           MessageBox({
             title: '',

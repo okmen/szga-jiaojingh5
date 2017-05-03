@@ -1,7 +1,6 @@
 // 添加URL需注释 哪个模块哪个接口
-const commonUrl = 'http://testjava.chudaokeji.com/'
-// const uploadUrl = 'http://192.168.1.159:8080/web/'
-// const commonUrlIn = 'http://192.168.1.120:8100/'
+// const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
+const commonUrl = 'https://szjjapi.stc.gov.cn/' // 正式环境
 
 export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
 
