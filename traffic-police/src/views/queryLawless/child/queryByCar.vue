@@ -62,7 +62,7 @@
       <div class="results-box">
         <div class="box-header">
           <div class="header-item left">违章信息</div>
-          <div class="header-item right order-print">{{ claimList[data.isNeedClaim] }}</div>
+          <div class="header-item right order-print" @click.stop="clickJump(data.isNeedClaim)">{{ claimList[data.isNeedClaim] }}</div>
         </div>
         <div class="box-body">
           <div class="body-left-side">
@@ -97,7 +97,7 @@
       <div class="results-box">
         <div class="box-header">
           <div class="header-item left">我的违章</div>
-          <div class="header-item right order-print"></div>
+          <div class="header-item right order-print" @click.stop="clickJump(data.isNeedClaim)">{{ claimList[data.isNeedClaim] }}</div>
         </div>
         <div class="box-body">
           <div class="body-left-side">
@@ -432,7 +432,15 @@
           console.log(json)
         })
       },
-      getVerification: function () {}
+      clickJump: function (num) {
+        if (num === '0') {
+          this.$router.push('/payLawless')
+        } else if (num === '1') {
+          this.$router.push('/confirm')
+        } else if (num === '2') {
+          this.$router.push('/early')
+        }
+      }
     },
     created () {
       document.addEventListener('click', (e) => {

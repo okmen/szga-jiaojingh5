@@ -5,7 +5,7 @@
       <div class="results-box">
         <div class="box-header">
           <div class="header-item left">违章信息</div>
-          <div class="header-item right order-print" @click.stop="claimConfirm(confirm.illegalNo)">{{ dealTypeList[confirm.dealType] }}</div>
+          <div class="header-item right order-print" @click.stop="claimConfirm(confirm.isNeedClaim, confirm.illegalNo)">{{ dealTypeList[confirm.isNeedClaim] }}</div>
         </div>
         <div class="box-body">
           <div class="body-left-side">
@@ -44,7 +44,7 @@
 <script>
   import { resultPost } from '../../../service/getData'
   import { getClaimConfirm, claimConfirm } from '../../../config/baseUrl'
-  import { MessageBox, Toast } from 'mint-ui'
+  import { MessageBox, Toast, Indicator } from 'mint-ui'
   export default {
     name: '',
     data () {
@@ -68,7 +68,9 @@
         sourceOfCertification: 'C'
       }
       console.log(reqData)
+      Indicator.open()
       resultPost(getClaimConfirm, reqData).then(json => {
+        Indicator.close()
         if (!json.data) {
           MessageBox({
             title: '',
@@ -82,17 +84,24 @@
       })
     },
     methods: {
-      claimConfirm: function (illegalNo) {
-        MessageBox({
-          title: '',
-          message: '用户您好，一旦确认或打印了处罚决定书后，15日内不处理将会产生滞纳金，是否确认马上打印决定书？',
-          showCancelButton: true,
-          confirmButtonText: '是的'
-        }).then(action => {
-          action === 'confirm' && this.claim(illegalNo)
-        })
+      claimConfirm: function (num, illegalNo) {
+        if (num === '0') {
+          this.$router.push('/payLawless')
+        } else if (num === '1') {
+          MessageBox({
+            title: '',
+            message: '用户您好，一旦确认或打印了处罚决定书后，15日内不处理将会产生滞纳金，是否确认马上打印决定书？',
+            showCancelButton: true,
+            confirmButtonText: '是的'
+          }).then(action => {
+            action === 'confirm' && this.claim(illegalNo)
+          })
+        } else if (num === '2') {
+          this.$router.push('/early')
+        }
       },
       claim: function (illegalNo) {
+        let that = this
         let reqData = {
           illegalNo: illegalNo,
           identityCard: window.localStorage.getItem('identityCard'),
@@ -110,16 +119,22 @@
             return false
           }
         }
+        Indicator.open()
         resultPost(claimConfirm, reqData).then(json => {
-          console.log(json)
-//          if (json.code === '0000') {
-//            window.location.hash = '/userInfo'
-//          } else {
-//            MessageBox({
-//              title: '',
-//              message: json.msg
-//            })
-//          }
+          Indicator.close()
+          if (json.code === '0000') {
+            MessageBox({
+              title: '',
+              message: '打单成功'
+            }).then(action => {
+              that.$router.push('/userInfo')
+            })
+          } else {
+            MessageBox({
+              title: '',
+              message: json.msg
+            })
+          }
         })
       }
     }
