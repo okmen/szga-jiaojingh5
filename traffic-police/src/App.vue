@@ -86,6 +86,15 @@
         <dd>微课堂</dd>
         </router-link>
       </dl>
+      <dl>
+        <a :href="icpTara">
+        <dt><img class="top6" src="./images/nav11.png" alt=""></dt>
+        <dd>轻微事故远程<br/>处理中心</dd>
+        </a>
+      </dl>
+      <dl>
+        
+      </dl>
     </div>
   </div>
   <div v-wechat-title="$route.meta.title"></div>
@@ -101,7 +110,8 @@ export default {
       userIdentityCard: '',
       userNumberPlate: '',
       isLogin: false,
-      openId: ''
+      openId: '',
+      icpTara: ''
     }
   },
   created () {
@@ -113,6 +123,7 @@ export default {
       this.userNumberPlate = window.localStorage.getItem('myNumberPlate')
     }
     this.isLogin = window.localStorage.getItem('isLogin')
+    this.icpTara = `http://103.28.214.24:28080/icp-tara/do/page/changePage?cername=${window.localStorage.getItem('userName')}&certno=${window.localStorage.getItem('identityCard')}&carMark=${window.localStorage.getItem('myNumberPlate')}&openid=${window.localStorage.getItem('openId')}&mobile=${window.localStorage.getItem('mobilePhone')}&userType=1&carType=${window.localStorage.getItem('plateType')}`
   }
 }
 </script>

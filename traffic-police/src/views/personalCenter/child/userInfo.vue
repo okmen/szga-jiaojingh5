@@ -188,7 +188,7 @@ export default{
       background: url('../../../images/userInfo-warn.png') 0 0 no-repeat;
       background-size: 24px;
       p{
-        font-size: 18px;
+        font-size: 22px;
         line-height: 26px;
         color: #999;
       }

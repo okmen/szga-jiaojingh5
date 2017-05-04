@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { Indicator } from 'mint-ui'
 export default{
   name: 'personalCenter',
   data () {
@@ -40,6 +41,7 @@ export default{
   mounted () {
     this.isLogin = window.localStorage.getItem('isLogin')
     if (!this.isLogin) {
+      Indicator.close()
       this.$router.push('/login')
     }
   }

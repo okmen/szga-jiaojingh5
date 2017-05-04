@@ -43,7 +43,7 @@
   }
   .tab {
     position: fixed;
-    bottom:220px;
+    bottom:30px;
     text-align: center;
     width: 620px;
     left: 50%;

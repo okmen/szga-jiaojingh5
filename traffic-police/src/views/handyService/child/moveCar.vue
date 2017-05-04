@@ -160,7 +160,7 @@ export default{
       numberPlate: '',
       carTypeSelectShow: false,
       carType: {
-        'str': '小型汽车',
+        'str': '大型汽车（黄牌）',
         'code': '01'
       },
       carTypeSelectData: [

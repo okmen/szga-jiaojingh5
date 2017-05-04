@@ -3,6 +3,8 @@
     <div class="body">
       <img :src="imageUrl">
       <!--<img :src="codeUrl">-->
+      <p>行驶证电子二维码</p>
+      <div id="qrCode"></div>
     </div>
   </div>
 </template>
@@ -36,10 +38,15 @@
         }
       }
       Indicator.open()
+      let qrcode = new window.QRCode(document.getElementById('qrCode'), {
+        width: 256,
+        height: 256
+      })
       resultPost(drivingCard, reqData).then(json => {
         Indicator.close()
         if (json.code === '0000') {
           this.imageUrl = 'data:image/png;base64,' + json.data.electronicDrivingLicense
+          qrcode.makeCode(json.data.electronicDrivingLicenseQRCode)
         } else {
           Toast({
             message: json.msg,
@@ -62,6 +69,16 @@
     .body {
       img {
         width: 100%;
+      }
+      p{
+        text-align: center;
+        font-size: 28px;
+        padding-top: 50px;
+        padding-bottom: 30px;
+      }
+      #qrCode{
+        width: 40%;
+        margin: 0 auto;
       }
     }
   }

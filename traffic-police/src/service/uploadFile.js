@@ -114,4 +114,4 @@ function transLongAndLat(arr){
 }
 
 export default UploadFile;
-/* eslint-disable */
+/* eslint-enable */

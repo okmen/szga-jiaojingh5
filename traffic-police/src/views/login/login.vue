@@ -86,6 +86,7 @@ export default {
     }
   },
   mounted () {
+    Indicator.close()
     let ua = window.navigator.userAgent // 浏览器版本
     this.openId = window.localStorage.getItem('openId')
     let url = window.location.href
@@ -97,7 +98,6 @@ export default {
         window.localStorage.setItem('sourceOfCertification', 'C')
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx629dea91ac256691&redirect_uri=https%3A%2F%2Fszjjapi.stc.gov.cn%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
       } else if (/AlipayClient/i.test(ua)) { // 支付宝
-        window.alert('支付宝')
         window.localStorage.setItem('sourceOfCertification', 'Z')
         window.location.href = `https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=2016082201786470&scope=auth_user&redirect_uri=https%3A%2F%2Fszjjapi.stc.gov.cn%2FoauthAlipay%2Fcallback.html&state=${data.url}`
       }
