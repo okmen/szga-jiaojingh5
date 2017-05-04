@@ -81,7 +81,7 @@
   import { resultPost } from '../../../service/getData'
   import { queryLawlessByCar } from '../../../config/baseUrl'
   import { verifyCode } from '../../../config/verifyCode'
-  import { Toast, MessageBox } from 'mint-ui'
+  import { Toast, MessageBox, Indicator } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
     name: 'earlyLawless',
@@ -92,6 +92,7 @@
         mobilephone: '',            // 请求-手机号码
         cur_id: '01',               // 请求-车牌类型编号
         licenseSelectShow: false,
+        verifyCode: false,                    // 验证码验证
         licenseSelectMassage: '大型汽车(黄牌)',
         licenseSelectData: [
           {
@@ -273,7 +274,9 @@
       }
     },
     mounted () {
-      verifyCode(document.getElementById('inp'), document.getElementById('code'))
+      verifyCode(document.getElementById('inp'), document.getElementById('code'), (result, code) => {
+        this.verifyCode = result
+      })
     },
     methods: {
       licenseSelectClick: function (str, id) {
@@ -321,9 +324,17 @@
             return false
           }
         }
-        console.log(reqData)
+        if (!this.verifyCode) {
+          Toast({
+            message: '验证码输入错误',
+            position: 'bottom',
+            className: 'white'
+          })
+          return false
+        }
+        Indicator.open()
         resultPost(queryLawlessByCar, reqData).then(json => {
-          console.log(json)
+          Indicator.close()
           if (json.code === '0000') {
             this.reserveList = json.data
             if (!json.data) {

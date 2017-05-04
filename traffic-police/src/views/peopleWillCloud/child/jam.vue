@@ -352,9 +352,10 @@ export default {
       resultPost(jam, reqData).then(json => {
         Indicator.close()
         if (json.code !== '0000') {
-          MessageBox({
-            title: '',
-            message: json.msg
+          Toast({
+            message: json.msg,
+            position: 'bottom',
+            duration: 2000
           })
         } else {
           MessageBox({

@@ -6,7 +6,7 @@
 </template>
 <script>
 import common from './common'
-import { MessageBox, Indicator } from 'mint-ui'
+import { MessageBox, Indicator, Toast } from 'mint-ui'
 import { resultPost } from '../../../service/getData'
 import { facility } from '../../../config/baseUrl'
 export default {
@@ -165,9 +165,10 @@ export default {
       resultPost(facility, reqData).then(json => {
         Indicator.close()
         if (json.code !== '0000') {
-          MessageBox({
-            title: '',
-            message: json.msg
+          Toast({
+            message: json.msg,
+            position: 'bottom',
+            duration: 2000
           })
         } else {
           MessageBox({

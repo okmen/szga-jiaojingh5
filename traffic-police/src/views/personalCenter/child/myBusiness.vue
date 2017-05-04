@@ -124,7 +124,7 @@
 <script>
   import { bindBusiness } from '../../../config/baseUrl'
   import { resultPost } from '../../../service/getData'
-  import { Indicator } from 'mint-ui'
+  import { Indicator, Toast } from 'mint-ui'
   export default {
     name: 'myBusiness',
     data () {
@@ -178,7 +178,15 @@
       }
       resultPost(bindBusiness, reqData).then(json => {
         Indicator.close()
-        this.businessList = json.data
+        if (json.code === '0000') {
+          this.businessList = json.data
+        } else {
+          Toast({
+            message: json.msg,
+            position: 'bottom',
+            duration: 2000
+          })
+        }
         console.log(this.businessList)
       })
       this.$watch('businessSelectMassage', () => {

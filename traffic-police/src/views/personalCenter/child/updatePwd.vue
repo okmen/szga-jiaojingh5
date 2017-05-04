@@ -27,7 +27,7 @@
 <script>
 import { updatePwd } from '../../../config/baseUrl'
 import { resultPost } from '../../../service/getData'
-import { MessageBox, Toast, Indicator } from 'mint-ui'
+import { Toast, Indicator } from 'mint-ui'
 export default{
   name: 'updatePwd',
   data () {
@@ -81,9 +81,10 @@ export default{
             window.location.hash = '/userInfo'
             console.log('提交数据并返回我的资料页面')
           } else {
-            MessageBox({
-              title: '',
-              message: json.msg
+            Toast({
+              message: json.msg,
+              position: 'bottom',
+              duration: 2000
             })
           }
         })

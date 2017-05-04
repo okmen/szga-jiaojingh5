@@ -38,9 +38,15 @@
       Indicator.open()
       resultPost(drivingCard, reqData).then(json => {
         Indicator.close()
-        this.imageUrl = 'data:image/png;base64,' + json.data.electronicDrivingLicense
-//        this.codeUrl = json.data.electronicDrivingLicenseQRCode
-        console.log(json)
+        if (json.code === '0000') {
+          this.imageUrl = 'data:image/png;base64,' + json.data.electronicDrivingLicense
+        } else {
+          Toast({
+            message: json.msg,
+            position: 'bottom',
+            duration: 2000
+          })
+        }
       })
     }
   }

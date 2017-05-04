@@ -139,6 +139,7 @@
         car_number: '',                       // 请求-除去省字的车牌号
         vehicleIdentifyNoLast4: '',           // 请求-车架号后4位
         illegalData: [],                      // 返回-全部数据存入数组
+        verifyCode: false,                    // 验证码验证
         claimList: {
           '0': '无需打单',
           '1': '需要打单',
@@ -327,7 +328,9 @@
       }
     },
     mounted () {
-      verifyCode(document.getElementById('inp'), document.getElementById('code'))
+      verifyCode(document.getElementById('inp'), document.getElementById('code'), (result, code) => {
+        this.verifyCode = result
+      })
     },
     methods: {
       licenseSelectClick: function (str, id) {
@@ -385,6 +388,14 @@
               return false
             }
           }
+        }
+        if (!this.verifyCode) {
+          Toast({
+            message: '验证码输入错误',
+            position: 'bottom',
+            className: 'white'
+          })
+          return false
         }
         resultPost(queryLawlessByCar, reqData).then(json => {
           if (!json.data) {
