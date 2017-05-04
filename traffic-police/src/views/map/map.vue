@@ -294,12 +294,10 @@ export default{
     }
 
     if (/MicroMessenger/i.test(window.navigator.userAgent)) {
-      window.alert('微信定位')
       // 微信定位
       wx.getLocation({
         type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
         success: function (res) {
-          window.alert('经度:' + res.longitude + ' 纬度:' + res.latitude)
           let cp = new window.Careland.GbPoint(res.latitude, res.longitude)
           setCenter(cp)
         },

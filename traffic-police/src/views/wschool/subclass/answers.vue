@@ -200,21 +200,22 @@ export default {
         console.log(json)
         this.code = json.code // 状态码
         this.msg = json.msg // 状态返回
-        if (this.code === '0001') {      // 答题判断
+        if (this.code === '0000') {      // 答题判断
+          this.answertData = json.data[0]
+          this.answerName = json.data[0].answeroptions
+          this.subjectId = json.data[0].subjectId
+          this.testQuestionsType = json.data[0].testQuestionsType
+          this.answerName.forEach((item) => {
+            item.isSure = false
+          })
+          this.scoreEndDate = json.data[0].scoreEndDate
+          this.scoreStartDate = json.data[0].scoreStartDate
+        } else {
           clearInterval(this.Timepiece)
           MessageBox('提示', this.msg).then(() => {
             this.$router.push('wschool')
           })
         }
-        this.answertData = json.data[0]
-        this.answerName = json.data[0].answeroptions
-        this.subjectId = json.data[0].subjectId
-        this.testQuestionsType = json.data[0].testQuestionsType
-        this.answerName.forEach((item) => {
-          item.isSure = false
-        })
-        this.scoreEndDate = json.data[0].scoreEndDate
-        this.scoreStartDate = json.data[0].scoreStartDate
       })
     },
     timePiece: function () {    // 计时器

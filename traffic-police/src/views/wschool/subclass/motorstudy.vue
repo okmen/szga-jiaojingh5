@@ -39,7 +39,7 @@
 <script>
 import { resultPost } from '../../../service/getData'
 import { xstudy } from '../../../config/baseUrl'
-import { MessageBox } from 'mint-ui'
+import { Toast, MessageBox } from 'mint-ui'
 
 export default {
   data () {
@@ -89,10 +89,18 @@ export default {
         userSource: 'C' // 用户来源
       }
       resultPost(xstudy, motorstudyData).then(json => {
-        this.listData = json.data[0]
-        this.itemData = json.data[0].studyRecord  // 学习记录
-        this.isComplete = json.data[0].isComplete
-        this.integral = json.data[0].integral // 学习积分
+        if (json.code === '0000') {       // 请求成功
+          this.listData = json.data[0]
+          this.itemData = json.data[0].studyRecord  // 学习记录
+          this.isComplete = json.data[0].isComplete
+          this.integral = json.data[0].integral // 学习积分
+        } else {
+          Toast({
+            message: json.msg,
+            position: 'bottom',
+            className: 'white'
+          })
+        }
       })
     }
   }
