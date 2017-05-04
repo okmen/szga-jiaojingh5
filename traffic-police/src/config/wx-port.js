@@ -18,6 +18,7 @@ let ua = window.navigator.userAgent; //浏览器版本
 var openId = getQueryString('openId') ? getQueryString('openId') : localStorage.getItem('openId');
 var headImgUrl = getQueryString('headimgurl') ? getQueryString('headimgurl') : localStorage.getItem('headImgUrl');
 var nickname = getQueryString('nickname') ? getQueryString('nickname') : localStorage.getItem('nickname');
+
 let url = window.location.href;
 let data = {
   url: encodeURIComponent(url.split('#')[0])
@@ -32,7 +33,9 @@ if (!!openId) {
     // 测试环境
   // window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48a8104946507c1e&redirect_uri=http%3A%2F%2Ftestjava.chudaokeji.com%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
     // 正式环境
-  window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx629dea91ac256691&redirect_uri=https%3A%2F%2Fszjjapi.stc.gov.cn%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
+  // window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx629dea91ac256691&redirect_uri=https%3A%2F%2Fszjjapi.stc.gov.cn%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
+  // 交警环境
+  window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=https%3A%2F%2Fszjjapi.stc.gov.cn%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
   
   } else if (/AlipayClient/i.test(ua)) { // 支付宝
     window.localStorage.setItem('sourceOfCertification', 'Z')

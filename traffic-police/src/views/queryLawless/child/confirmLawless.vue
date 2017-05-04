@@ -17,7 +17,7 @@
 <script>
   import { bindCar } from '../../../config/baseUrl'
   import { resultPost } from '../../../service/getData'
-  import { Indicator, Toast } from 'mint-ui'
+  import { Indicator, Toast, MessageBox } from 'mint-ui'
   export default {
     name: 'confirm',
     data () {
@@ -39,6 +39,11 @@
         Indicator.close()
         if (json.code === '0000') {
           this.carMsg = json.data
+          if (json.data.length === 0) {
+            MessageBox('提示', '当前用户没有车辆信息').then(action => {
+              this.$router.push('/')
+            })
+          }
         } else {
           Toast({
             message: json.msg,

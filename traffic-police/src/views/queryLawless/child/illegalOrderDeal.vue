@@ -91,6 +91,12 @@
           MessageBox('提示', '至少选中一个违法进行预约')
           return false
         }
+        if (checkedItem.carOwner !== window.localStorage.getItem('userName')) {
+          MessageBox('提示', '此功能只能预约当前登录用户').then(action => {
+            this.$router.push('/')
+          })
+          return false
+        }
         this.postAppealQuery(checkedItem)
         this.$router.push('/illegalTimeSelect')
       },

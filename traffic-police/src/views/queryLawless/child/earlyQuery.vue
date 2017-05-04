@@ -350,6 +350,7 @@
           return false
         }
         resultPost(earlyQuery, reqData).then(json => {
+          console.log(json)
           if (json.code === '0000') {
             this.reserveList = json.data
             if (json.data.length === 0) {

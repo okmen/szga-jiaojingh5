@@ -123,7 +123,7 @@ export default {
       this.userNumberPlate = window.localStorage.getItem('myNumberPlate')
     }
     this.isLogin = window.localStorage.getItem('isLogin')
-    this.icpTara = `http://103.28.214.24:28080/icp-tara/do/page/changePage?cername=${window.localStorage.getItem('userName')}&certno=${window.localStorage.getItem('identityCard')}&carMark=${window.localStorage.getItem('myNumberPlate')}&openid=${window.localStorage.getItem('openId')}&mobile=${window.localStorage.getItem('mobilePhone')}&userType=1&carType=${window.localStorage.getItem('plateType')}`
+    this.icpTara = `https://icp-tara.pingan.com.cn:10443/icp-tara/do/page/changePage?cername=${window.localStorage.getItem('userName')}&certno=${window.localStorage.getItem('identityCard')}&carMark=${window.localStorage.getItem('myNumberPlate')}&openid=${window.localStorage.getItem('openId')}&mobile=${window.localStorage.getItem('mobilePhone')}&userType=1&carType=${window.localStorage.getItem('plateType')}`
   }
 }
 </script>

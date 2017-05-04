@@ -73,7 +73,8 @@
         status: '',
         availableScore: '',
         physicalExaminationDate: '',
-        effectiveDate: ''
+        effectiveDate: '',
+        isLogin: false
 //        isReceive: ''
       }
     },
@@ -81,6 +82,12 @@
       Indicator.open()
       let reqData = {
         identityCard: window.localStorage.getItem('identityCard')
+      }
+      this.isLogin = window.localStorage.getItem('isLogin')
+      if (!this.isLogin) {
+        Indicator.close()
+        this.$router.push('/login')
+        return false
       }
       resultPost(bindCard, reqData).then(json => {
         Indicator.close()
