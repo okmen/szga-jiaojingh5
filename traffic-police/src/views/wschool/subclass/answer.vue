@@ -199,21 +199,22 @@ export default {
       resultPost(answer, answeData).then(json => {
         this.code = json.code // 状态码
         this.msg = json.msg // 状态返回
-        if (this.code === '0001') {      // 答题判断
+        if (this.code === '0000') {      // 答题判断
+          this.answertData = json.data[0]
+          this.answerName = json.data[0].answeroptions  // 答题选项
+          this.subjectId = json.data[0].subjectId  // 答题编码
+          this.testQuestionsType = json.data[0].testQuestionsType   // 题目类型
+          this.answerName.forEach((item) => {
+            item.isSure = false
+          })
+          this.scoreEndDate = json.data[0].scoreEndDate  // 答题周期
+          this.scoreStartDate = json.data[0].scoreStartDate  // 答题周期
+        } else {
           clearInterval(this.Timepiece)
           MessageBox('提示', this.msg).then(() => {
             this.$router.push('wschool')
           })
         }
-        this.answertData = json.data[0]
-        this.answerName = json.data[0].answeroptions  // 答题选项
-        this.subjectId = json.data[0].subjectId  // 答题编码
-        this.testQuestionsType = json.data[0].testQuestionsType   // 题目类型
-        this.answerName.forEach((item) => {
-          item.isSure = false
-        })
-        this.scoreEndDate = json.data[0].scoreEndDate  // 答题周期
-        this.scoreStartDate = json.data[0].scoreStartDate  // 答题周期
       })
     },
     popClick: function () {       // 倒计时弹框
