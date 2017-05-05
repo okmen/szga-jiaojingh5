@@ -178,6 +178,14 @@ const routes = [
     component: require('../views/wschool/wschool.vue')
   },
   {
+    name: 'electricCar',
+    path: '/electricCar',
+    meta: {
+      title: '电动车管理'
+    },
+    component: require('../views/wschool/electricCar.vue')
+  },
+  {
     name: 'motorstudy',
     path: '/motorstudy',
     meta: {

@@ -28,7 +28,7 @@ export default {
   methods: {
     btnBackword: function () {
       // console.log('1111')
-      this.$router.go(-1)
+      this.$router.push('/')
     }
   }
 }

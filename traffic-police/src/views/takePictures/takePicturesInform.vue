@@ -161,9 +161,9 @@
           let informData = {
             illegalTime: this.mtDateTimeMsg,             // 违法时间
             illegalSections: this.informType,         // 违法路段
-            reportImgOne: this.imgOne,                // 上传照片
-            reportImgTwo: this.imgTwo,
-            reportImgThree: this.imgThree,
+            reportImgOne: this.imgOne.split(',')[1],                // 上传照片
+            reportImgTwo: this.imgTwo.split(',')[1],
+            reportImgThree: this.imgThree.split(',')[1],
             illegalActivitieOne: this.informIntroWhy, // 情况说明
             inputManName: this.informName,            // 举报人
             identityCard: this.informIdNumber,        // 身份证号

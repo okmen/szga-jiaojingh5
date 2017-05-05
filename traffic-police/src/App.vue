@@ -111,19 +111,25 @@ export default {
       userNumberPlate: '',
       isLogin: false,
       openId: '',
-      icpTara: ''
+      icpTara: '',
+      mobilePhone: '',
+      plateType: ''
     }
   },
   created () {
-    this.openId = window.localStorage.getItem('openId')
-    this.userName = window.localStorage.getItem('userName')
-    this.userImg = window.localStorage.getItem('headImgUrl')
-    this.userIdentityCard = window.localStorage.getItem('identityCard')
+    this.openId = !window.localStorage.getItem('openId') ? '' : window.localStorage.getItem('openId')
+    this.userName = !window.localStorage.getItem('userName') ? '' : window.localStorage.getItem('userName')
+    this.userImg = !window.localStorage.getItem('headImgUrl') ? '' : window.localStorage.getItem('headImgUrl')
+    this.mobilePhone = !window.localStorage.getItem('mobilePhone') ? '' : window.localStorage.getItem('mobilePhone')
+    this.userIdentityCard = !window.localStorage.getItem('identityCard') ? '' : window.localStorage.getItem('identityCard')
     if (window.localStorage.getItem('myNumberPlate') !== 'undefined') {
-      this.userNumberPlate = window.localStorage.getItem('myNumberPlate')
+      this.userNumberPlate = !window.localStorage.getItem('myNumberPlate') ? '' : window.localStorage.getItem('myNumberPlate')
+    }
+    if (window.localStorage.getItem('plateType') !== 'undefined') {
+      this.plateType = !window.localStorage.getItem('plateType') ? '' : window.localStorage.getItem('plateType')
     }
     this.isLogin = window.localStorage.getItem('isLogin')
-    this.icpTara = `https://icp-tara.pingan.com.cn:10443/icp-tara/do/page/changePage?cername=${window.localStorage.getItem('userName')}&certno=${window.localStorage.getItem('identityCard')}&carMark=${window.localStorage.getItem('myNumberPlate')}&openid=${window.localStorage.getItem('openId')}&mobile=${window.localStorage.getItem('mobilePhone')}&userType=1&carType=${window.localStorage.getItem('plateType')}`
+    this.icpTara = `https://icp-tara.pingan.com.cn:10443/icp-tara/do/page/changePage?cername=${this.userName}&certno=${this.userIdentityCard}&carMark=${this.userNumberPlate}&openid=${this.openId}&mobile=${this.mobilePhone}&userType=1&carType=${this.plateType}`
   }
 }
 </script>

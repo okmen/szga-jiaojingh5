@@ -92,9 +92,8 @@ export default {
     Indicator.close()
     let ua = window.navigator.userAgent // 浏览器版本
     this.openId = window.localStorage.getItem('openId')
-    let url = window.location.href
     let data = {
-      url: encodeURIComponent(url)
+      url: 'https://gzh.stc.gov.cn/#/login'
     }
     if (!this.openId) {
       if (/MicroMessenger/i.test(ua)) { // 微信跳转获取openId

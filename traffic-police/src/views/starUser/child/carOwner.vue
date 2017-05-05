@@ -311,9 +311,9 @@ export default{
           validateCode: this.validCode,
           isDriverLicense: this.haveDrivingLicence,
           driverLicenseIssuedAddress: this.originPlace,
-          idCardImgPositive: idImgOne,
-          idCardImgNegative: idImgTwo,
-          idCardImgHandHeld: idImgThree,
+          idCardImgPositive: idImgOne.split(',')[1],
+          idCardImgNegative: idImgTwo.split(',')[1],
+          idCardImgHandHeld: idImgThree.split(',')[1],
           provinceAbbreviation: this.abbreviationSelectMassage
         }
         console.log(carOwnerData)

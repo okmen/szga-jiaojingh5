@@ -114,9 +114,9 @@
             identityCard: this.idCardNumber,
             mobilephone: this.telphoneNumber,
             validateCode: this.validCode,
-            idCardImgPositive: idImgOne,
-            idCardImgNegative: idImgTwo,
-            idCardImgHandHeld: idImgThree
+            idCardImgPositive: idImgOne.split(',')[1],
+            idCardImgNegative: idImgTwo.split(',')[1],
+            idCardImgHandHeld: idImgThree.split(',')[1]
           }
           resultPost(passerBy, passerData).then(json => {
             let jsonMsg = json.msg

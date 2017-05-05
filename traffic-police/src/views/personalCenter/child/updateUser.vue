@@ -146,9 +146,9 @@ export default{
         tureName: this.tureName, // 姓名
         identityCard: this.identityCard, // 身份证号码
         mailingAddress: this.mailingAddress, // 通讯地址
-        idCardImgPositive: this.idCardImgPositive, // 身份证正面
-        idCardImgNegative: this.idCardImgNegative, // 身份证反面
-        idCardImgHandHeld: this.idCardImgHandHeld // 手持身份证
+        idCardImgPositive: this.idCardImgPositive.split(',')[1], // 身份证正面
+        idCardImgNegative: this.idCardImgNegative.split(',')[1], // 身份证反面
+        idCardImgHandHeld: this.idCardImgHandHeld.split(',')[1] // 手持身份证
       }
       for (let key in reqData) {
         if (!reqData[key]) {

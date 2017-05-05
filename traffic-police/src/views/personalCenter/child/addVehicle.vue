@@ -404,8 +404,8 @@ export default{
           inputIP: '192.168.1.1', // 录入ip
           userSource: 'C', // 用户来源/登录的平台
           certifiedSource: 'C', // 绑定类型
-          idCardImgPositive: this.idCardImgPositive, // 车主身份证正面照
-          idCardImgHandHeld: this.idCardImgHandHeld // 车主身份证手持照
+          idCardImgPositive: this.idCardImgPositive.split(',')[1], // 车主身份证正面照
+          idCardImgHandHeld: this.idCardImgHandHeld.split(',')[1] // 车主身份证手持照
         }
       }
       // 非空验证

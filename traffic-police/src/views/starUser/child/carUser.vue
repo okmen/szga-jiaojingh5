@@ -319,10 +319,10 @@
             mobilephone: this.userTelphone,                       // 电话号码
             validateCode: this.validCode,                         // 验证码
             driverLicenseIssuedAddress: this.driverCardPlace,     // 驾驶证核发地
-            idCardImgPositive: userIdImgThree,                    // 使用人身份证照片
-            idCardImgHandHeld: userIdImgFour,
-            ownerIdCardImgPositive: ownerIdImgOne,                // 车主身份证照片
-            ownerIdCardImgHandHeld: ownerIdImgTwo
+            idCardImgPositive: userIdImgThree.split(',')[1],                    // 使用人身份证照片
+            idCardImgHandHeld: userIdImgFour.split(',')[1],
+            ownerIdCardImgPositive: ownerIdImgOne.split(',')[1],                // 车主身份证照片
+            ownerIdCardImgHandHeld: ownerIdImgTwo.split(',')[1]
           }
           resultPost(carUser, usrData).then(json => {
             let jsonMsg = json.msg
