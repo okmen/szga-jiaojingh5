@@ -127,6 +127,11 @@
           sourceOfCertification: 'C',
           mobilephone: this.mobilePhone
         }
+        if (window.localStorage.getItem('myNumberPlate') === 'undefined') {
+          MessageBox('提示', '当前用户没有车辆信息')
+          return false
+        }
+
         resultPost(queryLawlessByCar, reqData).then(json => {
           console.log(json)
           if (json.code === '0000') {
