@@ -93,7 +93,10 @@
         </a>
       </dl>
       <dl>
-        
+        <a :href="'http://szjj.u-road.com/szjjpro/index.php/Business/Member/unlogin/selfbook/'+openId">
+        <dt><img class="top6" src="./images/nav12.png" alt=""></dt>
+        <dd>自主考试</dd>
+        </a>
       </dl>
     </div>
   </div>

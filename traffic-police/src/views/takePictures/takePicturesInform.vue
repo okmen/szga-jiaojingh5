@@ -84,6 +84,7 @@
         informTime: this.currentTime(),          // 违法时间
         informRoad: '',          // 违法路段
         informType: '',          // 违法路段数值
+        informItem: '',          // 违法路段数值加文字
         imgOne: '',              // 上传照片
         imgTwo: '',
         imgThree: '',
@@ -159,19 +160,18 @@
         } else {
           Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
           let informData = {
-            illegalTime: this.mtDateTimeMsg,             // 违法时间
-            illegalSections: this.informType,         // 违法路段
+            illegalTime: this.mtDateTimeMsg,                        // 违法时间
+            illegalSections: this.informItem,                       // 违法路段
             reportImgOne: this.imgOne.split(',')[1],                // 上传照片
             reportImgTwo: this.imgTwo.split(',')[1],
             reportImgThree: this.imgThree.split(',')[1],
-            illegalActivitieOne: this.informIntroWhy, // 情况说明
-            inputManName: this.informName,            // 举报人
-            identityCard: this.informIdNumber,        // 身份证号
-            inputManPhone: this.informTel,            // 电话号码
+            illegalActivitieOne: this.informIntroWhy,               // 情况说明
+            inputManName: this.informName,                          // 举报人
+            identityCard: this.informIdNumber,                      // 身份证号
+            inputManPhone: this.informTel,                          // 电话号码
             userSource: 'C',
             openId: window.localStorage.openId
           }
-          console.log(informData)
           resultPost(takePictures, informData).then(json => { // 调取随手拍举报接口
             console.log(json)
             Indicator.close()
@@ -217,7 +217,8 @@
               roadLists.forEach((item, index) => {
                 let roadObj = {
                   'wfdd': item.wfdd.split('---')[1],
-                  'type': item.wfdd.split('---')[0]
+                  'type': item.wfdd.split('---')[0],
+                  'roadLi': item.wfdd
                 }
                 roadArry.push(roadObj)
                 that.roadSelectLists = roadArry
@@ -266,6 +267,7 @@
       roadLiClick: function (index) { // Li的点击事件
         this.informRoad = this.roadSelectLists[index].wfdd
         this.informType = this.roadSelectLists[index].type
+        this.informItem = this.roadSelectLists[index].roadLi
         this.showSelectRoad = false
       },
       inputTime: function () {

@@ -11,11 +11,6 @@
           <p>一键救援</p>
         </a>
       </li>
-      <li class="handyService-item">
-        <a :href="'http://szjj.u-road.com/szjjpro/index.php/Business/Member/unlogin/selfbook/'+openId">
-          <p>自主考试</p>
-        </a>
-      </li>
     </ul>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
