@@ -161,7 +161,7 @@ export default{
           return false
         }
       }
-      if (/[(*|)*]/g.test(this.identityCard)) {
+      if (/[（*|）*]/g.test(this.identityCard)) {
         Toast({
           message: '请使用英文状态下的括号',
           position: 'bottom',
