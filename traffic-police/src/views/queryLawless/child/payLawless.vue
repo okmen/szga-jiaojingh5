@@ -258,9 +258,10 @@
         }
       },
       queryPay: function () {
+        let platNo = this.abbreviationSelectMassage + this.car_number
         let reqData = {
           billNo: this.billNo,
-          licensePlateNo: this.abbreviationSelectMassage + this.car_number,
+          licensePlateNo: platNo.toLocaleUpperCase(),
           mobilephone: window.localStorage.getItem('mobilePhone')
         }
         console.log(reqData)

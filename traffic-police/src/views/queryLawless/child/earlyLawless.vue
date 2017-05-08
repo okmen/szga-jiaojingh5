@@ -306,9 +306,10 @@
       },
       queryEarlyLawless: function () {
         const that = this
+        let platNo = this.abbreviationSelectMassage + this.car_number
         let reqData = {
           licensePlateType: this.cur_id,
-          licensePlateNo: this.abbreviationSelectMassage + this.car_number,
+          licensePlateNo: platNo.toLocaleUpperCase(),
           mobilephone: this.mobilephone,
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
           drivingLicenceNo: this.drivingLicenceNo,

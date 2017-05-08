@@ -296,7 +296,7 @@ export default{
     submit: function () {
       let reqData = {
         abbreviation: this.abbreviation, // 车牌简称
-        numberPlate: this.numberPlate, // 车牌号码
+        numberPlate: this.numberPlate.toLocaleUpperCase(), // 车牌号码
         carType: this.carType.code, // 汽车种类
         doodgenAddress: this.doodgenAddress, // 挪车地址
         // doodgenAddress: '深圳', // 挪车地址

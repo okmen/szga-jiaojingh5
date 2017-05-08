@@ -304,7 +304,7 @@ export default{
         Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
         let carOwnerData = {
           licensePlateType: this.licenseSelectType,
-          licensePlateNumber: this.carNumber,
+          licensePlateNumber: this.carNumber.toLocaleUpperCase(),
           identityCard: this.idCardNumber,
           linkAddress: this.connectAddress,
           mobilephone: this.telphone,
