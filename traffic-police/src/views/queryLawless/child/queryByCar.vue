@@ -359,9 +359,10 @@
         }
       },
       queryLawlessByCar: function () {
+        let platNo = this.abbreviationSelectMassage + this.car_number
         let reqData = {
-          car_number: this.car_number,
-          licensePlateNo: this.abbreviationSelectMassage + this.car_number,
+          car_number: this.car_number.toLocaleUpperCase(),
+          licensePlateNo: platNo.toLocaleUpperCase(),
           licensePlateType: this.cur_type_id,
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
           identityCard: window.localStorage.getItem('identityCard'),

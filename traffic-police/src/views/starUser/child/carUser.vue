@@ -311,7 +311,7 @@
           let usrData = {
             licensePlateType: this.licenseSelectType,             // 车牌类型
             provinceAbbreviation: this.abbreviationSelectMassage, // 省简称
-            licensePlateNumber: this.carNumber,                   // 车牌号
+            licensePlateNumber: this.carNumber.toLocaleUpperCase(),                   // 车牌号
             ownerName: this.carOwnerName,                         // 车主姓名
             ownerIdCard: this.carIdCardNumber,                    // 车主身份证号码
             userIdCard: this.userIdCardNumber,                    // 使用人身份证号码

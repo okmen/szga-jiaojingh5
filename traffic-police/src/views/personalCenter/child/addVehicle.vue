@@ -370,6 +370,7 @@ export default{
     /* 提交 */
     submitClick: function () {
       let reqData = {}
+      let plateNum = this.plateType.str + this.licensePlateNumber
       if (this.bindType.code === 1) {
         reqData = {
           // bindType: this.bindType.code,
@@ -383,7 +384,7 @@ export default{
 
           bindType: this.bindType.code, // 绑定类型
           licensePlateType: this.vehicleType.code, // 号牌种类
-          licensePlateNumber: this.plateType.str + this.licensePlateNumber, // 车牌号码
+          licensePlateNumber: plateNum.toLocaleUpperCase(), // 车牌号码
           frameNumber: this.frameNumber, // 车架号码
           provinceAbbreviation: this.plateType.str, // 省简称
           userIdCard: this.identityCard, // 当前登录用户身份证
@@ -395,7 +396,7 @@ export default{
         reqData = {
           bindType: this.bindType.code, // 绑定类型
           licensePlateType: this.vehicleType.code, // 号牌种类
-          licensePlateNumber: this.plateType.str + this.licensePlateNumber, // 车牌号码
+          licensePlateNumber: plateNum.toLocaleUpperCase(), // 车牌号码
           frameNumber: this.frameNumber, // 车架号码
           ownerName: this.ownerName, // 车主姓名
           ownerIdCard: this.ownerIdCard, // 车主身份证号
