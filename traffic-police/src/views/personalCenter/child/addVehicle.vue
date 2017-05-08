@@ -56,7 +56,7 @@
             <span>车主姓名</span>
           </div>
           <div class="addVehicle-hbs-text">
-            <input  class="text-input"type="text" placeholder="请输入车主姓名" v-model:value="ownerName">
+            <input  class="text-input"type="text" :placeholder="nameTip" :readonly="nameReadOnly" v-model:value="ownerName">
           </div>
         </li>
         <li class="addVehicle-hbs-item">
@@ -64,7 +64,7 @@
             <span>身份证号</span>
           </div>
           <div class="addVehicle-hbs-text">
-            <input class="text-input" type="text" placeholder="外籍人士请在证件号前加F" v-model:value="ownerIdCard">
+            <input class="text-input" type="text" :placeholder="idCardTip" :readonly="idCardReadOnly" v-model:value="ownerIdCard">
           </div>
         </li>
       </ul>
@@ -112,6 +112,12 @@ export default{
   name: 'addVehicle',
   data () {
     return {
+      /* 身份证输入提示 */
+      idCardTip: '外籍人士请在证件号前加F',
+      idCardReadOnly: true,
+      /* 姓名输入提示 */
+      nameTip: '请输入车主姓名',
+      nameReadOnly: true,
       /* 类型选择 */
       bindTypeData: [
         {
@@ -262,9 +268,9 @@ export default{
       plateTypeShow: false,
       licensePlateNumber: '',
       frameNumber: '',
-      ownerName: '',
+      ownerName: window.localStorage.getItem('userName'),
       identityCard: '',
-      ownerIdCard: '', // 车主身份证号
+      ownerIdCard: window.localStorage.getItem('identityCard'), // 车主身份证号
       mobilephone: '',
       idCardImgPositive: '',
       idCardImgNegative: '',
@@ -343,6 +349,22 @@ export default{
         this.bindType = this.bindTypeData[index]
         console.log(this.bindType)
       }
+      /* 身份证提示 */
+      if (this.bindType.code === 1) {
+        this.idCardTip = '外籍人士请在证件号前加F'
+        this.idCardReadOnly = true
+        this.ownerIdCard = window.localStorage.getItem('identityCard')
+        this.nameTip = '请输入车主姓名'
+        this.nameReadOnly = true
+        this.ownerName = window.localStorage.getItem('userName')
+      } else {
+        this.idCardTip = '(车主身份证)外籍人士请在证件号前加F'
+        this.idCardReadOnly = false
+        this.ownerIdCard = ''
+        this.nameTip = '请输入车主姓名'
+        this.nameReadOnly = false
+        this.ownerName = ''
+      }
       this.vehicleTypeShow = false
       this.plateTypeShow = false
       this.bindTypeShow = !this.bindTypeShow
@@ -370,7 +392,7 @@ export default{
     /* 提交 */
     submitClick: function () {
       let reqData = {}
-      let plateNum = this.plateType.str + this.licensePlateNumber
+      let plateNum = this.licensePlateNumber
       if (this.bindType.code === 1) {
         reqData = {
           // bindType: this.bindType.code,
@@ -386,11 +408,10 @@ export default{
           licensePlateType: this.vehicleType.code, // 号牌种类
           licensePlateNumber: plateNum.toLocaleUpperCase(), // 车牌号码
           frameNumber: this.frameNumber, // 车架号码
+          ownerName: this.ownerName, // 车主姓名
           provinceAbbreviation: this.plateType.str, // 省简称
           userIdCard: this.identityCard, // 当前登录用户身份证
-          inputIP: '192.168.1.1', // 录入ip
-          userSource: 'C', // 用户来源/登录的平台
-          certifiedSource: 'C' // 绑定类型
+          certifiedSource: window.localStorage.getItem('sourceOfCertification') ? window.localStorage.getItem('sourceOfCertification') : 'C' // 绑定类型
         }
       } else {
         reqData = {
@@ -402,19 +423,27 @@ export default{
           ownerIdCard: this.ownerIdCard, // 车主身份证号
           provinceAbbreviation: this.plateType.str, // 省简称
           userIdCard: this.identityCard, // 当前登录用户身份证
-          inputIP: '192.168.1.1', // 录入ip
-          userSource: 'C', // 用户来源/登录的平台
-          certifiedSource: 'C', // 绑定类型
+          certifiedSource: window.localStorage.getItem('sourceOfCertification') ? window.localStorage.getItem('sourceOfCertification') : 'C', // 绑定类型
           idCardImgPositive: this.idCardImgPositive.split(',')[1], // 车主身份证正面照
           idCardImgHandHeld: this.idCardImgHandHeld.split(',')[1] // 车主身份证手持照
         }
       }
       // 非空验证
       for (let key in reqData) {
-        if (reqData[key] === '' && key !== 'inputIP') {
+        if (reqData[key] === '' || !reqData[key] && key !== 'bindType') {
           console.log(key)
           Toast({
             message: '信息填写不完整',
+            position: 'bottom',
+            className: 'white'
+          })
+          return false
+        }
+      }
+      if (this.ownerIdCard) {
+        if (/[（*|）*]/g.test(this.ownerIdCard)) {
+          Toast({
+            message: '请使用英文状态下的括号',
             position: 'bottom',
             className: 'white'
           })
@@ -446,7 +475,6 @@ export default{
       this.vehicleTypeShow = false
       this.plateTypeShow = false
     })
-    this.mobilephone = window.localStorage.getItem('userName')
     this.identityCard = window.localStorage.getItem('identityCard')
   },
   mounted () {
