@@ -107,6 +107,7 @@
     }
     .addCar-box {
       text-align: center;
+      padding-bottom: 100px;
       .add-car {
         display: inline-block;
         text-align: center;

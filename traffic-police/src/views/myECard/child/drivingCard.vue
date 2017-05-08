@@ -44,6 +44,13 @@
       })
       resultPost(drivingCard, reqData).then(json => {
         Indicator.close()
+        if (!json.data.electronicDriverLicense) {
+          Toast({
+            message: json.msg,
+            position: 'bottom',
+            duration: 2000
+          })
+        }
         if (json.code === '0000') {
           this.imageUrl = 'data:image/png;base64,' + json.data.electronicDrivingLicense
           qrcode.makeCode(json.data.electronicDrivingLicenseQRCode)

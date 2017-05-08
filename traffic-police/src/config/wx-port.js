@@ -19,6 +19,10 @@ var openId = getQueryString('openId') ? getQueryString('openId') : localStorage.
 var headImgUrl = getQueryString('headimgurl') ? getQueryString('headimgurl') : localStorage.getItem('headImgUrl');
 var nickname = getQueryString('nickname') ? getQueryString('nickname') : localStorage.getItem('nickname');
 
+// var openId = '123123123';
+// var headImgUrl = '45465456';
+// var nickname = '123131';
+
 let url = window.location.href;
 let data = {
   url: encodeURIComponent(url.split('#')[0])

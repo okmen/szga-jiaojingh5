@@ -34,6 +34,13 @@
       resultPost(licenseCard, reqData).then(json => {
         Indicator.close()
         if (json.code === '0000') {
+          if (!json.data.electronicDriverLicense) {
+            Toast({
+              message: json.msg,
+              position: 'bottom',
+              duration: 2000
+            })
+          }
           this.imageUrl = 'data:image/png;base64,' + json.data.electronicDriverLicense
           qrcode.makeCode(json.data.electronicDriverLicenseQRCode)
         } else {
@@ -43,15 +50,6 @@
             duration: 2000
           })
         }
-        // if (!json.data.electronicDriverLicense) {
-        //   Toast({
-        //     message: json.msg,
-        //     position: 'middle',
-        //     className: 'white'
-        //   })
-        // } else {
-        //   this.imageUrl = 'data:image/png;base64,' + json.data.electronicDriverLicense
-        // }
       })
     }
   }
