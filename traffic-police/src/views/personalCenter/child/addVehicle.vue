@@ -427,6 +427,7 @@ export default{
           idCardImgPositive: this.idCardImgPositive.split(',')[1], // 车主身份证正面照
           idCardImgHandHeld: this.idCardImgHandHeld.split(',')[1] // 车主身份证手持照
         }
+        Indicator.open('正在上传...')
       }
       // 非空验证
       for (let key in reqData) {
@@ -451,7 +452,6 @@ export default{
         }
       }
       console.log(reqData)
-      Indicator.open('正在上传...')
       resultPost(addVehicle, reqData).then(json => {
         console.log(json)
         Indicator.close()
