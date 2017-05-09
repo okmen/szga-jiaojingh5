@@ -2,12 +2,12 @@
   <div class="handyService-outer">
     <ul class="handyService-list">
       <li class="handyService-item">
-        <router-link :to="isLogin ? '/moveCar' : '/login'">
+        <a href="#">
           <p>一键挪车</p>
-        </router-link>
+        </a>
       </li>
       <li class="handyService-item">
-        <a href="http://szjj.u-road.com/szjjpro/Business/Member/login?arrJson=oPyqQjmrzSdjhfKsjMK-36__pvIA&dealFun=roadRescue&inType=0">
+        <a href="#">
           <p>一键救援</p>
         </a>
       </li>

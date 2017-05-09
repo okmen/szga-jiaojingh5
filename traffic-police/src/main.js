@@ -11,12 +11,14 @@ import 'element-ui/lib/theme-default/index.css'
 // import '../static/qiniu.min.js'
 import 'mint-ui/lib/style.css'
 import store from './store/index'
-import { Indicator, DatetimePicker, MessageBox, Toast } from 'mint-ui'
+import { Indicator, DatetimePicker, MessageBox, Toast, Swipe, SwipeItem } from 'mint-ui'
 
 Vue.use(require('vue-wechat-title'))
 Vue.component(TimeSelect.name, TimeSelect)
 // Vue.component(DatePicker.name, DatePicker)
 Vue.component(DatetimePicker.name, DatetimePicker)
+Vue.component(Swipe.name, Swipe)
+Vue.component(SwipeItem.name, SwipeItem)
 
 window.addEventListener('popstate', function (e) { // 监听手机返回按钮, 清除loading效果
   Indicator.close()
