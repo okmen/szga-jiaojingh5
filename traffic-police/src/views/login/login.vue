@@ -10,7 +10,6 @@
           <router-link to="/starUser" class="login-link-register">注册</router-link>
         </div>
       </div>
-      <div v-wechat-title="$route.meta.title"></div>
     </div>
 </template>
 
@@ -30,7 +29,7 @@ export default {
   },
   methods: {
     loginClick: function () {
-      let that = this
+      // let that = this
       if (!this.loginName) {
         Toast({
           message: '用户名不能为空',
@@ -77,7 +76,7 @@ export default {
           window.localStorage.setItem('behindTheFrame4Digits', decodeURIComponent(userData.behindTheFrame4Digits)) // 车架号后4位
           window.localStorage.setItem('plateType', decodeURIComponent(userData.plateType)) // 车牌类型
           window.localStorage.setItem('isLogin', true) // 是否登录
-          that.$router.push('/')
+          window.location.href = `http://szjj.u-road.com/szjjpro/member/loginfornew?username=${reqData.loginName}&password=${reqData.password}&openID=${reqData.openId}`
         } else {
           Toast({
             message: data.msg,

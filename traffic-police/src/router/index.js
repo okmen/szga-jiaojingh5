@@ -15,6 +15,14 @@ const routes = [
     component: require('../App.vue')
   },
   {
+    name: 'authorityIssue',
+    path: '/authorityIssue',
+    meta: {
+      title: '深圳交警权威发布'
+    },
+    component: require('../views/authorityIssue/authorityIssue.vue')
+  },
+  {
     name: 'login',
     path: '/login',
     meta: {
