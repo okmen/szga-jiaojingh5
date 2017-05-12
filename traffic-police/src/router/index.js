@@ -23,6 +23,14 @@ const routes = [
     component: require('../views/authorityIssue/authorityIssue.vue')
   },
   {
+    name: 'eastSubscribe',
+    path: '/eastSubscribe',
+    meta: {
+      title: '东部预约'
+    },
+    component: require('../views/eastSubscribe/eastSubscribe.vue')
+  },
+  {
     name: 'login',
     path: '/login',
     meta: {

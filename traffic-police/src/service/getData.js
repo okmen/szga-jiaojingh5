@@ -1,4 +1,5 @@
 import 'whatwg-fetch'
+import { Indicator } from 'mint-ui'
 /* eslint-disable */
 
 var dataFun = (obj) => {
@@ -14,7 +15,9 @@ var dataFun = (obj) => {
      return url.substring(0, url.lastIndexOf('&'));
 }
 
-export const resultPost = (url, bodyData) => fetch(url, {
+export const resultPost = (url, bodyData) => {
+  Indicator.open()
+  return fetch(url, {
       method: 'POST',
       body: dataFun(bodyData),
       headers: {
@@ -22,11 +25,17 @@ export const resultPost = (url, bodyData) => fetch(url, {
       },
       credentials: 'same-origin'
     }).then((res) => {
+      Indicator.close()
     	return res.json()
     })
+}
 
-export const resultGet = (url) => fetch(url).then((res) => {
-  return res.json()
-})
+export const resultGet = (url) => {
+  Indicator.open()
+  return fetch(url).then((res) => {
+    Indicator.close()
+    return res.json()
+  })
+}
 
 /* eslint-enable */
