@@ -11,7 +11,7 @@
   <ul class="userInfo-list">
     <li class="userInfo-item">
       <router-link class="link" to="/updateMobile">
-        <div class="userInfo-item-name">手机号码</div>
+        <div class="userInfo-item-name">修改手机号</div>
         <div class="userInfo-item-arrow">
           <p>{{mobile}}</p>
         </div>
