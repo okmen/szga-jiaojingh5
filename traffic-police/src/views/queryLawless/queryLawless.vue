@@ -4,14 +4,14 @@
       <router-link to="queryLawlessPage">交通违法查询</router-link>
     </div>
     <div  class="query-link">
-      <router-link to="confirm">违法在线确认</router-link>
+      <router-link :to="isLogin ? 'confirm' : 'login'">违法在线确认</router-link>
     </div>
     <div class="query-link" v-bind:class="{ 'show' : isShow}">
       <p @click.stop="clickShow()">违法在线处理</p>
       <div class="li-box">
-        <router-link to="payLawless">违法缴款</router-link>
-        <router-link to="early">交通违法预约处理</router-link>
-        <router-link to="appeal">交通违法申诉</router-link>
+        <router-link :to="isLogin ? 'payLawless' : 'login'">违法缴款</router-link>
+        <router-link :to="isLogin ? 'early' : 'login'">交通违法预约处理</router-link>
+        <router-link :to="isLogin ? 'appeal' : 'login'">交通违法申诉</router-link>
       </div>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
@@ -26,13 +26,7 @@ export default {
     return {
       isShow: false,
       businesses: [],
-      isLogin: false
-    }
-  },
-  mounted () {
-    this.isLogin = window.localStorage.getItem('isLogin')
-    if (!this.isLogin) {
-      this.$router.push('/login')
+      isLogin: window.localStorage.getItem('isLogin')
     }
   },
   methods: {

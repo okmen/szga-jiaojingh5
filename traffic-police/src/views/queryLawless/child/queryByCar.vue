@@ -40,6 +40,22 @@
               <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" maxlength="4" name="" value="" placeholder="请输入车架号后四位">
             </div>
           </li>
+          <li class="queryByCar-hbs-item">
+            <div class="queryByCar-hbs-name">
+              <span>身份证</span>
+            </div>
+            <div class="queryByCar-hbs-text">
+              <input v-model="identityCard" class="text-input" type="text" name="" value="" placeholder="请输入身份证号码">
+            </div>
+          </li>
+          <li class="queryByCar-hbs-item">
+            <div class="queryByCar-hbs-name">
+              <span>手机号码</span>
+            </div>
+            <div class="queryByCar-hbs-text">
+              <input v-model="mobilephone" class="text-input" type="text" name="" value="" placeholder="请输入手机号码">
+            </div>
+          </li>
           <li class="queryByCar-hbs-item clear">
             <div class="queryByCar-hbs-name">
               <span>验证码</span>
@@ -52,7 +68,7 @@
         </ul>
       </div>
       <button class="btn" type="button" name="button" @click.stop="queryLawlessByCar()">查询</button>
-      <button class="btn-light-green" type="button" @click.stop="queryMineByCar()" name="button">我的车辆违章</button>
+      <button v-if="isMineCar" class="btn-light-green" type="button" @click.stop="queryMineByCar()" name="button">我的车辆违章</button>
       <div class="hint">
         <p>温馨提示：仅可查询车辆在深圳市范围内的交通违法信息</p>
       </div>
@@ -138,8 +154,11 @@
         cur_type_id: '01',                    // 请求-车牌类型（编号转换）
         car_number: '',                       // 请求-除去省字的车牌号
         vehicleIdentifyNoLast4: '',           // 请求-车架号后4位
+        identityCard: '',                     // 请求-身份证号码
+        mobilephone: '',                      // 请求-手机号码
         illegalData: [],                      // 返回-全部数据存入数组
         verifyCode: false,                    // 验证码验证
+        isMineCar: window.localStorage.myNumberPlate === 'undefined' ? false : window.localStorage.myNumberPlate,
         claimList: {
           '0': '无需打单',
           '1': '需要打单',
@@ -365,29 +384,20 @@
           licensePlateNo: platNo.toLocaleUpperCase(),
           licensePlateType: this.cur_type_id,
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
-          identityCard: window.localStorage.getItem('identityCard'),
+          identityCard: this.identityCard.toLocaleUpperCase(),
           sourceOfCertification: 'C',
-          mobilephone: window.localStorage.getItem('mobilePhone')
+          mobilephone: this.mobilephone
         }
         console.log(reqData)
         for (let key in reqData) {
           if (!reqData[key]) {
             console.log(key)
-            if (key === 'identityCard' || key === 'mobilephone') {
-              Toast({
-                message: '请先登录',
-                position: 'middle',
-                className: 'white'
-              })
-              window.location.href = '/login'
-            } else {
-              Toast({
-                message: '信息填写不完整',
-                position: 'bottom',
-                className: 'white'
-              })
-              return false
-            }
+            Toast({
+              message: '信息填写不完整',
+              position: 'bottom',
+              className: 'white'
+            })
+            return false
           }
         }
         if (!this.verifyCode) {

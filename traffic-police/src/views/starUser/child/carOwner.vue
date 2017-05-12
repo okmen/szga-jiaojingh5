@@ -314,7 +314,8 @@ export default{
           idCardImgPositive: idImgOne.split(',')[1],
           idCardImgNegative: idImgTwo.split(',')[1],
           idCardImgHandHeld: idImgThree.split(',')[1],
-          provinceAbbreviation: this.abbreviationSelectMassage
+          provinceAbbreviation: this.abbreviationSelectMassage,
+          openId: window.localStorage.openId
         }
         console.log(carOwnerData)
         resultPost(carOwner, carOwnerData).then(json => {

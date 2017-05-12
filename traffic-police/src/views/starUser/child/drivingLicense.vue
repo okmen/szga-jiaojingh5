@@ -147,7 +147,8 @@
             linkAddress: this.address,
             idCardImgPositive: idImgOne.split(',')[1],
             idCardImgNegative: idImgTwo.split(',')[1],
-            idCardImgHandHeld: idImgThree.split(',')[1]
+            idCardImgHandHeld: idImgThree.split(',')[1],
+            openId: window.localStorage.openId
           }
           console.log(driverLicenseData)
           resultPost(drivingLicense, driverLicenseData).then(json => {

@@ -19,6 +19,14 @@
               <input v-model="recordNo" class="text-input" type="text" name="" value="" placeholder="请输入档案编号">
             </div>
           </li>
+          <li class="queryByCard-hbs-item">
+            <div class="queryByCard-hbs-name">
+              <span>手机号码</span>
+            </div>
+            <div class="queryByCard-hbs-text">
+              <input v-model="mobilephone" class="text-input" type="text" name="" value="" placeholder="请输入手机号码">
+            </div>
+          </li>
           <li class="queryByCard-hbs-item clear">
             <div class="queryByCard-hbs-name">
               <span>验证码</span>
@@ -80,6 +88,7 @@
       return {
         drivingLicenceNo: '',            // 请求-驾驶证号
         recordNo: '',                    // 请求-档案编号
+        mobilephone: '',                 // 请求-手机号码
         illegalData: [],                 // 返回-全部数据存入数组
         verifyCode: false,                    // 验证码验证
         claimList: {
@@ -102,9 +111,9 @@
         let reqData = {
           drivingLicenceNo: this.drivingLicenceNo,
           recordNo: this.recordNo,
-          identityCard: window.localStorage.getItem('identityCard'),
+          identityCard: this.drivingLicenceNo,
           sourceOfCertification: 'C',
-          mobilephone: window.localStorage.getItem('mobilePhone')
+          mobilephone: this.mobilephone
         }
         for (let key in reqData) {
           if (!reqData[key]) {

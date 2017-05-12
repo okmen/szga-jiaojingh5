@@ -322,7 +322,8 @@
             idCardImgPositive: userIdImgThree.split(',')[1],                    // 使用人身份证照片
             idCardImgHandHeld: userIdImgFour.split(',')[1],
             ownerIdCardImgPositive: ownerIdImgOne.split(',')[1],                // 车主身份证照片
-            ownerIdCardImgHandHeld: ownerIdImgTwo.split(',')[1]
+            ownerIdCardImgHandHeld: ownerIdImgTwo.split(',')[1],
+            openId: window.localStorage.openId
           }
           resultPost(carUser, usrData).then(json => {
             let jsonMsg = json.msg
