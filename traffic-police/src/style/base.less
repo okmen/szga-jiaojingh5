@@ -18,6 +18,11 @@
     border: 1px solid #e2e2e7;
     background-color: #efeff4;
     border-radius: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: 45px;
+    box-sizing: border-box;
   }
   .min-btn-select {
     background-position: 83% center;
@@ -35,6 +40,10 @@
       li {
         text-indent: 24px;
         line-height: 44px;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
         &:hover {
           background-color: #67b5e7;
           color: #fff;

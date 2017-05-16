@@ -15,6 +15,50 @@
         </ul>
       </div>
     </div>
+    <div class="form-line">
+      <div class="form-line-item item-name">
+        <span>车牌号码</span>
+      </div>
+      <div class="form-line-item div-select width-25">
+        <span class="btn-select min-btn-select" @click.stop="abbreviationSelectClick()">{{ abbreviationSelectMassage }}</span>
+        <div class="div-select-ul" v-if="abbreviationSelectShow">
+          <ul>
+            <li v-for="item in abbreviationSelectData" @click.stop="abbreviationSelectClick(item.str)">
+              {{item.str}}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="form-line-item width-70 right">
+        <input v-model="carNumber" class="text-input" type="text" name="" value="" placeholder="请输入车牌号码">
+      </div>
+    </div>
+    <div class="form-line">
+      <div class="form-line-item item-name">
+        <span>车牌类型</span>
+      </div>
+      <div class="form-line-item div-select width-100">
+        <span class="btn-select" @click.stop="licenseSelectClick()" :data-type="licenseSelectType">{{ licenseSelectMassage }}</span>
+        <div class="div-select-ul" v-if="licenseSelectShow">
+          <ul>
+            <li v-for="(item, index) in licenseSelectData" @click.stop = "licenseSelectClick(item.str, index)">{{item.str}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="form-line">
+      <div class="form-line-item item-name">
+        <span>违法行为</span>
+      </div>
+      <div class="form-line-item div-select width-100">
+        <span class="btn-select" @click.stop="behaviorSelectClick()" :data-type="behaviorSelectType">{{ behaviorSelectMassage }}</span>
+        <div class="div-select-ul" v-if="behaviorSelectShow">
+          <ul>
+            <li v-for="(item, index) in behaviorSelectData" @click.stop = "behaviorSelectClick(item.str, index)">{{item.str}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <div class="tp-photo-box">
       <div class="tp-photo-left">上传照片</div>
       <div class="tp-photo-right">
@@ -69,8 +113,8 @@
   </div>
 </template>
 <script>
-  import { resultPost } from '../../service/getData'
-  import { takePictures, getRoad } from '../../config/baseUrl'
+  import { resultPost, resultGet } from '../../service/getData'
+  import { takePictures, getRoad, getTheChoiceOfIllegalActivities } from '../../config/baseUrl'
   import UploadFile from '../../service/uploadFile'
   import { Toast, Indicator } from 'mint-ui'
   import { mapActions } from 'vuex'
@@ -78,26 +122,158 @@
     name: 'takePicturesInform',
     data () {
       return {
-        mtDateTimeMsg: '',       // 一进来默认当前时间
-        showSelectRoad: false,   // 是否显示路段列表
-        roadSelectLists: [],     // 路段列表
-        informTime: this.currentTime(),          // 违法时间
-        informRoad: '',          // 违法路段
-        informType: '',          // 违法路段数值
-        informItem: '',          // 违法路段数值加文字
-        imgOne: '',              // 上传照片
+        mtDateTimeMsg: '',                                              // 一进来默认当前时间
+        showSelectRoad: false,                                          // 是否显示路段列表
+        roadSelectLists: [],                                            // 路段列表
+        informTime: this.currentTime(),                                 // 违法时间
+        informRoad: '',                                                 // 违法路段
+        informType: '',                                                 // 违法路段数值
+        informItem: '',                                                 // 违法路段数值加文字
+        licenseSelectShow: false,
+        licenseSelectMassage: '蓝牌',
+        licenseSelectType: '02',
+        licenseSelectData: [
+          {
+            'str': '蓝牌',
+            'type': '02'
+          },
+          {
+            'str': '黄牌',
+            'type': '01'
+          },
+          {
+            'str': '黑牌',
+            'type': '06'
+          },
+          {
+            'str': '个性牌',
+            'type': '02'
+          },
+          {
+            'str': '小型新能源车号牌',
+            'type': '02'
+          },
+          {
+            'str': '大型新能源车号牌',
+            'type': '02'
+          }
+        ],
+        behaviorSelectShow: false,
+        behaviorSelectMassage: '未使用专用清障车拖曳转向或照明、信号装置失效的机动车的',
+        behaviorSelectType: '',
+        behaviorSelectData: [],
+        abbreviationSelectShow: false,
+        abbreviationSelectMassage: '粤',
+        abbreviationSelectData: [
+          {
+            'str': '粤'
+          },
+          {
+            'str': '鄂'
+          },
+          {
+            'str': '豫'
+          },
+          {
+            'str': '皖'
+          },
+          {
+            'str': '赣'
+          },
+          {
+            'str': '冀'
+          },
+          {
+            'str': '鲁'
+          },
+          {
+            'str': '浙'
+          },
+          {
+            'str': '苏'
+          },
+          {
+            'str': '湘'
+          },
+          {
+            'str': '闽'
+          },
+          {
+            'str': '蒙'
+          },
+          {
+            'str': '京'
+          },
+          {
+            'str': '辽'
+          },
+          {
+            'str': '渝'
+          },
+          {
+            'str': '沪'
+          },
+          {
+            'str': '陕'
+          },
+          {
+            'str': '川'
+          },
+          {
+            'str': '黑'
+          },
+          {
+            'str': '晋'
+          },
+          {
+            'str': '桂'
+          },
+          {
+            'str': '吉'
+          },
+          {
+            'str': '宁'
+          },
+          {
+            'str': '贵'
+          },
+          {
+            'str': '琼'
+          },
+          {
+            'str': '甘'
+          },
+          {
+            'str': '青'
+          },
+          {
+            'str': '津'
+          },
+          {
+            'str': '云'
+          },
+          {
+            'str': '藏'
+          },
+          {
+            'str': '新'
+          }
+        ],
+        carNumber: 'B',         // 车牌号
+        imgOne: '',                                                     // 上传照片
         imgTwo: '',
         imgThree: '',
-        informIntroWhy: '',      // 情况说明
-        informName: '',          // 举报人
-        informIdNumber: '',      // 身份证号
-        informTel: '',           // 电话号码
-        loginJudge: window.localStorage.isLogin,       // 判读是否登录
-        formatTime: ''           // 使用mt组件后，时间是中国标准时间，格式转换
+        informIntroWhy: '',                                             // 情况说明
+        informName: '',                                                 // 举报人姓名
+        informIdNumber: '',                                             // 举报人身份证号
+        informTel: '',                                                  // 举报人电话号码
+        loginJudge: window.localStorage.isLogin,                        // 判读是否登录
+        formatTime: ''                                                  // 使用mt组件后，时间是中国标准时间，格式转换
       }
     },
-    mounted: function () {  // 组件加载完成之后立即获取
+    mounted: function () {                                              // 组件加载完成之后立即获取
       this.init()
+      let that = this
       let getTime = this.currentTime()
       this.mtDateTimeMsg = getTime
       if (this.loginJudge) {
@@ -105,8 +281,60 @@
         this.informIdNumber = window.localStorage.identityCard
         this.informTel = window.localStorage.mobilePhone
       }
+      document.addEventListener('click', (e) => {
+        this.behaviorSelectShow = false
+        this.licenseSelectShow = false
+        this.abbreviationSelectShow = false
+      })
+      resultGet(getTheChoiceOfIllegalActivities).then(json => {
+        json.data.list.forEach((item, index) => {
+          console.log(item)
+          that.behaviorSelectData[index] = {
+            'type': item.wfxw.split('---')[0],
+            'str': item.wfxw.split('---')[1],
+            'wfxw': item.wfxw
+          }
+        })
+      })
     },
     methods: {
+      licenseSelectClick: function (str, index) {
+        if (str) {
+          this.licenseSelectMassage = str
+          this.licenseSelectType = this.licenseSelectData[index].type
+        }
+        if (this.licenseSelectShow === true) {
+          this.licenseSelectShow = false
+        } else {
+          this.licenseSelectShow = true
+          this.abbreviationSelectShow = false
+          this.behaviorSelectShow = false
+        }
+      },
+      behaviorSelectClick: function (str, index) {
+        if (str) {
+          this.behaviorSelectMassage = str
+          this.behaviorSelectType = this.behaviorSelectData[index].wfxw
+        }
+        if (this.behaviorSelectShow === true) {
+          this.behaviorSelectShow = false
+        } else {
+          this.behaviorSelectShow = true
+          this.abbreviationSelectShow = false
+        }
+      },
+      abbreviationSelectClick: function (str) {
+        if (str) {
+          this.abbreviationSelectMassage = str
+        }
+        if (this.abbreviationSelectShow === true) {
+          this.abbreviationSelectShow = false
+        } else {
+          this.abbreviationSelectShow = true
+          this.licenseSelectShow = false
+          this.behaviorSelectShow = false
+        }
+      },
       datetimePick: function (picker) {
         this.$refs.picker.open()
       },
@@ -165,13 +393,16 @@
             reportImgOne: this.imgOne.split(',')[1],                // 上传照片
             reportImgTwo: this.imgTwo.split(',')[1],
             reportImgThree: this.imgThree.split(',')[1],
-            illegalActivitieOne: this.informIntroWhy,               // 情况说明
+            licensePlateType: this.licenseSelectType,               // 车牌类型
+            licensePlateNumber: this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase(),
+            illegalActivitieOne: this.behaviorSelectType,           // 违法行为
             inputManName: this.informName,                          // 举报人
             identityCard: this.informIdNumber,                      // 身份证号
             inputManPhone: this.informTel,                          // 电话号码
             userSource: 'C',
             openId: window.localStorage.openId
           }
+          console.log(informData)
           resultPost(takePictures, informData).then(json => { // 调取随手拍举报接口
             console.log(json)
             Indicator.close()
@@ -300,6 +531,7 @@
   }
 </script>
 <style lang="less">
+@import './../../style/base';
 #takePhotosInform{
   padding:0 50px;
   .tp-inform-box{
@@ -494,6 +726,60 @@
   .mint-toast-text{
     color:#FFF;
   }
+}
+.width-25 {
+   width: 25% !important;
+}
+.width-70 {
+   width: 70% !important;
+}
+.width-100 {
+   width: 100% !important;
+}
+.form-line {
+padding: 20px 0 0 130px;
+position: relative;
+line-height: 56px;
+.form-line-item {
+   display: inline-block;
+   height: 60px;
+   line-height:60px;
+   font-size:26px;
+     span {
+       vertical-align: middle;
+     }
+    .browse-code {
+       display: inline-block;
+       height: 56px;
+       width: 100%;
+      line-height: 52px;
+      border-radius: 10px;
+       text-align: center;
+       color:#fff;
+       vertical-align:middle;
+        .code-icon {
+          background: url("./../../images/browse.png");
+          background-size: 32px 32px;
+          display: inline-block;
+          width:32px;
+          height: 32px;
+          vertical-align: -6px;
+          margin-right: 10px;
+        }
+     }
+}
+.item-name {
+   width: 130px;
+   position: absolute;
+   left: 0;
+}
+.payLawless-hbs-code {
+  margin-left: 40px;
+  text-indent: 28px;
+  width: 240px;
+  height: 60px;
+  text-decoration: underline;
+}
 }
 </style>
 
