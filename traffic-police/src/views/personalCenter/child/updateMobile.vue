@@ -4,7 +4,7 @@
     <li class="updateMobile-item">
       <div class="updateMobile-name">旧手机号</div>
       <div class="updateMobile-text">
-        <input class="text-input" type="text" placeholder="请输入您的旧手机号" v-model:value="oldMobile" readonly>
+        <input class="text-input" type="tel" placeholder="请输入您的旧手机号" v-model:value="oldMobile" readonly>
       </div>
     </li>
     <li class="updateMobile-item clear">
@@ -19,7 +19,13 @@
     <li class="updateMobile-item">
       <div class="updateMobile-name">新手机号</div>
       <div class="updateMobile-text">
-        <input class="text-input" type="text" placeholder="请输入新的手机号码" v-model:value="newMobile">
+        <input class="text-input" type="tel" placeholder="请输入新的手机号码" v-model:value="newMobile">
+      </div>
+    </li>
+    <li class="updateMobile-item">
+      <div class="updateMobile-name">确认新手机</div>
+      <div class="updateMobile-text">
+        <input class="text-input" type="tel" placeholder="请再次输入新的手机号码" v-model:value="verifyNewMobile">
       </div>
     </li>
   </ul>
@@ -35,9 +41,10 @@ export default{
   name: 'updateMobile',
   data () {
     return {
-      oldMobile: '',
-      validateCode: '',
-      newMobile: '',
+      oldMobile: '',                                        // 旧手机
+      validateCode: '',                                     // 验证码
+      newMobile: '',                                        // 新手机
+      verifyNewMobile: '',                                  // 重复新手机
       btnValidateCode: '发送验证码',
       isdisabled: false
     }
@@ -85,6 +92,14 @@ export default{
           })
           return false
         }
+      }
+      if (this.newMobile !== this.verifyNewMobile) {
+        Toast({
+          message: '两次手机号不一致',
+          position: 'bottom',
+          className: 'white'
+        })
+        return false
       }
       let phone = Number(this.newMobile)
       if (/^1[34578]\d{9}$/.test(phone)) {
@@ -137,12 +152,15 @@ export default{
     overflow: hidden;
     .updateMobile-item{
       margin-top: 34px;
-      padding-left: 130px;
+      padding-left: 150px;
       line-height: 56px;
       position: relative;
       .updateMobile-name{
         position: absolute;
         left: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
       }
       .validateCode{
         width: 50%;

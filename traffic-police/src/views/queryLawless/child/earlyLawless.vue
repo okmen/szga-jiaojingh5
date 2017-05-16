@@ -313,7 +313,7 @@
           mobilephone: this.mobilephone,
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
           drivingLicenceNo: this.drivingLicenceNo,
-          identityCard: window.localStorage.getItem('identityCard')
+          identityCard: this.drivingLicenceNo
         }
         for (let key in reqData) {
           if (!reqData[key]) {

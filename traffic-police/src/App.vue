@@ -25,13 +25,13 @@
   <div id="nav-outer">
     <div class="home-nav-top">
       <dl>
-        <router-link :to="isLogin ? '/trafficCivilization' : '/login'">
+        <router-link :to="!isLogin ? '/login' : '/trafficCivilization'">
         <dt><img class="top1" src="./images/nav1.png" alt=""></dt>
         <dd>交通文明我做主</dd>
         </router-link>
       </dl>
       <dl>
-        <router-link :to="isLogin ? '/queryLawless' : '/login'">
+        <router-link to="/queryLawless">
         <dt><img class="top2" src="./images/nav2.png" alt=""></dt>
         <dd>违法处理</dd>
         </router-link>
@@ -69,19 +69,19 @@
         </a>
       </dl>
       <dl>
-        <router-link :to="isLogin ? '/handyService' : '/login'">
+        <router-link :to="!isLogin ? '/login' : '/handyService'">
         <dt><img class="top8" src="./images/nav8.png" alt=""></dt>
         <dd>便民服务</dd>
         </router-link>
       </dl>
       <dl>
-        <router-link :to="isLogin ? '/userAgreement#ddcNotice' : '/login'">
+        <router-link :to="!isLogin ? '/login' : '/userAgreement#ddcNotice'">
         <dt><img class="top9" src="./images/nav9.png" alt=""></dt>
         <dd>电动车管理</dd>
         </router-link>
       </dl>
       <dl>
-        <router-link :to="isLogin ? '/wschool' : '/login'">
+        <router-link :to="!isLogin ? '/login' : '/wschool'">
         <dt><img class="top10" src="./images/nav10.png" alt=""></dt>
         <dd>微课堂</dd>
         </router-link>
@@ -100,7 +100,7 @@
       </dl>
     </div>
   </div>
-  <mt-swipe :show-indicators="false" id="advertisement-box" :auto="4500" speed="1500">
+  <mt-swipe :show-indicators="false" id="advertisement-box" :auto="4500" :speed="1500">
     <mt-swipe-item>
       <a href="https://mp.weixin.qq.com/s?__biz=MzA3NDMzNTQ4Mw==&mid=2655303753&idx=4&sn=dd1a97fb74ed6c0af29f81bba1d17d00&chksm=84b14dddb3c6c4cbe29629cd613721e8f99cdaf3f6c8ea71a065973c58f72c85b6125419898b&scene=0&key=0f8a38fa5354788f99ef711703ae6001248422a5737db061fb641ac04fd538682bbb35432167d3b76d9e704b9406dde9bc6598199bd6f948746958c80a7d36f9c979a60cf562004cbceb965863ca46e1&ascene=0&uin=MTUxMzU1MjA4MA%3D%3D&devicetype=iMac+MacBookAir7%2C2+OSX+OSX+10.11.6+build(15G1421)&version=12020110&nettype=WIFI&fontScale=100&pass_ticket=Os%2FdaZX6ah4cAnrhZVCRq7P1%2BzkNhag6IoM3Y4r5GHXvcOFKgG3NxpLzqVg0TC8L">
         <img src="./images/advertisement1.png">
@@ -395,4 +395,5 @@ export default {
     }
   }
 }
+
 </style>

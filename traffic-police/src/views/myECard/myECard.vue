@@ -1,12 +1,14 @@
 <template>
-  <div class="myCard-outer">
+  <div class="myECard-outer">
     <div class="title" v-if="cur_tab == 'driving'">行驶证电子照片</div>
     <div class="title" v-if="cur_tab == 'license'">驾驶证电子照片</div>
     <licenseCard v-if="cur_tab == 'license'"></licenseCard>
     <drivingCard v-if="cur_tab == 'driving'"></drivingCard>
+    <insuranceBills v-if="cur_tab == 'insurance'"></insuranceBills>
     <div class="tab">
       <div class="tab-btn" :class="{ 'active': cur_tab == 'license'}" @click="cur_tab = 'license'">驾驶证</div>
       <div class="tab-btn" :class="{ 'active': cur_tab == 'driving'}" @click="cur_tab = 'driving'">行驶证</div>
+      <div class="tab-btn" :class="{ 'active': cur_tab == 'insurance'}" @click="cur_tab = 'insurance'">电子保单</div>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -21,12 +23,13 @@
     },
     components: {
       licenseCard: require('./child/licenseCard.vue'),
-      drivingCard: require('./child/drivingCard.vue')
+      drivingCard: require('./child/drivingCard.vue'),
+      insuranceBills: require('./child/insuranceBills.vue')
     }
   }
 </script>
 <style lang="less">
-  .myCard-outer {
+  .myECard-outer {
     background-image: url("../../images/card_bg.png");
     background-repeat: no-repeat;
     background-size: 100%;
@@ -45,9 +48,8 @@
     position: fixed;
     bottom:30px;
     text-align: center;
-    width: 620px;
-    left: 50%;
-    margin-left: -310px;
+    width: 100%;
+    left: 0;
     .tab-btn {
       display: inline-block;
       height: 90px;
@@ -55,7 +57,7 @@
       text-align: center;
       border: 1px solid #666;
       color: #666;
-      width: 260px;
+      width: 200px;
       border-radius: 10px;
       margin: 0 20px;
       &.active {

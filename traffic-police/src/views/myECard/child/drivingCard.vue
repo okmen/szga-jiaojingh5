@@ -67,6 +67,7 @@
 </script>
 <style lang="less">
   .drivingCard-outer {
+    padding: 0 50px;
     .title {
       height: 100px;
       line-height: 100px;

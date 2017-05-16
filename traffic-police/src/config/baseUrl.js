@@ -89,3 +89,5 @@ export const processingPoint = `${commonUrl}illegalHanding/getIllegalProcessingP
 export const subscribeSorts = `${commonUrl}illegalHanding/toGetSubscribeSorts.html` // 违法预约时间选择列表接口
 
 export const changeSubscribe = `${commonUrl}illegalHanding/toChangeSubscribe.html` // 违法预约时间选择接口
+
+export const getElectronicPolicy = `http://192.168.1.161:8080/web/user/getElectronicPolicy.html` // 获取电子保单接口

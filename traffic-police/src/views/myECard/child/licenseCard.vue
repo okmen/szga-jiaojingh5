@@ -57,6 +57,7 @@
 <style lang="less">
   @import "./../../../style/base";
   .licenseCard-outer {
+    padding: 0 50px;
     .title {
       height: 100px;
       line-height: 100px;
