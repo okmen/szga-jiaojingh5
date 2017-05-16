@@ -221,6 +221,7 @@
         p {
           color:#2696dd;
           float:right;
+          text-decoration: underline;
         }
       }
     }
