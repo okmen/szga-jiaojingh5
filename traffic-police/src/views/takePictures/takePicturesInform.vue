@@ -160,7 +160,7 @@
         ],
         behaviorSelectShow: false,
         behaviorSelectMassage: '未使用专用清障车拖曳转向或照明、信号装置失效的机动车的',
-        behaviorSelectType: '',
+        behaviorSelectType: '6010---未使用专用清障车拖曳转向或照明、信号装置失效的机动车的',
         behaviorSelectData: [],
         abbreviationSelectShow: false,
         abbreviationSelectMassage: '粤',
@@ -288,7 +288,6 @@
       })
       resultGet(getTheChoiceOfIllegalActivities).then(json => {
         json.data.list.forEach((item, index) => {
-          console.log(item)
           that.behaviorSelectData[index] = {
             'type': item.wfxw.split('---')[0],
             'str': item.wfxw.split('---')[1],
@@ -402,9 +401,7 @@
             userSource: 'C',
             openId: window.localStorage.openId
           }
-          console.log(informData)
           resultPost(takePictures, informData).then(json => { // 调取随手拍举报接口
-            console.log(json)
             Indicator.close()
             // let jsonMsg = json.msg
             // let getJsonMsg = ''
