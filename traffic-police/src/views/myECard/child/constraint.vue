@@ -55,7 +55,8 @@
     data () {
       return {
         commerceData: [],
-        isShowNoInsuranceBills: false
+        isShowNoInsuranceBills: false,
+        dataLen: 0
       }
     },
     beforeMount () {
@@ -68,15 +69,16 @@
       console.log(reqData)
       resultPost(getElectronicPolicy, reqData).then(json => {
         if (json.code === '0000') {
-          json.data.forEach((item, index) => {
+          json.data.forEach(item => {
             if (item.insurancetype === '交强险') {
               this.commerceData.push(item)
               setTimeout(() => {
-                let qrCode = new window.QRCode(document.getElementById(`qrCode${index}`), {
+                let qrCode = new window.QRCode(document.getElementById(`qrCode${this.dataLen}`), {
                   width: 100,
                   height: 100
                 })
                 qrCode.makeCode(item.ewm)
+                this.dataLen++
               }, 0)
             }
           })

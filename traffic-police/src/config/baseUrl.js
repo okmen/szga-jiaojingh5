@@ -1,6 +1,6 @@
 // 添加URL需注释 哪个模块哪个接口
-// const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
-const commonUrl = 'https://szjjapi.stc.gov.cn/' // 正式环境d
+const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
+// const commonUrl = 'https://szjjapi.stc.gov.cn/' // 正式环境d
 
 export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
 
@@ -90,6 +90,6 @@ export const subscribeSorts = `${commonUrl}illegalHanding/toGetSubscribeSorts.ht
 
 export const changeSubscribe = `${commonUrl}illegalHanding/toChangeSubscribe.html` // 违法预约时间选择接口
 
-export const getElectronicPolicy = `http://192.168.1.161:8080/web/user/getElectronicPolicy.html` // 获取电子保单接口
+export const getElectronicPolicy = `${commonUrl}user/getElectronicPolicy.html` // 获取电子保单接口
 
-export const getTheChoiceOfIllegalActivities = `http://192.168.1.161:8080/web/user/getTheChoiceOfIllegalActivities.html?keyword=机动车` // 获取机动车违法行为
+export const getTheChoiceOfIllegalActivities = `${commonUrl}user/getTheChoiceOfIllegalActivities.html?keyword=机动车` // 获取机动车违法行为

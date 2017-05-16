@@ -1,7 +1,7 @@
 <template>
     <div class="insuranceBills-box">
       <mt-swipe :continuous="false" id="commerce-box" :auto="0" :speed="300">
-        <mt-swipe-item v-for="item in commerceData">
+        <mt-swipe-item v-for="(item, index) in commerceData">
           <div class="insuranceBills-box-list">
             <div class="box-header">
               保单号码：{{ item.insuranceno }}
@@ -30,7 +30,7 @@
               </div>
               <div class="box-content-item item-code">
                 <span>二维码</span>
-                <div class="code"></div>
+                <div class="code" :id="'qrCode' + index"></div>
               </div>
               <div class="box-content-item item-time">
                 <em>开始时间</em>
@@ -55,7 +55,8 @@
     data () {
       return {
         commerceData: [],
-        isShowNoInsuranceBills: false
+        isShowNoInsuranceBills: false,
+        dataLen: 0
       }
     },
     beforeMount () {
@@ -71,11 +72,12 @@
             if (item.insurancetype === '商业险') {
               this.commerceData.push(item)
               setTimeout(() => {
-                let qrCode = new window.QRCode(document.getElementById(`qrCode${index}`), {
+                let qrCode = new window.QRCode(document.getElementById(`qrCode${this.dataLen}`), {
                   width: 100,
                   height: 100
                 })
                 qrCode.makeCode(item.ewm)
+                this.dataLen++
               }, 0)
             }
           })
