@@ -262,7 +262,7 @@
         let reqData = {
           billNo: this.billNo,
           licensePlateNo: platNo.toLocaleUpperCase(),
-          mobilephone: window.localStorage.getItem('mobilePhone')
+          openId: !window.localStorage.getItem('openId') ? '' : window.localStorage.getItem('openId')
         }
         console.log(reqData)
         for (let key in reqData) {
