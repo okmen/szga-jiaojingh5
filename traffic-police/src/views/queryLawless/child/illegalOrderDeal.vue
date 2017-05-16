@@ -24,6 +24,9 @@
           <input type="checkbox" :id="'illegalSelectRadio'+ index" :name="'illegalSelectRadio'+ index" v-model:checked="item.checkAddBorder" @click="inputClick(index)">
           <label :for="'illegalSelectRadio'+ index"></label>
         </div>
+        <div class="illegal-free" v-if="item.description">
+          <p @click="punishFreeDesc(item.description)">首违免罚介绍</p>
+        </div>
       </div>
       <div class="illegal-btn" @click="btnSubmitIllegal()">预约</div>
     </div>
@@ -79,6 +82,9 @@
           item.checkAddBorder = false
         })
         this.AppealQueryData[index].checkAddBorder = true
+      },
+      punishFreeDesc: function (msg) {
+        MessageBox('提示', msg)
       },
       btnSubmitIllegal: function () {
         let checkedItem = ''
@@ -206,6 +212,15 @@
         }
         input[type=checkbox]:checked + label{
           background:#33c532;
+        }
+      }
+      .illegal-free {
+        font-size: 0.8rem;
+        margin-top: 28px;
+        &:after { display: block; content: "clear"; height: 0; clear: both; overflow: hidden; visibility: hidden; }
+        p {
+          color:#2696dd;
+          float:right;
         }
       }
     }
