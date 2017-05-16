@@ -58,7 +58,7 @@
         isShowNoInsuranceBills: false
       }
     },
-    created () {
+    beforeMount () {
       let reqData = {
         identityCard: window.localStorage.getItem('identityCard') || '',                  // 身份证
         licensePlateNumber: window.localStorage.getItem('myNumberPlate') || '',           // 车牌号
@@ -68,10 +68,16 @@
       console.log(reqData)
       resultPost(getElectronicPolicy, reqData).then(json => {
         if (json.code === '0000') {
-          json.data.forEach(item => {
+          json.data.forEach((item, index) => {
             if (item.insurancetype === '交强险') {
               this.commerceData.push(item)
-              console.log(this.commerceData.length)
+              setTimeout(() => {
+                let qrCode = new window.QRCode(document.getElementById(`qrCode${index}`), {
+                  width: 100,
+                  height: 100
+                })
+                qrCode.makeCode(item.ewm)
+              }, 0)
             }
           })
         }
@@ -84,16 +90,6 @@
     },
     components: {
       'noInsuranceBills': require('./noInsuranceBills.vue')
-    },
-    beforeMount () {
-      this.commerceData.forEach((item, index) => {
-        console.log(11111)
-        let qrCode = new window.QRCode(document.getElementById(`qrCode${index}`), {
-          width: 256,
-          height: 256
-        })
-        qrCode.makeCode(item.ewm)
-      })
     }
   }
 </script>
@@ -158,7 +154,6 @@
           width: 200px;
           height: 200px;
           margin: 0 auto;
-          background-color: red;
         }
       }
       .item-time{

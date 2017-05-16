@@ -91,3 +91,5 @@ export const subscribeSorts = `${commonUrl}illegalHanding/toGetSubscribeSorts.ht
 export const changeSubscribe = `${commonUrl}illegalHanding/toChangeSubscribe.html` // 违法预约时间选择接口
 
 export const getElectronicPolicy = `http://192.168.1.161:8080/web/user/getElectronicPolicy.html` // 获取电子保单接口
+
+export const getTheChoiceOfIllegalActivities = `http://192.168.1.161:8080/web/user/getTheChoiceOfIllegalActivities.html?keyword=机动车` // 获取机动车违法行为

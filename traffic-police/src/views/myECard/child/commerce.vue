@@ -58,19 +58,25 @@
         isShowNoInsuranceBills: false
       }
     },
-    created () {
+    beforeMount () {
       let reqData = {
         identityCard: window.localStorage.getItem('identityCard') || '',                  // 身份证
         licensePlateNumber: window.localStorage.getItem('myNumberPlate') || '',           // 车牌号
         mobileNumber: window.localStorage.getItem('mobilePhone'),                         // 手机号
         licensePlateType: window.localStorage.getItem('plateType') || ''                  // 车牌类型
       }
-      console.log(reqData)
       resultPost(getElectronicPolicy, reqData).then(json => {
         if (json.code === '0000') {
-          json.data.forEach(item => {
+          json.data.forEach((item, index) => {
             if (item.insurancetype === '商业险') {
               this.commerceData.push(item)
+              setTimeout(() => {
+                let qrCode = new window.QRCode(document.getElementById(`qrCode${index}`), {
+                  width: 100,
+                  height: 100
+                })
+                qrCode.makeCode(item.ewm)
+              }, 0)
             }
           })
         }
@@ -147,7 +153,6 @@
           width: 200px;
           height: 200px;
           margin: 0 auto;
-          background-color: red;
         }
       }
       .item-time{
