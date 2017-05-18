@@ -46,7 +46,7 @@
         </div>
       </div>
     </div>
-    <div class="form-line">
+    <!-- <div class="form-line">
       <div class="form-line-item item-name">
         <span>违法行为</span>
       </div>
@@ -58,7 +58,7 @@
           </ul>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="tp-photo-box">
       <div class="tp-photo-left">上传照片</div>
       <div class="tp-photo-right">
@@ -77,7 +77,7 @@
       </div>
     </div>
     <div class="tp-case-intro">
-      <div class="tp-case-left">情况说明</div>
+      <div class="tp-case-left">违法行为</div>
       <div class="tp-case-right">
         <textarea v-model="informIntroWhy" placeholder="请认真填写被举报车辆的违法项目"></textarea>
       </div>
@@ -394,7 +394,7 @@
             reportImgThree: this.imgThree.split(',')[1],
             licensePlateType: this.licenseSelectType,               // 车牌类型
             licensePlateNumber: this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase(),
-            illegalActivitieOne: this.behaviorSelectType,           // 违法行为
+            illegalActivitieOne: this.informIntroWhy,               // 违法行为
             inputManName: this.informName,                          // 举报人
             identityCard: this.informIdNumber,                      // 身份证号
             inputManPhone: this.informTel,                          // 电话号码
@@ -403,13 +403,6 @@
           }
           resultPost(takePictures, informData).then(json => { // 调取随手拍举报接口
             Indicator.close()
-            // let jsonMsg = json.msg
-            // let getJsonMsg = ''
-            // if (jsonMsg.indexOf(' ') === -1) {
-            //   getJsonMsg = jsonMsg
-            // } else {
-            //   getJsonMsg = jsonMsg.split(' ')[0]
-            // }
             if (json.code === '0000') {
               console.log('举报成功')
               this.postInform({
@@ -527,7 +520,7 @@
     }
   }
 </script>
-<style lang="less">
+<style lang="less" >
 @import './../../style/base';
 #takePhotosInform{
   padding:0 50px;
