@@ -82,7 +82,7 @@ export default{
           console.log(json)
           console.log('退出登录状态，返回首页')
           // 退出登录
-          window.location.href = 'https://gzh.stc.gov.cn/'
+          window.location.href = 'http://szjj.u-road.com/h5'
         } else {
           MessageBox({
             title: '',

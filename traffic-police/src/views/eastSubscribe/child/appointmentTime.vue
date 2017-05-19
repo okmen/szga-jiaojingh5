@@ -51,7 +51,7 @@
           <span>车架号后四位</span>
         </div>
         <div class="form-line-item div-select width-100">
-          <input v-model="carNumber" class="text-input bgcolor-fff" type="text" name="" value="" placeholder="车架号后四位">
+          <input v-model="fourDigitsAfterTheEngine" class="text-input bgcolor-fff" type="text" name="" value="" placeholder="车架号后四位">
         </div>
       </div>
       <div class="form-line">
@@ -59,7 +59,7 @@
           <span>手机号码</span>
         </div>
         <div class="form-line-item div-select width-100">
-          <input v-model="carNumber" class="text-input bgcolor-fff" type="tel" name="" value="" placeholder="请输入手机号码">
+          <input v-model="mobilephone" class="text-input bgcolor-fff" type="tel" name="" value="" placeholder="请输入手机号码">
         </div>
       </div>
       <div class="form-line">
@@ -67,7 +67,7 @@
           <span>验证码</span>
         </div>
         <div class="form-line-item div-select width-50">
-          <input v-model="carNumber" class="text-input bgcolor-fff" type="tel" name="" value="" placeholder="请输入验证码">
+          <input v-model="validateCode" class="text-input bgcolor-fff" type="tel" name="" value="" placeholder="请输入验证码">
         </div>
         <div class="form-line-item div-select width-46 float-right">
           <button class="blue-btn">点击发送验证码</button>
@@ -80,16 +80,26 @@
         <span>温馨提示：绿色为充裕,黄色为良好,红色为紧张,灰色为不可预约。</span>
       </div>
       <div class="appointmentTime-select-option">
-        <div class="option-item" v-for="(item, index) in optionData" @click="item.isElect = !item.isElect" :class="{ active: item.isElect }" >
+        <div class="option-item" v-for="(item, index) in optionData" @click="optionClick(index)" :class="{ active: item.isElect }" >
           <div class="option-item-text">
-            <p class="option-item-p option-item-p28">{{ item.address }}</p>
+            <p class="option-item-p option-item-p28">{{ item.address == 1 ? '梅沙片区' : '大鹏半岛片区' }}</p>
             <p class="option-item-p">{{ item.date }}</p>
-            <p class="option-item-p">{{ item.time }}</p>
+            <p class="option-item-p">{{ item.time == 01 ? '上午' : '下午' }}</p>
           </div>
           <div class="option-item-Mask" :style="{width: item.remainingPercentage + '%',backgroundColor: item.bgColor}" ></div>
         </div>
       </div>
-      <div class="appointmentTime-select-bottom"></div>
+      <div class="appointmentTime-select-bottom">
+        <div class="appointmentTime-bottom-text">
+          <p class="appointmentTime-bottom-text-h3">温馨提示：</p>
+          <p>1、网络预约在法定节假日开始前7个自然日开启，可预约最近1个法定节假日、休息日内任1天（如5月21日起可预约端午假期5月28日至5月30日中任何1天）。</p>
+          <p>2、网络预约区域分为梅沙片区和大鹏新区，允许同时预约两个景区。</p>
+          <p>3、网络预约只预约到达日期，离开不受限制，车辆离开东部景区后隔日重新返回东部景区，需要重新预约，在景区内部行驶不受限制。</p>
+          <p>4、1年内累计有3次预约成功后未履约前往情形的，取消当年预约资格（预约手机号和预约车牌均不得预约）。预约上午到达的游客可在9点前取消，预约下午到达的游客可在14点前取消，反复取消后重新预约3次的，取消此次节假日的预约资格。</p>
+          <p>5、因交通拥堵未在预约时间内抵达的，通过81234567电话报备，不视为违约，免于处罚。但不得超过预约时间12个小时。</p>
+        </div>
+        <button class="appointmentTime-bottom-btn" @click="btnClick()">预 约</button>
+      </div>
     </div>
   </div>
 </template>
@@ -102,88 +112,88 @@ export default {
     return {
       carSelectShow: false,
       carSelectMassage: '大型汽车(黄牌)',
-      carSelectType: '01',
+      carSelectType: '01',                          // 车辆类型
       carSelectData: [
         {
-          'id': '01',
+          'type': '01',
           'str': '大型汽车(黄牌)'
         },
         {
-          'id': '02',
+          'type': '02',
           'str': '小型汽车(蓝牌)'
         },
         {
-          'id': '03',
+          'type': '03',
           'str': '使馆汽车'
         },
         {
-          'id': '04',
+          'type': '04',
           'str': '领馆汽车'
         },
         {
-          'id': '05',
+          'type': '05',
           'str': '境外汽车'
         },
         {
-          'id': '06',
+          'type': '06',
           'str': '外籍汽车(黑牌)'
         },
         {
-          'id': '07',
+          'type': '07',
           'str': '普通摩托车'
         },
         {
-          'id': '08',
+          'type': '08',
           'str': '轻便摩托车'
         },
         {
-          'id': '09',
+          'type': '09',
           'str': '使馆摩托车'
         },
         {
-          'id': '10',
+          'type': '10',
           'str': '领馆摩托车'
         },
         {
-          'id': '15',
+          'type': '15',
           'str': '挂车'
         },
         {
-          'id': '16',
+          'type': '16',
           'str': '教练汽车'
         },
         {
-          'id': '17',
+          'type': '17',
           'str': '教练摩托车'
         },
         {
-          'id': '18',
+          'type': '18',
           'str': '实验汽车'
         },
         {
-          'id': '19',
+          'type': '19',
           'str': '实验摩托车'
         },
         {
-          'id': '22',
+          'type': '22',
           'str': '临时行驶车'
         },
         {
-          'id': '23',
+          'type': '23',
           'str': '警用汽车'
         },
         {
-          'id': '24',
+          'type': '24',
           'str': '警用摩托'
         },
         {
-          'id': '20',
+          'type': '20',
           'str': '临时入境车'
         }
       ],
       licenseSelectShow: false,
       licenseSelectMassage: '蓝牌',
-      licenseSelectType: '02',
+      licenseSelectType: '02',                      // 号牌类型
       licenseSelectData: [
         {
           'str': '蓝牌',
@@ -211,7 +221,7 @@ export default {
         }
       ],
       abbreviationSelectShow: false,
-      abbreviationSelectMassage: '粤',
+      abbreviationSelectMassage: '粤',              // 车牌号简称
       abbreviationSelectData: [
         {
           'str': '粤'
@@ -307,10 +317,14 @@ export default {
           'str': '新'
         }
       ],
-      carNumber: '',
+      carNumber: '',                                // 车牌号码
+      fourDigitsAfterTheEngine: '',                 // 车架号后四位
+      mobilephone: '',                              // 手机号码
+      validateCode: '',                             // 验证码
+      checkedData: '',                              // 选中的预约信息
       optionData: [
         {
-          address: '梅沙片区',
+          address: '1',
           date: '2017.05.28',
           remainingPercentage: '90',
           time: '01',
@@ -318,7 +332,7 @@ export default {
           isElect: false
         },
         {
-          address: '梅沙片区',
+          address: '1',
           date: '2017.05.28',
           remainingPercentage: '40',
           time: '02',
@@ -326,7 +340,7 @@ export default {
           isElect: false
         },
         {
-          address: '梅沙片区',
+          address: '2',
           date: '2017.05.28',
           remainingPercentage: '50',
           time: '01',
@@ -334,7 +348,7 @@ export default {
           isElect: false
         },
         {
-          address: '梅沙片区',
+          address: '2',
           date: '2017.05.28',
           remainingPercentage: '0',
           time: '02',
@@ -342,7 +356,7 @@ export default {
           isElect: false
         },
         {
-          address: '梅沙片区',
+          address: '1',
           date: '2017.05.28',
           remainingPercentage: '80',
           time: '01',
@@ -350,7 +364,7 @@ export default {
           isElect: false
         },
         {
-          address: '梅沙片区',
+          address: '1',
           date: '2017.05.28',
           remainingPercentage: '10',
           time: '02',
@@ -361,6 +375,33 @@ export default {
     }
   },
   methods: {
+    optionClick: function (index) {
+      this.optionData.forEach(item => {
+        item.isElect = false
+      })
+      if (this.optionData[index].remainingPercentage === '0') {
+        this.optionData[index].isElect = false
+        window.alert('该时间段不允许预约')
+      } else {
+        this.optionData[index].isElect = true
+        this.checkedData = this.optionData[index]
+      }
+    },
+    btnClick: function () {
+      let carNumbers = this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase()
+      let reqData = {
+        mobilephone: this.mobilephone,
+        validateCode: this.validateCode,
+        plateNumber: carNumbers,
+        plateType: this.licenseSelectType,
+        vehicleType: this.carSelectType,
+        fourDigitsAfterTheEngine: this.fourDigitsAfterTheEngine,
+        time: this.checkedData.time,
+        date: this.checkedData.date,
+        address: this.checkedData.address
+      }
+      console.log(reqData)
+    },
     licenseSelectClick: function (str, index) {
       if (str) {
         this.licenseSelectMassage = str
@@ -377,7 +418,7 @@ export default {
     carSelectClick: function (str, index) {
       if (str) {
         this.carSelectMassage = str
-        this.carSelectType = this.carSelectData[index].wfxw
+        this.carSelectType = this.carSelectData[index].type
       }
       if (this.carSelectShow === true) {
         this.carSelectShow = false
@@ -437,6 +478,7 @@ export default {
           color: #fff;
           font-size: 26px;
           border-radius: 8px;
+          outline: none;
         }
       }
       .abs-p{
@@ -502,6 +544,31 @@ export default {
         &.active{
           border: 6px solid #2696dd;
         }
+      }
+    }
+    .appointmentTime-select-bottom{
+      .appointmentTime-bottom-text{
+        padding-bottom: 55px;
+        .appointmentTime-bottom-text-h3{
+          font-size: 28px;
+          color: #2696dd;
+          line-height: 70px;
+        }
+        p{
+          font-size: 26px;
+          color: #666;
+          line-height: 35px;
+        }
+      }
+      .appointmentTime-bottom-btn{
+        width: 100%;
+        line-height: 80px;
+        background-color: #2696dd;
+        color: #fff;
+        font-size: 32px;
+        border: none;
+        outline: none;
+        border-radius: 8px;
       }
     }
   }

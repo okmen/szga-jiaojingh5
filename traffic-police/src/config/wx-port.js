@@ -19,13 +19,14 @@ var openId = getQueryString('openId') ? getQueryString('openId') : localStorage.
 var headImgUrl = getQueryString('headimgurl') ? getQueryString('headimgurl') : localStorage.getItem('headImgUrl');
 var nickname = getQueryString('nickname') ? getQueryString('nickname') : localStorage.getItem('nickname');
 
-// var openId = '123123123';
-// var headImgUrl = '45465456';
-// var nickname = '123131';
+// var openId = 'zhanshancheng';
+// var headImgUrl = 'zhanshancheng';
+// var nickname = 'zhanshancheng';
 
 let url = window.location.href;
 let data = {
   hostUrl: encodeURIComponent(url.split('#')[0]),
+  hostUrl1: url.split('#')[1],
   url: encodeURIComponent(url)
 }
 if (!!openId && openId !== 'undefined') {
@@ -35,18 +36,19 @@ if (!!openId && openId !== 'undefined') {
 } else {
   if (/MicroMessenger/i.test(ua)) { // 微信跳转获取openId
     window.localStorage.setItem('sourceOfCertification', 'C')
-    // 测试环境
-  // window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48a8104946507c1e&redirect_uri=http%3A%2F%2Ftestjava.chudaokeji.com%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
-    // 正式环境
-  // window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx629dea91ac256691&redirect_uri=https%3A%2F%2Fszjjapi.stc.gov.cn%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
-  // 交警环境
-  window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=https%3A%2F%2Fszjjapi.stc.gov.cn%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
+  // 交警u-load环境
+  window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
   } else if (/AlipayClient/i.test(ua)) { // 支付宝
     window.localStorage.setItem('sourceOfCertification', 'Z')
-    window.location.href = `https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=2016082201786470&scope=auth_user&redirect_uri=https%3A%2F%2Fszjjapi.stc.gov.cn%2FoauthAlipay%2Fcallback.html&state=${data.url}`
+    window.location.href = `https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=2016082201786470&scope=auth_user&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2FoauthAlipay%2Fcallback.html&state=${data.url}`
+  
   } else{
-    // 交警环境
-    window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=https%3A%2F%2Fszjjapi.stc.gov.cn%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
+    if (data.hostUrl1 == '/eastSubscribe') {
+      console.log(1111111111)
+    } else {
+  // 交警u-load环境
+  window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
+    }
   }
 }
 
@@ -55,8 +57,7 @@ if (/MicroMessenger/i.test(ua)) {
 }
 
 function wxConfig() {
-  resultGet(`https://szjjapi.stc.gov.cn/h5/sdkConfig.html?url=${data.hostUrl}`).then((r) => { // 测试环境
-    // resultGet(`http://gxg.tunnel.qydev.com/h5/sdkConfig.html?url=${data.hostUrl}`).then((r) => { // 开发环境
+  resultGet(`http://szjj.u-road.com/api/h5/sdkConfig.html?url=${data.hostUrl}`).then((r) => { // 测试环境
     if (r.code == '0000') {
       var res = r.data;
       wx.config({
