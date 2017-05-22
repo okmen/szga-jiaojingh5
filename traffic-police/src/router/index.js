@@ -318,6 +318,14 @@ const routes = [
     component: require('../views/takePictures/child/takePicturesSuccess.vue')
   },
   {
+    name: 'takePicturesSuccess1',                                                                // 举报成功外部链接
+    path: '/takePicturesSuccess1',
+    meta: {
+      title: '随手拍举报成功'
+    },
+    component: require('../views/takePictures/child/takePicturesSuccess1.vue')
+  },
+  {
     name: 'takePicturesInform',
     path: '/takePicturesInform',
     meta: {
