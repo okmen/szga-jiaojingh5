@@ -19,9 +19,9 @@ var openId = getQueryString('openId') ? getQueryString('openId') : localStorage.
 var headImgUrl = getQueryString('headimgurl') ? getQueryString('headimgurl') : localStorage.getItem('headImgUrl');
 var nickname = getQueryString('nickname') ? getQueryString('nickname') : localStorage.getItem('nickname');
 
-// var openId = 'zhanshancheng';
-// var headImgUrl = 'zhanshancheng';
-// var nickname = 'zhanshancheng';
+var openId = 'zhanshancheng';
+var headImgUrl = 'zhanshancheng';
+var nickname = 'zhanshancheng';
 
 let url = window.location.href;
 let data = {
@@ -41,7 +41,7 @@ if (!!openId && openId !== 'undefined') {
   } else if (/AlipayClient/i.test(ua)) { // 支付宝
     window.localStorage.setItem('sourceOfCertification', 'Z')
     window.location.href = `https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=2016082201786470&scope=auth_user&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2FoauthAlipay%2Fcallback.html&state=${data.url}`
-  
+
   } else{
     if (data.hostUrl1 == '/eastSubscribe') {
       console.log(1111111111)

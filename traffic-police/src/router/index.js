@@ -7,6 +7,14 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 const routes = [
   {
+    name: 'illegalParking',
+    path: '/illegalParking',
+    meta: {
+      title: '违停免罚'
+    },
+    component: require('../views/illegalParking/index.vue')
+  },
+  {
     name: 'Home',
     path: '/',
     meta: {

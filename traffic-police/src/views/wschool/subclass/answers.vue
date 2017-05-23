@@ -38,7 +38,7 @@
       </span>
     </div>
     <img class="answer-button" :src="'data:image/jpg/png/gif;base64,'+answertData.subjectImg" v-show="answertData.subjectImg">
-    </style>
+
     <ul class="answer-foot">
        <li class="answer-foot-button" v-for="(item, index) in answerName" @click="clickAnswer(index)" :class="{off: item.isSure }">
         <img class="answer-foot-img" :src="testData[index].img">{{item.answerName}}
