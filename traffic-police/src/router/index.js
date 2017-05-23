@@ -326,6 +326,14 @@ const routes = [
     component: require('../views/takePictures/takePicturesInform')
   },
   {
+    name: 'takePicturesQuery',
+    path: '/takePicturesQuery',
+    meta: {
+      title: '随手拍查询'
+    },
+    component: require('../views/takePictures/child/takePicturesQuery')
+  },
+  {
     name: 'trafficCivilization',
     path: '/trafficCivilization',
     mate: {
