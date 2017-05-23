@@ -94,3 +94,5 @@ export const changeSubscribe = `${commonUrl}illegalHanding/toChangeSubscribe.htm
 export const getElectronicPolicy = `${commonUrl}user/getElectronicPolicy.html` // 获取电子保单接口
 
 export const getTheChoiceOfIllegalActivities = `${commonUrl}user/getTheChoiceOfIllegalActivities.html?keyword=机动车` // 获取机动车违法行为
+
+export const getDOC = `${commonUrl}convenience/getAllResourcesAbsoluteUrl.html` // 获取民意云doc文档信息

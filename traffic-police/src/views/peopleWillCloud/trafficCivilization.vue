@@ -33,7 +33,7 @@
     <div class="civilization-news margin-center">
       <ul>
         <li v-for='item in sliceNews'>
-          <a :href="item.href">{{item.str}}</a>
+          <a :href="item.filePath">{{item.fileName}}</a>
         </li>
       </ul>
     </div>
@@ -46,46 +46,48 @@
 </template>
 
 <script>
+import { getDOC } from '../../config/baseUrl'
+import { resultGet } from '../../service/getData'
 export default {
   name: 'trafficCivilization',
   data () {
     return {
       news: [
         {
-          'str': '深圳交警民意云2017年第六期办理情况通报（2017年3月13日至2017年3月19日）',
-          'href': 'http://szjj.u-road.com/szjjpro/assets/doc/20170313-20170319.doc'
+          'fileName': '深圳交警民意云2017年第六期办理情况通报（2017年3月13日至2017年3月19日）',
+          'filePath': 'http://szjj.u-road.com/szjjpro/assets/doc/20170313-20170319.doc'
         },
         {
-          'str': '深圳交警民意云2017年第五期办理情况通报（2017年3月6日至2017年3月12日）',
-          'href': 'http://szjj.u-road.com/szjjpro/assets/doc/20170306-20170312.doc'
+          'fileName': '深圳交警民意云2017年第五期办理情况通报（2017年3月6日至2017年3月12日）',
+          'filePath': 'http://szjj.u-road.com/szjjpro/assets/doc/20170306-20170312.doc'
         },
         {
-          'str': '深圳交警民意云2017年第四期办理情况通报（2017年2月20日至2017年2月26日）',
-          'href': 'http://szjj.u-road.com/szjjpro/assets/doc/20170220-20170226.doc'
+          'fileName': '深圳交警民意云2017年第四期办理情况通报（2017年2月20日至2017年2月26日）',
+          'filePath': 'http://szjj.u-road.com/szjjpro/assets/doc/20170220-20170226.doc'
         },
         {
-          'str': '深圳交警民意云2017年第三期办理情况通报（2017年2月14日至2017年2月19日）',
-          'href': 'http://szjj.u-road.com/szjjpro/assets/doc/20170214-20170219.docx'
+          'fileName': '深圳交警民意云2017年第三期办理情况通报（2017年2月14日至2017年2月19日）',
+          'filePath': 'http://szjj.u-road.com/szjjpro/assets/doc/20170214-20170219.docx'
         },
         {
-          'str': '深圳交警民意云2017年第二期办理情况通报（2017年2月3日至2017年2月13日）',
-          'href': 'http://szjj.u-road.com/szjjpro/assets/doc/20170203-20170213.doc'
+          'fileName': '深圳交警民意云2017年第二期办理情况通报（2017年2月3日至2017年2月13日）',
+          'filePath': 'http://szjj.u-road.com/szjjpro/assets/doc/20170203-20170213.doc'
         },
         {
-          'str': '深圳交警民意云2017年第一期办理情况通报（2017年1月13日至2017年2月5日）',
-          'href': 'http://szjj.u-road.com/szjjpro/assets/doc/20170113-20170205.docx'
+          'fileName': '深圳交警民意云2017年第一期办理情况通报（2017年1月13日至2017年2月5日）',
+          'filePath': 'http://szjj.u-road.com/szjjpro/assets/doc/20170113-20170205.docx'
         },
         {
-          'str': '深圳交警民意云2016年第三期办理情况通报（2016年12月23日至2017年1月12日）',
-          'href': 'http://szjj.u-road.com/szjjpro/assets/doc/20161223-20170112.docx'
+          'fileName': '深圳交警民意云2016年第三期办理情况通报（2016年12月23日至2017年1月12日）',
+          'filePath': 'http://szjj.u-road.com/szjjpro/assets/doc/20161223-20170112.docx'
         },
         {
-          'str': '深圳交警民意云2016年第二期办理情况通报（2016年12月8日至2016年12月22日）',
-          'href': 'http://szjj.u-road.com/szjjpro/assets/doc/20161208-20161222.docx'
+          'fileName': '深圳交警民意云2016年第二期办理情况通报（2016年12月8日至2016年12月22日）',
+          'filePath': 'http://szjj.u-road.com/szjjpro/assets/doc/20161208-20161222.docx'
         },
         {
-          'str': '深圳交警民意云2016年第一期办理情况通报（2016年12月2日至2016年12月8日）',
-          'href': 'http://szjj.u-road.com/szjjpro/assets/doc/20161202-20161208.docx'
+          'fileName': '深圳交警民意云2016年第一期办理情况通报（2016年12月2日至2016年12月8日）',
+          'filePath': 'http://szjj.u-road.com/szjjpro/assets/doc/20161202-20161208.docx'
         }
       ],
       index: 1,
@@ -105,6 +107,12 @@ export default {
       this.length = Math.ceil(this.news.length / 5)
       return this.length
     }
+  },
+  mounted () {
+    resultGet(getDOC).then(json => {
+      console.log(json)
+      this.news = json.data
+    })
   }
 }
 </script>
