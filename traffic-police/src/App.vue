@@ -75,7 +75,7 @@
         </router-link>
       </dl>
       <dl>
-        <router-link :to="!isLogin ? '/login' : '/userAgreement#ddcNotice'">
+        <router-link to="/electricCar">
         <dt><img class="top9" src="./images/nav9.png" alt=""></dt>
         <dd>电动车管理</dd>
         </router-link>

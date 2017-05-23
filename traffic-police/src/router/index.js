@@ -7,6 +7,14 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 const routes = [
   {
+    name: 'illegalParking',
+    path: '/illegalParking',
+    meta: {
+      title: '违停免罚'
+    },
+    component: require('../views/illegalParking/index.vue')
+  },
+  {
     name: 'Home',
     path: '/',
     meta: {
@@ -316,6 +324,14 @@ const routes = [
       title: '随手拍举报成功'
     },
     component: require('../views/takePictures/child/takePicturesSuccess.vue')
+  },
+  {
+    name: 'takePicturesSuccess1',                                                                // 举报成功外部链接
+    path: '/takePicturesSuccess1',
+    meta: {
+      title: '随手拍举报成功'
+    },
+    component: require('../views/takePictures/child/takePicturesSuccess1.vue')
   },
   {
     name: 'takePicturesInform',
