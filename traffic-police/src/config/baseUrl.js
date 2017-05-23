@@ -1,7 +1,7 @@
 // 添加URL需注释 哪个模块哪个接口
-// const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
+const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
 // const commonUrl = 'https://szjjapi.stc.gov.cn/' // 正式环境d
-const commonUrl = 'http://szjj.u-road.com/api/' // 正式环境d
+// const commonUrl = 'http://szjj.u-road.com/api/' // 正式环境d
 
 export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
 
@@ -96,3 +96,5 @@ export const getElectronicPolicy = `${commonUrl}user/getElectronicPolicy.html` /
 export const getTheChoiceOfIllegalActivities = `${commonUrl}user/getTheChoiceOfIllegalActivities.html?keyword=机动车` // 获取机动车违法行为
 
 export const getDOC = `${commonUrl}convenience/getAllResourcesAbsoluteUrl.html` // 获取民意云doc文档信息
+
+export const takePicturesQuery = `${commonUrl}user/search/queryResultOfReadilyShoot.html` // 随手拍举报查询接口

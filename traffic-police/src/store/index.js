@@ -12,7 +12,33 @@ const state = {
     takePicturesRecord: '',
     takePicturesPassword: ''
   },
-  appealQuery: []
+  appealQuery: [],
+  licenseSelectData: [
+    {
+      'str': '蓝牌',
+      'type': '02'
+    },
+    {
+      'str': '黄牌',
+      'type': '01'
+    },
+    {
+      'str': '黑牌',
+      'type': '06'
+    },
+    {
+      'str': '个性牌',
+      'type': '02'
+    },
+    {
+      'str': '小型新能源车号牌',
+      'type': '02'
+    },
+    {
+      'str': '大型新能源车号牌',
+      'type': '02'
+    }
+  ]
 }
 
 const actions = {
