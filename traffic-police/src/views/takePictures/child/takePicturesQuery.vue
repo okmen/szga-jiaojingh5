@@ -47,7 +47,7 @@
         <span class="result-img" @click="img2_show = true">违法图片2</span>
       </div>
       <div class="result-item">
-        <span class="result-img" @click="img3_show = true" v-if="!item.illegalImg3">违法图片3</span>
+        <span class="result-img" @click="img3_show = true" v-if="item.illegalImg3">违法图片3</span>
       </div>
       <mt-popup v-model="img1_show" popup-transition="popup-fade">
         <img :src="item.illegalImg1">
@@ -103,12 +103,12 @@
               duration: 3000
             })
           }
+          this.img1_show = false
+          this.img2_show = false
+          this.img3_show = false
           this.$router.push({query: { 'reportSerialNumber': this.reportSerialNumber }})
           this.item = json.data
         })
-      },
-      showImg: function () {
-
       }
     }
   }
