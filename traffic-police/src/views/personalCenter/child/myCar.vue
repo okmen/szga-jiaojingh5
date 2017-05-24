@@ -7,7 +7,7 @@
             <div class="car-number">
               <i class="car-icon"></i>
               {{ car.numberPlateNumber }}
-          <span class="myself" v-if="car.isMyself == '本人'">本人</span>
+              <span class="myself" v-if="car.isMyself == '本人'">本人</span>
               <span class="others" v-else>他人</span>
             </div>
             <div class="car-deal" @click="hrefBtn(car)">
@@ -35,7 +35,7 @@
       <div class="addCar-box">
         <router-link to="addVehicle" class="add-car btn">添加车辆</router-link>
       </div>
-    </div>p
+    </div>
   </div>
 </template>
 <style lang="less">
