@@ -167,6 +167,9 @@ export default {
     }
   },
   created () {
+    document.addEventListener('click', (e) => {
+      this.licenseSelectShow = false
+    })
     this.openId = !window.localStorage.getItem('openId') ? '' : window.localStorage.getItem('openId')
     this.userName = !window.localStorage.getItem('userName') ? '' : window.localStorage.getItem('userName')
     this.userImg = !window.localStorage.getItem('headImgUrl') ? '' : window.localStorage.getItem('headImgUrl')
