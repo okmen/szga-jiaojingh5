@@ -13,7 +13,17 @@
       </div>
       <div class="success-login-bottom">
         <div class="success-login-identityCard">{{ userIdentityCard }}</div>
-        <div class="success-login-plateNumber">{{ userNumberPlate }}</div>
+        <div class="bar-code-icon"></div>
+        <!-- 这里要改成一个List -->
+        <div class="div-select">
+          <span v-model="plateSelect" class="plate-list" @click.stop="licenseSelectClick()">{{ plateSelect }}</span>
+          <div class="div-select-ul" v-if="licenseSelectShow">
+            <ul>
+              <li v-for="item in plateList" @click.stop="licenseSelectClick(item.number)">{{item.number}}</li>
+            </ul>
+          </div>
+        </div>
+        <!--<div class="success-login-plateNumber">{{ userNumberPlate }}</div>-->
       </div>
       <router-link to="/personalCenter"><div class="login-right"></div></router-link>
     </div>
@@ -128,7 +138,32 @@ export default {
       openId: '',
       icpTara: '',
       mobilePhone: '',
-      plateType: ''
+      plateType: '',
+      plateSelect: '111',
+      licenseSelectShow: false,
+      plateList: [
+        {
+          'number': '111'
+        },
+        {
+          'number': '222'
+        },
+        {
+          'number': '333'
+        }
+      ]
+    }
+  },
+  methods: {
+    licenseSelectClick: function (number) {
+      if (number) {
+        this.plateSelect = number
+      }
+      if (this.licenseSelectShow === true) {
+        this.licenseSelectShow = false
+      } else {
+        this.licenseSelectShow = true
+      }
     }
   },
   created () {
@@ -259,14 +294,33 @@ export default {
         background: url('./images/idCard.png') no-repeat left center;
         background-size: 42px;
         padding-left: 60px;
-        padding-right:30px;
       }
-      .success-login-plateNumber{
-        border-left: 2px solid #fff;
-        padding-left: 112px;
+      .bar-code-icon {
         background: url('./images/plateNumber.png') no-repeat 34px center;
         background-size: 60px;
+        width: 94px;
+        height: 40px;
+        margin-right: 10px;
       }
+      .div-select {
+        width: 180px;
+        text-align: center;
+        .plate-list {
+          color:#fff;
+        }
+        .div-select-ul {
+          border-radius: 6px;
+          ul li {
+            color:#666;
+          }
+        }
+      }
+      /*.success-login-plateNumber{*/
+        /*border-left: 2px solid #fff;*/
+        /*padding-left: 112px;*/
+        /*background: url('./images/plateNumber.png') no-repeat 34px center;*/
+        /*background-size: 60px;*/
+      /*}*/
     }
   }
   .login-right{
@@ -395,5 +449,4 @@ export default {
     }
   }
 }
-
 </style>
