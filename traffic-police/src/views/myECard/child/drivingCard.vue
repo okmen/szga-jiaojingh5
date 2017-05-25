@@ -1,8 +1,8 @@
 <template>
+  <!-- gjw这里要改成一个滑动 -->
   <div class="drivingCard-outer">
     <div class="body">
       <img :src="imageUrl">
-      <!--<img :src="codeUrl">-->
       <p>行驶证电子二维码</p>
       <div id="qrCode"></div>
     </div>
@@ -16,8 +16,7 @@
     name: 'drivingCard',
     data () {
       return {
-        imageUrl: '',
-        codeUrl: ''
+        imageUrl: ''
       }
     },
     mounted () {

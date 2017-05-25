@@ -48,14 +48,11 @@ export default{
     init: function () {
       let x = this.dragendX || 410942332, // 经度
           y = this.dragendY || 81392068 // 纬度
-
       let point = new Careland.Point(x, y) // 创建地图中心点
       window.map = new Careland.Map('mymap', point, 18) // 创建地图对象
       window.map.enableCenterIcon() // 启用地图中心点图标
       window.map.enableAutoResize() // 启用自动适应容器尺寸变化
       window.map.load() // 加载地图
-
-
       this.head = document.head
       // this.map = window.map
       console.log('初始化', window.map)
@@ -381,7 +378,8 @@ export default{
   }
   #mymap{
     width: 100%;
-    height: 80%;
+    height: 1000px;
+    /*height: 80%;*/
   }
   .getLocation-result{
     display: flex;
