@@ -402,10 +402,14 @@
           ticketNo: this.ticket,
           parkingAddr: this.mapObj.showAdd,
           parkingReason: this.reason,
-          imgUpload: {}
+          ticketImg: 'qweqweqw',
+          sceneOneImg: '12dfsdf3',
+          sceneHeadImg: '1df2asd3',
+          frontImg: '12sddfds3',
+          backImg: '12cvdsfsd3'
         }
-        console.log(reqData)
         resultPost(illegalParkingAvoidFine, reqData).then(data => {
+          console.log(reqData)
           console.log(data)
         })
       },
@@ -417,13 +421,25 @@
         var seperator2 = ':'
         var month = date.getMonth() + 1
         var strDate = date.getDate()
+        var hours = date.getHours()
+        var minutes = date.getMinutes()
+        var seconds = date.getSeconds()
         if (month >= 1 && month <= 9) {
           month = '0' + month
         }
         if (strDate >= 0 && strDate <= 9) {
           strDate = '0' + strDate
         }
-        this.currentDate = `${date.getFullYear()}${seperator1}${month}${seperator1}${strDate} ${date.getHours()}${seperator2}${date.getMinutes()}${seperator2}${date.getSeconds()}`
+        if (hours >= 0 && hours <= 9) {
+          hours = '0' + hours
+        }
+        if (minutes >= 0 && minutes <= 9) {
+          minutes = '0' + minutes
+        }
+        if (seconds >= 0 && seconds <= 9) {
+          seconds = '0' + seconds
+        }
+        this.currentDate = `${date.getFullYear()}${seperator1}${month}${seperator1}${strDate} ${hours}${seperator2}${minutes}${seperator2}${seconds}`
       },
       popupTicket (item) {
         this.showImg = !this.showImg
