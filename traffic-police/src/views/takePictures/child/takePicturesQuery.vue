@@ -69,8 +69,8 @@
     name: 'takePicturesQuery',
     data () {
       return {
-        reportSerialNumber: 'W20170522881675',            // 请求-记录号
-        password: '090551',            // 请求-查询密码
+        reportSerialNumber: '',            // 请求-记录号
+        password: '',            // 请求-查询密码
         item: '',
         img1_show: false,
         img2_show: false,
@@ -172,6 +172,14 @@
           color:#2696dd;
           text-decoration: underline;
           padding-left: 30px;
+        }
+      }
+      .mint-popup{
+        width: 80%;
+        max-height: 80%;
+        img{
+          width: 100%;
+          display: block;
         }
       }
     }
