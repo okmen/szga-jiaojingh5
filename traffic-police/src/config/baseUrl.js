@@ -99,4 +99,4 @@ export const getDOC = `${commonUrl}convenience/getAllResourcesAbsoluteUrl.html` 
 
 export const takePicturesQuery = `${commonUrl}user/search/queryResultOfReadilyShoot.html` // 随手拍举报查询接口
 
-export const illegalParkingAvoidFine = `http://192.168.1.71:8080/illegalHanding/illegalParkingAvoidFine.html` // 违停免罚接口
+export const illegalParkingAvoidFine = `http://192.168.1.71:8080/web/illegalHanding/illegalParkingAvoidFine.html` // 违停免罚接口
