@@ -367,7 +367,6 @@
       },
       btnSurePutInform: function () {  // 提交拍照举报按钮
         let imgArr = [this.imgOne, this.imgTwo, this.imgThree].filter(x => x !== '')
-        console.log(imgArr, imgArr.length)
         if (!this.informTime) {
           Toast({message: '请点击设置违法时间', position: 'bottom', className: 'white'})
         } else if (!this.informRoad) {
@@ -389,9 +388,9 @@
           let informData = {
             illegalTime: this.mtDateTimeMsg,                        // 违法时间
             illegalSections: this.informItem,                       // 违法路段
-            reportImgOne: this.imgOne.split(',')[1],                // 上传照片
-            reportImgTwo: this.imgTwo.split(',')[1],
-            reportImgThree: this.imgThree.split(',')[1],
+            reportImgOne: !this.imgOne.split(',')[1] ? '' : this.imgOne.split(',')[1],                // 上传照片
+            reportImgTwo: !this.imgTwo.split(',')[1] ? '' : this.imgTwo.split(',')[1],
+            reportImgThree: !this.imgThree.split(',')[1] ? '' : this.imgThree.split(',')[1],
             licensePlateType: this.licenseSelectType,               // 车牌类型
             licensePlateNumber: this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase(),
             illegalActivitieOne: this.informIntroWhy,               // 违法行为
@@ -404,7 +403,6 @@
           resultPost(takePictures, informData).then(json => { // 调取随手拍举报接口
             Indicator.close()
             if (json.code === '0000') {
-              console.log('举报成功')
               this.postInform({
                 takePicturesRecord: json.data.recordNumber,
                 takePicturesPassword: json.data.queryPassword

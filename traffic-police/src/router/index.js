@@ -318,6 +318,14 @@ const routes = [
     component: require('../views/handyService/child/moveCar.vue')
   },
   {
+    name: 'bindCar',
+    path: '/bindCar',
+    meta: {
+      title: '已绑车辆'
+    },
+    component: require('../views/handyService/child/bindCar.vue')
+  },
+  {
     name: 'answers',
     path: '/answers',
     meta: {

@@ -1,48 +1,60 @@
 <template>
-  <div class="illegalParking">
-    <div class="ip-inform-box">
-      <div class="=ip-inform-time">
+  <div class="illegalParking" @click.stop="subTypeSelectShow=false,typeSelectShow=false">
+    <mymap v-if="showMap" @submit="submitMap"></mymap>
+    <Popup  popup-transition="popup-fade" v-model="showImg" >
+      <img :src="popupImg" alt="">
+    </Popup>
+    <div style="height: 20px"></div>
+    <div class="ip-inform-box" v-if="!showMap">
+      <div class="ip-inform-time">
         <div class="ip-inform-title">时间</div>
         <div class="ip-inform-content">
-          <input type="text" class="ip-inform-only" disabled :value="currentDate">
+          <input type="text" class="ip-inform-only" readonly :value="currentDate" style="background: #efeff4">
         </div>
       </div>
-      <div class="=ip-inform-number">
-        <div class="ip-inform-title">号码车牌</div>
+      <div class="ip-inform-number">
+        <div class="ip-inform-title">车牌号码</div>
         <div class="ip-inform-content">
-          <select name="" class="ip-inform-only">
-            <option selected = "selected">{{myNumberPlate||111111111}}</option>
-            <option selected = "selected">{{myNumberPlate||111111111}}</option>
-            <option selected = "selected">{{myNumberPlate||111111111}}</option>
-            <option selected = "selected">{{myNumberPlate||111111111}}</option>
-          </select>
+          <div class="div-select flex">
+            <span class="btn-select hidden"  @click.stop="subTypeSelectShow=!subTypeSelectShow">{{currentPlate||'请选择车牌号'}}</span>
+            <div class="div-select-ul" style="top: 30px;" v-if="subTypeSelectShow">
+              <ul>
+                <li class="scroll-y" v-for="item in 8" @click.stop="selectPlate(item)">{{item}}</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="=ip-inform-kind">
-        <div class="ip-inform-title">号码种类</div>
+      <div class="ip-inform-kind">
+        <div class="ip-inform-title">车牌种类</div>
         <div class="ip-inform-content">
-          <select name="" class="ip-inform-only">
-            <option value="item.type" v-for="item in plateType">{{item.str}}</option>
-          </select>
+          <div class="div-select flex">
+            <span class="btn-select hidden"  @click.stop="typeSelectShow=!typeSelectShow">{{plateType||'请选择车牌种类'}}</span>
+            <div class="div-select-ul" style="top: 30px;" v-if="typeSelectShow">
+              <ul>
+                <li class="scroll-y" v-for="item in plateTypes" @click.stop="selectType(item.str)">{{item.str}}</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="=ip-inform-IDcard">
+      <div class="ip-inform-IDcard">
         <div class="ip-inform-title">身份证号</div>
         <div class="ip-inform-content">
-          <input type="text" class="ip-inform-only" disabled :value="IDcard">
+          <input type="text" class="ip-inform-only" readonly :value="IDcard" style="background: #efeff4">
         </div>
       </div>
-      <div class="=ip-inform-ticket">
+      <div class="ip-inform-ticket">
         <div class="ip-inform-title">罚单单号</div>
         <div class="ip-inform-content">
-          <input type="text" placeholder="请输入罚单单号" class="ip-inform-only">
+          <input id="ticket" type="text" placeholder="请输入罚单单号" class="ip-inform-only"  v-model="ticket">
         </div>
       </div>
-      <div class="=ip-inform-place">
+      <div class="ip-inform-place">
         <div class="ip-inform-title">停车地点</div>
         <div class="ip-inform-content">
-          <input type="text" class="ip-inform-local">
-          <span class="ip-inform-local-img">
+          <input type="text" class="ip-inform-local" :value="mapObj.showAdd" placeholder="点击右侧按钮选择地址" readonly style="background:rgb(239, 239, 244);padding-left: 18px">
+          <span class="ip-inform-local-img" @click.stop="showMap=!showMap">
             <img src="../../images/location-1.png"/>
           </span>
         </div>
@@ -50,11 +62,11 @@
       <div class="ip-inform-reason">
         <div class="ip-inform-title">停车原因</div>
         <div class="ip-inform-content">
-          <textarea placeholder="请输入停车原因" class="ip-inform-park"></textarea>
+          <textarea id="reason" placeholder="请输入停车原因" class="ip-inform-park" v-model="reason"></textarea>
         </div>
       </div>
     </div>
-    <div class="ip-photo-box">
+    <div class="ip-photo-box" v-if="!showMap">
       <div class="ip-photo-header">
         <span class="ip-photo-title">图片上传</span>
         <span class="ip-photo-check">点击名称查看图片案例</span>
@@ -62,46 +74,78 @@
       <div class="ip-photo-content">
         <div class="ip-photo-top">
           <div class="ip-photo-item">
-            <div class="ip-photo-img">
+            <label class="ip-photo-img" for="ip-photo-ticket">
               <img src="../../images/ticket.png"/>
-            </div>
-            <div class="ip-photo-remake">罚单</div>
+              <input type="file" id="ip-photo-ticket" accept="image/*" capture="camera">
+            </label>
+            <div class="ip-photo-remake" @click="popupTicket(0)">罚单</div>
           </div>
           <div class="ip-photo-item">
-            <div class="ip-photo-img">
-
-              <img src="../../images/bigscence1.png"/></div>
-            <div class="ip-photo-remake">大场景1</div>
+            <label class="ip-photo-img" for="ip-photo-bigscence1">
+              <img src="../../images/bigscence1.png"/>
+              <input type="file" id="ip-photo-bigscence1" accept="image/*" capture="camera">
+            </label>
+            <div class="ip-photo-remake" @click="popupTicket(1)">大场景1</div>
           </div>
           <div class="ip-photo-item">
-            <div class="ip-photo-img"><img src="../../images/headstock.png"/></div>
-            <div class="ip-photo-remake">大场景(含车头正面)
+            <label class="ip-photo-img" for="ip-photo-headstock">
+              <img src="../../images/headstock.png"/>
+              <input type="file" id="ip-photo-headstock" accept="image/*" capture="camera">
+            </label>
+            <div class="ip-photo-remake" @click="popupTicket(2)">大场景(含车头正面)
             </div>
           </div>
         </div>
         <div class="ip-photo-bottom">
           <div class="ip-photo-item">
-            <div class="ip-photo-img"><img src="../../images/front5.png"/></div>
-            <div class="ip-photo-remake">前5米无车辆全景</div>
+            <label class="ip-photo-img" for="ip-photo-front5">
+              <img src="../../images/front5.png"/>
+              <input type="file" id="ip-photo-front5" accept="image/*" capture="camera">
+            </label>
+            <div class="ip-photo-remake" @click="popupTicket(3)">前5米无车辆全景</div>
           </div>
           <div class="ip-photo-item">
-            <div class="ip-photo-img">
-              <img src="../../images/back5.png"/></div>
-            <div class="ip-photo-remake">后5米无车辆全景</div>
+            <label class="ip-photo-img" for="ip-photo-back5">
+              <img src="../../images/back5.png"/>
+              <input type="file" id="ip-photo-back5" accept="image/*" capture="camera">
+            </label>
+            <div class="ip-photo-remake" @click="popupTicket(4)">后5米无车辆全景</div>
           </div>
         </div>
       </div>
     </div>
-    <div class="submit" @click="submit">
+    <div v-wechat-title="$route.meta.title"></div>
+    <div class="submit" @click="submit" v-if="!showMap">
       提 &nbsp交
     </div>
-    <div v-wechat-title="$route.meta.title"></div>
+    <div style="height: 40px"></div>
   </div>
 </template>
 <style lang="less" scoped>
+  .mint-popup{
+    width: 80%;
+    max-height: 80%;
+    img{
+      width: 100%;
+      display: block;
+    }
+  }
+  .div-select{
+    width: 504px;
+    height: 62px;
+    border-radius: 8px;
+  }
+  .btn-select,.scroll-y{
+    color:#666666;
+    font-weight: normal;
+    font-size: 24px;
+  }
+  .div-select .btn-select{
+    background-color: white;
+  }
   .illegalParking{
-    padding-top: 26px;
     background: white;
+    /*height: 100%;*/
   }
   .ip-inform-box > div {
     height: 96px;
@@ -162,10 +206,11 @@
     margin-top: 12px;
   }
 .ip-inform-local-img{
-  width: 30px;
+  width: 70px;
   height: 41px;
   display: inline-block;
   margin-top: 10px;
+  text-align: right;
 }
   .ip-inform-local-img img{
     height:100%;
@@ -219,7 +264,7 @@
     margin-top: 18px;
   }
   .submit{
-    margin: 68px 50px 52px;
+    margin: 68px 50px 0px;
     height: 80px;
     width: 650px;
     background: #09bb07;
@@ -241,32 +286,132 @@
   .ip-photo-bottom .ip-photo-img img{
     height: 100%;
   }
+  .ip-photo-img input{
+    display: none;
+  }
 </style>
 <script>
+  import { illegalParkingAvoidFine } from '../../config/baseUrl'
+  import { resultPost } from '../../service/getData'
+  import UploadFile from '../../service/uploadFile'
+  import { Toast, Popup } from 'mint-ui'
+  import mymap from '../map/map.vue'
   export default {
     data () {
       return {
         currentDate: '',
         myNumberPlate: '',
+        plateTypes: '',
         plateType: '',
-        IDcard: ''
+        IDcard: '',
+        currentPlate: '',
+        subTypeSelectShow: false,
+        typeSelectShow: false,
+        ticket: '',
+        showMap: '',
+        mapObj: '',
+        sceneImg: '',
+        imgTime: '',
+        showImg: false,
+        popupImgs: [require('../../images/ticket.png'), require('../../images/bigscence1.png'), require('../../images/front5.png'), require('../../images/back5.png'), require('../../images/headstock.png')],
+        popupImg: '',
+        reason: ''
       }
     },
-    beforeRouteEnter (to, from, next) {
-      next(vm => {
-        vm.getUserInfo()
-        vm.getNowFormatDate()
-      })
+    components: {
+      mymap,
+      Popup
+    },
+    mounted () {
+      this.getUserInfo()
+      this.getNowFormatDate()
     },
     methods: {
+      init: function () {
+        UploadFile.upload({
+          id: 'file',
+          callback: (res) => {
+            console.log(res)
+            this.sceneImg = res.imgUrl
+            this.imgTime = res.dateTime
+          }
+        })
+      },
+      submitMap: function (obj) {
+        this.showMap = false
+        this.mapObj = obj
+        console.log(this.mapObj)
+      },
+      selectType (item) {
+        this.plateType = item
+        this.typeSelectShow = !this.typeSelectShow
+      },
+      selectPlate (item) {
+        this.currentPlate = item
+        this.subTypeSelectShow = !this.subTypeSelectShow
+      },
       getUserInfo () {
         this.myNumberPlate = window.localStorage.getItem('myNumberPlate')
-//        var number = window.localStorage.getItem('plateType')
-        this.plateType = this.$store.state.licenseSelectData
+//        var number = window.localStorage.getItem('plateTypes')
+        this.plateTypes = this.$store.state.licenseSelectData
         this.IDcard = window.localStorage.getItem('identityCard')
       },
       submit () {
-
+        if (!this.currentPlate) {
+          Toast({
+            message: '请选择车牌号码',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.plateType) {
+          Toast({
+            message: '请选择车牌种类',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.ticket) {
+          Toast({
+            message: '请输入罚单单号',
+            duration: 2000
+          })
+          document.getElementById('ticket').focus()
+          return
+        }
+        if (!this.mapObj.showAdd) {
+          Toast({
+            message: '请选择停车地点',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.reason) {
+          Toast({
+            message: '请输入停车原因',
+            duration: 2000
+          })
+          document.getElementById('reason').focus()
+          return
+        }
+        let reqData = {
+          createTime: this.currentDate,
+          licensePlateNo: this.currentPlate,
+          licensePlateType: this.plateType,
+          identityCard: this.IDcard,
+          ticketNo: this.ticket,
+          parkingAddr: this.mapObj.showAdd,
+          parkingReason: this.reason,
+          ticketImg: 'qweqweqw',
+          sceneOneImg: '12dfsdf3',
+          sceneHeadImg: '1df2asd3',
+          frontImg: '12sddfds3',
+          backImg: '12cvdsfsd3'
+        }
+        resultPost(illegalParkingAvoidFine, reqData).then(data => {
+          console.log(reqData)
+          console.log(data)
+        })
       },
       getNowFormatDate () {
         /* eslint-disable */
@@ -276,13 +421,29 @@
         var seperator2 = ':'
         var month = date.getMonth() + 1
         var strDate = date.getDate()
+        var hours = date.getHours()
+        var minutes = date.getMinutes()
+        var seconds = date.getSeconds()
         if (month >= 1 && month <= 9) {
           month = '0' + month
         }
         if (strDate >= 0 && strDate <= 9) {
           strDate = '0' + strDate
         }
-        this.currentDate = `${date.getFullYear()}${seperator1}${month}${seperator1}${strDate} ${date.getHours()}${seperator2}${date.getMinutes()}${seperator2}${date.getSeconds()}`
+        if (hours >= 0 && hours <= 9) {
+          hours = '0' + hours
+        }
+        if (minutes >= 0 && minutes <= 9) {
+          minutes = '0' + minutes
+        }
+        if (seconds >= 0 && seconds <= 9) {
+          seconds = '0' + seconds
+        }
+        this.currentDate = `${date.getFullYear()}${seperator1}${month}${seperator1}${strDate} ${hours}${seperator2}${minutes}${seperator2}${seconds}`
+      },
+      popupTicket (item) {
+        this.showImg = !this.showImg
+        this.popupImg = this.popupImgs[item]
       }
     }
   }

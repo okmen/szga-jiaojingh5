@@ -40,7 +40,7 @@
               <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" maxlength="4" name="" value="" placeholder="请输入车架号后四位">
             </div>
           </li>
-          <li class="queryByCar-hbs-item">
+          <!-- <li class="queryByCar-hbs-item">
             <div class="queryByCar-hbs-name">
               <span>身份证</span>
             </div>
@@ -55,7 +55,7 @@
             <div class="queryByCar-hbs-text">
               <input v-model="mobilephone" class="text-input" type="text" name="" value="" placeholder="请输入手机号码">
             </div>
-          </li>
+          </li> -->
           <li class="queryByCar-hbs-item clear">
             <div class="queryByCar-hbs-name">
               <span>验证码</span>
@@ -70,19 +70,19 @@
       <button class="btn" type="button" name="button" @click.stop="queryLawlessByCar()">查询</button>
       <button v-if="isMineCar" class="btn-light-green" type="button" @click.stop="queryMineByCar()" name="button">我的车辆违章</button>
       <div class="hint">
-        <p>温馨提示：仅可查询车辆在深圳市范围内的交通违法信息</p>
+        <!-- <p>温馨提示：仅可查询车辆在深圳市范围内的交通违法信息</p> -->
       </div>
     </div>
     <!--结果块(循环)-->
     <div v-for="data in illegalData" class="queryResults pad-side-50">
       <div class="results-box">
         <div class="box-header">
-          <div class="header-item left">违章信息</div>
+          <div class="header-item left">违法信息</div>
           <div class="header-item right order-print" @click.stop="clickJump(data.isNeedClaim)">{{ claimList[data.isNeedClaim] }}</div>
         </div>
         <div class="box-body">
           <div class="body-left-side">
-            <div class="left-number">违法编号 :<i>{{ data.billNo }}</i></div>
+            <div class="left-number">缴款编号 :<i>{{ data.billNo }}</i></div>
             <div class="left-line">
               <span><i class="car"></i></span>
               <p>{{ data.licensePlateNo }}</p>
@@ -160,7 +160,7 @@
         verifyCode: false,                    // 验证码验证
         isMineCar: window.localStorage.myNumberPlate === 'undefined' ? false : window.localStorage.myNumberPlate,
         claimList: {
-          '0': '无需打单',
+          '0': '直接缴款',
           '1': '需要打单',
           '2': '需要窗口办理'
         },       // 返回-是否需要打单（编号转换）
@@ -383,10 +383,7 @@
           car_number: this.car_number.toLocaleUpperCase(),
           licensePlateNo: platNo.toLocaleUpperCase(),
           licensePlateType: this.cur_type_id,
-          vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
-          identityCard: this.identityCard.toLocaleUpperCase(),
-          sourceOfCertification: 'C',
-          mobilephone: this.mobilephone
+          vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
         }
         console.log(reqData)
         for (let key in reqData) {

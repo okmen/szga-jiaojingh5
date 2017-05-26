@@ -7,9 +7,9 @@
         </router-link>
       </li>
       <li class="handyService-item">
-        <a href="http://szjj.u-road.com/szjjpro/Business/Member/login?arrJson=oPyqQjmrzSdjhfKsjMK-36__pvIA&dealFun=roadRescue&inType=0">
+       <router-link :to="isLogin ? '/bindCar' : '/login'">
           <p>一键救援</p>
-        </a>
+        </router-link>
       </li>
     </ul>
     <div v-wechat-title="$route.meta.title"></div>

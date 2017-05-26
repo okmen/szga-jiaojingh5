@@ -4,7 +4,7 @@
     <div class="queryResults pad-side-50" v-for="confirm in confirmList">
       <div class="results-box">
         <div class="box-header">
-          <div class="header-item left">违章信息</div>
+          <div class="header-item left">违法信息</div>
           <div class="header-item right order-print" @click.stop="claimConfirm(confirm.isNeedClaim, confirm.illegalNo)">{{ dealTypeList[confirm.isNeedClaim] }}</div>
         </div>
         <div class="box-body">
