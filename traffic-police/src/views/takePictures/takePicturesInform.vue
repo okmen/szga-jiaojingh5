@@ -113,8 +113,8 @@
   </div>
 </template>
 <script>
-  import { resultPost, resultGet } from '../../service/getData'
-  import { takePictures, getRoad, getTheChoiceOfIllegalActivities } from '../../config/baseUrl'
+  import { resultPost } from '../../service/getData'
+  import { takePictures, getRoad } from '../../config/baseUrl'
   import UploadFile from '../../service/uploadFile'
   import { Toast, Indicator } from 'mint-ui'
   import { mapActions } from 'vuex'
@@ -268,12 +268,13 @@
         informIdNumber: '',                                             // 举报人身份证号
         informTel: '',                                                  // 举报人电话号码
         loginJudge: window.localStorage.isLogin,                        // 判读是否登录
-        formatTime: ''                                                  // 使用mt组件后，时间是中国标准时间，格式转换
+        formatTime: '',                                                  // 使用mt组件后，时间是中国标准时间，格式转换
+        t: ''
       }
     },
     mounted: function () {                                              // 组件加载完成之后立即获取
       this.init()
-      let that = this
+      // let that = this
       let getTime = this.currentTime()
       this.mtDateTimeMsg = getTime
       if (this.loginJudge) {
@@ -286,15 +287,15 @@
         this.licenseSelectShow = false
         this.abbreviationSelectShow = false
       })
-      resultGet(getTheChoiceOfIllegalActivities).then(json => {
-        json.data.list.forEach((item, index) => {
-          that.behaviorSelectData[index] = {
-            'type': item.wfxw.split('---')[0],
-            'str': item.wfxw.split('---')[1],
-            'wfxw': item.wfxw
-          }
-        })
-      })
+      // resultGet(getTheChoiceOfIllegalActivities).then(json => {
+      //   json.data.list.forEach((item, index) => {
+      //     that.behaviorSelectData[index] = {
+      //       'type': item.wfxw.split('---')[0],
+      //       'str': item.wfxw.split('---')[1],
+      //       'wfxw': item.wfxw
+      //     }
+      //   })
+      // })
     },
     methods: {
       licenseSelectClick: function (str, index) {
@@ -419,38 +420,41 @@
         }
       },
       btnGetRoad: function () {  // 点击选择交通路段
-        if (this.informRoad === '') { // 判断输入为空时不显示下拉列表
-          this.showSelectRoad = false
-        } else {
-          this.showSelectRoad = true
-        }
-        let getRoadData = {
-          keyword: this.informRoad
-        }
-        let that = this
-        resultPost(getRoad, getRoadData).then(json => {
-          if (json.data) {
-            let roadLists = json.data.list
-            let roadArry = []
-            if (roadLists.length >= 2) {
-              roadLists.forEach((item, index) => {
-                let roadObj = {
-                  'wfdd': item.wfdd.split('---')[1],
-                  'type': item.wfdd.split('---')[0],
-                  'roadLi': item.wfdd
-                }
-                roadArry.push(roadObj)
-                that.roadSelectLists = roadArry
+        clearTimeout(this.t)
+        this.t = setTimeout(() => {
+          if (this.informRoad === '') { // 判断输入为空时不显示下拉列表
+            this.showSelectRoad = false
+          } else {
+            this.showSelectRoad = true
+          }
+          let getRoadData = {
+            keyword: this.informRoad
+          }
+          let that = this
+          resultPost(getRoad, getRoadData).then(json => {
+            if (json.data) {
+              let roadLists = json.data.list
+              let roadArry = []
+              if (roadLists.length >= 2) {
+                roadLists.forEach((item, index) => {
+                  let roadObj = {
+                    'wfdd': item.wfdd.split('---')[1],
+                    'type': item.wfdd.split('---')[0],
+                    'roadLi': item.wfdd
+                  }
+                  roadArry.push(roadObj)
+                  that.roadSelectLists = roadArry
+                })
+              }
+            } else {
+              Toast({
+                message: '请输入正确的路段，不用太详细',
+                position: 'bottom',
+                className: 'white'
               })
             }
-          } else {
-            Toast({
-              message: '请输入正确的路段，不用太详细',
-              position: 'bottom',
-              className: 'white'
-            })
-          }
-        })
+          })
+        }, 3000)
       },
       currentTime: function () {  // 获取时间
         let now = new Date()

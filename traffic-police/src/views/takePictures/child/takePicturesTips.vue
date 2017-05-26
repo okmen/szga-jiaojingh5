@@ -44,6 +44,8 @@
    <div class="tp-btn-sure">
      <button @click="btnAgreeRequest">确认</button>
    </div>
+   <p class="tp-bottom">深圳交警提供技术支持</p>
+   <div v-wechat-title="$route.meta.title"></div>
  </div>
 </template>
 <script>
@@ -71,7 +73,6 @@ export default {
 </script>
 <style lang="less">
 #takePhotoTips{
-}
 .tp-title{
   width:100%;
   height:74px;
@@ -189,7 +190,7 @@ export default {
 }
 .tp-btn-sure{
   width:100%;
-  height:158px;
+  height:108px !important;
   button{
     margin-left:52px;
     width:646px;
@@ -204,5 +205,11 @@ export default {
     -moz-border-radius:8px;
     border-radius:8px;
   }
+}
+.tp-bottom{
+  text-align: center;
+  font-size: 16px;
+
+}
 }
 </style>
