@@ -13,14 +13,16 @@
       </div>
       <div class="success-login-bottom">
         <div class="success-login-identityCard">{{ userIdentityCard }}</div>
-        <div class="bar-code-icon"></div>
         <!-- 这里要改成一个List -->
-        <div class="div-select">
-          <span v-model="plateSelect" class="plate-list" @click.stop="licenseSelectClick()">{{ plateSelect }}</span>
-          <div class="div-select-ul" v-if="licenseSelectShow">
-            <ul>
-              <li v-for="item in plateList" @click.stop="licenseSelectClick(item.number)">{{item.number}}</li>
-            </ul>
+        <div class="success-login-plateNumber" v-if="isCarExist">
+          <div class="bar-code-icon"></div>
+          <div class="div-select">
+            <span class="plate-list" @click.stop="licenseSelectClick()">{{ plateSelect }}</span>
+            <div class="div-select-ul" v-if="licenseSelectShow">
+              <ul>
+                <li v-for="item in plateList" @click.stop="licenseSelectClick(item.myNumberPlate)">{{item.myNumberPlate}}</li>
+              </ul>
+            </div>
           </div>
         </div>
         <!--<div class="success-login-plateNumber">{{ userNumberPlate }}</div>-->
@@ -139,19 +141,20 @@ export default {
       icpTara: '',
       mobilePhone: '',
       plateType: '',
-      plateSelect: '111',
       licenseSelectShow: false,
-      plateList: [
-        {
-          'number': '111'
-        },
-        {
-          'number': '222'
-        },
-        {
-          'number': '333'
-        }
-      ]
+      plateList: '',
+      isCarExist: true,
+      plateSelect: ''
+    }
+  },
+  mounted () {
+    let carArr = JSON.parse(window.localStorage.cars)
+    if (!carArr.length) {
+      this.isCarExist = false
+    } else {
+      this.isCarExist = true
+      this.plateList = carArr
+      this.plateSelect = this.plateList[0].myNumberPlate
     }
   },
   methods: {
@@ -285,45 +288,46 @@ export default {
       }
     }
     .success-login-bottom{
-      display: flex;
-      justify-content: center;
-      align-items: center;
       font-size: 30px;
       padding-top: 30px;
+      padding-left: 40px;
       div{
         color: #fff;
       }
       .success-login-identityCard{
+        display: inline-block;
         background: url('./images/idCard.png') no-repeat left center;
         background-size: 42px;
         padding-left: 60px;
       }
-      .bar-code-icon {
-        background: url('./images/plateNumber.png') no-repeat 34px center;
-        background-size: 60px;
-        width: 94px;
-        height: 40px;
-        margin-right: 10px;
-      }
-      .div-select {
-        width: 180px;
-        text-align: center;
-        .plate-list {
-          color:#fff;
+      .success-login-plateNumber {
+        display: inline-block;
+        .bar-code-icon {
+          display: inline-block;
+          background: url('./images/plateNumber.png') no-repeat 34px center;
+          background-size: 60px;
+          width: 94px;
+          height: 40px;
+          margin-right: 10px;
+          vertical-align: middle;
         }
-        .div-select-ul {
-          border-radius: 6px;
-          ul li {
-            color:#666;
+        .div-select {
+          vertical-align: middle;
+          display: inline-block;
+          width: 180px;
+          text-align: center;
+          .plate-list {
+            color:#fff;
+          }
+          .div-select-ul {
+            border-radius: 6px;
+            ul li {
+              color:#666;
+              text-indent: 0;
+            }
           }
         }
       }
-      /*.success-login-plateNumber{*/
-        /*border-left: 2px solid #fff;*/
-        /*padding-left: 112px;*/
-        /*background: url('./images/plateNumber.png') no-repeat 34px center;*/
-        /*background-size: 60px;*/
-      /*}*/
     }
   }
   .login-right{
