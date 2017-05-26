@@ -12,7 +12,7 @@
     </div>
     <div class="car-content" v-if="currentClick">
         <div class="car-only" :class="{'border-bottom':index==selfCarPlate.length-1}" @click="skipRescue(item)" v-for="(item, index) in selfCarPlate">
-          <div class="car-plate">{{item}}</div>
+          <div class="car-plate">{{!item ? '' : item}}</div>
           <div class="right-arrow">
             <img src="../../../images/arrow_right2.png"/>
           </div>
@@ -20,7 +20,7 @@
     </div>
     <div class="car-content" v-if="!currentClick">
       <div class="car-only" :class="{'border-bottom':index==otherCarPlate.length-1}" @click="skipRescue(item)" v-for="(item, index) in otherCarPlate">
-        <div class="car-plate">{{item}}</div>
+        <div class="car-plate">{{!item ? '' : item}}</div>
         <div class="right-arrow">
           <img src="../../../images/arrow_right2.png"/>
         </div>
