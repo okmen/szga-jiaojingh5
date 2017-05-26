@@ -98,3 +98,5 @@ export const getTheChoiceOfIllegalActivities = `${commonUrl}user/getTheChoiceOfI
 export const getDOC = `${commonUrl}convenience/getAllResourcesAbsoluteUrl.html` // 获取民意云doc文档信息
 
 export const takePicturesQuery = `${commonUrl}user/search/queryResultOfReadilyShoot.html` // 随手拍举报查询接口
+
+export const DriverCardVerify = `http://192.168.1.243:8080/web/user/bindDriverLicense.html` // 驾驶证认证（无绑定驾驶证）

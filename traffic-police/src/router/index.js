@@ -71,6 +71,22 @@ const routes = [
     component: require('../views/myECard/myECard.vue')
   },
   {
+    name: 'DriverCardNone',
+    path: '/DriverCardNone',
+    meta: {
+      title: '无驾驶证页面'
+    },
+    component: require('../views/personalCenter/child/DriverCardNone.vue')
+  },
+  {
+    name: 'DriverCardVerify',
+    path: '/DriverCardVerify',
+    meta: {
+      title: '无驾驶证页面'
+    },
+    component: require('../views/personalCenter/child/DriverCardVerify.vue')
+  },
+  {
     name: 'starUser',
     path: '/starUser',
     meta: {
