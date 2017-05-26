@@ -33,8 +33,8 @@ export default {
     }
   },
   created: function () {
-    let locationHref = window.location.href
-    this.entryHash = locationHref.split('#')[2]  // 截取#后的值
+    let locationHref = decodeURIComponent(window.location.href)
+    this.entryHash = locationHref.split('?')[0].split('#')[2]  // 截取#后的值
     let userAgreementData = {
       noticeKey: this.entryHash
     }

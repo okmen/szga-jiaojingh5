@@ -13,7 +13,7 @@
     name: 'insuranceBills',
     data () {
       return {
-        cur_tab: 'commerce',
+        cur_tab: 'constraint',
         diu: ''
       }
     },
