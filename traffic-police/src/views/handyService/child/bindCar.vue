@@ -11,16 +11,16 @@
       </div>
     </div>
     <div class="car-content" v-if="currentClick">
-        <div class="car-only" @click="skipRescue">
-          <div class="car-plate">{{selfCarPlate}}</div>
+        <div class="car-only" :class="{'border-bottom':index==selfCarPlate.length-1}" @click="skipRescue(item)" v-for="(item, index) in selfCarPlate">
+          <div class="car-plate">{{item}}</div>
           <div class="right-arrow">
             <img src="../../../images/arrow_right2.png"/>
           </div>
         </div>
     </div>
     <div class="car-content" v-if="!currentClick">
-      <div class="car-only">
-        <div class="car-plate">粤11111111</div>
+      <div class="car-only" :class="{'border-bottom':index==otherCarPlate.length-1}" @click="skipRescue(item)" v-for="(item, index) in otherCarPlate">
+        <div class="car-plate">{{item}}</div>
         <div class="right-arrow">
           <img src="../../../images/arrow_right2.png"/>
         </div>
@@ -41,6 +41,9 @@
   .bind-car{
     background: white;
     height: 100%;
+  }
+  .border-bottom{
+    border-bottom: 2px solid #dbdbdb;
   }
 .bind-car-header{
   display: flex;
@@ -71,7 +74,6 @@
       background: #f7f7f7;
       height: 90px;
       border-top: 2px solid #dbdbdb;
-      border-bottom: 2px solid #dbdbdb;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -95,8 +97,8 @@ export default {
   data () {
     return {
       currentClick: true,
-      selfCarPlate: '',
-      otherCarPlate: ''
+      selfCarPlate: [],
+      otherCarPlate: []
     }
   },
   methods: {
@@ -104,12 +106,20 @@ export default {
       this.currentClick = item
     },
     getCatPlate () {
-      this.selfCarPlate = window.localStorage.getItem('myNumberPlate')
+      let cats = JSON.parse(window.localStorage.getItem('cars'))
+      cats.map((item) => {
+        if (item.isMySelf === 0) {
+          this.selfCarPlate.push(item.myNumberPlate)
+        }
+        if (item.isMySelf === 1) {
+          this.otherCarPlate.push(item.myNumberPlate)
+        }
+      })
     },
-    skipRescue () {
+    skipRescue (item) {
       let phone = window.localStorage.getItem('mobilePhone')
       let contact = window.localStorage.getItem('userName')
-      window.location.href = `http://m.comettech.cn/thr/save?phone=${phone}&contact=${contact}&car_no=${this.selfCarPlate}`
+      window.location.href = `http://m.comettech.cn/thr/save?phone=${phone}&contact=${contact}&car_no=${item}`
     }
   },
   mounted () {

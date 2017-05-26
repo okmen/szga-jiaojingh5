@@ -337,7 +337,7 @@ const routes = [
     name: 'takePicturesTips',
     path: '/takePicturesTips',
     meta: {
-      title: '随手拍举报温馨提示'
+      title: '随手拍举报'
     },
     component: require('../views/takePictures/child/takePicturesTips.vue')
   },
