@@ -1,5 +1,5 @@
 <template>
-  <div class="myCard-outer">
+  <div class="myCard-outer" v-if="myCardShow">
     <div class="card-box">
       <ul>
         <li>
@@ -25,6 +25,9 @@
       </ul>
       <!--<div class="own-card">{{ isReceive }}</div>-->
     </div>
+  </div>
+  <div v-else>
+    <DriverCardNone></DriverCardNone>
   </div>
 </template>
 <style lang="less">
@@ -74,9 +77,14 @@
         availableScore: '',
         physicalExaminationDate: '',
         effectiveDate: '',
-        isLogin: false
+        isLogin: false,
+        // 无驾驶证不显示信息
+        myCardShow: false
 //        isReceive: ''
       }
+    },
+    components: {
+      DriverCardNone: require('./DriverCardNone.vue')
     },
     mounted () {
       Indicator.open()
@@ -97,6 +105,7 @@
           this.availableScore = json.data.availableScore
           this.physicalExaminationDate = json.data.physicalExaminationDate
           this.effectiveDate = json.data.effectiveDate
+          json.data.fileNumber ? this.myCardShow = true : this.myCardShow = false
         } else {
           Toast({
             message: json.msg,

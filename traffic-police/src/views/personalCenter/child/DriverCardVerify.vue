@@ -9,7 +9,7 @@
               <span>我的姓名</span>
             </div>
             <div class="takePicturesQuery-hbs-text">
-              <input v-model="name" class="text-input" type="text" name="" value="" placeholder="请输入姓名" required>
+              <input v-model="name" class="text-input" type="text" name="" value="" placeholder="请输入姓名" readonly>
             </div>
           </li>
           <li class="takePicturesQuery-hbs-item">
@@ -17,7 +17,7 @@
               <span>身份证号</span>
             </div>
             <div class="takePicturesQuery-hbs-text">
-              <input v-model="identityCard" class="text-input" type="tel" name="" value="" placeholder="请输入身份证号" required>
+              <input v-model="identityCard" class="text-input" type="tel" name="" value="" placeholder="请输入身份证号" readonly>
             </div>
           </li>
         </ul>
@@ -45,6 +45,7 @@
   import { resultPost } from '../../../service/getData'
   import { DriverCardVerify } from '../../../config/baseUrl'
   import { Toast } from 'mint-ui'
+  import { mapActions } from 'vuex'
   export default {
     name: 'takePicturesQuery',
     data () {
@@ -53,8 +54,8 @@
         setOutCity: false,
         setOutProvince: false,
         driverLicenseIssuedAddress: '',
-        identityCard: '',
-        name: '',
+        identityCard: window.localStorage.identityCard,
+        name: window.localStorage.userName,
         recordNumber: ''
       }
     },
@@ -68,7 +69,7 @@
           this.driverLicenseIssuedAddress = 3
         }
         let reqData = {
-          loginName: window.localStorage.mobilePhone,
+          loginName: window.localStorage.identityCard,
           Intype: '0',
           identityCard: this.identityCard,
           userSource: 'C',
@@ -78,6 +79,7 @@
         }
         console.log(reqData)
         resultPost(DriverCardVerify, reqData).then(json => {
+          console.log(json)
           if (!json.data) {
             Toast({
               message: json.msg,
@@ -87,10 +89,17 @@
             })
           } else if (json.code === '0000') {
             this.recordNumber = json.data.recordNumber
+            this.postAppoin({
+              appoinNum: json.data.recordNumber,
+              appoinType: '绑定驾驶证'
+            })
             this.$router.push('/appointSuccess')
           }
         })
-      }
+      },
+      ...mapActions({
+        postAppoin: 'postAppoin'
+      })
     }
   }
 </script>

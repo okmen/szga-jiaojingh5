@@ -1,40 +1,38 @@
 <template>
   <div class="myCar-outer">
-    <div v-show="show">
-      <mt-swipe :continuous="false" id="car-swipe-box" :auto="0" :speed="300">
-        <mt-swipe-item v-for="(car, index) in carMsg">
-          <div class="car-box">
-            <div class="car-number">
-              <i class="car-icon"></i>
-              {{ car.numberPlateNumber }}
-              <span class="myself" v-if="car.isMyself == '本人'">本人</span>
-              <span class="others" v-else>他人</span>
-            </div>
-            <div class="car-deal" @click="hrefBtn(car)">
-              当前本车有{{ car.illegalNumber }}宗违法尚未处理
-          <i class="arrow"></i>
-            </div>
-            <div class="car-status">
-              <ul>
-                <li>号牌种类:<span>{{ plateTypeList[car.plateType] }}</span></li>
-                <li>年审时间:<span>{{ car.annualReviewDate }}</span><span style="color:#aaa">{{ car.annualReviewDateRemind
-                  }}</span></li>
-                <li>{{ car.otherPeopleUse }}<span></span></li>
-              </ul>
-            </div>
-            <div class="car-owner">
-              <ul>
-                <li>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<span>{{ car.name }}</span></li>
-                <li>身份证号:<span>{{ car.identityCard }}</span></li>
-                <li>手机号码:<span>{{ car.mobilephone }}</span></li>
-              </ul>
-            </div>
+    <mt-swipe :continuous="false" id="car-swipe-box" :auto="0" :speed="300" v-if="show">
+      <mt-swipe-item v-for="(car, index) in carMsg">
+        <div class="car-box">
+          <div class="car-number">
+            <i class="car-icon"></i>
+            {{ car.numberPlateNumber }}
+            <span class="myself" v-if="car.isMyself == '本人'">本人</span>
+            <span class="others" v-else>他人</span>
           </div>
-        </mt-swipe-item>
-      </mt-swipe>
-      <div class="addCar-box">
-        <router-link to="addVehicle" class="add-car btn">添加车辆</router-link>
-      </div>
+          <div class="car-deal" @click="hrefBtn(car)">
+            当前本车有{{ car.illegalNumber }}宗违法尚未处理
+        <i class="arrow"></i>
+          </div>
+          <div class="car-status">
+            <ul>
+              <li>号牌种类:<span>{{ plateTypeList[car.plateType] }}</span></li>
+              <li>年审时间:<span>{{ car.annualReviewDate }}</span><span style="color:#aaa">{{ car.annualReviewDateRemind
+                }}</span></li>
+              <li>{{ car.otherPeopleUse }}<span></span></li>
+            </ul>
+          </div>
+          <div class="car-owner">
+            <ul>
+              <li>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<span>{{ car.name }}</span></li>
+              <li>身份证号:<span>{{ car.identityCard }}</span></li>
+              <li>手机号码:<span>{{ car.mobilephone }}</span></li>
+            </ul>
+          </div>
+        </div>
+      </mt-swipe-item>
+    </mt-swipe>
+    <div class="addCar-box">
+      <router-link to="addVehicle" class="add-car btn">添加车辆</router-link>
     </div>
   </div>
 </template>
@@ -42,7 +40,8 @@
   .myCar-outer {
     margin-top: 40px;
     padding:0 50px;
-    padding-top: 84%;
+    height: 100%;
+    overflow: hidden;
     .car-box {
       font-size:0.75rem;
       border:1px solid #a7d9f9;
@@ -115,6 +114,7 @@
       text-align: center;
       padding-bottom: 100px;
       .add-car {
+        margin-top: 0;
         color:#fff;
         display: inline-block;
         text-align: center;
@@ -125,11 +125,7 @@
     }
   }
   #car-swipe-box{
-    padding: 34px 50px 0;
     box-sizing: border-box;
-    position: absolute;
-    left: 0;
-    top: 0;
     width: 100%;
     height: 680px;
   }
@@ -145,7 +141,7 @@
     name: 'myCar',
     data () {
       return {
-        show: true,
+        show: false,
         carMsg: '',
         identityCard: window.localStorage.getItem('identityCard'),
         numberPlateNumber: window.localStorage.getItem('myNumberPlate'),
@@ -173,7 +169,7 @@
           if (json.code === '0000') {
             this.reserveList = json.data
             if (!json.data) {
-              MessageBox('提示', '该车辆暂无预约信息')
+              MessageBox('提示', '该车辆暂无违法信息')
             } else {
               json.data.forEach((item, index) => { // 循环dataList 给每个item上面添加 check关联属性
                 item.checkAddBorder = false
@@ -198,9 +194,12 @@
       }
       resultPost(bindCar, reqData).then(json => {
         Indicator.close()
+        console.log(json)
         if (json.code === '0000') {
-          this.show = true
-          this.carMsg = json.data
+          if (json.data.length !== 0) {
+            this.show = true
+            this.carMsg = json.data
+          }
         } else {
           Toast({
             message: json.msg,

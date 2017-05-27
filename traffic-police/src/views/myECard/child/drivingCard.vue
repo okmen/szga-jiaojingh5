@@ -6,7 +6,7 @@
         <mt-swipe-item v-for="(item, index) in drivingData">
           <img :src="'data:image/png;base64,' + item.data.electronicDrivingLicense">
           <!--<img :src="codeUrl">-->
-          <p>驾驶证电子二维码</p>
+          <p>行驶证电子二维码</p>
           <div class="qrCode" :id="'qrCode' + index"></div>
         </mt-swipe-item>
       </mt-swipe>
@@ -103,7 +103,7 @@
         padding-bottom: 30px;
       }
       .qrCode{
-        width: 40%;
+        width: 256px;
         height: 256px;
         overflow: hidden;
         margin: 0 auto;

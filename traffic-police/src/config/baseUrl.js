@@ -99,6 +99,6 @@ export const getDOC = `${commonUrl}convenience/getAllResourcesAbsoluteUrl.html` 
 
 export const takePicturesQuery = `${commonUrl}user/search/queryResultOfReadilyShoot.html` // 随手拍举报查询接口
 
-export const DriverCardVerify = `http://192.168.1.243:8080/web/user/bindDriverLicense.html` // 驾驶证认证（无绑定驾驶证）
+export const DriverCardVerify = `${commonUrl}user/bindDriverLicense.html` // 驾驶证认证（无绑定驾驶证）
 
 export const illegalParkingAvoidFine = `http://192.168.1.71:8080/web/illegalHanding/illegalParkingAvoidFine.html` // 违停免罚接口

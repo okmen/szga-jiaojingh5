@@ -454,7 +454,7 @@
               })
             }
           })
-        }, 3000)
+        }, 2000)
       },
       currentTime: function () {  // 获取时间
         let now = new Date()

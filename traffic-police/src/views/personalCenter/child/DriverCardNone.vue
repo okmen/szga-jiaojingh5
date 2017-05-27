@@ -8,7 +8,7 @@
       <p>请点击下方按钮进行驾驶证验证</p>
     </div>
     <router-link class="btn btn-blue" type="button" name="button" to="/DriverCardVerify">驾驶证认证</router-link>
-    <button class="btn btn-blue" type="button" name="button">领取电子证件</button>
+    <!-- <button class="btn btn-blue" type="button" name="button">领取电子证件</button> -->
   </div>
 </template>
 <style lang="less" scoped>
@@ -16,7 +16,7 @@
     padding: 40px;
     .icon-box {
       text-align: center;
-      padding: 120px 0;
+      padding: 60px 0;
       img {
         width: 240px;
       }

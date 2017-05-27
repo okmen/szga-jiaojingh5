@@ -82,7 +82,7 @@ const routes = [
     name: 'DriverCardVerify',
     path: '/DriverCardVerify',
     meta: {
-      title: '无驾驶证页面'
+      title: '我的证件'
     },
     component: require('../views/personalCenter/child/DriverCardVerify.vue')
   },
