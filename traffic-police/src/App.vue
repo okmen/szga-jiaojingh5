@@ -75,7 +75,7 @@
         </a>
       </dl>
       <dl>
-        <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/proveList/'+openId">
+        <a href="#credit">
         <dt><img class="top7" src="./images/nav7.png" alt=""></dt>
         <dd>信息单据证明</dd>
         </a>
