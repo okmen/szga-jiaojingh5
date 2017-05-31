@@ -65,8 +65,8 @@
   }
 </style>
 <script>
-  import { bindCard } from '../../../config/baseUrl'
-  import { resultPost } from '../../../service/getData'
+  import { bindCard, noPwdLogin } from '../../../config/baseUrl'
+  import { resultPost, resultPostNoLoading } from '../../../service/getData'
   import { Indicator, Toast } from 'mint-ui'
   export default {
     name: 'myCard',
@@ -76,6 +76,7 @@
         status: '',
         availableScore: '',
         physicalExaminationDate: '',
+        mobilePhone: '',
         effectiveDate: '',
         isLogin: false,
         // 无驾驶证不显示信息
@@ -91,11 +92,31 @@
       let reqData = {
         identityCard: window.localStorage.getItem('identityCard')
       }
+      this.mobilePhone = !window.localStorage.getItem('mobilePhone') ? '' : window.localStorage.getItem('mobilePhone')
       this.isLogin = window.localStorage.getItem('isLogin')
       if (!this.isLogin) {
         Indicator.close()
         this.$router.push('/login')
         return false
+      }
+      if (this.mobilePhone) {
+        let noPwdLoginData = {
+          loginName: this.mobilePhone
+        }
+        resultPostNoLoading(noPwdLogin, noPwdLoginData).then(json => {
+          if (json.code === '0000') {
+            let userData = json.data.authenticationBasicInformation
+            let userCars = JSON.stringify(json.data.cars)
+            window.localStorage.setItem('identityCard', decodeURIComponent(userData.identityCard)) // 身份证照
+            window.localStorage.setItem('mobilePhone', decodeURIComponent(userData.mobilephone)) // 手机号码
+            window.localStorage.setItem('myNumberPlate', decodeURIComponent(userData.myNumberPlate)) // 车牌号码
+            window.localStorage.setItem('userName', decodeURIComponent(userData.trueName)) // 用户名字
+            window.localStorage.setItem('behindTheFrame4Digits', decodeURIComponent(userData.behindTheFrame4Digits)) // 车架号后4位
+            window.localStorage.setItem('plateType', decodeURIComponent(userData.plateType)) // 车牌类型
+            window.localStorage.setItem('cars', userCars)   // 名下车牌信息
+            window.localStorage.setItem('isLogin', true) // 是否登录
+          }
+        })
       }
       resultPost(bindCard, reqData).then(json => {
         Indicator.close()
