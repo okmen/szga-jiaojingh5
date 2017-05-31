@@ -9,7 +9,7 @@
        <input type="checkbox" id="informReadCheckbox" name="informReadCheckbox" v-model="checked">
        <label for="informReadCheckbox"></label>
      </div>
-     <span>
+     <span class="read-and-agree">
        我已认真阅读以上内容，并愿意承担相关法律责任。
      </span>
    </div>
@@ -120,8 +120,8 @@ export default {
     width:100%;
     height:auto;
     p{
-      font-size:24px;
-      line-height:36px;
+      font-size:28px;
+      line-height:40px;
     }
     p:first-child{
       margin-top:54px;
@@ -166,6 +166,9 @@ export default {
     padding:28px 50px 0;
     width:100%;
     height:106px;
+    .read-and-agree {
+      font-size: 26px;
+    }
     .tp-read-checkbox{
       float:left;
       position:relative;
