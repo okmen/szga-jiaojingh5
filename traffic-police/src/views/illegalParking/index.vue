@@ -13,23 +13,23 @@
         </div>
       </div>
       <div class="ip-inform-number">
-        <div class="ip-inform-title">车牌号码</div>
+        <div class="ip-inform-title">号牌号码</div>
         <div class="ip-inform-content">
           <div class="div-select flex">
-            <span class="btn-select hidden"  @click.stop="subTypeSelectShow=!subTypeSelectShow">{{currentPlate||'请选择车牌号'}}</span>
+            <span class="btn-select hidden"  @click.stop="subTypeSelectShow=!subTypeSelectShow">{{currentPlate||'请选择号牌号码'}}</span>
             <div class="div-select-ul" style="top: 30px;" v-if="subTypeSelectShow">
               <ul>
-                <li class="scroll-y" v-for="item in 8" @click.stop="selectPlate(item)">{{item}}</li>
+                <li class="scroll-y" v-for="item in myNumberPlate" @click.stop="selectPlate(item)">{{item}}</li>
               </ul>
             </div>
           </div>
         </div>
       </div>
       <div class="ip-inform-kind">
-        <div class="ip-inform-title">车牌种类</div>
+        <div class="ip-inform-title">号牌种类</div>
         <div class="ip-inform-content">
           <div class="div-select flex">
-            <span class="btn-select hidden"  @click.stop="typeSelectShow=!typeSelectShow">{{plateType||'请选择车牌种类'}}</span>
+            <span class="btn-select hidden"  @click.stop="typeSelectShow=!typeSelectShow">{{plateType||'请选择号牌种类'}}</span>
             <div class="div-select-ul" style="top: 30px;" v-if="typeSelectShow">
               <ul>
                 <li class="scroll-y" v-for="item in plateTypes" @click.stop="selectType(item.str)">{{item.str}}</li>
@@ -300,7 +300,7 @@
     data () {
       return {
         currentDate: '',
-        myNumberPlate: '',
+        myNumberPlate: [],
         plateTypes: '',
         plateType: '',
         IDcard: '',
@@ -351,7 +351,11 @@
         this.subTypeSelectShow = !this.subTypeSelectShow
       },
       getUserInfo () {
-        this.myNumberPlate = window.localStorage.getItem('myNumberPlate')
+        this.currentPlate = window.localStorage.getItem('myNumberPlate')
+        let cars = JSON.parse(window.localStorage.getItem('cars')) || []
+        cars.map(item => {
+          this.myNumberPlate.push(item.myNumberPlate)
+        })
 //        var number = window.localStorage.getItem('plateTypes')
         this.plateTypes = this.$store.state.licenseSelectData
         this.IDcard = window.localStorage.getItem('identityCard')

@@ -457,6 +457,30 @@ const routes = [
       title: '机动车信息单'
     },
     component: require('../views/credit/child/motorVehicle.vue')
+  },
+  {
+    name: 'driverCredit',
+    path: '/driverCredit',
+    meta: {
+      title: '驾驶人安全事故信用表'
+    },
+    component: require('../views/credit/child/driverCredit.vue')
+  },
+  {
+    name: 'carFree',
+    path: '/carFree',
+    meta: {
+      title: '无车证明'
+    },
+    component: require('../views/credit/child/driverCredit.vue')
+  },
+  {
+    name: 'driversInformation',
+    path: '/driversInformation',
+    meta: {
+      title: '驾驶人信用单'
+    },
+    component: require('../views/credit/child/driverCredit.vue')
   }
 ]
 /* eslint-disable no-new */

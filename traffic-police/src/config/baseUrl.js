@@ -102,3 +102,11 @@ export const takePicturesQuery = `${commonUrl}user/search/queryResultOfReadilySh
 export const DriverCardVerify = `${commonUrl}user/bindDriverLicense.html` // 驾驶证认证（无绑定驾驶证）
 
 export const illegalParkingAvoidFine = `http://192.168.1.71:8080/web/illegalHanding/illegalParkingAvoidFine.html` // 违停免罚接口
+
+export const addSafeAccidentCredit = `http://192.168.1.67:8080/web/user/addSafeAccidentCredit.html` // 驾驶人安全事故信用表
+
+export const submitApplicationForDriverInformation = `http://192.168.1.243:8080/web/user/proofOfInformationDocuments/submitApplicationForDriverInformation.html` // 驾驶人信用单
+
+export const addNoneCarCertification = `http://192.168.1.67:8080/web/user/addNoneCarCertification.html` // 驾驶人安全事故信用表
+
+export const submitApplicationForMotorVehicleInformation = `http://192.168.1.243:8080/web/user/proofOfInformationDocuments/submitApplicationForMotorVehicleInformation.html` // 机动车信息单
