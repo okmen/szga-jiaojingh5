@@ -441,6 +441,22 @@ const routes = [
       title: '用户须知'
     },
     component: require('../components/userAgreement.vue')
+  },
+  {
+    name: 'credit',
+    path: '/credit',
+    meta: {
+      title: '信用单据证明'
+    },
+    component: require('../views/credit/index.vue')
+  },
+  {
+    name: 'motorVehicle',
+    path: '/motorVehicle',
+    meta: {
+      title: '机动车信息单'
+    },
+    component: require('../views/credit/child/motorVehicle.vue')
   }
 ]
 /* eslint-disable no-new */
