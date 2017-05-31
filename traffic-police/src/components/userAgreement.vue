@@ -13,8 +13,11 @@
        我已认真阅读以上内容，并愿意承担相关法律责任。
      </span>
    </div>
-   <div class="tp-btn-sure">
+   <div class="tp-btn-sure" v-if="isShow">
      <button @click="btnAgreeRequest">确认</button>
+   </div>
+   <div class="tp-btn-sure" v-else>
+     <button @click="btnReturn">返回</button>
    </div>
  </div>
 </template>
@@ -29,12 +32,16 @@ export default {
       userAgreementCon: '',
       getNoticeTitle: '',
       checked: '',
-      entryHash: ''
+      entryHash: '',
+      isShow: true
     }
   },
   created: function () {
     let locationHref = decodeURIComponent(window.location.href)
     this.entryHash = locationHref.split('?')[0].split('#')[2]  // 截取#后的值
+    if (this.entryHash === 'wfsspjbzy' || this.entryHash === 'sspjbzysx') {
+      this.isShow = false
+    }
     let userAgreementData = {
       noticeKey: this.entryHash
     }
@@ -74,6 +81,17 @@ export default {
             this.$router.push('/starUser')
             break
         }
+      } else {
+        Toast({
+          message: '请勾选已阅读温馨提示',
+          position: 'bottom',
+          duration: 1500
+        })
+      }
+    },
+    btnReturn: function () {
+      if (this.checked === true) {
+        this.$router.go(-1)
       } else {
         Toast({
           message: '请勾选已阅读温馨提示',
