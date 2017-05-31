@@ -1,7 +1,7 @@
 // 添加URL需注释 哪个模块哪个接口
-const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
+// const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
 // const commonUrl = 'https://szjjapi.stc.gov.cn/' // 正式环境d
-// const commonUrl = 'http://szjj.u-road.com/api/' // 正式环境d
+const commonUrl = 'http://szjj.u-road.com/api/' // 正式环境d
 
 export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
 
@@ -110,3 +110,5 @@ export const submitApplicationForDriverInformation = `http://192.168.1.243:8080/
 export const addNoneCarCertification = `http://192.168.1.67:8080/web/user/addNoneCarCertification.html` // 驾驶人安全事故信用表
 
 export const submitApplicationForMotorVehicleInformation = `http://192.168.1.243:8080/web/user/proofOfInformationDocuments/submitApplicationForMotorVehicleInformation.html` // 机动车信息单
+
+export const noPwdLogin = `${commonUrl}user/getLoginInfoByLoginName.html` // 免密登录

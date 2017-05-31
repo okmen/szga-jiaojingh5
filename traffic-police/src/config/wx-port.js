@@ -2,7 +2,7 @@
  * 微信 js sdk: //res.wx.qq.com/open/js/jweixin-1.2.0.js
  */
 import wx from 'weixin-js-sdk'
-import { resultGet } from '../service/getData'
+import { resultGetNoLoading } from '../service/getData'
 /* eslint-disable */
 
 function getQueryString(name) {
@@ -19,9 +19,9 @@ var openId = getQueryString('openId') ? getQueryString('openId') : localStorage.
 var headImgUrl = getQueryString('headimgurl') ? getQueryString('headimgurl') : localStorage.getItem('headImgUrl');
 var nickname = getQueryString('nickname') ? getQueryString('nickname') : localStorage.getItem('nickname');
 
-var openId = 'zhanshancheng';
-var headImgUrl = 'zhanshancheng';
-var nickname = 'zhanshancheng';
+// var openId = 'zhanshancheng';
+// var headImgUrl = 'zhanshancheng';
+// var nickname = 'zhanshancheng';
 
 let url = window.location.href;
 let data = {
@@ -57,7 +57,7 @@ if (/MicroMessenger/i.test(ua)) {
 }
 
 function wxConfig() {
-  resultGet(`http://szjj.u-road.com/api/h5/sdkConfig.html?url=${data.hostUrl}`).then((r) => { // 测试环境
+  resultGetNoLoading(`http://szjj.u-road.com/api/h5/sdkConfig.html?url=${data.hostUrl}`).then((r) => { // 测试环境
     if (r.code == '0000') {
       var res = r.data;
       wx.config({
