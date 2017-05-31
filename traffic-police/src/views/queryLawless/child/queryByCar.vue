@@ -112,12 +112,12 @@
     <div v-for="data in myIllegalData" class="queryResults pad-side-50">
       <div class="results-box">
         <div class="box-header">
-          <div class="header-item left">我的违章</div>
+          <div class="header-item left">违法信息</div>
           <div class="header-item right order-print" @click.stop="clickJump(data.isNeedClaim)">{{ claimList[data.isNeedClaim] }}</div>
         </div>
         <div class="box-body">
           <div class="body-left-side">
-            <div class="left-number">违法编号 :<i>{{ data.billNo }}</i></div>
+            <div class="left-number">缴款编号 :<i>{{ data.billNo }}</i></div>
             <div class="left-line">
               <span><i class="time"></i></span>
               <p>{{ data.illegalTime }}</p>

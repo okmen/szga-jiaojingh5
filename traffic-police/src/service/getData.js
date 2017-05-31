@@ -31,10 +31,29 @@ export const resultPost = (url, bodyData) => {
     })
 }
 
+export const resultPostNoLoading = (url, bodyData) => {
+  return fetch(url, {
+      method: 'POST',
+      body: dataFun(bodyData),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      credentials: 'same-origin'
+    }).then((res) => {
+      return res.json()
+    })
+}
+
 export const resultGet = (url) => {
   Indicator.open()
   return fetch(url).then((res) => {
     Indicator.close()
+    return res.json()
+  })
+}
+
+export const resultGetNoLoading = (url) => {
+  return fetch(url).then((res) => {
     return res.json()
   })
 }

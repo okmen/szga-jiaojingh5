@@ -45,6 +45,7 @@ export default {
     let userAgreementData = {
       noticeKey: this.entryHash
     }
+//    let userAgreement = 'http://192.168.1.243:8080/web/user/getDocumentationORMByNoticeKey.html'
     resultPost(userAgreement, userAgreementData).then(json => { // 调取随手拍举报接口
       console.log(json)
       this.getNoticeTitle = json.data.title
@@ -79,6 +80,18 @@ export default {
             break
           case 'xjyhrz': // 星级用户认证须知
             this.$router.push('/starUser')
+            break
+          case 'aqsgxyb':  // 驾驶人安全事故信用表须知
+            this.$router.push('/driverCredit')
+            break
+          case 'wczm':  // 无车证明须知
+            this.$router.push('/carFree')
+            break
+          case 'jsrxxd':  // 驾驶人信息单
+            this.$router.push('/driversInformation')
+            break
+          case 'jdcxxd':  // 机动车信息单
+            this.$router.push('/motorVehicle')
             break
         }
       } else {

@@ -458,6 +458,30 @@ const routes = [
     },
     component: require('../views/credit/child/motorVehicle.vue')
   },
+  {
+    name: 'driverCredit',
+    path: '/driverCredit',
+    meta: {
+      title: '驾驶人安全事故信用表'
+    },
+    component: require('../views/credit/child/driverCredit.vue')
+  },
+  {
+    name: 'carFree',
+    path: '/carFree',
+    meta: {
+      title: '无车证明'
+    },
+    component: require('../views/credit/child/driverCredit.vue')
+  },
+  {
+    name: 'driversInformation',
+    path: '/driversInformation',
+    meta: {
+      title: '驾驶人信用单'
+    },
+    component: require('../views/credit/child/driverCredit.vue')
+  },
   // 随手拍功能微信版本路由
   {
     name: 'takePicturesTips_WeChat',                                                         // 微信版本

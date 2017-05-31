@@ -8,6 +8,12 @@ const state = {
     appoinNum: '',
     appoinType: ''
   },
+  userInfo: {
+    applicationType: '',
+    IDcard: '',
+    phoneNumber: '',
+    userName: ''
+  },
   informSuccess: {
     takePicturesRecord: '',
     takePicturesPassword: ''
@@ -62,6 +68,12 @@ const mutations = {
   },
   saveAppealQuery (state, appealQuery) {
     state.appealQuery = appealQuery
+  },
+  getUserInfo (state, to) {
+    state.userInfo.applicationType = to.meta.title
+    state.userInfo.IDcard = window.localStorage.getItem('identityCard')
+    state.userInfo.phoneNumber = window.localStorage.getItem('mobilePhone')
+    state.userInfo.userName = window.localStorage.getItem('userName')
   }
 }
 
