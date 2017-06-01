@@ -9,6 +9,10 @@
     <div class="submit" @click="submit">
       提 &nbsp交
     </div>
+    <div class="warm-prompt">
+      <div class="warm-prompt-title">温馨提示：</div>
+      <div class="warm-prompt-content">进度查询请前往“个人中心”的“我的业务”</div>
+    </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
@@ -88,6 +92,21 @@
   }
 </script>
 <style lang="less" scoped>
+  .warm-prompt{
+    padding-top: 40px;
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+  .warm-prompt-title{
+    font-size: 30px;
+    color: #333;
+    line-height: 60px;
+  }
+  .warm-prompt-content{
+    font-size: 26px;
+    color: #666;
+    text-indent: 2em;
+  }
   .submit{
     margin: 68px 50px 0px;
     height: 80px;

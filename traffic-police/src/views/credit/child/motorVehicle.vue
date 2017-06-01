@@ -53,10 +53,29 @@
     <div class="submit" @click="submit">
       提 &nbsp交
     </div>
+    <div class="warm-prompt">
+      <div class="warm-prompt-title">温馨提示：</div>
+      <div class="warm-prompt-content">进度查询请前往“个人中心”的“我的业务”</div>
+    </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <style lang="less" scoped>
+  .warm-prompt{
+    padding-top: 40px;
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+  .warm-prompt-title{
+    font-size: 30px;
+    color: #333;
+    line-height: 60px;
+  }
+  .warm-prompt-content{
+    font-size: 26px;
+    color: #666;
+    text-indent: 2em;
+  }
   .submit{
     margin: 68px 50px 0px;
     height: 80px;
@@ -143,18 +162,35 @@
         this.subTypeSelectShow = !this.subTypeSelectShow
       },
       getUserInfo () {
-        this.currentPlate = window.localStorage.getItem('myNumberPlate')
         let cars = JSON.parse(window.localStorage.getItem('cars')) || []
         cars.map(item => {
-          this.myNumberPlate.push(item.myNumberPlate)
+          if (item.isMySelf === 0) {
+            this.myNumberPlate.push(item.myNumberPlate)
+          }
         })
-//        var number = window.localStorage.getItem('plateTypes')
+        if (this.myNumberPlate.length) {
+          this.currentPlate = this.myNumberPlate[0]
+        }
         this.plateTypes = this.$store.state.licenseSelectData
         this.IDcard = window.localStorage.getItem('identityCard')
         this.userName = window.localStorage.getItem('userName')
         this.phoneNumber = window.localStorage.getItem('mobilePhone')
       },
       submit () {
+        if (!this.myNumberPlate.length) {
+          Toast({
+            message: '你还没绑定本人车辆，请先绑定',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.currentPlate) {
+          Toast({
+            message: '你选择号牌号码',
+            duration: 2000
+          })
+          return
+        }
         if (!this.plateType) {
           Toast({
             message: '请选择号牌种类',
