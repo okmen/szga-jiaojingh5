@@ -44,7 +44,7 @@
           <span class="btn-select hidden"  @click.stop="typeSelectShow=!typeSelectShow">{{plateType||'请选择号牌种类'}}</span>
           <div class="div-select-ul" style="top: 30px;" v-if="typeSelectShow">
             <ul>
-              <li class="scroll-y" v-for="item in plateTypes" @click.stop="selectType(item.str)">{{item.str}}</li>
+              <li class="scroll-y" v-for="item in plateTypes" @click.stop="selectType(item)">{{item.str}}</li>
             </ul>
           </div>
         </div>
@@ -78,10 +78,10 @@
   }
   .ip-inform-title {
     font-size: 30px;
-    width: 120px;
+    width: 135px;
   }
   .ip-inform-content {
-    width: 504px;
+    width: 485px;
     display: flex;
     justify-content: space-between;
   }
@@ -94,7 +94,7 @@
     align-items: center;
   }
   .ip-inform-only {
-    width: 504px;
+    width: 100%;
     height: 60px;
     border-radius: 8px;
     padding: 0 22px;
@@ -115,6 +115,7 @@
 </style>
 <script>
   import { resultPost } from '../../../service/getData'
+  import { Toast, MessageBox } from 'mint-ui'
   import { submitApplicationForMotorVehicleInformation } from '../../../config/baseUrl'
   export default {
     data () {
@@ -127,13 +128,15 @@
         userName: '',
         phoneNumber: '',
         typeSelectShow: false,
-        currentPlate: ''
+        currentPlate: '',
+        currentVal: ''
       }
     },
     methods: {
       selectType (item) {
-        this.plateType = item
+        this.plateType = item.str
         this.typeSelectShow = !this.typeSelectShow
+        this.currentVal = item.type
       },
       selectPlate (item) {
         this.currentPlate = item
@@ -152,17 +155,37 @@
         this.phoneNumber = window.localStorage.getItem('mobilePhone')
       },
       submit () {
+        if (!this.plateType) {
+          Toast({
+            message: '请选择号牌种类',
+            duration: 2000
+          })
+          return
+        }
         let obj = {
           applyType: '1',
           applyName: this.userName,
           identityCard: this.IDcard,
           applyPhone: this.phoneNumber,
-          LicensePlateNumber: this.currentPlate,
-          plateType: this.plateType
+          licensePlateNumber: this.currentPlate,
+          plateType: this.currentVal
         }
         resultPost(submitApplicationForMotorVehicleInformation, obj).then(json => {
           console.log(obj)
           console.log(json)
+          if (json.code === '0000') {
+            let appoinSuccess = this.$store.state.appoinSuccess
+            appoinSuccess.appoinType = '机动车信息单'
+            appoinSuccess.appoinNum = json.msg.replace(/[^0-9]/ig, '')
+            this.$router.push('/appointSuccess')
+          } else if (json.code === '0001') {
+            MessageBox({
+              title: '提示',
+              message: json.msg
+            }).then(action => {
+              this.$router.push('/')
+            })
+          }
         })
       }
     },

@@ -1,5 +1,5 @@
 <template>
- <div id="takePhotoTips">
+ <div id="takePhotoTipsCom">
     <div class="tp-title">
       {{getNoticeTitle}}
     </div>
@@ -117,7 +117,7 @@ export default {
 }
 </script>
 <style lang="less">
-#takePhotoTips{
+#takePhotoTipsCom{
   .tp-title{
     width:100%;
     height:74px;
@@ -133,12 +133,8 @@ export default {
     width:100%;
     height:auto;
     p{
-      font-size:28px;
+      font-size:24px;
       line-height:40px;
-    }
-    p:first-child{
-      margin-top:54px;
-      margin-bottom:50px;
     }
   }
   .tp-red-packet{
@@ -153,7 +149,7 @@ export default {
     .tp-red-intro{
       width:100%;
       p{
-        font-size:26px;
+        font-size:24px;
         line-height:36px;
         text-indent:52px;
       }
