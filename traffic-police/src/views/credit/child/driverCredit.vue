@@ -111,10 +111,10 @@
   }
   .ip-inform-title {
     font-size: 30px;
-    width: 120px;
+    width: 135px;
   }
   .ip-inform-content {
-    width: 504px;
+    width: 485px;
     display: flex;
     justify-content: space-between;
   }
@@ -127,7 +127,7 @@
     align-items: center;
   }
   .ip-inform-only {
-    width: 504px;
+    width: 100%;
     height: 60px;
     border-radius: 8px;
     padding: 0 22px;
