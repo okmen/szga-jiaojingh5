@@ -1,6 +1,5 @@
 <template>
   <div class="motorVehicle" @click.stop="subTypeSelectShow=false,typeSelectShow=false">
-    <Popup v-model="popupMsg" popup-transition="popup-fade">{{codeMsg}}</Popup>
     <div class="ip-inform-item">
       <div class="ip-inform-title">申请类型</div>
       <div class="ip-inform-content">
@@ -116,7 +115,7 @@
 </style>
 <script>
   import { resultPost } from '../../../service/getData'
-  import { Toast, Popup } from 'mint-ui'
+  import { Toast, MessageBox } from 'mint-ui'
   import { submitApplicationForMotorVehicleInformation } from '../../../config/baseUrl'
   export default {
     data () {
@@ -130,19 +129,7 @@
         phoneNumber: '',
         typeSelectShow: false,
         currentPlate: '',
-        currentVal: '',
-        codeMsg: '',
-        popupMsg: false
-      }
-    },
-    components: {
-      Popup
-    },
-    watch: {
-      popupMsg (val) {
-        if (val === false) {
-          this.$router.push('/')
-        }
+        currentVal: ''
       }
     },
     methods: {
@@ -192,8 +179,12 @@
             appoinSuccess.appoinNum = json.msg.replace(/[^0-9]/ig, '')
             this.$router.push('/appointSuccess')
           } else if (json.code === '0001') {
-            this.codeMsg = json.msg
-            this.popupMsg = true
+            MessageBox({
+              title: '提示',
+              message: json.msg
+            }).then(action => {
+              this.$router.push('/')
+            })
           }
         })
       }
