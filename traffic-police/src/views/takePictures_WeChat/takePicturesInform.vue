@@ -85,14 +85,14 @@
     <div class="tp-inform-box">
       <div class="tp-inform-left">举报人</div>
       <div class="tp-inform-right">
-        <input type="text" maxlength="10" v-model="informName" placeholder="请输入您的名字" 
+        <input type="text" maxlength="10" v-model="informName" placeholder="请输入您的名字"
          v-bind:readonly="this.loginJudge">
       </div>
     </div>
     <div class="tp-inform-box">
       <div class="tp-inform-left">身份证号</div>
       <div class="tp-inform-right">
-        <input type="text" maxlength="19" v-model="informIdNumber" placeholder="请输入身份证号码" 
+        <input type="text" maxlength="19" v-model="informIdNumber" placeholder="请输入身份证号码"
          v-bind:readonly="this.loginJudge">
       </div>
     </div>
@@ -104,10 +104,11 @@
       </div>
     </div>
     <div class="tp-btn-submit" @click="btnSurePutInform">确认提交</div>
-    <div class="tp-look-tips">
+    <!--<div class="tp-look-tips">-->
       <!--<a>点击查看温馨提示</a>-->
       <!-- <router-link to="takePicturesTips">点击查看温馨提示</router-link> -->
-    </div>
+    <!--</div>-->
+    <page-bottom></page-bottom>
     <div v-wechat-title="$route.meta.title"></div>
     <mt-datetime-picker ref="picker" v-model="informTime" @confirm="handleTime"></mt-datetime-picker>
   </div>
@@ -272,6 +273,9 @@
         t: ''
       }
     },
+    components: {
+      'pageBottom': require('./../../components/pageBottom.vue')
+    },
     mounted: function () {                                              // 组件加载完成之后立即获取
       this.init()
       // let that = this
@@ -408,7 +412,7 @@
                 takePicturesRecord: json.data.recordNumber,
                 takePicturesPassword: json.data.queryPassword
               })
-              this.$router.push('/takePicturesSuccess')
+              this.$router.push('/takePicturesSuccess_WeChat')
             } else {
               Toast({
                 message: json.msg,

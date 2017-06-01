@@ -62,7 +62,7 @@ export default {
   methods: {
     btnAgreeRequest: function () {
       if (this.checked === true) {
-        this.$router.push('/takePicturesInform')
+        this.$router.push('/takePicturesInform_Wechat')
       } else {
         Toast({
           message: '请勾选已阅读温馨提示',
