@@ -490,7 +490,7 @@ const routes = [
     name: 'credit',
     path: '/credit',
     meta: {
-      title: '信用单据证明'
+      title: '信息单据证明'
     },
     component: require('../views/credit/index.vue')
   },
