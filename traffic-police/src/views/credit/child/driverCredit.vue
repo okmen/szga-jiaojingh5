@@ -1,6 +1,5 @@
 <template>
   <div class="driverCredit">
-    <Popup v-model="popupMsg" popup-transition="popup-fade">{{codeMsg}}</Popup>
     <div class="ip-inform-item" v-for="(item, index) in list">
       <div class="ip-inform-title">{{item.name}}</div>
       <div class="ip-inform-content">
@@ -15,20 +14,15 @@
 </template>
 <script>
   import { resultPost } from '../../../service/getData'
-  import { Popup } from 'mint-ui'
+  import { MessageBox } from 'mint-ui'
   import { addSafeAccidentCredit, submitApplicationForDriverInformation, addNoneCarCertification } from '../../../config/baseUrl'
   export default {
     data () {
       return {
         userName: '',
         IDcard: '',
-        phoneNumber: '',
-        codeMsg: '',
-        popupMsg: false
+        phoneNumber: ''
       }
-    },
-    components: {
-      Popup
     },
     beforeRouteEnter (to, from, next) {
       next(vm => vm.$store.commit('getUserInfo', to))
@@ -80,8 +74,12 @@
                 appoinSuccess.appoinNum = json.msg.replace(/[^0-9]/ig, '')
                 this.$router.push('/appointSuccess')
               } else if (json.code === '0001') {
-                this.codeMsg = json.msg
-                this.popupMsg = true
+                MessageBox({
+                  title: '提示',
+                  message: json.msg
+                }).then(action => {
+                  this.$router.push('/')
+                })
               }
             }
         )
