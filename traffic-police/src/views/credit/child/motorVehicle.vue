@@ -28,10 +28,10 @@
       <div class="ip-inform-title">号牌号码</div>
       <div class="ip-inform-content">
         <div class="div-select flex">
-          <span class="btn-select hidden"  @click.stop="subTypeSelectShow=!subTypeSelectShow">{{currentPlate||'请选择号牌号码'}}</span>
-          <div class="div-select-ul" style="top: 30px;" v-if="subTypeSelectShow">
+          <span class="btn-select hidden"  @click.stop="subTypeSelectShow=!subTypeSelectShow">{{currentPlate||'无'}}</span>
+          <div class="div-select-ul" style="top: 30px;" v-if="subTypeSelectShow&&myNumberPlate.length">
             <ul>
-              <li class="scroll-y" v-for="item in myNumberPlate" @click.stop="selectPlate(item)">{{item}}</li>
+              <li class="scroll-y"  v-for="item in myNumberPlate" @click.stop="selectPlate(item)">{{item}}</li>
             </ul>
           </div>
         </div>
