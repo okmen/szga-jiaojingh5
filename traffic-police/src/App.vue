@@ -75,10 +75,10 @@
         </a>
       </dl>
       <dl>
-        <a href="#credit">
+        <router-link :to="!isLogin ? '/login' : '/credit'">
         <dt><img class="top7" src="./images/nav7.png" alt=""></dt>
         <dd>信息单据证明</dd>
-        </a>
+        </router-link>
       </dl>
       <dl>
         <router-link :to="!isLogin ? '/login' : '/handyService'">
