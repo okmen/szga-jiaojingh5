@@ -71,7 +71,7 @@ export default {
   }
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
 #takePhotoTips{
 .tp-title{
   width:100%;
