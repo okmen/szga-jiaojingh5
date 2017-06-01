@@ -129,6 +129,50 @@ const routes = [
       }
     ]
   },
+  // 星级用户认证微信版本路由
+  {
+    name: 'starUser_WeChat',
+    path: '/starUser_WeChat',
+    meta: {
+      title: '星级用户认证'
+    },
+    component: require('../views/starUser_WeChat/starUser.vue'),
+    redirect: '/starUser_WeChat/carOwner',
+    children: [
+      {
+        name: 'carOwner_WeChat',
+        path: '/starUser_WeChat/carOwner',
+        meta: {
+          title: '星级用户认证'
+        },
+        component: require('../views/starUser_WeChat/child/carOwner.vue')
+      },
+      {
+        name: 'carUser_WeChat',
+        path: '/starUser_WeChat/carUser',
+        meta: {
+          title: '星级用户认证'
+        },
+        component: require('../views/starUser_WeChat/child/carUser.vue')
+      },
+      {
+        name: 'drivingLicense_WeChat',
+        path: '/starUser_WeChat/drivingLicense',
+        meta: {
+          title: '星级用户认证'
+        },
+        component: require('../views/starUser_WeChat/child/drivingLicense.vue')
+      },
+      {
+        name: 'passerBy_WeChat',
+        path: '/starUser_WeChat/passerBy',
+        meta: {
+          title: '星级用户认证'
+        },
+        component: require('../views/starUser_WeChat/child/passerBy.vue')
+      }
+    ]
+  },
   {
     name: 'queryLawless',
     path: '/queryLawless',

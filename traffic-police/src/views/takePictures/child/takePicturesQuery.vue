@@ -102,12 +102,13 @@
               className: 'white',
               duration: 3000
             })
+          } else {
+            this.img1_show = false
+            this.img2_show = false
+            this.img3_show = false
+            this.$router.push({query: { 'reportSerialNumber': this.reportSerialNumber }})
+            this.item = json.data
           }
-          this.img1_show = false
-          this.img2_show = false
-          this.img3_show = false
-          this.$router.push({query: { 'reportSerialNumber': this.reportSerialNumber }})
-          this.item = json.data
         })
       }
     }
