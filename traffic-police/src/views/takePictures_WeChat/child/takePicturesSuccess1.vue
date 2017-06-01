@@ -16,6 +16,7 @@
       <p>记录号码：<span>{{reportSerialNumber}}</span></p>
       <p>查询密码：<span>{{password}}</span></p>
     </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>

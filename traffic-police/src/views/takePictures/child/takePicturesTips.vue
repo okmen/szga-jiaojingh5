@@ -44,7 +44,6 @@
    <div class="tp-btn-sure">
      <button @click="btnAgreeRequest">确认</button>
    </div>
-   <p class="tp-bottom">深圳交警提供技术支持</p>
    <div v-wechat-title="$route.meta.title"></div>
  </div>
 </template>

@@ -16,6 +16,7 @@
       <p>记录号码：<span>{{showInform.takePicturesRecord}}</span></p>
       <p>查询密码：<span>{{showInform.takePicturesPassword}}</span></p>
     </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>

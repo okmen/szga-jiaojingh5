@@ -1,6 +1,6 @@
 <template>
   <div class="tp-bottom">
-    <p>深圳交警提供技术支持</p>
+    <p class="tp-bottom-img"><img src="../images/tp-bottom-img.jpg"> 深圳市公安局交通警察局版权所有</p>
     <p>盗版必究 初道科技承建</p>
     <p>服务热线：<a href="tel:0755-86572737">0755-86572737</a></p>
   </div>
@@ -13,6 +13,11 @@
     padding-bottom: 20px;
     a {
       color:#2696dd;
+    }
+    img{
+      width: 40px;
+      height: 40px;
+      vertical-align:middle;
     }
   }
 </style>

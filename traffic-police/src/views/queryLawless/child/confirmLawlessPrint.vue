@@ -5,11 +5,11 @@
       <div class="results-box">
         <div class="box-header">
           <div class="header-item left">违法信息</div>
-          <div class="header-item right order-print" @click.stop="claimConfirm(confirm.isNeedClaim, confirm.illegalNo)">{{ dealTypeList[confirm.isNeedClaim] }}</div>
+          <div class="header-item right order-print" @click.stop="claimConfirm(confirm.dealType, confirm.illegalNo)">{{ dealTypeList[confirm.dealType] }}</div>
         </div>
         <div class="box-body">
           <div class="body-left-side">
-            <div class="left-number">违法编号 :<i>{{ confirm.illegalNo }}</i></div>
+            <div class="left-number">{{ !parseInt(confirm.dealType) ? '缴款编号：' : '违法编号：'  }}<i>{{ confirm.illegalNo }}</i></div>
             <div class="left-line">
               <span><i class="car"></i></span>
               <p>{{ confirm.licensePlateNo }}</p>
@@ -79,6 +79,7 @@
             that.$router.push('/queryLawless')
           })
         } else {
+          console.log(json.data)
           this.confirmList = json.data
         }
       })

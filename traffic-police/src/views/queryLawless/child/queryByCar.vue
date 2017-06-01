@@ -385,7 +385,6 @@
           licensePlateType: this.cur_type_id,
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4
         }
-        console.log(reqData)
         for (let key in reqData) {
           if (!reqData[key]) {
             console.log(key)

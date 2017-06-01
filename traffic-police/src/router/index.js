@@ -495,7 +495,7 @@ const routes = [
     name: 'takePicturesSuccess_WeChat',                                                      // 微信版本
     path: '/takePicturesSuccess_WeChat',
     meta: {
-      title: '随手拍举报成功'
+      title: '随手拍举报'
     },
     component: require('../views/takePictures_WeChat/child/takePicturesSuccess.vue')
   },
@@ -503,7 +503,7 @@ const routes = [
     name: 'takePicturesSuccess1_WeChat',                                                     // 微信版本
     path: '/takePicturesSuccess1_WeChat',
     meta: {
-      title: '随手拍举报成功'
+      title: '随手拍举报'
     },
     component: require('../views/takePictures_WeChat/child/takePicturesSuccess1.vue')
   },
