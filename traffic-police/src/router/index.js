@@ -574,6 +574,14 @@ const routes = [
       title: '随手拍查询'
     },
     component: require('../views/takePictures_WeChat/child/takePicturesQuery')
+  },
+  {                                                                                          // 微信版本
+    name: 'userAgreement_WeChat',
+    path: '/userAgreement_WeChat',
+    meta: {
+      title: '用户须知'
+    },
+    component: require('../components/userAgreement_WeChat.vue')
   }
 ]
 /* eslint-disable no-new */
