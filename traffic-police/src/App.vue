@@ -31,7 +31,7 @@
     </div>
     <div class="not-login" v-else>
       <div class="logo"></div>
-      <p>请<router-link to="/login" class="enter">  登录 </router-link>/<router-link to="/userAgreement#xjyhrz" class="enroll"> 注册 </router-link>星级用户</p>
+      <p>请<router-link to="/login" class="enter">  登录 </router-link>/<router-link to="/userAgreement/xjyhrz" class="enroll"> 注册 </router-link>星级用户</p>
     </div>
   </div>
   <div id="nav-outer">

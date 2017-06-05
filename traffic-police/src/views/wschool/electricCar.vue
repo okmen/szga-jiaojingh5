@@ -2,7 +2,7 @@
   <div class="navv">
     <ul class="nav-outer">
       <li class="nav-outer-center">
-        <router-link :to="isLogin ? '/userAgreement#ddcNotice' : '/login'">
+        <router-link :to="isLogin ? '/userAgreement/ddcNotice' : '/login'">
           <p>电动车学习</p>
         </router-link>
       </li>

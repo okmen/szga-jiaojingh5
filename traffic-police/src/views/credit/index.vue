@@ -39,10 +39,10 @@
     data () {
       return {
         list: [
-          {name: '驾驶人安全事故信用表', path: 'userAgreement#aqsgxyb'},
-          {name: '无车证明', path: 'userAgreement#wczm'},
-          {name: '驾驶人信息单', path: 'userAgreement#jsrxxd'},
-          {name: '机动车信息单', path: 'userAgreement#jdcxxd'}
+          {name: '驾驶人安全事故信用表', path: 'userAgreement/aqsgxyb'},
+          {name: '无车证明', path: 'userAgreement/wczm'},
+          {name: '驾驶人信息单', path: 'userAgreement/jsrxxd'},
+          {name: '机动车信息单', path: 'userAgreement/jdcxxd'}
         ],
         isLogin: ''
       }
