@@ -20,6 +20,7 @@
      <button @click="btnReturn">返回</button>
    </div>
    <pageBottom></pageBottom>
+   <div v-wechat-title="$route.meta.title"></div>
  </div>
 </template>
 <script>
@@ -37,15 +38,17 @@ export default {
       isShow: true
     }
   },
-  created: function () {
-    let locationHref = decodeURIComponent(window.location.href)
-    this.entryHash = locationHref.split('?')[0].split('#')[2]  // 截取#后的值
+  mounted: function () {
+    // let locationHref = decodeURIComponent(window.location.href)
+    // this.entryHash = locationHref.split('?')[0].split('#')[2]  // 截取#后的值
+    this.entryHash = this.$route.params.id
     if (this.entryHash === 'wfsspjbzy' || this.entryHash === 'sspjbzysx') {
       this.isShow = false
     }
     let userAgreementData = {
       noticeKey: this.entryHash
     }
+    console.log()
 //    let userAgreement = 'http://192.168.1.243:8080/web/user/getDocumentationORMByNoticeKey.html'
     resultPost(userAgreement, userAgreementData).then(json => { // 调取随手拍举报接口
       console.log(json)
@@ -80,7 +83,7 @@ export default {
             this.$router.push('/motorstudy#5')
             break
           case 'xjyhrz': // 星级用户认证须知
-            this.$router.push('/starUser')
+            this.$router.push('/starUser_WeChat')
             break
           case 'aqsgxyb':  // 驾驶人安全事故信用表须知
             this.$router.push('/driverCredit')

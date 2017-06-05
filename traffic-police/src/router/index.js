@@ -129,8 +129,7 @@ const routes = [
       }
     ]
   },
-  // 星级用户认证微信版本路由
-  {
+  {                                                                                             // 星级用户认证微信版本路由
     name: 'starUser_WeChat',
     path: '/starUser_WeChat',
     meta: {
@@ -480,7 +479,7 @@ const routes = [
   },
   {
     name: 'userAgreement',
-    path: '/userAgreement',
+    path: '/userAgreement/:id',
     meta: {
       title: '用户须知'
     },
@@ -577,7 +576,7 @@ const routes = [
   },
   {                                                                                          // 微信版本
     name: 'userAgreement_WeChat',
-    path: '/userAgreement_WeChat',
+    path: '/userAgreement_WeChat/:id',
     meta: {
       title: '用户须知'
     },
