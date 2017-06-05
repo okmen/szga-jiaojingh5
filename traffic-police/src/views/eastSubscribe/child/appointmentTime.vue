@@ -442,8 +442,7 @@ export default {
   }
 }
 </script>
-<style lang="less">
-  @import "./../../../style/base";
+<style lang="less" scoped>
 .appointmentTime-box {
   position: relative;
   min-height: 1150px;

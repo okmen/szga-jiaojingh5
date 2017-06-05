@@ -582,6 +582,31 @@ const routes = [
       title: '用户须知'
     },
     component: require('../components/userAgreement_WeChat.vue')
+  },
+  {                                                                                          // 微信版本
+    name: 'emporaryAppointment',
+    path: '/emporaryAppointment',
+    meta: {
+      title: '临时通行预约'
+    },
+    component: require('../views/emporaryAppointment'),
+    redirect: '/emporaryAppointment/makeAppointment',
+    children: [
+      {
+        path: 'makeAppointment',
+        component: require('../views/emporaryAppointment/component/makeAppointment.vue'),
+        meta: {
+          title: '临时通行预约'
+        }
+      },
+      {
+        path: 'queryAppointment',
+        component: require('../views/emporaryAppointment/component/queryAppointment.vue'),
+        meta: {
+          title: '临时通行预约'
+        }
+      }
+    ]
   }
 ]
 /* eslint-disable no-new */

@@ -28,10 +28,11 @@
       <div class="ip-inform-title">号牌号码</div>
       <div class="ip-inform-content">
         <div class="div-select flex">
-          <span class="btn-select hidden"  @click.stop="subTypeSelectShow=!subTypeSelectShow">{{currentPlate||'无'}}</span>
+          <span class="btn-select hidden"
+                @click.stop="subTypeSelectShow=!subTypeSelectShow">{{currentPlate || '无'}}</span>
           <div class="div-select-ul" style="top: 30px;" v-if="subTypeSelectShow&&myNumberPlate.length">
             <ul>
-              <li class="scroll-y"  v-for="item in myNumberPlate" @click.stop="selectPlate(item)">{{item}}</li>
+              <li class="scroll-y" v-for="item in myNumberPlate" @click.stop="selectPlate(item)">{{item}}</li>
             </ul>
           </div>
         </div>
@@ -41,7 +42,7 @@
       <div class="ip-inform-title">号牌种类</div>
       <div class="ip-inform-content">
         <div class="div-select flex">
-          <span class="btn-select hidden"  @click.stop="typeSelectShow=!typeSelectShow">{{plateType||'请选择号牌种类'}}</span>
+          <span class="btn-select hidden" @click.stop="typeSelectShow=!typeSelectShow">{{plateType || '请选择号牌种类'}}</span>
           <div class="div-select-ul" style="top: 30px;" v-if="typeSelectShow">
             <ul>
               <li class="scroll-y" v-for="item in plateTypes" @click.stop="selectType(item)">{{item.str}}</li>
@@ -61,50 +62,58 @@
   </div>
 </template>
 <style lang="less" scoped>
-  .warm-prompt{
+  .warm-prompt {
     padding-top: 40px;
     margin-left: 50px;
     margin-right: 50px;
   }
-  .warm-prompt-title{
+
+  .warm-prompt-title {
     font-size: 30px;
     color: #333;
     line-height: 60px;
   }
-  .warm-prompt-content{
+
+  .warm-prompt-content {
     font-size: 26px;
     color: #666;
     text-indent: 2em;
   }
-  .submit{
+
+  .submit {
     margin: 68px 50px 0px;
     height: 80px;
     width: 650px;
-    background: rgb(38,150,221);
+    background: rgb(38, 150, 221);
     text-align: center;
     line-height: 80px;
     color: white;
     font-size: 30px;
     border-radius: 10px;
   }
-  .motorVehicle{
+
+  .motorVehicle {
     background: white;
     height: 100%;
     padding-top: 30px;
   }
+
   input {
-    color:gray;
+    color: gray;
   }
+
   .ip-inform-title {
     font-size: 30px;
     width: 135px;
   }
+
   .ip-inform-content {
     width: 485px;
     display: flex;
     justify-content: space-between;
   }
-  .ip-inform-item{
+
+  .ip-inform-item {
     height: 96px;
     display: flex;
     margin-left: 50px;
@@ -112,30 +121,34 @@
     justify-content: space-between;
     align-items: center;
   }
+
   .ip-inform-only {
     width: 100%;
     height: 60px;
     border-radius: 8px;
     padding: 0 22px;
   }
-  .div-select{
+
+  .div-select {
     width: 504px;
     height: 62px;
     border-radius: 8px;
   }
-  .btn-select,.scroll-y{
+
+  .btn-select, .scroll-y {
     color: #1f1f1f;
     font-weight: normal;
     font-size: 24px;
   }
-  .div-select .btn-select{
+
+  .div-select .btn-select {
     background-color: white;
   }
 </style>
 <script>
-  import { resultPost } from '../../../service/getData'
-  import { Toast, MessageBox } from 'mint-ui'
-  import { submitApplicationForMotorVehicleInformation } from '../../../config/baseUrl'
+  import {resultPost} from '../../../service/getData'
+  import {Toast, MessageBox} from 'mint-ui'
+  import {submitApplicationForMotorVehicleInformation} from '../../../config/baseUrl'
   export default {
     data () {
       return {
