@@ -131,9 +131,10 @@
               Indicator.close()
               this.postAppoin({
                 appoinNum: json.msg.split(':')[1],
-                appoinType: '星级用户认证'
+                appoinType: '星级用户认证',
+                appoinMsg: '审核通过后，可根据短信中告知的账号和密码进行登录'
               })
-              this.$router.push('/appointSuccess')
+              this.$router.push('/appointSuccess_WeChat')
             } else {
               Indicator.close()
               Toast({

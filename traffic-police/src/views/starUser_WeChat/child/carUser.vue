@@ -339,7 +339,7 @@
                 appoinNum: json.msg.split(':')[1],
                 appoinType: '星级用户认证'
               })
-              this.$router.push('/appointSuccess')
+              this.$router.push('/appointSuccess_WeChat')
             } else {
               Indicator.close()
               Toast({

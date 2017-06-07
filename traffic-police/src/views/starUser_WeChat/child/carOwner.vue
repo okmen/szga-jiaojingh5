@@ -258,6 +258,9 @@ export default{
       originPlace: ''         // 所属地
     }
   },
+  beforeMount () {
+    window.scrollTo(0, 0)
+  },
   methods: {
     licenseSelectClick: function (str, index) {
       if (str) {
@@ -332,7 +335,7 @@ export default{
               appoinNum: json.msg.split(':')[1],
               appoinType: '星级用户认证'
             })
-            this.$router.push('/appointSuccess')
+            this.$router.push('/appointSuccess_WeChat')
           } else {
             Indicator.close()
             Toast({

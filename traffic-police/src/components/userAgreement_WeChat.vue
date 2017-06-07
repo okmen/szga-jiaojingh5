@@ -141,7 +141,7 @@ export default {
     width:100%;
     height:auto;
     p{
-      font-size:24px;
+      font-size:28px;
       line-height:40px;
     }
   }

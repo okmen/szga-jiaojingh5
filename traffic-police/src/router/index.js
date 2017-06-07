@@ -477,6 +477,15 @@ const routes = [
     },
     component: require('../components/appointSuccess.vue')
   },
+  //  预约申办成功-微信版
+  {
+    name: 'appointSuccess_WeChat',
+    path: '/appointSuccess_WeChat',
+    meta: {
+      title: '预约申办成功'
+    },
+    component: require('../components/appointSuccess_WeChat.vue')
+  },
   {
     name: 'userAgreement',
     path: '/userAgreement/:id',
