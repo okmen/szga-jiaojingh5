@@ -103,8 +103,8 @@
   </div>
 </template>
 <script>
-  // import { resultPost } from '../../../service/getData'
-  // import { getElectronicPolicy } from '../../../config/baseUrl'
+//   import { resultPost } from '../../../service/getData'
+//   import { getElectronicPolicy } from '../../../config/baseUrl'
   export default {
     name: 'appointmentTime',
     data () {
