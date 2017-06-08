@@ -126,6 +126,7 @@
 </template>
 <script>
   import {resultPost} from '../../../service/getData'
+  import { Toast } from 'mint-ui'
   import {getNormalApptDistrictAndTime, sendSMSVerificatioCode, addNormalApptInfo} from '../../../config/baseUrl'
   export default {
     data () {
@@ -385,13 +386,17 @@
           businessType: 'easternReservation'
         }
         resultPost(sendSMSVerificatioCode, obj).then(json => {
-//          console.log(json)
+          console.log(json)
+          Toast({
+            message: json.data,
+            duration: '2000'
+          })
         })
       },
       getInitData () {
         let obj = {}
         resultPost(getNormalApptDistrictAndTime, obj).then(json => {
-//          this.optionData = json.data
+          this.optionData = json.data
           this.optionData.map(item => {
             this.$set(item, 'amSelected', false)
             this.$set(item, 'pmSelected', false)
@@ -405,7 +410,10 @@
         })
         if (this.optionData[index].leftQuota === '0') {
           this.optionData[index].amSelected = false
-          window.alert('该时间段不允许预约')
+          Toast({
+            message: '该时间段不允许预约',
+            duration: '2000'
+          })
         } else {
           this.optionData[index].amSelected = true
           this.apptInterval = '2'
@@ -420,7 +428,10 @@
         })
         if (this.optionData[index].leftQuota === '0') {
           this.optionData[index].pmSelected = false
-          window.alert('该时间段不允许预约')
+          Toast({
+            message: '该时间段不允许预约',
+            duration: '2000'
+          })
         } else {
           this.optionData[index].pmSelected = true
           this.apptInterval = '2'
@@ -429,6 +440,41 @@
         }
       },
       btnClick: function () {
+        if (!this.carNumber) {
+          Toast({
+            message: '请输入车牌号码',
+            duration: '2000'
+          })
+          return
+        }
+        if (!this.fourDigitsAfterTheEngine) {
+          Toast({
+            message: '请输入车架号后四位',
+            duration: '2000'
+          })
+          return
+        }
+        if (!this.mobilephone) {
+          Toast({
+            message: '请输入手机号码',
+            duration: '2000'
+          })
+          return
+        }
+        if (!this.validateCode) {
+          Toast({
+            message: '请输入验证码',
+            duration: '2000'
+          })
+          return
+        }
+        if (!this.apptDistrict) {
+          Toast({
+            message: '请选择预约片区',
+            duration: '2000'
+          })
+          return
+        }
         let carNumbers = this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase()
         let reqData = {
           mobilePhone: this.mobilephone,
@@ -445,6 +491,10 @@
         resultPost(addNormalApptInfo, reqData).then(json => {
           console.log(reqData)
           console.log(json)
+          Toast({
+            message: json.msg,
+            duration: '2000'
+          })
         })
       },
       licenseSelectClick: function (str, index) {
