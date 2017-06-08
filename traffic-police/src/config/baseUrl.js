@@ -123,4 +123,6 @@ export const getApptHistoryRecord = 'http://192.168.1.67:8080/web/activity/getAp
 
 export const cancelNormalApptInfo = 'http://192.168.1.67:8080/web/activity/cancelNormalApptInfo.html'  // 东部预约取消预约
 
-export const getTempApptDistrictAndTime = 'http://192.168.1.67:8080/web/activity/getTempApptDistrictAndTime.html'  // 东部预约获取临时预约场次及配额信息
+export const getTempApptDistrictAndTime = 'http://192.168.1.67:8080/web/activity/getTempApptDistrictAndTime.html'  // 临时预约场次及配额信息
+
+export const addTempApptInfo = 'http://192.168.1.67:8080/web/activity/addTempApptInfo.html'  // 临时预约个人预约信息写入
