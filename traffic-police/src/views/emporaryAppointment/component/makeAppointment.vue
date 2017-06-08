@@ -69,7 +69,7 @@
         <div class="form-line-item div-select width-50">
           <input v-model="validateCode" class="text-input bgcolor-fff" type="tel" name="" value="" placeholder="请输入验证码">
         </div>
-        <div class="form-line-item div-select width-46 float-right">
+        <div class="form-line-item div-select width-46 float-right" @click="sendCode">
           <button class="blue-btn">点击发送验证码</button>
         </div>
       </div>
@@ -82,8 +82,9 @@
       <div class="appointmentTime-select-option">
         <div class="option-item" v-for="(item, index) in optionData" @click="optionClick(index)" :class="{ active: item.isElect }" >
           <div class="option-item-text group">
-            <p class="option-item-p">{{ item.date }}</p>
-            <p class="option-item-p">{{ item.time == 01 ? '上午' : '下午' }}(12:00~24:00)</p>
+            <p class="option-item-p">{{ item.apptDistrict == 1 ? '梅沙片区' : '大鹏片区' }}</p>
+            <p class="option-item-p">{{ item.apptDate }}</p>
+            <p class="option-item-p">{{ item.time == 01 ? '上午(00:00~12:00)' : '下午(12:00~24:00)' }}</p>
           </div>
           <div class="option-item-Mask" :style="{width: item.remainingPercentage + '%',backgroundColor: item.bgColor}" ></div>
         </div>
@@ -103,8 +104,9 @@
   </div>
 </template>
 <script>
-  import {resultPost} from '../../../service/getData'
-  import {getNormalApptDistrictAndTime} from '../../../config/baseUrl'
+  import { resultPost } from '../../../service/getData'
+  import { getTempApptDistrictAndTime, addTempApptInfo, sendSMSVerificatioCode } from '../../../config/baseUrl'
+  import { Toast, MessageBox } from 'mint-ui'
   export default {
     name: 'appointmentTime',
     data () {
@@ -321,85 +323,88 @@
         mobilephone: '',                              // 手机号码
         validateCode: '',                             // 验证码
         checkedData: '',                              // 选中的预约信息
-        optionData: [
-          {
-            address: '1',
-            date: '2017.05.28',
-            remainingPercentage: '90',
-            time: '01',
-            bgColor: '#84dd83',
-            isElect: false
-          },
-          {
-            address: '1',
-            date: '2017.05.28',
-            remainingPercentage: '40',
-            time: '02',
-            bgColor: '#ffde7f',
-            isElect: false
-          },
-          {
-            address: '2',
-            date: '2017.05.28',
-            remainingPercentage: '50',
-            time: '01',
-            bgColor: '#ffde7f',
-            isElect: false
-          },
-          {
-            address: '2',
-            date: '2017.05.28',
-            remainingPercentage: '0',
-            time: '02',
-            bgColor: '#84dd83',
-            isElect: false
-          },
-          {
-            address: '1',
-            date: '2017.05.28',
-            remainingPercentage: '80',
-            time: '01',
-            bgColor: '#84dd83',
-            isElect: false
-          },
-          {
-            address: '1',
-            date: '2017.05.28',
-            remainingPercentage: '10',
-            time: '02',
-            bgColor: '#f87170',
-            isElect: false
-          }
-        ]
+        optionData: []
       }
     },
     methods: {
       optionClick: function (index) {
+        console.log(index)
         this.optionData.forEach(item => {
           item.isElect = false
         })
-        if (this.optionData[index].remainingPercentage === '0') {
+        if (this.optionData[index].remainingPercentage === 0) {
           this.optionData[index].isElect = false
-          window.alert('该时间段不允许预约')
+          this.checkedData = ''
+          Toast({
+            message: '该时间段预约已满',
+            duration: '2000'
+          })
         } else {
           this.optionData[index].isElect = true
           this.checkedData = this.optionData[index]
+          console.log(this.checkedData)
         }
       },
       btnClick: function () {
         let carNumbers = this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase()
         let reqData = {
-          mobilephone: this.mobilephone,
-          validateCode: this.validateCode,
-          plateNumber: carNumbers,
+          plateNo: carNumbers,
           plateType: this.licenseSelectType,
           vehicleType: this.carSelectType,
-          fourDigitsAfterTheEngine: this.fourDigitsAfterTheEngine,
-          time: this.checkedData.time,
-          date: this.checkedData.date,
-          address: this.checkedData.address
+          vinLastFour: this.fourDigitsAfterTheEngine,
+          mobilePhone: this.mobilephone,
+          apptInterval: this.checkedData.time,
+          apptDate: this.checkedData.apptDate,
+          apptDistrict: this.checkedData.apptDistrict,
+          validateCode: this.validateCode
         }
-        console.log(reqData)
+        if (!this.carNumber) {
+          Toast({
+            message: '请输入车牌号码',
+            duration: '2000'
+          })
+          return
+        }
+        if (!this.fourDigitsAfterTheEngine) {
+          Toast({
+            message: '请输入车架号后四位',
+            duration: '2000'
+          })
+          return
+        }
+        if (!this.mobilephone) {
+          Toast({
+            message: '请输入手机号码',
+            duration: '2000'
+          })
+          return
+        }
+        if (!this.validateCode) {
+          Toast({
+            message: '请输入验证码',
+            duration: '2000'
+          })
+          return
+        }
+        if (!this.checkedData) {
+          Toast({
+            message: '请选择预约片区',
+            duration: '2000'
+          })
+          return
+        }
+        resultPost(addTempApptInfo, reqData).then(json => {
+          console.log(reqData)
+          console.log(json)
+          if (json.code === '0000') {
+            MessageBox('提示', json.msg)
+          } else {
+            Toast({
+              message: json.msg,
+              duration: '2000'
+            })
+          }
+        })
       },
       licenseSelectClick: function (str, index) {
         if (str) {
@@ -438,20 +443,61 @@
           this.carSelectShow = false
         }
       },
-      getInitData () {
+      getInitData: function () {
         let obj = {}
-        resultPost(getNormalApptDistrictAndTime, obj).then(json => {
+        resultPost(getTempApptDistrictAndTime, obj).then(json => {
+          this.optionData = json.data
+          this.optionData.map(item => {
+            this.$set(item, 'time', this.getTimeSlot())
+            this.$set(item, 'isElect', false)
+            this.$set(item, 'remainingPercentage', this.getRemainingPercentage(item.leftQuota, item.totalQuota, 'P'))
+            this.$set(item, 'bgColor', this.getRemainingPercentage(item.leftQuota, item.totalQuota, 'C'))
+          })
+        })
+      },
+      getTimeSlot: function () {
+        let now = new Date()
+        let hours = now.getHours()
+        return hours > 12 ? '02' : '01'
+      },
+      getRemainingPercentage: function (a, b, c) {
+        let percent = parseInt((a / b) * 100)
+        if (c === 'P') {
+          return percent
+        } else {
+          if (percent > 80) {
+            return '#84dd83'
+          } else if (percent < 40) {
+            return '#f95553'
+          } else {
+            return '#ffde7f'
+          }
+        }
+      },
+      sendCode () { // 发送验证码
+        if (!this.mobilephone) {
+          Toast({
+            message: '请输入手机号码',
+            duration: '2000'
+          })
+          return
+        }
+        let obj = {
+          mobilephone: this.mobilephone,
+          businessType: 'easternReservation'
+        }
+        resultPost(sendSMSVerificatioCode, obj).then(json => {
           console.log(json)
-//          this.optionData = json.data
-          // this.optionData.map(item => {
-          //   this.$set(item, 'amSelected', false)
-          //   this.$set(item, 'pmSelected', false)
-          // })
+          Toast({
+            message: json.data,
+            duration: '2000'
+          })
         })
       }
     },
     mounted () {
       this.getInitData()
+      console.log(this.getTimeSlot())
     }
   }
 </script>
