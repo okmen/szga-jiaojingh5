@@ -111,6 +111,7 @@
 </template>
 <script>
   import {resultPost} from '../../../service/getData'
+  import { Toast } from 'mint-ui'
   import {sendSMSVerificatioCode, getApptHistoryRecord, cancelNormalApptInfo} from '../../../config/baseUrl'
   export default {
     data () {
@@ -347,9 +348,13 @@
         }
         resultPost(sendSMSVerificatioCode, obj).then(json => {
 //          console.log(json)
+          Toast({
+            message: json.data,
+            duration: '2000'
+          })
         })
       },
-      cancelSubscribe (index) {
+      cancelSubscribe (index) {    // 取消预约按钮 获取apptId 预约编号
         this.reasonShow = true
         this.cancelObj = {
           apptId: this.list[index].apptId,
@@ -357,14 +362,53 @@
           cancelReason: ''
         }
       },
-      reasonConfirm () {
+      reasonConfirm () {   // 原因确认  提交数据
         this.cancelObj.cancelReason = this.cancelReason
-        console.log(this.cancelObj)
+        if (!this.mobilephone) {
+          Toast({
+            message: '请输入手机号码',
+            duration: '2000'
+          })
+        }
+        if (!this.cancelReason) {
+          Toast({
+            message: '请填写取消原因',
+            duration: '2000'
+          })
+        }
         resultPost(cancelNormalApptInfo, this.cancelObj).then(json => {
           console.log(json)
         })
       },
       btnClick () {  // 获取查询预约信息
+        if (!this.carNumber) {
+          Toast({
+            message: '请输入车牌号码',
+            duration: '2000'
+          })
+          return
+        }
+        if (!this.fourDigitsAfterTheEngine) {
+          Toast({
+            message: '请输入车架号后四位',
+            duration: '2000'
+          })
+          return
+        }
+        if (!this.mobilephone) {
+          Toast({
+            message: '请输入手机号码',
+            duration: '2000'
+          })
+          return
+        }
+        if (!this.validateCode) {
+          Toast({
+            message: '请输入验证码',
+            duration: '2000'
+          })
+          return
+        }
         let carNumbers = this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase()
         let reqData = {
           mobilePhone: this.mobilephone,
@@ -379,36 +423,6 @@
           this.list = json.data
         })
       },
-      amClick (index) {
-        this.optionData.forEach(item => {
-          item.amSelected = false
-          item.pmSelected = false
-        })
-        if (this.optionData[index].leftQuota === '0') {
-          this.optionData[index].amSelected = false
-          window.alert('该时间段不允许预约')
-        } else {
-          this.optionData[index].amSelected = true
-          this.apptInterval = '2'
-          this.apptDate = this.optionData[index].apptDate
-          this.apptDistrict = this.optionData[index].apptDistrict
-        }
-      },
-      pmClick (index) {
-        this.optionData.forEach(item => {
-          item.pmSelected = false
-          item.amSelected = false
-        })
-        if (this.optionData[index].leftQuota === '0') {
-          this.optionData[index].pmSelected = false
-          window.alert('该时间段不允许预约')
-        } else {
-          this.optionData[index].pmSelected = true
-          this.apptInterval = '2'
-          this.apptDate = this.optionData[index].apptDate
-          this.apptDistrict = this.optionData[index].apptDistrict
-        }
-      },
       licenseSelectClick: function (str, index) {
         if (str) {
           this.licenseSelectMassage = str
@@ -420,18 +434,6 @@
           this.licenseSelectShow = true
           this.abbreviationSelectShow = false
           this.carSelectShow = false
-        }
-      },
-      carSelectClick: function (str, index) {
-        if (str) {
-          this.carSelectMassage = str
-          this.carSelectType = this.carSelectData[index].type
-        }
-        if (this.carSelectShow === true) {
-          this.carSelectShow = false
-        } else {
-          this.carSelectShow = true
-          this.abbreviationSelectShow = false
         }
       },
       abbreviationSelectClick: function (str) {
