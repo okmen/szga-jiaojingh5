@@ -113,10 +113,12 @@ export const submitApplicationForMotorVehicleInformation = `${commonUrl}user/pro
 
 export const noPwdLogin = `${commonUrl}user/getLoginInfoByLoginName.html` // 免密登录
 
-export const sendSMSVerificatioCode = 'http://192.168.1.67:8080/web/activity/sendSMSVerificatioCode.html'  // 东部预约个人预约信息写入
+export const sendSMSVerificatioCode = 'http://192.168.1.67:8080/web/activity/sendSMSVerificatioCode.html'  // 东部预约验证码
 
 export const getNormalApptDistrictAndTime = 'http://192.168.1.67:8080/web/activity/getNormalApptDistrictAndTime.html'  // 东部预约获取预约场次及配额信息
 
 export const addNormalApptInfo = 'http://192.168.1.67:8080/web/activity/addNormalApptInfo.html'  // 东部预约个人预约信息写入
 
 export const getApptHistoryRecord = 'http://192.168.1.67:8080/web/activity/getApptHistoryRecord.html'  // 东部预约查询个人预约信息
+
+export const cancelNormalApptInfo = 'http://192.168.1.67:8080/web/activity/cancelNormalApptInfo.html'  // 东部预约取消预约

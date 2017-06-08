@@ -1,5 +1,14 @@
 <template>
   <div class="appointmentTime-box">
+    <div class="appointmentTime-reason" v-if="reasonShow">
+      <div class="appointmentTime-reason-content">
+        <div class="reason-content-cancel"><img src="../../../images/reason-cancel.png" @click="reasonShow=false" /></div>
+        <div class="reason-content">
+          <textarea placeholder="请填写取消原因" v-model="cancelReason"></textarea>
+        </div>
+        <div class="reason-content-confirm" @click="reasonConfirm">确认</div>
+      </div>
+    </div>
     <div class="appointmentTime-form">
       <div class="form-line">
         <div class="form-line-item item-name">
@@ -66,13 +75,13 @@
       </div>
     </div>
     <div class="appointmentTime-bottom-btn" @click="btnClick">查 询</div>
-    <div class="appointment-content">
+    <div class="appointment-content" v-if="list">
       <div class="appointment-content-title">
         <div class="line"></div>
         <div class="appointment-title-color">预约结果</div>
         <div class="line"></div>
       </div>
-      <div class="appointment-content-item" v-for="item in list" v-if="list">
+      <div class="appointment-content-item" v-for="(item, index) in list">
         <div class="appointment-item-number group">
           <div class="appointment-item-number-ms">预约编号:</div>
           <div class="appointment-item-number-nr">{{item.apptId}}</div>
@@ -81,18 +90,20 @@
           <div class="item-content-info">
             <!--<div class="item-content-info-ms">车牌号码: <span class="item-content-info-nr">{{item.reservationNo}}</span></div>-->
             <!--<div class="item-content-info-ms">手机号码: <span class="item-content-info-nr">{{item.mobilephone}}</span></div>-->
-            <div class="item-content-info-ms">预约片区: <span class="item-content-info-nr">{{item.address}}</span></div>
+            <div class="item-content-info-ms">预约片区: <span
+              class="item-content-info-nr">{{item.apptDistrict == 1 ? '梅沙片区' : '大鹏片区'}}</span></div>
           </div>
           <div class="item-content-time">
             <div class="item-content-time-ms">预约时间</div>
-            <div class="item-content-time-nr">{{item.apptDate.split(' ')[0]}} 上午</div>
-            <div class="item-content-time-nr">0:00~12:00</div>
+            <div class="item-content-time-nr">{{item.apptDate.split(' ')[0]}} {{item.apptInterval == 1 ? '上午' : '下午'}}
+            </div>
+            <div class="item-content-time-nr">{{item.apptInterval == 1 ? '00:00~12:00' : '12:00~24:00'}}</div>
           </div>
         </div>
         <div class="item-cancel">
-          <!--<div class="item-cancel-ms" @click="cancelSubscribe">取消预约</div>-->
-          <!--<div class="item-cancel-ms" style="background: #999999">已取消</div>-->
-          <div class="item-cancel-ms overdue">已过期</div>
+          <div class="item-cancel-ms" @click="cancelSubscribe(index)" v-if="item.apptStatus == 0">取消预约</div>
+          <div class="item-cancel-ms" style="background: #999999" v-if="item.apptStatus == 2">已取消</div>
+          <!--<div class="item-cancel-ms overdue">已过期</div>-->
         </div>
       </div>
     </div>
@@ -100,10 +111,13 @@
 </template>
 <script>
   import {resultPost} from '../../../service/getData'
-  import {sendSMSVerificatioCode, getApptHistoryRecord} from '../../../config/baseUrl'
+  import {sendSMSVerificatioCode, getApptHistoryRecord, cancelNormalApptInfo} from '../../../config/baseUrl'
   export default {
     data () {
       return {
+        cancelObj: '',
+        reasonShow: false,
+        cancelReason: '',
         apptInterval: '',
         apptDate: '',
         apptDistrict: '',
@@ -335,7 +349,22 @@
 //          console.log(json)
         })
       },
-      btnClick () {
+      cancelSubscribe (index) {
+        this.reasonShow = true
+        this.cancelObj = {
+          apptId: this.list[index].apptId,
+          mobilePhone: this.mobilephone,
+          cancelReason: ''
+        }
+      },
+      reasonConfirm () {
+        this.cancelObj.cancelReason = this.cancelReason
+        console.log(this.cancelObj)
+        resultPost(cancelNormalApptInfo, this.cancelObj).then(json => {
+          console.log(json)
+        })
+      },
+      btnClick () {  // 获取查询预约信息
         let carNumbers = this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase()
         let reqData = {
           mobilePhone: this.mobilephone,
@@ -421,53 +450,107 @@
   }
 </script>
 <style lang="less" scoped>
-  .appointment-content{
+  .appointmentTime-reason{
+    position:fixed;
+    left: 0;
+    right: 0;
+    top:0;
+    bottom: 0;
+    background: rgba(0,0,0,.7);
+    z-index: 4;
+  }
+  .reason-content-cancel{
+    height: 68px;
+    img{
+      width: 24px;
+      height: 24px;
+      float: right;
+      margin-top: 22px;
+    }
+  }
+  textarea{
+    resize: none;
+    width: 100%;
+    height: 400px;
+    padding: 24px;
+    outline: none;
+  }
+  .appointmentTime-reason-content{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 300px;
+    margin: 0 auto;
+    width: 88%;
+    height: 600px;
+    padding: 0 5%;
+    background: rgb(223,239,255);
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  .appointment-content {
     margin-top: 75px;
     overflow: hidden;
   }
-  .line{
+  .reason-content-confirm{
+    width: 233px;
+    height: 70px;
+    border-radius: 8px;
+    background: #1cac19;
+    margin: 30px auto 0;
+    line-height: 70px;
+    color: white;
+    text-align: center;
+  }
+  .line {
     background: #a7d9f9;
     width: 250px;
     height: 2px;
   }
-  .appointment-content-title{
+
+  .appointment-content-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  .appointment-title-color{
+
+  .appointment-title-color {
     color: #2696dd;
   }
+
   .width-46 {
     width: 46% !important;
   }
-  .width-50{
+
+  .width-50 {
     width: 50% !important;
   }
+
   .width-100 {
     width: 100% !important;
   }
+
   .form-line {
     padding: 35px 0 0 130px;
     position: relative;
     line-height: 60px;
-    vertical-align:middle;
+    vertical-align: middle;
     .form-line-item {
       display: inline-block;
       height: 60px;
       line-height: 60px;
       font-size: 28px;
-      vertical-align:middle;
+      vertical-align: middle;
       span {
         vertical-align: super;
       }
-      .text-input{
+      .text-input {
         vertical-align: middle;
       }
-      .bgcolor-fff{
+      .bgcolor-fff {
         background-color: #fff;
       }
-      .blue-btn{
+      .blue-btn {
         width: 100%;
         line-height: 60px;
         background-color: #2696dd;
@@ -477,7 +560,7 @@
         outline: none;
       }
     }
-    .abs-p{
+    .abs-p {
       position: absolute;
       top: 0;
       text-align: center;
@@ -486,60 +569,72 @@
       line-height: 35px;
     }
   }
-  .appointment-content-item{
+
+  .appointment-content-item {
     border: 1px solid #a7d9f9;
     background: white;
     margin-top: 30px;
     overflow: hidden;
   }
-  .appointment-item-number{
+
+  .appointment-item-number {
     padding: 20px 32px;
     border-bottom: 1px solid #a7d9f9;
     font-weight: 600;
   }
-  .group{
+
+  .group {
     display: flex;
     justify-content: flex-start;
     align-items: center;
   }
-  .appointment-item-number-nr{
+
+  .appointment-item-number-nr {
     color: #ff0000;
     margin-left: 20px;
   }
-  .item-content{
+
+  .item-content {
     padding-left: 32px;
     padding-top: 20px;
   }
-  .item-content-info-ms{
+
+  .item-content-info-ms {
     height: 55px;
     line-height: 55px;
   }
-  .item-content-info-nr{
+
+  .item-content-info-nr {
     color: #333;
     font-weight: 600;
   }
-  .item-content-time{
+
+  .item-content-time {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 46px;
   }
-  .item-content-time-ms{
+
+  .item-content-time-ms {
     margin-bottom: 12px;
   }
-  .item-content-time-nr{
+
+  .item-content-time-nr {
     height: 50px;
     line-height: 50px;
     font-weight: 600;
     color: #333333;
   }
-  .item-cancel{
+
+  .item-cancel {
     float: right;
     padding-right: 32px;
     height: 160px;
   }
-  .item-cancel-ms{
+
+  .item-cancel-ms {
     width: 207px;
     height: 60px;
     margin-top: 60px;
@@ -549,11 +644,13 @@
     line-height: 60px;
     color: white;
   }
-  .overdue{
+
+  .overdue {
     color: #999999;
     background: white;
     border: 1px solid #2d2d2d;
   }
+
   .appointmentTime-bottom-btn {
     margin: 20px auto;
     text-align: center;

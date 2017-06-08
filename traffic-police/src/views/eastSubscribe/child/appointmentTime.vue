@@ -99,7 +99,7 @@
             <div class="option-item-text" :class="{ active: item.pmSelected }">
               <p class="option-item-p option-item-p28">{{ item.apptDistrict == 1 ? '梅沙片区' : '大鹏半岛片区' }}</p>
               <p class="option-item-p">{{ item.apptDate }}</p>
-              <p class="option-item-p">下午(12:00~18:00)</p>
+              <p class="option-item-p">下午(12:00~24:00)</p>
             </div>
             <div class="option-item-selected" :class="{'has-selected':item.pmSelected}"></div>
           </div>
