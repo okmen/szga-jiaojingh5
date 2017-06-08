@@ -1,7 +1,7 @@
 // 添加URL需注释 哪个模块哪个接口
-// const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
+const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
 // const commonUrl = 'https://szjjapi.stc.gov.cn/' // 正式环境d
-const commonUrl = 'http://szjj.u-road.com/api/' // 正式环境d
+// const commonUrl = 'http://szjj.u-road.com/api/' // 正式环境d
 
 export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
 
@@ -113,16 +113,16 @@ export const submitApplicationForMotorVehicleInformation = `${commonUrl}user/pro
 
 export const noPwdLogin = `${commonUrl}user/getLoginInfoByLoginName.html` // 免密登录
 
-export const sendSMSVerificatioCode = 'http://192.168.1.67:8080/web/activity/sendSMSVerificatioCode.html'  // 东部预约验证码
+export const sendSMSVerificatioCode = `${commonUrl}activity/sendSMSVerificatioCode.html`  // 东部预约验证码
 
-export const getNormalApptDistrictAndTime = 'http://192.168.1.67:8080/web/activity/getNormalApptDistrictAndTime.html'  // 东部预约获取预约场次及配额信息
+export const getNormalApptDistrictAndTime = `${commonUrl}activity/getNormalApptDistrictAndTime.html`  // 东部预约获取预约场次及配额信息
 
-export const addNormalApptInfo = 'http://192.168.1.67:8080/web/activity/addNormalApptInfo.html'  // 东部预约个人预约信息写入
+export const addNormalApptInfo = `${commonUrl}activity/addNormalApptInfo.html`  // 东部预约个人预约信息写入
 
-export const getApptHistoryRecord = 'http://192.168.1.67:8080/web/activity/getApptHistoryRecord.html'  // 东部预约查询个人预约信息
+export const getApptHistoryRecord = `${commonUrl}activity/getApptHistoryRecord.html`  // 东部预约查询个人预约信息
 
-export const cancelNormalApptInfo = 'http://192.168.1.67:8080/web/activity/cancelNormalApptInfo.html'  // 东部预约取消预约
+export const cancelNormalApptInfo = `${commonUrl}activity/cancelNormalApptInfo.html`  // 东部预约取消预约
 
-export const getTempApptDistrictAndTime = 'http://192.168.1.67:8080/web/activity/getTempApptDistrictAndTime.html'  // 临时预约场次及配额信息
+export const getTempApptDistrictAndTime = `${commonUrl}activity/getTempApptDistrictAndTime.html`  // 临时预约场次及配额信息
 
-export const addTempApptInfo = 'http://192.168.1.67:8080/web/activity/addTempApptInfo.html'  // 临时预约个人预约信息写入
+export const addTempApptInfo = `${commonUrl}activity/addTempApptInfo.html`  // 临时预约个人预约信息写入
