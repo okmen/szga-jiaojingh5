@@ -103,8 +103,8 @@
   </div>
 </template>
 <script>
-//   import { resultPost } from '../../../service/getData'
-//   import { getElectronicPolicy } from '../../../config/baseUrl'
+  import {resultPost} from '../../../service/getData'
+  import {getNormalApptDistrictAndTime} from '../../../config/baseUrl'
   export default {
     name: 'appointmentTime',
     data () {
@@ -437,7 +437,21 @@
           this.licenseSelectShow = false
           this.carSelectShow = false
         }
+      },
+      getInitData () {
+        let obj = {}
+        resultPost(getNormalApptDistrictAndTime, obj).then(json => {
+          console.log(json)
+//          this.optionData = json.data
+          // this.optionData.map(item => {
+          //   this.$set(item, 'amSelected', false)
+          //   this.$set(item, 'pmSelected', false)
+          // })
+        })
       }
+    },
+    mounted () {
+      this.getInitData()
     }
   }
 </script>
