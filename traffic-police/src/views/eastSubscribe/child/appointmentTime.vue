@@ -416,7 +416,7 @@
           })
         } else {
           this.optionData[index].amSelected = true
-          this.apptInterval = '2'
+          this.apptInterval = '1'
           this.apptDate = this.optionData[index].apptDate
           this.apptDistrict = this.optionData[index].apptDistrict
         }
