@@ -348,30 +348,30 @@
         checkedData: '',                              // 选中的预约信息
         /* eslint-disable */
         optionData:  [
-          {
-            "apptDate": "2017-06-10",
-            "apptDistrict": "1",
-            "leftQuota": "100",
-            "totalQuota": "13000"
-          },
-          {
-            "apptDate": "2017-06-11",
-            "apptDistrict": "1",
-            "leftQuota": "8000",
-            "totalQuota": "13000"
-          },
-          {
-            "apptDate": "2017-06-10",
-            "apptDistrict": "2",
-            "leftQuota": "11000",
-            "totalQuota": "13000"
-          },
-          {
-            "apptDate": "2017-06-11",
-            "apptDistrict": "2",
-            "leftQuota": "0",
-            "totalQuota": "13000"
-          }
+//          {
+//            "apptDate": "2017-06-10",
+//            "apptDistrict": "1",
+//            "leftQuota": "100",
+//            "totalQuota": "13000"
+//          },
+//          {
+//            "apptDate": "2017-06-11",
+//            "apptDistrict": "1",
+//            "leftQuota": "8000",
+//            "totalQuota": "13000"
+//          },
+//          {
+//            "apptDate": "2017-06-10",
+//            "apptDistrict": "2",
+//            "leftQuota": "11000",
+//            "totalQuota": "13000"
+//          },
+//          {
+//            "apptDate": "2017-06-11",
+//            "apptDistrict": "2",
+//            "leftQuota": "0",
+//            "totalQuota": "13000"
+//          }
         ]
         /* eslint-enable */
       }

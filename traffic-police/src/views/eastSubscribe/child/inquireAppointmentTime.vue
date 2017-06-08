@@ -75,7 +75,7 @@
       </div>
     </div>
     <div class="appointmentTime-bottom-btn" @click="btnClick">查 询</div>
-    <div class="appointment-content" v-if="list">
+    <div class="appointment-content" v-if="list.length">
       <div class="appointment-content-title">
         <div class="line"></div>
         <div class="appointment-title-color">预约结果</div>
@@ -88,22 +88,22 @@
         </div>
         <div class="item-content">
           <div class="item-content-info">
-            <!--<div class="item-content-info-ms">车牌号码: <span class="item-content-info-nr">{{item.reservationNo}}</span></div>-->
-            <!--<div class="item-content-info-ms">手机号码: <span class="item-content-info-nr">{{item.mobilephone}}</span></div>-->
+            <!--<div class="item-content-info-ms">车牌号码: <span class="item-content-info-nr">{{abbreviationSelectMassage + carNumber.toLocaleUpperCase()}}</span></div>
+            <div class="item-content-info-ms">手机号码: <span class="item-content-info-nr">{{mobilephone}}</span></div>-->
             <div class="item-content-info-ms">预约片区: <span
               class="item-content-info-nr">{{item.apptDistrict == 1 ? '梅沙片区' : '大鹏片区'}}</span></div>
           </div>
           <div class="item-content-time">
             <div class="item-content-time-ms">预约时间</div>
-            <div class="item-content-time-nr">{{item.apptDate.split(' ')[0]}} {{item.apptInterval == 1 ? '上午' : '下午'}}
+            <div class="item-content-time-nr">{{item.apptDate}} {{item.apptInterval == 1 ? '上午' : '下午'}}
             </div>
             <div class="item-content-time-nr">{{item.apptInterval == 1 ? '00:00~12:00' : '12:00~24:00'}}</div>
           </div>
         </div>
         <div class="item-cancel">
-          <div class="item-cancel-ms" @click="cancelSubscribe(index)" v-if="item.apptStatus == 0">取消预约</div>
-          <div class="item-cancel-ms" style="background: #999999" v-if="item.apptStatus == 2">已取消</div>
-          <!--<div class="item-cancel-ms overdue">已过期</div>-->
+          <!--<div class="item-cancel-ms" style="background: #999999" v-if="item.apptStatus == 2">已取消</div>-->
+          <div class="item-cancel-ms" @click="cancelSubscribe(index)" v-if="item.apptStatus == 0 || item.apptStatus == 6">{{item.apptStatus == 0?'取消预约':'拥堵报备'}}</div>
+          <div class="item-cancel-ms overdue" v-else>{{item.apptStatus == 2?'已取消':(item.apptStatus == 3?'爽约':(item.apptStatus == 1?'已到达':(item.apptStatus == 4?'事后报备':'临时预约')))}}</div>
         </div>
       </div>
     </div>
@@ -111,7 +111,7 @@
 </template>
 <script>
   import {resultPost} from '../../../service/getData'
-  import { Toast } from 'mint-ui'
+  import { Toast, MessageBox } from 'mint-ui'
   import {sendSMSVerificatioCode, getApptHistoryRecord, cancelNormalApptInfo} from '../../../config/baseUrl'
   export default {
     data () {
@@ -334,7 +334,23 @@
         mobilephone: '',                              // 手机号码
         validateCode: '',                             // 验证码
         checkedData: '',            // 选中的预约信息
-        list: ''
+        /* eslint-disable */
+        list: [/*{
+          "apptDate": "10-06-17 00:00:00.0",
+          "apptDistrict": "1",
+          "apptId": "DB100000000144",
+          "apptInterval": "1",
+          "apptStatus": "5"
+        },
+          {
+            "apptDate": "10-06-17 00:00:00.0",
+            "apptDistrict": "1",
+            "apptId": "DB100000000142",
+            "apptInterval": "1",
+            "apptStatus": "6"
+          }*/
+        ]
+        /* eslint-enable */
       }
     },
     mounted () {
@@ -362,23 +378,38 @@
           cancelReason: ''
         }
       },
-      reasonConfirm () {   // 原因确认  提交数据
-        this.cancelObj.cancelReason = this.cancelReason
-        if (!this.mobilephone) {
-          Toast({
-            message: '请输入手机号码',
-            duration: '2000'
+      confirmCancel () {
+        MessageBox.confirm('确定取消预约?').then(action => {
+          if (!this.mobilephone) {
+            Toast({
+              message: '请输入手机号码',
+              duration: '2000'
+            })
+          }
+          if (!this.cancelReason) {
+            Toast({
+              message: '请填写取消原因',
+              duration: '2000'
+            })
+          }
+          resultPost(cancelNormalApptInfo, this.cancelObj).then(json => {
+            console.log(json)
+            if (json.code === '0000') {
+              this.reasonShow = false
+              Toast({
+                message: json.msg,
+                duration: '2000'
+              })
+              this.btnClick()
+            }
           })
-        }
-        if (!this.cancelReason) {
-          Toast({
-            message: '请填写取消原因',
-            duration: '2000'
-          })
-        }
-        resultPost(cancelNormalApptInfo, this.cancelObj).then(json => {
-          console.log(json)
+        }).catch(err => {
+          console.log(err)
         })
+      },
+      reasonConfirm () {   // 原因确认
+        this.cancelObj.cancelReason = this.cancelReason
+        this.confirmCancel()
       },
       btnClick () {  // 获取查询预约信息
         if (!this.carNumber) {
@@ -421,6 +452,12 @@
         resultPost(getApptHistoryRecord, reqData).then(json => {
           console.log(json)
           this.list = json.data
+          if (json.code === '0001') {
+            Toast({
+              message: json.msg,
+              duration: '2000'
+            })
+          }
         })
       },
       licenseSelectClick: function (str, index) {
