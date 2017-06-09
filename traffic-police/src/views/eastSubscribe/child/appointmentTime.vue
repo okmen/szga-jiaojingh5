@@ -56,7 +56,7 @@
           <span>车架号后四位</span>
         </div>
         <div class="form-line-item div-select width-100">
-          <input v-model="fourDigitsAfterTheEngine" class="text-input bgcolor-fff" type="text" name="" value=""
+          <input maxlength="4" v-model="fourDigitsAfterTheEngine" class="text-input bgcolor-fff" type="text" name="" value=""
                  placeholder="车架号后四位">
         </div>
       </div>
@@ -73,7 +73,7 @@
           <span>验证码</span>
         </div>
         <div class="form-line-item div-select width-50">
-          <input v-model="validateCode" class="text-input bgcolor-fff" type="tel" name="" value="" placeholder="请输入验证码">
+          <input maxlength="6" v-model="validateCode" class="text-input bgcolor-fff" type="tel" name="" value="" placeholder="请输入验证码">
         </div>
         <div class="form-line-item div-select width-46 float-right" @click="sendCode">
           <button class="blue-btn">点击发送验证码</button>

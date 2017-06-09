@@ -341,7 +341,7 @@
         validateCode: '',                             // 验证码
         checkedData: '',            // 选中的预约信息
         /* eslint-disable */
-        list: [{
+        list: [/*{
          "apptDate": "10-06-17 00:00:00.0",
          "apptDistrict": "1",
          "apptId": "DB100000000144",
@@ -354,7 +354,7 @@
          "apptId": "DB100000000142",
          "apptInterval": "2",
          "apptStatus": "6"
-         }
+         }*/
         ]
         /* eslint-enable */
       }
