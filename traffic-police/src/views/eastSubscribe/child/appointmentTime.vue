@@ -83,7 +83,7 @@
     <div class="appointmentTime-select">
       <div class="appointmentTime-select-top">
         <p>选择预约时间</p>
-        <span>温馨提示：绿色为充裕,黄色为良好,红色为紧张,灰色为不可预约。</span>
+        <span>温馨提示：绿色为充裕,黄色为良好,红色为紧张，深灰色为不可预约。</span>
       </div>
       <div class="appointmentTime-select-option">
         <div class="option-item" v-for="(item, index) in optionData">
@@ -137,8 +137,8 @@
         apptDate: '',
         apptDistrict: '',
         carSelectShow: false,
-        carSelectMassage: '大型汽车(黄牌)',
-        carSelectType: '01',                          // 车辆类型
+        carSelectMassage: '小型汽车(蓝牌)',
+        carSelectType: '02',                          // 车辆类型
         carSelectData: [
           {
             'type': '01',
@@ -427,7 +427,7 @@
         if (this.optionData[index].leftQuota === '0') {
           this.optionData[index].amSelected = false
           Toast({
-            message: '该时间段不允许预约',
+            message: '该时间段预约已满',
             duration: '2000'
           })
           this.apptDistrict = ''
@@ -446,7 +446,7 @@
         if (this.optionData[index].leftQuota === '0') {
           this.optionData[index].pmSelected = false
           Toast({
-            message: '该时间段不允许预约',
+            message: '该时间段预约已满',
             duration: '2000'
           })
           this.apptDistrict = ''

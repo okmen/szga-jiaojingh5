@@ -129,8 +129,8 @@
         apptDate: '',
         apptDistrict: '',
         carSelectShow: false,
-        carSelectMassage: '大型汽车(黄牌)',
-        carSelectType: '01',                          // 车辆类型
+        carSelectMassage: '小型汽车(蓝牌)',
+        carSelectType: '02',                          // 车辆类型
         carSelectData: [
           {
             'type': '01',
