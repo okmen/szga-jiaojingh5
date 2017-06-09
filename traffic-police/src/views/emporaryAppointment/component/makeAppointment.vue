@@ -502,6 +502,9 @@
   }
 </script>
 <style lang="less" scoped>
+  .div-select-ul{
+    top: 54px;
+  }
   .group{
     display: flex;
     justify-content: space-around;

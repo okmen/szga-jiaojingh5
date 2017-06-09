@@ -511,6 +511,9 @@
   }
 </script>
 <style lang="less" scoped>
+  .div-select-ul{
+    top: 54px;
+  }
   .appointmentTime-reason {
     position: fixed;
     left: 0;

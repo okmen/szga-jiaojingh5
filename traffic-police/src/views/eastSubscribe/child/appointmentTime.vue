@@ -556,6 +556,9 @@
   }
 </script>
 <style lang="less" scoped>
+  .div-select-ul{
+    top: 54px;
+  }
   .appointmentTime-box {
     position: relative;
     min-height: 1150px;
