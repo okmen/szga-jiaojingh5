@@ -2,7 +2,8 @@
   <div class="appointmentTime-box">
     <div class="appointmentTime-reason" v-if="reasonShow">
       <div class="appointmentTime-reason-content">
-        <div class="reason-content-cancel"><img src="../../../images/reason-cancel.png" @click="reasonShow=false" /></div>
+        <div class="reason-content-cancel"><img src="../../../images/reason-cancel.png" @click="reasonShow=false"/>
+        </div>
         <div class="reason-content">
           <textarea placeholder="请填写取消原因" v-model="cancelReason"></textarea>
         </div>
@@ -102,8 +103,12 @@
         </div>
         <div class="item-cancel">
           <!--<div class="item-cancel-ms" style="background: #999999" v-if="item.apptStatus == 2">已取消</div>-->
-          <div class="item-cancel-ms" @click="cancelSubscribe(index)" v-if="item.apptStatus == 0 || item.apptStatus == 6">{{item.apptStatus == 0?'取消预约':'拥堵报备'}}</div>
-          <div class="item-cancel-ms overdue" v-else>{{item.apptStatus == 2?'已取消':(item.apptStatus == 3?'爽约':(item.apptStatus == 1?'已到达':(item.apptStatus == 4?'事后报备':'临时预约')))}}</div>
+          <div class="item-cancel-ms" @click="cancelSubscribe(index)"
+               v-if="item.apptStatus == 0 || item.apptStatus == 6">{{item.apptStatus == 0 ? '取消预约' : '拥堵报备'}}
+          </div>
+          <div class="item-cancel-ms overdue" v-else>
+            {{item.apptStatus == 2 ? '已取消' : (item.apptStatus == 3 ? '爽约' : (item.apptStatus == 1 ? '已到达' : (item.apptStatus == 4 ? '事后报备' : '临时预约')))}}
+          </div>
         </div>
       </div>
     </div>
@@ -111,7 +116,7 @@
 </template>
 <script>
   import {resultPost} from '../../../service/getData'
-  import { Toast, MessageBox } from 'mint-ui'
+  import {Toast, MessageBox} from 'mint-ui'
   import {sendSMSVerificatioCode, getApptHistoryRecord, cancelNormalApptInfo} from '../../../config/baseUrl'
   export default {
     data () {
@@ -336,19 +341,19 @@
         checkedData: '',            // 选中的预约信息
         /* eslint-disable */
         list: [/*{
-          "apptDate": "10-06-17 00:00:00.0",
-          "apptDistrict": "1",
-          "apptId": "DB100000000144",
-          "apptInterval": "1",
-          "apptStatus": "5"
-        },
-          {
-            "apptDate": "10-06-17 00:00:00.0",
-            "apptDistrict": "1",
-            "apptId": "DB100000000142",
-            "apptInterval": "1",
-            "apptStatus": "6"
-          }*/
+         "apptDate": "10-06-17 00:00:00.0",
+         "apptDistrict": "1",
+         "apptId": "DB100000000144",
+         "apptInterval": "1",
+         "apptStatus": "5"
+         },
+         {
+         "apptDate": "10-06-17 00:00:00.0",
+         "apptDistrict": "1",
+         "apptId": "DB100000000142",
+         "apptInterval": "1",
+         "apptStatus": "6"
+         }*/
         ]
         /* eslint-enable */
       }
@@ -357,7 +362,22 @@
 
     },
     methods: {
-      sendCode () { // 发送验证码
+      isLicenseNo (str) {  // 车牌号码校验
+        return /(^[\u4E00-\u9FA5]{1}[A-Z0-9]{6}$)|(^[A-Z]{2}[A-Z0-9]{2}[A-Z0-9\u4E00-\u9FA5]{1}[A-Z0-9]{4}$)|(^[\u4E00-\u9FA5]{1}[A-Z0-9]{5}[挂学警军港澳]{1}$)|(^[A-Z]{2}[0-9]{5}$)|(^(08|38){1}[A-Z0-9]{4}[A-Z0-9挂学警军港澳]{1}$)/.test(str)
+      },
+      /* eslint-disable */
+      checkPhone (str) {
+        return /^1[3|4|5|7|8]\d{9}$/.test(str)
+      },
+      /* eslint-enable */
+      sendCode () {  // 发送验证码
+        if (!this.checkPhone(this.mobilephone)) {
+          Toast({
+            message: '手机号码格式不正确',
+            duration: '2000'
+          })
+          return
+        }
         let obj = {
           mobilephone: this.mobilephone,
           businessType: 'easternReservation'
@@ -380,11 +400,12 @@
       },
       confirmCancel () {
         MessageBox.confirm('确定取消预约?').then(action => {
-          if (!this.mobilephone) {
+          if (!this.checkPhone(this.mobilephone)) {
             Toast({
-              message: '请输入手机号码',
+              message: '手机号码格式不正确',
               duration: '2000'
             })
+            return
           }
           if (!this.cancelReason) {
             Toast({
@@ -412,9 +433,11 @@
         this.confirmCancel()
       },
       btnClick () {  // 获取查询预约信息
-        if (!this.carNumber) {
+        let carNumbers = this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase()
+        let isTrueCar = this.isLicenseNo(carNumbers)
+        if (!isTrueCar) {
           Toast({
-            message: '请输入车牌号码',
+            message: '车牌号码格式不正确',
             duration: '2000'
           })
           return
@@ -426,9 +449,9 @@
           })
           return
         }
-        if (!this.mobilephone) {
+        if (!this.checkPhone(this.mobilephone)) {
           Toast({
-            message: '请输入手机号码',
+            message: '手机号码格式不正确',
             duration: '2000'
           })
           return
@@ -440,7 +463,6 @@
           })
           return
         }
-        let carNumbers = this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase()
         let reqData = {
           mobilePhone: this.mobilephone,
           validateCode: this.validateCode,
@@ -452,7 +474,7 @@
         resultPost(getApptHistoryRecord, reqData).then(json => {
           console.log(json)
           this.list = json.data
-          if (json.code === '0001') {
+          if (json.code !== '0000') {
             Toast({
               message: json.msg,
               duration: '2000'
@@ -489,32 +511,38 @@
   }
 </script>
 <style lang="less" scoped>
-  .appointmentTime-reason{
-    position:fixed;
+  .div-select-ul{
+    top: 54px;
+  }
+  .appointmentTime-reason {
+    position: fixed;
     left: 0;
     right: 0;
-    top:0;
+    top: 0;
     bottom: 0;
-    background: rgba(0,0,0,.7);
+    background: rgba(0, 0, 0, .7);
     z-index: 4;
   }
-  .reason-content-cancel{
+
+  .reason-content-cancel {
     height: 68px;
-    img{
+    img {
       width: 24px;
       height: 24px;
       float: right;
       margin-top: 22px;
     }
   }
-  textarea{
+
+  textarea {
     resize: none;
     width: 100%;
     height: 400px;
     padding: 24px;
     outline: none;
   }
-  .appointmentTime-reason-content{
+
+  .appointmentTime-reason-content {
     position: absolute;
     left: 0;
     right: 0;
@@ -523,15 +551,17 @@
     width: 88%;
     height: 600px;
     padding: 0 5%;
-    background: rgb(223,239,255);
+    background: rgb(223, 239, 255);
     overflow: hidden;
     border-radius: 8px;
   }
+
   .appointment-content {
     margin-top: 75px;
     overflow: hidden;
   }
-  .reason-content-confirm{
+
+  .reason-content-confirm {
     width: 233px;
     height: 70px;
     border-radius: 8px;
@@ -541,6 +571,7 @@
     color: white;
     text-align: center;
   }
+
   .line {
     background: #a7d9f9;
     width: 250px;

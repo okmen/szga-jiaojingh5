@@ -86,7 +86,7 @@
         <span>温馨提示：绿色为充裕,黄色为良好,红色为紧张,灰色为不可预约。</span>
       </div>
       <div class="appointmentTime-select-option">
-        <div class="option-item" v-for="(item, index) in optionData" >
+        <div class="option-item" v-for="(item, index) in optionData">
           <div class="option-item-only" style="float: left;margin-left: 6px" @click="amClick(index)">
             <div class="option-item-text" :class="{ active:item.amSelected}">
               <p class="option-item-p option-item-p28">{{ item.apptDistrict == 1 ? '梅沙片区' : '大鹏半岛片区' }}</p>
@@ -105,7 +105,9 @@
           </div>
           <div class="option-item-title" style="float: right;margin-top: -10px;">当日预约总量</div>
           <div class="option-item-progress" style="float: right">
-            <div class="option-item-Mask"  :class="{'bg-gray':item.leftQuota/item.totalQuota==0,'bg-red':item.leftQuota/item.totalQuota<0.4&&item.leftQuota/item.totalQuota>0,'bg-green':item.leftQuota/item.totalQuota>0.8,'bg-yellow':(item.leftQuota/item.totalQuota)<=0.8&&(item.leftQuota/item.totalQuota)>=0.4}"  :style="{width:(item.totalQuota-item.leftQuota)/item.totalQuota * 100 + '%'}"></div>
+            <div class="option-item-Mask"
+                 :class="{'bg-gray':item.leftQuota/item.totalQuota==0,'bg-red':item.leftQuota/item.totalQuota<0.4&&item.leftQuota/item.totalQuota>0,'bg-green':item.leftQuota/item.totalQuota>0.8,'bg-yellow':(item.leftQuota/item.totalQuota)<=0.8&&(item.leftQuota/item.totalQuota)>=0.4}"
+                 :style="{width:(item.totalQuota-item.leftQuota)/item.totalQuota * 100 + '%'}"></div>
           </div>
         </div>
       </div>
@@ -126,7 +128,7 @@
 </template>
 <script>
   import {resultPost} from '../../../service/getData'
-  import { Toast } from 'mint-ui'
+  import {Toast} from 'mint-ui'
   import {getNormalApptDistrictAndTime, sendSMSVerificatioCode, addNormalApptInfo} from '../../../config/baseUrl'
   export default {
     data () {
@@ -347,7 +349,7 @@
         validateCode: '',                             // 验证码
         checkedData: '',                              // 选中的预约信息
         /* eslint-disable */
-        optionData:  [
+        optionData: [
 //          {
 //            "apptDate": "2017-06-10",
 //            "apptDistrict": "1",
@@ -380,7 +382,20 @@
       this.getInitData()
     },
     methods: {
+      isLicenseNo (str) {  // 车牌号码校验
+        return /(^[\u4E00-\u9FA5]{1}[A-Z0-9]{6}$)|(^[A-Z]{2}[A-Z0-9]{2}[A-Z0-9\u4E00-\u9FA5]{1}[A-Z0-9]{4}$)|(^[\u4E00-\u9FA5]{1}[A-Z0-9]{5}[挂学警军港澳]{1}$)|(^[A-Z]{2}[0-9]{5}$)|(^(08|38){1}[A-Z0-9]{4}[A-Z0-9挂学警军港澳]{1}$)/.test(str)
+      },
+      checkPhone (str) {   // 手机号码校验
+        return /^1[3|4|5|7|8]\d{9}$/.test(str)
+      },
       sendCode () { // 发送验证码
+        if (!this.checkPhone(this.mobilephone)) {
+          Toast({
+            message: '手机号码格式不正确',
+            duration: '2000'
+          })
+          return
+        }
         let obj = {
           mobilephone: this.mobilephone,
           businessType: 'easternReservation'
@@ -414,9 +429,10 @@
             message: '该时间段不允许预约',
             duration: '2000'
           })
+          this.apptDistrict = ''
         } else {
           this.optionData[index].amSelected = true
-          this.apptInterval = '2'
+          this.apptInterval = '1'
           this.apptDate = this.optionData[index].apptDate
           this.apptDistrict = this.optionData[index].apptDistrict
         }
@@ -432,6 +448,7 @@
             message: '该时间段不允许预约',
             duration: '2000'
           })
+          this.apptDistrict = ''
         } else {
           this.optionData[index].pmSelected = true
           this.apptInterval = '2'
@@ -440,9 +457,11 @@
         }
       },
       btnClick: function () {
-        if (!this.carNumber) {
+        let carNumbers = this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase()
+        let isTrueCar = this.isLicenseNo(carNumbers)
+        if (!isTrueCar) {
           Toast({
-            message: '请输入车牌号码',
+            message: '车牌号码格式不正确',
             duration: '2000'
           })
           return
@@ -454,9 +473,9 @@
           })
           return
         }
-        if (!this.mobilephone) {
+        if (!this.checkPhone(this.mobilephone)) {
           Toast({
-            message: '请输入手机号码',
+            message: '手机号码格式不正确',
             duration: '2000'
           })
           return
@@ -475,7 +494,6 @@
           })
           return
         }
-        let carNumbers = this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase()
         let reqData = {
           mobilePhone: this.mobilephone,
           validateCode: this.validateCode,
@@ -538,6 +556,9 @@
   }
 </script>
 <style lang="less" scoped>
+  .div-select-ul{
+    top: 54px;
+  }
   .appointmentTime-box {
     position: relative;
     min-height: 1150px;
@@ -609,22 +630,22 @@
           height: 20px;
           border-radius: 10px;
           background: #e5e5e5;
-          margin:20px 0;
+          margin: 20px 0;
           position: relative;
           padding: 3px;
-          .option-item-Mask{
+          .option-item-Mask {
             height: 14px;
             border-radius: 7px;
           }
         }
-        .option-item-title{
+        .option-item-title {
           width: 100%;
           text-align: center;
           color: #999;
           font-size: 24px;
 
         }
-        .option-item-only{
+        .option-item-only {
           display: flex;
           justify-content: center;
           flex-direction: column;
@@ -722,20 +743,25 @@
       padding-left: 188px !important;
     }
   }
-  .option-item{
+
+  .option-item {
     overflow: hidden;
     width: 100%;
   }
-  .bg-red{
+
+  .bg-red {
     background: #fb4b68;
   }
-  .bg-green{
+
+  .bg-green {
     background: #2baf31;
   }
-  .bg-yellow{
+
+  .bg-yellow {
     background: yellow;
   }
-  .bg-gray{
-    background: rgb(161,161,161);
+
+  .bg-gray {
+    background: rgb(161, 161, 161);
   }
 </style>
