@@ -103,8 +103,9 @@
         </div>
         <div class="item-cancel">
           <!--<div class="item-cancel-ms" style="background: #999999" v-if="item.apptStatus == 2">已取消</div>-->
+          <a class="item-cancel-ms-left" href="tel:83333333" v-if="item.apptStatus == 0 || item.apptStatus == 6">拥堵报备</a>
           <div class="item-cancel-ms" @click="cancelSubscribe(index)"
-               v-if="item.apptStatus == 0 || item.apptStatus == 6">{{item.apptStatus == 0 ? '取消预约' : '拥堵报备'}}
+               v-if="item.apptStatus == 0 || item.apptStatus == 6">取消预约
           </div>
           <div class="item-cancel-ms overdue" v-else>
             {{item.apptStatus == 2 ? '已取消' : (item.apptStatus == 3 ? '爽约' : (item.apptStatus == 1 ? '已到达' : (item.apptStatus == 4 ? '事后报备' : '临时预约')))}}
@@ -340,20 +341,20 @@
         validateCode: '',                             // 验证码
         checkedData: '',            // 选中的预约信息
         /* eslint-disable */
-        list: [/*{
+        list: [{
          "apptDate": "10-06-17 00:00:00.0",
          "apptDistrict": "1",
          "apptId": "DB100000000144",
          "apptInterval": "1",
-         "apptStatus": "5"
+         "apptStatus": "0"
          },
          {
          "apptDate": "10-06-17 00:00:00.0",
          "apptDistrict": "1",
          "apptId": "DB100000000142",
-         "apptInterval": "1",
+         "apptInterval": "2",
          "apptStatus": "6"
-         }*/
+         }
         ]
         /* eslint-enable */
       }
@@ -701,12 +702,15 @@
   }
 
   .item-cancel {
-    float: right;
+    overflow: hidden;
     padding-right: 32px;
+    padding-left: 32px;
     height: 160px;
+    width: 100%;
   }
 
   .item-cancel-ms {
+    float: right;
     width: 207px;
     height: 60px;
     margin-top: 60px;
@@ -716,7 +720,18 @@
     line-height: 60px;
     color: white;
   }
-
+  .item-cancel-ms-left{
+    display: block;
+    float: left;
+    width: 207px;
+    height: 60px;
+    margin-top: 60px;
+    border-radius: 8px;
+    background: rgb(38,151,221);
+    text-align: center;
+    line-height: 60px;
+    color: white;
+  }
   .overdue {
     color: #999999;
     background: white;
