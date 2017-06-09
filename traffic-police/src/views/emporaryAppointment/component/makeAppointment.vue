@@ -471,7 +471,7 @@
       getTimeSlot: function () {
         let now = new Date()
         let hours = now.getHours()
-        return hours > 12 ? '02' : '01'
+        return hours > 12 ? '2' : '1'
       },
       getRemainingPercentage: function (a, b, c) {
         let percent = parseInt((a / b) * 100)
