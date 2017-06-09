@@ -106,8 +106,8 @@
           <div class="option-item-title" style="float: right;margin-top: -10px;">当日预约总量</div>
           <div class="option-item-progress" style="float: right">
             <div class="option-item-Mask"
-                 :class="{'bg-gray':item.leftQuota/item.totalQuota==0,'bg-red':item.leftQuota/item.totalQuota<0.4&&item.leftQuota/item.totalQuota>0,'bg-green':item.leftQuota/item.totalQuota>0.8,'bg-yellow':(item.leftQuota/item.totalQuota)<=0.8&&(item.leftQuota/item.totalQuota)>=0.4}"
-                 :style="{width:(item.totalQuota-item.leftQuota)/item.totalQuota * 100 + '%'}"></div>
+                 :class="{'bg-gray':(item.leftQuota/item.totalQuota).toFixed(2)==0,'bg-red':(item.leftQuota/item.totalQuota).toFixed(2)<0.4&&(item.leftQuota/item.totalQuota).toFixed(2)>0,'bg-green':(item.leftQuota/item.totalQuota).toFixed(2)>0.8,'bg-yellow':(item.leftQuota/item.totalQuota).toFixed(2)<=0.8&&(item.leftQuota/item.totalQuota).toFixed(2)>=0.4}"
+                 :style="{width:((item.totalQuota-item.leftQuota)/item.totalQuota * 100).toFixed(2) + '%'}"></div>
           </div>
         </div>
       </div>
@@ -349,7 +349,33 @@
         validateCode: '',                             // 验证码
         checkedData: '',                              // 选中的预约信息
         /* eslint-disable */
-        optionData: ''
+        optionData:  [
+          /*{
+            "apptDate": "2017-06-10",
+            "apptDistrict": "1",
+            "leftQuota": "100",
+            "totalQuota": "13000"
+          },
+          {
+            "apptDate": "2017-06-11",
+            "apptDistrict": "1",
+            "leftQuota": "1000",
+            "totalQuota": "13000"
+          },
+          {
+            "apptDate": "2017-06-10",
+            "apptDistrict": "2",
+            "leftQuota": "11001",
+            "totalQuota": "13000"
+          },
+          {
+            "apptDate": "2017-06-11",
+            "apptDistrict": "2",
+            "leftQuota": "13000",
+            "totalQuota": "13000"
+          }*/
+        ]
+
         /* eslint-enable */
       }
     },
