@@ -51,7 +51,7 @@
           <span>车架号后四位</span>
         </div>
         <div class="form-line-item div-select width-100">
-          <input v-model="fourDigitsAfterTheEngine" class="text-input bgcolor-fff" type="text" name="" value="" placeholder="车架号后四位">
+          <input v-model="fourDigitsAfterTheEngine" maxlength="4" class="text-input bgcolor-fff" type="text" name="" value="" placeholder="车架号后四位">
         </div>
       </div>
       <div class="form-line">
@@ -59,7 +59,7 @@
           <span>手机号码</span>
         </div>
         <div class="form-line-item div-select width-100">
-          <input v-model="mobilephone" class="text-input bgcolor-fff" type="tel" name="" value="" placeholder="请输入手机号码">
+          <input v-model="mobilephone" maxlength="11" class="text-input bgcolor-fff" type="tel" name="" value="" placeholder="请输入手机号码">
         </div>
       </div>
       <div class="form-line">
@@ -67,7 +67,7 @@
           <span>验证码</span>
         </div>
         <div class="form-line-item div-select width-50">
-          <input v-model="validateCode" class="text-input bgcolor-fff" type="tel" name="" value="" placeholder="请输入验证码">
+          <input v-model="validateCode" maxlength="6" class="text-input bgcolor-fff" type="tel" name="" value="" placeholder="请输入验证码">
         </div>
         <div class="form-line-item div-select width-46 float-right" @click="sendCode">
           <button class="blue-btn">点击发送验证码</button>
@@ -327,6 +327,12 @@
       }
     },
     methods: {
+      isLicenseNo (str) {  // 车牌号码校验
+        return /(^[\u4E00-\u9FA5]{1}[A-Z0-9]{6}$)|(^[A-Z]{2}[A-Z0-9]{2}[A-Z0-9\u4E00-\u9FA5]{1}[A-Z0-9]{4}$)|(^[\u4E00-\u9FA5]{1}[A-Z0-9]{5}[挂学警军港澳]{1}$)|(^[A-Z]{2}[0-9]{5}$)|(^(08|38){1}[A-Z0-9]{4}[A-Z0-9挂学警军港澳]{1}$)/.test(str)
+      },
+      checkPhone (str) {   // 手机号码校验
+        return /^1[3|4|5|7|8]\d{9}$/.test(str)
+      },
       optionClick: function (index) {
         console.log(index)
         this.optionData.forEach(item => {
@@ -347,6 +353,7 @@
       },
       btnClick: function () {
         let carNumbers = this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase()
+        let isTrueCar = this.isLicenseNo(carNumbers)
         let reqData = {
           plateNo: carNumbers,
           plateType: this.licenseSelectType,
@@ -358,9 +365,9 @@
           apptDistrict: this.checkedData.apptDistrict,
           validateCode: this.validateCode
         }
-        if (!this.carNumber) {
+        if (!isTrueCar) {
           Toast({
-            message: '请输入车牌号码',
+            message: '车牌号码不正确',
             duration: '2000'
           })
           return
@@ -372,9 +379,9 @@
           })
           return
         }
-        if (!this.mobilephone) {
+        if (!this.checkPhone(this.mobilephone)) {
           Toast({
-            message: '请输入手机号码',
+            message: '请输入正确手机号码',
             duration: '2000'
           })
           return
@@ -481,9 +488,9 @@
         }
       },
       sendCode () { // 发送验证码
-        if (!this.mobilephone) {
+        if (!this.checkPhone(this.mobilephone)) {
           Toast({
-            message: '请输入手机号码',
+            message: '请输入正确手机号码',
             duration: '2000'
           })
           return
@@ -518,7 +525,7 @@
   }
   .make-appointment-box {
     position: relative;
-    min-height: 1150px;
+    min-height: 1050px;
     background: url('../../../images/eastSubscribe-bottom.png') no-repeat center bottom #dfefff;
     background-size: contain;
     padding: 0 50px 480px;
