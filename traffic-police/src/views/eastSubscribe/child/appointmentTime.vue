@@ -83,7 +83,7 @@
     <div class="appointmentTime-select">
       <div class="appointmentTime-select-top">
         <p>选择预约时间</p>
-        <span>温馨提示：绿色为充裕,黄色为良好,红色为紧张,灰色为不可预约。</span>
+        <span>温馨提示:绿色为充裕,黄色为良好,红色为紧张,灰色为不可预约。</span>
       </div>
       <div class="appointmentTime-select-option">
         <div class="option-item" v-for="(item, index) in optionData">
