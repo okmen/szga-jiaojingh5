@@ -431,7 +431,7 @@
             } else {
               Toast({
                 message: json.msg,
-                duration: '2000'
+                duration: '3000'
               })
             }
           })

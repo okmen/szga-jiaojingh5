@@ -122,6 +122,7 @@
   export default {
     data () {
       return {
+        selectedIndex: '',
         cancelObj: '',
         reasonShow: false,
         cancelReason: '',
@@ -353,7 +354,7 @@
          "apptDistrict": "1",
          "apptId": "DB100000000142",
          "apptInterval": "2",
-         "apptStatus": "6"
+         "apptStatus": "2"
          }*/
         ]
         /* eslint-enable */
@@ -393,6 +394,7 @@
       },
       cancelSubscribe (index) {    // 取消预约按钮 获取apptId 预约编号
         this.reasonShow = true
+        this.selectedIndex = index
         this.cancelObj = {
           apptId: this.list[index].apptId,
           mobilePhone: this.mobilephone,
@@ -414,6 +416,7 @@
               duration: '2000'
             })
           }
+          console.log(this.list)
           resultPost(cancelNormalApptInfo, this.cancelObj).then(json => {
             console.log(json)
             if (json.code === '0000') {
@@ -422,7 +425,14 @@
                 message: json.msg,
                 duration: '2000'
               })
-              this.btnClick()
+              var changeListInfo = this.list[this.selectedIndex]
+              changeListInfo.apptStatus = '2'
+              this.$set(this.list, this.selectedIndex, changeListInfo)
+            } else {
+              Toast({
+                message: json.msg,
+                duration: '2000'
+              })
             }
           })
         }).catch(err => {

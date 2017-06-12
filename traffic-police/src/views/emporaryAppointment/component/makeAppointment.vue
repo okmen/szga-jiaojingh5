@@ -84,7 +84,7 @@
           <div class="option-item-text group">
             <p class="option-item-p">{{ item.apptDistrict == 1 ? '梅沙片区' : '大鹏片区' }}</p>
             <p class="option-item-p">{{ item.apptDate }}</p>
-            <p class="option-item-p">{{ item.time == 1 ? '上午(00:00~12:00)' : '下午(12:00~24:00)' }}</p>
+            <p class="option-item-p">{{ item.apptInterval == 1 ? '上午(00:00~12:00)' : '下午(12:00~24:00)' }}</p>
           </div>
           <div class="option-item-Mask" :style="{width: item.remainingPercentage + '%',backgroundColor: item.bgColor}" ></div>
         </div>
@@ -323,7 +323,25 @@
         mobilephone: '',                              // 手机号码
         validateCode: '',                             // 验证码
         checkedData: '',                              // 选中的预约信息
-        optionData: []
+        /* eslint-disable */
+        optionData: [
+         /* {
+            "apptDate": "2017-06-10",
+            "apptDistrict": "1",
+            "leftQuota": "12999",
+            "totalQuota": "13000",
+            "apptInterval": "1"
+          },
+          {
+            "apptDate": "2017-06-10",
+            "apptDistrict": "2",
+            "leftQuota": "13000",
+            "totalQuota": "13000",
+            "apptInterval": "2"
+          }
+*/
+        ]
+        /* eslint-enable */
       }
     },
     methods: {
@@ -338,7 +356,7 @@
         this.optionData.forEach(item => {
           item.isElect = false
         })
-        if (this.optionData[index].remainingPercentage === 0) {
+        if (this.optionData[index].leftQuota === 0) {
           this.optionData[index].isElect = false
           this.checkedData = ''
           Toast({
@@ -360,7 +378,7 @@
           vehicleType: this.carSelectType,
           vinLastFour: this.fourDigitsAfterTheEngine,
           mobilePhone: this.mobilephone,
-          apptInterval: this.checkedData.time,
+          apptInterval: this.checkedData.apptInterval,
           apptDate: this.checkedData.apptDate,
           apptDistrict: this.checkedData.apptDistrict,
           validateCode: this.validateCode
@@ -458,7 +476,7 @@
             this.optionData = json.data
             console.log(this.optionData)
             this.optionData.map(item => {
-              this.$set(item, 'time', this.getTimeSlot())
+//              this.$set(item, 'time', this.getTimeSlot())
               this.$set(item, 'isElect', false)
               this.$set(item, 'remainingPercentage', this.getRemainingPercentage(item.leftQuota, item.totalQuota, 'P'))
               this.$set(item, 'bgColor', this.getRemainingPercentage(item.leftQuota, item.totalQuota, 'C'))
