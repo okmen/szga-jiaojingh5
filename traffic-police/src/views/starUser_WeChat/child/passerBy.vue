@@ -56,7 +56,8 @@
     methods: {
       getVerification: function () {  // 获取验证码
         let sendPhoneNumber = {
-          mobilephone: this.telphoneNumber
+          mobilephone: this.telphoneNumber,
+          businessType: 'szjj'
         }
         let time = 30
         if (/^1[34578]\d{9}$/.test(this.telphoneNumber)) {
