@@ -104,7 +104,8 @@ export default {
         return false
       }
       let reqData = {
-        mobilephone: this.mobilephone
+        mobilephone: this.mobilephone,
+        businessType: 'szjj'
       }
       let time = 30
       this.btnValidateCode = `已发送（${time}）`

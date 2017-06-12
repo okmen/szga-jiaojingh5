@@ -346,7 +346,8 @@ export default{
     },
     getVerification: function () {  // 发送验证码 按钮
       let sendPhoneNumber = {
-        mobilephone: this.telphone
+        mobilephone: this.telphone,
+        businessType: 'szjj'
       }
       let time = 30
       if (/^1[34578]\d{9}$/.test(this.telphone)) {

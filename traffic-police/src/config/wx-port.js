@@ -42,13 +42,6 @@ if (!!openId && openId !== 'undefined') {
     window.localStorage.setItem('sourceOfCertification', 'Z')
     window.location.href = `https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=2016082201786470&scope=auth_user&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2FoauthAlipay%2Fcallback.html&state=${data.url}`
 
-  } else{
-    if (data.hostUrl1 == '/eastSubscribe') {
-      console.log(1111111111)
-    } else {
-  // 交警u-load环境
-  window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
-    }
   }
 }
 

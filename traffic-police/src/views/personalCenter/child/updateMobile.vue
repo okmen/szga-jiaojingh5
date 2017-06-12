@@ -53,7 +53,8 @@ export default{
     /* 发送验证码 */
     sendValidateCode: function () {
       let reqData = {
-        mobilephone: this.oldMobile
+        mobilephone: this.oldMobile,
+        businessType: 'szjj'
       }
       let time = 30
       this.btnValidateCode = `已发送（${time}）`

@@ -84,7 +84,7 @@
           <div class="option-item-text group">
             <p class="option-item-p">{{ item.apptDistrict == 1 ? '梅沙片区' : '大鹏片区' }}</p>
             <p class="option-item-p">{{ item.apptDate }}</p>
-            <p class="option-item-p">{{ item.time == 01 ? '上午(00:00~12:00)' : '下午(12:00~24:00)' }}</p>
+            <p class="option-item-p">{{ item.time == 1 ? '上午(00:00~12:00)' : '下午(12:00~24:00)' }}</p>
           </div>
           <div class="option-item-Mask" :style="{width: item.remainingPercentage + '%',backgroundColor: item.bgColor}" ></div>
         </div>
