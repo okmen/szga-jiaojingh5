@@ -1,7 +1,7 @@
 <template>
 <div id="authorityIssue">
   <div class="main_bg">
-    <img src="./../../images/bg_26bb276e.png" class="bg"> 
+    <img src="./../../images/bg_26bb276e.png" class="bg">
       <router-link to="/userAgreement#xjyhrz">
         <div class="business1">
           <img src="./../../images/xj_3819a097.png"><br>星级用户
@@ -80,7 +80,7 @@ export default {
   }
 }
 </script>
-<style lang="less">
+<style lang="less" >
 #authorityIssue {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
