@@ -51,7 +51,7 @@
           <span>车架号后四位</span>
         </div>
         <div class="form-line-item div-select width-100">
-          <input v-model="fourDigitsAfterTheEngine" class="text-input bgcolor-fff" type="text" name="" value="" placeholder="车架号后四位">
+          <input v-model="fourDigitsAfterTheEngine" maxlength="4" class="text-input bgcolor-fff" type="text" name="" value="" placeholder="车架号后四位">
         </div>
       </div>
       <div class="form-line">
@@ -59,7 +59,7 @@
           <span>手机号码</span>
         </div>
         <div class="form-line-item div-select width-100">
-          <input v-model="mobilephone" class="text-input bgcolor-fff" type="tel" name="" value="" placeholder="请输入手机号码">
+          <input v-model="mobilephone" maxlength="11" class="text-input bgcolor-fff" type="tel" name="" value="" placeholder="请输入手机号码">
         </div>
       </div>
       <div class="form-line">
@@ -67,9 +67,9 @@
           <span>验证码</span>
         </div>
         <div class="form-line-item div-select width-50">
-          <input v-model="validateCode" class="text-input bgcolor-fff" type="tel" name="" value="" placeholder="请输入验证码">
+          <input v-model="validateCode" maxlength="6" class="text-input bgcolor-fff" type="tel" name="" value="" placeholder="请输入验证码">
         </div>
-        <div class="form-line-item div-select width-46 float-right">
+        <div class="form-line-item div-select width-46 float-right" @click="sendCode">
           <button class="blue-btn">点击发送验证码</button>
         </div>
       </div>
@@ -77,13 +77,14 @@
     <div class="appointmentTime-select">
       <div class="appointmentTime-select-top">
         <p>选择预约时间</p>
-        <span>温馨提示：绿色为充裕,黄色为良好,红色为紧张,灰色为不可预约。</span>
+        <span>温馨提示:绿色为充裕,黄色为良好,红色为紧张,灰色为不可预约。</span>
       </div>
       <div class="appointmentTime-select-option">
         <div class="option-item" v-for="(item, index) in optionData" @click="optionClick(index)" :class="{ active: item.isElect }" >
           <div class="option-item-text group">
-            <p class="option-item-p">{{ item.date }}</p>
-            <p class="option-item-p">{{ item.time == 01 ? '上午' : '下午' }}(12:00~24:00)</p>
+            <p class="option-item-p">{{ item.apptDistrict == 1 ? '梅沙片区' : '大鹏片区' }}</p>
+            <p class="option-item-p">{{ item.apptDate }}</p>
+            <p class="option-item-p">{{ item.apptInterval == 1 ? '上午(00:00~12:00)' : '下午(12:00~24:00)' }}</p>
           </div>
           <div class="option-item-Mask" :style="{width: item.remainingPercentage + '%',backgroundColor: item.bgColor}" ></div>
         </div>
@@ -95,7 +96,7 @@
           <p>2、网络预约区域分为梅沙片区和大鹏新区，允许同时预约两个景区。</p>
           <p>3、网络预约只预约到达日期，离开不受限制，车辆离开东部景区后隔日重新返回东部景区，需要重新预约，在景区内部行驶不受限制。</p>
           <p>4、1年内累计有3次预约成功后未履约前往情形的，取消当年预约资格（预约手机号和预约车牌均不得预约）。预约上午到达的游客可在9点前取消，预约下午到达的游客可在14点前取消，反复取消后重新预约3次的，取消此次节假日的预约资格。</p>
-          <p>5、因交通拥堵未在预约时间内抵达的，通过81234567电话报备，不视为违约，免于处罚。但不得超过预约时间12个小时。</p>
+          <p>5、因交通拥堵未在预约时间内抵达的，通过<a href="tel:83333333">83333333</a>电话报备，不视为违约，免于处罚。但不得超过预约时间12个小时。</p>
         </div>
         <button class="appointmentTime-bottom-btn" @click="btnClick()">预 约</button>
       </div>
@@ -103,15 +104,16 @@
   </div>
 </template>
 <script>
-  // import { resultPost } from '../../../service/getData'
-  // import { getElectronicPolicy } from '../../../config/baseUrl'
+  import { resultPost } from '../../../service/getData'
+  import { getTempApptDistrictAndTime, addTempApptInfo, sendSMSVerificatioCode } from '../../../config/baseUrl'
+  import { Toast, MessageBox } from 'mint-ui'
   export default {
     name: 'appointmentTime',
     data () {
       return {
         carSelectShow: false,
-        carSelectMassage: '大型汽车(黄牌)',
-        carSelectType: '01',                          // 车辆类型
+        carSelectMassage: '小型汽车(蓝牌)',
+        carSelectType: '02',                          // 车辆类型
         carSelectData: [
           {
             'type': '01',
@@ -321,85 +323,113 @@
         mobilephone: '',                              // 手机号码
         validateCode: '',                             // 验证码
         checkedData: '',                              // 选中的预约信息
+        /* eslint-disable */
         optionData: [
-          {
-            address: '1',
-            date: '2017.05.28',
-            remainingPercentage: '90',
-            time: '01',
-            bgColor: '#84dd83',
-            isElect: false
+         /* {
+            "apptDate": "2017-06-10",
+            "apptDistrict": "1",
+            "leftQuota": "12999",
+            "totalQuota": "13000",
+            "apptInterval": "1"
           },
           {
-            address: '1',
-            date: '2017.05.28',
-            remainingPercentage: '40',
-            time: '02',
-            bgColor: '#ffde7f',
-            isElect: false
-          },
-          {
-            address: '2',
-            date: '2017.05.28',
-            remainingPercentage: '50',
-            time: '01',
-            bgColor: '#ffde7f',
-            isElect: false
-          },
-          {
-            address: '2',
-            date: '2017.05.28',
-            remainingPercentage: '0',
-            time: '02',
-            bgColor: '#84dd83',
-            isElect: false
-          },
-          {
-            address: '1',
-            date: '2017.05.28',
-            remainingPercentage: '80',
-            time: '01',
-            bgColor: '#84dd83',
-            isElect: false
-          },
-          {
-            address: '1',
-            date: '2017.05.28',
-            remainingPercentage: '10',
-            time: '02',
-            bgColor: '#f87170',
-            isElect: false
+            "apptDate": "2017-06-10",
+            "apptDistrict": "2",
+            "leftQuota": "13000",
+            "totalQuota": "13000",
+            "apptInterval": "2"
           }
+*/
         ]
+        /* eslint-enable */
       }
     },
     methods: {
+      isLicenseNo (str) {  // 车牌号码校验
+        return /(^[\u4E00-\u9FA5]{1}[A-Z0-9]{6}$)|(^[A-Z]{2}[A-Z0-9]{2}[A-Z0-9\u4E00-\u9FA5]{1}[A-Z0-9]{4}$)|(^[\u4E00-\u9FA5]{1}[A-Z0-9]{5}[挂学警军港澳]{1}$)|(^[A-Z]{2}[0-9]{5}$)|(^(08|38){1}[A-Z0-9]{4}[A-Z0-9挂学警军港澳]{1}$)/.test(str)
+      },
+      checkPhone (str) {   // 手机号码校验
+        return /^1[3|4|5|7|8]\d{9}$/.test(str)
+      },
       optionClick: function (index) {
+        console.log(index)
         this.optionData.forEach(item => {
           item.isElect = false
         })
-        if (this.optionData[index].remainingPercentage === '0') {
+        if (this.optionData[index].leftQuota === 0) {
           this.optionData[index].isElect = false
-          window.alert('该时间段不允许预约')
+          this.checkedData = ''
+          Toast({
+            message: '该时间段预约已满',
+            duration: '2000'
+          })
         } else {
           this.optionData[index].isElect = true
           this.checkedData = this.optionData[index]
+          console.log(this.checkedData)
         }
       },
       btnClick: function () {
         let carNumbers = this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase()
+        let isTrueCar = this.isLicenseNo(carNumbers)
         let reqData = {
-          mobilephone: this.mobilephone,
-          validateCode: this.validateCode,
-          plateNumber: carNumbers,
+          plateNo: carNumbers,
           plateType: this.licenseSelectType,
           vehicleType: this.carSelectType,
-          fourDigitsAfterTheEngine: this.fourDigitsAfterTheEngine,
-          time: this.checkedData.time,
-          date: this.checkedData.date,
-          address: this.checkedData.address
+          vinLastFour: this.fourDigitsAfterTheEngine,
+          mobilePhone: this.mobilephone,
+          apptInterval: this.checkedData.apptInterval,
+          apptDate: this.checkedData.apptDate,
+          apptDistrict: this.checkedData.apptDistrict,
+          validateCode: this.validateCode
         }
-        console.log(reqData)
+        if (!isTrueCar) {
+          Toast({
+            message: '车牌号码不正确',
+            duration: '2000'
+          })
+          return
+        }
+        if (!this.fourDigitsAfterTheEngine) {
+          Toast({
+            message: '请输入车架号后四位',
+            duration: '2000'
+          })
+          return
+        }
+        if (!this.checkPhone(this.mobilephone)) {
+          Toast({
+            message: '请输入正确手机号码',
+            duration: '2000'
+          })
+          return
+        }
+        if (!this.validateCode) {
+          Toast({
+            message: '请输入验证码',
+            duration: '2000'
+          })
+          return
+        }
+        if (!this.checkedData) {
+          Toast({
+            message: '请选择预约片区',
+            duration: '2000'
+          })
+          return
+        }
+        resultPost(addTempApptInfo, reqData).then(json => {
+          console.log(reqData)
+          console.log(json)
+          if (json.code === '0000') {
+            MessageBox('提示', json.msg)
+          } else {
+            Toast({
+              message: json.msg,
+              duration: '2000'
+            })
+          }
+        })
       },
       licenseSelectClick: function (str, index) {
         if (str) {
@@ -437,11 +467,75 @@
           this.licenseSelectShow = false
           this.carSelectShow = false
         }
+      },
+      getInitData: function () {
+        let obj = {}
+        resultPost(getTempApptDistrictAndTime, obj).then(json => {
+          console.log(json)
+          if (json.code === '0000') {
+            this.optionData = json.data
+            console.log(this.optionData)
+            this.optionData.map(item => {
+//              this.$set(item, 'time', this.getTimeSlot())
+              this.$set(item, 'isElect', false)
+              this.$set(item, 'remainingPercentage', this.getRemainingPercentage(item.leftQuota, item.totalQuota, 'P'))
+              this.$set(item, 'bgColor', this.getRemainingPercentage(item.leftQuota, item.totalQuota, 'C'))
+            })
+          } else {
+            MessageBox('提示', json.msg)
+          }
+        })
+      },
+      getTimeSlot: function () {
+        let now = new Date()
+        let hours = now.getHours()
+        return hours > 12 ? '2' : '1'
+      },
+      getRemainingPercentage: function (a, b, c) {
+        let percent = parseInt((a / b) * 100)
+        if (c === 'P') {
+          return percent
+        } else {
+          if (percent > 80) {
+            return '#84dd83'
+          } else if (percent < 40) {
+            return '#f95553'
+          } else {
+            return '#ffde7f'
+          }
+        }
+      },
+      sendCode () { // 发送验证码
+        if (!this.checkPhone(this.mobilephone)) {
+          Toast({
+            message: '请输入正确手机号码',
+            duration: '2000'
+          })
+          return
+        }
+        let obj = {
+          mobilephone: this.mobilephone,
+          businessType: 'easternReservation'
+        }
+        resultPost(sendSMSVerificatioCode, obj).then(json => {
+          console.log(json)
+          Toast({
+            message: json.data,
+            duration: '2000'
+          })
+        })
       }
+    },
+    mounted () {
+      this.getInitData()
+      console.log(this.getTimeSlot())
     }
   }
 </script>
 <style lang="less" scoped>
+  .div-select-ul{
+    top: 54px;
+  }
   .group{
     display: flex;
     justify-content: space-around;
@@ -449,7 +543,7 @@
   }
   .make-appointment-box {
     position: relative;
-    min-height: 1150px;
+    min-height: 1050px;
     background: url('../../../images/eastSubscribe-bottom.png') no-repeat center bottom #dfefff;
     background-size: contain;
     padding: 0 50px 480px;

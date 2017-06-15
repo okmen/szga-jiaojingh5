@@ -52,7 +52,6 @@
   </div>
 </template>
 <style lang="less">
-  @import "./../../../style/base";
   .payLawless-outer {
     position: absolute;
     top:0;

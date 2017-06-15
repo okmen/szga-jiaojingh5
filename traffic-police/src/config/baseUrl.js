@@ -113,6 +113,20 @@ export const submitApplicationForMotorVehicleInformation = `${commonUrl}user/pro
 
 export const noPwdLogin = `${commonUrl}user/getLoginInfoByLoginName.html` // 免密登录
 
+export const sendSMSVerificatioCode = `${commonUrl}activity/sendSMSVerificatioCode.html`  // 东部预约验证码
+
+export const getNormalApptDistrictAndTime = `${commonUrl}activity/getNormalApptDistrictAndTime.html`  // 东部预约获取预约场次及配额信息
+
+export const addNormalApptInfo = `${commonUrl}activity/addNormalApptInfo.html`  // 东部预约个人预约信息写入
+
+export const getApptHistoryRecord = `${commonUrl}activity/getApptHistoryRecord.html`  // 东部预约查询个人预约信息
+
+export const cancelNormalApptInfo = `${commonUrl}activity/cancelNormalApptInfo.html`  // 东部预约取消预约
+
+export const getTempApptDistrictAndTime = `${commonUrl}activity/getTempApptDistrictAndTime.html`  // 临时预约场次及配额信息
+
+export const addTempApptInfo = `${commonUrl}activity/addTempApptInfo.html`  // 临时预约个人预约信息写入
+
 // 暂时本地调试
 
 export const degradeCard = `http://192.168.1.245:8080/web/user/driverLicenseVoluntaryDemotion.html` // 驾驶证自愿降级

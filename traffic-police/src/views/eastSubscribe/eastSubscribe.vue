@@ -6,6 +6,7 @@
       </div>
       <appointmentTime v-if="cur_tab == 'appointmentTime'"></appointmentTime>
       <inquireAppointmentTime v-else></inquireAppointmentTime>
+      <div v-wechat-title="$route.meta.title"></div>
     </div>
 </template>
 

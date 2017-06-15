@@ -617,6 +617,22 @@ const routes = [
     ]
   },
   {
+    name: 'electrocarFile',
+    path: '/electrocarFile',
+    meta: {
+      title: '电动车档案'
+    },
+    component: require('../views/electrocarFile')
+  },
+  {
+    name: 'scanCode',
+    path: '/scanCode',
+    meta: {
+      title: '电动车扫码'
+    },
+    component: require('../views/wschool/scanCode.vue')
+  },
+  {
     name: 'dealService',
     path: '/dealService',
     meta: {
