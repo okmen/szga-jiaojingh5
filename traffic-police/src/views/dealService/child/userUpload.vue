@@ -1,0 +1,208 @@
+<template>
+  <div class="upload-img">
+    <p>请按示例图上传以下证件照片</p>
+    <div class="container">
+      <label class="img-box style-one" for="file1" v-show="idCard1">
+        <input id="file1" type="file" accept="image/*">
+        <img :src="imgIDcard1">
+        <span>身份证正面</span>
+      </label>
+      <label class="img-box style-two" for="file2" v-show="idCard2">
+        <input id="file2" type="file" accept="image/*">
+        <img :src="imgIDcard2">
+        <span>身份证反面</span>
+      </label>
+      <label class="img-box style-three" for="file3" v-show="license">
+        <input id="file3" type="file" accept="image/*">
+        <img :src="imgLicense">
+        <span>驾驶证照片</span>
+      </label>
+      <label class="img-box style-four" for="file4" v-show="eduTable">
+        <input id="file4" type="file" accept="image/*">
+        <img :src="imgEducate">
+        <span>审核教育绘制表</span>
+      </label>
+      <label class="img-box style-five" for="file5" v-show="outTable">
+        <input id="file5" type="file" accept="image/*">
+        <img :src="imgOut">
+        <span>境外人员临住表</span>
+      </label>
+      <label class="img-box style-six" for="file6" v-show="delay">
+        <input id="file6" type="file" accept="image/*">
+        <img :src="imgDelay">
+        <span>延期说明照片</span>
+      </label>
+      <label class="img-box style-seven" for="file7" v-show="bodyTable">
+        <input id="file7" type="file" accept="image/*">
+        <img :src="imgBody">
+        <span>身体条件申请表</span>
+      </label>
+    </div>
+    <button class="btn" type="button" name="button" @click="btnSureStar">确认提交</button>
+  </div>
+</template>
+<script>
+  import UploadFile from '../../../service/uploadFile'
+  export default {
+    name: 'upload-img',
+    data () {
+      return {
+        imgIDcard1: '',
+        imgIDcard2: '',
+        imgLicense: '',
+        imgEducate: '',
+        imgOut: '',
+        imgDelay: '',
+        imgBody: ''
+      }
+    },
+    props: ['idCard1', 'idCard2', 'license', 'eduTable', 'outTable', 'delay', 'bodyTable'],
+    mounted: function () {
+      this.init()
+    },
+    methods: {
+      init: function () {
+        UploadFile.upload({
+          id: 'file1',
+          callback: (res) => {
+            console.log(res)
+            this.imgIDcard1 = res.imgUrl
+          }
+        })
+        UploadFile.upload({
+          id: 'file2',
+          callback: (res) => {
+            console.log(res)
+            this.imgIDcard2 = res.imgUrl
+          }
+        })
+        UploadFile.upload({
+          id: 'file5',
+          callback: (res) => {
+            console.log(res)
+            this.imgOut = res.imgUrl
+          }
+        })
+        if (this.license) {
+          UploadFile.upload({
+            id: 'file3',
+            callback: (res) => {
+              console.log(res)
+              this.imgLicense = res.imgUrl
+            }
+          })
+        }
+        if (this.eduTable) {
+          UploadFile.upload({
+            id: 'file4',
+            callback: (res) => {
+              console.log(res)
+              this.imgEducate = res.imgUrl
+            }
+          })
+        }
+//        if (this.outTable) {
+//          UploadFile.upload({
+//            id: 'file5',
+//            callback: (res) => {
+//              console.log(res)
+//              this.imgOut = res.imgUrl
+//            }
+//          })
+//        }
+        if (this.delay) {
+          UploadFile.upload({
+            id: 'file6',
+            callback: (res) => {
+              console.log(res)
+              this.imgDelay = res.imgUrl
+            }
+          })
+        } if (this.bodyTable) {
+          UploadFile.upload({
+            id: 'file7',
+            callback: (res) => {
+              console.log(res)
+              this.imgBody = res.imgUrl
+            }
+          })
+        }
+      },
+      btnSureStar: function () {
+        this.$emit('btnSureStar')
+      }
+    }
+  }
+</script>
+<style lang="less" scoped>
+  .upload-img {
+    margin-top: 40px;
+    background-color: #FFF;
+    padding-bottom: 50px;
+    position: relative;
+    .container {
+      .img-box {
+        margin: 20px 64px 0;
+        display: inline-block;
+        position: relative;
+        width: 200px;
+        height: 200px;
+        background-color: #efeff4;
+        /*border: 1px solid #dddde1;*/
+        border-radius: 15px;
+        color: #666;
+        font-size: 22px;
+        text-align: center;
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 15px;
+        }
+        input {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          visibility: hidden;
+          top: 0;
+          left: 0;
+          z-index: 998;
+        }
+      }
+      .style-one {
+        background: #efeff4 url('../../../images/ID-front.png') center no-repeat;
+        background-size: 90%;
+        border: none;
+      }
+      .style-two {
+        background: #efeff4 url('../../../images/ID-rear.png') center no-repeat;
+        background-size: 90%;
+        border: none;
+      }
+      .style-three {
+        background: #efeff4 url('../../../images/license-card.png') center no-repeat;
+        background-size: 80%;
+        border: none;
+      }
+      .style-four {
+        background: #efeff4 url('../../../images/edu-table.png') center no-repeat;
+        background-size: 80%;
+        border: none;
+      }
+      .style-five {
+        background: #efeff4 url('../../../images/out-board.png') center no-repeat;
+        background-size: 80%;
+        border: none;
+      }
+      .style-six {
+        background: #efeff4 url('../../../images/delay.png') center no-repeat;
+        background-size: 80%;
+        border: none;
+      }
+      .style-seven {
+        background: #efeff4 url('../../../images/body-table.png') center no-repeat;
+        background-size: 80%;
+        border: none;
+      }
+    }
+  }
+</style>

@@ -112,3 +112,23 @@ export const addNoneCarCertification = `${commonUrl}user/addNoneCarCertification
 export const submitApplicationForMotorVehicleInformation = `${commonUrl}user/proofOfInformationDocuments/submitApplicationForMotorVehicleInformation.html` // 机动车信息单
 
 export const noPwdLogin = `${commonUrl}user/getLoginInfoByLoginName.html` // 免密登录
+
+// 暂时本地调试
+
+export const degradeCard = `http://192.168.1.245:8080/web/user/driverLicenseVoluntaryDemotion.html` // 驾驶证自愿降级
+
+export const changeConnect = `http://192.168.1.245:8080/web/user/driverChangeContact.html` // 驾驶人联系方式变更
+
+export const intoCard = `http://192.168.1.245:8080/web/user/driverLicenseInto.html` // 驾驶证转入
+
+export const annualExaminations = `http://192.168.1.245:8080/web/user/driverLicenseAnnualVerification.html` // 驾驶证年审
+
+export const changeDelay = `http://192.168.1.245:8080/web/user/renewalDriverLicense.html` // 驾驶证延期换证
+
+export const cardRepair = `http://192.168.1.245:8080/web/user/repairDriverLicense.html` // 驾驶证补证
+
+export const cardreplace = `http://192.168.1.245:8080/web/user/replaceDriverLicense.html` // 驾驶证补证
+
+export const getIssuing = `http://192.168.1.245:8080/web/user/getIssuingLicenceAuthorityArray.html` // 发证地列表
+
+export const getFileNumber = `http://192.168.1.245:8080/web/user/search/getMyDriverLicense.html` // 查询档案号
