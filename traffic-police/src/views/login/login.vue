@@ -48,11 +48,12 @@ export default {
       }
       let url = window.location.href
       let data = {
-        url: encodeURIComponent(url)
+        url: encodeURIComponent(url),
+        openIdURL: url.split('?openId')[0]
       }
       if (!this.openId) {
         // 交警u-load环境
-        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.openIdURL}#wechat_redirect`
       }
       let reqData = {
         loginName: this.loginName,

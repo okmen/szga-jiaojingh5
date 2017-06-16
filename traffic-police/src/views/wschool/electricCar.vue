@@ -7,12 +7,12 @@
         </router-link>
       </li>
       <li class="nav-outer-center">
-        <!--<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http://szjj.u-road.com/szjjpro/index.php/electricVehicle/businessType&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect">-->
-          <!--<p>电动车扫码</p>-->
-        <!--</a>-->
-        <router-link :to="isLogin? '/scanCode': '/login'">
+        <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http://szjj.u-road.com/szjjpro/index.php/electricVehicle/businessType&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect">
           <p>电动车扫码</p>
-        </router-link>
+        </a>
+        <!-- <router-link :to="isLogin? '/scanCode': '/login'">
+          <p>电动车扫码</p>
+        </router-link> -->
       </li>
     </ul>
     <div v-wechat-title="$route.meta.title"></div>
