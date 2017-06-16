@@ -631,6 +631,70 @@ const routes = [
       title: '电动车扫码'
     },
     component: require('../views/wschool/scanCode.vue')
+  },
+  {
+    name: 'dealService',
+    path: '/dealService',
+    meta: {
+      title: '办理类业务'
+    },
+    component: require('../views/dealService/dealService.vue')
+  },
+  // {
+  //   name: 'freeForFirst',
+  //   path: '/freeForFirst',
+  //   meta: {
+  //     title: '首违免罚查询'
+  //   },
+  //   component: require('../views/dealService/child/car/freeForFirst/freeForFirst.vue')
+  // },
+  // {
+  //   name: 'applyClass',
+  //   path: '/applyClass',
+  //   meta: {
+  //     title: '申请类'
+  //   },
+  //   component: require('../views/dealService/child/car/applyClass/applyClass.vue')
+  // },
+  {
+    name: 'changeCard',
+    path: '/changeCard/id/:id',
+    meta: {
+      title: '补换证类'
+    },
+    component: require('../views/dealService/child/card/changeCard/changeCard.vue')
+  },
+  {
+    name: 'annualExaminations',
+    path: '/annualExaminations',
+    meta: {
+      title: '驾驶证年审'
+    },
+    component: require('../views/dealService/child/card/annualExaminations/annualExaminations.vue')
+  },
+  {
+    name: 'intoCard',
+    path: '/intoCard',
+    meta: {
+      title: '驾驶证转入'
+    },
+    component: require('../views/dealService/child/card/intoCard/intoCard.vue')
+  },
+  {
+    name: 'degradeCard',
+    path: '/degradeCard',
+    meta: {
+      title: '驾驶证自愿降级'
+    },
+    component: require('../views/dealService/child/card/degradeCard/degradeCard.vue')
+  },
+  {
+    name: 'changeConnect',
+    path: '/changeConnect',
+    meta: {
+      title: '驾驶人联系方式变更'
+    },
+    component: require('../views/dealService/child/card/changeConnect/changeConnect.vue')
   }
 ]
 /* eslint-disable no-new */
