@@ -40,7 +40,7 @@
             <span>档案编号</span>
           </div>
           <div class="form-line-item">
-            <input v-model="fileNumber" class="text-input" type="text" >
+            <input v-model="fileNumber" class="text-input" type="text" readonly>
           </div>
         </li>
         <li class="form-line">
@@ -124,6 +124,7 @@
         <button class="btn btn-blue" type="button" name="button" @click.stop="example=!example">关闭</button>
       </div>
     </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>

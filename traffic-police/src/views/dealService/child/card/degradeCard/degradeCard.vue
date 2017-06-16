@@ -49,11 +49,11 @@
           </div>
           <div class="form-line-item width-40 place">
             <input type="radio"  name="address" value="1" v-model:checked="address">
-            <label>深圳</label>
+            <label>深户</label>
           </div>
           <div class="form-line-item width-40 place">
             <input type="radio"  name="address" value="0" v-model:checked="address">
-            <label>外省</label>
+            <label>外籍户口</label>
           </div>
         </li>
         <li class="form-line">
@@ -65,6 +65,14 @@
           </div>
           <div class="form-line-item right width-35">
             <span class="btn browse-code" @click="scanQRCode()">扫一扫</span>
+          </div>
+        </li>
+        <li class="form-line">
+          <div class="form-line-item item-name">
+            <span></span>
+          </div>
+          <div class="form-line-item">
+            <span class="photo-ex" @click.stop="example=true">查看示例</span>
           </div>
         </li>
         <li class="form-line">
@@ -110,6 +118,13 @@
       </ul>
     </div>
     <userUpload :idCard1="true" :idCard2="true" :license="true" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
+    <div class="example" v-if="example">
+      <div class="example-box" @click.stop="example=true">
+        <img src="../../../../../images/example.png">
+        <button class="btn btn-blue" type="button" name="button" @click.stop="example=!example">关闭</button>
+      </div>
+    </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
@@ -175,7 +190,8 @@
             'id': '10',
             'str': '大鹏新区'
           }
-        ]
+        ],
+        example: false
       }
     },
     components: {
@@ -306,6 +322,9 @@
     created () {
       document.addEventListener('click', (e) => {
         this.areaSelectShow = false
+        if (this.example === true) {
+          this.example = false
+        }
       })
     }
   }
@@ -330,6 +349,10 @@
           display: inline-block;
           height: 60px;
           line-height:60px;
+          .photo-ex {
+            color: #2696dd;
+            text-decoration: underline;
+          }
           span {
             vertical-align: middle;
           }
@@ -373,6 +396,34 @@
     }
     .width-60 {
       width: 60% !important;
+    }
+    .example {
+      position: absolute;
+      top:0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,.5);
+      .example-box {
+        left: 5%;
+        right:5%;
+        top:50%;
+        height: 500px;
+        background-color: #fff;
+        position: absolute;
+        margin-top: -480px;
+        border-radius: 10px;
+        text-align: center;
+        padding: 60px;
+        img {
+          width: 440px;
+        }
+        .btn {
+          width: 280px;
+          margin-top:30px;
+          display: inline-block;
+        }
+      }
     }
   }
 

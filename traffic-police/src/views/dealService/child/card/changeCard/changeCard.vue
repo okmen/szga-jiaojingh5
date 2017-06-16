@@ -86,9 +86,8 @@
       left: 0;
       right: 0;
       top:0;
-      padding: 0 40px;
+      padding: 20px 40px;
       #changeCard-hbs {
-        padding: 20px 0 0;
         .changeCard-hbs-list {
           .changeCard-hbs-item {
             padding-left: 180px;
@@ -111,6 +110,7 @@
               text-decoration: underline;
             }
             .div-select {
+              height: 60px;
               .div-select-ul {
                 top:60px;
               }

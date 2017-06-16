@@ -83,6 +83,7 @@
       </ul>
     </div>
     <userUpload :idCard1="true" :idCard2="true" :eduTable="true" :outTable="outTable" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <style lang="less" scoped>

@@ -87,6 +87,7 @@
       </ul>
     </div>
     <userUpload :idCard1="true" :idCard2="true" :license="true" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
@@ -211,6 +212,11 @@
         if (str) {
           this.cardSelectMassage = str
           this.cur_card_id = id
+          if (this.cur_card_id === 'A') {
+            this.IDcard = window.localStorage.getItem('identityCard')
+          } else {
+            this.IDcard = ''
+          }
         }
         if (this.cardSelectShow === true) {
           this.cardSelectShow = false
