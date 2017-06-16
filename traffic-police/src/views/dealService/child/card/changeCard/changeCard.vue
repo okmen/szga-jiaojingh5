@@ -1,4 +1,5 @@
 <template>
+  <!-- 补换证业务头部下拉导航 -->
   <div class="changeCard-outer">
     <div class="changeCard-from pad-side-50">
       <div id="changeCard-hbs">
@@ -29,7 +30,7 @@
     name: 'changeCard',
     data () {
       return {
-        cur_type_id: '',
+        cur_type_id: '',            // 当前业务类型 01为补换证  02为延期换证
         serviceSelectShow: false,
         serviceSelectMassage: '驾驶证补换证',
         serviceSelectData: [
@@ -49,11 +50,10 @@
       'changeDelay': require('./changeDelay.vue')
     },
     mounted: function () {
-      console.log(this.$route.params.id)
-      if (this.$route.params.id === '1') {
+      if (this.$route.params.id === '1') {    // 地址参数为1，载入补换证组件
         this.cur_type_id = '01'
         this.serviceSelectMassage = this.serviceSelectData[0].str
-      } else {
+      } else {                                // 地址参数为2，载入延期换证组件
         this.cur_type_id = '02'
         this.serviceSelectMassage = this.serviceSelectData[1].str
       }
@@ -63,8 +63,6 @@
         if (str) {
           this.serviceSelectMassage = str
           this.cur_type_id = id
-
-          console.log(this.cur_type_id)
         }
         if (this.serviceSelectShow === true) {
           this.serviceSelectShow = false

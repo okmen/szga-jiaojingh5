@@ -1,4 +1,5 @@
 <template>
+  <!-- 驾驶证转入组件 -->
   <div class="intoCard-outer">
     <div class="intoCard-form">
       <ul>
@@ -138,16 +139,16 @@
         IDcard: window.localStorage.getItem('identityCard'),
         name: window.localStorage.getItem('userName'),
         driverLicense: window.localStorage.getItem('identityCard'),
-        fileNumber: '',
+        fileNumber: '',                                                   // 档案编号 先从接口查询出再填入
         receiverName: window.localStorage.getItem('userName'),
         receiverNumber: window.localStorage.getItem('mobilePhone'),
         mailingAddress: '',
         photoReturnNumberString: '',
-        cur_place_id: '藏A',
-        cur_area_id: '01',
+        cur_place_id: '藏A',                                               // 默认发证机关字段
+        cur_area_id: '01',                                                 // 默认区名id  01为福田
         placeSelectShow: false,
-        placeSelectMassage: '藏A:拉萨市公安局交通警察支队车辆管理所',
-        placeSelectData: '',
+        placeSelectMassage: '藏A:拉萨市公安局交通警察支队车辆管理所',           // 发证机默认第一条名称
+        placeSelectData: '',                                               // 发证机关列表 数据从接口查出
         areaSelectShow: false,
         areaSelectMassage: '福田区',
         areaSelectData: [
@@ -199,10 +200,10 @@
       'userUpload': require('../../userUpload.vue')
     },
     mounted: function () {
-      resultGet(getIssuing).then(json => {
+      resultGet(getIssuing).then(json => {        // 查询发证机关列表
         this.placeSelectData = json.data
       })
-      let reqData = {
+      let reqData = {                             // 查询档案号
         identityCard: window.localStorage.getItem('identityCard'),
         sourceOfCertification: 'C'
       }
@@ -236,7 +237,7 @@
           this.areaSelectShow = true
         }
       },
-      scanQRCode: function () {
+      scanQRCode: function () {                         // 扫一扫功能
         let that = this
         let ua = window.navigator.userAgent // 浏览器版本
         if (/MicroMessenger/i.test(ua)) {
@@ -306,7 +307,7 @@
             IDcard: this.IDcard,
             driverLicense: this.driverLicense,
             fileNumber: this.fileNumber,
-            issuingLicenceAuthority: this.cur_place_id,
+            issuingLicenceAuthority: this.cur_place_id,             // 发证机关传给后端的字段
             photoReturnNumberString: this.photoReturnNumberString,
             receiverName: this.receiverName,
             receiverNumber: this.receiverNumber,

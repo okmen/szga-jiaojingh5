@@ -47,13 +47,13 @@
     name: 'upload-img',
     data () {
       return {
-        imgIDcard1: '',
-        imgIDcard2: '',
-        imgLicense: '',
-        imgEducate: '',
-        imgOut: '',
-        imgDelay: '',
-        imgBody: ''
+        imgIDcard1: '',  // 身份证正面
+        imgIDcard2: '',  // 身份证反面
+        imgLicense: '',  // 驾驶证照片
+        imgEducate: '',  // 审核教育绘制表
+        imgOut: '',      // 境外人员临住表
+        imgDelay: '',    // 延期说明照片
+        imgBody: ''      // 身体条件申请表
       }
     },
     props: ['idCard1', 'idCard2', 'license', 'eduTable', 'outTable', 'delay', 'bodyTable'],
@@ -101,15 +101,6 @@
             }
           })
         }
-//        if (this.outTable) {
-//          UploadFile.upload({
-//            id: 'file5',
-//            callback: (res) => {
-//              console.log(res)
-//              this.imgOut = res.imgUrl
-//            }
-//          })
-//        }
         if (this.delay) {
           UploadFile.upload({
             id: 'file6',

@@ -1,4 +1,5 @@
 <template>
+  <!-- 驾驶证降级组件 -->
   <div class="degradeCard-outer">
     <div class="degradeCard-form">
       <ul>
@@ -125,12 +126,12 @@
         IDcard: window.localStorage.getItem('identityCard'),
         driverLicense: window.localStorage.getItem('identityCard'),
         name: window.localStorage.getItem('userName'),
-        photoReturnNumberString: '', // 照片回执号
-        receiverName: window.localStorage.getItem('userName'), // 收件人姓名
+        photoReturnNumberString: '',                                  // 照片回执号
+        receiverName: window.localStorage.getItem('userName'),
         receiverNumber: window.localStorage.getItem('mobilePhone'),
-        address: '',
-        mailingAddress: '', // 请输入详细地址
-        cur_area_id: '01',
+        address: '',                                                  // 户籍所在地checkbox选择
+        mailingAddress: '',
+        cur_area_id: '01',                                            // 默认区名id  01为福田
         areaSelectShow: false,
         areaSelectMassage: '福田区',
         areaSelectData: [

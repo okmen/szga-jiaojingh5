@@ -1,7 +1,9 @@
 <template>
+  <!-- 补换证组件 -->
   <div class="changeNormal-outer">
     <div class="changeNormal-form">
       <ul>
+        <!-- 补换证下拉框子菜单 -->
         <li class="form-line">
           <div class="form-line-item item-name">
             <span>业务类型</span>
@@ -114,6 +116,7 @@
       </ul>
     </div>
     <userUpload :idCard1="true" :idCard2="true" :outTable="outTable" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
+    <!-- 查看示例-弹窗 -->
     <div class="example" v-if="example">
       <div class="example-box" @click.stop="example=true">
         <img src="../../../../../images/example.png">
@@ -122,6 +125,251 @@
     </div>
   </div>
 </template>
+<script>
+  import { resultPost } from '../../../../../service/getData'
+  import { cardRepair, cardReplace } from '../../../../../config/baseUrl'
+  import { Toast, Indicator } from 'mint-ui'
+  import { mapActions } from 'vuex'
+  export default {
+    name: 'changeNormal',
+    data () {
+      return {
+        IDcard: window.localStorage.getItem('identityCard'),
+        name: window.localStorage.getItem('userName'),
+        mobilephone: window.localStorage.getItem('mobilePhone'),
+        photoReturnNumberString: '',                                // 照片回执号
+        receiverName: '',
+        receiverNumber: '',
+        mailingAddress: '',
+        cur_place_id: '1',                                          // 默认户籍所在地id  1为深圳
+        cur_area_id: '01',                                          // 默认区名id  01为福田区
+        cur_service_id: '1',                                        // 默认业务类型id  1为补证
+        serviceSelectShow: false,
+        serviceSelectMassage: '补证',
+        serviceSelectData: [
+          {
+            'id': '1',
+            'str': '补证'
+          },
+          {
+            'id': '2',
+            'str': '期满换证'
+          }
+        ],
+        placeSelectShow: false,
+        placeSelectMassage: '深圳',
+        placeSelectData: [
+          {
+            'id': '1',
+            'str': '深圳'
+          },
+          {
+            'id': '2',
+            'str': '港澳台籍'
+          },
+          {
+            'id': '3',
+            'str': '外国籍'
+          },
+          {
+            'id': '4',
+            'str': '其他'
+          }
+        ],
+        areaSelectShow: false,
+        areaSelectMassage: '福田区',
+        areaSelectData: [
+          {
+            'id': '01',
+            'str': '福田区'
+          },
+          {
+            'id': '02',
+            'str': '罗湖区'
+          },
+          {
+            'id': '03',
+            'str': '南山区'
+          },
+          {
+            'id': '04',
+            'str': '宝安区'
+          },
+          {
+            'id': '05',
+            'str': '龙岗区'
+          },
+          {
+            'id': '06',
+            'str': '盐田区'
+          },
+          {
+            'id': '07',
+            'str': '龙华新区'
+          },
+          {
+            'id': '08',
+            'str': '光明新区'
+          },
+          {
+            'id': '09',
+            'str': '坪山新区'
+          },
+          {
+            'id': '10',
+            'str': '大鹏新区'
+          }
+        ],
+        example: false,                                             // 示例弹窗 默认不显示
+        outTable: false                                             // 境外人员临住表 默认不显示
+      }
+    },
+    components: {
+      'userUpload': require('../../userUpload.vue')
+    },
+    methods: {
+      placeSelectClick: function (str, id) {                        // 户籍地选择
+        if (str) {
+          this.placeSelectMassage = str
+          this.cur_place_id = id
+          if (this.cur_place_id === '3') {                          // 当选择户籍为外国籍时 显示境外人员临住表上传
+            this.outTable = true
+          } else {
+            this.outTable = false
+          }
+        }
+        if (this.placeSelectShow === true) {
+          this.placeSelectShow = false
+        } else {
+          this.placeSelectShow = true
+        }
+      },
+      areaSelectClick: function (str, id) {                        // 区域选择
+        if (str) {
+          this.areaSelectMassage = str
+          this.cur_area_id = id
+        }
+        if (this.areaSelectShow === true) {
+          this.areaSelectShow = false
+        } else {
+          this.areaSelectShow = true
+        }
+      },
+      serviceSelectClick: function (str, id) {                      // 业务类型选择
+        if (str) {
+          this.serviceSelectMassage = str
+          this.cur_service_id = id
+          console.log(this.cur_service_id)
+        }
+        if (this.serviceSelectShow === true) {
+          this.serviceSelectShow = false
+        } else {
+          this.serviceSelectShow = true
+        }
+      },
+      btnSureStar: function () {   // 确认提交按钮
+        let idImgOne = this.$refs.getImgUrl.imgIDcard1
+        let idImgTwo = this.$refs.getImgUrl.imgIDcard2
+        let idImgThree = this.$refs.getImgUrl.imgOut
+        if (!this.name) {
+          Toast({message: '请输入姓名', position: 'bottom', className: 'white'})
+        } else if (!this.IDcard) {
+          Toast({message: '请输入身份证号码', position: 'bottom', className: 'white'})
+        } else if (!this.mobilephone) {
+          Toast({message: '请输入手机号码', position: 'bottom', className: 'white'})
+        } else if (!this.photoReturnNumberString) {
+          Toast({message: '请输入照片回执码', position: 'bottom', className: 'white'})
+        } else if (!this.receiverName) {
+          Toast({message: '请输入收件人姓名', position: 'bottom', className: 'white'})
+        } else if (!this.receiverNumber) {
+          Toast({message: '请输入收件人号码', position: 'bottom', className: 'white'})
+        } else if (!this.mailingAddress) {
+          Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
+        } else if (!idImgOne || !idImgTwo) {
+          Toast({message: '请上传身份证照片', position: 'bottom', className: 'white'})
+        } else if (!idImgThree && this.cur_place_id === '3') {
+          Toast({message: '请上传境外人员临住表', position: 'bottom', className: 'white'})
+        } else {
+          Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
+          let reqData = {  //  补证2个非必要字段 reason postcode  换证1个 postcode
+            identificationNO: 'A',
+            IDcard: this.IDcard,
+            name: this.name,
+            mobilephone: this.mobilephone,
+            photoReturnNumberString: this.photoReturnNumberString,
+            IDCardPhoto1: idImgOne.split(',')[1],
+            IDCardPhoto2: idImgTwo.split(',')[1],
+            foreignersLiveTable: '',
+            placeOfDomicile: this.cur_place_id,
+            receiverName: this.receiverName,
+            receiverNumber: this.receiverNumber,
+            mailingAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress,
+            livePhoto1: idImgOne.split(',')[1],      // 居住证照片 页面不给居住证上传入口 直接传与身份证正反面同样的数据
+            livePhoto2: idImgTwo.split(',')[1],
+            loginUser: window.localStorage.getItem('identityCard'),
+            sourceOfCertification: 'C',
+            userSource: 'C'
+          }
+          console.log(reqData)
+          if (this.cur_service_id === '1') {                  // 补证服务
+            resultPost(cardRepair, reqData).then(json => {
+              console.log(json)
+              if (json.code === '0000') {
+                Indicator.close()
+                this.postAppoin({
+                  appoinNum: json.msg.split('：')[1],
+                  appoinType: '驾驶证补证'
+                })
+                this.$router.push('/appointSuccess_WeChat')
+              } else {
+                Indicator.close()
+                Toast({
+                  message: json.msg,
+                  position: 'bottom',
+                  className: 'white'
+                })
+              }
+            })
+          } else {                                             // 换证服务
+            resultPost(cardReplace, reqData).then(json => {
+              console.log(json)
+              if (json.code === '0000') {
+                Indicator.close()
+                this.postAppoin({
+                  appoinNum: json.msg.split('：')[1],
+                  appoinType: '驾驶证换证'
+                })
+                this.$router.push('/appointSuccess_WeChat')
+              } else {
+                Indicator.close()
+                Toast({
+                  message: json.msg,
+                  position: 'bottom',
+                  className: 'white'
+                })
+              }
+            })
+          }
+        }
+      },
+      beforeDestory () {
+        Toast.close()
+      },
+      ...mapActions({
+        postAppoin: 'postAppoin'
+      })
+    },
+    created () {
+      document.addEventListener('click', (e) => {
+        this.placeSelectShow = false
+        this.areaSelectShow = false
+        if (this.example === true) {
+          this.example = false
+        }
+      })
+    }
+  }
+</script>
 <style lang="less" scoped>
   @import "./../../../../../style/base";
   .changeNormal-outer {
@@ -222,248 +470,5 @@
   }
 
 </style>
-<script>
-  import { resultPost } from '../../../../../service/getData'
-  import { cardRepair, cardreplace } from '../../../../../config/baseUrl'
-  import { Toast, Indicator } from 'mint-ui'
-  import { mapActions } from 'vuex'
-  export default {
-    name: 'changeNormal',
-    data () {
-      return {
-        IDcard: window.localStorage.getItem('identityCard'),
-        name: window.localStorage.getItem('userName'),
-        mobilephone: window.localStorage.getItem('mobilePhone'),
-        photoReturnNumberString: '',
-        receiverName: '',
-        receiverNumber: '',
-        mailingAddress: '',
-        cur_place_id: '1',
-        cur_area_id: '01',
-        cur_service_id: '1',
-        serviceSelectShow: false,
-        serviceSelectMassage: '补证',
-        serviceSelectData: [
-          {
-            'id': '1',
-            'str': '补证'
-          },
-          {
-            'id': '2',
-            'str': '换证'
-          }
-        ],
-        placeSelectShow: false,
-        placeSelectMassage: '深圳',
-        placeSelectData: [
-          {
-            'id': '1',
-            'str': '深圳'
-          },
-          {
-            'id': '2',
-            'str': '港澳台籍'
-          },
-          {
-            'id': '3',
-            'str': '外国籍'
-          },
-          {
-            'id': '4',
-            'str': '其他'
-          }
-        ],
-        areaSelectShow: false,
-        areaSelectMassage: '福田区',
-        areaSelectData: [
-          {
-            'id': '01',
-            'str': '福田区'
-          },
-          {
-            'id': '02',
-            'str': '罗湖区'
-          },
-          {
-            'id': '03',
-            'str': '南山区'
-          },
-          {
-            'id': '04',
-            'str': '宝安区'
-          },
-          {
-            'id': '05',
-            'str': '龙岗区'
-          },
-          {
-            'id': '06',
-            'str': '盐田区'
-          },
-          {
-            'id': '07',
-            'str': '龙华新区'
-          },
-          {
-            'id': '08',
-            'str': '光明新区'
-          },
-          {
-            'id': '09',
-            'str': '坪山新区'
-          },
-          {
-            'id': '10',
-            'str': '大鹏新区'
-          }
-        ],
-        example: false,
-        outTable: false
-      }
-    },
-    components: {
-      'userUpload': require('../../userUpload.vue')
-    },
-    methods: {
-      placeSelectClick: function (str, id) {
-        if (str) {
-          this.placeSelectMassage = str
-          this.cur_place_id = id
-          if (this.cur_place_id === '3') {
-            this.outTable = true
-          } else {
-            this.outTable = false
-          }
-        }
-        if (this.placeSelectShow === true) {
-          this.placeSelectShow = false
-        } else {
-          this.placeSelectShow = true
-        }
-      },
-      areaSelectClick: function (str, id) {
-        if (str) {
-          this.areaSelectMassage = str
-          this.cur_area_id = id
-        }
-        if (this.areaSelectShow === true) {
-          this.areaSelectShow = false
-        } else {
-          this.areaSelectShow = true
-        }
-      },
-      serviceSelectClick: function (str, id) {
-        if (str) {
-          this.serviceSelectMassage = str
-          this.cur_service_id = id
-        }
-        if (this.serviceSelectShow === true) {
-          this.serviceSelectShow = false
-        } else {
-          this.serviceSelectShow = true
-        }
-      },
-      btnSureStar: function () {   // 确认提交按钮
-        let idImgOne = this.$refs.getImgUrl.imgIDcard1
-        let idImgTwo = this.$refs.getImgUrl.imgIDcard2
-        let idImgThree = this.$refs.getImgUrl.imgOut
-        if (!this.name) {
-          Toast({message: '请输入姓名', position: 'bottom', className: 'white'})
-        } else if (!this.IDcard) {
-          Toast({message: '请输入身份证号码', position: 'bottom', className: 'white'})
-        } else if (!this.mobilephone) {
-          Toast({message: '请输入手机号码', position: 'bottom', className: 'white'})
-        } else if (!this.photoReturnNumberString) {
-          Toast({message: '请输入照片回执码', position: 'bottom', className: 'white'})
-        } else if (!this.receiverName) {
-          Toast({message: '请输入收件人姓名', position: 'bottom', className: 'white'})
-        } else if (!this.receiverNumber) {
-          Toast({message: '请输入收件人号码', position: 'bottom', className: 'white'})
-        } else if (!this.mailingAddress) {
-          Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
-        } else if (!idImgOne || !idImgTwo) {
-          Toast({message: '请上传身份证照片', position: 'bottom', className: 'white'})
-        } else if (!idImgThree && this.cur_place_id === '3') {
-          Toast({message: '请上传境外人员临住表', position: 'bottom', className: 'white'})
-        } else {
-          Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
-          let reqData = {  //  补证2个非必要字段 reason postcode  换证1个 postcode
-            identificationNO: 'A',
-            IDcard: this.IDcard,
-            name: this.name,
-            mobilephone: this.mobilephone,
-            photoReturnNumberString: this.photoReturnNumberString,
-            IDCardPhoto1: idImgOne.split(',')[1],
-            IDCardPhoto2: idImgTwo.split(',')[1],
-            foreignersLiveTable: '',
-            placeOfDomicile: this.cur_place_id,
-            receiverName: this.receiverName,
-            receiverNumber: this.receiverNumber,
-            mailingAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress,
-            livePhoto1: idImgOne.split(',')[1],
-            livePhoto2: idImgTwo.split(',')[1],
-            loginUser: window.localStorage.getItem('identityCard'),
-            sourceOfCertification: 'C',
-            userSource: 'C'
-          }
-          console.log(reqData)
-          if (this.cur_service_id === '1') {   // 补证服务
-            resultPost(cardRepair, reqData).then(json => {
-              console.log(json)
-              if (json.code === '0000') {
-                Indicator.close()
-                this.postAppoin({
-                  appoinNum: json.msg.split('：')[1],
-                  appoinType: '驾驶证补证'
-                })
-                this.$router.push('/appointSuccess_WeChat')
-              } else {
-                Indicator.close()
-                Toast({
-                  message: json.msg,
-                  position: 'bottom',
-                  className: 'white'
-                })
-              }
-            })
-          } else {  // 换证服务
-            resultPost(cardreplace, reqData).then(json => {
-              console.log(json)
-              if (json.code === '0000') {
-                Indicator.close()
-                this.postAppoin({
-                  appoinNum: json.msg.split('：')[1],
-                  appoinType: '驾驶证换证'
-                })
-                this.$router.push('/appointSuccess_WeChat')
-              } else {
-                Indicator.close()
-                Toast({
-                  message: json.msg,
-                  position: 'bottom',
-                  className: 'white'
-                })
-              }
-            })
-          }
-        }
-      },
-      beforeDestory () {
-        Toast.close()
-      },
-      ...mapActions({
-        postAppoin: 'postAppoin'
-      })
-    },
-    created () {
-      document.addEventListener('click', (e) => {
-        this.placeSelectShow = false
-        this.areaSelectShow = false
-        if (this.example === true) {
-          this.example = false
-        }
-      })
-    }
-  }
-</script>
+
 

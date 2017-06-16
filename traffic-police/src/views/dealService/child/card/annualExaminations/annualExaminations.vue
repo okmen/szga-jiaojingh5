@@ -1,4 +1,5 @@
 <template>
+  <!-- 驾驶证年审组件 -->
   <div class="annualExaminations-outer">
     <div class="annualExaminations-form">
       <ul>
@@ -154,8 +155,8 @@
         name: window.localStorage.getItem('userName'),
         IDcard: window.localStorage.getItem('identityCard'),
         mobilephone: window.localStorage.getItem('mobilePhone'),
-        cur_place_id: '1',
-        cur_area_id: '01',
+        cur_place_id: '1',                                          // 默认户籍所在地id  1为深圳
+        cur_area_id: '01',                                          // 默认区名id  01为福田
         placeSelectShow: false,
         placeSelectMassage: '深圳',
         placeSelectData: [
@@ -223,7 +224,7 @@
           }
         ],
         mailingAddress: '',
-        outTable: false
+        outTable: false                                             // 境外人员临住表 默认不显示
       }
     },
     components: {
@@ -234,7 +235,7 @@
         if (str) {
           this.placeSelectMassage = str
           this.cur_place_id = id
-          if (this.cur_place_id === '3') {
+          if (this.cur_place_id === '3') {                          // 当选择户籍为外国籍时 显示境外人员临住表上传
             this.outTable = true
           } else {
             this.outTable = false
@@ -283,16 +284,16 @@
             name: this.name,
             IDcard: this.IDcard,
             mobilephone: this.mobilephone,
-            placeOfDomicile: this.cur_place_id,
+            placeOfDomicile: this.cur_place_id,     // 户籍地选择
             receiverName: this.receiverName,
             receiverNumber: this.receiverNumber,
             mailingAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress,
             IDCardPhoto1: idImgOne.split(',')[1],
             IDCardPhoto2: idImgTwo.split(',')[1],
-            livePhoto1: idImgOne.split(',')[1],
+            livePhoto1: idImgOne.split(',')[1],     // 居住证照片 页面不给居住证上传入口 直接传与身份证正反面同样的数据
             livePhoto2: idImgTwo.split(',')[1],
-            educationDrawingtable: idImgThree.split(',')[1],
-            foreignersLiveTable: idImgFour.split(',')[1],
+            educationDrawingtable: idImgThree.split(',')[1],    // 教育审核绘制表
+            foreignersLiveTable: idImgFour.split(',')[1],       // 境外人员临住表 除户籍为国外 非必须
             loginUser: window.localStorage.getItem('identityCard'),
             sourceOfCertification: 'C',
             userSource: 'C'

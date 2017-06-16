@@ -1,5 +1,6 @@
 <template>
-  <div class="queryLawless-outer">
+  <!-- 办理类-驾驶证业务导航页 -->
+  <div class="cardService-outer">
     <div class="query-link" v-bind:class="{ 'show' : isShow}">
       <p @click.stop="clickShow()">补换证类<i v-bind:class="{ 'arrow-open' : isShow, 'arrow-close' : isShow == false}"></i></p>
       <div class="li-box">
@@ -11,7 +12,7 @@
       <router-link to="annualExaminations">驾驶证年审</router-link>
     </div>
     <!--<div class="query-link">-->
-      <!--<router-link to="queryLawlessPage">消分学习</router-link>-->
+      <!--<router-link to="cardServicePage">消分学习</router-link>-->
     <!--</div>-->
     <div class="query-link">
       <router-link to="intoCard">驾驶证转入</router-link>
@@ -26,7 +27,7 @@
 </template>
 <script>
   export default {
-    name: 'queryLawless',
+    name: 'cardService',
     data () {
       return {
         isShow: false,
@@ -42,7 +43,7 @@
   }
 </script>
 <style lang="less">
-  .queryLawless-outer {
+  .cardService-outer {
     position: relative;
     background-color: white;
     font-size: 26px;

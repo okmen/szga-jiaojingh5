@@ -1,4 +1,5 @@
 <template>
+  <!-- 延期换证组件 -->
   <div class="changeDelay-outer">
     <div class="changeDelay-form">
       <ul>
@@ -120,16 +121,16 @@
     data () {
       return {
         mtDateTimeMsg: '',                                              // 一进来默认当前时间
-        formatTime: '',                                                  // 使用mt组件后，时间是中国标准时间，格式转换
-        informTime: this.currentTime(),                                 // 时间
-        IDcard: window.localStorage.getItem('identityCard'),
-        name: window.localStorage.getItem('userName'),
-        driverLicense: window.localStorage.getItem('identityCard'),
-        fileNumber: '',
-        receiverName: window.localStorage.getItem('userName'),
-        receiverNumber: window.localStorage.getItem('mobilePhone'),
-        cur_reason_id: '01',
-        cur_area_id: '01',
+        formatTime: '',                                                 // 使用mt组件后，时间是中国标准时间，格式转换
+        informTime: this.currentTime(),                                 // 当前时间
+        IDcard: window.localStorage.getItem('identityCard'),            // 身份证号
+        name: window.localStorage.getItem('userName'),                  // 姓名
+        driverLicense: window.localStorage.getItem('identityCard'),     // 驾驶证号 同身份证
+        fileNumber: '',                                                 // 档案号 先从接口查询后填入
+        receiverName: window.localStorage.getItem('userName'),          // 收件人姓名
+        receiverNumber: window.localStorage.getItem('mobilePhone'),     // 收件人手机号
+        cur_reason_id: '01',                                            // 默认延期理由id  01为服兵役
+        cur_area_id: '01',                                              // 默认区名id  01为福田区
         reasonSelectShow: false,
         reasonSelectMassage: '服兵役',
         reasonSelectData: [
@@ -190,16 +191,16 @@
             'str': '大鹏新区'
           }
         ],
-        mailingAddress: ''
+        mailingAddress: ''                                              // 用户详细地址
       }
     },
     components: {
       'userUpload': require('../../userUpload.vue')
     },
     mounted: function () {
-//      this.init()
       let getTime = this.currentTime()
       this.mtDateTimeMsg = getTime
+      // 以下通过接口查询用户档案号
       let reqData = {
         identityCard: window.localStorage.getItem('identityCard'),
         sourceOfCertification: 'C'
@@ -212,7 +213,7 @@
       })
     },
     methods: {
-      reasonSelectClick: function (str, id) {
+      reasonSelectClick: function (str, id) {             // 延期理由下拉框选择
         if (str) {
           this.reasonSelectMassage = str
           this.cur_reason_id = id
@@ -223,7 +224,7 @@
           this.reasonSelectShow = true
         }
       },
-      areaSelectClick: function (str, id) {
+      areaSelectClick: function (str, id) {               // 区域下拉框选择
         if (str) {
           this.areaSelectMassage = str
           this.cur_area_id = id
@@ -236,7 +237,7 @@
       },
       datetimePick: function (picker) {
         this.$refs.picker.open()
-      },
+      },              // 以下四个方法与时间相关
       handleTime: function (informTime) {
         this.formatTime = this.format(this.informTime.toString(), 'yyyy-MM-dd')
         this.mtDateTimeMsg = this.formatTime
@@ -278,7 +279,7 @@
           }
         })
       },
-      btnSureStar: function () {   // 确认提交按钮
+      btnSureStar: function () {                          // 确认提交按钮
         let idImgOne = this.$refs.getImgUrl.imgIDcard1
         let idImgTwo = this.$refs.getImgUrl.imgIDcard2
         let idImgThree = this.$refs.getImgUrl.imgLicense
@@ -317,7 +318,7 @@
             if (json.code === '0000') {
               Indicator.close()
               this.postAppoin({
-                appoinNum: json.msg.split('：')[1],
+                appoinNum: json.msg.split('：')[1],          // 注：此处接口给出的msg为中文输入状态下的冒号
                 appoinType: '驾驶证延期换证'
               })
               this.$router.push('/appointSuccess_WeChat')

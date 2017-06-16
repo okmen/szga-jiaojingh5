@@ -1,7 +1,7 @@
 // 添加URL需注释 哪个模块哪个接口
-// const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
+const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
 // const commonUrl = 'https://szjjapi.stc.gov.cn/' // 正式环境d
-const commonUrl = 'http://szjj.u-road.com/api/' // 正式环境d
+// const commonUrl = 'http://szjj.u-road.com/api/' // 正式环境d
 
 export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
 
@@ -127,22 +127,20 @@ export const getTempApptDistrictAndTime = `${commonUrl}activity/getTempApptDistr
 
 export const addTempApptInfo = `${commonUrl}activity/addTempApptInfo.html`  // 临时预约个人预约信息写入
 
-// 暂时本地调试
+export const degradeCard = `${commonUrl}user/driverLicenseVoluntaryDemotion.html` // 驾驶证自愿降级
 
-export const degradeCard = `http://192.168.1.245:8080/web/user/driverLicenseVoluntaryDemotion.html` // 驾驶证自愿降级
+export const changeConnect = `${commonUrl}user/driverChangeContact.html` // 驾驶人联系方式变更
 
-export const changeConnect = `http://192.168.1.245:8080/web/user/driverChangeContact.html` // 驾驶人联系方式变更
+export const intoCard = `${commonUrl}user/driverLicenseInto.html` // 驾驶证转入
 
-export const intoCard = `http://192.168.1.245:8080/web/user/driverLicenseInto.html` // 驾驶证转入
+export const annualExaminations = `${commonUrl}user/driverLicenseAnnualVerification.html` // 驾驶证年审
 
-export const annualExaminations = `http://192.168.1.245:8080/web/user/driverLicenseAnnualVerification.html` // 驾驶证年审
+export const changeDelay = `${commonUrl}user/renewalDriverLicense.html` // 驾驶证延期换证
 
-export const changeDelay = `http://192.168.1.245:8080/web/user/renewalDriverLicense.html` // 驾驶证延期换证
+export const cardRepair = `${commonUrl}user/repairDriverLicense.html` // 驾驶证补证
 
-export const cardRepair = `http://192.168.1.245:8080/web/user/repairDriverLicense.html` // 驾驶证补证
+export const cardReplace = `${commonUrl}user/replaceDriverLicense.html` // 驾驶证换证
 
-export const cardreplace = `http://192.168.1.245:8080/web/user/replaceDriverLicense.html` // 驾驶证补证
+export const getIssuing = `${commonUrl}user/getIssuingLicenceAuthorityArray.html` // 发证地列表
 
-export const getIssuing = `http://192.168.1.245:8080/web/user/getIssuingLicenceAuthorityArray.html` // 发证地列表
-
-export const getFileNumber = `http://192.168.1.245:8080/web/user/search/getMyDriverLicense.html` // 查询档案号
+export const getFileNumber = `${commonUrl}user/search/getMyDriverLicense.html` // 查询档案号

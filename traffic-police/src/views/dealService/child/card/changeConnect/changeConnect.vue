@@ -99,11 +99,11 @@
       return {
         IDcard: window.localStorage.getItem('identityCard'),
         name: window.localStorage.getItem('userName'),
-        sex: '',
+        sex: '',                                                        // 性别checkbox选择
         driverLicense: window.localStorage.getItem('identityCard'),
         mobilephone: window.localStorage.getItem('mobilePhone'),
-        cur_card_id: 'A',
-        cur_area_id: '01',
+        cur_card_id: 'A',                                               // 默认证件类型id A为身份证
+        cur_area_id: '01',                                              // 默认区名id 01为福田区
         cardSelectShow: false,
         cardSelectMassage: '居民身份证',
         cardSelectData: [
