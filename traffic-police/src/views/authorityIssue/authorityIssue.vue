@@ -2,7 +2,7 @@
 <div id="authorityIssue">
   <div class="main_bg">
     <img src="./../../images/bg_26bb276e.png" class="bg">
-      <router-link to="/userAgreement#xjyhrz">
+      <router-link to="/userAgreement/xjyhrz">
         <div class="business1">
           <img src="./../../images/xj_3819a097.png"><br>星级用户
         </div>
@@ -34,7 +34,7 @@
           </a>
         </div>
       </router-link>
-      <router-link :to="isLogin ? '/userAgreement#xfNotice' : '/login'">
+      <router-link :to="isLogin ? '/userAgreement/xfNotice' : '/login'">
         <div class="business7 eliminationStudy">
           <img src="./../../images/mf_12d603d5.png"><br>消分学习
         </div>

@@ -27,7 +27,8 @@ let url = window.location.href;
 let data = {
   hostUrl: encodeURIComponent(url.split('#')[0]),
   hostUrl1: url.split('#')[1],
-  url: encodeURIComponent(url)
+  url: encodeURIComponent(url),
+  openIdURL: url.split('?openId')[0]
 }
 if (!!openId && openId !== 'undefined') {
   localStorage.setItem('openId', decodeURIComponent(openId));
@@ -37,10 +38,10 @@ if (!!openId && openId !== 'undefined') {
   if (/MicroMessenger/i.test(ua)) { // 微信跳转获取openId
     window.localStorage.setItem('sourceOfCertification', 'C')
   // 交警u-load环境
-  window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
+  window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.openIdURL}#wechat_redirect`
   } else if (/AlipayClient/i.test(ua)) { // 支付宝
     window.localStorage.setItem('sourceOfCertification', 'Z')
-    window.location.href = `https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=2016082201786470&scope=auth_user&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2FoauthAlipay%2Fcallback.html&state=${data.url}`
+    window.location.href = `https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=2016082201786470&scope=auth_user&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2FoauthAlipay%2Fcallback.html&state=${data.openIdURL}`
 
   }
 }
