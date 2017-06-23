@@ -695,6 +695,22 @@ const routes = [
       title: '驾驶人联系方式变更'
     },
     component: require('../views/dealService/child/card/changeConnect/changeConnect.vue')
+  },
+  {
+    name: 'roadMsgList',
+    path: '/roadMsgList',
+    meta: {
+      title: '路况查询'
+    },
+    component: require('../views/roadMsg/roadMsgList.vue')
+  },
+  {
+    name: 'roadMsgDetails',
+    path: '/roadMsgDetails',
+    meta: {
+      title: '路况查询'
+    },
+    component: require('../views/roadMsg/roadMsgDetails.vue')
   }
 ]
 /* eslint-disable no-new */

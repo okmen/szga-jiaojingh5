@@ -69,6 +69,10 @@
         </a>
       </dl>
       <dl>
+        <!-- <router-link to="/dealService">
+        <dt><img class="top6" src="./images/nav6.png" alt=""></dt>
+        <dd>办理类服务</dd>
+        </router-link> -->
         <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/businessList/'+openId">
         <dt><img class="top6" src="./images/nav6.png" alt=""></dt>
         <dd>办理类服务</dd>

@@ -32,7 +32,7 @@
       </div>
       <div class="form-line">
         <div class="form-line-item item-name">
-          <span>号牌种类</span>
+          <span>车牌类型</span>
         </div>
         <div class="form-line-item div-select width-100">
           <span class="btn-select bgcolor-fff" @click.stop="licenseSelectClick()"

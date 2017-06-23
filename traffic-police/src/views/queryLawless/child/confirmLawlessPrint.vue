@@ -52,9 +52,9 @@
         illegalNo: '',
         confirmList: [],
         dealTypeList: {
-          '0': '无需打单',
+          '0': '直接缴款',
           '1': '需要打单',
-          '2': '需要窗口办理'
+          '2': '需要前往窗口办理'
         }       // 返回-是否需要打单（编号转换）
       }
     },
@@ -70,6 +70,7 @@
       console.log(reqData)
       Indicator.open()
       resultPost(getClaimConfirm, reqData).then(json => {
+        console.log(json)
         Indicator.close()
         if (!json.data) {
           MessageBox({

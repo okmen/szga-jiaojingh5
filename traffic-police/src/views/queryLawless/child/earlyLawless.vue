@@ -5,7 +5,7 @@
         <ul class="earlyLawless-hbs-list">
           <li class="earlyLawless-hbs-item">
             <div class="earlyLawless-hbs-name">
-              <span>汽车种类</span>
+              <span>车辆类型</span>
             </div>
             <div class="div-select">
               <span v-model="licensePlateType" class="btn-select" @click.stop="licenseSelectClick()">{{ licenseSelectMassage }}</span>
@@ -90,10 +90,10 @@
         licensePlateType: '',       // 请求-车牌类型（编号转换）
         car_number: '',             // 请求-除去省字的车牌号码
         mobilephone: '',            // 请求-手机号码
-        cur_id: '01',               // 请求-车牌类型编号
+        cur_id: '02',               // 请求-车牌类型编号
         licenseSelectShow: false,
         verifyCode: false,                    // 验证码验证
-        licenseSelectMassage: '大型汽车(黄牌)',
+        licenseSelectMassage: '小型汽车(蓝牌)',
         licenseSelectData: [
           {
             'id': '01',

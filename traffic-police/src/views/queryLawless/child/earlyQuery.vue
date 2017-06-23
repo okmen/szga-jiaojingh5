@@ -5,7 +5,7 @@
         <ul class="earlyQuery-hbs-list">
           <li class="earlyQuery-hbs-item">
             <div class="earlyQuery-hbs-name">
-              <span>汽车种类</span>
+              <span>车辆类型</span>
             </div>
             <div class="div-select">
               <span class="btn-select" @click.stop="licenseSelectClick()">{{ licenseSelectMassage }}</span>
@@ -106,12 +106,12 @@
       return {
         mobilephone: '',
         licensePlateNo: '',                   // 请求-车牌号
-        cur_type_id: '01',                    // 请求-车牌类型（编号转换）
+        cur_type_id: '02',                    // 请求-车牌类型（编号转换）
         car_number: '',                       // 请求-除去省字的车牌号
         verifyCode: false,                    // 验证码验证
         reserveList: [],                      // 返回-全部数据存入数组
         licenseSelectShow: false,             // 车牌列表显示与否
-        licenseSelectMassage: '大型汽车(黄牌)', // 默认车牌类型
+        licenseSelectMassage: '小型汽车(蓝牌)', // 默认车牌类型
         licenseSelectData: [
           {
             'id': '01',

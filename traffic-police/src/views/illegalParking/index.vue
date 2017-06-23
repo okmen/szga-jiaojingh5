@@ -26,10 +26,10 @@
         </div>
       </div>
       <div class="ip-inform-kind">
-        <div class="ip-inform-title">号牌种类</div>
+        <div class="ip-inform-title">车牌类型</div>
         <div class="ip-inform-content">
           <div class="div-select flex">
-            <span class="btn-select hidden"  @click.stop="typeSelectShow=!typeSelectShow">{{plateType||'请选择号牌种类'}}</span>
+            <span class="btn-select hidden"  @click.stop="typeSelectShow=!typeSelectShow">{{plateType||'请选择车牌类型'}}</span>
             <div class="div-select-ul" style="top: 30px;" v-if="typeSelectShow">
               <ul>
                 <li class="scroll-y" v-for="item in plateTypes" @click.stop="selectType(item.str)">{{item.str}}</li>
@@ -370,7 +370,7 @@
         }
         if (!this.plateType) {
           Toast({
-            message: '请选择车牌种类',
+            message: '请选择车牌类型',
             duration: 2000
           })
           return

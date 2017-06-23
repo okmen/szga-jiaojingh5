@@ -15,7 +15,7 @@
           </div>
           <div class="car-status">
             <ul>
-              <li>号牌种类:<span>{{ plateTypeList[car.plateType] }}</span></li>
+              <li>车牌类型:<span>{{ plateTypeList[car.plateType] }}</span></li>
               <li>年审时间:<span>{{ car.annualReviewDate }}</span><span style="color:#aaa">{{ car.annualReviewDateRemind
                 }}</span></li>
               <li>{{ car.otherPeopleUse }}<span></span></li>

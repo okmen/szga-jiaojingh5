@@ -21,7 +21,7 @@
       </li>
       <li class="moveCar-item">
         <div class="moveCar-item-name">
-          <span>汽车种类</span>
+          <span>车辆类型</span>
         </div>
         <div class="div-select">
           <span class="btn-select" @click.stop="carTypeSelectClick()">{{carType.str}}</span>
@@ -160,8 +160,8 @@ export default{
       numberPlate: '',
       carTypeSelectShow: false,
       carType: {
-        'str': '大型汽车（黄牌）',
-        'code': '01'
+        'str': '小型汽车(蓝牌)',
+        'code': '02'
       },
       carTypeSelectData: [
         {

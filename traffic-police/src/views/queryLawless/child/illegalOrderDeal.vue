@@ -8,7 +8,6 @@
           <p>执法单位：<span>{{item.illegalUnit}}</span></p>
           <p>违法行为：<span>{{item.illegalDesc}}</span></p>
           <p>违法地点：<span>{{item.illegalAddr}}</span></p>
-          <p>受理方式：<span>窗口处理</span></p>
         </div>
         <div class="illegal-query">
           <section class="illegal-query-score">
@@ -20,6 +19,11 @@
             <p>罚款金额</p>
           </section>
         </div>
+        <div class="illegal-img">
+          <div class="illegal-img-box" v-for="imgList in item.illegalImgs" @click="illegalImgBtn(imgList)" >
+            <img :src="'data:image/png;base64,' + imgList" alt="">
+          </div>
+        </div>
         <div class="illegal-select">
           <input type="checkbox" :id="'illegalSelectRadio'+ index" :name="'illegalSelectRadio'+ index" v-model:checked="item.checkAddBorder" @click="inputClick(index)">
           <label :for="'illegalSelectRadio'+ index"></label>
@@ -30,9 +34,15 @@
       </div>
       <div class="illegal-btn" @click="btnSubmitIllegal()">预约</div>
     </div>
+      <popupImg
+        @cancel="passCancel"
+        v-if="popupImgShow"
+        :data="imgBase">
+      </popupImg>
   </div>
 </template>
 <script>
+  import popupImg from './../../../components/popupImg'
   import { mapGetters, mapActions } from 'vuex'
   import { MessageBox } from 'mint-ui'
   export default {
@@ -60,13 +70,25 @@
         AppealQueryData: '',
         claimantPhone: '', // 申诉联系电话
         claimantAddress: '', // 申诉联系地址
-        appealContent: '' // 申诉内容
+        appealContent: '', // 申诉内容
+        imgBase: '',
+        popupImgShow: false
       }
+    },
+    components: {
+      popupImg
     },
     created () {
       this.AppealQueryData = this.showAppealQuery
     },
     methods: {
+      passCancel: function () { // 点击通过弹窗的取消按钮
+        this.popupImgShow = false // 隐藏通过弹窗
+      },
+      illegalImgBtn: function (img) {
+        this.popupImgShow = true
+        this.imgBase = img
+      },
       selectInformType: function (str) {  // li的点击事件
         if (str) {
           this.selectInformTypeMsg = str
@@ -148,10 +170,12 @@
       }
       .illegal-query{
         width:100%;
+        display: flex;
         overflow: hidden;
+        justify-content: space-around;
+        padding: 0 50px;
         section{
-          float:left;
-          margin-left:100px;
+          margin: 0;
           margin-top:20px;
           text-align:center;
           .illegal-score-num{
@@ -164,6 +188,20 @@
             font-size:24px;
             font-weight:bold;
           }
+        }
+      }
+      .illegal-img{
+        display: flex;
+        padding-top: 20px;
+        justify-content: space-around;
+        .illegal-img-box{
+          width: 30%;
+          height: 120px;
+          overflow: hidden;
+        }
+        img{
+          width: 100%;
+          display: block;
         }
       }
       .illegal-select{

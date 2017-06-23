@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="ip-inform-item">
-      <div class="ip-inform-title">号牌号码</div>
+      <div class="ip-inform-title">车牌号码</div>
       <div class="ip-inform-content">
         <div class="div-select flex">
           <span class="btn-select hidden"
@@ -39,10 +39,10 @@
       </div>
     </div>
     <div class="ip-inform-item">
-      <div class="ip-inform-title">号牌种类</div>
+      <div class="ip-inform-title">车牌类型</div>
       <div class="ip-inform-content">
         <div class="div-select flex">
-          <span class="btn-select hidden" @click.stop="typeSelectShow=!typeSelectShow">{{plateType || '请选择号牌种类'}}</span>
+          <span class="btn-select hidden" @click.stop="typeSelectShow=!typeSelectShow">{{plateType || '请选择车牌类型'}}</span>
           <div class="div-select-ul" style="top: 30px;" v-if="typeSelectShow">
             <ul>
               <li class="scroll-y" v-for="item in plateTypes" @click.stop="selectType(item)">{{item.str}}</li>
@@ -199,14 +199,14 @@
         }
         if (!this.currentPlate) {
           Toast({
-            message: '你选择号牌号码',
+            message: '你选择车牌号码',
             duration: 2000
           })
           return
         }
         if (!this.plateType) {
           Toast({
-            message: '请选择号牌种类',
+            message: '请选择车牌类型',
             duration: 2000
           })
           return
