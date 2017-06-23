@@ -711,6 +711,14 @@ const routes = [
       title: '路况查询'
     },
     component: require('../views/roadMsg/roadMsgDetails.vue')
+  },
+  {
+    name: 'systemUpdate',
+    path: '/systemUpdate',
+    meta: {
+      title: '系统升级中'
+    },
+    component: require('../components/systemUpdate.vue')
   }
 ]
 /* eslint-disable no-new */
