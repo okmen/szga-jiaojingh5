@@ -695,6 +695,14 @@ const routes = [
       title: '驾驶人联系方式变更'
     },
     component: require('../views/dealService/child/card/changeConnect/changeConnect.vue')
+  },
+  {
+    name: 'systemUpdate',
+    path: '/systemUpdate',
+    meta: {
+      title: '系统升级中'
+    },
+    component: require('../components/systemUpdate.vue')
   }
 ]
 /* eslint-disable no-new */
