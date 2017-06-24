@@ -130,16 +130,16 @@
         apptDate: '',
         apptDistrict: '',
         carSelectShow: false,
-        carSelectMassage: '小型汽车(蓝牌)',
+        carSelectMassage: '小型汽车',
         carSelectType: '02',                          // 车辆类型
         carSelectData: [
           {
             'type': '01',
-            'str': '大型汽车(黄牌)'
+            'str': '大型汽车'
           },
           {
             'type': '02',
-            'str': '小型汽车(蓝牌)'
+            'str': '小型汽车'
           },
           {
             'type': '03',
@@ -155,7 +155,7 @@
           },
           {
             'type': '06',
-            'str': '外籍汽车(黑牌)'
+            'str': '外籍汽车'
           },
           {
             'type': '07',
@@ -208,6 +208,14 @@
           {
             'type': '20',
             'str': '临时入境车'
+          },
+          {
+            'type': '51',
+            'str': '新能源大型车'
+          },
+          {
+            'type': '52',
+            'str': '新能源小型车'
           }
         ],
         licenseSelectShow: false,

@@ -160,16 +160,16 @@ export default{
       numberPlate: '',
       carTypeSelectShow: false,
       carType: {
-        'str': '小型汽车(蓝牌)',
+        'str': '小型汽车',
         'code': '02'
       },
       carTypeSelectData: [
         {
-          'str': '大型汽车（黄牌）',
+          'str': '大型汽车',
           'code': '01'
         },
         {
-          'str': '小型汽车（蓝牌）',
+          'str': '小型汽车',
           'code': '02'
         },
         {
@@ -185,7 +185,7 @@ export default{
           'code': '05'
         },
         {
-          'str': '外籍汽车（黑牌）',
+          'str': '外籍汽车',
           'code': '06'
         },
         {
@@ -253,12 +253,20 @@ export default{
           'code': '22'
         },
         {
-          'str': '警用汽车（白牌）',
+          'str': '警用汽车',
           'code': '23'
         },
         {
           'str': '警用摩托',
           'code': '24'
+        },
+        {
+          'code': '51',
+          'str': '新能源大型车'
+        },
+        {
+          'code': '52',
+          'str': '新能源小型车'
         }
       ],
       doodgenAddress: '',

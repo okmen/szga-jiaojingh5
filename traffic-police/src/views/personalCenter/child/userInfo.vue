@@ -77,12 +77,19 @@ export default{
       Indicator.open('正在提交...')
       resultPost(deleteVehicle, reqData).then(json => {
         Indicator.close()
-        window.localStorage.clear()
+        window.localStorage.removeItem('behindTheFrame4Digits')
+        window.localStorage.removeItem('cars')
+        window.localStorage.removeItem('identityCard')
+        window.localStorage.removeItem('isLogin')
+        window.localStorage.removeItem('mobilePhone')
+        window.localStorage.removeItem('myNumberPlate')
+        window.localStorage.removeItem('plateType')
+        window.localStorage.removeItem('userName')
         if (json.code === '0000') {
           console.log(json)
           console.log('退出登录状态，返回首页')
           // 退出登录
-          window.location.href = 'http://szjj.u-road.com/h5'
+          this.$router.push('/')
         } else {
           MessageBox({
             title: '',

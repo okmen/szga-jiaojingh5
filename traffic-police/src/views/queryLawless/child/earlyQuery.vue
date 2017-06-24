@@ -111,15 +111,15 @@
         verifyCode: false,                    // 验证码验证
         reserveList: [],                      // 返回-全部数据存入数组
         licenseSelectShow: false,             // 车牌列表显示与否
-        licenseSelectMassage: '小型汽车(蓝牌)', // 默认车牌类型
+        licenseSelectMassage: '小型汽车', // 默认车牌类型
         licenseSelectData: [
           {
             'id': '01',
-            'str': '大型汽车(黄牌)'
+            'str': '大型汽车'
           },
           {
             'id': '02',
-            'str': '小型汽车(蓝牌)'
+            'str': '小型汽车'
           },
           {
             'id': '03',
@@ -135,7 +135,7 @@
           },
           {
             'id': '06',
-            'str': '外籍汽车(黑牌)'
+            'str': '外籍汽车'
           },
           {
             'id': '07',
@@ -188,6 +188,14 @@
           {
             'id': '20',
             'str': '临时入境车'
+          },
+          {
+            'id': '51',
+            'str': '新能源大型车'
+          },
+          {
+            'id': '52',
+            'str': '新能源小型车'
           }
         ],             // 车牌类型列表（编号转换）
         abbreviationSelectShow: false,        // 省字列表显示与否
