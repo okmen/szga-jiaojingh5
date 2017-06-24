@@ -5,8 +5,14 @@
     </div>
   </div>
 </template>
-<style lang="less" scoped>
+<style lang="less">
+  .mint-msgbox-message{
+    text-align: left !important;
+  }
   #systemUpdate{
+    position: fixed;
+    left: 0;
+    top: 0;
     height:100%;
     width:100%;
     background:#FFF url('../images/appointBack.png') bottom no-repeat;
@@ -24,4 +30,18 @@
       }
     }
   }
+
 </style>
+<script>
+import { MessageBox } from 'mint-ui'
+export default{
+  mounted () {
+    setTimeout(function () {
+      MessageBox('公告', `为了更好提升星级用户平台的服务体验，我们将在6月23日-6月24日上午进行系统升级。<br/>
+【更新时间】2017年6月23日17:00~6月24日08:00<br/>
+【更新方式】页面停用，恢复后正常使用 <br/>                         
+若您有相关业务需要办理，还请在系统恢复后完成办理。`)
+    }, 300)
+  }
+}
+</script>
