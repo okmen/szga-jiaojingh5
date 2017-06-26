@@ -133,7 +133,7 @@
 <script>
   import { bindCar, queryLawlessByCar } from '../../../config/baseUrl'
 //  import { queryLawlessByCar } from '../../../config/baseUrl'
-  import { resultPost } from '../../../service/getData'
+  import { resultPost, resultPostNoLoading } from '../../../service/getData'
   import { Indicator, MessageBox, Toast } from 'mint-ui'
 //  import { MessageBox } from 'mint-ui'
   import { mapActions } from 'vuex'
@@ -165,19 +165,25 @@
           mobilephone: item.mobilephone,
           drivingLicenceNo: this.identityCard
         }
-        resultPost(queryLawlessByCar, reqData).then(json => {
+        Indicator.open()
+        resultPostNoLoading(queryLawlessByCar, reqData).then(json => {
+          console.log(json)
           if (json.code === '0000') {
             this.reserveList = json.data
-            if (!json.data) {
+            console.log(json.data.length === 0)
+            if (json.data.length === 0) {
+              Indicator.close()
               MessageBox('提示', '该车辆暂无违法信息')
             } else {
               json.data.forEach((item, index) => { // 循环dataList 给每个item上面添加 check关联属性
                 item.checkAddBorder = false
               })
               that.postAppealQuery(json.data)
+              Indicator.close()
               that.$router.push('/illegalOrderDeal')
             }
           } else {
+            Indicator.close()
             MessageBox('提示', json.msg)
           }
         })

@@ -93,15 +93,15 @@
         cur_id: '02',               // 请求-车牌类型编号
         licenseSelectShow: false,
         verifyCode: false,                    // 验证码验证
-        licenseSelectMassage: '小型汽车(蓝牌)',
+        licenseSelectMassage: '小型汽车',
         licenseSelectData: [
           {
             'id': '01',
-            'str': '大型汽车(黄牌)'
+            'str': '大型汽车'
           },
           {
             'id': '02',
-            'str': '小型汽车(蓝牌)'
+            'str': '小型汽车'
           },
           {
             'id': '03',
@@ -117,7 +117,7 @@
           },
           {
             'id': '06',
-            'str': '外籍汽车(黑牌)'
+            'str': '外籍汽车'
           },
           {
             'id': '07',
@@ -170,6 +170,14 @@
           {
             'id': '20',
             'str': '临时入境车'
+          },
+          {
+            'id': '51',
+            'str': '新能源大型车'
+          },
+          {
+            'id': '52',
+            'str': '新能源小型车'
           }
         ],
         abbreviationSelectShow: false,
@@ -335,10 +343,9 @@
         }
         Indicator.open()
         resultPost(queryLawlessByCar, reqData).then(json => {
-          Indicator.close()
           if (json.code === '0000') {
             this.reserveList = json.data
-            if (!json.data) {
+            if (json.data.length === 0) {
               MessageBox('提示', '该车辆暂无预约信息')
             } else {
               json.data.forEach((item, index) => { // 循环dataList 给每个item上面添加 check关联属性
@@ -346,6 +353,7 @@
               })
               console.log(that)
               that.postAppealQuery(json.data)
+              Indicator.close()
               that.$router.push('/illegalOrderDeal')
             }
           } else {

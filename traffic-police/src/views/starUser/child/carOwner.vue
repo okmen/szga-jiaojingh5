@@ -4,7 +4,7 @@
       <ul class="starUser-hbs-list">
         <li class="starUser-hbs-item">
           <div class="starUser-hbs-name">
-            <span>车辆类型</span>
+            <span>车牌类型</span>
           </div>
           <div class="div-select">
             <span class="btn-select" @click.stop="licenseSelectClick()" data-type="licenseSelectType">{{ licenseSelectMassage }}</span>
