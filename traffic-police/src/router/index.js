@@ -46,6 +46,14 @@ const routes = [
     },
     component: require('../views/login/login.vue')
   },
+  // {
+  //   name: 'loginIcp',
+  //   path: '/loginIcp',
+  //   meta: {
+  //     title: '星级用户登录'
+  //   },
+  //   component: require('../views/login/loginIcp.vue')
+  // },
   {
     name: 'findPassword',
     path: '/findPassword',
