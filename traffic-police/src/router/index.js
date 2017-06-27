@@ -719,6 +719,14 @@ const routes = [
       title: '系统升级中'
     },
     component: require('../components/systemUpdate.vue')
+  },
+  {
+    name: 'CGPage',
+    path: '/CGPage',
+    meta: {
+      title: '交通举报'
+    },
+    component: require('../views/takePictures_CG/takePicturesCG1.vue')
   }
 ]
 /* eslint-disable no-new */
