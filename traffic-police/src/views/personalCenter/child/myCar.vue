@@ -1,6 +1,6 @@
 <template>
   <div class="myCar-outer">
-    <mt-swipe :continuous="false" id="car-swipe-box" :auto="0" :speed="300" v-if="show">
+    <mt-swipe :continuous="false" id="car-swipe-box" :auto="0" :speed="300" v-if="show" :style="{height: 235+ sumHeight+'px'}">
       <mt-swipe-item v-for="(car, index) in carMsg">
         <div class="car-box">
           <div class="car-number">
@@ -8,6 +8,7 @@
             {{ car.numberPlateNumber }}
             <span class="myself" v-if="car.isMyself == '本人'">本人</span>
             <span class="others" v-else>他人</span>
+            <span class="unbind" @click="unbindMyCar(car)">解除绑定</span>
           </div>
           <div class="car-deal" @click="hrefBtn(car)">
             当前本车有{{ car.illegalNumber }}宗违法尚未处理
@@ -18,14 +19,15 @@
               <li>车牌类型:<span>{{ plateTypeList[car.plateType] }}</span></li>
               <li>年审时间:<span>{{ car.annualReviewDate }}</span><span style="color:#aaa">{{ car.annualReviewDateRemind
                 }}</span></li>
-              <li>{{ car.otherPeopleUse }}<span></span></li>
+              <!--<li>{{ car.otherPeopleUse }}<span></span></li>-->
             </ul>
           </div>
-          <div class="car-owner">
-            <ul>
-              <li>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<span>{{ car.name }}</span></li>
-              <li>身份证号:<span>{{ car.identityCard }}</span></li>
-              <li>手机号码:<span>{{ car.mobilephone }}</span></li>
+          <div class="car-user" v-if="car.isMyself == '本人'&&car.list">
+            <div class="user-title">车辆使用人</div>
+            <ul v-for="other in others">
+              <li>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:<span>{{ other.name }}</span></li>
+              <li>身份证号:<span>{{ other.iDcard }}</span><span class="other-unbind" @click="unbindOthers(other, car)">解除他的绑定</span></li>
+              <li>手机号码:<span>{{ other.mobilephone }}</span></li>
             </ul>
           </div>
         </div>
@@ -45,6 +47,7 @@
     .car-box {
       font-size:0.75rem;
       border:1px solid #a7d9f9;
+      border-bottom:none;
       background-color: #fff;
       border-radius: 4px;
       span {
@@ -78,6 +81,12 @@
            background-color: #ffbe00;
          }
         }
+        .unbind {
+          color: #aaa;
+          border:1px solid #aaa;
+          border-radius: 4px;
+          margin-left: 160px;
+        }
       }
       .car-deal {
         padding:0 36px;
@@ -102,17 +111,32 @@
           line-height: 60px;
         }
       }
-      .car-owner {
+      .car-user {
         padding: 22px 36px;
+        border-bottom:1px solid #a7d9f9;
+        .user-title {
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
+        ul {
+          margin-bottom: 20px;
+        }
         ul li{
-          height: 60px;
-          line-height: 60px;
+          height: 50px;
+          line-height: 50px;
+          .other-unbind {
+            color:#aaa;
+            border:1px solid #aaa;
+            border-radius: 4px;
+            padding: 0 8px;
+            margin-left: 50px;
+          }
         }
       }
     }
     .addCar-box {
       text-align: center;
-      padding-bottom: 100px;
+      padding-bottom: 50px;
       .add-car {
         margin-top: 0;
         color:#fff;
@@ -127,24 +151,30 @@
   #car-swipe-box{
     box-sizing: border-box;
     width: 100%;
-    height: 680px;
+    margin-bottom: 40px;
+    height: 470px;
+    .mint-swipe-items-wrap {
+      &:after { display: block; content: "clear"; height: 0; clear: both; overflow: hidden; visibility: hidden; }
+    }
   }
 </style>
 <script>
-  import { bindCar, queryLawlessByCar } from '../../../config/baseUrl'
-//  import { queryLawlessByCar } from '../../../config/baseUrl'
+  import { bindCar, queryLawlessByCar, unbindTheOtherDriverUseMyCar, unbindVehicle } from '../../../config/baseUrl'
   import { resultPost, resultPostNoLoading } from '../../../service/getData'
   import { Indicator, MessageBox, Toast } from 'mint-ui'
-//  import { MessageBox } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
     name: 'myCar',
     data () {
       return {
         show: false,
-        carMsg: '',
+        carMsg: '',       // 用户绑定的车辆列表
+        others: '',       // 车辆的使用人列表
+        listNum: '',      //
+        sumHeight: '',
         identityCard: window.localStorage.getItem('identityCard'),
         numberPlateNumber: window.localStorage.getItem('myNumberPlate'),
+        carNumber: '',
         mobilephone: window.localStorage.getItem('mobilePhone'),
         vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits'),
         plateTypeList: {
@@ -188,6 +218,70 @@
           }
         })
       },
+      unbindMyCar: function (item) {
+        MessageBox.confirm('确定解绑车辆?').then(action => {
+          // 解绑操作
+          let reqData = {
+            loginUser: this.identityCard,
+            licensePlateType: item.plateType,
+            licensePlateNumber: item.numberPlateNumber.slice(1),
+            IDcard: item.identityCard,
+            sourceOfCertification: 'C',
+            identificationNO: 'A'
+          }
+          console.log(reqData)
+//        Indicator.open()
+          resultPost(unbindVehicle, reqData).then(json => {
+            console.log(json)
+            if (json.code === '0000') {
+              Toast({
+                message: '解绑成功',
+                position: 'bottom',
+                className: 'white'
+              })
+            } else {
+              Indicator.close()
+              Toast({
+                message: json.msg,
+                position: 'bottom',
+                className: 'white'
+              })
+            }
+          })
+        })
+      },
+      unbindOthers: function (other, car) {
+        MessageBox.confirm('确定解除他的绑定?').then(action => {
+          // 解绑操作
+          let reqData = {
+            loginUser: this.identityCard,
+            plateType: car.plateType,
+            numberPlateNumber: this.numberPlateNumber.slice(1),
+            IDcard: other.iDcard,
+            sourceOfCertification: 'C',
+            userSource: 'C'
+          }
+          console.log(reqData)
+          Indicator.open()
+          resultPost(unbindTheOtherDriverUseMyCar, reqData).then(json => {
+            console.log(json)
+            if (json.code === '0000') {
+              Toast({
+                message: '解绑成功',
+                position: 'bottom',
+                className: 'white'
+              })
+            } else {
+              Indicator.close()
+              Toast({
+                message: json.msg,
+                position: 'bottom',
+                className: 'white'
+              })
+            }
+          })
+        })
+      },
       ...mapActions({
         postAppealQuery: 'postAppealQuery'
       })
@@ -205,6 +299,9 @@
           if (json.data.length !== 0) {
             this.show = true
             this.carMsg = json.data
+            this.others = json.data[0].list
+            this.listNum = json.data[0].list.length
+            this.sumHeight = 90 * this.listNum
           }
         } else {
           Toast({

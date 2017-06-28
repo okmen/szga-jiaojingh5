@@ -1,7 +1,7 @@
 // 添加URL需注释 哪个模块哪个接口
-// const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
+const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
 // const commonUrl = 'https://szjjapi.stc.gov.cn/' // 正式环境d
-const commonUrl = 'http://szjj.u-road.com/api/' // 正式环境d
+// const commonUrl = 'http://szjj.u-road.com/api/' // 正式环境d
 
 export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
 
@@ -148,3 +148,7 @@ export const getFileNumber = `${commonUrl}user/search/getMyDriverLicense.html` /
 export const trafficQuery = `${commonUrl}user/trafficQuery.html` // 查询实时路况list
 
 export const detailsTrafficQuery = `${commonUrl}user/detailsTrafficQuery.html` // 查询单条实时路况
+
+export const unbindVehicle = `${commonUrl}user/unbindVehicle.html` // 车主解绑车辆
+
+export const unbindTheOtherDriverUseMyCar = `${commonUrl}user/unbindTheOtherDriverUseMyCar.html` // 车主解绑其他车辆使用人
