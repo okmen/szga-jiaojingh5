@@ -24,6 +24,9 @@ export default {
     }
   },
   methods: {
+  },
+  mounted () {
+    window.localStorage.setItem('sourceOfCertification', 'CG')
   }
 }
 </script>
