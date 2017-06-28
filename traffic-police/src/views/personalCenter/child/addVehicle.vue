@@ -16,7 +16,7 @@
       <ul class="addVehicle-hbs-list">
         <li class="addVehicle-hbs-item">
           <div class="addVehicle-hbs-name">
-            <span>车辆类型</span>
+            <span>车牌类型</span>
           </div>
           <div class="div-select">
             <span class="btn-select" @click.stop="vehicleTypeClick()">{{vehicleType.str}}</span>
