@@ -7,10 +7,13 @@
         <input class="text-input" type="tel" placeholder="请输入您的旧手机号" v-model:value="oldMobile" readonly>
       </div>
     </li>
-    <li class="updateMobile-item">
-      <div class="updateMobile-name">身份证号</div>
-      <div class="updateMobile-text">
-        <input class="text-input" type="tel" placeholder="请输入您的身份证号码" v-model:value="identityCard">
+    <li class="updateMobile-item clear">
+      <div class="updateMobile-name">验证码</div>
+      <div class="updateMobile-text left validateCode">
+        <input class="text-input" type="text" placeholder="请输入验证码" v-model:value="validateCode">
+      </div>
+      <div class="btn-yellow right">
+        <button type="button" name="button" :disabled="isdisabled" @click.stop="sendValidateCode()" :class="{disabled: isdisabled}">{{btnValidateCode}}</button>
       </div>
     </li>
     <li class="updateMobile-item">
@@ -19,13 +22,10 @@
         <input class="text-input" type="tel" placeholder="请输入新的手机号码" v-model:value="newMobile">
       </div>
     </li>
-    <li class="updateMobile-item clear">
-      <div class="updateMobile-name">验证码</div>
-      <div class="updateMobile-text left validateCode">
-        <input class="text-input" type="text" placeholder="请输入验证码" v-model:value="validateCode">
-      </div>
-      <div class="btn-yellow right">
-        <button type="button" name="button" :disabled="isdisabled" @click.stop="sendValidateCode()" :class="{disabled: isdisabled}">{{btnValidateCode}}</button>
+    <li class="updateMobile-item">
+      <div class="updateMobile-name">确认新手机</div>
+      <div class="updateMobile-text">
+        <input class="text-input" type="tel" placeholder="请再次输入新的手机号码" v-model:value="verifyNewMobile">
       </div>
     </li>
   </ul>
@@ -53,8 +53,16 @@ export default{
   methods: {
     /* 发送验证码 */
     sendValidateCode: function () {
+      if (!this.oldMobile) {
+        Toast({
+          message: '手机号不能为空',
+          position: 'bottom',
+          className: 'white'
+        })
+        return false
+      }
       let reqData = {
-        mobilephone: this.newMobile,
+        mobilephone: this.oldMobile,
         businessType: 'szjj'
       }
       let time = 30
@@ -95,6 +103,14 @@ export default{
           return false
         }
       }
+      if (this.verifyNewMobile !== this.newMobile) {
+        Toast({
+          message: '两次手机号输入不一致',
+          position: 'bottom',
+          className: 'white'
+        })
+        return false
+      }
       let phone = Number(this.newMobile)
       if (/^1[34578]\d{9}$/.test(phone)) {
         Indicator.open('正在提交...')
@@ -131,7 +147,7 @@ export default{
   },
   created () {
     this.oldMobile = window.localStorage.getItem('mobilePhone')
-    // this.identityCard = window.localStorage.getItem('identityCard')
+    this.identityCard = window.localStorage.getItem('identityCard')
   },
   beforeDestory () {
     Indicator.close()
