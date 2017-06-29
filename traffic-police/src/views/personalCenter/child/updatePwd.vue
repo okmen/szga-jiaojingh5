@@ -78,7 +78,15 @@ export default{
               position: 'bottom',
               className: 'white'
             })
-            window.location.hash = '/userInfo'
+            window.localStorage.removeItem('behindTheFrame4Digits')
+            window.localStorage.removeItem('cars')
+            window.localStorage.removeItem('identityCard')
+            window.localStorage.removeItem('isLogin')
+            window.localStorage.removeItem('mobilePhone')
+            window.localStorage.removeItem('myNumberPlate')
+            window.localStorage.removeItem('plateType')
+            window.localStorage.removeItem('userName')
+            window.location.hash = '/login'
             console.log('提交数据并返回我的资料页面')
           } else {
             Toast({
