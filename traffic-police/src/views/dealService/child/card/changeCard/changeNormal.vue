@@ -347,7 +347,7 @@
             photoReturnNumberString: this.photoReturnNumberString,
             IDCardPhoto1: idImgOne.split(',')[1],
             IDCardPhoto2: idImgTwo.split(',')[1],
-            foreignersLiveTable: '',
+            foreignersLiveTable: idImgThree.split(',')[1],
             placeOfDomicile: this.cur_place_id,
             receiverName: this.receiverName,
             receiverNumber: this.receiverNumber,

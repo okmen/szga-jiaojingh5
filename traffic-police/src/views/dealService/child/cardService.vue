@@ -9,19 +9,19 @@
       </div>
     </div>
     <div class="query-link">
-      <router-link to="/userAgreement_WeChat/jszns">驾驶证年审</router-link>
+      <router-link :to="isLogin ? '/userAgreement_WeChat/jszns' : 'login'">驾驶证年审</router-link>
     </div>
     <!--<div class="query-link">-->
       <!--<router-link to="cardServicePage">消分学习</router-link>-->
     <!--</div>-->
     <div class="query-link">
-      <router-link to="/userAgreement_WeChat/jszzr">驾驶证转入</router-link>
+      <router-link :to="isLogin ? '/userAgreement_WeChat/jszzr' : 'login'">驾驶证转入</router-link>
     </div>
     <div class="query-link">
-      <router-link to="/userAgreement_WeChat/jsrlxfsbg">驾驶人联系方式变更</router-link>
+      <router-link :to="isLogin ? '/userAgreement_WeChat/jsrlxfsbg' : 'login'">驾驶人联系方式变更</router-link>
     </div>
     <div class="query-link">
-      <router-link to="/userAgreement_WeChat/jszzyjj">驾驶证自愿降级</router-link>
+      <router-link :to="isLogin ? '/userAgreement_WeChat/jszzyjj' : 'login'">驾驶证自愿降级</router-link>
     </div>
   </div>
 </template>
