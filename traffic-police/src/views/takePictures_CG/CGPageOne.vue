@@ -14,6 +14,7 @@
       </dl>
     </div>
     <p class="CG-p">本功能由深圳市公安局交通警察局提供支持</p>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>

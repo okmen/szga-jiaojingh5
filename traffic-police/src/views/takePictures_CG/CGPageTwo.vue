@@ -1,13 +1,15 @@
 <template>
   <div class="CG-router">
     <div class="CG-btn">
-      <p class="CG-icon-1"><router-link class="CG-a" to="takePicturesTips">随手拍举报</router-link></p>
-      <p class="CG-icon-2"><router-link class="CG-a" to="trafficCivilization">交通文明我做主</router-link></p>  
+      <p class="CG-icon-1"><router-link class="CG-a" to="takePicturesQuery">随手拍举报</router-link></p>
+      <p class="CG-icon-2"><a class="CG-a" @click="hintFn" >交通文明我做主</a></p>  
     </div>
     <p class="CG-p">本功能由深圳市公安局交通警察局提供支持</p>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
+import { MessageBox } from 'mint-ui'
 export default {
   name: 'CGPageTwo',
   data () {
@@ -15,6 +17,9 @@ export default {
     }
   },
   methods: {
+    hintFn: function () {
+      MessageBox('提示', `该功能正在升级中...`)
+    }
   },
   mounted () {
     window.localStorage.setItem('sourceOfCertification', 'CG')

@@ -5,7 +5,7 @@
     </div>
   </div>
 </template>
-<style lang="less">
+<style lang="less" scoped>
   .mint-msgbox-message{
     text-align: left !important;
   }

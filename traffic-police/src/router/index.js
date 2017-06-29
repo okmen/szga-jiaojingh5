@@ -740,7 +740,7 @@ const routes = [
     name: 'CGPageTwo',
     path: '/CGPageTwo',
     meta: {
-      title: '交通举报'
+      title: '交通举报查询'
     },
     component: require('../views/takePictures_CG/CGPageTwo.vue')
   }
