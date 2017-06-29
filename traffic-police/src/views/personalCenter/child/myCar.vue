@@ -60,6 +60,7 @@
         color:#2696dd;
         font-weight: bold;
         border-bottom:1px solid #a7d9f9;
+        position: relative;
         .car-icon {
           background-image: url("../../../images/car1.png");
           background-size: cover;
@@ -85,7 +86,12 @@
           color: #aaa;
           border:1px solid #aaa;
           border-radius: 4px;
-          margin-left: 160px;
+          position: absolute;
+          right: 40px;
+          height: 38px;
+          line-height: 35px;
+          top: 50%;
+          margin-top: -16px;
         }
       }
       .car-deal {
@@ -123,13 +129,13 @@
         }
         ul li{
           height: 50px;
-          line-height: 50px;
           .other-unbind {
             color:#aaa;
             border:1px solid #aaa;
             border-radius: 4px;
             padding: 0 8px;
-            margin-left: 50px;
+            position: absolute;
+            right:40px;
           }
         }
       }
@@ -170,7 +176,7 @@
         show: false,
         carMsg: '',       // 用户绑定的车辆列表
         others: '',       // 车辆的使用人列表
-        listNum: '',      //
+        listNum: '',
         sumHeight: '',
         identityCard: window.localStorage.getItem('identityCard'),
         numberPlateNumber: window.localStorage.getItem('myNumberPlate'),
