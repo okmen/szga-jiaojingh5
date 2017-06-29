@@ -46,6 +46,14 @@ const routes = [
     },
     component: require('../views/login/login.vue')
   },
+  // {
+  //   name: 'loginIcp',
+  //   path: '/loginIcp',
+  //   meta: {
+  //     title: '星级用户登录'
+  //   },
+  //   component: require('../views/login/loginIcp.vue')
+  // },
   {
     name: 'findPassword',
     path: '/findPassword',
@@ -721,12 +729,20 @@ const routes = [
     component: require('../components/systemUpdate.vue')
   },
   {
-    name: 'CGPage',
-    path: '/CGPage',
+    name: 'CGPageOne',
+    path: '/CGPageOne',
     meta: {
       title: '交通举报'
     },
-    component: require('../views/takePictures_CG/takePicturesCG1.vue')
+    component: require('../views/takePictures_CG/CGPageOne.vue')
+  },
+  {
+    name: 'CGPageTwo',
+    path: '/CGPageTwo',
+    meta: {
+      title: '交通举报'
+    },
+    component: require('../views/takePictures_CG/CGPageTwo.vue')
   }
 ]
 /* eslint-disable no-new */
