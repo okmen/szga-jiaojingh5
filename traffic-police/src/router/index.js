@@ -775,6 +775,22 @@ const routes = [
       title: '补领机动车号牌'
     },
     component: require('../views/dealService/child/car/replaceCredentials/replaceLicencePlate.vue')
+  },
+  {
+    name: 'exemption',
+    path: '/exemption',
+    meta: {
+      title: '六年免检'
+    },
+    component: require('../views/dealService/child/car/exemption.vue')
+  },
+  {
+    name: 'placeExamine',
+    path: '/placeExamine',
+    meta: {
+      title: '异地检验'
+    },
+    component: require('../views/dealService/child/car/placeExamine.vue')
   }
 ]
 /* eslint-disable no-new */
