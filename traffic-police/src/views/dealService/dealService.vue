@@ -25,7 +25,6 @@
   }
 </script>
 <style lang="less" >
-  @import "./../../style/base";
   .dealService-outer {
     position: absolute;
     left: 0;
