@@ -120,7 +120,7 @@
           return false
         }
         if (checkedItem.carOwner !== window.localStorage.getItem('userName')) {
-          MessageBox('提示', '此功能只能预约当前登录用户').then(action => {
+          MessageBox('提示', '此功能只能预约本人车辆').then(action => {
             this.$router.push('/')
           })
           return false

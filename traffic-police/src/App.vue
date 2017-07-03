@@ -69,14 +69,14 @@
         </a>
       </dl>
       <dl>
-        <!-- <router-link to="/dealService">
+        <router-link to="!isLogin ? '/login' : '/dealService'">
         <dt><img class="top6" src="./images/nav6.png" alt=""></dt>
         <dd>办理类服务</dd>
-        </router-link> -->
-        <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/businessList/'+openId">
+        </router-link>
+        <!-- <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/businessList/'+openId">
         <dt><img class="top6" src="./images/nav6.png" alt=""></dt>
         <dd>办理类服务</dd>
-        </a>
+        </a> -->
       </dl>
       <dl>
         <router-link :to="!isLogin ? '/login' : '/credit'">
@@ -190,6 +190,14 @@ export default {
     }
     this.isLogin = window.localStorage.getItem('isLogin')
     this.icpTara = `https://icp-tara.pingan.com.cn:10443/icp-tara/do/page/changePage?cername=${this.userName}&certno=${this.userIdentityCard}&carMark=${this.userNumberPlate}&openid=${this.openId}&mobile=${this.mobilePhone}&userType=1&carType=${this.plateType}`
+    let ua = window.navigator.userAgent // 浏览器版本
+    if (/MicroMessenger/i.test(ua)) {
+      window.localStorage.setItem('sourceOfCertification', 'C')
+    } else if (/AlipayClient/i.test(ua)) {
+      window.localStorage.setItem('sourceOfCertification', 'Z')
+    } else {
+      window.localStorage.setItem('sourceOfCertification', 'C')
+    }
   }
 }
 </script>
