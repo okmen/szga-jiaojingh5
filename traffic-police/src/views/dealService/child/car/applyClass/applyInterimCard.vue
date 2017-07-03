@@ -1,42 +1,41 @@
 <template>
-  <div class="applyEveryMonth-outer">
-    <div class="queryByCar-from">
-      <div id="queryByCar-hbs">
-        <ul class="queryByCar-hbs-list">
-          <li class="queryByCar-hbs-item">
-            <div class="queryByCar-hbs-name">
+  <div class="applyInterimCard-outer">
+    <div class="applyInterimCard-form">
+      <ul>
+          <li class="form-line">
+            <div class="form-line-item item-name">
               <span>姓名</span>
             </div>
-            <div class="queryByCar-hbs-text">
-              <input class="text-input" type="text" maxlength="4" name="" value="" placeholder="抓取">
+            <div class="form-line-item">
+              <input class="text-input" type="text" placeholder="请输入姓名抓取">
             </div>
           </li>
-          <li class="queryByCar-hbs-item">
-            <div class="queryByCar-hbs-name">
+          <li class="form-line">
+            <div class="form-line-item item-name">
               <span>身份证号码</span>
             </div>
-            <div class="queryByCar-hbs-text">
-              <input class="text-input" type="text" maxlength="4" name="" value="" placeholder="抓取">
+            <div class="form-line-item">
+              <input class="text-input" type="text" placeholder="请输入身份证号码抓取">
             </div>
           </li>
-          <li class="queryByCar-hbs-item">
-            <div class="queryByCar-hbs-name">
+          <li class="form-line">
+            <div class="form-line-item item-name">
               <span>手机号码</span>
             </div>
-            <div class="queryByCar-hbs-text">
-              <input class="text-input" type="text" maxlength="4" name="" value="" placeholder="抓取">
+            <div class="form-line-item">
+              <input class="text-input" type="text" placeholder="请输入手机号码抓取">
             </div>
           </li>
-          <li class="queryByCar-hbs-item">
-            <div class="queryByCar-hbs-name">
+          <li class="form-line">
+            <div class="form-line-item item-name">
               <span>车辆型号</span>
             </div>
-            <div class="queryByCar-hbs-text">
-              <input class="text-input" type="text" maxlength="4" name="" value="" placeholder="">
+            <div class="form-line-item">
+              <input class="text-input" type="text" placeholder="请输入车辆型号">
             </div>
           </li>
-          <li class="queryByCar-hbs-item">
-            <div class="queryByCar-hbs-name">
+          <li class="form-line">
+            <div class="form-line-item item-name">
               <span>车辆类型</span>
             </div>
             <div class="div-select">
@@ -48,71 +47,91 @@
               </div>
             </div>
           </li>
-          <li class="queryByCar-hbs-item">
-            <div class="queryByCar-hbs-name">
+          <li class="form-line">
+            <div class="form-line-item item-name">
               <span>发动机号</span>
             </div>
-            <div class="queryByCar-hbs-text">
+            <div class="form-line-item">
               <input class="text-input" type="text" maxlength="4" name="" value="" placeholder="请输入发动机号">
             </div>
           </li>
-          <li class="queryByCar-hbs-item">
-            <div class="queryByCar-hbs-name">
+          <li class="form-line">
+            <div class="form-line-item item-name">
               <span>车架号</span>
             </div>
-            <div class="queryByCar-hbs-text">
-              <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" maxlength="4" name="" value="" placeholder="请输入车架号">
+            <div class="form-line-item">
+              <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" maxlength="4" name="" value="" placeholder="请输入车架号后四位">
             </div>
           </li>
-          <li class="queryByCar-hbs-item">
-            <div class="queryByCar-hbs-name">
+          <li class="form-line">
+            <div class="form-line-item item-name">
               <span>车辆产地</span>
             </div>
-            <div class="queryByCar-hbs-text">
-              <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" maxlength="4" name="" value="" placeholder="">
+            <div class="form-line-item width-40">
+              <input type="radio"  name="address" value="1" v-model:checked="product">
+              <label>国产车</label>
+            </div>
+            <div class="form-line-item width-40">
+              <input type="radio"  name="address" value="0" v-model:checked="product">
+              <label>进口车</label>
             </div>
           </li>
-          <li class="queryByCar-hbs-item">
-            <div class="queryByCar-hbs-name">
+          <li class="form-line">
+            <div class="form-line-item item-name">
               <span>户籍所在地</span>
             </div>
-            <div class="queryByCar-hbs-text">
+            <div class="form-line-item">
               <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" maxlength="4" name="" value="" placeholder="">
             </div>
           </li>
-          <li class="queryByCar-hbs-item">
-            <div class="queryByCar-hbs-name">
+          <li class="form-line">
+            <div class="form-line-item item-name">
               <span>收件人姓名</span>
             </div>
-            <div class="queryByCar-hbs-text">
+            <div class="form-line-item">
               <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" maxlength="4" name="" value="" placeholder="">
             </div>
           </li>
-          <li class="queryByCar-hbs-item">
-            <div class="queryByCar-hbs-name">
+          <li class="form-line">
+            <div class="form-line-item item-name">
               <span>收件人号码</span>
             </div>
-            <div class="queryByCar-hbs-text">
+            <div class="form-line-item">
               <input v-model="vehicleIdentifyNoLast4" class="text-input" type="tel" maxlength="4" name="" value="" placeholder="">
             </div>
           </li>
-          <li class="queryByCar-hbs-item">
-            <div class="queryByCar-hbs-name">
+          <li class="form-line">
+            <div class="form-line-item item-name">
               <span>邮寄地址</span>
             </div>
-            <div class="queryByCar-hbs-text">
+            <div class="form-line-item width-40 city">
+              深圳市
+            </div>
+            <div class="div-select form-line-item width-50">
+              <span class="btn-select" @click.stop="areaSelectClick()">{{ areaSelectMassage }}</span>
+              <div class="div-select-ul" v-if="areaSelectShow">
+                <ul>
+                  <li v-for="item in areaSelectData" @click.stop="areaSelectClick(item.str, item.id)">{{item.str}}</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="form-line">
+            <div class="form-line-item item-name">
+              <span></span>
+            </div>
+            <div class="form-line-item">
               <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" maxlength="4" name="" value="" placeholder="请输入详细地址">
             </div>
           </li>
         </ul>
-      </div>
-      <button class="btn" type="button" name="button" @click.stop="queryLawlessByCar()">提交</button>
+      <userUpload :idCard1="true" :idCard2="true" :outTable="outTable" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
     </div>
   </div>
 </template>
 <script>
   export default {
-    name: 'queryByCar',
+    name: 'applyInterimCard',
     data () {
       return {
         licensePlateNo: '',                   // 请求-车牌号
@@ -315,10 +334,68 @@
             'id': '06',
             'str': '黑牌'
           }
-        ]             // 车牌类型列表（编号转换）
+        ],             // 车牌类型列表（编号转换）
+        areaSelectShow: false,
+        areaSelectMassage: '福田区',
+        areaSelectData: [
+          {
+            'id': '01',
+            'str': '福田区'
+          },
+          {
+            'id': '02',
+            'str': '罗湖区'
+          },
+          {
+            'id': '03',
+            'str': '南山区'
+          },
+          {
+            'id': '04',
+            'str': '宝安区'
+          },
+          {
+            'id': '05',
+            'str': '龙岗区'
+          },
+          {
+            'id': '06',
+            'str': '盐田区'
+          },
+          {
+            'id': '07',
+            'str': '龙华新区'
+          },
+          {
+            'id': '08',
+            'str': '光明新区'
+          },
+          {
+            'id': '09',
+            'str': '坪山新区'
+          },
+          {
+            'id': '10',
+            'str': '大鹏新区'
+          }
+        ]
       }
     },
+    components: {
+      'userUpload': require('../../userUpload.vue')
+    },
     methods: {
+      areaSelectClick: function (str, id) {               // 区域下拉框选择
+        if (str) {
+          this.areaSelectMassage = str
+          this.cur_area_id = id
+        }
+        if (this.areaSelectShow === true) {
+          this.areaSelectShow = false
+        } else {
+          this.areaSelectShow = true
+        }
+      },
       licenseSelectClick: function (str, id) {
         if (str) {
           this.licenseSelectMassage = str
@@ -362,67 +439,60 @@
         this.typeSelectShow = false
         this.licenseSelectShow = false
         this.abbreviationSelectShow = false
+        this.areaSelectShow = false
       })
     }
   }
 </script>
 <style lang="less" scoped>
-  .applyEveryMonth-outer {
+  @import "./../../../../../style/base";
+  .applyInterimCard-outer {
     background-color: #fff;
     position: absolute;
     left: 0;
     right: 0;
-    padding: 20px 40px;
-    .width-25 {
-      width: 25% !important;
-    }
-    .width-70 {
-      width: 70% !important;
+    padding: 0 40px;
+    .applyInterimCard-form {
+      background-color: #fff;
+      padding-top:20px;
+      .form-line {
+        padding: 20px 0 0 180px;
+        position: relative;
+        line-height: 56px;
+        .form-line-item {
+          width: 100%;
+          display: inline-block;
+          height: 60px;
+          line-height:60px;
+          span {
+            vertical-align: middle;
+          }
+          &.city {
+            margin: 0 18px;
+          }
+        }
+        .item-name {
+          width: 180px;
+          position: absolute;
+          left: 0;
+        }
+        .div-select {
+          font-size: 24px;
+        }
+      }
     }
     .width-40 {
       width: 40% !important;
     }
-    .queryByCar-from {
-      background-color: #fff;
-      #queryByCar-hbs {
-        padding-bottom: 20px;
-        .queryByCar-hbs-list {
-          .queryByCar-hbs-item {
-            height: 80px;
-            margin-top: 24px;
-            padding-left: 180px;
-            position: relative;
-            line-height: 56px;
-            .queryByCar-hbs-name {
-              width: 180px;
-              position: absolute;
-              left: 0;
-            }
-            .queryByCar-hbs-text {
-              width: 100%;
-              display: inline-block;
-            }
-            .queryByCar-hbs-code {
-              margin-left: 40px;
-              text-indent: 28px;
-              width: 240px;
-              height: 56px;
-              text-decoration: underline;
-            }
-          }
-        }
-      }
+    .width-35 {
+      width: 35% !important;
     }
-    .btn {
-      margin: 0;
+    .width-50 {
+      width: 50% !important;
     }
-    .hint {
-      h4{
-        color:#e64340;
-      }
-      p {
-        color:#666;
-      }
+    .width-60 {
+      width: 60% !important;
     }
   }
+
 </style>
