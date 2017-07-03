@@ -743,6 +743,22 @@ const routes = [
       title: '交通举报查询'
     },
     component: require('../views/takePictures_CG/CGPageTwo.vue')
+  },
+  {
+    name: 'exemption',
+    path: '/exemption',
+    meta: {
+      title: '六年免检'
+    },
+    component: require('../views/dealService/child/car/exemption.vue')
+  },
+  {
+    name: 'placeExamine',
+    path: '/placeExamine',
+    meta: {
+      title: '异地检验'
+    },
+    component: require('../views/dealService/child/car/placeExamine.vue')
   }
 ]
 /* eslint-disable no-new */
