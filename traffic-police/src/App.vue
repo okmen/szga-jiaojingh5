@@ -69,7 +69,7 @@
         </a>
       </dl>
       <dl>
-        <router-link to="!isLogin ? '/login' : '/dealService'">
+        <router-link :to="!isLogin ? '/login' : '/dealService'">
         <dt><img class="top6" src="./images/nav6.png" alt=""></dt>
         <dd>办理类服务</dd>
         </router-link>
