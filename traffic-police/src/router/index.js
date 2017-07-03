@@ -746,7 +746,7 @@ const routes = [
   },
   {
     name: 'replaceDrivingLicense',
-    path: 'replaceDrivingLicense',
+    path: '/replaceDrivingLicense',
     meta: {
       title: '补领行驶证'
     },
@@ -754,7 +754,7 @@ const routes = [
   },
   {
     name: 'exchangeDrivingLicense',
-    path: 'exchangeDrivingLicense',
+    path: '/exchangeDrivingLicense',
     meta: {
       title: '换领行驶证'
     },
@@ -762,7 +762,7 @@ const routes = [
   },
   {
     name: 'replaceQualifiedMark',
-    path: 'replaceQualifiedMark',
+    path: '/replaceQualifiedMark',
     meta: {
       title: '补换检验合格标志'
     },
@@ -770,7 +770,7 @@ const routes = [
   },
   {
     name: 'replaceLicencePlate',
-    path: 'replaceLicencePlate',
+    path: '/replaceLicencePlate',
     meta: {
       title: '补领机动车号牌'
     },
