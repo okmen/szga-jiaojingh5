@@ -743,6 +743,38 @@ const routes = [
       title: '交通举报查询'
     },
     component: require('../views/takePictures_CG/CGPageTwo.vue')
+  },
+  {
+    name: 'replaceDrivingLicense',
+    path: 'replaceDrivingLicense',
+    meta: {
+      title: '补领行驶证'
+    },
+    component: require('../views/dealService/child/car/replaceCredentials/repairDrivingLicense.vue')
+  },
+  {
+    name: 'exchangeDrivingLicense',
+    path: 'exchangeDrivingLicense',
+    meta: {
+      title: '换领行驶证'
+    },
+    component: require('../views/dealService/child/car/replaceCredentials/exchangeDrivingLicense.vue')
+  },
+  {
+    name: 'replaceQualifiedMark',
+    path: 'replaceQualifiedMark',
+    meta: {
+      title: '补换检验合格标志'
+    },
+    component: require('../views/dealService/child/car/replaceCredentials/replaceQualifiedMark.vue')
+  },
+  {
+    name: 'replaceLicencePlate',
+    path: 'replaceLicencePlate',
+    meta: {
+      title: '补领机动车号牌'
+    },
+    component: require('../views/dealService/child/car/replaceCredentials/replaceLicencePlate.vue')
   }
 ]
 /* eslint-disable no-new */
