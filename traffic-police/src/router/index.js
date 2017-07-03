@@ -648,22 +648,22 @@ const routes = [
     },
     component: require('../views/dealService/dealService.vue')
   },
-  // {
-  //   name: 'freeForFirst',
-  //   path: '/freeForFirst',
-  //   meta: {
-  //     title: '首违免罚查询'
-  //   },
-  //   component: require('../views/dealService/child/car/freeForFirst/freeForFirst.vue')
-  // },
-  // {
-  //   name: 'applyClass',
-  //   path: '/applyClass',
-  //   meta: {
-  //     title: '申请类'
-  //   },
-  //   component: require('../views/dealService/child/car/applyClass/applyClass.vue')
-  // },
+  {
+    name: 'freeForFirst',
+    path: '/freeForFirst',
+    meta: {
+      title: '首违免罚查询'
+    },
+    component: require('../views/dealService/child/car/freeForFirst/freeForFirst.vue')
+  },
+  {
+    name: 'applyClass',
+    path: '/applyClass',
+    meta: {
+      title: '申请类'
+    },
+    component: require('../views/dealService/child/car/applyClass/applyClass.vue')
+  },
   {
     name: 'changeCard',
     path: '/changeCard/id/:id',
