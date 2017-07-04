@@ -2,14 +2,14 @@
   <div class="exchange-license">
     <div class="owners-name">
       <span class="item-title">车主姓名</span>
-      <input type="text" disabled class="item-info">
+      <input type="text" disabled class="item-info" v-model="ownersName">
     </div>
     <div class="certificate-number">
       <span class="item-title">证件号码</span>
-      <input type="text" disabled class="item-info">
+      <input type="text" disabled class="item-info" v-model="certificateNumber">
     </div>
-    <div-select :childInfo="plateNumber" @getSelected="getPlateNumber"></div-select>
-    <div-select :childInfo="plateType" @getSelected="getPlateType"></div-select>
+    <div-select :childInfo="plateNumber" @getSelected="getPlateNumber" :defaultVal="defaultPlateNumber"></div-select>
+    <div-select :childInfo="plateType" @getSelected="getPlateType" defaultVal="蓝牌"></div-select>
     <div class="domicile-place">
       <span class="item-title">户籍所在地</span>
       <div-radio :optname="optname"></div-radio>
@@ -25,24 +25,32 @@
     <div class="recipient-address">
       <span class="item-title">收件人地址</span>
       <div class="recipient-address-select item-info">
-        <div-select :childInfo="recipientInfo"></div-select>
+        <div-select :childInfo="recipientInfo" defaultVal="福田区"></div-select>
         <input type="text" placeholder="请输入详细地址">
       </div>
     </div>
     <div class="upload-photo">
-      <div class="">请按示例图上传以下证件照片</div>、
+      <div class="">请按示例图上传以下证件照片</div>
       <div class="upload-all-img">
         <div class="upload-item-img">
-          <div class="upload-item-img-one"></div>
-          <div class="upload-item-text-one"></div>
+          <label class="upload-item-img-one" for="file1">
+            <input id="file1" type="file" accept="image/*" >
+            <img :src="imgOne1" />
+          </label>
+          <div class="upload-item-text-one">身份证(正面)</div>
         </div>
         <div class="upload-item-img">
-          <div class="upload-item-img-one"></div>
-          <div class="upload-item-text-one"></div>
+          <label class="upload-item-img-one" for="file2">
+            <input id="file2" type="file" accept="image/*" >
+            <img :src="imgOne2" /></label>
+          <div class="upload-item-text-one">身份证(反面)</div>
         </div>
         <div class="upload-item-img">
-          <div class="upload-item-img-one"></div>
-          <div class="upload-item-text-one"></div>
+          <label class="upload-item-img-one" for="file3">
+            <input id="file3" type="file" accept="image/*" >
+            <img :src="imgOne3" />
+          </label>
+          <div class="upload-item-text-one">机动车登记证书</div>
         </div>
       </div>
     </div>
@@ -62,6 +70,7 @@
     justify-content: space-between;
   }
   .exchange-license {
+    height: auto;
     .item-title{
       width: 33%;
       line-height: 65px;
@@ -75,13 +84,51 @@
       height: 65px;
       padding-left: 10px;
       line-height: 65px;
-      font-size: 26px;
+      font-size: 30px;
+      outline: none;
     }
     .exchange-license-line{
       height: 10px;
       background: #eeeeee;
       margin-left: 0;
       margin-right: 0;
+    }
+    .upload-all-img{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      .upload-item-img{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    .upload-photo{
+      margin-top: 30px;
+      display: block;
+      .upload-item-text-one{
+        margin-top: 10px;
+        margin-bottom: 30px;
+        color: #7e7e7e;
+        text-align: center;
+      }
+      .upload-item-img-one{
+        width: 194px;
+        height: 194px;
+        border: 2px solid #eee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        input{
+          display: none;
+        }
+        img{
+          max-height: 90%;
+          max-width: 90%;
+        }
+      }
     }
     .confirm-information{
       background: #09bb07;
@@ -91,20 +138,19 @@
       line-height: 80px;
       font-size: 30px;
       color: white;
+      margin-bottom: 0;
     }
   }
 </style>
 <script>
+  import uploadFile from '../../../../../service/uploadFile.js'
   export default {
     data () {
       return {
-        plateNumber: {
-          title: '车牌号码',
-          option: [
-            {'str': '粤B12345'},
-            {'str': '粤B12345'}
-          ]
-        },
+        defaultPlateNumber: '',
+        imgOne1: require('../../../../../images/IDcard-front.png'),
+        imgOne2: require('../../../../../images/IDcard-back.png'),
+        imgOne3: require('../../../../../images/register-credential.png'),
         plateType: {
           title: '车牌种类',
           option: [
@@ -182,14 +228,58 @@
               'str': '大鹏新区'
             }
           ]
-        }
+        },
+        recipientPhone: '',    // 收件人手机号码
+        recipientName: ''     // 收件人姓名
       }
     },
     components: {
       divSelect: require('./components/divSelect.vue'),
       divRadio: require('./components/divRadio.vue')
     },
+    computed: {
+      ownersName () {
+        return window.localStorage.getItem('userName')
+      },
+      certificateNumber () {
+        return window.localStorage.getItem('identityCard')
+      },
+      plateNumber () {
+        var plateInfo = {
+          title: '车牌号码',
+          option: []
+        }
+        JSON.parse(window.localStorage.getItem('cars')).map(item => {
+          plateInfo.option.push({'str': item.myNumberPlate})
+        })
+        this.defaultPlateNumber = plateInfo.option[0].str
+        return plateInfo
+      }
+    },
     methods: {
+      uploadImg () {
+        uploadFile.upload({
+          id: 'file1',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne1 = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file2',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne2 = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file3',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne3 = res.imgUrl
+          }
+        })
+      },
       getPlateNumber (val) {
 
       },
@@ -202,6 +292,9 @@
       confirmInfo () {
 
       }
+    },
+    mounted () {
+      this.uploadImg()
     }
   }
 </script>

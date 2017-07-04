@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
+  selectShowul: false,
   appoinSuccess: {
     appoinNum: '',
     appoinType: ''

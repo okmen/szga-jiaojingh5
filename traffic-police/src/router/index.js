@@ -748,6 +748,7 @@ const routes = [
     name: 'replaceCredentials',
     path: '/replaceCredentials',
     component: require('../views/dealService/child/car/replaceCredentials/index.vue'),
+    redirect: '/replaceCredentials/repairDrivingLicense',
     children: [
       {
         name: 'repairDrivingLicense',

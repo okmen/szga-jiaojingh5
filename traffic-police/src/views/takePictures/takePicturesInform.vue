@@ -85,14 +85,14 @@
     <div class="tp-inform-box">
       <div class="tp-inform-left">举报人</div>
       <div class="tp-inform-right">
-        <input type="text" maxlength="10" v-model="informName" placeholder="请输入您的名字" 
+        <input type="text" maxlength="10" v-model="informName" placeholder="请输入您的名字"
          v-bind:readonly="this.loginJudge">
       </div>
     </div>
     <div class="tp-inform-box">
       <div class="tp-inform-left">身份证号</div>
       <div class="tp-inform-right">
-        <input type="text" maxlength="19" v-model="informIdNumber" placeholder="请输入身份证号码" 
+        <input type="text" maxlength="19" v-model="informIdNumber" placeholder="请输入身份证号码"
          v-bind:readonly="this.loginJudge">
       </div>
     </div>
@@ -523,7 +523,6 @@
   }
 </script>
 <style lang="less" >
-@import './../../style/base';
 #takePhotosInform{
   padding:0 50px;
   .tp-inform-box{
