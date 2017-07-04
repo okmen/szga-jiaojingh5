@@ -121,8 +121,7 @@ export default {
 }
 </script>
 
-<style lang="less">
-@import "./../../style/base";
+<style lang="less" >
 .peopleWillCloud-wrap{
   width: 100%;
   height: 100%;

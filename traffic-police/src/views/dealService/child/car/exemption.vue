@@ -41,7 +41,7 @@
             <span>行驶证编码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="" placeholder="请输入行驶证编码" />
+            <input class="text-input" type="text" v-model="drivingLicense" value="" placeholder="请输入行驶证编码" />
           </div>
         </li>
         <li class="form-line">
@@ -49,7 +49,7 @@
             <span>手机号码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="" placeholder="请输入手机号码"/>
+            <input class="text-input" type="text" v-model="mobile" value="" placeholder="请输入手机号码"/>
           </div>
         </li>
         <li class="form-line">
@@ -57,10 +57,10 @@
             <span>验证码</span>
           </div>
           <div class="form-line-item width-60">
-            <input class="text-input" type="text" name="" value="" placeholder="请输入验证码">
+            <input class="text-input" type="text" name="" v-model="identifying" value="" placeholder="请输入验证码">
           </div>
           <div class="form-line-item right width-35">
-            <span class="btn browse-code" @click="scanQRCode()">获取验证码</span>
+            <button class="btn browse-code" v-bind:class="{ 'show' : isShow}" :disabled="forbidden" @click="scanQRCode()">{{chronoScope}}</button>
           </div>
         </li>
         <li class="form-line">
@@ -92,12 +92,12 @@
             <span>邮政编码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="" placeholder="请输入邮政编码"/>
+            <input class="text-input" type="text" v-model="postalcode" value="" placeholder="请输入邮政编码"/>
           </div>
         </li>
         <li class="form-line">
           <div class="form-line-item item-name">
-            <span>邮寄地址</span>
+            <span>收件人地址</span>
           </div>
           <div class="form-line-item width-40 city">
             <span>深圳市</span>
@@ -153,7 +153,7 @@
             <span>预约人</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="" placeholder="请输入预约人姓名"/>
+            <input class="text-input" type="text" v-model="appointment" value="" placeholder="请输入预约人姓名"/>
           </div>
         </li>
         <li class="form-li">
@@ -161,7 +161,7 @@
         </li>
         <li class="form-li">
           <div class="form-line-item">
-            <input class="text-input" v-model="mailingAddress" type="text" name="" value="" maxlength="4" placeholder="请输入预约人身份证号">
+            <input class="text-input" type="text" name="" v-model="appointmentID" value="" placeholder="请输入预约人身份证号">
           </div>
         </li>
         <li class="form-line">
@@ -169,17 +169,17 @@
             <span>预约方式</span>
           </div>
           <div class="div-select">
-            <span class="btn-select" @click.stop="placeSelectClick()">{{ placeSelectMassage }}</span>
-            <div class="div-select-ul" v-if="placeSelectShow">
+            <span class="btn-select" @click.stop="appointmentMode()">{{ appointmentMassage }}</span>
+            <div class="div-select-ul" v-if="appointmentShow">
               <ul>
-                <li v-for="item in placeSelectData" @click.stop="placeSelectClick(item.longName, item.shortName)">{{item.longName}}</li>
+                <li v-for="item in appointmentData" @click.stop="appointmentMode(item.longName)">{{item.longName}}</li>
               </ul>
             </div>
           </div>
         </li>
         <li class="form-annotation">注:只能申请本人名下车辆</li>
       </ul>
-     <button class="btn btns">确认提交</button>
+     <button class="btn btns" @click.stop="submitClick()">确认提交</button>
       <mt-datetime-picker ref="picker" type="date" v-model="informTime" @confirm="handleTime"></mt-datetime-picker>
       <mt-datetime-picker ref="pick" type="date" v-model="informTimes" @confirm="handleTimes"></mt-datetime-picker>
     </div>
@@ -187,14 +187,15 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
+import { Toast } from 'mint-ui'
 export default {
   name: 'exemption',
   data () {
     return {
+      isShow: false,
       mtDateTimeMsg: '',                           // 保险生效时间进页面默认时间
       DateTimeMsg: '',                             // 保险终止时间进页面默认时间
       pickerValue: '',
-      mailingAddress: '',
       formatTime: '',                              // 使用mt组件后，时间是中国标准时间，格式转换
       informTime: this.currentTime(),              // 保险生效时间当前时间
       informTimes: this.currentTime(),             // 保险终止时间当前时间
@@ -227,6 +228,13 @@ export default {
       applyData: [
         {
           'longName': '代理人'
+        }
+      ],
+      appointmentMassage: '个人',
+      appointmentShow: false,                      // 预约方式样式
+      appointmentData: [
+        {
+          'longName': '个-人'
         }
       ],
       areaSelectShow: false,
@@ -272,7 +280,16 @@ export default {
           'id': '10',
           'str': '大鹏新区'
         }
-      ]
+      ],
+      mobile: '',                                 // 手机号码
+      chronoScope: '获取验证码',
+      forbidden: false,                           // 验证码按钮禁用设置
+      drivingLicense: '',                         // 行驶证编码
+      identifying: '',                            // 验证码
+      postalcode: '',                             // 邮政编码
+      mailingAddress: '',                         // 详细地址
+      appointment: '',                            // 预约人
+      appointmentID: ''                           // 预约人身份证
     }
   },
   mounted: function () {
@@ -304,6 +321,7 @@ export default {
         this.applyShow = true
       }
     },
+    // 保险告知方式下拉框
     placeSelectClick: function (str, id) {
       if (str) {
         this.placeSelectMassage = str
@@ -315,12 +333,18 @@ export default {
         this.placeSelectShow = true
       }
     },
-    datetimePick: function (picker) {
-      this.$refs.picker.open()
+    // 预约方式下拉框
+    appointmentMode: function (str) {
+      if (str) {
+        this.appointmentMassage = str
+      }
+      if (this.appointmentShow === true) {
+        this.appointmentShow = false
+      } else {
+        this.appointmentShow = true
+      }
     },
-    terminationPick: function (picker) {
-      this.$refs.pick.open()
-    },
+    // 收件人地址
     areaSelectClick: function (str, id) {
       if (str) {
         this.areaSelectMassage = str
@@ -331,6 +355,12 @@ export default {
       } else {
         this.areaSelectShow = true
       }
+    },
+    datetimePick: function (picker) {
+      this.$refs.picker.open()
+    },
+    terminationPick: function (picker) {
+      this.$refs.pick.open()
     },
     handleTime: function (informTime) {
       this.formatTime = this.format(this.informTime.toString(), 'yyyy-MM-dd')
@@ -391,6 +421,59 @@ export default {
             return tf(t.getSeconds())
         }
       })
+    },
+    // 获取验证码
+    scanQRCode: function () {
+      let mobile = this.mobile
+      console.log(mobile)
+      if (!(mobile)) {
+        Toast({message: '请输入手机号', position: 'bottom', className: 'white'})
+      } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobile))) {
+        Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
+      } else {
+        this.timePiece()
+      }
+    },
+    // 验证码倒计时
+    timePiece: function () {
+      clearInterval(this.Timepiece)
+      this.forbidden = true
+      this.isShow = true
+      var str = 60
+      this.Timepiece = setInterval(() => {
+        str = --str
+        this.chronoScope = str + 's'
+        if (this.chronoScope === 0 + 's') {
+          clearInterval(this.Timepiece)
+          this.chronoScope = '获取验证码'
+          this.forbidden = false
+          this.isShow = false
+        }
+      }, 1000)
+    },
+    submitClick: function () {
+      console.log('11')
+      if (!this.drivingLicense) {
+        Toast({message: '请输入行驶证编码', position: 'bottom', className: 'white'})
+      } else if (!this.mobile) {
+        Toast({message: '请输入手机号码', position: 'bottom', className: 'white'})
+      } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobile))) {
+        Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
+      } else if (!this.identifying) {
+        Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
+      } else if (this.identifying.length !== 6) {
+        Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
+      } else if (!this.postalcode) {
+        Toast({message: '请输入邮政编码', position: 'bottom', className: 'white'})
+      } else if (!this.mailingAddress) {
+        Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
+      } else if (!this.appointment) {
+        Toast({message: '请输入预约人姓名', position: 'bottom', className: 'white'})
+      } else if (!this.appointmentID) {
+        Toast({message: '请输入预约人身份证号', position: 'bottom', className: 'white'})
+      } else if (this.appointmentID.length > 18 || this.appointmentID.length < 16) {
+        Toast({message: '请输入正确预约人身份证号', position: 'bottom', className: 'white'})
+      }
     }
   }
 }
@@ -477,7 +560,14 @@ padding: 20px 40px;
     display: inline-block;
   }
   .btns{
+    margin: 60px 0 30px 0;
     width: 100%;
+  }
+  .div-select-ul{
+    font-size: 16px;
+  }
+  .show{
+    background: #999999;
   }
 }
 </style>
