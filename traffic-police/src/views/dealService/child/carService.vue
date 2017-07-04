@@ -3,8 +3,8 @@
     <div class="query-link" v-bind:class="{ 'show' : applyShow}">
       <p @click.stop="applyShow = !applyShow">申请类<i v-bind:class="{ 'arrow-open' : applyShow, 'arrow-close' : applyShow == false}"></i></p>
       <div class="li-box">
-        <router-link :to="isLogin ? 'confirm' : 'login'">申请通行证（外地车）</router-link>
-        <router-link :to="isLogin ? 'early' : 'login'">申请机动车临牌</router-link>
+        <router-link :to="isLogin ? 'applyClass' : 'login'">申请通行证（外地车）</router-link>
+        <router-link :to="isLogin ? 'applyClass' : 'login'">申请机动车临牌</router-link>
       </div>
     </div>
     <div class="query-link" v-bind:class="{ 'show' : lawlessShow}">
@@ -34,7 +34,7 @@
       <router-link to="queryLawlessPage">机动车委托异地定期检验申报</router-link>
     </div>
     <div class="query-link">
-      <router-link to="queryLawlessPage">首违免罚查询</router-link>
+      <router-link :to="isLogin ? 'freeForFirst' : 'login'">首违免罚查询</router-link>
     </div>
     <div class="query-link">
       <router-link to="carServicePage">一键挪车</router-link>
