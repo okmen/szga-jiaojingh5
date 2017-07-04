@@ -791,6 +791,14 @@ const routes = [
       title: '异地检验'
     },
     component: require('../views/dealService/child/car/placeExamine.vue')
+  },
+  {
+    name: 'affirmInfo',
+    path: '/affirmInfo',
+    meta: {
+      title: '信息确认'
+    },
+    component: require('../components/affirmInfo.vue')
   }
 ]
 /* eslint-disable no-new */
