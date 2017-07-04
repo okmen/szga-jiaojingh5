@@ -74,7 +74,6 @@
   }
 </script>
 <style lang="less" scoped>
-  @import "./../../../../../style/base";
   .changeCard-outer {
     padding: 120px 40px 0;
     font-size: 28px;
