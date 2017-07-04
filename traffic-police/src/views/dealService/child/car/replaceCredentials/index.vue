@@ -1,6 +1,6 @@
 <template>
-    <div class="replace-credentials" @click="selectUl">
-      <div-select :childInfo="businessType" @getSelected="getBusinessType"></div-select>
+    <div class="replace-credentials">
+      <div-select :childInfo="businessType" @getSelected="getBusinessType" :defaultVal="defaultVal"></div-select>
       <div class="exchange-license-line"></div>
       <router-view></router-view>
     </div>
@@ -10,10 +10,11 @@
     margin: 0 40px 30px;
   }
   .replace-credentials{
-    height: 100%;
+    height: auto;
     background: white;
     position: relative;
     padding-top: 20px;
+    padding-bottom: 20px;
   }
   .replace-credentials .exchange-license-line{
     height: 10px;
@@ -26,6 +27,7 @@
   export default {
     data () {
       return {
+        defaultVal: '',
         businessType: {
           title: '业务类型',
           option: [
@@ -49,15 +51,36 @@
         }
       }
     },
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        if (to.name === 'repairDrivingLicense') {
+          vm.defaultVal = '补领行驶证'
+        } else if (to.name === 'exchangeDrivingLicense') {
+          vm.defaultVal = '换领行驶证'
+        } else if (to.name === 'replaceQualifiedMark') {
+          vm.defaultVal = '补换合格检验标志'
+        } else if (to.name === 'replaceLicencePlate') {
+          vm.defaultVal = '补换机动车号牌'
+        }
+      })
+    },
     components: {
       divSelect: require('./components/divSelect.vue')
     },
     methods: {
-      selectUl () {
-        this.$store.commit('setSelectShowul', false)
+      hopRouting (val) {
+        if (val === '01') {
+          this.$router.push('repairDrivingLicense')
+        } else if (val === '02') {
+          this.$router.push('exchangeDrivingLicense')
+        } else if (val === '03') {
+          this.$router.push('replaceQualifiedMark')
+        } else if (val === '04') {
+          this.$router.push('replaceLicencePlate')
+        }
       },
       getBusinessType (val) {
-        console.log(val)
+        this.hopRouting(val)
       }
     }
   }

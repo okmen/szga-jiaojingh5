@@ -748,6 +748,7 @@ const routes = [
     name: 'replaceCredentials',
     path: '/replaceCredentials',
     component: require('../views/dealService/child/car/replaceCredentials/index.vue'),
+    redirect: '/replaceCredentials/repairDrivingLicense',
     children: [
       {
         name: 'repairDrivingLicense',
@@ -795,9 +796,25 @@ const routes = [
     name: 'placeExamine',
     path: '/placeExamine',
     meta: {
-      title: '异地检验'
+      title: '机动车异地检验申报'
     },
     component: require('../views/dealService/child/car/placeExamine.vue')
+  },
+  {
+    name: 'affirmInfo',
+    path: '/affirmInfo',
+    meta: {
+      title: '信息确认'
+    },
+    component: require('../components/affirmInfo.vue')
+  },
+  {
+    name: 'motorAlteration',
+    path: '/motorAlteration',
+    meta: {
+      title: '机动车变更联系方式'
+    },
+    component: require('../views/dealService/child/car/motorAlteration.vue')
   }
 ]
 /* eslint-disable no-new */

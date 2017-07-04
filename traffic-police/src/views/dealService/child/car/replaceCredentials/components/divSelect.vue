@@ -1,7 +1,8 @@
 <template>
   <div class="replace-select">
     <div class="select-title">{{thisInfo.title}}</div>
-    <div class="selected-value" @click="showSelectUl">{{currentVal}}</div>
+    <input type="text" class="selected-value" v-model="currentVal" readonly @focus="showUl=true" @blur="">
+    <!--<div class="selected-value" @click="showSelectUl">{{currentVal}}</div>-->
     <div class="div-select-ul" v-if="showUl">
       <ul>
         <li v-for="item in thisInfo.option" @click="selectedValue(item)">{{item.str}}</li>
@@ -14,7 +15,6 @@
     height: 65px;
     display: flex;
     justify-content: space-between;
-    background: white url("../../../../../../images/select1.png") 95% center/22px 13px no-repeat;
     border: none;
     position: relative;
     line-height: 65px;
@@ -27,6 +27,8 @@
       border: 2px solid #eee;
       border-radius: 8px;
       line-height: 65px;
+      font-size: 30px;
+      background: white url("../../../../../../images/select1.png") 95% center/22px 13px no-repeat;
     }
     .div-select-ul{
       position: absolute;
@@ -37,6 +39,8 @@
       padding-left: 20px;
       border: 2px solid #eee;
       z-index: 999;
+      max-height: 400px;
+      overflow: auto;
     }
   }
 </style>
@@ -45,10 +49,11 @@
     data () {
       return {
         showUl: false,
+        currentId: '',
         currentVal: ''
       }
     },
-    props: ['childInfo'],
+    props: ['childInfo', 'defaultVal'],
     computed: {
       thisInfo () {
         return this.childInfo
@@ -56,17 +61,24 @@
     },
     watch: {
       currentVal (val) {
-        this.$emit('getSelected', val)
+        this.$emit('getSelected', this.currentId)
+      },
+      defaultVal (val) {
+        this.currentVal = val
       }
     },
     methods: {
       selectedValue (item) {
         this.currentVal = item.str
+        this.currentId = item.id
         this.showUl = false
       },
       showSelectUl () {
         this.showUl = !this.showUl
       }
+    },
+    mounted () {
+      this.currentVal = this.defaultVal
     }
   }
 </script>

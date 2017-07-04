@@ -18,10 +18,10 @@
     <div class="query-link" v-bind:class="{ 'show' : changeShow}">
       <p @click.stop="changeShow = !changeShow">补换领证类<i v-bind:class="{ 'arrow-open' : changeShow, 'arrow-close' : changeShow == false}"></i></p>
       <div class="li-box">
-        <router-link :to="isLogin ? 'confirm' : 'login'">补领行驶证</router-link>
-        <router-link :to="isLogin ? 'early' : 'login'">换领行驶证</router-link>
-        <router-link :to="isLogin ? 'appeal' : 'login'">补换检验合格标志</router-link>
-        <router-link :to="isLogin ? 'early' : 'login'">补换机动车号牌</router-link>
+        <router-link :to="isLogin ? 'replaceCredentials/repairDrivingLicense' : 'login'">补领行驶证</router-link>
+        <router-link :to="isLogin ? 'replaceCredentials/exchangeDrivingLicense' : 'login'">换领行驶证</router-link>
+        <router-link :to="isLogin ? 'replaceCredentials/replaceQualifiedMark' : 'login'">补换检验合格标志</router-link>
+        <router-link :to="isLogin ? 'replaceCredentials/replaceLicencePlate' : 'login'">补换机动车号牌</router-link>
       </div>
     </div>
     <div class="query-link">
