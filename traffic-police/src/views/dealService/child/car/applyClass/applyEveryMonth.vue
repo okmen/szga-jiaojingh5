@@ -5,7 +5,7 @@
         <ul class="queryByCar-hbs-list">
           <li class="queryByCar-hbs-item">
             <div class="queryByCar-hbs-name">
-              <span>号牌种类</span>
+              <span>车牌类型</span>
             </div>
             <div class="div-select">
               <span class="btn-select" @click.stop="plateSelectClick()">{{ plateSelectMassage }}</span>
@@ -58,7 +58,7 @@
               <span>车辆所有人</span>
             </div>
             <div class="queryByCar-hbs-text">
-              <input class="text-input" type="text" maxlength="4" name="" value="" placeholder="请按驾驶证填写">
+              <input class="text-input" type="text"  placeholder="请按驾驶证填写">
             </div>
           </li>
           <li class="queryByCar-hbs-item">
@@ -66,7 +66,7 @@
               <span>手机号码</span>
             </div>
             <div class="queryByCar-hbs-text">
-              <input class="text-input" type="text" maxlength="4" name="" value="" placeholder="请填写手机号码">
+              <input class="text-input" type="text" placeholder="请填写手机号码">
             </div>
           </li>
           <li class="queryByCar-hbs-item">
@@ -74,7 +74,7 @@
               <span>申请日期</span>
             </div>
             <div class="queryByCar-hbs-text">
-              <input class="text-input" type="text" maxlength="4" name="" value="" placeholder="">
+              <input class="text-input" type="text" v-model="mtDateTimeMsg"  @click="datetimePick('picker')">
             </div>
           </li>
         </ul>
@@ -87,13 +87,17 @@
       <p>2.工作日限外的时间段为（早高峰7：00至9：00，晚高峰17：00至19：30）</p>
       <p>3.法定节假日不限外，请勿申请。</p>
     </div>
+    <mt-datetime-picker ref="picker" type="date" v-model="informTime" @confirm="handleTime"></mt-datetime-picker>
   </div>
 </template>
 <script>
   export default {
-    name: 'queryByCar',
+    name: 'applyEveryMonth',
     data () {
       return {
+        mtDateTimeMsg: '',                                              // 一进来默认当前时间
+        formatTime: '',                                                 // 使用mt组件后，时间是中国标准时间，格式转换
+        informTime: this.currentTime(),                                 // 当前时间
         licensePlateNo: '',                   // 请求-车牌号
         cur_license_id: '01',                    // 请求-车牌类型（编号转换）
         cur_plate_id: '02',
@@ -297,6 +301,10 @@
         ]             // 车牌类型列表（编号转换）
       }
     },
+    mounted: function () {
+      let getTime = this.currentTime()
+      this.mtDateTimeMsg = getTime
+    },
     methods: {
       licenseSelectClick: function (str, id) {
         if (str) {
@@ -334,6 +342,50 @@
           this.licenseSelectShow = false
           this.typeSelectShow = false
         }
+      },
+      datetimePick: function (picker) {
+        this.$refs.picker.open()
+      },
+      handleTime: function (informTime) {
+        this.formatTime = this.format(this.informTime.toString(), 'yyyy-MM-dd')
+        this.mtDateTimeMsg = this.formatTime
+        console.log(this.mtDateTimeMsg)
+      },
+      currentTime: function () {  // 获取时间
+        let now = new Date()
+        let year = now.getFullYear()       // 年
+        let month = now.getMonth() + 1     // 月
+        let day = now.getDate()            // 日
+        let clock = year + '-'
+        if (month < 10) {
+          clock += '0'
+        }
+        clock += month + '-'
+        if (day < 10) {
+          clock += '0'
+        }
+        clock += day + ' '
+        return (clock)
+      },
+      format: function (time, format) {   // 中国标准时间转换为datetime格式
+        var t = new Date(time)
+        var tf = function (i) { return (i < 10 ? '0' : '') + i }
+        return format.replace(/yyyy|MM|dd|HH|mm|ss/g, function (a) {
+          switch (a) {
+            case 'yyyy':
+              return tf(t.getFullYear())
+            case 'MM':
+              return tf(t.getMonth() + 1)
+            case 'mm':
+              return tf(t.getMinutes())
+            case 'dd':
+              return tf(t.getDate())
+            case 'HH':
+              return tf(t.getHours())
+            case 'ss':
+              return tf(t.getSeconds())
+          }
+        })
       }
     },
     created () {
