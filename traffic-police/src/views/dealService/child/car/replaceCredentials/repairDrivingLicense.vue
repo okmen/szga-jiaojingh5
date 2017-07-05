@@ -12,7 +12,7 @@
     <div-select :childInfo="plateType" @getSelected="getPlateType" defaultVal="蓝牌"></div-select>
     <div class="domicile-place">
       <span class="item-title">户籍所在地</span>
-      <div-radio :optname="optname"></div-radio>
+      <div-radio :optname="optname" @getSelected="getCensusRegister"></div-radio>
     </div>
     <div class="recipient-name">
       <span class="item-title">收件人姓名</span>
@@ -25,8 +25,8 @@
     <div class="recipient-address">
       <span class="item-title">收件人地址</span>
       <div class="recipient-address-select item-info">
-        <div-select :childInfo="recipientInfo" defaultVal="福田区"></div-select>
-        <input type="text" placeholder="请输入详细地址">
+        <div-select :childInfo="recipientInfo" @getSelected="getRecipientAddress" defaultVal="福田区"></div-select>
+        <input type="text" placeholder="请输入详细地址" v-model="recipientAddressDetail">
       </div>
     </div>
     <div class="upload-photo">
@@ -59,6 +59,13 @@
             <img :src="imgOne4" />
           </label>
           <div class="upload-item-text-one">机动车登记证书</div>
+        </div>
+        <div class="upload-item-img" v-show="this.censusRegister != '深户'">
+          <label class="upload-item-img-one" for="file4">
+            <input id="file5" type="file" accept="image/*" >
+            <img :src="imgOne5" />
+          </label>
+          <div class="upload-item-text-one">境外人员临住表</div>
         </div>
       </div>
     </div>
@@ -161,6 +168,7 @@
         imgOne2: require('../../../../../images/IDcard-back.png'),
         imgOne3: require('../../../../../images/45-degree.png'),
         imgOne4: require('../../../../../images/register-credential.png'),
+        imgOne5: require('../../../../../images/out-board.png'),
         plateType: {
           title: '车牌种类',
           option: [
@@ -199,49 +207,49 @@
           title: '深圳市',
           option: [
             {
-              'id': '01',
               'str': '福田区'
             },
             {
-              'id': '02',
               'str': '罗湖区'
             },
             {
-              'id': '03',
               'str': '南山区'
             },
             {
-              'id': '04',
               'str': '宝安区'
             },
             {
-              'id': '05',
               'str': '龙岗区'
             },
             {
-              'id': '06',
               'str': '盐田区'
             },
             {
-              'id': '07',
               'str': '龙华新区'
             },
             {
-              'id': '08',
               'str': '光明新区'
             },
             {
-              'id': '09',
               'str': '坪山新区'
             },
             {
-              'id': '10',
               'str': '大鹏新区'
             }
           ]
         },
         recipientPhone: '',    // 收件人手机号码
-        recipientName: ''     // 收件人姓名
+        recipientName: '',    // 收件人姓名
+        plateNumberOne: '',
+        plateTypeOne: '02',
+        censusRegister: '深户',     // 户籍所在地
+        recipientAddressRegion: '',  // 收件人地址区域
+        recipientAddressDetail: '',  // 收件人详细地址
+        IDcardFront: '',
+        IDcarfBack: '',
+        degree45: '',
+        registerCredential: '',
+        outBoard: ''
       }
     },
     components: {
@@ -249,9 +257,11 @@
       divRadio: require('./components/divRadio.vue')
     },
     computed: {
+      // 车主姓名
       ownersName () {
         return window.localStorage.getItem('userName')
       },
+      // 证件号码
       certificateNumber () {
         return window.localStorage.getItem('identityCard')
       },
@@ -263,6 +273,7 @@
         JSON.parse(window.localStorage.getItem('cars')).map(item => {
           plateInfo.option.push({'str': item.myNumberPlate})
         })
+        this.plateNumberOne = plateInfo.option[0].str
         this.defaultPlateNumber = plateInfo.option[0].str
         return plateInfo
       }
@@ -274,6 +285,7 @@
           callback: (res) => {
             console.log(res)
             this.imgOne1 = res.imgUrl
+            this.IDcardFront = res.imgUrl
           }
         })
         uploadFile.upload({
@@ -281,6 +293,7 @@
           callback: (res) => {
             console.log(res)
             this.imgOne2 = res.imgUrl
+            this.IDcarfBack = res.imgUrl
           }
         })
         uploadFile.upload({
@@ -288,6 +301,7 @@
           callback: (res) => {
             console.log(res)
             this.imgOne3 = res.imgUrl
+            this.degree45 = res.imgUrl
           }
         })
         uploadFile.upload({
@@ -295,20 +309,53 @@
           callback: (res) => {
             console.log(res)
             this.imgOne4 = res.imgUrl
+            this.registerCredential = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file5',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne5 = res.imgUrl
+            this.outBoard = res.imgUrl
           }
         })
       },
       getPlateNumber (val) {
-
+        this.plateNumberOne = val
       },
-      getBusinessType (val) {
-
+      getRecipientAddress (val) {
+        this.recipientAddressRegion = val
       },
       getPlateType (val) {
-
+        this.plateTypeOne = val
+      },
+      // 获取户籍所在地
+      getCensusRegister (val) {
+        this.censusRegister = val
       },
       confirmInfo () {
-
+        let dataList = {
+          type: '补领行驶证',
+          textObj: {
+            '车主姓名': this.ownersName,
+            '证件号码': this.certificateNumber,
+            '车牌号码': this.plateNumberOne,
+            '车牌种类': this.plateTypeOne,
+            '户籍所在地': this.censusRegister,
+            '收件人姓名': this.recipientName,
+            '收件人手机': this.recipientPhone,
+            '收件人地址': `深圳市,${this.recipientAddressRegion},${this.recipientAddressDetail}`
+          },
+          imgObj: {
+            '身份证(正面)': this.IDcardFront,
+            '身份证(反面)': this.IDcarfBack,
+            '车辆45度照片': this.degree45,
+            '机动车登记证书': this.registerCredential,
+            '境外人员临住表': this.outBoard
+          }
+        }
+        console.log(dataList)
       }
     },
     mounted () {

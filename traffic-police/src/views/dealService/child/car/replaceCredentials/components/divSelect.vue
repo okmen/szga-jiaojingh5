@@ -2,7 +2,6 @@
   <div class="replace-select">
     <div class="select-title">{{thisInfo.title}}</div>
     <input type="text" class="selected-value" v-model="currentVal" readonly @focus="showUl=true" @blur="">
-    <!--<div class="selected-value" @click="showSelectUl">{{currentVal}}</div>-->
     <div class="div-select-ul" v-if="showUl">
       <ul>
         <li v-for="item in thisInfo.option" @click="selectedValue(item)">{{item.str}}</li>
@@ -60,9 +59,6 @@
       }
     },
     watch: {
-      currentVal (val) {
-        this.$emit('getSelected', this.currentId)
-      },
       defaultVal (val) {
         this.currentVal = val
       }
@@ -70,7 +66,13 @@
     methods: {
       selectedValue (item) {
         this.currentVal = item.str
-        this.currentId = item.id
+        if (item.id) {
+          this.currentId = item.id
+          this.$emit('getSelected', this.currentId)
+        } else {
+          this.currentId = item.str
+          this.$emit('getSelected', this.currentId)
+        }
         this.showUl = false
       },
       showSelectUl () {

@@ -13,7 +13,10 @@
       <input type="text" placeholder="请输入手机号码" class="item-info" v-model="mobilePhone">
     </div>
     <div-select :childInfo="plateNumber" @getSelected="getPlateNumber" :defaultVal="defaultPlateNumber"></div-select>
-    <div-select :childInfo="plateType" @getSelected="getPlateType"  defaultVal="蓝牌"></div-select>
+    <div class="plate-type">
+      <span class="item-title">车牌种类</span>
+      <input type="text" class="item-info" disabled v-model="plateType">
+    </div>
     <div-select :childInfo="censusRegister" @getSelected="getCensusRegister" defaultVal="深圳"></div-select>
     <div class="recipient-name">
       <span class="item-title">收件人姓名</span>

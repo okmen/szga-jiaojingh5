@@ -12,21 +12,21 @@
     <div-select :childInfo="plateType" @getSelected="getPlateType" defaultVal="蓝牌"></div-select>
     <div class="domicile-place">
       <span class="item-title">户籍所在地</span>
-      <div-radio :optname="optname"></div-radio>
+      <div-radio :optname="optname" @getSelected="getCensusRegister"></div-radio>
     </div>
     <div class="recipient-name">
       <span class="item-title">收件人姓名</span>
-      <input type="text" placeholder="请输入收件人姓名" class="item-info">
+      <input type="text" placeholder="请输入收件人姓名" class="item-info" v-model="recipientName">
     </div>
     <div class="recipient-phone">
       <span class="item-title">收件人手机</span>
-      <input type="text" placeholder="请输入收件人手机号码" class="item-info">
+      <input type="text" placeholder="请输入收件人手机号码" class="item-info" v-model="recipientPhone">
     </div>
     <div class="recipient-address">
       <span class="item-title">收件人地址</span>
       <div class="recipient-address-select item-info">
-        <div-select :childInfo="recipientInfo" defaultVal="福田区"></div-select>
-        <input type="text" placeholder="请输入详细地址">
+        <div-select :childInfo="recipientInfo" @getSelected="getRecipientAddress" defaultVal="福田区"></div-select>
+        <input type="text" placeholder="请输入详细地址" v-model="recipientAddressDetail">
       </div>
     </div>
     <div class="upload-photo">
@@ -51,6 +51,13 @@
             <img :src="imgOne3" />
           </label>
           <div class="upload-item-text-one">机动车登记证书</div>
+        </div>
+        <div class="upload-item-img" v-show="this.censusRegister != '深户'">
+          <label class="upload-item-img-one" for="file4">
+            <input id="file4" type="file" accept="image/*" >
+            <img :src="imgOne4" />
+          </label>
+          <div class="upload-item-text-one">境外人员临住表</div>
         </div>
       </div>
     </div>
@@ -98,6 +105,7 @@
       justify-content: space-between;
       align-items: center;
       margin-top: 10px;
+      flex-wrap: wrap;
       .upload-item-img{
         display: flex;
         flex-direction: column;
@@ -114,8 +122,8 @@
         text-align: center;
       }
       .upload-item-img-one{
-        width: 194px;
-        height: 194px;
+        width: 300px;
+        height: 300px;
         border: 2px solid #eee;
         display: flex;
         justify-content: center;
@@ -151,6 +159,7 @@
         imgOne1: require('../../../../../images/IDcard-front.png'),
         imgOne2: require('../../../../../images/IDcard-back.png'),
         imgOne3: require('../../../../../images/register-credential.png'),
+        imgOne4: require('../../../../../images/out-board.png'),
         plateType: {
           title: '车牌种类',
           option: [
@@ -230,7 +239,17 @@
           ]
         },
         recipientPhone: '',    // 收件人手机号码
-        recipientName: ''     // 收件人姓名
+        recipientName: '',     // 收件人姓名
+        plateNumberOne: '',
+        plateTypeOne: '02',
+        censusRegister: '深户',     // 户籍所在地
+        recipientAddressRegion: '',  // 收件人地址区域
+        recipientAddressDetail: '',  // 收件人详细地址
+        IDcardFront: '',
+        IDcarfBack: '',
+        degree45: '',
+        registerCredential: '',
+        outBoard: ''
       }
     },
     components: {
@@ -253,6 +272,7 @@
           plateInfo.option.push({'str': item.myNumberPlate})
         })
         this.defaultPlateNumber = plateInfo.option[0].str
+        this.plateNumberOne = plateInfo.option[0].str
         return plateInfo
       }
     },
@@ -263,6 +283,7 @@
           callback: (res) => {
             console.log(res)
             this.imgOne1 = res.imgUrl
+            this.IDcardFront = res.imgUrl
           }
         })
         uploadFile.upload({
@@ -270,6 +291,7 @@
           callback: (res) => {
             console.log(res)
             this.imgOne2 = res.imgUrl
+            this.IDcarfBack = res.imgUrl
           }
         })
         uploadFile.upload({
@@ -277,20 +299,52 @@
           callback: (res) => {
             console.log(res)
             this.imgOne3 = res.imgUrl
+            this.registerCredential = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file4',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne4 = res.imgUrl
+            this.outBoard = res.imgUrl
           }
         })
       },
       getPlateNumber (val) {
-
+        this.plateNumberOne = val
       },
-      getBusinessType (val) {
-
+      getRecipientAddress (val) {
+        this.recipientAddressRegion = val
       },
       getPlateType (val) {
-
+        this.plateTypeOne = val
+      },
+      // 获取户籍所在地
+      getCensusRegister (val) {
+        this.censusRegister = val
       },
       confirmInfo () {
-
+        let dataList = {
+          type: '换领行驶证',
+          textObj: {
+            '车主姓名': this.ownersName,
+            '证件号码': this.certificateNumber,
+            '车牌号码': this.plateNumberOne,
+            '车牌种类': this.plateTypeOne,
+            '户籍所在地': this.censusRegister,
+            '收件人姓名': this.recipientName,
+            '收件人手机': this.recipientPhone,
+            '收件人地址': `深圳市,${this.recipientAddressRegion},${this.recipientAddressDetail}`
+          },
+          imgObj: {
+            '身份证(正面)': this.IDcardFront,
+            '身份证(反面)': this.IDcarfBack,
+            '机动车登记证书': this.registerCredential,
+            '境外人员临住表': this.outBoard
+          }
+        }
+        console.log(dataList)
       }
     },
     mounted () {
