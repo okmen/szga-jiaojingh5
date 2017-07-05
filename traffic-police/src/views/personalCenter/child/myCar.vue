@@ -230,7 +230,7 @@
           let reqData = {
             loginUser: this.identityCard,
             licensePlateType: item.plateType,
-            licensePlateNumber: item.numberPlateNumber,
+            licensePlateNumber: item.numberPlateNumber.slice(1),
             IDcard: item.identityCard,
             sourceOfCertification: 'C',
             identificationNO: 'A'

@@ -107,15 +107,15 @@
         illegalData: [],                      // 返回-全部数据存入数组
         myIllegalData: [],                    // 返回-查询我的违章
         licenseSelectShow: false,             // 车牌列表显示与否
-        licenseSelectMassage: '大型汽车(黄牌)', // 默认车牌类型
+        licenseSelectMassage: '大型汽车', // 默认车牌类型
         licenseSelectData: [
           {
             'id': '01',
-            'str': '大型汽车(黄牌)'
+            'str': '大型汽车'
           },
           {
             'id': '02',
-            'str': '小型汽车(蓝牌)'
+            'str': '小型汽车'
           },
           {
             'id': '03',
@@ -131,7 +131,7 @@
           },
           {
             'id': '06',
-            'str': '外籍汽车(黑牌)'
+            'str': '外籍汽车'
           },
           {
             'id': '07',
