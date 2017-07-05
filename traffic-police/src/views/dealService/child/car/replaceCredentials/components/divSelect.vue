@@ -1,7 +1,7 @@
 <template>
   <div class="replace-select">
     <div class="select-title">{{thisInfo.title}}</div>
-    <input type="text" class="selected-value" v-model="currentVal" readonly @focus="showUl=true" @blur="">
+    <input type="text" class="selected-value" v-model="currentVal" readonly @click="showUl=!showUl" @blur="">
     <div class="div-select-ul" v-if="showUl">
       <ul>
         <li v-for="item in thisInfo.option" @click="selectedValue(item)">{{item.str}}</li>
@@ -22,7 +22,7 @@
     }
     .selected-value{
       width: 66%;
-      padding-left: 20px;
+      padding-left: 10px;
       border: 2px solid #eee;
       border-radius: 8px;
       line-height: 65px;

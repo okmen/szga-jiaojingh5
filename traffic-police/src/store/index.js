@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-  selectShowul: false,
+  motorVehicleHandling: '',  // 机动车办理类业务传值
   appoinSuccess: {
     appoinNum: '',
     appoinType: ''
@@ -75,6 +75,9 @@ const mutations = {
     state.userInfo.IDcard = window.localStorage.getItem('identityCard')
     state.userInfo.phoneNumber = window.localStorage.getItem('mobilePhone')
     state.userInfo.userName = window.localStorage.getItem('userName')
+  },
+  saveMotorVehicleHandling (state, value) {
+    state.motorVehicleHandling = value
   }
 }
 

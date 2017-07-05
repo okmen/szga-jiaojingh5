@@ -54,7 +54,11 @@
         handler (val) {
           val.map(item => {
             if (item.choose === true) {
-              this.selectedVal = item.str
+              if (item.id) {
+                this.selectedVal = item.id
+              } else {
+                this.selectedVal = item.str
+              }
             }
           })
           this.$emit('getSelected', this.selectedVal)

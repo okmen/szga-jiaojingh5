@@ -2,11 +2,11 @@
   <div class="replace-mark">
     <div class="owners-name">
       <span class="item-title">姓名</span>
-      <input type="text" disabled class="item-info" v-model="ownersName">
+      <input type="text" placeholder="请输入姓名" class="item-info" v-model="ownersName">
     </div>
     <div class="certificate-number">
       <span class="item-title">身份证号码</span>
-      <input type="text" disabled class="item-info" v-model="certificateNumber">
+      <input type="text" placeholder="请输入身份证号码" class="item-info" v-model="certificateNumber">
     </div>
     <div class="mobile-phone">
       <span class="item-title">手机号码</span>
@@ -15,22 +15,22 @@
     <div-select :childInfo="plateNumber" @getSelected="getPlateNumber" :defaultVal="defaultPlateNumber"></div-select>
     <div class="plate-type">
       <span class="item-title">车牌种类</span>
-      <input type="text" class="item-info" disabled v-model="plateType">
+      <input type="text" class="item-info" disabled v-model="plateTypeOneText">
     </div>
     <div-select :childInfo="censusRegister" @getSelected="getCensusRegister" defaultVal="深圳"></div-select>
     <div class="recipient-name">
       <span class="item-title">收件人姓名</span>
-      <input type="text" placeholder="请输入收件人姓名" class="item-info">
+      <input type="text" placeholder="请输入收件人姓名" class="item-info" v-model="recipientName">
     </div>
     <div class="recipient-phone">
       <span class="item-title">收件人号码</span>
-      <input type="text" placeholder="请输入收件人手机号码" class="item-info">
+      <input type="text" placeholder="请输入收件人手机号码" class="item-info" v-model="recipientPhone">
     </div>
     <div class="recipient-address">
       <span class="item-title">收件人地址</span>
       <div class="recipient-address-select item-info">
-        <div-select :childInfo="recipientInfo" defaultVal="福田区"></div-select>
-        <input type="text" placeholder="请输入详细地址">
+        <div-select :childInfo="recipientInfo" defaultVal="福田区" @getSelected="getRecipientAddress"></div-select>
+        <input type="text" placeholder="请输入详细地址" v-model="recipientAddressDetail">
       </div>
     </div>
     <div class="upload-photo">
@@ -56,6 +56,13 @@
             <img :src="imgOne3" />
           </label>
           <div class="upload-item-text-one">机动车登记证书</div>
+        </div>
+        <div class="upload-item-img" v-show="this.censusRegisterOne != '1'">
+          <label class="upload-item-img-one" for="file4">
+            <input id="file4" type="file" accept="image/*" >
+            <img :src="imgOne4" />
+          </label>
+          <div class="upload-item-text-one">境外人员临住表</div>
         </div>
       </div>
     </div>
@@ -103,6 +110,7 @@
       justify-content: space-between;
       align-items: center;
       margin-top: 10px;
+      flex-wrap: wrap;
       .upload-item-img{
         display: flex;
         flex-direction: column;
@@ -119,8 +127,8 @@
         text-align: center;
       }
       .upload-item-img-one{
-        width: 194px;
-        height: 194px;
+        width: 300px;
+        height: 300px;
         border: 2px solid #eee;
         display: flex;
         justify-content: center;
@@ -149,13 +157,16 @@
 </style>
 <script>
   import uploadFile from '../../../../../service/uploadFile.js'
+  import { Toast } from 'mint-ui'
+  import { isPhone, isChinese } from '../../../../../service/regExp.js'
   export default {
     data () {
       return {
         imgOne1: require('../../../../../images/IDcard-front.png'),
         imgOne2: require('../../../../../images/IDcard-back.png'),
         imgOne3: require('../../../../../images/register-credential.png'),
-        plateType: {
+        imgOne4: require('../../../../../images/out-board.png'),
+        /* plateType: {
           title: '车牌种类',
           option: [
             {
@@ -183,52 +194,45 @@
               'id': '02'
             }
           ]
-        },
+        }, */
         optname: [
           {'str': '深户', choose: true},
           {'str': '外籍户口', choose: false}
         ],
+        mobilePhone: '',
+        ownersName: '',
+        certificateNumber: '',
         recipientInfo: {
           title: '深圳市',
           option: [
             {
-              'id': '01',
               'str': '福田区'
             },
             {
-              'id': '02',
               'str': '罗湖区'
             },
             {
-              'id': '03',
               'str': '南山区'
             },
             {
-              'id': '04',
               'str': '宝安区'
             },
             {
-              'id': '05',
               'str': '龙岗区'
             },
             {
-              'id': '06',
               'str': '盐田区'
             },
             {
-              'id': '07',
               'str': '龙华新区'
             },
             {
-              'id': '08',
               'str': '光明新区'
             },
             {
-              'id': '09',
               'str': '坪山新区'
             },
             {
-              'id': '10',
               'str': '大鹏新区'
             }
           ]
@@ -236,27 +240,31 @@
         censusRegister: {
           title: '户籍所在地',
           option: [
-            {'str': '深圳'},
-            {'str': '港澳台籍'},
-            {'str': '外国籍'},
-            {'str': '其他'}
+            {'str': '深圳', id: '1'},
+            {'str': '港澳台籍', id: '0'},
+            {'str': '外国籍', id: '0'},
+            {'str': '其他', id: '0'}
           ]
-        }
+        },
+        censusRegisterOne: '1',
+        plateToType: {},
+        plateTypeOneText: '',
+        plateTypeOneVal: '',
+        plateNumberOne: '',
+        recipientName: '',
+        recipientPhone: '',
+        recipientAddressRegion: '福田区',
+        recipientAddressDetail: '',
+        IDcardFront: '',
+        IDcarfBack: '',
+        registerCredential: '',
+        outBoard: ''
       }
     },
     components: {
       divSelect: require('./components/divSelect.vue')
     },
     computed: {
-      mobilePhone () {
-        return window.localStorage.getItem('mobilePhone')
-      },
-      ownersName () {
-        return window.localStorage.getItem('userName')
-      },
-      certificateNumber () {
-        return window.localStorage.getItem('identityCard')
-      },
       plateNumber () {
         var plateInfo = {
           title: '名下车辆',
@@ -264,7 +272,9 @@
         }
         JSON.parse(window.localStorage.getItem('cars')).map(item => {
           plateInfo.option.push({'str': item.myNumberPlate})
+          this.plateToType[item.myNumberPlate] = item.plateType
         })
+        this.plateNumberOne = plateInfo.option[0].str
         this.defaultPlateNumber = plateInfo.option[0].str
         return plateInfo
       }
@@ -276,6 +286,7 @@
           callback: (res) => {
             console.log(res)
             this.imgOne1 = res.imgUrl
+            this.IDcardFront = res.imgUrl
           }
         })
         uploadFile.upload({
@@ -283,6 +294,7 @@
           callback: (res) => {
             console.log(res)
             this.imgOne2 = res.imgUrl
+            this.IDcarfBack = res.imgUrl
           }
         })
         uploadFile.upload({
@@ -290,27 +302,151 @@
           callback: (res) => {
             console.log(res)
             this.imgOne3 = res.imgUrl
+            this.registerCredential = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file4',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne4 = res.imgUrl
+            this.outBoard = res.imgUrl
           }
         })
       },
+      testPlateType (val) {
+        this.plateTypeOneVal = this.plateToType[val]
+        if (this.plateTypeOneVal === '01') {
+          this.plateTypeOneText = '黄牌'
+        } else if (this.plateTypeOneVal === '06') {
+          this.plateTypeOneText = '黑牌'
+        } else {
+          this.plateTypeOneText = '蓝牌'
+        }
+      },
       getPlateNumber (val) {
-
+        this.plateNumberOne = val
+        this.testPlateType(val)
       },
-      getBusinessType (val) {
-
+      getCensusRegister (val) {
+        this.censusRegisterOne = val
       },
-      getPlateType (val) {
-
+      getRecipientAddress (val) {
+        this.recipientAddressRegion = val
       },
       confirmInfo () {
-
-      },
-      getCensusRegister () {
-
+        console.log(this.censusRegisterOne)
+        if (!this.ownersName) {
+          Toast({
+            message: '请输入姓名',
+            duration: 2000
+          })
+          return
+        } else if (!isChinese(this.ownersName)) {
+          Toast({
+            message: '姓名只能输入汉字',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.certificateNumber) {
+          Toast({
+            message: '请输入身份证号码',
+            duration: 2000
+          })
+          return
+        }
+        if (!isPhone(this.mobilePhone)) {
+          Toast({
+            message: '手机号码格式不正确',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.recipientName) {
+          Toast({
+            message: '请输入收件人姓名',
+            duration: 2000
+          })
+          return
+        } else if (!isChinese(this.recipientName)) {
+          Toast({
+            message: '收件人姓名只能输入汉字',
+            duration: 2000
+          })
+          return
+        }
+        if (!isPhone(this.recipientPhone)) {
+          Toast({
+            message: '收件人手机号码格式不正确',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.recipientAddressDetail) {
+          Toast({
+            message: '请输入收件人详细地址',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.IDcardFront) {
+          Toast({
+            message: '请上传身份证正面',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.IDcarfBack) {
+          Toast({
+            message: '请上传身份证反面',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.registerCredential) {
+          Toast({
+            message: '请上传机动车登记证书',
+            duration: 2000
+          })
+          return
+        }
+        if ((!this.outBoard) && (this.censusRegisterOne !== '1')) {
+          Toast({
+            message: '请上传境外人员临住表',
+            duration: 2000
+          })
+          return
+        }
+        let dataList = {
+          type: '补换合格检验标志',
+          textObj: {
+            '姓名': this.ownersName,
+            '身份证号码': this.certificateNumber,
+            '手机号码': this.mobilePhone,
+            '名下车辆': this.plateNumberOne,
+            '车牌种类': this.plateTypeOneVal,
+            '户籍所在地': this.censusRegisterOne,
+            '收件人姓名': this.recipientName,
+            '收件人手机': this.recipientPhone,
+            '收件人地址': `深圳市,${this.recipientAddressRegion},${this.recipientAddressDetail}`
+          },
+          imgObj: {
+            '身份证(正面)': this.IDcardFront,
+            '身份证(反面)': this.IDcarfBack,
+            '机动车登记证书': this.registerCredential,
+            '境外人员临住表': this.outBoard
+          }
+        }
+        console.log(dataList)
       }
     },
     mounted () {
       this.uploadImg()
+      this.testPlateType(this.defaultPlateNumber)
+      this.mobilePhone = window.localStorage.getItem('mobilePhone')
+      this.ownersName = window.localStorage.getItem('userName')
+      this.certificateNumber = window.localStorage.getItem('identityCard')
     }
   }
 </script>

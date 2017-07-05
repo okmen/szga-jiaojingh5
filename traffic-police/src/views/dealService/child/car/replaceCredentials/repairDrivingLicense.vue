@@ -60,7 +60,7 @@
           </label>
           <div class="upload-item-text-one">机动车登记证书</div>
         </div>
-        <div class="upload-item-img" v-show="this.censusRegister != '深户'">
+        <div class="upload-item-img" v-show="this.censusRegister != '1'">
           <label class="upload-item-img-one" for="file4">
             <input id="file5" type="file" accept="image/*" >
             <img :src="imgOne5" />
@@ -161,6 +161,8 @@
 </style>
 <script>
   import uploadFile from '../../../../../service/uploadFile.js'
+  import { Toast } from 'mint-ui'
+  import { isPhone, isChinese } from '../../../../../service/regExp.js'
   export default {
     data () {
       return {
@@ -200,8 +202,8 @@
         },
         defaultPlateNumber: '',
         optname: [
-          {'str': '深户', choose: true},
-          {'str': '外籍户口', choose: false}
+          {'str': '深户', choose: true, id: '1'},
+          {'str': '外籍户口', choose: false, id: '0'}
         ],
         recipientInfo: {
           title: '深圳市',
@@ -242,8 +244,8 @@
         recipientName: '',    // 收件人姓名
         plateNumberOne: '',
         plateTypeOne: '02',
-        censusRegister: '深户',     // 户籍所在地
-        recipientAddressRegion: '',  // 收件人地址区域
+        censusRegister: '1',     // 户籍所在地
+        recipientAddressRegion: '福田区',  // 收件人地址区域
         recipientAddressDetail: '',  // 收件人详细地址
         IDcardFront: '',
         IDcarfBack: '',
@@ -335,6 +337,69 @@
         this.censusRegister = val
       },
       confirmInfo () {
+        console.log(this.censusRegister)
+        if (!this.recipientName) {
+          Toast({
+            message: '请输入收件人姓名',
+            duration: 2000
+          })
+          return
+        } else if (!isChinese(this.recipientName)) {
+          Toast({
+            message: '收件人姓名只能输入汉字',
+            duration: 2000
+          })
+          return
+        }
+        if (!isPhone(this.recipientPhone)) {
+          Toast({
+            message: '收件人手机号码格式不正确',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.recipientAddressDetail) {
+          Toast({
+            message: '请输入收件人详细地址',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.IDcardFront) {
+          Toast({
+            message: '请上传身份证正面',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.IDcarfBack) {
+          Toast({
+            message: '请上传身份证反面',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.degree45) {
+          Toast({
+            message: '请上传车辆45度照片',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.registerCredential) {
+          Toast({
+            message: '请上传机动车登记证书',
+            duration: 2000
+          })
+          return
+        }
+        if ((!this.outBoard) && (this.censusRegister !== '1')) {
+          Toast({
+            message: '请上传境外人员临住表',
+            duration: 2000
+          })
+          return
+        }
         let dataList = {
           type: '补领行驶证',
           textObj: {
@@ -355,7 +420,7 @@
             '境外人员临住表': this.outBoard
           }
         }
-        console.log(dataList)
+        this.$store.commit('saveMotorVehicleHandling', dataList)
       }
     },
     mounted () {
