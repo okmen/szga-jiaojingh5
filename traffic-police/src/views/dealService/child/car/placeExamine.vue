@@ -10,7 +10,7 @@
               <span class="btn-select" @click.stop="vehiclePlate()">{{ vehicle }}</span>
               <div class="div-select-ul" v-if="vehicleShow">
                 <ul>
-                  <li v-for="item in vehicleData" @click.stop="vehiclePlate(item.longName)">{{item.longName}}</li>
+                  <li v-for="item in vehicleData" @click.stop="vehiclePlate(item.myNumberPlate)">{{item.myNumberPlate}}</li>
                 </ul>
               </div>
             </div>
@@ -46,7 +46,7 @@
               <span>车架号</span>
             </div>
             <div class="form-line-item">
-              <input class="text-input" type="text" value="5563" readonly/>
+              <input class="text-input" v-model="carriageNumber" type="text" value="" readonly/>
             </div>
           </li>
           <li class="form-line">
@@ -73,7 +73,7 @@
               <span class="btn-select" @click.stop="trusteeOrganisation()">{{ trusteeTimeMsg }}</span>
               <div class="div-select-ul" v-if="trusteeShow">
                 <ul>
-                  <li v-for="item in trusteeData" @click.stop="trusteeOrganisation(item.longName)">{{item.longName}}</li>
+                  <li v-for="item in trusteeData" @click.stop="trusteeOrganisation(item.longName, item.shortName)">{{item.longName}}</li>
                 </ul>
               </div>
             </div>
@@ -83,7 +83,7 @@
               <span>收件人名字</span>
             </div>
             <div class="form-line-item">
-              <input class="text-input" type="text" value="张鱼饭" readonly/>
+              <input class="text-input" v-model="addresseeName" type="text" value="" readonly/>
             </div>
           </li>
           <li class="form-line">
@@ -143,22 +143,17 @@
     </div>
 </template>
 <script>
+import { resultGet } from '../../../../service/getData'
+import { getIssuing } from '../../../../config/baseUrl'
 import { Toast } from 'mint-ui'
 export default {
   name: 'placeExamine',
   data () {
     return {
-      isShow: false,
+      isShow: false,                           //  验证码
       vehicleShow: false,                      // 车牌下拉框
-      vehicle: '粤B6A42E',
-      vehicleData: [
-        {
-          'longName': '粤B6A428'
-        },
-        {
-          'longName': '粤B6A427'
-        }
-      ],
+      vehicle: window.localStorage.getItem('myNumberPlate'),
+      vehicleData: '',
       vehicleTypeShow: false,
       vehType: '小型汽车',                      // 车辆类型下拉框
       vehicleTypeData: [
@@ -177,15 +172,9 @@ export default {
         }
       ],
       trusteeShow: false,                    // 受托机构下拉框
-      trusteeTimeMsg: '藏A：拉萨市公安局交同警..',
-      trusteeData: [
-        {
-          'longName': '藏A：拉萨市公安局交同警..'
-        },
-        {
-          'longName': '藏B：拉萨市公安局交同警..'
-        }
-      ],
+      trusteeTimeMsg: '藏A:拉萨市公安局交通警察支队车辆管理所',
+      cur_place_id: '藏A',                   // 默认受托机关字段
+      trusteeData: '',
       areaSelectShow: false,
       areaSelectMassage: '福田区',
       areaSelectData: [
@@ -230,19 +219,21 @@ export default {
           'str': '大鹏新区'
         }
       ],
+      carriageNumber: '5563',                  // 车架号
+      addresseeName: window.localStorage.getItem('userName'),                //  收件人名字
       mailingAddress: '',                     // 详细地址
-      mobile: '13800000000',                  // 手机号码
+      mobile: window.localStorage.getItem('mobilePhone'),                  // 手机号码
       chronoScope: '获取验证码',
       forbidden: false,                       // 验证码按钮禁用设置
-      identityCard: '445222199209020034',     // 身份证
-      name: '张鱼饭',
+      identityCard: window.localStorage.getItem('identityCard'),     // 身份证
+      name: window.localStorage.getItem('userName'),   // 车主名字
       identifying: '',                        // 验证码
       postalcode: ''                          // 邮政编码
     }
   },
   methods: {
     // 车牌下拉框
-    vehiclePlate: function (str) {
+    vehiclePlate: function (str, id) {
       if (str) {
         this.vehicle = str
       }
@@ -275,9 +266,10 @@ export default {
       }
     },
     // 受托机构下拉框
-    trusteeOrganisation: function (str) {
+    trusteeOrganisation: function (str, id) {
       if (str) {
         this.trusteeTimeMsg = str
+        this.cur_place_id = id
       }
       if (this.trusteeShow === true) {
         this.trusteeShow = false
@@ -325,7 +317,6 @@ export default {
     },
     // 确认提交
     submitClick: function () {
-      console.log('11')
       if (!this.identityCard) {
         Toast({message: '请输入身份证', position: 'bottom', className: 'white'})
       } else if (!this.name) {
@@ -338,8 +329,42 @@ export default {
         Toast({message: '请输入邮政编码', position: 'bottom', className: 'white'})
       } else if (!this.mailingAddress) {
         Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
+      } else {
+        let dataLIst = {
+          type: '机动车委托异地定期检验申报',
+          textObj: {
+            '车牌名称': this.vehicle,
+            '车辆类型': this.vehType,
+            '所有人': this.ownerTimeMsg,
+            '车架号': this.carriageNumber,
+            '车主身份证': this.identityCard,
+            '车主名字': this.name,
+            '受托机构': this.trusteeTimeMsg,
+            '收件人名字': this.addresseeName,
+            '联系电话': this.mobile,
+            '邮政编码': this.postalcode,
+            '收件人地址': `深圳市,${this.areaSelectMassage},${this.mailingAddress}`
+          }
+        }
+        console.log(dataLIst)
       }
     }
+  },
+  mounted: function () {
+    this.vehicleData = JSON.parse(window.localStorage.getItem('cars'))
+    console.log(this.vehicleData)
+    resultGet(getIssuing).then(json => {        // 查询发证机关列表
+      this.trusteeData = json.data
+    })
+  },
+  created () {
+    document.addEventListener('click', (e) => {
+      this.ownerShow = false
+      this.vehicleShow = false
+      this.vehicleTypeShow = false
+      this.areaSelectShow = false
+      this.trusteeShow = false
+    })
   }
 }
 </script>
@@ -435,3 +460,4 @@ padding: 20px 40px;
   }
 }
 </style>
+
