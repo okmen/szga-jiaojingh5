@@ -75,7 +75,7 @@
             <span>车架号</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="5563" readonly/>
+            <input class="text-input" type="text" value="" v-model="vehicleFlapper" readonly/>
           </div>
         </li>
         <li class="form-line">
@@ -160,6 +160,7 @@
         imgOne3: require('../../../../images/register-credential.png'),
         imgOne4: require('../../../../images/out-board.png'),
         name: window.localStorage.getItem('userName'),
+        vehicleFlapper: window.localStorage.getItem('behindTheFrame4Digits'),
         IDcardFront: '',                             // 身份证正面
         IDcarfBack: '',                              // 身份证反面
         registerCredential: '',                      // 机动车登记证书
@@ -222,14 +223,7 @@
         ],
         vehicleShow: false,
         vehicle: window.localStorage.getItem('myNumberPlate'),                         // 车牌下拉
-        vehicleData: [
-          {
-            'longName': '粤B6A428'
-          },
-          {
-            'longName': '粤B6A427'
-          }
-        ],
+        vehicleData: [],
         vehicleTypeShow: false,
         vehicleItem: '小型汽车',                      // 车辆类型下拉框
         vehicleTypeData: [
@@ -280,17 +274,16 @@
             'id': '10',
             'str': '大鹏新区'
           }
-        ]
+        ],
+        behind: {}
       }
-    },
-    components: {
-      'userUpload': require('../userUpload.vue')
     },
     methods: {
       // 车牌下拉框
       vehiclePlate: function (str) {
         if (str) {
           this.vehicle = str
+          this.vehicleFlapper = this.behind[str]
         }
         if (this.vehicleShow === true) {
           this.vehicleShow = false
@@ -400,10 +393,13 @@
       }
     },
     mounted () {
-      this.vehicleData = JSON.parse(window.localStorage.getItem('cars'))
       this.uploadImg()
     },
     created () {
+      JSON.parse(window.localStorage.getItem('cars')).map(item => {
+        this.vehicleData.push({'myNumberPlate': item.myNumberPlate})
+        this.behind[item.myNumberPlate] = item.behindTheFrame4Digits
+      })
       document.addEventListener('click', (e) => {
         this.varietyShow = false
         this.vehicleShow = false

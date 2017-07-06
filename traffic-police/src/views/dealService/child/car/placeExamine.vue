@@ -153,7 +153,7 @@ export default {
       isShow: false,                           //  验证码
       vehicleShow: false,                      // 车牌下拉框
       vehicle: window.localStorage.getItem('myNumberPlate'),
-      vehicleData: '',
+      vehicleData: [],
       vehicleTypeShow: false,
       vehType: '小型汽车',                      // 车辆类型下拉框
       vehicleTypeData: [
@@ -228,14 +228,16 @@ export default {
       identityCard: window.localStorage.getItem('identityCard'),     // 身份证
       name: window.localStorage.getItem('userName'),   // 车主名字
       identifying: '',                        // 验证码
-      postalcode: ''                          // 邮政编码
+      postalcode: '',                         // 邮政编码
+      behind: {}
     }
   },
   methods: {
     // 车牌下拉框
-    vehiclePlate: function (str, id) {
+    vehiclePlate: function (str) {
       if (str) {
         this.vehicle = str
+        this.carriageNumber = this.behind[str]
       }
       if (this.vehicleShow === true) {
         this.vehicleShow = false
@@ -351,13 +353,15 @@ export default {
     }
   },
   mounted: function () {
-    this.vehicleData = JSON.parse(window.localStorage.getItem('cars'))
-    console.log(this.vehicleData)
     resultGet(getIssuing).then(json => {        // 查询发证机关列表
       this.trusteeData = json.data
     })
   },
   created () {
+    JSON.parse(window.localStorage.getItem('cars')).map(item => {
+      this.vehicleData.push({'myNumberPlate': item.myNumberPlate})
+      this.behind[item.myNumberPlate] = item.behindTheFrame4Digits
+    })
     document.addEventListener('click', (e) => {
       this.ownerShow = false
       this.vehicleShow = false
