@@ -4,14 +4,14 @@
     <ul class="affirmInfo-text-content">
       <li class="affirmInfo-text-item" v-for="(value, key) in dataList.textObj">
         <span class="affirmInfo-text-item-key">{{ keyListObj[key] }}</span>
-        <span class="affirmInfo-text-item-val">{{ valListObj[key] ? valListObj[key].value : value }}</span>
+        <span class="affirmInfo-text-item-val">{{ valListObj[key] ?  valListObj[key][value] : value }}</span>
       </li>
     </ul>
   </div>
   <div class="affirmInfo-img">
-    <p>请按示例图上传以下证件照片</p>
+    <p v-if="dataList.imgObj">请按示例图上传以下证件照片</p>
     <div class="affirmInfo-img-content">
-      <dl class="affirmInfo-img-item" v-for="(value, key) in dataList.imgObj">
+      <dl class="affirmInfo-img-item" v-for="(value, key) in dataList.imgObj" v-if="value">
         <dt class="affirmInfo-img-item-val"><img :src="value" alt=""></dt>
         <dd class="affirmInfo-img-item-key">{{ keyListObj[key] }}</dd>
       </dl>
