@@ -252,7 +252,11 @@
         IDcarfBack: '',
         degree45: '',
         registerCredential: '',
-        outBoard: ''
+        outBoard: '',
+        allOwnersName: {},  // 所有车主姓名
+        allCertificateNumber: {}, // 所有身份证号
+        ownersName: '',  // 车主姓名
+        certificateNumber: '' // 证件号码
       }
     },
     components: {
@@ -260,14 +264,6 @@
       divRadio: require('./components/divRadio.vue')
     },
     computed: {
-      // 车主姓名
-      ownersName () {
-        return window.localStorage.getItem('userName')
-      },
-      // 证件号码
-      certificateNumber () {
-        return window.localStorage.getItem('identityCard')
-      },
       plateNumber () {
         var plateInfo = {
           title: '车牌号码',
@@ -275,6 +271,8 @@
         }
         JSON.parse(window.localStorage.getItem('cars')).map(item => {
           plateInfo.option.push({'str': item.myNumberPlate})
+          this.allOwnersName[item.myNumberPlate] = item.name
+          this.allCertificateNumber[item.myNumberPlate] = item.identityCard
         })
         this.plateNumberOne = plateInfo.option[0].str
         this.defaultPlateNumber = plateInfo.option[0].str
@@ -326,6 +324,8 @@
       },
       getPlateNumber (val) {
         this.plateNumberOne = val
+        this.ownersName = this.allOwnersName[val]
+        this.certificateNumber = this.allCertificateNumber[val]
       },
       getRecipientAddress (val) {
         this.recipientAddressRegion = val
@@ -429,6 +429,8 @@
     },
     mounted () {
       this.uploadImg()
+      this.ownersName = this.allOwnersName[this.plateNumberOne]
+      this.certificateNumber = this.allCertificateNumber[this.plateNumberOne]
     }
   }
 </script>
