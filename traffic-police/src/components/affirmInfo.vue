@@ -52,6 +52,7 @@ export default {
         receiverName: '收件人姓名',
         receiverNumber: '收件人号码',
         receiverAddress: '收件人地址',
+        address: '住所地址',
         personType: '申请人类型',
         driveLicenseNumber: '行驶证编号',
         identificationNO: '证件种类',
