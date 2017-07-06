@@ -3,7 +3,7 @@
   <div class="affirmInfo-text">
     <ul class="affirmInfo-text-content">
       <li class="affirmInfo-text-item" v-for="(value, key) in dataList.textObj">
-        <span class="affirmInfo-text-item-key">{{ key }}</span>
+        <span class="affirmInfo-text-item-key">{{ parallelismListObj[key] }}</span>
         <span class="affirmInfo-text-item-val">{{ value }}</span>
       </li>
     </ul>
@@ -12,13 +12,13 @@
     <p>请按示例图上传以下证件照片</p>
     <div class="affirmInfo-img-content">
       <dl class="affirmInfo-img-item" v-for="(value, key) in dataList.imgObj">
-        <dt class="affirmInfo-img-item-val">{{ val }}</dt>
-        <dd class="affirmInfo-img-item-key">{{ key }}</dd>
+        <dt class="affirmInfo-img-item-val">{{ value }}</dt>
+        <dd class="affirmInfo-img-item-key">{{ parallelismListObj[key] }}</dd>
       </dl>
     </div>
   </div>
   <div class="affirmInfo-btn">
-    <button id="affirmInfo-btn">提 交</button>
+    <button id="affirmInfo-btn" @click="affirmInfoBtn">提 交</button>
   </div>
 </div>
 </template>
@@ -30,23 +30,65 @@ export default {
   name: 'affirmInfo',
   data () {
     return {
+      parallelismListObj: {
+        plateType: '车牌类型',
+        cartype: '车辆类型',
+        abbreviation: '车牌简称',
+        numberPlate: '车牌号码',
+        behindTheFrame4Digits: '车架号',
+        name: '车主姓名', // 机动车所有人
+        userName: '用户姓名',
+        mobilephone: '手机号码',
+        applyDate: '申请日期',
+        remarks: '备注',
+        identityCard: '身份证号码',
+        proposerIdentityCard: '申请人身份证号码',
+        carOwnerIdentityCard: '车主身份证号码',
+        bookerIdentityCard: '预约人身份证号码',
+        cartModels: '车辆型号',
+        engineNumber: '发动机号',
+        carOrigin: '车辆产地',
+        placeOfDomicile: '户籍所在地',
+        receiverName: '收件人姓名',
+        receiverNumber: '收件人号码',
+        receiverAddress: '收件人地址',
+        personType: '申请人类型',
+        driveLicenseNumber: '行驶证编号',
+        telno: '固定号码',
+        postCode: '邮政编码',
+        effectiveDate: '保险生效日期',
+        terminationDate: '保险终止日期',
+        inform: '受理结果告知方式',
+        bookerName: '预约人',
+        bookerType: '预约方式',
+        bookNumber: '预约流水号',
+        proprietorship: '车辆所有权',
+        associatedAgency: '委托机构',
+        PHOTO26: '购置发票图片',
+        PHOTO27: '交强险单据',
+        PHOTO09: '身份证(正面)',
+        PHOTO10: '身份证(反面)',
+        PHOTO28: '机动车合格证',
+        PHOTO31: '境外人员临住表',
+        PHOTO29: '进口货物证明书'
+      },
       dataList: {
         type: '补领行驶证',
         textObj:
         {
-          '车主姓名': '张大山',
-          '证件号码': '445222199209020034',
-          '车牌号码': '粤B6A42E',
-          '车牌类型': '02',
-          '户籍所在地': '深户',
-          '收件人姓名': '张宇帆',
-          '收件人地址': '深圳市,罗湖区,文锦北路XXXXX号'
+          'name': '张大山',
+          'identityCard': '445222199209020034',
+          'numberPlate': '粤B6A42E',
+          'plateType': '02',
+          'placeOfDomicile': '深户',
+          'receiverName': '张宇帆',
+          'receiverAddress': '深圳市,罗湖区,文锦北路XXXXX号'
         },
         imgObj:
         {
-          '身份证(正面)': 'base64',
-          '身份证(反面)': 'base64',
-          '车辆45度照片': 'base64'
+          'PHOTO09': 'base64',
+          'PHOTO10': 'base64',
+          'PHOTO31': 'base64'
         }
       }
     }
@@ -54,6 +96,11 @@ export default {
   mounted: function () {
   },
   methods: {
+    affirmInfoBtn: function () {
+      let reqData = {}
+      Object.assign(reqData, this.dataList.textObj, this.dataList.imgObj)
+      console.log(reqData)
+    }
   }
 }
 </script>
