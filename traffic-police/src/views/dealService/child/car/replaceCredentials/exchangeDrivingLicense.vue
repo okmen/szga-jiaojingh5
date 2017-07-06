@@ -12,21 +12,21 @@
     <div-select :childInfo="plateType" @getSelected="getPlateType" defaultVal="蓝牌"></div-select>
     <div class="domicile-place">
       <span class="item-title">户籍所在地</span>
-      <div-radio :optname="optname"></div-radio>
+      <div-radio :optname="optname" @getSelected="getCensusRegister"></div-radio>
     </div>
     <div class="recipient-name">
       <span class="item-title">收件人姓名</span>
-      <input type="text" placeholder="请输入收件人姓名" class="item-info">
+      <input type="text" placeholder="请输入收件人姓名" class="item-info" v-model="recipientName">
     </div>
     <div class="recipient-phone">
       <span class="item-title">收件人手机</span>
-      <input type="text" placeholder="请输入收件人手机号码" class="item-info">
+      <input type="text" placeholder="请输入收件人手机号码" class="item-info" v-model="recipientPhone">
     </div>
     <div class="recipient-address">
       <span class="item-title">收件人地址</span>
       <div class="recipient-address-select item-info">
-        <div-select :childInfo="recipientInfo" defaultVal="福田区"></div-select>
-        <input type="text" placeholder="请输入详细地址">
+        <div-select :childInfo="recipientInfo" @getSelected="getRecipientAddress" defaultVal="福田区"></div-select>
+        <input type="text" placeholder="请输入详细地址" v-model="recipientAddressDetail">
       </div>
     </div>
     <div class="upload-photo">
@@ -51,6 +51,13 @@
             <img :src="imgOne3" />
           </label>
           <div class="upload-item-text-one">机动车登记证书</div>
+        </div>
+        <div class="upload-item-img" v-show="this.censusRegister != '1'">
+          <label class="upload-item-img-one" for="file4">
+            <input id="file4" type="file" accept="image/*" >
+            <img :src="imgOne4" />
+          </label>
+          <div class="upload-item-text-one">境外人员临住表</div>
         </div>
       </div>
     </div>
@@ -98,6 +105,7 @@
       justify-content: space-between;
       align-items: center;
       margin-top: 10px;
+      flex-wrap: wrap;
       .upload-item-img{
         display: flex;
         flex-direction: column;
@@ -114,8 +122,8 @@
         text-align: center;
       }
       .upload-item-img-one{
-        width: 194px;
-        height: 194px;
+        width: 300px;
+        height: 300px;
         border: 2px solid #eee;
         display: flex;
         justify-content: center;
@@ -144,6 +152,8 @@
 </style>
 <script>
   import uploadFile from '../../../../../service/uploadFile.js'
+  import { Toast } from 'mint-ui'
+  import { isPhone, isChinese } from '../../../../../service/regExp.js'
   export default {
     data () {
       return {
@@ -151,6 +161,7 @@
         imgOne1: require('../../../../../images/IDcard-front.png'),
         imgOne2: require('../../../../../images/IDcard-back.png'),
         imgOne3: require('../../../../../images/register-credential.png'),
+        imgOne4: require('../../../../../images/out-board.png'),
         plateType: {
           title: '车牌种类',
           option: [
@@ -181,56 +192,56 @@
           ]
         },
         optname: [
-          {'str': '深户', choose: true},
-          {'str': '外籍户口', choose: false}
+          {'str': '深户', choose: true, id: '1'},
+          {'str': '外籍户口', choose: false, id: '0'}
         ],
         recipientInfo: {
           title: '深圳市',
           option: [
             {
-              'id': '01',
               'str': '福田区'
             },
             {
-              'id': '02',
               'str': '罗湖区'
             },
             {
-              'id': '03',
               'str': '南山区'
             },
             {
-              'id': '04',
               'str': '宝安区'
             },
             {
-              'id': '05',
               'str': '龙岗区'
             },
             {
-              'id': '06',
               'str': '盐田区'
             },
             {
-              'id': '07',
               'str': '龙华新区'
             },
             {
-              'id': '08',
               'str': '光明新区'
             },
             {
-              'id': '09',
               'str': '坪山新区'
             },
             {
-              'id': '10',
               'str': '大鹏新区'
             }
           ]
         },
         recipientPhone: '',    // 收件人手机号码
-        recipientName: ''     // 收件人姓名
+        recipientName: '',     // 收件人姓名
+        plateNumberOne: '',
+        plateTypeOne: '02',
+        censusRegister: '1',     // 户籍所在地
+        recipientAddressRegion: '福田区',  // 收件人地址区域
+        recipientAddressDetail: '',  // 收件人详细地址
+        IDcardFront: '',
+        IDcarfBack: '',
+        degree45: '',
+        registerCredential: '',
+        outBoard: ''
       }
     },
     components: {
@@ -253,6 +264,7 @@
           plateInfo.option.push({'str': item.myNumberPlate})
         })
         this.defaultPlateNumber = plateInfo.option[0].str
+        this.plateNumberOne = plateInfo.option[0].str
         return plateInfo
       }
     },
@@ -263,6 +275,7 @@
           callback: (res) => {
             console.log(res)
             this.imgOne1 = res.imgUrl
+            this.IDcardFront = res.imgUrl
           }
         })
         uploadFile.upload({
@@ -270,6 +283,7 @@
           callback: (res) => {
             console.log(res)
             this.imgOne2 = res.imgUrl
+            this.IDcarfBack = res.imgUrl
           }
         })
         uploadFile.upload({
@@ -277,20 +291,108 @@
           callback: (res) => {
             console.log(res)
             this.imgOne3 = res.imgUrl
+            this.registerCredential = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file4',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne4 = res.imgUrl
+            this.outBoard = res.imgUrl
           }
         })
       },
       getPlateNumber (val) {
-
+        this.plateNumberOne = val
       },
-      getBusinessType (val) {
-
+      getRecipientAddress (val) {
+        this.recipientAddressRegion = val
       },
       getPlateType (val) {
-
+        this.plateTypeOne = val
+      },
+      // 获取户籍所在地
+      getCensusRegister (val) {
+        this.censusRegister = val
       },
       confirmInfo () {
-
+        if (!this.recipientName) {
+          Toast({
+            message: '请输入收件人姓名',
+            duration: 2000
+          })
+          return
+        } else if (!isChinese(this.recipientName)) {
+          Toast({
+            message: '收件人姓名只能输入汉字',
+            duration: 2000
+          })
+          return
+        }
+        if (!isPhone(this.recipientPhone)) {
+          Toast({
+            message: '收件人手机号码格式不正确',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.recipientAddressDetail) {
+          Toast({
+            message: '请输入收件人详细地址',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.IDcardFront) {
+          Toast({
+            message: '请上传身份证正面',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.IDcarfBack) {
+          Toast({
+            message: '请上传身份证反面',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.registerCredential) {
+          Toast({
+            message: '请上传机动车登记证书',
+            duration: 2000
+          })
+          return
+        }
+        if ((!this.outBoard) && (this.censusRegister !== '1')) {
+          Toast({
+            message: '请上传境外人员临住表',
+            duration: 2000
+          })
+          return
+        }
+        let dataList = {
+          type: '换领行驶证',
+          textObj: {
+            '车主姓名': this.ownersName,
+            '证件号码': this.certificateNumber,
+            '车牌号码': this.plateNumberOne,
+            '车牌种类': this.plateTypeOne,
+            '户籍所在地': this.censusRegister,
+            '收件人姓名': this.recipientName,
+            '收件人手机': this.recipientPhone,
+            '收件人地址': `深圳市,${this.recipientAddressRegion},${this.recipientAddressDetail}`
+          },
+          imgObj: {
+            '身份证(正面)': this.IDcardFront,
+            '身份证(反面)': this.IDcarfBack,
+            '机动车登记证书': this.registerCredential,
+            '境外人员临住表': this.outBoard
+          }
+        }
+        this.$store.commit('saveMotorVehicleHandling', dataList)
+        console.log(dataList)
       }
     },
     mounted () {

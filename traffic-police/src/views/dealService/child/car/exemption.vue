@@ -10,7 +10,7 @@
             <span class="btn-select" @click.stop="vehiclePlate()">{{ vehicle }}</span>
             <div class="div-select-ul" v-if="vehicleShow">
               <ul>
-                <li v-for="item in vehicleData" @click.stop="vehiclePlate(item.longName)">{{item.longName}}</li>
+                <li v-for="item in vehicleData" @click.stop="vehiclePlate(item.myNumberPlate)">{{item.myNumberPlate}}</li>
               </ul>
             </div>
           </div>
@@ -20,7 +20,7 @@
             <span>所有人</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="张鱼饭" readonly/>
+            <input class="text-input" type="text" value="" v-model="name" readonly/>
           </div>
         </li>
         <li class="form-line">
@@ -76,7 +76,7 @@
             <span>收件人姓名</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="张鱼饭" readonly />
+            <input class="text-input" type="text" value="" v-model="addresseeName" readonly />
           </div>
         </li>
         <li class="form-line">
@@ -84,7 +84,7 @@
             <span>收件人电话</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="15920050177" readonly />
+            <input class="text-input" type="text" value="" v-model="addresseeMobile" readonly />
           </div>
         </li>
         <li class="form-line">
@@ -164,17 +164,12 @@
             <input class="text-input" type="text" name="" v-model="appointmentID" value="" placeholder="请输入预约人身份证号">
           </div>
         </li>
-        <li class="form-line">
-          <div class="form-line-item item-name">
-            <span>预约方式</span>
-          </div>
-          <div class="div-select">
-            <span class="btn-select" @click.stop="appointmentMode()">{{ appointmentMassage }}</span>
-            <div class="div-select-ul" v-if="appointmentShow">
-              <ul>
-                <li v-for="item in appointmentData" @click.stop="appointmentMode(item.longName)">{{item.longName}}</li>
-              </ul>
-            </div>
+        <li class="form-li">
+          <span>预约方式</span>
+        </li>
+        <li class="form-li">
+          <div class="form-line-item">
+            <input class="text-input" type="text" name="" value="本人" readonly>
           </div>
         </li>
         <li class="form-annotation">注:只能申请本人名下车辆</li>
@@ -192,6 +187,9 @@ export default {
   name: 'exemption',
   data () {
     return {
+      name: window.localStorage.getItem('userName'),     // 所有人名字
+      addresseeName: window.localStorage.getItem('userName'),  // 收件人名字
+      addresseeMobile: window.localStorage.getItem('mobilePhone'),  // 收件人手机号码
       isShow: false,
       mtDateTimeMsg: '',                           // 保险生效时间进页面默认时间
       DateTimeMsg: '',                             // 保险终止时间进页面默认时间
@@ -214,27 +212,15 @@ export default {
         }
       ],                                           // 发证机关列表 数据从接口查出
       vehicleShow: false,
-      vehicle: '粤B6A42E',                         // 车牌下拉
-      vehicleData: [
-        {
-          'longName': '粤B6A428'
-        },
-        {
-          'longName': '粤B6A427'
-        }
-      ],
+      vehicle: window.localStorage.getItem('myNumberPlate'),                         // 车牌下拉
       applyShow: false,                            // 申请人类型样式
       applyMassage: '机动车所有人',
       applyData: [
         {
-          'longName': '代理人'
-        }
-      ],
-      appointmentMassage: '个人',
-      appointmentShow: false,                      // 预约方式样式
-      appointmentData: [
+          'longName': '机动车所有人'
+        },
         {
-          'longName': '个-人'
+          'longName': '代理人'
         }
       ],
       areaSelectShow: false,
@@ -297,6 +283,14 @@ export default {
     let getTimes = this.currentTime('take')
     this.mtDateTimeMsg = getTime
     this.DateTimeMsg = getTimes
+    this.vehicleData = JSON.parse(window.localStorage.getItem('cars'))
+    document.addEventListener('click', (e) => {
+      this.vehicleShow = false
+      this.applyShow = false
+      this.placeSelectShow = false
+      this.areaSelectShow = false
+      this.appointmentShow = false
+    })
   },
   methods: {
     // 车牌下拉框
@@ -331,17 +325,6 @@ export default {
         this.placeSelectShow = false
       } else {
         this.placeSelectShow = true
-      }
-    },
-    // 预约方式下拉框
-    appointmentMode: function (str) {
-      if (str) {
-        this.appointmentMassage = str
-      }
-      if (this.appointmentShow === true) {
-        this.appointmentShow = false
-      } else {
-        this.appointmentShow = true
       }
     },
     // 收件人地址

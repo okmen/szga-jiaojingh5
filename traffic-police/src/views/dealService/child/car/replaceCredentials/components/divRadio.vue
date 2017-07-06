@@ -41,12 +41,29 @@
     props: ['optname'],
     data () {
       return {
-        radioSelected: false
+        selectedVal: ''
       }
     },
     computed: {
       thisOpt () {
         return this.optname
+      }
+    },
+    watch: {
+      thisOpt: {
+        handler (val) {
+          val.map(item => {
+            if (item.choose === true) {
+              if (item.id) {
+                this.selectedVal = item.id
+              } else {
+                this.selectedVal = item.str
+              }
+            }
+          })
+          this.$emit('getSelected', this.selectedVal)
+        },
+        deep: true
       }
     },
     methods: {

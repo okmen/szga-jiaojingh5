@@ -1,9 +1,8 @@
 <template>
   <div class="replace-select">
     <div class="select-title">{{thisInfo.title}}</div>
-    <input type="text" class="selected-value" v-model="currentVal" readonly @focus="showUl=true" @blur="">
-    <!--<div class="selected-value" @click="showSelectUl">{{currentVal}}</div>-->
-    <div class="div-select-ul" v-if="showUl">
+    <input type="text" class="selected-value" v-model="currentVal" readonly @click.stop="showSelectUl" @blur="">
+    <div class="div-select-ul" v-show="showUl">
       <ul>
         <li v-for="item in thisInfo.option" @click="selectedValue(item)">{{item.str}}</li>
       </ul>
@@ -23,7 +22,7 @@
     }
     .selected-value{
       width: 66%;
-      padding-left: 20px;
+      padding-left: 10px;
       border: 2px solid #eee;
       border-radius: 8px;
       line-height: 65px;
@@ -60,9 +59,6 @@
       }
     },
     watch: {
-      currentVal (val) {
-        this.$emit('getSelected', this.currentId)
-      },
       defaultVal (val) {
         this.currentVal = val
       }
@@ -70,15 +66,32 @@
     methods: {
       selectedValue (item) {
         this.currentVal = item.str
-        this.currentId = item.id
+        if (item.id) {
+          this.currentId = item.id
+          this.$emit('getSelected', this.currentId)
+        } else {
+          this.currentId = item.str
+          this.$emit('getSelected', this.currentId)
+        }
         this.showUl = false
       },
       showSelectUl () {
+        let selectUl = document.getElementsByClassName('div-select-ul')
+        Array.prototype.slice.call(selectUl).map(item => {
+          item.style.display = 'none'
+        })
         this.showUl = !this.showUl
+      },
+      disappearSelectUl () {
+        this.showUl = false
       }
     },
     mounted () {
       this.currentVal = this.defaultVal
+      document.addEventListener('click', this.disappearSelectUl)
+    },
+    destroyed () {
+      document.removeEventListener('click', this.disappearSelectUl)
     }
   }
 </script>
