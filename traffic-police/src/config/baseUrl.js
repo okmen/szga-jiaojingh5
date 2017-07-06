@@ -172,3 +172,4 @@ export const inspectionDeclaration = `${commonUrl}user/handleservice/inspectionD
 
 export const getCarTypeId = `${commonUrl}user/handleservice/getCarTypeId.html` // 获取车辆类型Id
 
+export const applyGatePass = `${commonUrl}handleservice/applyGatePass.html` // 申请通行证
