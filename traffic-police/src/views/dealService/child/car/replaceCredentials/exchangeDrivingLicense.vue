@@ -154,6 +154,7 @@
   import uploadFile from '../../../../../service/uploadFile.js'
   import { Toast } from 'mint-ui'
   import { isPhone, isChinese } from '../../../../../service/regExp.js'
+  import { iocomotiveCarReplace } from '../../../../../config/baseUrl.js'
   export default {
     data () {
       return {
@@ -374,6 +375,7 @@
         }
         let dataList = {
           type: '换领行驶证',
+          url: iocomotiveCarReplace,
           textObj: {
             'name': this.ownersName,
             'identityCard': this.certificateNumber,
@@ -388,7 +390,7 @@
             'PHOTO9': this.IDcardFront,
             'PHOTO10': this.IDcarfBack,
             'DJZSFYJ': this.registerCredential,
-            'foreignPeopleLivingOnTheTable': this.outBoard
+            'PHOTO31': this.outBoard
           }
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)

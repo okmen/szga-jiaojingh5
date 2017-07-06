@@ -152,3 +152,11 @@ export const detailsTrafficQuery = `${commonUrl}user/detailsTrafficQuery.html` /
 export const unbindVehicle = `${commonUrl}user/unbindVehicle.html` // 车主解绑车辆
 
 export const unbindTheOtherDriverUseMyCar = `${commonUrl}user/unbindTheOtherDriverUseMyCar.html` // 车主解绑其他车辆使用人
+
+export const complementTheMotorVehicleDrivingLicense = `http://192.168.1.120:8100/handleservice/complementTheMotorVehicleDrivingLicense.html` // 补领行驶证
+
+export const replaceInspectionMark = `handleservice/replaceInspectionMark.html`  // 补换检验合格标志
+
+export const replaceMotorVehicleLicensePlate = `http://192.168.1.68:8080/handleservice/replaceMotorVehicleLicensePlate.html`  // 补换机动车号牌
+
+export const iocomotiveCarReplace = `http://192.168.1.120:8100/handleservice/iocomotiveCarReplace.html`  // 换领行驶证

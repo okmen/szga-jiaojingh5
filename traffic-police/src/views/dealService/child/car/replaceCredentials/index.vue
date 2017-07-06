@@ -40,7 +40,7 @@
               'id': '02'
             },
             {
-              'str': '补换合格检验标志',
+              'str': '补换检验合格标志',
               'id': '03'
             },
             {
@@ -58,7 +58,7 @@
         } else if (to.name === 'exchangeDrivingLicense') {
           vm.defaultVal = '换领行驶证'
         } else if (to.name === 'replaceQualifiedMark') {
-          vm.defaultVal = '补换合格检验标志'
+          vm.defaultVal = '补换检验合格标志'
         } else if (to.name === 'replaceLicencePlate') {
           vm.defaultVal = '补换机动车号牌'
         }

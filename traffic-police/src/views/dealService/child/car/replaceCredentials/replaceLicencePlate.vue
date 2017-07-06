@@ -163,6 +163,7 @@
   import uploadFile from '../../../../../service/uploadFile.js'
   import { Toast } from 'mint-ui'
   import { isPhone, isChinese } from '../../../../../service/regExp.js'
+  import { replaceMotorVehicleLicensePlate } from '../../../../../config/baseUrl.js'
   export default {
     data () {
       return {
@@ -391,7 +392,8 @@
           return
         }
         let dataList = {
-          type: '补领行驶证',
+          type: '补换机动车号牌',
+          url: replaceMotorVehicleLicensePlate,
           textObj: {
             'name': this.ownersName,
             'identityCard': this.certificateNumber,
@@ -408,7 +410,7 @@
             'PHOTO9': this.IDcardFront,
             'PHOTO10': this.IDcarfBack,
             'DJZSFYJ': this.registerCredential,
-            'foreignPeopleLivingOnTheTable': this.outBoard
+            'PHOTO31': this.outBoard
           }
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)
