@@ -31,7 +31,7 @@
               <span class="btn-select" @click.stop="ownerClick()">{{ ownerTimeMsg }}</span>
               <div class="div-select-ul" v-if="ownerShow">
                 <ul>
-                  <li v-for="item in ownerData" @click.stop="ownerClick(item.longName)">{{item.longName}}</li>
+                  <li v-for="item in ownerData" @click.stop="ownerClick(item.longName, item.id)">{{item.longName}}</li>
                 </ul>
               </div>
             </div>
@@ -151,12 +151,15 @@ export default {
       vehicle: window.localStorage.getItem('myNumberPlate'),
       vehicleTypeShow: false,
       ownerShow: false,
+      ownerid: '0',
       ownerTimeMsg: '个人',
       ownerData: [
         {
+          'id': '0',
           'longName': '个人'
         },
         {
+          'id': '1',
           'longName': '单位'
         }
       ],
@@ -263,9 +266,10 @@ export default {
       }
     },
     // 所有人下拉框
-    ownerClick: function (str) {
+    ownerClick: function (str, id) {
       if (str) {
         this.ownerTimeMsg = str
+        this.ownerid = id
       }
       if (this.ownerShow === true) {
         this.ownerShow = false
@@ -335,57 +339,56 @@ export default {
         }
       }, 1000)
     },
-    // 确认提交
-    submitClick: function () {
-      if (!this.identifying) {
-        Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
-      } else if (this.identifying.length !== 6) {
-        Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
-      } else {
-        let verificationData = {
-          mobilephone: this.mobile,
-          validateCode: this.identifying
+    dataFn: function () {
+      let dataList = {
+        type: '机动车委托异地定期检验申报',
+        textObj: {
+          'numberPlate': this.vehicle,                       // 车牌号码
+          'cartype': this.vehType,                           // 车辆类型
+          'proprietorship': this.ownerid,                    // 所有权
+          'behindTheFrame4Digits': this.carriageNumber,      // 车架号
+          'carOwnerIdentityCard': this.identityCard,         // 车主身份证
+          'name': this.name,                                 // 车主名字
+          'associatedAgency': this.cur_place_id,             // 受托机构
+          'receiverName': this.addresseeName,                // 收件人名字
+          'mobilephone': this.mobile,                        // 联系电话
+          'postCode': this.postalcode,                       // 邮政编码
+          'receiverAddress': `深圳市,${this.areaSelectMassage},${this.mailingAddress}`    // 收件人地址
         }
-        resultPost(verificatioCode, verificationData).then(json => {
-          if (json.code === '0000') {
-            console.log('111')
-            this.verificationFn()
-          } else {
-            Toast({message: json.msg, position: 'bottom', className: 'white'})
-          }
-        })
       }
+      this.$store.commit('saveMotorVehicleHandling', dataList)
+      this.$router.push('/affirmInfo')
     },
     verificationFn: function () {
+      let verificationData = {
+        mobilephone: this.mobile,
+        validateCode: this.identifying
+      }
+      resultPost(verificatioCode, verificationData).then(json => {
+        if (json.code === '0000') {
+          console.log('111')
+          this.dataFn()
+        } else {
+          Toast({message: json.data, position: 'bottom', className: 'white'})
+        }
+      })
+    },
+    // 确认提交
+    submitClick: function () {
       if (!this.identityCard) {
         Toast({message: '请输入身份证', position: 'bottom', className: 'white'})
       } else if (!this.name) {
         Toast({message: '请输入车主名', position: 'bottom', className: 'white'})
-      } else if (!this.identifying) {
-        Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
       } else if (!this.postalcode) {
         Toast({message: '请输入邮政编码', position: 'bottom', className: 'white'})
       } else if (!this.mailingAddress) {
         Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
+      } else if (!this.identifying) {
+        Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
+      } else if (this.identifying.length !== 6) {
+        Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
       } else {
-        let dataList = {
-          type: '机动车委托异地定期检验申报',
-          textObj: {
-            'numberPlate': this.vehicle,                       // 车牌号码
-            'cartype': this.vehType,                           // 车辆类型
-            'proprietorship': this.ownerTimeMsg,               // 所有权
-            'behindTheFrame4Digits': this.carriageNumber,      // 车架号
-            'carOwnerIdentityCard': this.identityCard,         // 车主身份证
-            'name': this.name,                                 // 车主名字
-            'associatedAgency': this.cur_place_id,             // 受托机构
-            'receiverName': this.addresseeName,                // 收件人名字
-            'mobilephone': this.mobile,                        // 联系电话
-            'postCode': this.postalcode,                       // 邮政编码
-            'receiverAddress': `深圳市,${this.areaSelectMassage},${this.mailingAddress}`    // 收件人地址
-          }
-        }
-        this.$store.commit('saveMotorVehicleHandling', dataList)
-        this.$router.push('/affirmInfo')
+        this.verificationFn()
       }
     }
   },
@@ -396,6 +399,7 @@ export default {
   },
   created () {
     this.cars = JSON.parse(window.localStorage.getItem('cars'))
+    this.vehType = this.cars[0].plateType
     document.addEventListener('click', (e) => {
       this.ownerShow = false
       this.vehicleShow = false

@@ -7,7 +7,7 @@
             <span>车主姓名</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="" v-model="name" readonly/>
+            <input class="text-input" type="text" value="" v-model="name"/>
           </div>
         </li>
         <li class="form-line">
@@ -78,7 +78,7 @@
             <span>手机号码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="15920050177" readonly/>
+            <input class="text-input" type="text" value="" v-model="mobilephone ? mobilephone : cars[0].mobilephone" readonly/>
           </div>
         </li>
         <li class="form-line">
@@ -286,6 +286,7 @@
             'str': '大鹏新区'
           }
         ],
+        mobilephone: '',
         cars: {}
       }
     },
@@ -302,6 +303,7 @@
           this.vehicle = item.myNumberPlate
           this.vehType = item.plateType
           this.vehicleFlapper = item.behindTheFrame4Digits
+          this.mobilephone = item.mobilephone
           this.vehicleShow = false
         }
       },
@@ -379,6 +381,7 @@
         })
       },
       submitClick: function () {
+        console.log(this.vehType)
         if (!this.IDcard) {
           Toast({message: '请输入身份证', position: 'bottom', className: 'white'})
         } else if (!this.permanent) {
@@ -396,14 +399,27 @@
             Toast({message: '请上传机动车境外人员临住表', position: 'bottom', className: 'white'})
           }
         } else {
-          let dataLIst = {
+          let dataList = {
             type: '机动车变更联系方式',
             textObj: {
-              'name': this.name,
-              'numberPlate': this.vehicle
+              'name': this.name,      // 车主姓名
+              'identificationNO': this.variety,   // 证件种类
+              'identificationNum': this.IDcard,   // 证件号码
+              'numberPlate': this.vehicle,   // 车牌号码
+              'cartype': this.vehType,        // 车辆类型
+              'placeOfDomicile': this.permanent,   // 户籍所在地
+              'behindTheFrame4Digits': this.vehicleFlapper,    // 车架号
+              'receiverAddress': `深圳市,${this.areaSelectMassage},${this.mailingAddress}`    // 收件人地址
+            },
+            imgObj: {
+              'PHOTO9': this.IDcardFront,
+              'PHOTO10': this.IDcarfBack,
+              'DJZSFYJ': this.registerCredential,
+              'PHOTO31': this.outBoard
             }
           }
-          console.log(dataLIst)
+          this.$store.commit('saveMotorVehicleHandling', dataList)
+          this.$router.push('/affirmInfo')
         }
       }
     },
@@ -412,6 +428,7 @@
     },
     created () {
       this.cars = JSON.parse(window.localStorage.getItem('cars'))
+      this.vehType = this.cars[0].plateType
       document.addEventListener('click', (e) => {
         this.varietyShow = false
         this.vehicleShow = false

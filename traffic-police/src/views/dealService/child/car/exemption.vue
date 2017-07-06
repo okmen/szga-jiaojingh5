@@ -427,7 +427,6 @@ export default {
     // 获取验证码
     scanQRCode: function () {
       let mobile = this.mobile
-      console.log(mobile)
       if (!(mobile)) {
         Toast({message: '请输入手机号', position: 'bottom', className: 'white'})
       } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobile))) {
@@ -463,31 +462,51 @@ export default {
         }
       }, 1000)
     },
-    submitClick: function () {
-      if (!this.identifying) {
-        Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
-      } else if (this.identifying.length !== 6) {
-        Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
-      } else {
-        let verificationData = {
-          mobilephone: this.mobile,
-          validateCode: this.identifying
+    dataFn: function () {
+      let dataList = {
+        type: '六年免检申请',
+        textObj: {
+          'numberPlate': this.vehicle,                // 车牌号码
+          'name': this.name,                          // 所有人
+          'personType': this.applyId,                 // 申请人类型
+          'driveLicenseNumber': this.drivingLicense,  // 行驶证编号
+          'mobilephone': this.mobile,                 // 手机号码
+          'telno': this.telno,                        // 固定号码
+          'receiverName': this.addresseeName,         // 收件人姓名
+          'receiverNumber': this.addresseeMobile,     // 收件人电话
+          'postCode': this.postalcode,                // 邮政编码
+          'receiverAddress': `深圳市,${this.areaSelectMassage},${this.mailingAddress}`,    // 收件人地址
+          'effectiveDate': this.mtDateTimeMsg,        // 保险生效日期
+          'terminationDate': this.DateTimeMsg,        // 保险终止日期
+          'inform': this.cur_place_id,                // 保险告知方式
+          'bookerName': this.appointment,             // 预约人名字
+          'bookerIdentityCard': this.appointmentID,   // 预约人名字
+          'bookerType': this.bookerType               // 预约方式
         }
-        resultPost(verificatioCode, verificationData).then(json => {
-          if (json.code === '0000') {
-            console.log('111')
-            this.verificationFn()
-          } else {
-            Toast({message: json.msg, position: 'bottom', className: 'white'})
-          }
-        })
       }
+      this.$store.commit('saveMotorVehicleHandling', dataList)
+      this.$router.push('/affirmInfo')
     },
     verificationFn: function () {
+      let verificationData = {
+        mobilephone: this.mobile,
+        validateCode: this.identifying
+      }
+      resultPost(verificatioCode, verificationData).then(json => {
+        if (json.code === '0000') {
+          this.dataFn()
+        } else {
+          Toast({message: json.data, position: 'bottom', className: 'white'})
+        }
+      })
+    },
+    submitClick: function () {
       if (!this.drivingLicense) {
         Toast({message: '请输入行驶证编码', position: 'bottom', className: 'white'})
       } else if (!this.mobile) {
         Toast({message: '请输入手机号码', position: 'bottom', className: 'white'})
+      } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobile))) {
+        Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
       } else if (!this.postalcode) {
         Toast({message: '请输入邮政编码', position: 'bottom', className: 'white'})
       } else if (!this.mailingAddress) {
@@ -498,30 +517,12 @@ export default {
         Toast({message: '请输入预约人身份证号', position: 'bottom', className: 'white'})
       } else if (this.appointmentID.length > 18 || this.appointmentID.length < 16) {
         Toast({message: '请输入正确预约人身份证号', position: 'bottom', className: 'white'})
+      } else if (!this.identifying) {
+        Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
+      } else if (this.identifying.length !== 6) {
+        Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
       } else {
-        let dataList = {
-          type: '六年免检申请',
-          textObj: {
-            'numberPlate': this.vehicle,                // 车牌号码
-            'name': this.name,                          // 所有人
-            'personType': this.applyId,                 // 申请人类型
-            'driveLicenseNumber': this.drivingLicense,  // 行驶证编号
-            'mobilephone': this.mobile,                 // 手机号码
-            'telno': this.telno,                        // 固定号码
-            'receiverName': this.addresseeName,         // 收件人姓名
-            'receiverNumber': this.addresseeMobile,     // 收件人电话
-            'postCode': this.postalcode,                // 邮政编码
-            'receiverAddress': `深圳市,${this.areaSelectMassage},${this.mailingAddress}`,    // 收件人地址
-            'effectiveDate': this.mtDateTimeMsg,        // 保险生效日期
-            'terminationDate': this.DateTimeMsg,        // 保险终止日期
-            'inform': this.cur_place_id,                // 保险告知方式
-            'bookerName': this.appointment,             // 预约人名字
-            'bookerIdentityCard': this.appointmentID,   // 预约人名字
-            'bookerType': this.bookerType               // 预约方式
-          }
-        }
-        this.$store.commit('saveMotorVehicleHandling', dataList)
-        this.$router.push('/affirmInfo')
+        this.verificationFn()
       }
     }
   }
