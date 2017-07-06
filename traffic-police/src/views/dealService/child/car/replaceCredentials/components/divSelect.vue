@@ -1,8 +1,8 @@
 <template>
   <div class="replace-select">
     <div class="select-title">{{thisInfo.title}}</div>
-    <input type="text" class="selected-value" v-model="currentVal" readonly @click="showUl=!showUl" @blur="">
-    <div class="div-select-ul" v-if="showUl">
+    <input type="text" class="selected-value" v-model="currentVal" readonly @click.stop="showSelectUl" @blur="">
+    <div class="div-select-ul" v-show="showUl">
       <ul>
         <li v-for="item in thisInfo.option" @click="selectedValue(item)">{{item.str}}</li>
       </ul>
@@ -76,11 +76,22 @@
         this.showUl = false
       },
       showSelectUl () {
+        let selectUl = document.getElementsByClassName('div-select-ul')
+        Array.prototype.slice.call(selectUl).map(item => {
+          item.style.display = 'none'
+        })
         this.showUl = !this.showUl
+      },
+      disappearSelectUl () {
+        this.showUl = false
       }
     },
     mounted () {
       this.currentVal = this.defaultVal
+      document.addEventListener('click', this.disappearSelectUl)
+    },
+    destroyed () {
+      document.removeEventListener('click', this.disappearSelectUl)
     }
   }
 </script>

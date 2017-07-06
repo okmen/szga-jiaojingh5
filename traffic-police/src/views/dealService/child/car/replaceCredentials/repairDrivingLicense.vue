@@ -403,10 +403,10 @@
         let dataList = {
           type: '补领行驶证',
           textObj: {
-            '车主姓名': this.ownersName,
+            'name': this.ownersName,
             '证件号码': this.certificateNumber,
-            '车牌号码': this.plateNumberOne,
-            '车牌种类': this.plateTypeOne,
+            'numberPlate': this.plateNumberOne, //
+            'plateType': this.plateTypeOne,
             '户籍所在地': this.censusRegister,
             '收件人姓名': this.recipientName,
             '收件人手机': this.recipientPhone,
@@ -421,6 +421,7 @@
           }
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)
+        console.log(dataList)
       }
     },
     mounted () {
