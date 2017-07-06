@@ -192,6 +192,7 @@ export default {
       name: window.localStorage.getItem('userName'),     // 所有人名字
       addresseeName: window.localStorage.getItem('userName'),  // 收件人名字
       addresseeMobile: window.localStorage.getItem('mobilePhone'),  // 收件人手机号码
+      vehicleData: [],
       isShow: false,
       mtDateTimeMsg: '',                           // 保险生效时间进页面默认时间
       DateTimeMsg: '',                             // 保险终止时间进页面默认时间
@@ -286,15 +287,20 @@ export default {
       mailingAddress: '',                         // 详细地址
       appointment: '',                            // 预约人
       appointmentID: '',                          // 预约人身份证
-      bookerType: '0'                             // 预约方式
+      bookerType: '0',                            // 预约方式
+      behind: {}
     }
   },
   mounted: function () {
+    JSON.parse(window.localStorage.getItem('cars')).map(item => {
+      this.vehicleData.push({'myNumberPlate': item.myNumberPlate})
+      this.behind[item.myNumberPlate] = item.name
+    })
+    console.log(this.vehicleData)
     let getTime = this.currentTime()
     let getTimes = this.currentTime('take')
     this.mtDateTimeMsg = getTime
     this.DateTimeMsg = getTimes
-    this.vehicleData = JSON.parse(window.localStorage.getItem('cars'))
     document.addEventListener('click', (e) => {
       this.vehicleShow = false
       this.applyShow = false
@@ -308,6 +314,7 @@ export default {
     vehiclePlate: function (str) {
       if (str) {
         this.vehicle = str
+        this.name = this.behind[str]
       }
       if (this.vehicleShow === true) {
         this.vehicleShow = false
@@ -433,6 +440,8 @@ export default {
         resultPost(sendSMS, phonedata).then(json => {
           if (json.code === '0000') {
             this.timePiece()
+          } else {
+            Toast({message: json.msg, position: 'bottom', className: 'white'})
           }
         })
       }

@@ -163,6 +163,7 @@
   import uploadFile from '../../../../../service/uploadFile.js'
   import { Toast } from 'mint-ui'
   import { isPhone, isChinese } from '../../../../../service/regExp.js'
+  import { complementTheMotorVehicleDrivingLicense } from '../../../../../config/baseUrl.js'
   export default {
     data () {
       return {
@@ -402,6 +403,7 @@
         }
         let dataList = {
           type: '补领行驶证',
+          url: complementTheMotorVehicleDrivingLicense,
           textObj: {
             'name': this.ownersName,   // 车主姓名
             'identityCard': this.certificateNumber,
@@ -417,7 +419,7 @@
             'PHOTO10': this.IDcarfBack,
             'XSZZP': this.degree45,
             'DJZSFYJ': this.registerCredential,
-            'foreignPeopleLivingOnTheTable': this.outBoard
+            'PHOTO31': this.outBoard
           }
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)
