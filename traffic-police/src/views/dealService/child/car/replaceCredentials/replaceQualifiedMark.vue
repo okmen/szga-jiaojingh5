@@ -17,7 +17,11 @@
       <span class="item-title">车牌种类</span>
       <input type="text" class="item-info" disabled v-model="plateTypeOneText">
     </div>
-    <div-select :childInfo="censusRegister" @getSelected="getCensusRegister" defaultVal="深圳"></div-select>
+    <!--<div-select :childInfo="censusRegister" @getSelected="getCensusRegister" defaultVal="深圳"></div-select>-->
+    <div class="domicile-place">
+      <span class="item-title">户籍所在地</span>
+      <div-radio :optname="optname" @getSelected="getCensusRegister"></div-radio>
+    </div>
     <div class="recipient-name">
       <span class="item-title">收件人姓名</span>
       <input type="text" placeholder="请输入收件人姓名" class="item-info" v-model="recipientName">
@@ -197,8 +201,8 @@
           ]
         }, */
         optname: [
-          {'str': '深户', choose: true},
-          {'str': '外籍户口', choose: false}
+          {'str': '深户', choose: true, id: '1'},
+          {'str': '外籍户口', choose: false, id: '0'}
         ],
         mobilePhone: window.localStorage.getItem('mobilePhone'),
         ownersName: window.localStorage.getItem('userName'),
@@ -238,7 +242,7 @@
             }
           ]
         },
-        censusRegister: {
+        /* censusRegister: {
           title: '户籍所在地',
           option: [
             {'str': '深圳', id: '1'},
@@ -246,7 +250,7 @@
             {'str': '外国籍', id: '0'},
             {'str': '其他', id: '0'}
           ]
-        },
+        }, */
         censusRegisterOne: '1',
         plateToType: {},
         plateTypeOneText: '',
@@ -263,7 +267,8 @@
       }
     },
     components: {
-      divSelect: require('./components/divSelect.vue')
+      divSelect: require('./components/divSelect.vue'),
+      divRadio: require('./components/divRadio.vue')
     },
     computed: {
       plateNumber () {

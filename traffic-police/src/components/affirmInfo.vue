@@ -3,17 +3,17 @@
   <div class="affirmInfo-text">
     <ul class="affirmInfo-text-content">
       <li class="affirmInfo-text-item" v-for="(value, key) in dataList.textObj">
-        <span class="affirmInfo-text-item-key">{{ parallelismListObj[key] }}</span>
-        <span class="affirmInfo-text-item-val">{{ value }}</span>
+        <span class="affirmInfo-text-item-key">{{ keyListObj[key] }}</span>
+        <span class="affirmInfo-text-item-val">{{ valListObj[key] ?  valListObj[key][value] : value }}</span>
       </li>
     </ul>
   </div>
   <div class="affirmInfo-img">
-    <p>请按示例图上传以下证件照片</p>
+    <p v-if="dataList.imgObj">请按示例图上传以下证件照片</p>
     <div class="affirmInfo-img-content">
-      <dl class="affirmInfo-img-item" v-for="(value, key) in dataList.imgObj">
+      <dl class="affirmInfo-img-item" v-for="(value, key) in dataList.imgObj" v-if="value">
         <dt class="affirmInfo-img-item-val"><img :src="value" alt=""></dt>
-        <dd class="affirmInfo-img-item-key">{{ parallelismListObj[key] }}</dd>
+        <dd class="affirmInfo-img-item-key">{{ keyListObj[key] }}</dd>
       </dl>
     </div>
   </div>
@@ -30,7 +30,7 @@ export default {
   name: 'affirmInfo',
   data () {
     return {
-      parallelismListObj: {
+      keyListObj: {
         plateType: '车牌类型',
         cartype: '车辆类型',
         abbreviation: '车牌简称',
@@ -54,6 +54,8 @@ export default {
         receiverAddress: '收件人地址',
         personType: '申请人类型',
         driveLicenseNumber: '行驶证编号',
+        identificationNO: '证件种类',
+        identificationNum: '证件号码',
         telno: '固定号码',
         postCode: '邮政编码',
         effectiveDate: '保险生效日期',
@@ -76,6 +78,63 @@ export default {
         DJZSFYJ: '机动车登记证书',
         JDCXSZ: '机动车行驶证照片',
         XSZZP: '车辆45度照片'
+      },
+      valListObj: {
+        cartype: {
+          '01': '大型汽车',
+          '02': '小型汽车',
+          '03': '使馆汽车',
+          '04': '领馆汽车',
+          '05': '境外汽车',
+          '06': '外籍汽车',
+          '07': '普通摩托车',
+          '08': '轻便摩托车',
+          '09': '使馆摩托车',
+          '10': '领馆摩托车',
+          '15': '挂车',
+          '16': '教练汽车',
+          '17': '教练摩托车',
+          '18': '实验汽车',
+          '19': '实验摩托车',
+          '22': '临时行驶车',
+          '23': '警用汽车',
+          '24': '警用摩托',
+          '20': '临时入境车',
+          '51': '临时行驶车',
+          '52': '新能源小型车',
+          'K31': '小型普通客车',
+          'K32': '小型越野客车',
+          'K33': '小型轿车',
+          'K34': '小型专用客车',
+          'K41': '微型普通客车',
+          'K42': '微型越野客车',
+          'K43': '微型轿车',
+          'K38': '小型专用校车'
+        },
+        plateType: {
+          '02': '蓝牌',
+          '06': '黑牌',
+          '01': '黄牌'
+        },
+        carOrigin: {
+          'A': '国产车',
+          'B': '进口车'
+        },
+        placeOfDomicile: {
+          '1': '深户',
+          '0': '外籍户口'
+        },
+        personType: {
+          '1': '机动车所有人',
+          '2': '代理人'
+        },
+        bookerType: {
+          '0': '本人'
+        },
+        proprietorship: {
+          '0': '个人',
+          '1': '单位'
+        }
       }
     }
   },
