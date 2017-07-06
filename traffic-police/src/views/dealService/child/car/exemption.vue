@@ -289,7 +289,8 @@ export default {
       appointmentID: '',                          // 预约人身份证
       bookerType: '0',                            // 预约方式
       cars: {},
-      plateType: ''
+      plateType: '',
+      carTypeId: ''
     }
   },
   mounted: function () {
@@ -306,6 +307,7 @@ export default {
       this.areaSelectShow = false
       this.appointmentShow = false
     })
+    this.carIdFn()
   },
   methods: {
     // 车牌下拉框
@@ -321,6 +323,7 @@ export default {
         this.name = item.name
         this.plateType = item.plateType
         this.vehicleShow = false
+        this.carIdFn()
       }
     },
     // 申请人类型下拉框
@@ -486,9 +489,10 @@ export default {
           'bookerType': this.bookerType               // 预约方式
         },
         invisibleObj: {
-          'id': this.zhid                             // 证件类型ID
+          'carTypeId': this.carTypeId                             // 证件类型ID
         }
       }
+      console.log(dataList)
       this.$store.commit('saveMotorVehicleHandling', dataList)
       this.$router.push('/affirmInfo')
     },
@@ -499,7 +503,6 @@ export default {
       }
       resultPost(verificatioCode, verificationData).then(json => {
         if (json.code === '0000') {
-          this.carIdFn()
           this.dataFn()
         } else {
           Toast({message: json.data, position: 'bottom', className: 'white'})
@@ -507,7 +510,6 @@ export default {
       })
     },
     submitClick: function () {
-      this.carIdFn()
       if (!this.drivingLicense) {
         Toast({message: '请输入行驶证编码', position: 'bottom', className: 'white'})
       } else if (!this.mobile) {
@@ -529,9 +531,11 @@ export default {
       } else if (this.identifying.length !== 6) {
         Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
       } else {
-        this.verificationFn()
+        // this.verificationFn()
+        this.dataFn()
       }
     },
+    // 获取证件类型ID
     carIdFn: function () {
       let carIdFnData = {
         arg0: '',
@@ -540,8 +544,9 @@ export default {
       }
       resultPost(getCarTypeId, carIdFnData).then(json => {
         console.log(json)
-        if (json.code === '0000') {
-          this.zhid = json.data.id
+        if (json.code === '00') {
+          this.carTypeId = json.data
+          console.log(this.carTypeId)
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
