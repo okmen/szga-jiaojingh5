@@ -199,9 +199,9 @@
           {'str': '深户', choose: true},
           {'str': '外籍户口', choose: false}
         ],
-        mobilePhone: '',
-        ownersName: '',
-        certificateNumber: '',
+        mobilePhone: window.localStorage.getItem('mobilePhone'),
+        ownersName: window.localStorage.getItem('userName'),
+        certificateNumber: window.localStorage.getItem('identityCard'),
         recipientInfo: {
           title: '深圳市',
           option: [
@@ -438,15 +438,13 @@
             '境外人员临住表': this.outBoard
           }
         }
+        this.$store.commit('saveMotorVehicleHandling', dataList)
         console.log(dataList)
       }
     },
     mounted () {
       this.uploadImg()
       this.testPlateType(this.defaultPlateNumber)
-      this.mobilePhone = window.localStorage.getItem('mobilePhone')
-      this.ownersName = window.localStorage.getItem('userName')
-      this.certificateNumber = window.localStorage.getItem('identityCard')
     }
   }
 </script>

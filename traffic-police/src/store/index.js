@@ -85,6 +85,9 @@ const getters = {
   showAppoin (state) {
     return state.appoinSuccess
   },
+  getMotorVehicleHandling (state) {
+    return state.motorVehicleHandling
+  },
   showInform (state) {
     return state.informSuccess
   },

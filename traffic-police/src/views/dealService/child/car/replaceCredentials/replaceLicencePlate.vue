@@ -411,6 +411,7 @@
             '境外人员临住表': this.outBoard
           }
         }
+        this.$store.commit('saveMotorVehicleHandling', dataList)
         console.log(dataList)
       }
     },
