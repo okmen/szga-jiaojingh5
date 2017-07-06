@@ -144,6 +144,7 @@
   </div>
 </template>
 <script>
+  import { iocomotiveCarChangeContact } from '../../../../config/baseUrl'
   import UploadFile from '../../../../service/uploadFile'
   import { Toast } from 'mint-ui'
   export default {
@@ -401,6 +402,7 @@
         } else {
           let dataList = {
             type: '机动车变更联系方式',
+            url: iocomotiveCarChangeContact,
             textObj: {
               'name': this.name,      // 车主姓名
               'identificationNO': this.variety,   // 证件种类

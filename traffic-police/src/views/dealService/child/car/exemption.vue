@@ -116,7 +116,7 @@
             <span></span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" v-model="mailingAddress" type="text" name="" value="" maxlength="4" placeholder="请输入详细地址">
+            <input class="text-input" v-model="mailingAddress" type="text" name="" value="" placeholder="请输入详细地址">
           </div>
         </li>
         <li class="form-li">
@@ -183,7 +183,7 @@
 <script>
 import { mapActions } from 'vuex'
 import { resultPost } from '../../../../service/getData'
-import { sendSMS, verificatioCode } from '../../../../config/baseUrl'
+import { sendSMS, verificatioCode, createVehicleInspection, getCarTypeId } from '../../../../config/baseUrl'
 import { Toast } from 'mint-ui'
 export default {
   name: 'exemption',
@@ -288,13 +288,16 @@ export default {
       appointment: '',                            // 预约人
       appointmentID: '',                          // 预约人身份证
       bookerType: '0',                            // 预约方式
-      behind: {}
+      behind: {},
+      bindid: {},
+      plateType: ''
     }
   },
   mounted: function () {
     JSON.parse(window.localStorage.getItem('cars')).map(item => {
       this.vehicleData.push({'myNumberPlate': item.myNumberPlate})
       this.behind[item.myNumberPlate] = item.name
+      this.bindid[item.myNumberPlate] = item.plateType
     })
     console.log(this.vehicleData)
     let getTime = this.currentTime()
@@ -315,6 +318,7 @@ export default {
       if (str) {
         this.vehicle = str
         this.name = this.behind[str]
+        this.plateType = this.bindid[str]
       }
       if (this.vehicleShow === true) {
         this.vehicleShow = false
@@ -465,6 +469,7 @@ export default {
     dataFn: function () {
       let dataList = {
         type: '六年免检申请',
+        url: createVehicleInspection,
         textObj: {
           'numberPlate': this.vehicle,                // 车牌号码
           'name': this.name,                          // 所有人
@@ -481,7 +486,8 @@ export default {
           'inform': this.cur_place_id,                // 保险告知方式
           'bookerName': this.appointment,             // 预约人名字
           'bookerIdentityCard': this.appointmentID,   // 预约人名字
-          'bookerType': this.bookerType               // 预约方式
+          'bookerType': this.bookerType,               // 预约方式
+          'id': this.zhid
         }
       }
       this.$store.commit('saveMotorVehicleHandling', dataList)
@@ -494,6 +500,7 @@ export default {
       }
       resultPost(verificatioCode, verificationData).then(json => {
         if (json.code === '0000') {
+          this.carIdFn()
           this.dataFn()
         } else {
           Toast({message: json.data, position: 'bottom', className: 'white'})
@@ -524,6 +531,20 @@ export default {
       } else {
         this.verificationFn()
       }
+    },
+    carIdFn: function () {
+      let idFnDta = {
+        arg0: '',
+        arg1: '',
+        code: this.plateType
+      }
+      resultPost(getCarTypeId, idFnDta).then(json => {
+        if (json.code === '0000') {
+          this.zhid = json.data.id
+        } else {
+          Toast({message: json.data, position: 'bottom', className: 'white'})
+        }
+      })
     }
   }
 }

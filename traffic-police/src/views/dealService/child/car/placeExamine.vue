@@ -139,7 +139,7 @@
 </template>
 <script>
 import { resultGet, resultPost } from '../../../../service/getData'
-import { getIssuing, sendSMS, verificatioCode } from '../../../../config/baseUrl'
+import { getIssuing, sendSMS, verificatioCode, inspectionDeclaration } from '../../../../config/baseUrl'
 import { Toast } from 'mint-ui'
 export default {
   name: 'placeExamine',
@@ -342,6 +342,7 @@ export default {
     dataFn: function () {
       let dataList = {
         type: '机动车委托异地定期检验申报',
+        url: inspectionDeclaration,
         textObj: {
           'numberPlate': this.vehicle,                       // 车牌号码
           'cartype': this.vehType,                           // 车辆类型

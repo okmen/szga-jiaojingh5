@@ -61,7 +61,7 @@
           <div class="upload-item-text-one">机动车登记证书</div>
         </div>
         <div class="upload-item-img" v-show="this.censusRegister != '1'">
-          <label class="upload-item-img-one" for="file4">
+          <label class="upload-item-img-one" for="file5">
             <input id="file5" type="file" accept="image/*" >
             <img :src="imgOne5" />
           </label>
