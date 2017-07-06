@@ -164,11 +164,11 @@ export const iocomotiveCarReplace = `${commonUrl}handleservice/iocomotiveCarRepl
 
 export const verificatioCode = `${commonUrl}user/verificatioCode.html.html` // 验证码校验接口
 
-export const createVehicleInspection = `${commonUrl}user/handleservice/createVehicleInspection.html` // 六年免检
+export const createVehicleInspection = `${commonUrl}handleservice/createVehicleInspection.html` // 六年免检
 
-export const iocomotiveCarChangeContact = `${commonUrl}user/handleservice/iocomotiveCarChangeContact.html` // 机动车变更联系方式
+export const iocomotiveCarChangeContact = `${commonUrl}handleservice/iocomotiveCarChangeContact.html` // 机动车变更联系方式
 
-export const inspectionDeclaration = `${commonUrl}user/handleservice/inspectionDeclaration.html` // 机动车委托异地定期检验申报
+export const inspectionDeclaration = `${commonUrl}handleservice/inspectionDeclaration.html` // 机动车委托异地定期检验申报
 
-export const getCarTypeId = `${commonUrl}user/handleservice/getCarTypeId.html` // 获取车辆类型Id
+export const getCarTypeId = `${commonUrl}handleservice/getCarTypeId.html` // 获取车辆类型Id
 
