@@ -71,8 +71,8 @@ export default {
         PHOTO28: '机动车合格证',
         PHOTO31: '境外人员临住表',
         PHOTO29: '进口货物证明书'
-      }
-      /* dataList: {
+      },
+      dataList: {
         type: '补领行驶证',
         textObj:
         {
@@ -90,16 +90,10 @@ export default {
           'PHOTO10': 'base64',
           'PHOTO31': 'base64'
         }
-      } */
-    }
-  },
-  computed: {
-    dataList () {
-      return this.$store.getters.getMotorVehicleHandling
+      }
     }
   },
   mounted: function () {
-    console.log('确认界面', this.dataList)
   },
   methods: {
     affirmInfoBtn: function () {
