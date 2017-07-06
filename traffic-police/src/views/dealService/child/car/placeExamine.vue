@@ -4,7 +4,7 @@
         <ul>
           <li class="form-line">
             <div class="form-line-item item-name">
-              <span>车牌名称</span>
+              <span>车牌号码</span>
             </div>
             <div class="div-select">
               <span class="btn-select" @click.stop="vehiclePlate()">{{ vehicle }}</span>
@@ -30,7 +30,7 @@
           </li>
           <li class="form-line">
             <div class="form-line-item item-name">
-              <span>所有人</span>
+              <span>所有权</span>
             </div>
             <div class="div-select">
               <span class="btn-select" @click.stop="ownerClick()">{{ ownerTimeMsg }}</span>
@@ -219,7 +219,7 @@ export default {
           'str': '大鹏新区'
         }
       ],
-      carriageNumber: '5563',                  // 车架号
+      carriageNumber: '',                  // 车架号
       addresseeName: window.localStorage.getItem('userName'),                //  收件人名字
       mailingAddress: '',                     // 详细地址
       mobile: window.localStorage.getItem('mobilePhone'),                  // 手机号码
@@ -335,17 +335,17 @@ export default {
         let dataLIst = {
           type: '机动车委托异地定期检验申报',
           textObj: {
-            '车牌名称': this.vehicle,
-            '车辆类型': this.vehType,
-            '所有人': this.ownerTimeMsg,
-            '车架号': this.carriageNumber,
-            '车主身份证': this.identityCard,
-            '车主名字': this.name,
-            '受托机构': this.trusteeTimeMsg,
-            '收件人名字': this.addresseeName,
-            '联系电话': this.mobile,
-            '邮政编码': this.postalcode,
-            '收件人地址': `深圳市,${this.areaSelectMassage},${this.mailingAddress}`
+            'numberPlate': this.vehicle,                       // 车牌号码
+            'cartype': this.vehType,                           // 车辆类型
+            'proprietorship': this.ownerTimeMsg,               // 所有权
+            'behindTheFrame4Digits': this.carriageNumber,      // 车架号
+            'carOwnerIdentityCard': this.identityCard,         // 车主身份证
+            'name': this.name,                                 // 车主名字
+            'associatedAgency': this.trusteeTimeMsg,           // 受托机构
+            'receiverName': this.addresseeName,                // 收件人名字
+            'mobilephone': this.mobile,                        // 联系电话
+            'postCode': this.postalcode,                       // 邮政编码
+            'receiverAddress': `深圳市,${this.areaSelectMassage},${this.mailingAddress}`    // 收件人地址
           }
         }
         console.log(dataLIst)

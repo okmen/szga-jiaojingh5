@@ -31,7 +31,7 @@
             <span class="btn-select" @click.stop="applyClick()">{{ applyMassage }}</span>
             <div class="div-select-ul" v-if="applyShow">
               <ul>
-                <li v-for="item in applyData" @click.stop="applyClick(item.longName)">{{item.longName}}</li>
+                <li v-for="item in applyData" @click.stop="applyClick(item.longName, item.applyId)">{{item.longName}}</li>
               </ul>
             </div>
           </div>
@@ -68,7 +68,7 @@
             <span>固定号码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="" placeholder="请输入固定号码(非必填)"/>
+            <input class="text-input" type="text" value="" v-model="telno" placeholder="请输入固定号码(非必填)"/>
           </div>
         </li>
         <li class="form-line">
@@ -182,6 +182,8 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
+import { resultPost } from '../../../../service/getData'
+import { sendSMS, verificatioCode } from '../../../../config/baseUrl'
 import { Toast } from 'mint-ui'
 export default {
   name: 'exemption',
@@ -197,17 +199,22 @@ export default {
       formatTime: '',                              // 使用mt组件后，时间是中国标准时间，格式转换
       informTime: this.currentTime(),              // 保险生效时间当前时间
       informTimes: this.currentTime(),             // 保险终止时间当前时间
-      cur_place_id: '',                            // 车牌
+      applyId: '1',                                // 申请人id
+      cur_place_id: '1',                           // 保险告知方式
       cur_area_id: '01',                           // 默认区名id  01为福田
       placeSelectShow: false,
       placeSelectMassage: '互联网查询',            // 发证机默认第一条名称
       placeSelectData: [
         {
-          'shortName': '11',
+          'shortName': '1',
+          'longName': '互联网查询'
+        },
+        {
+          'shortName': '2',
           'longName': '短信告知'
         },
         {
-          'shortName': '12',
+          'shortName': '3',
           'longName': '非移动电话告知'
         }
       ],                                           // 发证机关列表 数据从接口查出
@@ -217,10 +224,12 @@ export default {
       applyMassage: '机动车所有人',
       applyData: [
         {
-          'longName': '机动车所有人'
+          'longName': '机动车所有人',
+          'applyId': '1'
         },
         {
-          'longName': '代理人'
+          'longName': '代理人',
+          'applyId': '2'
         }
       ],
       areaSelectShow: false,
@@ -267,6 +276,7 @@ export default {
           'str': '大鹏新区'
         }
       ],
+      telno: '',                                  // 固定号码
       mobile: '',                                 // 手机号码
       chronoScope: '获取验证码',
       forbidden: false,                           // 验证码按钮禁用设置
@@ -275,7 +285,8 @@ export default {
       postalcode: '',                             // 邮政编码
       mailingAddress: '',                         // 详细地址
       appointment: '',                            // 预约人
-      appointmentID: ''                           // 预约人身份证
+      appointmentID: '',                          // 预约人身份证
+      bookerType: '0'                             // 预约方式
     }
   },
   mounted: function () {
@@ -305,9 +316,10 @@ export default {
       }
     },
     // 申请人类型下拉框
-    applyClick: function (str) {
+    applyClick: function (str, id) {
       if (str) {
         this.applyMassage = str
+        this.applyId = id
       }
       if (this.applyShow === true) {
         this.applyShow = false
@@ -414,7 +426,15 @@ export default {
       } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobile))) {
         Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
       } else {
-        this.timePiece()
+        let phonedata = {
+          mobilephone: this.mobile,
+          businessType: 'szjj'
+        }
+        resultPost(sendSMS, phonedata).then(json => {
+          if (json.code === '0000') {
+            this.timePiece()
+          }
+        })
       }
     },
     // 验证码倒计时
@@ -435,17 +455,30 @@ export default {
       }, 1000)
     },
     submitClick: function () {
-      console.log('11')
+      if (!this.identifying) {
+        Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
+      } else if (this.identifying.length !== 6) {
+        Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
+      } else {
+        let verificationData = {
+          mobilephone: this.mobile,
+          validateCode: this.identifying
+        }
+        resultPost(verificatioCode, verificationData).then(json => {
+          if (json.code === '0000') {
+            console.log('111')
+            this.verificationFn()
+          } else {
+            Toast({message: json.msg, position: 'bottom', className: 'white'})
+          }
+        })
+      }
+    },
+    verificationFn: function () {
       if (!this.drivingLicense) {
         Toast({message: '请输入行驶证编码', position: 'bottom', className: 'white'})
       } else if (!this.mobile) {
         Toast({message: '请输入手机号码', position: 'bottom', className: 'white'})
-      } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobile))) {
-        Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
-      } else if (!this.identifying) {
-        Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
-      } else if (this.identifying.length !== 6) {
-        Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
       } else if (!this.postalcode) {
         Toast({message: '请输入邮政编码', position: 'bottom', className: 'white'})
       } else if (!this.mailingAddress) {
@@ -456,6 +489,30 @@ export default {
         Toast({message: '请输入预约人身份证号', position: 'bottom', className: 'white'})
       } else if (this.appointmentID.length > 18 || this.appointmentID.length < 16) {
         Toast({message: '请输入正确预约人身份证号', position: 'bottom', className: 'white'})
+      } else {
+        let dataList = {
+          type: '六年免检申请',
+          textObj: {
+            'numberPlate': this.vehicle,                // 车牌号码
+            'name': this.name,                          // 所有人
+            'personType': this.applyId,                 // 申请人类型
+            'driveLicenseNumber': this.drivingLicense,  // 行驶证编号
+            'mobilephone': this.mobile,                 // 手机号码
+            'telno': this.telno,                        // 固定号码
+            'receiverName': this.addresseeName,         // 收件人姓名
+            'receiverNumber': this.addresseeMobile,     // 收件人电话
+            'postCode': this.postalcode,                // 邮政编码
+            'receiverAddress': `深圳市,${this.areaSelectMassage},${this.mailingAddress}`,    // 收件人地址
+            'effectiveDate': this.mtDateTimeMsg,        // 保险生效日期
+            'terminationDate': this.DateTimeMsg,        // 保险终止日期
+            'inform': this.cur_place_id,                // 保险告知方式
+            'bookerName': this.appointment,             // 预约人名字
+            'bookerIdentityCard': this.appointmentID,   // 预约人名字
+            'bookerType': this.bookerType               // 预约方式
+          }
+        }
+        this.$store.commit('saveMotorVehicleHandling', dataList)
+        this.$router.push('/affirmInfo')
       }
     }
   }

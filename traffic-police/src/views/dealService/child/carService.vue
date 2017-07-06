@@ -25,13 +25,13 @@
       </div>
     </div>
     <div class="query-link">
-      <router-link to="queryLawlessPage">六年免检</router-link>
+      <router-link :to="isLogin ? 'exemption' : 'login'">六年免检</router-link>
     </div>
     <div class="query-link">
-      <router-link to="queryLawlessPage">机动车联系方式变更</router-link>
+      <router-link :to="isLogin ? 'motorAlteration' : 'login'">机动车联系方式变更</router-link>
     </div>
     <div class="query-link">
-      <router-link to="queryLawlessPage">机动车委托异地定期检验申报</router-link>
+      <router-link :to="isLogin ? 'placeExamine' : 'login'">机动车委托异地定期检验申报</router-link>
     </div>
     <div class="query-link">
       <router-link :to="isLogin ? 'freeForFirst' : 'login'">首违免罚查询</router-link>

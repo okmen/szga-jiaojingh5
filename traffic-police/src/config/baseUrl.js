@@ -127,19 +127,19 @@ export const getTempApptDistrictAndTime = `${commonUrl}activity/getTempApptDistr
 
 export const addTempApptInfo = `${commonUrl}activity/addTempApptInfo.html`  // 临时预约个人预约信息写入
 
-export const degradeCard = `${commonUrl}user/driverLicenseVoluntaryDemotion.html` // 驾驶证自愿降级
+export const degradeCard = `${commonUrl}handleservice/driverLicenseVoluntaryDemotion.html` // 驾驶证自愿降级
 
-export const changeConnect = `${commonUrl}user/driverChangeContact.html` // 驾驶人联系方式变更
+export const changeConnect = `${commonUrl}handleservice/driverChangeContact.html` // 驾驶人联系方式变更
 
-export const intoCard = `${commonUrl}user/driverLicenseInto.html` // 驾驶证转入
+export const intoCard = `${commonUrl}handleservice/driverLicenseInto.html` // 驾驶证转入
 
-export const annualExaminations = `${commonUrl}user/driverLicenseAnnualVerification.html` // 驾驶证年审
+export const annualExaminations = `${commonUrl}handleservice/driverLicenseAnnualVerification.html` // 驾驶证年审
 
-export const changeDelay = `${commonUrl}user/renewalDriverLicense.html` // 驾驶证延期换证
+export const changeDelay = `${commonUrl}handleservice/renewalDriverLicense.html` // 驾驶证延期换证
 
-export const cardRepair = `${commonUrl}user/repairDriverLicense.html` // 驾驶证补证
+export const cardRepair = `${commonUrl}handleservice/repairDriverLicense.html` // 驾驶证补证
 
-export const cardReplace = `${commonUrl}user/replaceDriverLicense.html` // 驾驶证换证
+export const cardReplace = `${commonUrl}handleservice/replaceDriverLicense.html` // 驾驶证换证
 
 export const getIssuing = `${commonUrl}user/getIssuingLicenceAuthorityArray.html` // 发证地列表
 
@@ -153,10 +153,13 @@ export const unbindVehicle = `${commonUrl}user/unbindVehicle.html` // 车主解�
 
 export const unbindTheOtherDriverUseMyCar = `${commonUrl}user/unbindTheOtherDriverUseMyCar.html` // 车主解绑其他车辆使用人
 
-export const complementTheMotorVehicleDrivingLicense = `http://192.168.1.120:8100/handleservice/complementTheMotorVehicleDrivingLicense.html` // 补领行驶证
+export const complementTheMotorVehicleDrivingLicense = `${commonUrl}handleservice/complementTheMotorVehicleDrivingLicense.html` // 补领行驶证
 
-export const replaceInspectionMark = `handleservice/replaceInspectionMark.html`  // 补换检验合格标志
+export const replaceInspectionMark = `${commonUrl}handleservice/replaceInspectionMark.html`  // 补换检验合格标志
 
-export const replaceMotorVehicleLicensePlate = `http://192.168.1.68:8080/handleservice/replaceMotorVehicleLicensePlate.html`  // 补换机动车号牌
+export const replaceMotorVehicleLicensePlate = `${commonUrl}handleservice/replaceMotorVehicleLicensePlate.html`  // 补换机动车号牌
 
-export const iocomotiveCarReplace = `http://192.168.1.120:8100/handleservice/iocomotiveCarReplace.html`  // 换领行驶证
+export const iocomotiveCarReplace = `${commonUrl}handleservice/iocomotiveCarReplace.html`  // 换领行驶证
+
+export const verificatioCode = `${commonUrl}user/verificatioCode.html.html` // 验证码校验接口
+
