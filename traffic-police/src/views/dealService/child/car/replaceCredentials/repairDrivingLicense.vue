@@ -406,7 +406,7 @@
           url: complementTheMotorVehicleDrivingLicense,
           textObj: {
             'name': this.ownersName,   // 车主姓名
-            'identityCard': this.certificateNumber,
+            'identificationNum': this.certificateNumber,
             'numberPlate': this.plateNumberOne, //
             'plateType': this.plateTypeOne,
             'placeOfDomicile': this.censusRegister,    // 户籍所在地

@@ -380,7 +380,7 @@
           url: iocomotiveCarReplace,
           textObj: {
             'name': this.ownersName,
-            'identityCard': this.certificateNumber,
+            'identificationNum': this.certificateNumber,
             'numberPlate': this.plateNumberOne,
             'plateType': this.plateTypeOne,
             'placeOfDomicile': this.censusRegister,
