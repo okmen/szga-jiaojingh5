@@ -146,7 +146,7 @@ export default {
   },
   methods: {
     affirmInfoBtn: function () {
-      let reqData = Object.assign({}, this.dataList.textObj, this.dataList.imgObj)
+      let reqData = Object.assign({}, this.dataList.textObj, this.dataList.imgObj, this.dataList.invisibleObj)
       console.log(reqData)
       resultPost(this.dataList.url, reqData).then(json => {
         console.log(json)
