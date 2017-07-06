@@ -288,6 +288,7 @@
           callback: (res) => {
             console.log(res)
             this.imgOne1 = res.imgUrl
+            this.IDcardFront = res.imgUrl
           }
         })
         uploadFile.upload({
@@ -295,7 +296,7 @@
           callback: (res) => {
             console.log(res)
             this.imgOne2 = res.imgUrl
-            this.IDcardFront = res.imgUrl
+            this.IDcarfBack = res.imgUrl
           }
         })
         uploadFile.upload({
@@ -303,7 +304,7 @@
           callback: (res) => {
             console.log(res)
             this.imgOne3 = res.imgUrl
-            this.IDcarfBack = res.imgUrl
+            this.registerCredential = res.imgUrl
           }
         })
         uploadFile.upload({
@@ -311,7 +312,7 @@
           callback: (res) => {
             console.log(res)
             this.imgOne4 = res.imgUrl
-            this.registerCredential = res.imgUrl
+            this.outBoard = res.imgUrl
           }
         })
       },
@@ -371,13 +372,6 @@
           })
           return
         }
-        if (!this.degree45) {
-          Toast({
-            message: '请上传车辆45度照片',
-            duration: 2000
-          })
-          return
-        }
         if (!this.registerCredential) {
           Toast({
             message: '请上传机动车登记证书',
@@ -416,7 +410,7 @@
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)
         console.log(dataList)
-        this.$router('/affirmInfo')
+        this.$router.push('/affirmInfo')
       }
     },
     mounted () {
