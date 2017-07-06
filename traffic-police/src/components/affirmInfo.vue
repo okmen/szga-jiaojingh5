@@ -12,7 +12,7 @@
     <p>请按示例图上传以下证件照片</p>
     <div class="affirmInfo-img-content">
       <dl class="affirmInfo-img-item" v-for="(value, key) in dataList.imgObj">
-        <dt class="affirmInfo-img-item-val">{{ value }}</dt>
+        <dt class="affirmInfo-img-item-val"><img :src="'data:image/png;base64,' + value" alt=""></dt>
         <dd class="affirmInfo-img-item-key">{{ parallelismListObj[key] }}</dd>
       </dl>
     </div>
@@ -23,7 +23,7 @@
 </div>
 </template>
 <script>
-// import { resultPost } from '../service/getData'
+import { resultPost } from '../service/getData'
 // import { userAgreement } from '../config/baseUrl'
 // import { Toast } from 'mint-ui'
 export default {
@@ -71,35 +71,22 @@ export default {
         PHOTO28: '机动车合格证',
         PHOTO31: '境外人员临住表',
         PHOTO29: '进口货物证明书'
-      },
-      dataList: {
-        type: '补领行驶证',
-        textObj:
-        {
-          'name': '张大山',
-          'identityCard': '445222199209020034',
-          'numberPlate': '粤B6A42E',
-          'plateType': '02',
-          'placeOfDomicile': '深户',
-          'receiverName': '张宇帆',
-          'receiverAddress': '深圳市,罗湖区,文锦北路XXXXX号'
-        },
-        imgObj:
-        {
-          'PHOTO09': 'base64',
-          'PHOTO10': 'base64',
-          'PHOTO31': 'base64'
-        }
       }
     }
   },
-  mounted: function () {
+  computed: {
+    dataList: function () {
+      return this.$store.state.motorVehicleHandling
+    }
   },
   methods: {
     affirmInfoBtn: function () {
       let reqData = {}
       Object.assign(reqData, this.dataList.textObj, this.dataList.imgObj)
       console.log(reqData)
+      resultPost(this.dataList.url, reqData).then(json => {
+        console.log(json)
+      })
     }
   }
 }
