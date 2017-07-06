@@ -10,7 +10,7 @@
               <span class="btn-select" @click.stop="vehiclePlate()">{{ vehicle }}</span>
               <div class="div-select-ul" v-if="vehicleShow">
                 <ul>
-                  <li v-for="item in vehicleData" @click.stop="vehiclePlate(item.myNumberPlate)">{{item.myNumberPlate}}</li>
+                  <li v-for="(item, index) in cars" @click.stop="vehiclePlate(item)">{{item.myNumberPlate}}</li>
                 </ul>
               </div>
             </div>
@@ -19,13 +19,8 @@
             <div class="form-line-item item-name">
               <span>车辆类型</span>
             </div>
-            <div class="div-select">
-              <span class="btn-select" @click.stop="vehicleType()">{{ vehType }}</span>
-              <div class="div-select-ul" v-if="vehicleTypeShow">
-                <ul>
-                  <li v-for="item in vehicleTypeData" @click.stop="vehicleType(item.longName)">{{item.longName}}</li>
-                </ul>
-              </div>
+            <div class="form-line-item">
+              <input class="text-input" v-model="carSelectData[vehType] ? carSelectData[vehType] : carSelectData[cars[0].plateType]" type="text" value="" readonly/>
             </div>
           </li>
           <li class="form-line">
@@ -143,24 +138,18 @@
     </div>
 </template>
 <script>
-import { resultGet } from '../../../../service/getData'
-import { getIssuing } from '../../../../config/baseUrl'
+import { resultGet, resultPost } from '../../../../service/getData'
+import { getIssuing, sendSMS, verificatioCode } from '../../../../config/baseUrl'
 import { Toast } from 'mint-ui'
 export default {
   name: 'placeExamine',
   data () {
     return {
+      vehType: '',
       isShow: false,                           //  验证码
       vehicleShow: false,                      // 车牌下拉框
       vehicle: window.localStorage.getItem('myNumberPlate'),
-      vehicleData: [],
       vehicleTypeShow: false,
-      vehType: '小型汽车',                      // 车辆类型下拉框
-      vehicleTypeData: [
-        {
-          'longName': '大型车辆'
-        }
-      ],
       ownerShow: false,
       ownerTimeMsg: '个人',
       ownerData: [
@@ -168,9 +157,32 @@ export default {
           'longName': '个人'
         },
         {
-          'longName': '所有人'
+          'longName': '单位'
         }
       ],
+      carSelectData: {
+        '01': '大型汽车',
+        '02': '小型汽车',
+        '03': '使馆汽车',
+        '04': '领馆汽车',
+        '05': '境外汽车',
+        '06': '外籍汽车',
+        '07': '普通摩托车',
+        '08': '轻便摩托车',
+        '09': '使馆摩托车',
+        '10': '领馆摩托车',
+        '15': '挂车',
+        '16': '教练汽车',
+        '17': '教练摩托车',
+        '18': '实验汽车',
+        '19': '实验摩托车',
+        '22': '临时行驶车',
+        '23': '警用汽车',
+        '24': '警用摩托',
+        '20': '临时入境车',
+        '51': '临时行驶车',
+        '52': '新能源小型车'
+      },
       trusteeShow: false,                    // 受托机构下拉框
       trusteeTimeMsg: '藏A:拉萨市公安局交通警察支队车辆管理所',
       cur_place_id: '藏A',                   // 默认受托机关字段
@@ -219,7 +231,7 @@ export default {
           'str': '大鹏新区'
         }
       ],
-      carriageNumber: '',                  // 车架号
+      carriageNumber: window.localStorage.getItem('behindTheFrame4Digits'),   // 车架号
       addresseeName: window.localStorage.getItem('userName'),                //  收件人名字
       mailingAddress: '',                     // 详细地址
       mobile: window.localStorage.getItem('mobilePhone'),                  // 手机号码
@@ -229,31 +241,25 @@ export default {
       name: window.localStorage.getItem('userName'),   // 车主名字
       identifying: '',                        // 验证码
       postalcode: '',                         // 邮政编码
-      behind: {}
+      cars: {}
     }
   },
   methods: {
     // 车牌下拉框
-    vehiclePlate: function (str) {
-      if (str) {
-        this.vehicle = str
-        this.carriageNumber = this.behind[str]
-      }
-      if (this.vehicleShow === true) {
+    vehiclePlate: function (item) {
+      if (!item) {
+        if (this.vehicleShow === true) {
+          this.vehicleShow = false
+        } else {
+          this.vehicleShow = true
+        }
+      } else {
+        this.vehType = item.plateType
+        this.vehicle = item.myNumberPlate
+        this.identityCard = item.identityCard
+        this.name = item.name
+        this.carriageNumber = item.behindTheFrame4Digits
         this.vehicleShow = false
-      } else {
-        this.vehicleShow = true
-      }
-    },
-    // 车辆类型下拉框
-    vehicleType: function (str) {
-      if (str) {
-        this.vehType = str
-      }
-      if (this.vehicleTypeShow === true) {
-        this.vehicleTypeShow = false
-      } else {
-        this.vehicleTypeShow = true
       }
     },
     // 所有人下拉框
@@ -296,8 +302,20 @@ export default {
       let mobile = this.mobile
       if (!(mobile)) {
         Toast({message: '请输入手机号', position: 'bottom', className: 'white'})
+      } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobile))) {
+        Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
       } else {
-        this.timePiece()
+        let phonedata = {
+          mobilephone: this.mobile,
+          businessType: 'szjj'
+        }
+        resultPost(sendSMS, phonedata).then(json => {
+          if (json.code === '0000') {
+            this.timePiece()
+          } else {
+            Toast({message: json.msg, position: 'bottom', className: 'white'})
+          }
+        })
       }
     },
     // 验证码倒计时
@@ -319,20 +337,38 @@ export default {
     },
     // 确认提交
     submitClick: function () {
+      if (!this.identifying) {
+        Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
+      } else if (this.identifying.length !== 6) {
+        Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
+      } else {
+        let verificationData = {
+          mobilephone: this.mobile,
+          validateCode: this.identifying
+        }
+        resultPost(verificatioCode, verificationData).then(json => {
+          if (json.code === '0000') {
+            console.log('111')
+            this.verificationFn()
+          } else {
+            Toast({message: json.msg, position: 'bottom', className: 'white'})
+          }
+        })
+      }
+    },
+    verificationFn: function () {
       if (!this.identityCard) {
         Toast({message: '请输入身份证', position: 'bottom', className: 'white'})
       } else if (!this.name) {
         Toast({message: '请输入车主名', position: 'bottom', className: 'white'})
       } else if (!this.identifying) {
         Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
-      } else if (this.identifying.length !== 6) {
-        Toast({message: '请输入正确的验证码', position: 'bottom', className: 'white'})
       } else if (!this.postalcode) {
         Toast({message: '请输入邮政编码', position: 'bottom', className: 'white'})
       } else if (!this.mailingAddress) {
         Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
       } else {
-        let dataLIst = {
+        let dataList = {
           type: '机动车委托异地定期检验申报',
           textObj: {
             'numberPlate': this.vehicle,                       // 车牌号码
@@ -341,14 +377,15 @@ export default {
             'behindTheFrame4Digits': this.carriageNumber,      // 车架号
             'carOwnerIdentityCard': this.identityCard,         // 车主身份证
             'name': this.name,                                 // 车主名字
-            'associatedAgency': this.trusteeTimeMsg,           // 受托机构
+            'associatedAgency': this.cur_place_id,             // 受托机构
             'receiverName': this.addresseeName,                // 收件人名字
             'mobilephone': this.mobile,                        // 联系电话
             'postCode': this.postalcode,                       // 邮政编码
             'receiverAddress': `深圳市,${this.areaSelectMassage},${this.mailingAddress}`    // 收件人地址
           }
         }
-        console.log(dataLIst)
+        this.$store.commit('saveMotorVehicleHandling', dataList)
+        this.$router.push('/affirmInfo')
       }
     }
   },
@@ -358,10 +395,7 @@ export default {
     })
   },
   created () {
-    JSON.parse(window.localStorage.getItem('cars')).map(item => {
-      this.vehicleData.push({'myNumberPlate': item.myNumberPlate})
-      this.behind[item.myNumberPlate] = item.behindTheFrame4Digits
-    })
+    this.cars = JSON.parse(window.localStorage.getItem('cars'))
     document.addEventListener('click', (e) => {
       this.ownerShow = false
       this.vehicleShow = false

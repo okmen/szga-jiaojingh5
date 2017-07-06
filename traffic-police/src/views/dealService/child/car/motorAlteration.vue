@@ -39,22 +39,17 @@
             <span class="btn-select" @click.stop="vehiclePlate()">{{ vehicle }}</span>
             <div class="div-select-ul" v-if="vehicleShow">
               <ul>
-                <li v-for="item in vehicleData" @click.stop="vehiclePlate(item.myNumberPlate)">{{item.myNumberPlate}}</li>
+                <li v-for="item in cars" @click.stop="vehiclePlate(item)">{{item.myNumberPlate}}</li>
               </ul>
             </div>
           </div>
         </li>
-         <li class="form-line">
+        <li class="form-line">
           <div class="form-line-item item-name">
             <span>车辆类型</span>
           </div>
-          <div class="div-select">
-            <span class="btn-select" @click.stop="vehicleType()">{{ vehicleItem }}</span>
-            <div class="div-select-ul" v-if="vehicleTypeShow">
-              <ul>
-                <li v-for="item in vehicleTypeData" @click.stop="vehicleType(item.longName)">{{item.longName}}</li>
-              </ul>
-            </div>
+          <div class="form-line-item">
+            <input class="text-input" type="text" value="" v-model="carSelectData[vehType] ? carSelectData[vehType] : carSelectData[cars[0].plateType]" readonly/>
           </div>
         </li>
         <li class="form-line">
@@ -159,6 +154,7 @@
         imgOne2: require('../../../../images/IDcard-back.png'),
         imgOne3: require('../../../../images/register-credential.png'),
         imgOne4: require('../../../../images/out-board.png'),
+        vehType: '',
         name: window.localStorage.getItem('userName'),
         vehicleFlapper: window.localStorage.getItem('behindTheFrame4Digits'),
         IDcardFront: '',                             // 身份证正面
@@ -223,14 +219,29 @@
         ],
         vehicleShow: false,
         vehicle: window.localStorage.getItem('myNumberPlate'),                         // 车牌下拉
-        vehicleData: [],
-        vehicleTypeShow: false,
-        vehicleItem: '小型汽车',                      // 车辆类型下拉框
-        vehicleTypeData: [
-          {
-            'longName': '大型车辆'
-          }
-        ],
+        carSelectData: {
+          '01': '大型汽车',
+          '02': '小型汽车',
+          '03': '使馆汽车',
+          '04': '领馆汽车',
+          '05': '境外汽车',
+          '06': '外籍汽车',
+          '07': '普通摩托车',
+          '08': '轻便摩托车',
+          '09': '使馆摩托车',
+          '10': '领馆摩托车',
+          '15': '挂车',
+          '16': '教练汽车',
+          '17': '教练摩托车',
+          '18': '实验汽车',
+          '19': '实验摩托车',
+          '22': '临时行驶车',
+          '23': '警用汽车',
+          '24': '警用摩托',
+          '20': '临时入境车',
+          '51': '临时行驶车',
+          '52': '新能源小型车'
+        },
         areaSelectShow: false,
         areaSelectMassage: '福田区',
         areaSelectData: [
@@ -275,20 +286,23 @@
             'str': '大鹏新区'
           }
         ],
-        behind: {}
+        cars: {}
       }
     },
     methods: {
       // 车牌下拉框
-      vehiclePlate: function (str) {
-        if (str) {
-          this.vehicle = str
-          this.vehicleFlapper = this.behind[str]
-        }
-        if (this.vehicleShow === true) {
-          this.vehicleShow = false
+      vehiclePlate: function (item) {
+        if (!item) {
+          if (this.vehicleShow === true) {
+            this.vehicleShow = false
+          } else {
+            this.vehicleShow = true
+          }
         } else {
-          this.vehicleShow = true
+          this.vehicle = item.myNumberPlate
+          this.vehType = item.plateType
+          this.vehicleFlapper = item.behindTheFrame4Digits
+          this.vehicleShow = false
         }
       },
       // 证件种类下拉框
@@ -385,7 +399,8 @@
           let dataLIst = {
             type: '机动车变更联系方式',
             textObj: {
-              '车牌名称': this.vehicle
+              'name': this.name,
+              'numberPlate': this.vehicle
             }
           }
           console.log(dataLIst)
@@ -396,10 +411,7 @@
       this.uploadImg()
     },
     created () {
-      JSON.parse(window.localStorage.getItem('cars')).map(item => {
-        this.vehicleData.push({'myNumberPlate': item.myNumberPlate})
-        this.behind[item.myNumberPlate] = item.behindTheFrame4Digits
-      })
+      this.cars = JSON.parse(window.localStorage.getItem('cars'))
       document.addEventListener('click', (e) => {
         this.varietyShow = false
         this.vehicleShow = false
