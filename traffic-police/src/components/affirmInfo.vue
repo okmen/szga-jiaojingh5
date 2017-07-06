@@ -66,11 +66,16 @@ export default {
         associatedAgency: '委托机构',
         PHOTO26: '购置发票图片',
         PHOTO27: '交强险单据',
-        PHOTO09: '身份证(正面)',
+        PHOTO9: '身份证(正面)',
         PHOTO10: '身份证(反面)',
         PHOTO28: '机动车合格证',
         PHOTO31: '境外人员临住表',
-        PHOTO29: '进口货物证明书'
+        PHOTO29: '进口货物证明书',
+        JZZA: '居住证正面',
+        JZZB: '居住证反面',
+        DJZSFYJ: '机动车登记证书',
+        JDCXSZ: '机动车行驶证照片',
+        XSZZP: '车辆45度照片'
       }
     }
   },
@@ -141,7 +146,16 @@ export default {
           .affirmInfo-img-item-val{
             width: 100%;
             height: 305px;
-            background-color: skyblue;
+            position: relative;
+            img{
+              display: block;
+              max-width: 100%;
+              max-height: 100%;
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%, -50%)
+            }
           }
           .affirmInfo-img-item-key{
             text-align: center;
