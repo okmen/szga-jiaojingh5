@@ -375,20 +375,20 @@
         let dataList = {
           type: '换领行驶证',
           textObj: {
-            '车主姓名': this.ownersName,
-            '证件号码': this.certificateNumber,
-            '车牌号码': this.plateNumberOne,
-            '车牌种类': this.plateTypeOne,
-            '户籍所在地': this.censusRegister,
-            '收件人姓名': this.recipientName,
-            '收件人手机': this.recipientPhone,
-            '收件人地址': `深圳市,${this.recipientAddressRegion},${this.recipientAddressDetail}`
+            'name': this.ownersName,
+            'identityCard': this.certificateNumber,
+            'numberPlate': this.plateNumberOne,
+            'plateType': this.plateTypeOne,
+            'placeOfDomicile': this.censusRegister,
+            'receiverName': this.recipientName,
+            'receiverNumber': this.recipientPhone,
+            'receiverAddress': `深圳市,${this.recipientAddressRegion},${this.recipientAddressDetail}`
           },
           imgObj: {
-            '身份证(正面)': this.IDcardFront,
-            '身份证(反面)': this.IDcarfBack,
-            '机动车登记证书': this.registerCredential,
-            '境外人员临住表': this.outBoard
+            'PHOTO9': this.IDcardFront,
+            'PHOTO10': this.IDcarfBack,
+            'DJZSFYJ': this.registerCredential,
+            'foreignPeopleLivingOnTheTable': this.outBoard
           }
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)

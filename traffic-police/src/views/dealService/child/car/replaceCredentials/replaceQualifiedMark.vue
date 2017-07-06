@@ -421,21 +421,21 @@
         let dataList = {
           type: '补换合格检验标志',
           textObj: {
-            '姓名': this.ownersName,
-            '身份证号码': this.certificateNumber,
-            '手机号码': this.mobilePhone,
-            '名下车辆': this.plateNumberOne,
-            '车牌种类': this.plateTypeOneVal,
-            '户籍所在地': this.censusRegisterOne,
-            '收件人姓名': this.recipientName,
-            '收件人手机': this.recipientPhone,
-            '收件人地址': `深圳市,${this.recipientAddressRegion},${this.recipientAddressDetail}`
+            'name': this.ownersName,
+            'identityCard': this.certificateNumber,
+            'mobilephone': this.mobilePhone,
+            'numberPlate': this.plateNumberOne,
+            'plateType': this.plateTypeOneVal,
+            'placeOfDomicile': this.censusRegisterOne,
+            'receiverName': this.recipientName,
+            'receiverNumber': this.recipientPhone,
+            'receiverAddress': `深圳市,${this.recipientAddressRegion},${this.recipientAddressDetail}`
           },
           imgObj: {
-            '身份证(正面)': this.IDcardFront,
-            '身份证(反面)': this.IDcarfBack,
-            '机动车登记证书': this.registerCredential,
-            '境外人员临住表': this.outBoard
+            'PHOTO9': this.IDcardFront,
+            'PHOTO10': this.IDcarfBack,
+            'DJZSFYJ': this.registerCredential,
+            'foreignPeopleLivingOnTheTable': this.outBoard
           }
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)
