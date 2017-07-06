@@ -152,3 +152,6 @@ export const detailsTrafficQuery = `${commonUrl}user/detailsTrafficQuery.html` /
 export const unbindVehicle = `${commonUrl}user/unbindVehicle.html` // 车主解绑车辆
 
 export const unbindTheOtherDriverUseMyCar = `${commonUrl}user/unbindTheOtherDriverUseMyCar.html` // 车主解绑其他车辆使用人
+
+export const verificatioCode = `${commonUrl}user/verificatioCode.html.html` // 验证码校验接口
+
