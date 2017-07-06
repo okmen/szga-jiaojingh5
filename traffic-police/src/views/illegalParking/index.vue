@@ -121,6 +121,167 @@
     <div style="height: 40px"></div>
   </div>
 </template>
+<script>
+  import { reportingNoParking } from '../../config/baseUrl'
+  import { resultPost } from '../../service/getData'
+  import UploadFile from '../../service/uploadFile'
+  import { Toast, Popup } from 'mint-ui'
+  import mymap from '../map/map.vue'
+  export default {
+    data () {
+      return {
+        currentDate: '',                        // 时间
+        myNumberPlate: [],
+        plateTypes: '',
+        plateType: '',                          // 车牌雷星星
+        IDcard: '',                             // 身份证号码
+        currentPlate: '',                       // 车牌号码
+        subTypeSelectShow: false,
+        typeSelectShow: false,
+        ticket: '',                             // 罚单单号
+        showMap: '',
+        mapObj: '',                             // 地点坐标
+        sceneImg: '',
+        imgTime: '',
+        showImg: false,
+        popupImgs: [require('../../images/ticket.png'), require('../../images/bigscence1.png'), require('../../images/front5.png'), require('../../images/back5.png'), require('../../images/headstock.png')],
+        popupImg: '',
+        reason: ''                              // 停车原因
+      }
+    },
+    components: {
+      mymap,
+      Popup
+    },
+    mounted () {
+      this.getUserInfo()
+      this.getNowFormatDate()
+    },
+    methods: {
+      init: function () {
+        UploadFile.upload({
+          id: 'file',
+          callback: (res) => {
+            console.log(res)
+            this.sceneImg = res.imgUrl
+            this.imgTime = res.dateTime
+          }
+        })
+      },
+      submitMap: function (obj) {
+        this.showMap = false
+        this.mapObj = obj
+        console.log(this.mapObj)
+      },
+      selectType (item) {
+        this.plateType = item
+        this.typeSelectShow = !this.typeSelectShow
+      },
+      selectPlate (item) {
+        this.currentPlate = item
+        this.subTypeSelectShow = !this.subTypeSelectShow
+      },
+      getUserInfo () {
+        this.currentPlate = window.localStorage.getItem('myNumberPlate')
+        let cars = JSON.parse(window.localStorage.getItem('cars')) || []
+        cars.map(item => {
+          this.myNumberPlate.push(item.myNumberPlate)
+        })
+//        var number = window.localStorage.getItem('plateTypes')
+        this.plateTypes = this.$store.state.licenseSelectData
+        this.IDcard = window.localStorage.getItem('identityCard')
+      },
+      submit () {
+        if (!this.currentPlate) {
+          Toast({
+            message: '请选择车牌号码',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.plateType) {
+          Toast({
+            message: '请选择车牌类型',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.ticket) {
+          Toast({
+            message: '请输入罚单单号',
+            duration: 2000
+          })
+          document.getElementById('ticket').focus()
+          return
+        }
+        if (!this.mapObj.showAdd) {
+          Toast({
+            message: '请选择停车地点',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.reason) {
+          Toast({
+            message: '请输入停车原因',
+            duration: 2000
+          })
+          document.getElementById('reason').focus()
+          return
+        }
+        let reqData = {
+          numberPlateNumber: this.currentPlate,     // 车牌号码
+          plateType: this.plateType,                // 车牌类型
+          IDcard: this.IDcard,                      // 身份证号
+          ticketNo: this.ticket,                    // 罚单单号
+          parkingSpot: this.mapObj.showAdd,         // 停车地点
+          parkingReason: this.reason,               // 停车原因
+          scenePhoto: 'qweqweqw',
+          scenePhoto1: '12dfsdf3',
+          scenePhoto2: '1df2asd3',
+          scenePhoto3: '12sddfds3',
+          stopNoticePhoto: '12cvdsfsd3'
+        }
+        resultPost(reportingNoParking, reqData).then(data => {
+          console.log(reqData)
+          console.log(data)
+        })
+      },
+      getNowFormatDate () {
+        /* eslint-disable */
+        var date = new Date ()
+        /* eslint-enable */
+        var seperator1 = '-'
+        var seperator2 = ':'
+        var month = date.getMonth() + 1
+        var strDate = date.getDate()
+        var hours = date.getHours()
+        var minutes = date.getMinutes()
+        var seconds = date.getSeconds()
+        if (month >= 1 && month <= 9) {
+          month = '0' + month
+        }
+        if (strDate >= 0 && strDate <= 9) {
+          strDate = '0' + strDate
+        }
+        if (hours >= 0 && hours <= 9) {
+          hours = '0' + hours
+        }
+        if (minutes >= 0 && minutes <= 9) {
+          minutes = '0' + minutes
+        }
+        if (seconds >= 0 && seconds <= 9) {
+          seconds = '0' + seconds
+        }
+        this.currentDate = `${date.getFullYear()}${seperator1}${month}${seperator1}${strDate} ${hours}${seperator2}${minutes}${seperator2}${seconds}`
+      },
+      popupTicket (item) {
+        this.showImg = !this.showImg
+        this.popupImg = this.popupImgs[item]
+      }
+    }
+  }
+</script>
 <style lang="less" scoped>
   .mint-popup{
     width: 80%;
@@ -290,165 +451,3 @@
     display: none;
   }
 </style>
-<script>
-  import { illegalParkingAvoidFine } from '../../config/baseUrl'
-  import { resultPost } from '../../service/getData'
-  import UploadFile from '../../service/uploadFile'
-  import { Toast, Popup } from 'mint-ui'
-  import mymap from '../map/map.vue'
-  export default {
-    data () {
-      return {
-        currentDate: '',
-        myNumberPlate: [],
-        plateTypes: '',
-        plateType: '',
-        IDcard: '',
-        currentPlate: '',
-        subTypeSelectShow: false,
-        typeSelectShow: false,
-        ticket: '',
-        showMap: '',
-        mapObj: '',
-        sceneImg: '',
-        imgTime: '',
-        showImg: false,
-        popupImgs: [require('../../images/ticket.png'), require('../../images/bigscence1.png'), require('../../images/front5.png'), require('../../images/back5.png'), require('../../images/headstock.png')],
-        popupImg: '',
-        reason: ''
-      }
-    },
-    components: {
-      mymap,
-      Popup
-    },
-    mounted () {
-      this.getUserInfo()
-      this.getNowFormatDate()
-    },
-    methods: {
-      init: function () {
-        UploadFile.upload({
-          id: 'file',
-          callback: (res) => {
-            console.log(res)
-            this.sceneImg = res.imgUrl
-            this.imgTime = res.dateTime
-          }
-        })
-      },
-      submitMap: function (obj) {
-        this.showMap = false
-        this.mapObj = obj
-        console.log(this.mapObj)
-      },
-      selectType (item) {
-        this.plateType = item
-        this.typeSelectShow = !this.typeSelectShow
-      },
-      selectPlate (item) {
-        this.currentPlate = item
-        this.subTypeSelectShow = !this.subTypeSelectShow
-      },
-      getUserInfo () {
-        this.currentPlate = window.localStorage.getItem('myNumberPlate')
-        let cars = JSON.parse(window.localStorage.getItem('cars')) || []
-        cars.map(item => {
-          this.myNumberPlate.push(item.myNumberPlate)
-        })
-//        var number = window.localStorage.getItem('plateTypes')
-        this.plateTypes = this.$store.state.licenseSelectData
-        this.IDcard = window.localStorage.getItem('identityCard')
-      },
-      submit () {
-        if (!this.currentPlate) {
-          Toast({
-            message: '请选择车牌号码',
-            duration: 2000
-          })
-          return
-        }
-        if (!this.plateType) {
-          Toast({
-            message: '请选择车牌类型',
-            duration: 2000
-          })
-          return
-        }
-        if (!this.ticket) {
-          Toast({
-            message: '请输入罚单单号',
-            duration: 2000
-          })
-          document.getElementById('ticket').focus()
-          return
-        }
-        if (!this.mapObj.showAdd) {
-          Toast({
-            message: '请选择停车地点',
-            duration: 2000
-          })
-          return
-        }
-        if (!this.reason) {
-          Toast({
-            message: '请输入停车原因',
-            duration: 2000
-          })
-          document.getElementById('reason').focus()
-          return
-        }
-        let reqData = {
-          createTime: this.currentDate,
-          licensePlateNo: this.currentPlate,
-          licensePlateType: this.plateType,
-          identityCard: this.IDcard,
-          ticketNo: this.ticket,
-          parkingAddr: this.mapObj.showAdd,
-          parkingReason: this.reason,
-          ticketImg: 'qweqweqw',
-          sceneOneImg: '12dfsdf3',
-          sceneHeadImg: '1df2asd3',
-          frontImg: '12sddfds3',
-          backImg: '12cvdsfsd3'
-        }
-        resultPost(illegalParkingAvoidFine, reqData).then(data => {
-          console.log(reqData)
-          console.log(data)
-        })
-      },
-      getNowFormatDate () {
-        /* eslint-disable */
-        var date = new Date ()
-        /* eslint-enable */
-        var seperator1 = '-'
-        var seperator2 = ':'
-        var month = date.getMonth() + 1
-        var strDate = date.getDate()
-        var hours = date.getHours()
-        var minutes = date.getMinutes()
-        var seconds = date.getSeconds()
-        if (month >= 1 && month <= 9) {
-          month = '0' + month
-        }
-        if (strDate >= 0 && strDate <= 9) {
-          strDate = '0' + strDate
-        }
-        if (hours >= 0 && hours <= 9) {
-          hours = '0' + hours
-        }
-        if (minutes >= 0 && minutes <= 9) {
-          minutes = '0' + minutes
-        }
-        if (seconds >= 0 && seconds <= 9) {
-          seconds = '0' + seconds
-        }
-        this.currentDate = `${date.getFullYear()}${seperator1}${month}${seperator1}${strDate} ${hours}${seperator2}${minutes}${seperator2}${seconds}`
-      },
-      popupTicket (item) {
-        this.showImg = !this.showImg
-        this.popupImg = this.popupImgs[item]
-      }
-    }
-  }
-</script>

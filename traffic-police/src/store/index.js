@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-  motorVehicleHandling: '',  // 机动车办理类业务传值
+  motorVehicleHandling: {},  // 机动车办理类业务传值
   appoinSuccess: {
     appoinNum: '',
     appoinType: ''

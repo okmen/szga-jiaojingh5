@@ -77,7 +77,7 @@ export default {
               window.localStorage.setItem('plateType', decodeURIComponent(item.plateType)) // 车牌类型
             }
           })
-          window.localStorage.setItem('identityCard', decodeURIComponent(userData.identityCard)) // 身份证照
+          window.localStorage.setItem('identityCard', decodeURIComponent(userData.identityCard)) // 身份证
           window.localStorage.setItem('mobilePhone', decodeURIComponent(userData.mobilephone)) // 手机号码
           window.localStorage.setItem('userName', decodeURIComponent(userData.trueName)) // 用户名字
           window.localStorage.setItem('cars', userCars)   // 名下车牌信息

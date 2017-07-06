@@ -101,7 +101,7 @@ export const takePicturesQuery = `${commonUrl}user/search/queryResultOfReadilySh
 
 export const DriverCardVerify = `${commonUrl}user/bindDriverLicense.html` // 驾驶证认证（无绑定驾驶证）
 
-export const illegalParkingAvoidFine = `${commonUrl}illegalHanding/illegalParkingAvoidFine.html` // 违停免罚接口
+export const reportingNoParking = `${commonUrl}illegalHanding/reportingNoParking.html` // 违停免罚接口
 
 export const addSafeAccidentCredit = `${commonUrl}user/addSafeAccidentCredit.html` // 驾驶人安全事故信用表
 

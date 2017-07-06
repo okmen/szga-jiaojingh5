@@ -403,25 +403,26 @@
         let dataList = {
           type: '补领行驶证',
           textObj: {
-            'name': this.ownersName,
-            '证件号码': this.certificateNumber,
+            'name': this.ownersName,   // 车主姓名
+            'identityCard': this.certificateNumber,
             'numberPlate': this.plateNumberOne, //
             'plateType': this.plateTypeOne,
-            '户籍所在地': this.censusRegister,
-            '收件人姓名': this.recipientName,
-            '收件人手机': this.recipientPhone,
-            '收件人地址': `深圳市,${this.recipientAddressRegion},${this.recipientAddressDetail}`
+            'placeOfDomicile': this.censusRegister,    // 户籍所在地
+            'receiverName': this.recipientName,  // 收件人姓名
+            'receiverNumber': this.recipientPhone,  // 收件人手机
+            'receiverAddress': `深圳市,${this.recipientAddressRegion},${this.recipientAddressDetail}`  // 收件人地址
           },
           imgObj: {
-            '身份证(正面)': this.IDcardFront,
-            '身份证(反面)': this.IDcarfBack,
-            '车辆45度照片': this.degree45,
-            '机动车登记证书': this.registerCredential,
-            '境外人员临住表': this.outBoard
+            'PHOTO9': this.IDcardFront,
+            'PHOTO10': this.IDcarfBack,
+            'XSZZP': this.degree45,
+            'DJZSFYJ': this.registerCredential,
+            'foreignPeopleLivingOnTheTable': this.outBoard
           }
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)
         console.log(dataList)
+        this.$router.push('/affirmInfo')
       }
     },
     mounted () {
