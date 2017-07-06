@@ -422,6 +422,7 @@
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)
         console.log(dataList)
+        this.$router.push('/affirmInfo')
       }
     },
     mounted () {
