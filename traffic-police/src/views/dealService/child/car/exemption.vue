@@ -41,7 +41,7 @@
             <span>行驶证编码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" v-model="drivingLicense" value="" placeholder="请输入行驶证编码" />
+            <input class="text-input stylebackground" type="text" v-model="drivingLicense" value="" placeholder="请输入行驶证编码" />
           </div>
         </li>
         <li class="form-line">
@@ -49,7 +49,7 @@
             <span>手机号码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" v-model="mobile" value="" placeholder="请输入手机号码"/>
+            <input class="text-input stylebackground" type="text" v-model="mobile" value="" placeholder="请输入手机号码"/>
           </div>
         </li>
         <li class="form-line">
@@ -57,7 +57,7 @@
             <span>验证码</span>
           </div>
           <div class="form-line-item width-60">
-            <input class="text-input" type="text" name="" v-model="identifying" value="" placeholder="请输入验证码">
+            <input class="text-input stylebackground" type="text" name="" v-model="identifying" value="" placeholder="请输入验证码">
           </div>
           <div class="form-line-item right width-35">
             <button class="btn browse-code" v-bind:class="{ 'show' : isShow}" :disabled="forbidden" @click="scanQRCode()">{{chronoScope}}</button>
@@ -68,7 +68,7 @@
             <span>固定号码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="" v-model="telno" placeholder="请输入固定号码(非必填)"/>
+            <input class="text-input stylebackground" type="text" value="" v-model="telno" placeholder="请输入固定号码(非必填)"/>
           </div>
         </li>
         <li class="form-line">
@@ -92,7 +92,7 @@
             <span>邮政编码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" v-model="postalcode" value="" placeholder="请输入邮政编码"/>
+            <input class="text-input stylebackground" type="text" v-model="postalcode" value="" placeholder="请输入邮政编码"/>
           </div>
         </li>
         <li class="form-line">
@@ -116,7 +116,7 @@
             <span></span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" v-model="mailingAddress" type="text" name="" value="" placeholder="请输入详细地址">
+            <input class="text-input stylebackground" v-model="mailingAddress" type="text" name="" value="" placeholder="请输入详细地址">
           </div>
         </li>
         <li class="form-li">
@@ -153,7 +153,7 @@
             <span>预约人</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" v-model="appointment" value="" placeholder="请输入预约人姓名"/>
+            <input class="text-input stylebackground" type="text" v-model="appointment" value="" placeholder="请输入预约人姓名"/>
           </div>
         </li>
         <li class="form-li">
@@ -161,7 +161,7 @@
         </li>
         <li class="form-li">
           <div class="form-line-item">
-            <input class="text-input" type="text" name="" v-model="appointmentID" value="" placeholder="请输入预约人身份证号">
+            <input class="text-input stylebackground" type="text" name="" v-model="appointmentID" value="" placeholder="请输入预约人身份证号">
           </div>
         </li>
         <li class="form-li">
@@ -646,6 +646,9 @@ padding: 20px 40px;
   }
   .show{
     background: #999999;
+  }
+  .stylebackground{
+    background: #fff;
   }
 }
 </style>

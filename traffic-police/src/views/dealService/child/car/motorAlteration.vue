@@ -7,7 +7,7 @@
             <span>车主姓名</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="" v-model="name"/>
+            <input class="text-input stylebackground" type="text" value="" v-model="name"/>
           </div>
         </li>
         <li class="form-line">
@@ -28,7 +28,7 @@
             <span>证件号码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" v-model="IDcard" type="text" value="" placeholder="请输入证件号码"/>
+            <input class="text-input stylebackground" v-model="IDcard" type="text" value="" placeholder="请输入证件号码"/>
           </div>
         </li>
         <li class="form-line">
@@ -102,7 +102,7 @@
             <span></span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" v-model="mailingAddress" type="text" name="" value="" placeholder="请输入详细地址">
+            <input class="text-input stylebackground" v-model="mailingAddress" type="text" name="" value="" placeholder="请输入详细地址">
           </div>
         </li>
       </ul>
@@ -146,7 +146,7 @@
       return {
         imgOne1: require('../../../../images/IDcard-front.png'),
         imgOne2: require('../../../../images/IDcard-back.png'),
-        imgOne3: require('../../../../images/register-credential.png'),
+        imgOne3: require('../../../../images/license-card.png'),
         vehType: '',
         name: window.localStorage.getItem('userName'),
         vehicleFlapper: window.localStorage.getItem('behindTheFrame4Digits'),
@@ -375,13 +375,13 @@
           type: '机动车变更联系方式',
           url: iocomotiveCarChangeContact,
           textObj: {
-            'name': this.name,      // 车主姓名
-            'identificationNO': this.cur_card_id,   // 证件种类
-            'identificationNum': this.IDcard,   // 证件号码
-            'numberPlate': this.vehicle,   // 车牌号码
-            'cartype': this.vehType,
-            'mobilephone': this.mobilephone,   // 手机号码
-            'placeOfDomicile': this.permanent,   // 户籍所在地
+            'name': this.name,                               // 车主姓名
+            'identificationNO': this.cur_card_id,            // 证件种类
+            'identificationNum': this.IDcard,                // 证件号码
+            'numberPlate': this.vehicle,                     // 车牌号码
+            'cartype': this.vehType,                         // 车辆类型
+            'mobilephone': this.mobilephone,                 // 手机号码
+            'placeOfDomicile': this.permanent,               // 户籍所在地
             'behindTheFrame4Digits': this.vehicleFlapper,    // 车架号
             'receiverAddress': `深圳市${this.areaSelectMassage}${this.mailingAddress}`    // 收件人地址
           },
@@ -515,8 +515,11 @@ padding: 20px 40px;
       align-items: center;*/
     }
   }
+  .stylebackground{
+    background: #fff;
+  }
   .upload-photo{
-    margin-top: 30px;
+    margin-top: 30px; 
     display: block;
     .upload-item-text-one{
       margin-top: 10px;
