@@ -352,7 +352,7 @@ export default {
           'name': this.name,                                 // 车主名字
           'associatedAgency': this.cur_place_id,             // 受托机构
           'receiverName': this.addresseeName,                // 收件人名字
-          'mobilephone': this.mobile,                        // 联系电话
+          'receiverNumber': this.mobile,                        // 联系电话
           'postCode': this.postalcode,                       // 邮政编码
           'receiverAddress': `深圳市,${this.areaSelectMassage},${this.mailingAddress}`    // 收件人地址
         }
