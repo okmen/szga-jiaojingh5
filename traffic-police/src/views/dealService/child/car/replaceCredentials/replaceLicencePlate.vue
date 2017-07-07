@@ -68,6 +68,20 @@
           </label>
           <div class="upload-item-text-one">境外人员临住表</div>
         </div>
+        <div class="upload-item-img" v-show="this.censusRegister != '1'">
+          <label class="upload-item-img-one" for="file5">
+            <input id="file5" type="file" accept="image/*" >
+            <img :src="imgOne5" />
+          </label>
+          <div class="upload-item-text-one">居住证正面</div>
+        </div>
+        <div class="upload-item-img" v-show="this.censusRegister != '1'">
+          <label class="upload-item-img-one" for="file6">
+            <input id="file6" type="file" accept="image/*" >
+            <img :src="imgOne6" />
+          </label>
+          <div class="upload-item-text-one">居住证反面</div>
+        </div>
       </div>
     </div>
     <div class="confirm-information" @click="confirmInfo">
@@ -171,6 +185,8 @@
         imgOne2: require('../../../../../images/IDcard-back.png'),
         imgOne3: require('../../../../../images/register-credential.png'),
         imgOne4: require('../../../../../images/out-board.png'),
+        imgOne5: require('../../../../../images/residence-permit-f.png'),
+        imgOne6: require('../../../../../images/residence-permit-b.png'),
         plateType: {
           title: '车牌种类',
           option: [
@@ -252,6 +268,8 @@
         degree45: '',
         registerCredential: '',
         outBoard: '',
+        residencePermitF: '',  // 居住证正面
+        residencePermitB: '',   // 居住证反面
         carCertificateNumber: '',  // 车主证件号码
         plateToCarNumber: {},  // 车牌号对应车主证件号码
         allOwnersName: {},
@@ -313,6 +331,22 @@
             console.log(res)
             this.imgOne4 = res.imgUrl
             this.outBoard = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file5',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne5 = res.imgUrl
+            this.residencePermitF = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file6',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne6 = res.imgUrl
+            this.residencePermitB = res.imgUrl
           }
         })
       },
@@ -386,6 +420,20 @@
           })
           return
         }
+       /*  if ((!this.residencePermitF) && (this.censusRegister !== '1')) {
+          Toast({
+            message: '请上传居住证正面',
+            duration: 2000
+          })
+          return
+        }
+        if ((!this.residencePermitB) && (this.censusRegister !== '1')) {
+          Toast({
+            message: '请上传居住证反面',
+            duration: 2000
+          })
+          return
+        } */
         let dataList = {
           type: '补换机动车号牌',
           url: replaceMotorVehicleLicensePlate,
@@ -405,7 +453,9 @@
             'PHOTO9': this.IDcardFront,
             'PHOTO10': this.IDcarfBack,
             'DJZSFYJ': this.registerCredential,
-            'PHOTO31': this.outBoard
+            'PHOTO31': this.outBoard,
+            'JZZA': this.residencePermitF,
+            'JZZB': this.residencePermitB
           }
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)
