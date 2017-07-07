@@ -495,7 +495,6 @@ export default {
           'carTypeId': this.carTypeId                             // 证件类型ID
         }
       }
-      console.log(dataList)
       this.$store.commit('saveMotorVehicleHandling', dataList)
       this.$router.push('/affirmInfo')
     },
@@ -532,8 +531,7 @@ export default {
       } else if (this.identifying.length !== 6) {
         Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
       } else {
-        // this.verificationFn()
-        this.dataFn()
+        this.verificationFn()
       }
     },
     // 获取证件类型ID
@@ -544,10 +542,8 @@ export default {
         code: this.plateType
       }
       resultPost(getCarTypeId, carIdFnData).then(json => {
-        console.log(json)
         if (json.code === '00') {
           this.carTypeId = json.data
-          console.log(this.carTypeId)
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }

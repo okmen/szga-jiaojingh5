@@ -146,7 +146,7 @@
       return {
         imgOne1: require('../../../../images/IDcard-front.png'),
         imgOne2: require('../../../../images/IDcard-back.png'),
-        imgOne3: require('../../../../images/license-card.png'),
+        imgOne3: require('../../../../images/drivinglicense.png'),
         vehType: '',
         name: window.localStorage.getItem('userName'),
         vehicleFlapper: window.localStorage.getItem('behindTheFrame4Digits'),
@@ -331,7 +331,6 @@
         UploadFile.upload({
           id: 'file1',
           callback: (res) => {
-            console.log(res)
             this.imgOne1 = res.imgUrl
             this.IDcardFront = res.imgUrl
           }
@@ -339,7 +338,6 @@
         UploadFile.upload({
           id: 'file2',
           callback: (res) => {
-            console.log(res)
             this.imgOne2 = res.imgUrl
             this.IDcarfBack = res.imgUrl
           }
@@ -347,7 +345,6 @@
         UploadFile.upload({
           id: 'file3',
           callback: (res) => {
-            console.log(res)
             this.imgOne3 = res.imgUrl
             this.registerCredential = res.imgUrl
           }

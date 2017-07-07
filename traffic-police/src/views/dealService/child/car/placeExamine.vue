@@ -367,7 +367,6 @@ export default {
       }
       resultPost(verificatioCode, verificationData).then(json => {
         if (json.code === '0000') {
-          console.log('111')
           this.dataFn()
         } else {
           Toast({message: json.data, position: 'bottom', className: 'white'})
@@ -390,7 +389,6 @@ export default {
         Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
       } else {
         this.verificationFn()
-        // this.dataFn()
       }
     }
   },
