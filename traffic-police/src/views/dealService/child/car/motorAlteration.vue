@@ -7,7 +7,7 @@
             <span>车主姓名</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="" v-model="name"/>
+            <input class="text-input stylebackground" type="text" value="" v-model="name"/>
           </div>
         </li>
         <li class="form-line">
@@ -28,7 +28,7 @@
             <span>证件号码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" v-model="IDcard" type="text" value="" placeholder="请输入证件号码"/>
+            <input class="text-input stylebackground" v-model="IDcard" type="text" value="" placeholder="请输入证件号码"/>
           </div>
         </li>
         <li class="form-line">
@@ -61,7 +61,7 @@
             <label>深户</label>
           </div>
           <div class="form-line-item width-40 sex">
-            <input type="radio"  name="permanent" value="2" v-model:checked="permanent">
+            <input type="radio"  name="permanent" value="0" v-model:checked="permanent">
             <label>外籍户口</label>
           </div>
         </li>
@@ -102,7 +102,7 @@
             <span></span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" v-model="mailingAddress" type="text" name="" value="" maxlength="4" placeholder="请输入详细地址">
+            <input class="text-input stylebackground" v-model="mailingAddress" type="text" name="" value="" placeholder="请输入详细地址">
           </div>
         </li>
       </ul>
@@ -128,14 +128,7 @@
               <input id="file3" type="file" accept="image/*" >
               <img :src="imgOne3" />
             </label>
-            <div class="upload-item-text-one">机动车登记证书</div>
-          </div>
-          <div class="upload-item-img" v-show="this.permanent == 2">
-            <label class="upload-item-img-one" for="file4">
-              <input id="file4" type="file" accept="image/*" >
-              <img :src="imgOne4" />
-            </label>
-            <div class="upload-item-text-one">境外人员临住表</div>
+            <div class="upload-item-text-one">机动车行驶证</div>
           </div>
         </div>
       </div>
@@ -153,8 +146,7 @@
       return {
         imgOne1: require('../../../../images/IDcard-front.png'),
         imgOne2: require('../../../../images/IDcard-back.png'),
-        imgOne3: require('../../../../images/register-credential.png'),
-        imgOne4: require('../../../../images/out-board.png'),
+        imgOne3: require('../../../../images/license-card.png'),
         vehType: '',
         name: window.localStorage.getItem('userName'),
         vehicleFlapper: window.localStorage.getItem('behindTheFrame4Digits'),
@@ -302,7 +294,6 @@
           }
         } else {
           this.vehicle = item.myNumberPlate
-          this.vehType = item.plateType
           this.vehicleFlapper = item.behindTheFrame4Digits
           this.mobilephone = item.mobilephone
           this.vehicleShow = false
@@ -323,17 +314,6 @@
           this.varietyShow = false
         } else {
           this.varietyShow = true
-        }
-      },
-      // 车辆类型下拉框
-      vehicleType: function (str) {
-        if (str) {
-          this.vehicleItem = str
-        }
-        if (this.vehicleTypeShow === true) {
-          this.vehicleTypeShow = false
-        } else {
-          this.vehicleTypeShow = true
         }
       },
       areaSelectClick: function (str, id) {
@@ -372,17 +352,8 @@
             this.registerCredential = res.imgUrl
           }
         })
-        UploadFile.upload({
-          id: 'file4',
-          callback: (res) => {
-            console.log(res)
-            this.imgOne4 = res.imgUrl
-            this.outBoard = res.imgUrl
-          }
-        })
       },
       submitClick: function () {
-        console.log(this.vehType)
         if (!this.IDcard) {
           Toast({message: '请输入身份证', position: 'bottom', className: 'white'})
         } else if (!this.permanent) {
@@ -394,35 +365,34 @@
         } else if (!this.IDcarfBack) {
           Toast({message: '请上传身份证反面', position: 'bottom', className: 'white'})
         } else if (!this.registerCredential) {
-          Toast({message: '请上传机动车登记证书', position: 'bottom', className: 'white'})
-        } else if (this.permanent === '2') {
-          if (!this.outBoard) {
-            Toast({message: '请上传机动车境外人员临住表', position: 'bottom', className: 'white'})
-          }
+          Toast({message: '请上传机动车行驶证', position: 'bottom', className: 'white'})
         } else {
-          let dataList = {
-            type: '机动车变更联系方式',
-            url: iocomotiveCarChangeContact,
-            textObj: {
-              'name': this.name,      // 车主姓名
-              'identificationNO': this.variety,   // 证件种类
-              'identificationNum': this.IDcard,   // 证件号码
-              'numberPlate': this.vehicle,   // 车牌号码
-              'cartype': this.vehType,        // 车辆类型
-              'placeOfDomicile': this.permanent,   // 户籍所在地
-              'behindTheFrame4Digits': this.vehicleFlapper,    // 车架号
-              'receiverAddress': `深圳市,${this.areaSelectMassage},${this.mailingAddress}`    // 收件人地址
-            },
-            imgObj: {
-              'PHOTO9': this.IDcardFront,
-              'PHOTO10': this.IDcarfBack,
-              'DJZSFYJ': this.registerCredential,
-              'PHOTO31': this.outBoard
-            }
-          }
-          this.$store.commit('saveMotorVehicleHandling', dataList)
-          this.$router.push('/affirmInfo')
+          this.dataFn()
         }
+      },
+      dataFn: function () {
+        let dataList = {
+          type: '机动车变更联系方式',
+          url: iocomotiveCarChangeContact,
+          textObj: {
+            'name': this.name,                               // 车主姓名
+            'identificationNO': this.cur_card_id,            // 证件种类
+            'identificationNum': this.IDcard,                // 证件号码
+            'numberPlate': this.vehicle,                     // 车牌号码
+            'cartype': this.vehType,                         // 车辆类型
+            'mobilephone': this.mobilephone,                 // 手机号码
+            'placeOfDomicile': this.permanent,               // 户籍所在地
+            'behindTheFrame4Digits': this.vehicleFlapper,    // 车架号
+            'receiverAddress': `深圳市${this.areaSelectMassage}${this.mailingAddress}`    // 收件人地址
+          },
+          imgObj: {
+            'PHOTO9': this.IDcardFront,
+            'PHOTO10': this.IDcarfBack,
+            'JDCXSZ': this.registerCredential
+          }
+        }
+        this.$store.commit('saveMotorVehicleHandling', dataList)
+        this.$router.push('/affirmInfo')
       }
     },
     mounted () {
@@ -431,11 +401,13 @@
     created () {
       this.cars = JSON.parse(window.localStorage.getItem('cars'))
       this.vehType = this.cars[0].plateType
+      this.mobilephone = this.cars[0].mobilephone
       document.addEventListener('click', (e) => {
         this.varietyShow = false
         this.vehicleShow = false
         this.vehicleTypeShow = false
         this.areaSelectShow = false
+        this.plateNumberShow = false
       })
     }
   }
@@ -533,7 +505,7 @@ padding: 20px 40px;
   }
   .upload-all-img{
     display: flex;
-    flex-wrap: wrap;
+/*    flex-wrap: wrap;*/
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
@@ -543,8 +515,11 @@ padding: 20px 40px;
       align-items: center;*/
     }
   }
+  .stylebackground{
+    background: #fff;
+  }
   .upload-photo{
-    margin-top: 30px;
+    margin-top: 30px; 
     display: block;
     .upload-item-text-one{
       margin-top: 10px;

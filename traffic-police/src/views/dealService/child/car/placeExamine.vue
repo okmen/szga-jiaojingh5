@@ -49,7 +49,7 @@
               <span>车主身份证</span>
             </div>
             <div class="form-line-item">
-              <input class="text-input" v-model="identityCard" type="text" value="" />
+              <input class="text-input stylebackground" v-model="identityCard" type="text" value="" />
             </div>
           </li>
           <li class="form-line">
@@ -57,7 +57,7 @@
               <span>车主名字</span>
             </div>
             <div class="form-line-item">
-              <input class="text-input"  v-model="name" type="text" value="" />
+              <input class="text-input stylebackground"  v-model="name" type="text" value="" />
             </div>
           </li>
           <li class="form-line">
@@ -94,7 +94,7 @@
               <span>验证码</span>
             </div>
             <div class="form-line-item width-60">
-              <input class="text-input" type="text" v-model="identifying" name="" value="" placeholder="请输入验证码">
+              <input class="text-input stylebackground" type="text" v-model="identifying" name="" value="" placeholder="请输入验证码">
             </div>
             <div class="form-line-item right width-35">
               <button class="btn browse-code" v-bind:class="{ 'show' : isShow}" :disabled="forbidden" @click="scanQRCode()">{{chronoScope}}</button>
@@ -105,7 +105,7 @@
               <span>邮政编码</span>
             </div>
             <div class="form-line-item">
-              <input class="text-input" v-model="postalcode" type="text" value="" placeholder="请输入邮政编码"/>
+              <input class="text-input stylebackground" v-model="postalcode" type="text" value="" placeholder="请输入邮政编码"/>
             </div>
           </li>
           <li class="form-line">
@@ -129,7 +129,7 @@
               <span></span>
             </div>
             <div class="form-line-item">
-              <input class="text-input" v-model="mailingAddress" type="text" name="" value="" maxlength="4" placeholder="请输入详细地址">
+              <input class="text-input stylebackground" v-model="mailingAddress" type="text" name="" value="" placeholder="请输入详细地址">
             </div>
           </li>
         </ul>
@@ -352,7 +352,7 @@ export default {
           'name': this.name,                                 // 车主名字
           'associatedAgency': this.cur_place_id,             // 受托机构
           'receiverName': this.addresseeName,                // 收件人名字
-          'mobilephone': this.mobile,                        // 联系电话
+          'receiverNumber': this.mobile,                        // 联系电话
           'postCode': this.postalcode,                       // 邮政编码
           'receiverAddress': `深圳市,${this.areaSelectMassage},${this.mailingAddress}`    // 收件人地址
         }
@@ -389,8 +389,8 @@ export default {
       } else if (this.identifying.length !== 6) {
         Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
       } else {
-        // this.verificationFn()
-        this.dataFn()
+        this.verificationFn()
+        // this.dataFn()
       }
     }
   },
@@ -501,6 +501,9 @@ padding: 20px 40px;
   }
   .show{
     background: #999999;
+  }
+  .stylebackground{
+    background: #fff;
   }
 }
 </style>
