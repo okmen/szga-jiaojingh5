@@ -389,7 +389,8 @@ export default {
       } else if (this.identifying.length !== 6) {
         Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
       } else {
-        this.verificationFn()
+        // this.verificationFn()
+        this.dataFn()
       }
     }
   },
