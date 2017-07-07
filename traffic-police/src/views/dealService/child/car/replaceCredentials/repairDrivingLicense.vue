@@ -67,6 +67,20 @@
           </label>
           <div class="upload-item-text-one">境外人员临住表</div>
         </div>
+        <div class="upload-item-img" v-show="this.censusRegister != '1'">
+          <label class="upload-item-img-one" for="file6">
+            <input id="file6" type="file" accept="image/*" >
+            <img :src="imgOne6" />
+          </label>
+          <div class="upload-item-text-one">居住证正面</div>
+        </div>
+        <div class="upload-item-img" v-show="this.censusRegister != '1'">
+          <label class="upload-item-img-one" for="file7">
+            <input id="file7" type="file" accept="image/*" >
+            <img :src="imgOne7" />
+          </label>
+          <div class="upload-item-text-one">居住证反面</div>
+        </div>
       </div>
     </div>
     <div class="confirm-information" @click="confirmInfo">
@@ -172,6 +186,8 @@
         imgOne3: require('../../../../../images/45-degree.png'),
         imgOne4: require('../../../../../images/register-credential.png'),
         imgOne5: require('../../../../../images/out-board.png'),
+        imgOne6: require('../../../../../images/residence-permit-f.png'),
+        imgOne7: require('../../../../../images/residence-permit-b.png'),
         plateType: {
           title: '车牌种类',
           option: [
@@ -253,6 +269,8 @@
         degree45: '',
         registerCredential: '',
         outBoard: '',
+        residencePermitF: '',  // 居住证正面
+        residencePermitB: '',   // 居住证反面
         allOwnersName: {},  // 所有车主姓名
         allCertificateNumber: {}, // 所有身份证号
         ownersName: '',  // 车主姓名
@@ -319,6 +337,22 @@
             console.log(res)
             this.imgOne5 = res.imgUrl
             this.outBoard = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file6',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne6 = res.imgUrl
+            this.residencePermitF = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file7',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne7 = res.imgUrl
+            this.residencePermitB = res.imgUrl
           }
         })
       },
@@ -419,7 +453,9 @@
             'PHOTO10': this.IDcarfBack,
             'XSZZP': this.degree45,
             'DJZSFYJ': this.registerCredential,
-            'PHOTO31': this.outBoard
+            'PHOTO31': this.outBoard,
+            'JZZA': this.residencePermitF,
+            'JZZB': this.residencePermitB
           }
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)
