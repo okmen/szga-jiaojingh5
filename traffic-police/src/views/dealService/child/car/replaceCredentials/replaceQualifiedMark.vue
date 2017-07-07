@@ -68,6 +68,20 @@
           </label>
           <div class="upload-item-text-one">境外人员临住表</div>
         </div>
+        <div class="upload-item-img" v-show="this.censusRegisterOne != '1'">
+          <label class="upload-item-img-one" for="file5">
+            <input id="file5" type="file" accept="image/*" >
+            <img :src="imgOne5" />
+          </label>
+          <div class="upload-item-text-one">居住证正面</div>
+        </div>
+        <div class="upload-item-img" v-show="this.censusRegisterOne != '1'">
+          <label class="upload-item-img-one" for="file6">
+            <input id="file6" type="file" accept="image/*" >
+            <img :src="imgOne6" />
+          </label>
+          <div class="upload-item-text-one">居住证反面</div>
+        </div>
       </div>
     </div>
     <div class="confirm-information" @click="confirmInfo">
@@ -171,6 +185,8 @@
         imgOne2: require('../../../../../images/IDcard-back.png'),
         imgOne3: require('../../../../../images/register-credential.png'),
         imgOne4: require('../../../../../images/out-board.png'),
+        imgOne5: require('../../../../../images/residence-permit-f.png'),
+        imgOne6: require('../../../../../images/residence-permit-b.png'),
         /* plateType: {
           title: '车牌种类',
           option: [
@@ -263,7 +279,9 @@
         IDcardFront: '',
         IDcarfBack: '',
         registerCredential: '',
-        outBoard: ''
+        outBoard: '',
+        residencePermitF: '',  // 居住证正面
+        residencePermitB: ''   // 居住证反面
       }
     },
     components: {
@@ -317,6 +335,22 @@
             console.log(res)
             this.imgOne4 = res.imgUrl
             this.outBoard = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file5',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne5 = res.imgUrl
+            this.residencePermitF = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file6',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne6 = res.imgUrl
+            this.residencePermitB = res.imgUrl
           }
         })
       },
@@ -442,7 +476,9 @@
             'PHOTO9': this.IDcardFront,
             'PHOTO10': this.IDcarfBack,
             'DJZSFYJ': this.registerCredential,
-            'PHOTO31': this.outBoard
+            'PHOTO31': this.outBoard,
+            'JZZA': this.residencePermitF,
+            'JZZB': this.residencePermitB
           }
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)

@@ -41,7 +41,7 @@
             <span>行驶证编码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" v-model="drivingLicense" value="" placeholder="请输入行驶证编码" />
+            <input class="text-input stylebackground" type="text" v-model="drivingLicense" value="" placeholder="请输入行驶证编码" />
           </div>
         </li>
         <li class="form-line">
@@ -49,7 +49,7 @@
             <span>手机号码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" v-model="mobile" value="" placeholder="请输入手机号码"/>
+            <input class="text-input stylebackground" type="text" v-model="mobile" value="" placeholder="请输入手机号码"/>
           </div>
         </li>
         <li class="form-line">
@@ -57,7 +57,7 @@
             <span>验证码</span>
           </div>
           <div class="form-line-item width-60">
-            <input class="text-input" type="text" name="" v-model="identifying" value="" placeholder="请输入验证码">
+            <input class="text-input stylebackground" type="text" name="" v-model="identifying" value="" placeholder="请输入验证码">
           </div>
           <div class="form-line-item right width-35">
             <button class="btn browse-code" v-bind:class="{ 'show' : isShow}" :disabled="forbidden" @click="scanQRCode()">{{chronoScope}}</button>
@@ -68,7 +68,7 @@
             <span>固定号码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="" v-model="telno" placeholder="请输入固定号码(非必填)"/>
+            <input class="text-input stylebackground" type="text" value="" v-model="telno" placeholder="请输入固定号码(非必填)"/>
           </div>
         </li>
         <li class="form-line">
@@ -92,7 +92,7 @@
             <span>邮政编码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" v-model="postalcode" value="" placeholder="请输入邮政编码"/>
+            <input class="text-input stylebackground" type="text" v-model="postalcode" value="" placeholder="请输入邮政编码"/>
           </div>
         </li>
         <li class="form-line">
@@ -116,7 +116,7 @@
             <span></span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" v-model="mailingAddress" type="text" name="" value="" placeholder="请输入详细地址">
+            <input class="text-input stylebackground" v-model="mailingAddress" type="text" name="" value="" placeholder="请输入详细地址">
           </div>
         </li>
         <li class="form-li">
@@ -153,7 +153,7 @@
             <span>预约人</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" v-model="appointment" value="" placeholder="请输入预约人姓名"/>
+            <input class="text-input stylebackground" type="text" v-model="appointment" value="" placeholder="请输入预约人姓名"/>
           </div>
         </li>
         <li class="form-li">
@@ -161,7 +161,7 @@
         </li>
         <li class="form-li">
           <div class="form-line-item">
-            <input class="text-input" type="text" name="" v-model="appointmentID" value="" placeholder="请输入预约人身份证号">
+            <input class="text-input stylebackground" type="text" name="" v-model="appointmentID" value="" placeholder="请输入预约人身份证号">
           </div>
         </li>
         <li class="form-li">
@@ -189,7 +189,7 @@ export default {
   name: 'exemption',
   data () {
     return {
-      name: window.localStorage.getItem('userName'),     // 所有人名字
+      name: '',     // 所有人名字
       addresseeName: window.localStorage.getItem('userName'),  // 收件人名字
       addresseeMobile: window.localStorage.getItem('mobilePhone'),  // 收件人手机号码
       vehicleData: [],
@@ -295,7 +295,8 @@ export default {
   },
   mounted: function () {
     this.cars = JSON.parse(window.localStorage.getItem('cars'))
-    this.plateType = this.cars[0].plateType
+    this.plateType = this.cars[0].plateType  // 车辆类型
+    this.name = this.cars[0].name            // 所有人
     let getTime = this.currentTime()
     let getTimes = this.currentTime('take')
     this.mtDateTimeMsg = getTime
@@ -368,10 +369,12 @@ export default {
     terminationPick: function (picker) {
       this.$refs.pick.open()
     },
+    // 保险生效日期
     handleTime: function (informTime) {
       this.formatTime = this.format(this.informTime.toString(), 'yyyy-MM-dd')
       this.mtDateTimeMsg = this.formatTime
     },
+    // 保险生效日期
     handleTimes: function (informTimes) {
       this.formatTimes = this.format(this.informTimes.toString(), 'yyyy-MM-dd')
       this.DateTimeMsg = this.formatTimes
@@ -480,7 +483,7 @@ export default {
           'receiverName': this.addresseeName,         // 收件人姓名
           'receiverNumber': this.addresseeMobile,     // 收件人电话
           'postCode': this.postalcode,                // 邮政编码
-          'receiverAddress': `深圳市,${this.areaSelectMassage},${this.mailingAddress}`,    // 收件人地址
+          'receiverAddress': `深圳市${this.areaSelectMassage}${this.mailingAddress}`,    // 收件人地址
           'effectiveDate': this.mtDateTimeMsg,        // 保险生效日期
           'terminationDate': this.DateTimeMsg,        // 保险终止日期
           'inform': this.cur_place_id,                // 保险告知方式
@@ -492,7 +495,6 @@ export default {
           'carTypeId': this.carTypeId                             // 证件类型ID
         }
       }
-      console.log(dataList)
       this.$store.commit('saveMotorVehicleHandling', dataList)
       this.$router.push('/affirmInfo')
     },
@@ -524,15 +526,12 @@ export default {
         Toast({message: '请输入预约人姓名', position: 'bottom', className: 'white'})
       } else if (!this.appointmentID) {
         Toast({message: '请输入预约人身份证号', position: 'bottom', className: 'white'})
-      } else if (this.appointmentID.length > 18 || this.appointmentID.length < 16) {
-        Toast({message: '请输入正确预约人身份证号', position: 'bottom', className: 'white'})
       } else if (!this.identifying) {
         Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
       } else if (this.identifying.length !== 6) {
         Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
       } else {
-        // this.verificationFn()
-        this.dataFn()
+        this.verificationFn()
       }
     },
     // 获取证件类型ID
@@ -543,10 +542,8 @@ export default {
         code: this.plateType
       }
       resultPost(getCarTypeId, carIdFnData).then(json => {
-        console.log(json)
         if (json.code === '00') {
           this.carTypeId = json.data
-          console.log(this.carTypeId)
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
@@ -645,6 +642,9 @@ padding: 20px 40px;
   }
   .show{
     background: #999999;
+  }
+  .stylebackground{
+    background: #fff;
   }
 }
 </style>
