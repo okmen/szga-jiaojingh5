@@ -18,7 +18,7 @@
           </li>
           <li class="queryByCar-hbs-item">
             <div class="queryByCar-hbs-name">
-              <span>汽车种类</span>
+              <span>车辆类型</span>
             </div>
             <div class="div-select">
               <span class="btn-select" @click.stop="licenseSelectClick()">{{ licenseSelectMassage }}</span>
@@ -58,7 +58,7 @@
               <span>车辆所有人</span>
             </div>
             <div class="queryByCar-hbs-text">
-              <input class="text-input" type="text"  placeholder="请按驾驶证填写">
+              <input v-model="name" class="text-input" type="text"  placeholder="请按驾驶证填写">
             </div>
           </li>
           <li class="queryByCar-hbs-item">
@@ -66,7 +66,7 @@
               <span>手机号码</span>
             </div>
             <div class="queryByCar-hbs-text">
-              <input class="text-input" type="text" placeholder="请填写手机号码">
+              <input v-model="mobilephone" class="text-input" type="text" placeholder="请填写手机号码">
             </div>
           </li>
           <li class="queryByCar-hbs-item">
@@ -79,7 +79,7 @@
           </li>
         </ul>
       </div>
-      <button class="btn" type="button" name="button" @click.stop="queryLawlessByCar()">提交</button>
+      <button class="btn" type="button" name="button" @click.stop="btnFn()">确认信息</button>
     </div>
     <div class="hint">
       <h4>温馨提示：</h4>
@@ -91,15 +91,17 @@
   </div>
 </template>
 <script>
+  import { applyGatePass } from '../../../../../config/baseUrl.js'
   export default {
     name: 'applyEveryMonth',
     data () {
       return {
+        name: '', // 车主姓名
         mtDateTimeMsg: '',                                              // 一进来默认当前时间
         formatTime: '',                                                 // 使用mt组件后，时间是中国标准时间，格式转换
         informTime: this.currentTime(),                                 // 当前时间
         licensePlateNo: '',                   // 请求-车牌号
-        cur_license_id: '01',                    // 请求-车牌类型（编号转换）
+        cur_license_id: 'K31',                    // 请求-车牌类型（编号转换）
         cur_plate_id: '02',
         car_number: '',                       // 请求-除去省字的车牌号
         vehicleIdentifyNoLast4: '',           // 请求-车架号后4位
@@ -107,83 +109,39 @@
         illegalData: [],                      // 返回-全部数据存入数组
         myIllegalData: [],                    // 返回-查询我的违章
         licenseSelectShow: false,             // 车牌列表显示与否
-        licenseSelectMassage: '大型汽车', // 默认车牌类型
+        licenseSelectMassage: '小型普通客车', // 默认车牌类型
         licenseSelectData: [
           {
-            'id': '01',
-            'str': '大型汽车'
+            'id': 'K31',
+            'str': '小型普通客车'
           },
           {
-            'id': '02',
-            'str': '小型汽车'
+            'id': 'K32',
+            'str': '小型越野客车'
           },
           {
-            'id': '03',
-            'str': '使馆汽车'
+            'id': 'K33',
+            'str': '小型轿车'
           },
           {
-            'id': '04',
-            'str': '领馆汽车'
+            'id': 'K34',
+            'str': '小型专用客车'
           },
           {
-            'id': '05',
-            'str': '境外汽车'
+            'id': 'K41',
+            'str': '微型普通客车'
           },
           {
-            'id': '06',
-            'str': '外籍汽车'
+            'id': 'K42',
+            'str': '微型越野客车'
           },
           {
-            'id': '07',
-            'str': '普通摩托车'
+            'id': 'K43',
+            'str': '微型轿车'
           },
           {
-            'id': '08',
-            'str': '轻便摩托车'
-          },
-          {
-            'id': '09',
-            'str': '使馆摩托车'
-          },
-          {
-            'id': '10',
-            'str': '领馆摩托车'
-          },
-          {
-            'id': '15',
-            'str': '挂车'
-          },
-          {
-            'id': '16',
-            'str': '教练汽车'
-          },
-          {
-            'id': '17',
-            'str': '教练摩托车'
-          },
-          {
-            'id': '18',
-            'str': '实验汽车'
-          },
-          {
-            'id': '19',
-            'str': '实验摩托车'
-          },
-          {
-            'id': '22',
-            'str': '临时行驶车'
-          },
-          {
-            'id': '23',
-            'str': '警用汽车'
-          },
-          {
-            'id': '24',
-            'str': '警用摩托'
-          },
-          {
-            'id': '20',
-            'str': '临时入境车'
+            'id': 'K38',
+            'str': '小型专用校车'
           }
         ],             // 车牌类型列表（编号转换）
         abbreviationSelectShow: false,        // 省字列表显示与否
@@ -386,6 +344,28 @@
               return tf(t.getSeconds())
           }
         })
+      },
+      btnFn: function () {
+        let dataList = {
+          type: '申请通行证',
+          url: applyGatePass,
+          textObj: {
+            'plateType': this.cur_plate_id,   // 车牌类型
+            'cartype': this.cur_license_id, // 车辆类型
+            'abbreviation': this.abbreviationSelectMassage, // 车牌简称
+            'numberPlate': this.car_number, // 车牌号码
+            'behindTheFrame4Digits': this.vehicleIdentifyNoLast4,    // 车架号
+            'name': this.name,  // 车主姓名
+            'mobilephone': this.mobilephone,  // 手机号码
+            'applyDate': this.mtDateTimeMsg  // 申请时间
+          },
+          invisibleObj: {
+            'remarks': '' // 备注
+          }
+        }
+        console.log(dataList)
+        this.$store.commit('saveMotorVehicleHandling', dataList)
+        this.$router.push('/affirmInfo')
       }
     },
     created () {

@@ -425,10 +425,10 @@
           return
         }
         let dataList = {
-          type: '补换合格检验标志',
+          type: '补换检验合格标志',
           url: replaceInspectionMark,
           textObj: {
-            'name': this.ownersName,
+            'userName': this.ownersName,
             'identityCard': this.certificateNumber,
             'mobilephone': this.mobilePhone,
             'numberPlate': this.plateNumberOne,

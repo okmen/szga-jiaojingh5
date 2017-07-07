@@ -3,6 +3,7 @@
       <div-select :childInfo="businessType" @getSelected="getBusinessType" :defaultVal="defaultVal"></div-select>
       <div class="exchange-license-line"></div>
       <router-view></router-view>
+      <div v-wechat-title="$route.meta.title"></div>
     </div>
 </template>
 <style lang="less" scoped>
