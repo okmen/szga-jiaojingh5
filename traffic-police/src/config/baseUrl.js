@@ -173,3 +173,5 @@ export const inspectionDeclaration = `${commonUrl}handleservice/inspectionDeclar
 export const getCarTypeId = `${commonUrl}handleservice/getCarTypeId.html` // 获取车辆类型Id
 
 export const applyGatePass = `${commonUrl}handleservice/applyGatePass.html` // 申请通行证
+
+export const applyCarTemporaryLicence = `${commonUrl}handleservice/applyCarTemporaryLicence.html` // 申请机动车临牌

@@ -1,498 +1,506 @@
 <template>
-  <div class="applyInterimCard-outer">
-    <div class="applyInterimCard-form">
-      <ul>
-          <li class="form-line">
-            <div class="form-line-item item-name">
-              <span>姓名</span>
-            </div>
-            <div class="form-line-item">
-              <input class="text-input" type="text" placeholder="请输入姓名抓取">
-            </div>
-          </li>
-          <li class="form-line">
-            <div class="form-line-item item-name">
-              <span>身份证号码</span>
-            </div>
-            <div class="form-line-item">
-              <input class="text-input" type="text" placeholder="请输入身份证号码抓取">
-            </div>
-          </li>
-          <li class="form-line">
-            <div class="form-line-item item-name">
-              <span>手机号码</span>
-            </div>
-            <div class="form-line-item">
-              <input class="text-input" type="text" placeholder="请输入手机号码抓取">
-            </div>
-          </li>
-          <li class="form-line">
-            <div class="form-line-item item-name">
-              <span>车辆型号</span>
-            </div>
-            <div class="form-line-item">
-              <input class="text-input" type="text" placeholder="请输入车辆型号">
-            </div>
-          </li>
-          <li class="form-line">
-            <div class="form-line-item item-name">
-              <span>车辆类型</span>
-            </div>
-            <div class="div-select">
-              <span class="btn-select" @click.stop="licenseSelectClick()">{{ licenseSelectMassage }}</span>
-              <div class="div-select-ul" v-if="licenseSelectShow">
-                <ul>
-                  <li v-for="item in licenseSelectData" @click.stop="licenseSelectClick(item.str, item.id)">{{item.str}}</li>
-                </ul>
-              </div>
-            </div>
-          </li>
-          <li class="form-line">
-            <div class="form-line-item item-name">
-              <span>发动机号</span>
-            </div>
-            <div class="form-line-item">
-              <input class="text-input" type="text" maxlength="4" name="" value="" placeholder="请输入发动机号">
-            </div>
-          </li>
-          <li class="form-line">
-            <div class="form-line-item item-name">
-              <span>车架号</span>
-            </div>
-            <div class="form-line-item">
-              <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" maxlength="4" name="" value="" placeholder="请输入车架号后四位">
-            </div>
-          </li>
-          <li class="form-line">
-            <div class="form-line-item item-name">
-              <span>车辆产地</span>
-            </div>
-            <div class="form-line-item width-40">
-              <input type="radio"  name="address" value="1" v-model:checked="product">
-              <label>国产车</label>
-            </div>
-            <div class="form-line-item width-40">
-              <input type="radio"  name="address" value="0" v-model:checked="product">
-              <label>进口车</label>
-            </div>
-          </li>
-          <li class="form-line">
-            <div class="form-line-item item-name">
-              <span>户籍所在地</span>
-            </div>
-            <div class="form-line-item">
-              <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" maxlength="4" name="" value="" placeholder="">
-            </div>
-          </li>
-          <li class="form-line">
-            <div class="form-line-item item-name">
-              <span>收件人姓名</span>
-            </div>
-            <div class="form-line-item">
-              <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" maxlength="4" name="" value="" placeholder="">
-            </div>
-          </li>
-          <li class="form-line">
-            <div class="form-line-item item-name">
-              <span>收件人号码</span>
-            </div>
-            <div class="form-line-item">
-              <input v-model="vehicleIdentifyNoLast4" class="text-input" type="tel" maxlength="4" name="" value="" placeholder="">
-            </div>
-          </li>
-          <li class="form-line">
-            <div class="form-line-item item-name">
-              <span>邮寄地址</span>
-            </div>
-            <div class="form-line-item width-40 city">
-              深圳市
-            </div>
-            <div class="div-select form-line-item width-50">
-              <span class="btn-select" @click.stop="areaSelectClick()">{{ areaSelectMassage }}</span>
-              <div class="div-select-ul" v-if="areaSelectShow">
-                <ul>
-                  <li v-for="item in areaSelectData" @click.stop="areaSelectClick(item.str, item.id)">{{item.str}}</li>
-                </ul>
-              </div>
-            </div>
-          </li>
-          <li class="form-line">
-            <div class="form-line-item item-name">
-              <span></span>
-            </div>
-            <div class="form-line-item">
-              <input v-model="vehicleIdentifyNoLast4" class="text-input" type="text" maxlength="4" name="" value="" placeholder="请输入详细地址">
-            </div>
-          </li>
-        </ul>
-      <userUpload :idCard1="true" :idCard2="true" :outTable="outTable" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
+  <div class="replace-plate">
+    <div class="owners-name">
+      <span class="item-title">姓名</span>
+      <input type="text" class="item-info" v-model="userName">
+    </div>
+    <div class="certificate-number">
+      <span class="item-title">身份证号码</span>
+      <input type="text" class="item-info"  v-model="identityCard">
+    </div>
+    <div class="owner-certificate">
+      <span class="item-title">手机号码</span>
+      <input type="text" class="item-info" v-model="mobilephone">
+    </div>
+    <div class="domicile-place">
+      <span class="item-title">车辆产地</span>
+      <div-radio :optname="optname2" @getSelected="getCensusRegister2"> </div-radio>
+    </div>
+    <div class="owner-certificate">
+      <span class="item-title">车辆型号</span>
+      <input type="text" class="item-info" v-model="cartModels">
+    </div>
+    <div-select :childInfo="cartype" @getSelected="getPlateType" defaultVal="小型普通客车"></div-select>
+    <div class="owner-certificate">
+      <span class="item-title">发动机号</span>
+      <input type="text" class="item-info" v-model="engineNumber" placeholder="请输入发动机号">
+    </div>
+    <div class="owner-certificate">
+      <span class="item-title">车架号</span>
+      <input type="text" class="item-info" v-model="behindTheFrame4Digits" placeholder="请输入车架号">
+    </div>
+    <div class="domicile-place">
+      <span class="item-title">户籍所在地</span>
+      <div-radio :optname="optname1" @getSelected="getCensusRegister1"> </div-radio>
+    </div>
+    <div class="recipient-name">
+      <span class="item-title">收件人姓名</span>
+      <input type="text" placeholder="请输入收件人姓名" class="item-info" v-model="recipientName">
+    </div>
+    <div class="recipient-phone">
+      <span class="item-title">收件人手机</span>
+      <input type="text" placeholder="请输入收件人手机号码" class="item-info" v-model="recipientPhone">
+    </div>
+    <div class="recipient-address">
+      <span class="item-title">收件人地址</span>
+      <div class="recipient-address-select item-info">
+        <div-select :childInfo="recipientInfo" @getSelected="getRecipientAddress" defaultVal="福田区"></div-select>
+        <input type="text" placeholder="请输入详细地址" v-model="recipientAddressDetail">
+      </div>
+    </div>
+    <div class="upload-photo">
+      <div class="">请按示例图上传以下证件照片</div>
+      <div class="upload-all-img">
+        <div class="upload-item-img">
+          <label class="upload-item-img-one" for="file5">
+            <input id="file5" type="file" accept="image/*" >
+            <img :src="imgOne5" />
+          </label>
+          <div class="upload-item-text-one">购置发票图</div>
+        </div>
+        <div class="upload-item-img">
+          <label class="upload-item-img-one" for="file6">
+            <input id="file6" type="file" accept="image/*" >
+            <img :src="imgOne6" />
+          </label>
+          <div class="upload-item-text-one">交强险单据</div>
+        </div>
+        <div class="upload-item-img">
+          <label class="upload-item-img-one" for="file1">
+            <input id="file1" type="file" accept="image/*" >
+            <img :src="imgOne1" />
+          </label>
+          <div class="upload-item-text-one">身份证(正面)</div>
+        </div>
+        <div class="upload-item-img">
+          <label class="upload-item-img-one" for="file2">
+            <input id="file2" type="file" accept="image/*" >
+            <img :src="imgOne2" />
+          </label>
+          <div class="upload-item-text-one">身份证(反面)</div>
+        </div>
+        <div class="upload-item-img" v-show="this.censusRegister2 != 'A'">
+          <label class="upload-item-img-one" for="file3">
+            <input id="file3" type="file" accept="image/*" >
+            <img :src="imgOne3" />
+          </label>
+          <div class="upload-item-text-one">机动车合格证</div>
+        </div>
+        <div class="upload-item-img" v-show="this.censusRegister2 != 'A'">
+          <label class="upload-item-img-one" for="file7">
+            <input id="file7" type="file" accept="image/*" >
+            <img :src="imgOne7" />
+          </label>
+          <div class="upload-item-text-one">进口货物证明书</div>
+        </div>
+        <div class="upload-item-img" v-show="this.censusRegister != '1'">
+          <label class="upload-item-img-one" for="file4">
+            <input id="file4" type="file" accept="image/*" >
+            <img :src="imgOne4" />
+          </label>
+          <div class="upload-item-text-one">境外人员临住表</div>
+        </div>
+      </div>
+    </div>
+    <div class="confirm-information" @click="confirmInfo">
+      确认信息
     </div>
   </div>
 </template>
+<style lang="less" scoped>
+  .recipient-address-select input{
+    width: 100%;
+    margin-top: 10px;
+  }
+  .replace-plate>div{
+    margin: 0 0 30px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .replace-plate {
+    height: auto;
+    .item-title{
+      width: 33%;
+      line-height: 65px;
+    }
+    .item-info{
+      width: 66%;
+    }
+    input{
+      border: 2px solid #eee;
+      border-radius: 6px;
+      height: 65px;
+      padding-left: 10px;
+      line-height: 65px;
+      font-size: 30px;
+      outline: none;
+    }
+    .exchange-license-line{
+      height: 10px;
+      background: #eeeeee;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .upload-all-img{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      flex-wrap: wrap;
+      .upload-item-img{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    .upload-photo{
+      margin-top: 30px;
+      display: block;
+      .upload-item-text-one{
+        margin-top: 10px;
+        margin-bottom: 30px;
+        color: #7e7e7e;
+        text-align: center;
+      }
+      .upload-item-img-one{
+        width: 300px;
+        height: 300px;
+        border: 2px solid #eee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        input{
+          display: none;
+        }
+        img{
+          max-height: 90%;
+          max-width: 90%;
+        }
+      }
+    }
+    .confirm-information{
+      background: #09bb07;
+      height: 80px;
+      border-radius: 8px;
+      justify-content: center;
+      line-height: 80px;
+      font-size: 30px;
+      color: white;
+      margin-bottom: 0;
+    }
+  }
+</style>
 <script>
+  import uploadFile from '../../../../../service/uploadFile.js'
+  import { Toast } from 'mint-ui'
+  import { isPhone, isChinese } from '../../../../../service/regExp.js'
+  import { applyCarTemporaryLicence } from '../../../../../config/baseUrl.js'
   export default {
-    name: 'applyInterimCard',
     data () {
       return {
-        licensePlateNo: '',                   // 请求-车牌号
-        cur_license_id: '01',                    // 请求-车牌类型（编号转换）
-        cur_plate_id: '02',
-        car_number: '',                       // 请求-除去省字的车牌号
-        vehicleIdentifyNoLast4: '',           // 请求-车架号后4位
-        mobilephone: '',                      // 请求-手机号码
-        illegalData: [],                      // 返回-全部数据存入数组
-        myIllegalData: [],                    // 返回-查询我的违章
-        licenseSelectShow: false,             // 车牌列表显示与否
-        licenseSelectMassage: '大型汽车', // 默认车牌类型
-        licenseSelectData: [
-          {
-            'id': '01',
-            'str': '大型汽车'
-          },
-          {
-            'id': '02',
-            'str': '小型汽车'
-          },
-          {
-            'id': '03',
-            'str': '使馆汽车'
-          },
-          {
-            'id': '04',
-            'str': '领馆汽车'
-          },
-          {
-            'id': '05',
-            'str': '境外汽车'
-          },
-          {
-            'id': '06',
-            'str': '外籍汽车'
-          },
-          {
-            'id': '07',
-            'str': '普通摩托车'
-          },
-          {
-            'id': '08',
-            'str': '轻便摩托车'
-          },
-          {
-            'id': '09',
-            'str': '使馆摩托车'
-          },
-          {
-            'id': '10',
-            'str': '领馆摩托车'
-          },
-          {
-            'id': '15',
-            'str': '挂车'
-          },
-          {
-            'id': '16',
-            'str': '教练汽车'
-          },
-          {
-            'id': '17',
-            'str': '教练摩托车'
-          },
-          {
-            'id': '18',
-            'str': '实验汽车'
-          },
-          {
-            'id': '19',
-            'str': '实验摩托车'
-          },
-          {
-            'id': '22',
-            'str': '临时行驶车'
-          },
-          {
-            'id': '23',
-            'str': '警用汽车'
-          },
-          {
-            'id': '24',
-            'str': '警用摩托'
-          },
-          {
-            'id': '20',
-            'str': '临时入境车'
-          }
-        ],             // 车牌类型列表（编号转换）
-        abbreviationSelectShow: false,        // 省字列表显示与否
-        abbreviationSelectMassage: '粤',      // 默认省字
-        abbreviationSelectData: [
-          {
-            'str': '粤'
-          },
-          {
-            'str': '鄂'
-          },
-          {
-            'str': '豫'
-          },
-          {
-            'str': '皖'
-          },
-          {
-            'str': '赣'
-          },
-          {
-            'str': '冀'
-          },
-          {
-            'str': '鲁'
-          },
-          {
-            'str': '浙'
-          },
-          {
-            'str': '苏'
-          },
-          {
-            'str': '湘'
-          },
-          {
-            'str': '闽'
-          },
-          {
-            'str': '蒙'
-          },
-          {
-            'str': '京'
-          },
-          {
-            'str': '辽'
-          },
-          {
-            'str': '渝'
-          },
-          {
-            'str': '沪'
-          },
-          {
-            'str': '陕'
-          },
-          {
-            'str': '川'
-          },
-          {
-            'str': '黑'
-          },
-          {
-            'str': '晋'
-          },
-          {
-            'str': '桂'
-          },
-          {
-            'str': '吉'
-          },
-          {
-            'str': '宁'
-          },
-          {
-            'str': '贵'
-          },
-          {
-            'str': '琼'
-          },
-          {
-            'str': '甘'
-          },
-          {
-            'str': '青'
-          },
-          {
-            'str': '津'
-          },
-          {
-            'str': '云'
-          },
-          {
-            'str': '藏'
-          },
-          {
-            'str': '新'
-          }
-        ],         // 省字列表
-        plateSelectShow: false,             // 车牌列表显示与否// 验证码验证
-        plateSelectMassage: '蓝牌',         // 默认车牌类型
-        plateSelectData: [
-          {
-            'id': '02',
-            'str': '蓝牌'
-          },
-          {
-            'id': '01',
-            'str': '黄牌'
-          },
-          {
-            'id': '06',
-            'str': '黑牌'
-          }
-        ],             // 车牌类型列表（编号转换）
-        areaSelectShow: false,
-        areaSelectMassage: '福田区',
-        areaSelectData: [
-          {
-            'id': '01',
-            'str': '福田区'
-          },
-          {
-            'id': '02',
-            'str': '罗湖区'
-          },
-          {
-            'id': '03',
-            'str': '南山区'
-          },
-          {
-            'id': '04',
-            'str': '宝安区'
-          },
-          {
-            'id': '05',
-            'str': '龙岗区'
-          },
-          {
-            'id': '06',
-            'str': '盐田区'
-          },
-          {
-            'id': '07',
-            'str': '龙华新区'
-          },
-          {
-            'id': '08',
-            'str': '光明新区'
-          },
-          {
-            'id': '09',
-            'str': '坪山新区'
-          },
-          {
-            'id': '10',
-            'str': '大鹏新区'
-          }
-        ]
+        imgOne1: require('../../../../../images/IDcard-front.png'),
+        imgOne2: require('../../../../../images/IDcard-back.png'),
+        imgOne3: require('../../../../../images/dealService-3.png'),
+        imgOne4: require('../../../../../images/out-board.png'),
+        imgOne5: require('../../../../../images/dealService-1.png'),
+        imgOne6: require('../../../../../images/dealService-2.png'),
+        imgOne7: require('../../../../../images/dealService-4.png'),
+        cartype: {
+          title: '车辆类型',
+          option: [
+            {
+              'str': '小型普通客车',
+              'id': 'K31'
+            },
+            {
+              'str': '小型越野客车',
+              'id': 'K32'
+            },
+            {
+              'str': '小型轿车',
+              'id': 'K33'
+            },
+            {
+              'str': '小型专用客车',
+              'id': 'K34'
+            },
+            {
+              'str': '微型普通客车',
+              'id': 'K41'
+            },
+            {
+              'str': '微型越野客车',
+              'id': 'K42'
+            },
+            {
+              'str': '微型轿车',
+              'id': 'K43'
+            },
+            {
+              'str': '小型专用校车',
+              'id': 'K38'
+            }
+          ]
+        },
+        optname1: [
+          {'str': '深户', choose: true, id: '1'},
+          {'str': '外籍户口', choose: false, id: '0'}
+        ],
+        optname2: [
+          {'str': '国产', choose: true, id: 'A'},
+          {'str': '进口', choose: false, id: 'B'}
+        ],
+        recipientInfo: {
+          title: '深圳市',
+          option: [
+            {
+              'str': '福田区'
+            },
+            {
+              'str': '罗湖区'
+            },
+            {
+              'str': '南山区'
+            },
+            {
+              'str': '宝安区'
+            },
+            {
+              'str': '龙岗区'
+            },
+            {
+              'str': '盐田区'
+            },
+            {
+              'str': '龙华新区'
+            },
+            {
+              'str': '光明新区'
+            },
+            {
+              'str': '坪山新区'
+            },
+            {
+              'str': '大鹏新区'
+            }
+          ]
+        },
+        censusRegister: '1',
+        censusRegister2: 'A',
+        plateNumberOne: '',
+        carTypeOne: 'K31',
+        recipientPhone: '',    // 收件人手机号码
+        recipientName: '',    // 收件人姓名
+        recipientAddressRegion: '福田区',  // 收件人地址区域
+        recipientAddressDetail: '',  // 收件人详细地址
+        homeAddress: '',  // 住所地址
+        degree45: '',
+        outBoard: '',
+        carCertificateNumber: '',  // 车主证件号码
+        plateToCarNumber: {},  // 车牌号对应车主证件号码
+        allOwnersName: {},
+        ownersName: '',
+        behindTheFrame4Digits: '', // 车架号
+        engineNumber: '', // 发动机号
+        cartModels: '', // 车辆型号
+        mobilephone: '', // 手机号码
+        identityCard: '', // 身份证号码
+        userName: '', // 姓名
+        IDcardFront: '', // 身份证正面
+        IDcarfBack: '', // 身份证反面
+        dealService1: '', // 购置发票
+        dealService2: '', // 交强险单据
+        dealService3: '', // 机动车合格证
+        dealService4: '' // 进口货物证明书
       }
     },
     components: {
-      'userUpload': require('../../userUpload.vue')
+      divSelect: require('../replaceCredentials/components/divSelect.vue'),
+      divRadio: require('../replaceCredentials/components/divRadio.vue')
     },
-    methods: {
-      areaSelectClick: function (str, id) {               // 区域下拉框选择
-        if (str) {
-          this.areaSelectMassage = str
-          this.cur_area_id = id
-        }
-        if (this.areaSelectShow === true) {
-          this.areaSelectShow = false
-        } else {
-          this.areaSelectShow = true
-        }
+    computed: {
+      certificateNumber () {
+        return window.localStorage.getItem('identityCard')
       },
-      licenseSelectClick: function (str, id) {
-        if (str) {
-          this.licenseSelectMassage = str
-          this.cur_type_id = id
+      plateNumber () {
+        var plateInfo = {
+          title: '车牌号码',
+          option: []
         }
-        if (this.licenseSelectShow === true) {
-          this.licenseSelectShow = false
-        } else {
-          this.licenseSelectShow = true
-          this.typeSelectShow = false
-          this.abbreviationSelectShow = false
-        }
-      },
-      plateSelectClick: function (str, id) {
-        if (str) {
-          this.plateSelectMassage = str
-          this.cur_plate_id = id
-        }
-        if (this.plateSelectShow === true) {
-          this.plateSelectShow = false
-        } else {
-          this.plateSelectShow = true
-          this.abbreviationSelectShow = false
-        }
-      },
-      abbreviationSelectClick: function (str) {
-        if (str) {
-          this.abbreviationSelectMassage = str
-        }
-        if (this.abbreviationSelectShow === true) {
-          this.abbreviationSelectShow = false
-        } else {
-          this.abbreviationSelectShow = true
-          this.licenseSelectShow = false
-          this.typeSelectShow = false
-        }
+        JSON.parse(window.localStorage.getItem('cars')).map(item => {
+          plateInfo.option.push({'str': item.myNumberPlate})
+          this.plateToCarNumber[item.myNumberPlate] = item.identityCard
+          this.allOwnersName[item.myNumberPlate] = item.name
+        })
+        this.plateNumberOne = plateInfo.option[0].str
+        this.defaultPlateNumber = plateInfo.option[0].str
+        return plateInfo
       }
     },
-    created () {
-      document.addEventListener('click', (e) => {
-        this.typeSelectShow = false
-        this.licenseSelectShow = false
-        this.abbreviationSelectShow = false
-        this.areaSelectShow = false
-      })
+    methods: {
+      uploadImg () {
+        uploadFile.upload({
+          id: 'file1',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne1 = res.imgUrl
+            this.IDcardFront = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file2',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne2 = res.imgUrl
+            this.IDcarfBack = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file3',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne3 = res.imgUrl
+            this.dealService3 = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file4',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne4 = res.imgUrl
+            this.outBoard = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file5',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne5 = res.imgUrl
+            this.dealService1 = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file6',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne6 = res.imgUrl
+            this.dealService2 = res.imgUrl
+          }
+        })
+        uploadFile.upload({
+          id: 'file7',
+          callback: (res) => {
+            console.log(res)
+            this.imgOne7 = res.imgUrl
+            this.dealService4 = res.imgUrl
+          }
+        })
+      },
+      getCensusRegister1 (val) {
+        console.log(val)
+        this.censusRegister = val
+      },
+      getCensusRegister2 (val) {
+        console.log(val)
+        this.censusRegister2 = val
+      },
+      getRecipientAddress (val) {
+        this.recipientAddressRegion = val
+      },
+      getPlateNumber (val) {
+        this.plateNumberOne = val
+        this.carCertificateNumber = this.plateToCarNumber[val]
+        this.ownersName = this.allOwnersName[val]
+      },
+      getPlateType (val) {
+        this.carTypeOne = val
+      },
+      confirmInfo () {
+        if (!this.recipientName) {
+          Toast({
+            message: '请输入收件人姓名',
+            duration: 2000
+          })
+          return
+        } else if (!isChinese(this.recipientName)) {
+          Toast({
+            message: '收件人姓名只能输入汉字',
+            duration: 2000
+          })
+          return
+        }
+        if (!isPhone(this.recipientPhone)) {
+          Toast({
+            message: '收件人手机号码格式不正确',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.recipientAddressDetail) {
+          Toast({
+            message: '请输入收件人详细地址',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.IDcardFront) {
+          Toast({
+            message: '请上传身份证正面',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.IDcarfBack) {
+          Toast({
+            message: '请上传身份证反面',
+            duration: 2000
+          })
+          return
+        }
+        if ((!this.outBoard) && (this.censusRegister !== '1')) {
+          Toast({
+            message: '请上传境外人员临住表',
+            duration: 2000
+          })
+          return
+        }
+        let dataList = {
+          type: '申请机动车临牌',
+          url: applyCarTemporaryLicence,
+          textObj: {
+            'userName': this.userName, // 姓名
+            'identityCard': this.identityCard, // 身份证
+            'mobilephone': this.mobilephone, // 手机号码
+            'cartModels': this.cartModels, // 车辆型号
+            'cartype': this.carTypeOne, // 车辆类型
+            'engineNumber': this.engineNumber, // 发动机号
+            'behindTheFrame4Digits': this.behindTheFrame4Digits, // 车架号
+            'carOrigin': this.censusRegister2, // 车辆产地
+            'placeOfDomicile': this.censusRegister, // 户籍所在地
+            'receiverName': this.recipientName, // 收件人姓名
+            'receiverNumber': this.recipientPhone, // 收件人号码
+            'receiverAddress': `深圳市,${this.recipientAddressRegion},${this.recipientAddressDetail}` // 收件人地址
+          },
+          imgObj: {
+            'PHOTO26': this.dealService1,
+            'PHOTO27': this.dealService2,
+            'PHOTO9': this.IDcardFront,
+            'PHOTO10': this.IDcarfBack,
+            'PHOTO28': this.dealService3,
+            'PHOTO31': this.outBoard,
+            'PHOTO29': this.dealService4
+          }
+        }
+        this.$store.commit('saveMotorVehicleHandling', dataList)
+        console.log(dataList)
+        this.$router.push('/affirmInfo')
+      }
+    },
+    mounted () {
+      this.uploadImg()
+      this.carCertificateNumber = this.plateToCarNumber[this.plateNumberOne]
+      this.ownersName = this.allOwnersName[this.plateNumberOne]
     }
   }
 </script>
-<style lang="less" scoped>
-  @import "./../../../../../style/base";
-  .applyInterimCard-outer {
-    background-color: #fff;
-    position: absolute;
-    left: 0;
-    right: 0;
-    padding: 0 40px;
-    .applyInterimCard-form {
-      background-color: #fff;
-      padding-top:20px;
-      .form-line {
-        padding: 20px 0 0 180px;
-        position: relative;
-        line-height: 56px;
-        .form-line-item {
-          width: 100%;
-          display: inline-block;
-          height: 60px;
-          line-height:60px;
-          span {
-            vertical-align: middle;
-          }
-          &.city {
-            margin: 0 18px;
-          }
-        }
-        .item-name {
-          width: 180px;
-          position: absolute;
-          left: 0;
-        }
-        .div-select {
-          font-size: 24px;
-        }
-      }
-    }
-    .width-40 {
-      width: 40% !important;
-    }
-    .width-35 {
-      width: 35% !important;
-    }
-    .width-50 {
-      width: 50% !important;
-    }
-    .width-60 {
-      width: 60% !important;
-    }
-  }
-
-</style>
