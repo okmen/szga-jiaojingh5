@@ -52,6 +52,7 @@ export default {
         receiverName: '收件人姓名',
         receiverNumber: '收件人号码',
         receiverAddress: '收件人地址',
+        address: '住所地址',
         personType: '申请人类型',
         driveLicenseNumber: '行驶证编号',
         identificationNO: '证件种类',
@@ -134,6 +135,11 @@ export default {
         proprietorship: {
           '0': '个人',
           '1': '单位'
+        },
+        inform: {
+          '1': '互联网查询',
+          '2': '短信告知',
+          '3': '非移动电话告知'
         }
       }
     }
@@ -145,7 +151,7 @@ export default {
   },
   methods: {
     affirmInfoBtn: function () {
-      let reqData = Object.assign({}, this.dataList.textObj, this.dataList.imgObj)
+      let reqData = Object.assign({}, this.dataList.textObj, this.dataList.imgObj, this.dataList.invisibleObj)
       console.log(reqData)
       resultPost(this.dataList.url, reqData).then(json => {
         console.log(json)

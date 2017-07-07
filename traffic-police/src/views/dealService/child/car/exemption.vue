@@ -10,7 +10,7 @@
             <span class="btn-select" @click.stop="vehiclePlate()">{{ vehicle }}</span>
             <div class="div-select-ul" v-if="vehicleShow">
               <ul>
-                <li v-for="item in vehicleData" @click.stop="vehiclePlate(item.myNumberPlate)">{{item.myNumberPlate}}</li>
+                <li v-for="item in cars" @click.stop="vehiclePlate(item)">{{item.myNumberPlate}}</li>
               </ul>
             </div>
           </div>
@@ -288,18 +288,14 @@ export default {
       appointment: '',                            // 预约人
       appointmentID: '',                          // 预约人身份证
       bookerType: '0',                            // 预约方式
-      behind: {},
-      bindid: {},
-      plateType: ''
+      cars: {},
+      plateType: '',
+      carTypeId: ''
     }
   },
   mounted: function () {
-    JSON.parse(window.localStorage.getItem('cars')).map(item => {
-      this.vehicleData.push({'myNumberPlate': item.myNumberPlate})
-      this.behind[item.myNumberPlate] = item.name
-      this.bindid[item.myNumberPlate] = item.plateType
-    })
-    console.log(this.vehicleData)
+    this.cars = JSON.parse(window.localStorage.getItem('cars'))
+    this.plateType = this.cars[0].plateType
     let getTime = this.currentTime()
     let getTimes = this.currentTime('take')
     this.mtDateTimeMsg = getTime
@@ -311,19 +307,23 @@ export default {
       this.areaSelectShow = false
       this.appointmentShow = false
     })
+    this.carIdFn()
   },
   methods: {
     // 车牌下拉框
-    vehiclePlate: function (str) {
-      if (str) {
-        this.vehicle = str
-        this.name = this.behind[str]
-        this.plateType = this.bindid[str]
-      }
-      if (this.vehicleShow === true) {
-        this.vehicleShow = false
+    vehiclePlate: function (item) {
+      if (!item) {
+        if (this.vehicleShow === true) {
+          this.vehicleShow = false
+        } else {
+          this.vehicleShow = true
+        }
       } else {
-        this.vehicleShow = true
+        this.vehicle = item.myNumberPlate
+        this.name = item.name
+        this.plateType = item.plateType
+        this.vehicleShow = false
+        this.carIdFn()
       }
     },
     // 申请人类型下拉框
@@ -486,10 +486,13 @@ export default {
           'inform': this.cur_place_id,                // 保险告知方式
           'bookerName': this.appointment,             // 预约人名字
           'bookerIdentityCard': this.appointmentID,   // 预约人名字
-          'bookerType': this.bookerType,               // 预约方式
-          'id': this.zhid
+          'bookerType': this.bookerType               // 预约方式
+        },
+        invisibleObj: {
+          'carTypeId': this.carTypeId                             // 证件类型ID
         }
       }
+      console.log(dataList)
       this.$store.commit('saveMotorVehicleHandling', dataList)
       this.$router.push('/affirmInfo')
     },
@@ -500,7 +503,6 @@ export default {
       }
       resultPost(verificatioCode, verificationData).then(json => {
         if (json.code === '0000') {
-          this.carIdFn()
           this.dataFn()
         } else {
           Toast({message: json.data, position: 'bottom', className: 'white'})
@@ -529,20 +531,24 @@ export default {
       } else if (this.identifying.length !== 6) {
         Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
       } else {
-        this.verificationFn()
+        // this.verificationFn()
+        this.dataFn()
       }
     },
+    // 获取证件类型ID
     carIdFn: function () {
-      let idFnDta = {
+      let carIdFnData = {
         arg0: '',
         arg1: '',
         code: this.plateType
       }
-      resultPost(getCarTypeId, idFnDta).then(json => {
-        if (json.code === '0000') {
-          this.zhid = json.data.id
+      resultPost(getCarTypeId, carIdFnData).then(json => {
+        console.log(json)
+        if (json.code === '00') {
+          this.carTypeId = json.data
+          console.log(this.carTypeId)
         } else {
-          Toast({message: json.data, position: 'bottom', className: 'white'})
+          Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
       })
     }
