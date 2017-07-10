@@ -1,7 +1,5 @@
 <template>
-    <div class="input-com">
-      <span class=""></span>
-    </div>
+    <div class=""></div>
 </template>
 <style>
 

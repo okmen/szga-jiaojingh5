@@ -815,6 +815,80 @@ const routes = [
       title: '机动车变更联系方式'
     },
     component: require('../views/dealService/child/car/motorAlteration.vue')
+  },
+  {
+    name: 'registerClass',
+    path: '/registerClass',
+    meta: {
+      title: '登记类'
+    },
+    component: require('../views/precontractType/registerClass'),
+    children: [
+      {
+        name: 'transferRegistration',
+        path: 'transferRegistration',
+        meta: {
+          title: '转移登记(市内过户)'
+        },
+        component: require('../views/precontractType/registerClass/page/transferRegistration.vue')
+      },
+      {
+        name: 'intoRegister',
+        path: 'intoRegister',
+        meta: {
+          title: '机动车转移登记(转入)'
+        },
+        component: require('../views/precontractType/registerClass/page/intoRegister.vue')
+      },
+      {
+        name: 'enteringRegister',
+        path: 'enteringRegister',
+        meta: {
+          title: '机动车注册登记'
+        },
+        component: require('../views/precontractType/registerClass/page/enteringRegister.vue')
+      },
+      {
+        name: 'cancellationRegister',
+        path: 'cancellationRegister',
+        meta: {
+          title: '机动车注销登记'
+        },
+        component: require('../views/precontractType/registerClass/page/intoRegister.vue')
+      },
+      {
+        name: 'changeRegister',
+        path: 'changeRegister',
+        meta: {
+          title: '机动车变更登记'
+        },
+        component: require('../views/precontractType/registerClass/page/changeRegister.vue')
+      },
+      {
+        name: 'fakeLicensedEvidence',
+        path: 'fakeLicensedEvidence',
+        meta: {
+          title: '机动车变更登记(套牌车换证)'
+        },
+        component: require('../views/precontractType/registerClass/page/fakeLicensedEvidence.vue')
+      },
+      {
+        name: 'manWifeChange',
+        path: 'manWifeChange',
+        meta: {
+          title: '机动车变更登记(夫妻变更)'
+        },
+        component: require('../views/precontractType/registerClass/page/manWifeChange.vue')
+      },
+      {
+        name: 'replaceLicense',
+        path: 'replaceLicense',
+        meta: {
+          title: '补换领机动车行驶证'
+        },
+        component: require('../views/precontractType/registerClass/page/replaceLicense.vue')
+      }
+    ]
   }
 ]
 /* eslint-disable no-new */
