@@ -18,20 +18,20 @@
     <div class="query-link" v-bind:class="{ 'show' : changeShow}">
       <p @click.stop="changeShow = !changeShow">补换领证类<i v-bind:class="{ 'arrow-open' : changeShow, 'arrow-close' : changeShow == false}"></i></p>
       <div class="li-box">
-        <router-link :to="isLogin ? 'replaceCredentials/repairDrivingLicense' : 'login'">补领行驶证</router-link>
-        <router-link :to="isLogin ? 'replaceCredentials/exchangeDrivingLicense' : 'login'">换领行驶证</router-link>
-        <router-link :to="isLogin ? 'replaceCredentials/replaceQualifiedMark' : 'login'">补换检验合格标志</router-link>
-        <router-link :to="isLogin ? 'replaceCredentials/replaceLicencePlate' : 'login'">补换机动车号牌</router-link>
+        <router-link :to="isLogin ? '/userAgreement/szjj_hander_ctmvdl' : 'login'">补领行驶证</router-link>
+        <router-link :to="isLogin ? '/userAgreement/szjj_hander_icr' : 'login'">换领行驶证</router-link>
+        <router-link :to="isLogin ? '/userAgreement/szjj_hander_rim' : 'login'">补换检验合格标志</router-link>
+        <router-link :to="isLogin ? '/userAgreement/szjj_hander_rmvp' : 'login'">补换机动车号牌</router-link>
       </div>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? 'exemption' : 'login'">六年免检</router-link>
+      <router-link :to="isLogin ? '/userAgreement/szjj_hander_cvi' : 'login'">六年免检</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? 'motorAlteration' : 'login'">机动车联系方式变更</router-link>
+      <router-link :to="isLogin ? '/userAgreement/szjj_hander_iccc' : 'login'">机动车联系方式变更</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? 'placeExamine' : 'login'">机动车委托异地定期检验申报</router-link>
+      <router-link :to="isLogin ? '/userAgreement/szjj_hander_id' : 'login'">机动车委托异地定期检验申报</router-link>
     </div>
     <div class="query-link">
       <router-link :to="isLogin ? 'freeForFirst' : 'login'">首违免罚查询</router-link>

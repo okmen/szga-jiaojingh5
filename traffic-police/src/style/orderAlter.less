@@ -1,0 +1,115 @@
+/* 
+预约类 变更类样式
+ */
+.order-alter-class{
+  .alter-hbs-list {
+    overflow: hidden;
+    .alter-hbs-item {
+      margin-top: 24px;
+      padding-left: 180px;
+      position: relative;
+      line-height: 56px;
+      .alter-hbs-name {
+        width: 180px;
+        position: absolute;
+        left: 0;
+      }
+      .alter-hbs-text {
+        width: 100%;
+        display: inline-block;
+      }
+      .alter-hbs-radio {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+      .alter-hbs-code {
+        text-indent: 28px;
+        text-decoration: underline;
+        .verifyButton{
+          width: 252px;
+          background: #09BB07;
+          height: 58px;
+          border:none;
+          border-radius: 10px;
+          color: #FFF;
+          outline:none;
+          &.disabled{
+            background: #ccc;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+  .flex{
+    display: flex;
+    justify-content: space-between;
+  }
+  .alter-item{
+    margin-bottom: 24px;
+    position: relative;
+    line-height: 56px;
+    .alter-name{
+      position: absolute;
+      left: 0;
+    }
+    .year{
+      width: 26%;
+      text-indent: 0;
+      text-align: center;
+    }
+    .month,.date{
+      width: 22%;
+      text-align: center;
+      text-indent: 0;
+      span{
+        text-indent: 0;
+        text-align: center;
+      }
+    }
+  }
+  .alter-detail{
+    width: 100%;
+    height: 420px;
+    border: 1px solid #eaeaed;
+    border-radius: 8px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    margin-bottom: 55px;
+    .disabled{
+      padding: 0 80px 0 35px;
+      background: #eaeaed;
+    }
+    .alter-item{
+      padding: 0 70px 0 35px;
+      display: flex;
+      justify-content: space-between;
+      line-height: 80px;
+      border: 2px solid #eaeaed;
+      border-color: transparent;
+      border-bottom-color: #eaeaed;
+      .yy_yysl{
+        margin: 0 10px 0 34px;
+        color: #19d051;
+      }
+    }
+    .active{
+      border-color: #2696dd;
+    }
+  }
+  .alter-button-box{
+    background: #FFF;
+    padding-bottom: 60px;
+    .alterButton{
+      background: #10AEFF;
+    }
+  }
+  .mint-indicator{
+    position:relative;
+    .mint-indicator-wrapper{
+      z-index:9999999;
+    }
+  }
+}

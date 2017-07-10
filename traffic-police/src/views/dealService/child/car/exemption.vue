@@ -124,7 +124,7 @@
         </li>
         <li class="form-li">
           <div class="form-line-item text-input" @click="datetimePick('picker')">
-            <span>{{mtDateTimeMsg}}</span>
+            <span class="exefont">{{mtDateTimeMsg}}</span>
           </div>
         </li>
         <li class="form-li">
@@ -132,7 +132,7 @@
         </li>
         <li class="form-li">
           <div class="form-line-item text-input" @click="terminationPick('pick')">
-            <span>{{DateTimeMsg}}</span>
+            <span class="exefont">{{DateTimeMsg}}</span>
           </div>
         </li>
         <li class="form-li">
@@ -192,7 +192,6 @@ export default {
       name: '',     // 所有人名字
       addresseeName: window.localStorage.getItem('userName'),  // 收件人名字
       addresseeMobile: window.localStorage.getItem('mobilePhone'),  // 收件人手机号码
-      vehicleData: [],
       isShow: false,
       mtDateTimeMsg: '',                           // 保险生效时间进页面默认时间
       DateTimeMsg: '',                             // 保险终止时间进页面默认时间
@@ -308,7 +307,6 @@ export default {
       this.areaSelectShow = false
       this.appointmentShow = false
     })
-    this.carIdFn()
   },
   methods: {
     // 车牌下拉框
@@ -324,7 +322,6 @@ export default {
         this.name = item.name
         this.plateType = item.plateType
         this.vehicleShow = false
-        this.carIdFn()
       }
     },
     // 申请人类型下拉框
@@ -488,7 +485,7 @@ export default {
           'terminationDate': this.DateTimeMsg,        // 保险终止日期
           'inform': this.cur_place_id,                // 保险告知方式
           'bookerName': this.appointment,             // 预约人名字
-          'bookerIdentityCard': this.appointmentID,   // 预约人名字
+          'bookerIdentityCard': this.appointmentID,   // 预约人身份证
           'bookerType': this.bookerType               // 预约方式
         },
         invisibleObj: {
@@ -505,7 +502,7 @@ export default {
       }
       resultPost(verificatioCode, verificationData).then(json => {
         if (json.code === '0000') {
-          this.dataFn()
+          this.carIdFn()
         } else {
           Toast({message: json.data, position: 'bottom', className: 'white'})
         }
@@ -542,8 +539,10 @@ export default {
         code: this.plateType
       }
       resultPost(getCarTypeId, carIdFnData).then(json => {
-        if (json.code === '00') {
+        console.log(json)
+        if (json.code === '0000') {
           this.carTypeId = json.data
+          this.dataFn()
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
@@ -644,7 +643,10 @@ padding: 20px 40px;
     background: #999999;
   }
   .stylebackground{
-    background: #fff;
+    background-color: #fff;
+  }
+  .exefont{
+    font-style: 16px;
   }
 }
 </style>

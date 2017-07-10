@@ -1,8 +1,8 @@
 <template>
-  <div class="starUser-outer">
-    <div class="starUser-select pad-side-50">
-      <p>请根据您的出行方式来选择服务认证类型</p>
-      <div class="div-select">
+  <div class="alter-outer">
+    <div class="alter-select pad-side-50 clear">
+      <p class="alter-chose">业务类型</p>
+      <div class="div-select alter-wd left">
         <span id="btnSelect" class="btn-select" @click.stop="typeSelectClick()">{{ typeSelectMassage.str }}</span>
         <div class="div-select-ul" v-if='typeSelectShow'>
           <ul>
@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <div class="starUser-from pad-side-50">
+    <div class="alter-from pad-side-50">
       <router-view></router-view>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
@@ -21,32 +21,37 @@
 </template>
 <script>
 export default {
-  name: 'starUser',
+  name: 'renewingClass',
   data () {
     return {
-      curTab: 'carOwner',
+      curTab: 'replacementType',   // 当前 tab
       typeSelectShow: false,
       typeSelectMassage: '',
       typeSelectData: [
         {
-          'name': 'carOwner',
-          'str': '我是车主',
-          'path': '/starUser/carOwner'
+          'name': 'renewingCollarCredential',
+          'str': '换领机动车登记证书',
+          'path': '/replacementType/renewingCollarCredential'
         },
         {
-          'name': 'carUser',
-          'str': '我不是车主，我是车辆长期使用人',
-          'path': '/starUser/carUser'
+          'name': 'replacementNumber',
+          'str': '补领机动车号牌',
+          'path': '/replacementType/replacementNumber'
         },
         {
-          'name': 'drivingLicense',
-          'str': '我有驾驶证，但没固定车辆',
-          'path': '/starUser/drivingLicense'
+          'name': 'renewingDrivingLicense',
+          'str': '补换机动车行驶证',
+          'path': '/replacementType/renewingDrivingLicense'
         },
         {
-          'name': 'passerBy',
-          'str': '我是行人，非机动车驾驶人',
-          'path': '/starUser/passerBy'
+          'name': 'renewingQualification',
+          'str': '补换检验合格标志',
+          'path': '/replacementType/renewingQualification'
+        },
+        {
+          'name': 'renewingCertificate',
+          'str': '申领/补领机动车登记证书',
+          'path': '/replacementType/renewingCertificate'
         }
       ]
     }
@@ -69,24 +74,27 @@ export default {
       this.typeSelectShow = false
     })
     switch (window.location.hash) {
-      case '#/starUser/carOwner':
+      case '#/replacementType/renewingCollarCredential':
         this.typeSelectMassage = this.typeSelectData[0]
         break
-      case '#/starUser/carUser':
+      case '#/replacementType/replacementNumber':
         this.typeSelectMassage = this.typeSelectData[1]
         break
-      case '#/starUser/drivingLicense':
+      case '#/replacementType/renewingDrivingLicense':
         this.typeSelectMassage = this.typeSelectData[2]
         break
-      case '#/starUser/passerBy':
+      case '#/replacementType/renewingQualification':
         this.typeSelectMassage = this.typeSelectData[3]
+        break
+      case '#/replacementType/renewingCertificate':
+        this.typeSelectMassage = this.typeSelectData[4]
         break
     }
   }
 }
 </script>
-<style lang="less" >
-.starUser-outer {
+<style lang="less">
+.alter-outer {
   font-size: 26px;
   color: #000;
   position: relative;
@@ -99,13 +107,19 @@ export default {
   .width-40{
     width: 40% !important;
   }
-  .starUser-select {
+  .alter-select {
+    width: 100%;
     background-color: #fff;
-    padding-bottom: 24px;
     position: relative;
-    p {
+    .alter-chose{
+      float: left;
+      width: 180px;
       color: #666;
-      line-height: 68px;
+      line-height: 100px;
+    }
+    .alter-wd{
+      width: 465px;
+      padding-top: 22px;
     }
     .link{
       display: block;
@@ -113,9 +127,10 @@ export default {
       height: 100%;
     }
   }
-  .starUser-from{
+  .alter-from{
     background:#FFF;
     margin-top:10px;
   }
 }
 </style>
+
