@@ -124,7 +124,7 @@
         </li>
         <li class="form-li">
           <div class="form-line-item text-input" @click="datetimePick('picker')">
-            <span class="exefont">{{mtDateTimeMsg}}</span>
+            <span>{{mtDateTimeMsg}}</span>
           </div>
         </li>
         <li class="form-li">
@@ -132,7 +132,7 @@
         </li>
         <li class="form-li">
           <div class="form-line-item text-input" @click="terminationPick('pick')">
-            <span class="exefont">{{DateTimeMsg}}</span>
+            <span>{{DateTimeMsg}}</span>
           </div>
         </li>
         <li class="form-li">
@@ -178,6 +178,7 @@
       <mt-datetime-picker ref="picker" type="date" v-model="informTime" @confirm="handleTime"></mt-datetime-picker>
       <mt-datetime-picker ref="pick" type="date" v-model="informTimes" @confirm="handleTimes"></mt-datetime-picker>
     </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
@@ -552,7 +553,6 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import "./../../../../style/base";
 .exemption {
 background-color: #fff;
 position: absolute;
@@ -598,7 +598,7 @@ padding: 20px 40px;
         left: 0;
       }
       .div-select {
-        font-size: 24px;
+        font-size: 20px;
       }
     }
     .form-li{
@@ -607,12 +607,12 @@ padding: 20px 40px;
       height: 60px;
       line-height:60px;
       span{
-        font-size: 16px;
+        font-size: 26px !important;
       }
     }
     .form-annotation{
       color: red;
-      font-size: 16px;
+      font-size: 26px !important;
     }
   }
   .width-40 {
@@ -637,7 +637,7 @@ padding: 20px 40px;
     width: 100%;
   }
   .div-select-ul{
-    font-size: 16px;
+    font-size: 26px;
   }
   .show{
     background: #999999;
@@ -645,8 +645,8 @@ padding: 20px 40px;
   .stylebackground{
     background-color: #fff;
   }
-  .exefont{
-    font-style: 16px;
-  }
+/*  .exefont{
+    font-size: 19px !important;
+  }*/
 }
 </style>
