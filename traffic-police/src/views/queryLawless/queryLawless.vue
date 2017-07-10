@@ -36,8 +36,7 @@ export default {
   }
 }
 </script>
-<style lang="less">
-@import "./../../style/base";
+<style lang="less" scoped>
 .queryLawless-outer {
   position: relative;
   background-color: white;

@@ -135,6 +135,7 @@
         </ul>
         <button class="btn btns" @click.stop="submitClick()">确认提交</button>
       </div>
+      <div v-wechat-title="$route.meta.title"></div>
     </div>
 </template>
 <script>
@@ -456,7 +457,7 @@ padding: 20px 40px;
         left: 0;
       }
       .div-select {
-        font-size: 24px;
+        font-size: 26px;
       }
     }
     .form-li{
@@ -465,12 +466,12 @@ padding: 20px 40px;
       height: 60px;
       line-height:60px;
       span{
-        font-size: 16px;
+        font-size: 26px;
       }
     }
     .form-annotation{
       color: red;
-      font-size: 16px;
+      font-size: 26px;
     }
   }
   .width-40 {
@@ -495,7 +496,7 @@ padding: 20px 40px;
     width: 100%;
   }
   .div-select-ul{
-    font-size: 16px;
+    font-size: 26px;
   }
   .show{
     background: #999999;

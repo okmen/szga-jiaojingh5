@@ -1,151 +1,136 @@
 <template>
-  <div class="applyClass-outer">
-    <div class="applyClass-from pad-side-50">
-      <div id="applyClass-hbs">
-        <ul class="applyClass-hbs-list">
-          <li class="applyClass-hbs-item">
-            <div class="applyClass-hbs-name">
-              <span>业务类型</span>
-            </div>
-            <div class="div-select">
-              <span class="btn-select" @click.stop="licenseSelectClick()">{{ licenseSelectMassage }}</span>
-              <div class="div-select-ul" v-if="licenseSelectShow">
-                <ul>
-                  <li v-for="item in licenseSelectData" @click.stop="licenseSelectClick(item.str, item.id)">{{item.str}}</li>
-                </ul>
-              </div>
-            </div>
-          </li>
-        </ul>
+  <div class="alter-outer">
+    <div class="alter-select pad-side-50 clear">
+      <p class="alter-chose">业务类型</p>
+      <div class="div-select alter-wd left">
+        <span id="btnSelect" class="btn-select" @click.stop="typeSelectClick()">{{ typeSelectMassage.str }}</span>
+        <div class="div-select-ul" v-if='typeSelectShow'>
+          <ul>
+            <li v-for="(item, index) in typeSelectData" @click.stop = "typeSelectClick(index+1)">
+              <router-link class="link" :to="item.path">{{ item.str }}</router-link>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-    <renewingCollarCredential v-if="cur_type_id == '01'"></renewingCollarCredential>
-    <replacementNumber v-if="cur_type_id == '02'"></replacementNumber>
-    <renewingDrivingLicense v-if="cur_type_id == '03'"></renewingDrivingLicense>
-    <renewingQualification v-if="cur_type_id == '04'"></renewingQualification>
-    <renewingCertificate v-if="cur_type_id == '05'"></renewingCertificate>
+    <div class="alter-from pad-side-50">
+      <router-view></router-view>
+    </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
-  export default {
-    name: 'renewingClass',
-    data () {
-      return {
-        cur_type_id: '',
-        licenseSelectShow: false,
-        licenseSelectMassage: '换领机动车登记证书',
-        licenseSelectData: [
-          {
-            'id': '01',
-            'str': '换领机动车登记证书'
-          },
-          {
-            'id': '02',
-            'str': '补领机动车号牌'
-          },
-          {
-            'id': '03',
-            'str': '补换机动车行驶证'
-          },
-          {
-            'id': '04',
-            'str': '补换检验合格标志'
-          },
-          {
-            'id': '05',
-            'str': '申领/补领机动车登记证书'
-          }
-        ]
-      }
-    },
-    components: {
-      'renewingCollarCredential': require('./renewingCollarCredential.vue'),
-      'replacementNumber': require('./replacementNumber.vue'),
-      'renewingDrivingLicense': require('./renewingDrivingLicense.vue'),
-      'renewingQualification': require('./renewingQualification.vue'),
-      'renewingCertificate': require('./renewingCertificate.vue')
-    },
-    mounted: function () {
-      if (this.$route.params.id === '1') {    // 地址参数为1，载入补换证组件
-        this.cur_type_id = '01'
-        this.licenseSelectMassage = this.licenseSelectData[0].str
-      } else if (this.$route.params.id === '2') {                                // 地址参数为2，载入延期换证组件
-        this.cur_type_id = '02'
-        this.licenseSelectMassage = this.licenseSelectData[1].str
-      } else if (this.$route.params.id === '3') {
-        this.this.cur_type_id = '03'
-        this.licenseSelectMassage = this.licenseSelectData[2].str
-      } else if (this.$route.params.id === '4') {
-        this.this.cur_type_id = '04'
-        this.licenseSelectMassage = this.licenseSelectData[3].str
-      } else if (this.$route.params.id === '5') {
-        this.this.cur_type_id = '05'
-        this.licenseSelectMassage = this.licenseSelectData[4].str
-      }
-    },
-    methods: {
-      licenseSelectClick: function (str, id) {
-        if (str) {
-          this.licenseSelectMassage = str
-          this.cur_type_id = id
-
-          console.log(this.cur_type_id)
+export default {
+  name: 'renewingClass',
+  data () {
+    return {
+      curTab: 'replacementType',   // 当前 tab
+      typeSelectShow: false,
+      typeSelectMassage: '',
+      typeSelectData: [
+        {
+          'name': 'renewingCollarCredential',
+          'str': '换领机动车登记证书',
+          'path': '/replacementType/renewingCollarCredential'
+        },
+        {
+          'name': 'replacementNumber',
+          'str': '补领机动车号牌',
+          'path': '/replacementType/replacementNumber'
+        },
+        {
+          'name': 'renewingDrivingLicense',
+          'str': '补换机动车行驶证',
+          'path': '/replacementType/renewingDrivingLicense'
+        },
+        {
+          'name': 'renewingQualification',
+          'str': '补换检验合格标志',
+          'path': '/replacementType/renewingQualification'
+        },
+        {
+          'name': 'renewingCertificate',
+          'str': '申领/补领机动车登记证书',
+          'path': '/replacementType/renewingCertificate'
         }
-        if (this.licenseSelectShow === true) {
-          this.licenseSelectShow = false
-        } else {
-          this.licenseSelectShow = true
-        }
+      ]
+    }
+  },
+  methods: {
+    typeSelectClick: function (index) {
+      if (index) {
+        index--
+        this.typeSelectMassage = this.typeSelectData[index]
+        this.curTab = this.typeSelectMassage.name
       }
+      this.typeSelectShow = !this.typeSelectShow
+    },
+    select: function () {
+      this.typeSelectShow = false
+    }
+  },
+  created () {
+    document.addEventListener('click', (e) => {
+      this.typeSelectShow = false
+    })
+    switch (window.location.hash) {
+      case '#/replacementType/renewingCollarCredential':
+        this.typeSelectMassage = this.typeSelectData[0]
+        break
+      case '#/replacementType/replacementNumber':
+        this.typeSelectMassage = this.typeSelectData[1]
+        break
+      case '#/replacementType/renewingDrivingLicense':
+        this.typeSelectMassage = this.typeSelectData[2]
+        break
+      case '#/replacementType/renewingQualification':
+        this.typeSelectMassage = this.typeSelectData[3]
+        break
+      case '#/replacementType/renewingCertificate':
+        this.typeSelectMassage = this.typeSelectData[4]
+        break
     }
   }
+}
 </script>
-<style lang="less" scoped>
-  /*@import "./../../../../../style/base";*/
-  .applyClass-outer {
-    padding: 120px 40px 0;
-    font-size: 28px;
-    color: #000;
+<style lang="less">
+.alter-outer {
+  font-size: 26px;
+  color: #000;
+  position: relative;
+  .width-120 {
+    width: 120px !important;
+  }
+  .width-70 {
+    width: 70% !important;
+  }
+  .width-40{
+    width: 40% !important;
+  }
+  .alter-select {
+    width: 100%;
+    background-color: #fff;
     position: relative;
-    .applyClass-from {
-      background-color: #fff;
-      position: absolute;
-      left: 0;
-      right: 0;
-      top:0;
-      padding: 0 40px;
-      #applyClass-hbs {
-        padding: 20px 0 0;
-        .applyClass-hbs-list {
-          .applyClass-hbs-item {
-            padding-left: 180px;
-            position: relative;
-            line-height: 56px;
-            .applyClass-hbs-name {
-              width: 180px;
-              position: absolute;
-              left: 0;
-            }
-            .applyClass-hbs-text {
-              width: 100%;
-              display: inline-block;
-            }
-            .applyClass-hbs-code {
-              margin-left: 40px;
-              text-indent: 28px;
-              width: 240px;
-              height: 56px;
-              text-decoration: underline;
-            }
-            .div-select {
-              .div-select-ul {
-                top:60px;
-              }
-            }
-          }
-        }
-      }
+    .alter-chose{
+      float: left;
+      width: 180px;
+      color: #666;
+      line-height: 100px;
+    }
+    .alter-wd{
+      width: 465px;
+      padding-top: 22px;
+    }
+    .link{
+      display: block;
+      width: 100%;
+      height: 100%;
     }
   }
+  .alter-from{
+    background:#FFF;
+    margin-top:10px;
+  }
+}
 </style>
+

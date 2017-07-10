@@ -2,22 +2,23 @@
   <div class="replace-plate">
     <div class="owners-name">
       <span class="item-title">车主姓名</span>
-      <input type="text" disabled class="item-info" v-model="ownersName">
+      <input type="text" readonly class="item-info" v-model="ownersName">
     </div>
     <div class="certificate-number">
       <span class="item-title">证件号码</span>
-      <input type="text" disabled class="item-info"  v-model="certificateNumber">
+      <input type="text" readonly class="item-info"  v-model="certificateNumber">
     </div>
     <div class="owner-certificate">
       <span class="item-title">车主证件号码</span>
-      <input type="text" disabled class="item-info" v-model="carCertificateNumber">
+      <input type="text" readonly class="item-info" v-model="carCertificateNumber">
     </div>
     <div-select :childInfo="plateNumber" @getSelected="getPlateNumber" :defaultVal="defaultPlateNumber"></div-select>
     <div-select :childInfo="plateType" @getSelected="getPlateType" defaultVal="蓝牌"></div-select>
-    <div class="domicile-place">
+    <!--<div class="domicile-place">
       <span class="item-title">户籍所在地</span>
       <div-radio :optname="optname" @getSelected="getCensusRegister"></div-radio>
-    </div>
+    </div>-->
+    <div-select :childInfo="censusRegister" @getSelected="getCensusRegister" defaultVal="深户"></div-select>
     <div class="recipient-name">
       <span class="item-title">收件人姓名</span>
       <input type="text" placeholder="请输入收件人姓名" class="item-info" v-model="recipientName">
@@ -61,21 +62,21 @@
           </label>
           <div class="upload-item-text-one">机动车登记证书</div>
         </div>
-        <div class="upload-item-img" v-show="this.censusRegister != '1'">
+        <div class="upload-item-img" v-show="this.showIndex == '2'">
           <label class="upload-item-img-one" for="file4">
             <input id="file4" type="file" accept="image/*" >
             <img :src="imgOne4" />
           </label>
           <div class="upload-item-text-one">境外人员临住表</div>
         </div>
-        <div class="upload-item-img" v-show="this.censusRegister != '1'">
+        <div class="upload-item-img" v-show="this.showIndex == '1'">
           <label class="upload-item-img-one" for="file5">
             <input id="file5" type="file" accept="image/*" >
             <img :src="imgOne5" />
           </label>
           <div class="upload-item-text-one">居住证正面</div>
         </div>
-        <div class="upload-item-img" v-show="this.censusRegister != '1'">
+        <div class="upload-item-img" v-show="this.showIndex == '1'">
           <label class="upload-item-img-one" for="file6">
             <input id="file6" type="file" accept="image/*" >
             <img :src="imgOne6" />
@@ -181,6 +182,7 @@
   export default {
     data () {
       return {
+        showIndex: '',
         imgOne1: require('../../../../../images/IDcard-front.png'),
         imgOne2: require('../../../../../images/IDcard-back.png'),
         imgOne3: require('../../../../../images/register-credential.png'),
@@ -188,7 +190,7 @@
         imgOne5: require('../../../../../images/residence-permit-f.png'),
         imgOne6: require('../../../../../images/residence-permit-b.png'),
         plateType: {
-          title: '车牌种类',
+          title: '车牌类型',
           option: [
             {
               'str': '蓝牌',
@@ -255,7 +257,15 @@
             }
           ]
         },
-        censusRegister: '1',
+        censusRegisterOne: '0',
+        censusRegister: {
+          title: '户籍所在地',
+          option: [
+            {'str': '深户', id: '0'},
+            {'str': '非深户', id: '1'},
+            {'str': '外籍', id: '1'}
+          ]
+        },
         plateNumberOne: '',
         plateTypeOne: '02',
         recipientPhone: '',    // 收件人手机号码
@@ -350,8 +360,9 @@
           }
         })
       },
-      getCensusRegister (val) {
-        this.censusRegister = val
+      getCensusRegister (val, index) {
+        this.censusRegisterOne = val
+        this.showIndex = index
       },
       getRecipientAddress (val) {
         this.recipientAddressRegion = val
@@ -365,6 +376,7 @@
         this.plateTypeOne = val
       },
       confirmInfo () {
+        console.log(this.censusRegisterOne)
         if (!this.recipientName) {
           Toast({
             message: '请输入收件人姓名',
@@ -413,7 +425,7 @@
           })
           return
         }
-        if ((!this.outBoard) && (this.censusRegister !== '1')) {
+        if ((!this.outBoard) && (this.showIndex === '2')) {
           Toast({
             message: '请上传境外人员临住表',
             duration: 2000
@@ -443,7 +455,7 @@
             'carOwnerIdentityCard': this.carCertificateNumber,
             'numberPlate': this.plateNumberOne,
             'plateType': this.plateTypeOne,
-            'placeOfDomicile': this.censusRegister,
+            'placeOfDomicile': this.censusRegisterOne,
             'receiverName': this.recipientName,
             'receiverNumber': this.recipientPhone,
             'receiverAddress': `深圳市,${this.recipientAddressRegion},${this.recipientAddressDetail}`,

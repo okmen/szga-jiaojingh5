@@ -3,9 +3,11 @@
  -->
 <template>
   <div class="alter-outer">
-    <div class="alter-select pad-side-50 clear">
-      <p class="alter-chose">业务类型</p>
-      <div class="div-select alter-wd left">
+    <div class="alter-select pad-side-50">
+      <div class="alter-chose">
+        <span>业务类型</span>
+      </div>
+      <div class="div-select alter-wd">
         <span id="btnSelect" class="btn-select" @click.stop="typeSelectClick()">{{ typeSelectMassage.str }}</span>
         <div class="div-select-ul" v-if='typeSelectShow'>
           <ul>
@@ -100,7 +102,7 @@ export default {
 .alter-outer {
   font-size: 26px;
   color: #000;
-  position: relative;
+  overflow: hidden;
   .width-120 {
     width: 120px !important;
   }
@@ -111,17 +113,18 @@ export default {
     width: 40% !important;
   }
   .alter-select {
-    width: 100%;
+    height: 100px;
     background-color: #fff;
     position: relative;
+    padding-left: 230px;
     .alter-chose{
-      float: left;
       width: 180px;
+      position: absolute;
+      left: 50px;
       color: #666;
       line-height: 100px;
     }
     .alter-wd{
-      width: 465px;
       padding-top: 22px;
     }
     .link{

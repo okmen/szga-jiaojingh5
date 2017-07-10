@@ -178,6 +178,7 @@
       <mt-datetime-picker ref="picker" type="date" v-model="informTime" @confirm="handleTime"></mt-datetime-picker>
       <mt-datetime-picker ref="pick" type="date" v-model="informTimes" @confirm="handleTimes"></mt-datetime-picker>
     </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
@@ -307,7 +308,6 @@ export default {
       this.areaSelectShow = false
       this.appointmentShow = false
     })
-    this.carIdFn()
   },
   methods: {
     // 车牌下拉框
@@ -323,7 +323,6 @@ export default {
         this.name = item.name
         this.plateType = item.plateType
         this.vehicleShow = false
-        this.carIdFn()
       }
     },
     // 申请人类型下拉框
@@ -504,7 +503,7 @@ export default {
       }
       resultPost(verificatioCode, verificationData).then(json => {
         if (json.code === '0000') {
-          this.dataFn()
+          this.carIdFn()
         } else {
           Toast({message: json.data, position: 'bottom', className: 'white'})
         }
@@ -541,8 +540,10 @@ export default {
         code: this.plateType
       }
       resultPost(getCarTypeId, carIdFnData).then(json => {
-        if (json.code === '00') {
+        console.log(json)
+        if (json.code === '0000') {
           this.carTypeId = json.data
+          this.dataFn()
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
@@ -552,7 +553,6 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import "./../../../../style/base";
 .exemption {
 background-color: #fff;
 position: absolute;
@@ -598,7 +598,7 @@ padding: 20px 40px;
         left: 0;
       }
       .div-select {
-        font-size: 24px;
+        font-size: 20px;
       }
     }
     .form-li{
@@ -607,12 +607,12 @@ padding: 20px 40px;
       height: 60px;
       line-height:60px;
       span{
-        font-size: 16px;
+        font-size: 26px !important;
       }
     }
     .form-annotation{
       color: red;
-      font-size: 16px;
+      font-size: 26px !important;
     }
   }
   .width-40 {
@@ -637,7 +637,7 @@ padding: 20px 40px;
     width: 100%;
   }
   .div-select-ul{
-    font-size: 16px;
+    font-size: 26px;
   }
   .show{
     background: #999999;
@@ -645,5 +645,8 @@ padding: 20px 40px;
   .stylebackground{
     background-color: #fff;
   }
+/*  .exefont{
+    font-size: 19px !important;
+  }*/
 }
 </style>

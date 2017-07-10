@@ -25,6 +25,7 @@
       </div>
       <button class="btn btn-blue" type="button" name="button">查询</button>
     </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
