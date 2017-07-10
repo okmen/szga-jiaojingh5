@@ -1,5 +1,5 @@
 <template>
-  <div>不换机动车行驶证</div>
+  <div>补换机动车行驶证</div>
 </template>
 
 <script>
