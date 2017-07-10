@@ -1,11 +1,12 @@
+<!-- 
+*  #变更类#
+*  #档案更正
+ -->
 <template>
-    <div class="input-com">
-      <span class=""></span>
+    <div class="">
+      档案更正
     </div>
 </template>
-<style>
-
-</style>
 <script>
   export default {
     data () {
@@ -13,3 +14,6 @@
     }
   }
 </script>
+<style>
+
+</style>

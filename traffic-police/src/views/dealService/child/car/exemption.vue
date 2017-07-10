@@ -192,7 +192,6 @@ export default {
       name: '',     // 所有人名字
       addresseeName: window.localStorage.getItem('userName'),  // 收件人名字
       addresseeMobile: window.localStorage.getItem('mobilePhone'),  // 收件人手机号码
-      vehicleData: [],
       isShow: false,
       mtDateTimeMsg: '',                           // 保险生效时间进页面默认时间
       DateTimeMsg: '',                             // 保险终止时间进页面默认时间
@@ -488,7 +487,7 @@ export default {
           'terminationDate': this.DateTimeMsg,        // 保险终止日期
           'inform': this.cur_place_id,                // 保险告知方式
           'bookerName': this.appointment,             // 预约人名字
-          'bookerIdentityCard': this.appointmentID,   // 预约人名字
+          'bookerIdentityCard': this.appointmentID,   // 预约人身份证
           'bookerType': this.bookerType               // 预约方式
         },
         invisibleObj: {
@@ -644,7 +643,7 @@ padding: 20px 40px;
     background: #999999;
   }
   .stylebackground{
-    background: #fff;
+    background-color: #fff;
   }
 }
 </style>
