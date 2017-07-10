@@ -104,7 +104,6 @@ export default {
     padding-bottom: 24px;
     position: relative;
     p {
-      width: 180px;
       color: #666;
       line-height: 68px;
     }
