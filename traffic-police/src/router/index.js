@@ -897,6 +897,57 @@ const routes = [
       title: '补换领类'
     },
     component: require('../views/precontractType/replacementType/renewingClass.vue')
+  },
+  {
+    name: 'alterClass',
+    path: '/alterClass',
+    meta: {
+      title: '变更类'
+    },
+    component: require('../views/precontractType/alterClass/alterClass.vue'),
+    redirect: '/alterClass/taxiUseAlter',
+    children: [
+      {
+        name: 'taxiUseAlter',
+        path: '/alterClass/taxiUseAlter',
+        meta: {
+          title: '出租客运车辆使用性质变更'
+        },
+        component: require('../views/precontractType/alterClass/child/taxiUseAlter.vue')
+      },
+      {
+        name: 'numberAlter',
+        path: '/alterClass/numberAlter',
+        meta: {
+          title: '机动车打刻原车发动机号码变更备案'
+        },
+        component: require('../views/precontractType/alterClass/child/numberAlter.vue')
+      },
+      {
+        name: 'markAlter',
+        path: '/alterClass/markAlter',
+        meta: {
+          title: '机动车打刻原车辆识别代号变更备案'
+        },
+        component: require('../views/precontractType/alterClass/child/markAlter.vue')
+      },
+      {
+        name: 'fileAlter',
+        path: '/alterClass/fileAlter',
+        meta: {
+          title: '档案更正'
+        },
+        component: require('../views/precontractType/alterClass/child/fileAlter.vue')
+      },
+      {
+        name: 'onlineCarAlter',
+        path: '/alterClass/onlineCarAlter',
+        meta: {
+          title: '网约车使用性质更正'
+        },
+        component: require('../views/precontractType/alterClass/child/onlineCarAlter.vue')
+      }
+    ]
   }
 ]
 /* eslint-disable no-new */
