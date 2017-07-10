@@ -889,6 +889,54 @@ const routes = [
         component: require('../views/precontractType/registerClass/page/replaceLicense.vue')
       }
     ]
+  },
+  {
+    name: 'replacementType',
+    path: '/replacementType',
+    component: require('../views/precontractType/replacementType/renewingClass.vue'),
+    redirect: '/replacementType/renewingCollarCredential',
+    children: [
+      {
+        name: 'renewingCollarCredential',
+        path: 'renewingCollarCredential',
+        meta: {
+          title: '换领机动车登记证书'
+        },
+        component: require('../views/precontractType/replacementType/renewingCollarCredential.vue')
+      },
+      {
+        name: 'replacementNumber',
+        path: 'replacementNumber',
+        meta: {
+          title: '补换机动车号牌'
+        },
+        component: require('../views/precontractType/replacementType/replacementNumber.vue')
+      },
+      {
+        name: 'renewingDrivingLicense',
+        path: 'renewingDrivingLicense',
+        meta: {
+          title: '补换机动车行驶证'
+        },
+        component: require('../views/precontractType/replacementType/renewingDrivingLicense.vue')
+      },
+      {
+        name: 'renewingQualification',
+        path: 'renewingQualification',
+        meta: {
+          title: '补换检验合格标志'
+        },
+        component: require('../views/precontractType/replacementType/renewingQualification.vue')
+      },
+      {
+        name: 'renewingCertificate',
+        path: 'renewingCertificate',
+        meta: {
+          title: '申领/补领机动车登记证书'
+        },
+        component: require('../views/precontractType/replacementType/renewingCertificate.vue')
+      }
+    ]
   }
 ]
 /* eslint-disable no-new */
