@@ -25,7 +25,7 @@
 <script>
 import { resultPost } from '../service/getData'
 // import { userAgreement } from '../config/baseUrl'
-// import { Toast } from 'mint-ui'
+import { MessageBox } from 'mint-ui'
 export default {
   name: 'affirmInfo',
   data () {
@@ -172,6 +172,20 @@ export default {
       console.log(reqData)
       resultPost(this.dataList.url, reqData).then(json => {
         console.log(json)
+        if (json.code === '0000') {
+          let successData = {
+            type: 1, // type为1 申办成功, 为2 预约成功
+            appoinType: this.dataList.type,
+            appoinNum: json.data,
+            appoinMsg: json.msg
+          }
+          this.$store.commit('appoinSuccess', successData)
+          this.$router.push('/appointSuccess')
+        } else {
+          MessageBox('提示', json.msg).then(action => {
+            this.$router.push('/')
+          })
+        }
       })
     },
     initScorllTop: function () {

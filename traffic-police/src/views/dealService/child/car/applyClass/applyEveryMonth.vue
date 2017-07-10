@@ -42,7 +42,7 @@
               </div>
             </div>
             <div class="queryByCar-hbs-text width-70 right">
-              <input v-model="car_number" class="text-input" type="text" name="" value="" placeholder="请输入车牌号码">
+              <input v-model="car_number" maxlength="6" class="text-input" type="text" name="" value="" placeholder="请输入车牌号码">
             </div>
           </li>
           <li class="queryByCar-hbs-item">
@@ -55,7 +55,7 @@
           </li>
           <li class="queryByCar-hbs-item">
             <div class="queryByCar-hbs-name">
-              <span>车辆所有人</span>
+              <span>车主姓名</span>
             </div>
             <div class="queryByCar-hbs-text">
               <input v-model="name" class="text-input" type="text"  placeholder="请按驾驶证填写">
@@ -74,7 +74,7 @@
               <span>申请日期</span>
             </div>
             <div class="queryByCar-hbs-text">
-              <input class="text-input" type="text" v-model="mtDateTimeMsg"  @click="datetimePick('picker')">
+              <input class="text-input" type="text" v-model="mtDateTimeMsg" readonly  @click="datetimePick('picker')">
             </div>
           </li>
         </ul>
@@ -91,6 +91,8 @@
   </div>
 </template>
 <script>
+  import { Toast } from 'mint-ui'
+  import { isPhone } from '../../../../../service/regExp.js'
   import { applyGatePass } from '../../../../../config/baseUrl.js'
   export default {
     name: 'applyEveryMonth',
@@ -346,6 +348,34 @@
         })
       },
       btnFn: function () {
+        if (!this.car_number) {
+          Toast({
+            message: '请输入车牌号码',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.vehicleIdentifyNoLast4) {
+          Toast({
+            message: '请输入车架号',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.name) {
+          Toast({
+            message: '请输入车主姓名',
+            duration: 2000
+          })
+          return
+        }
+        if (!isPhone(this.mobilephone)) {
+          Toast({
+            message: '请输入正确手机号',
+            duration: 2000
+          })
+          return
+        }
         let dataList = {
           type: '申请通行证',
           url: applyGatePass,
