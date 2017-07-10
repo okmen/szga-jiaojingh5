@@ -1,5 +1,5 @@
+<!--  *换领机动车登记证书 -->
 <template>
-<!-- <div>换领机动车登记证书</div> -->
   <div class="renewingCollar">
     <div class="renewingCollar-form">
       <ul>

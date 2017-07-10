@@ -124,7 +124,7 @@
         </li>
         <li class="form-li">
           <div class="form-line-item text-input" @click="datetimePick('picker')">
-            <span>{{mtDateTimeMsg}}</span>
+            <span class="exefont">{{mtDateTimeMsg}}</span>
           </div>
         </li>
         <li class="form-li">
@@ -132,7 +132,7 @@
         </li>
         <li class="form-li">
           <div class="form-line-item text-input" @click="terminationPick('pick')">
-            <span>{{DateTimeMsg}}</span>
+            <span class="exefont">{{DateTimeMsg}}</span>
           </div>
         </li>
         <li class="form-li">
@@ -307,7 +307,6 @@ export default {
       this.areaSelectShow = false
       this.appointmentShow = false
     })
-    this.carIdFn()
   },
   methods: {
     // 车牌下拉框
@@ -323,7 +322,6 @@ export default {
         this.name = item.name
         this.plateType = item.plateType
         this.vehicleShow = false
-        this.carIdFn()
       }
     },
     // 申请人类型下拉框
@@ -504,7 +502,7 @@ export default {
       }
       resultPost(verificatioCode, verificationData).then(json => {
         if (json.code === '0000') {
-          this.dataFn()
+          this.carIdFn()
         } else {
           Toast({message: json.data, position: 'bottom', className: 'white'})
         }
@@ -541,8 +539,10 @@ export default {
         code: this.plateType
       }
       resultPost(getCarTypeId, carIdFnData).then(json => {
-        if (json.code === '00') {
+        console.log(json)
+        if (json.code === '0000') {
           this.carTypeId = json.data
+          this.dataFn()
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
@@ -644,6 +644,9 @@ padding: 20px 40px;
   }
   .stylebackground{
     background-color: #fff;
+  }
+  .exefont{
+    font-style: 16px;
   }
 }
 </style>
