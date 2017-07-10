@@ -4,7 +4,7 @@
     <input type="text" class="selected-value" v-model="currentVal" readonly @click.stop="showSelectUl" @blur="">
     <div class="div-select-ul" v-show="showUl">
       <ul>
-        <li v-for="item in thisInfo.option" @click="selectedValue(item)">{{item.str}}</li>
+        <li v-for="(item, index) in thisInfo.option" @click="selectedValue(item, index)">{{item.str}}</li>
       </ul>
     </div>
   </div>
@@ -64,14 +64,14 @@
       }
     },
     methods: {
-      selectedValue (item) {
+      selectedValue (item, index) {
         this.currentVal = item.str
         if (item.id) {
           this.currentId = item.id
-          this.$emit('getSelected', this.currentId)
+          this.$emit('getSelected', this.currentId, index)
         } else {
           this.currentId = item.str
-          this.$emit('getSelected', this.currentId)
+          this.$emit('getSelected', this.currentId, index)
         }
         this.showUl = false
       },

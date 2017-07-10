@@ -14,14 +14,14 @@
     </div>
     <div-select :childInfo="plateNumber" @getSelected="getPlateNumber" :defaultVal="defaultPlateNumber"></div-select>
     <div class="plate-type">
-      <span class="item-title">车牌种类</span>
-      <input type="text" class="item-info" disabled v-model="plateTypeOneText">
+      <span class="item-title">车牌类型</span>
+      <input type="text" class="item-info" readonly v-model="plateTypeOneText">
     </div>
-    <!--<div-select :childInfo="censusRegister" @getSelected="getCensusRegister" defaultVal="深圳"></div-select>-->
-    <div class="domicile-place">
-      <span class="item-title">户籍所在地</span>
-      <div-radio :optname="optname" @getSelected="getCensusRegister"></div-radio>
-    </div>
+    <div-select :childInfo="censusRegister" @getSelected="getCensusRegister" defaultVal="深户"></div-select>
+    <!-- <div class="domicile-place">
+       <span class="item-title">户籍所在地</span>
+       <div-radio :optname="optname" @getSelected="getCensusRegister"></div-radio>
+     </div>-->
     <div class="recipient-name">
       <span class="item-title">收件人姓名</span>
       <input type="text" placeholder="请输入收件人姓名" class="item-info" v-model="recipientName">
@@ -42,43 +42,43 @@
       <div class="upload-all-img">
         <div class="upload-item-img">
           <label class="upload-item-img-one" for="file1">
-            <input id="file1" type="file" accept="image/*" >
-            <img :src="imgOne1" />
+            <input id="file1" type="file" accept="image/*">
+            <img :src="imgOne1"/>
           </label>
           <div class="upload-item-text-one">身份证(正面)</div>
         </div>
         <div class="upload-item-img">
           <label class="upload-item-img-one" for="file2">
-            <input id="file2" type="file" accept="image/*" >
-            <img :src="imgOne2" />
+            <input id="file2" type="file" accept="image/*">
+            <img :src="imgOne2"/>
           </label>
           <div class="upload-item-text-one">身份证(反面)</div>
         </div>
         <div class="upload-item-img">
           <label class="upload-item-img-one" for="file3">
-            <input id="file3" type="file" accept="image/*" >
-            <img :src="imgOne3" />
+            <input id="file3" type="file" accept="image/*">
+            <img :src="imgOne3"/>
           </label>
           <div class="upload-item-text-one">机动车登记证书</div>
         </div>
-        <div class="upload-item-img" v-show="this.censusRegisterOne != '1'">
+        <div class="upload-item-img" v-show="this.showIndex == '2'">
           <label class="upload-item-img-one" for="file4">
-            <input id="file4" type="file" accept="image/*" >
-            <img :src="imgOne4" />
+            <input id="file4" type="file" accept="image/*">
+            <img :src="imgOne4"/>
           </label>
           <div class="upload-item-text-one">境外人员临住表</div>
         </div>
-        <div class="upload-item-img" v-show="this.censusRegisterOne != '1'">
+        <div class="upload-item-img" v-show="this.showIndex == '1'">
           <label class="upload-item-img-one" for="file5">
-            <input id="file5" type="file" accept="image/*" >
-            <img :src="imgOne5" />
+            <input id="file5" type="file" accept="image/*">
+            <img :src="imgOne5"/>
           </label>
           <div class="upload-item-text-one">居住证正面</div>
         </div>
-        <div class="upload-item-img" v-show="this.censusRegisterOne != '1'">
+        <div class="upload-item-img" v-show="this.showIndex == '1'">
           <label class="upload-item-img-one" for="file6">
-            <input id="file6" type="file" accept="image/*" >
-            <img :src="imgOne6" />
+            <input id="file6" type="file" accept="image/*">
+            <img :src="imgOne6"/>
           </label>
           <div class="upload-item-text-one">居住证反面</div>
         </div>
@@ -90,25 +90,27 @@
   </div>
 </template>
 <style lang="less" scoped>
-  .recipient-address-select input{
+  .recipient-address-select input {
     width: 100%;
     margin-top: 10px;
   }
-  .replace-mark>div{
+
+  .replace-mark > div {
     margin: 0 0 30px;
     display: flex;
     justify-content: space-between;
   }
+
   .replace-mark {
     height: auto;
-    .item-title{
+    .item-title {
       width: 33%;
       line-height: 65px;
     }
-    .item-info{
+    .item-info {
       width: 66%;
     }
-    input{
+    input {
       border: 2px solid #eee;
       border-radius: 6px;
       height: 65px;
@@ -117,34 +119,34 @@
       font-size: 30px;
       outline: none;
     }
-    .exchange-license-line{
+    .exchange-license-line {
       height: 10px;
       background: #eeeeee;
       margin-left: 0;
       margin-right: 0;
     }
-    .upload-all-img{
+    .upload-all-img {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-top: 10px;
       flex-wrap: wrap;
-      .upload-item-img{
+      .upload-item-img {
         display: flex;
         flex-direction: column;
         align-items: center;
       }
     }
-    .upload-photo{
+    .upload-photo {
       margin-top: 30px;
       display: block;
-      .upload-item-text-one{
+      .upload-item-text-one {
         margin-top: 10px;
         margin-bottom: 30px;
         color: #7e7e7e;
         text-align: center;
       }
-      .upload-item-img-one{
+      .upload-item-img-one {
         width: 300px;
         height: 300px;
         border: 2px solid #eee;
@@ -152,16 +154,16 @@
         justify-content: center;
         align-items: center;
         border-radius: 10px;
-        input{
+        input {
           display: none;
         }
-        img{
+        img {
           max-height: 90%;
           max-width: 90%;
         }
       }
     }
-    .confirm-information{
+    .confirm-information {
       background: #09bb07;
       height: 80px;
       border-radius: 8px;
@@ -175,9 +177,9 @@
 </style>
 <script>
   import uploadFile from '../../../../../service/uploadFile.js'
-  import { Toast } from 'mint-ui'
-  import { isPhone, isChinese } from '../../../../../service/regExp.js'
-  import { replaceInspectionMark } from '../../../../../config/baseUrl.js'
+  import {Toast} from 'mint-ui'
+  import {isPhone, isChinese} from '../../../../../service/regExp.js'
+  import {replaceInspectionMark} from '../../../../../config/baseUrl.js'
   export default {
     data () {
       return {
@@ -188,38 +190,38 @@
         imgOne5: require('../../../../../images/residence-permit-f.png'),
         imgOne6: require('../../../../../images/residence-permit-b.png'),
         /* plateType: {
-          title: '车牌种类',
-          option: [
-            {
-              'str': '蓝牌',
-              'id': '02'
-            },
-            {
-              'str': '黄牌',
-              'id': '01'
-            },
-            {
-              'str': '黑牌',
-              'id': '06'
-            },
-            {
-              'str': '个性牌',
-              'id': '02'
-            },
-            {
-              'str': '小型新能源车号牌',
-              'id': '02'
-            },
-            {
-              'str': '大型新能源车号牌',
-              'id': '02'
-            }
-          ]
-        }, */
-        optname: [
+         title: '车牌种类',
+         option: [
+         {
+         'str': '蓝牌',
+         'id': '02'
+         },
+         {
+         'str': '黄牌',
+         'id': '01'
+         },
+         {
+         'str': '黑牌',
+         'id': '06'
+         },
+         {
+         'str': '个性牌',
+         'id': '02'
+         },
+         {
+         'str': '小型新能源车号牌',
+         'id': '02'
+         },
+         {
+         'str': '大型新能源车号牌',
+         'id': '02'
+         }
+         ]
+         }, */
+      /*  optname: [
           {'str': '深户', choose: true, id: '1'},
           {'str': '外籍户口', choose: false, id: '0'}
-        ],
+        ], */
         mobilePhone: window.localStorage.getItem('mobilePhone'),
         ownersName: window.localStorage.getItem('userName'),
         certificateNumber: window.localStorage.getItem('identityCard'),
@@ -258,16 +260,15 @@
             }
           ]
         },
-        /* censusRegister: {
+        censusRegister: {
           title: '户籍所在地',
           option: [
-            {'str': '深圳', id: '1'},
-            {'str': '港澳台籍', id: '0'},
-            {'str': '外国籍', id: '0'},
-            {'str': '其他', id: '0'}
+            {'str': '深户', id: '0'},
+            {'str': '非深户', id: '1'},
+            {'str': '外籍', id: '1'}
           ]
-        }, */
-        censusRegisterOne: '1',
+        },
+        censusRegisterOne: '0',
         plateToType: {},
         plateTypeOneText: '',
         plateTypeOneVal: '',
@@ -281,7 +282,8 @@
         registerCredential: '',
         outBoard: '',
         residencePermitF: '',  // 居住证正面
-        residencePermitB: ''   // 居住证反面
+        residencePermitB: '',   // 居住证反面
+        showIndex: ''
       }
     },
     components: {
@@ -368,8 +370,9 @@
         this.plateNumberOne = val
         this.testPlateType(val)
       },
-      getCensusRegister (val) {
+      getCensusRegister (val, index) {
         this.censusRegisterOne = val
+        this.showIndex = index
       },
       getRecipientAddress (val) {
         this.recipientAddressRegion = val
@@ -451,7 +454,7 @@
           })
           return
         }
-        if ((!this.outBoard) && (this.censusRegisterOne !== '1')) {
+        if ((!this.outBoard) && (this.showIndex === '2')) {
           Toast({
             message: '请上传境外人员临住表',
             duration: 2000

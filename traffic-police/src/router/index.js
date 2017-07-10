@@ -823,6 +823,7 @@ const routes = [
       title: '登记类'
     },
     component: require('../views/precontractType/registerClass'),
+    redirect: '/registerClass/transferRegistration',
     children: [
       {
         name: 'transferRegistration',
