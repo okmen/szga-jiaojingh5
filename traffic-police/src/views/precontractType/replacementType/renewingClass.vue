@@ -1,10 +1,10 @@
 <template>
-  <div class="applyClass-outer">
-    <div class="applyClass-from pad-side-50">
-      <div id="applyClass-hbs">
-        <ul class="applyClass-hbs-list">
-          <li class="applyClass-hbs-item">
-            <div class="applyClass-hbs-name">
+  <div class="renewingClass-outer">
+    <div class="renewingClass-from pad-side-50">
+      <div id="renewingClass-hbs">
+        <ul class="renewingClass-hbs-list">
+          <li class="renewingClass-hbs-item">
+            <div class="renewingClass-hbs-name">
               <span>业务类型</span>
             </div>
             <div class="div-select">
@@ -67,10 +67,10 @@
       'renewingCertificate': require('./renewingCertificate.vue')
     },
     mounted: function () {
-      if (this.$route.params.id === '1') {    // 地址参数为1，载入补换证组件
+      if (this.$route.params.id === '1') {    // 地址参数为1，载入换领机动车登记证书
         this.cur_type_id = '01'
         this.licenseSelectMassage = this.licenseSelectData[0].str
-      } else if (this.$route.params.id === '2') {                                // 地址参数为2，载入延期换证组件
+      } else if (this.$route.params.id === '2') {   // 地址参数为2，载入补领机动车号牌
         this.cur_type_id = '02'
         this.licenseSelectMassage = this.licenseSelectData[1].str
       } else if (this.$route.params.id === '3') {
@@ -103,35 +103,35 @@
 </script>
 <style lang="less" scoped>
   /*@import "./../../../../../style/base";*/
-  .applyClass-outer {
+  .renewingClass-outer {
     padding: 120px 40px 0;
     font-size: 28px;
     color: #000;
     position: relative;
-    .applyClass-from {
+    .renewingClass-from {
       background-color: #fff;
       position: absolute;
       left: 0;
       right: 0;
       top:0;
       padding: 0 40px;
-      #applyClass-hbs {
+      #renewingClass-hbs {
         padding: 20px 0 0;
-        .applyClass-hbs-list {
-          .applyClass-hbs-item {
+        .renewingClass-hbs-list {
+          .renewingClass-hbs-item {
             padding-left: 180px;
             position: relative;
             line-height: 56px;
-            .applyClass-hbs-name {
+            .renewingClass-hbs-name {
               width: 180px;
               position: absolute;
               left: 0;
             }
-            .applyClass-hbs-text {
+            .renewingClass-hbs-text {
               width: 100%;
               display: inline-block;
             }
-            .applyClass-hbs-code {
+            .renewingClass-hbs-code {
               margin-left: 40px;
               text-indent: 28px;
               width: 240px;
