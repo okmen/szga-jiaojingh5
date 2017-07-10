@@ -147,8 +147,8 @@
 </template>
 
 <script>
-import { resultPost } from '../../../service/getData'
-import { sendSMS } from '../../../config/baseUrl.js'
+import { resultPost } from '../../../../service/getData'
+import { sendSMS } from '../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
 export default {
   name: 'renewingCollarCredential',

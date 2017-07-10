@@ -891,14 +891,6 @@ const routes = [
     ]
   },
   {
-    name: 'renewingClass',
-    path: '/renewingClass/id/:id',
-    meta: {
-      title: '补换领类'
-    },
-    component: require('../views/precontractType/replacementType/renewingClass.vue')
-  },
-  {
     name: 'alterClass',
     path: '/alterClass',
     meta: {
@@ -946,6 +938,57 @@ const routes = [
           title: '网约车使用性质更正'
         },
         component: require('../views/precontractType/alterClass/child/onlineCarAlter.vue')
+      }
+    ]
+  },
+  {
+    name: 'replacementType',
+    path: '/replacementType',
+    meta: {
+      title: '补换领类'
+    },
+    component: require('../views/precontractType/replacementType/renewingClass.vue'),
+    redirect: '/replacementType/renewingCollarCredential',
+    children: [
+      {
+        name: 'renewingCollarCredential',
+        path: '/replacementType/renewingCollarCredential',
+        meta: {
+          title: '换领机动车登记证书'
+        },
+        component: require('../views/precontractType/replacementType/child/renewingCollarCredential.vue')
+      },
+      {
+        name: 'replacementNumber',
+        path: '/replacementType/replacementNumber',
+        meta: {
+          title: '补换机动车号牌'
+        },
+        component: require('../views/precontractType/replacementType/child/replacementNumber.vue')
+      },
+      {
+        name: 'renewingDrivingLicense',
+        path: '/replacementType/renewingDrivingLicense',
+        meta: {
+          title: '补换机动车行驶证'
+        },
+        component: require('../views/precontractType/replacementType/child/renewingDrivingLicense.vue')
+      },
+      {
+        name: 'renewingQualification',
+        path: '/replacementType/renewingQualification',
+        meta: {
+          title: '补换检验合格标志'
+        },
+        component: require('../views/precontractType/replacementType/child/renewingQualification.vue')
+      },
+      {
+        name: 'renewingCertificate',
+        path: '/replacementType/renewingCertificate',
+        meta: {
+          title: '申领/补领机动车登记证书'
+        },
+        component: require('../views/precontractType/replacementType/child/renewingCertificate.vue')
       }
     ]
   }
