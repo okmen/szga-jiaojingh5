@@ -27,7 +27,7 @@
     </div>
     <div class="owner-certificate">
       <span class="item-title">车架号</span>
-      <input type="text" class="item-info" v-model="behindTheFrame4Digits" placeholder="请输入车架号">
+      <input type="text" class="item-info" v-model="behindTheFrame4Digits" maxlength="4" placeholder="请输入车架号">
     </div>
     <div class="domicile-place">
       <span class="item-title">户籍所在地</span>
@@ -52,20 +52,6 @@
       <div class="">请按示例图上传以下证件照片</div>
       <div class="upload-all-img">
         <div class="upload-item-img">
-          <label class="upload-item-img-one" for="file5">
-            <input id="file5" type="file" accept="image/*" >
-            <img :src="imgOne5" />
-          </label>
-          <div class="upload-item-text-one">购置发票图</div>
-        </div>
-        <div class="upload-item-img">
-          <label class="upload-item-img-one" for="file6">
-            <input id="file6" type="file" accept="image/*" >
-            <img :src="imgOne6" />
-          </label>
-          <div class="upload-item-text-one">交强险单据</div>
-        </div>
-        <div class="upload-item-img">
           <label class="upload-item-img-one" for="file1">
             <input id="file1" type="file" accept="image/*" >
             <img :src="imgOne1" />
@@ -79,7 +65,21 @@
           </label>
           <div class="upload-item-text-one">身份证(反面)</div>
         </div>
-        <div class="upload-item-img" v-show="this.censusRegister2 != 'A'">
+        <div class="upload-item-img">
+          <label class="upload-item-img-one" for="file5">
+            <input id="file5" type="file" accept="image/*" >
+            <img :src="imgOne5" />
+          </label>
+          <div class="upload-item-text-one">购置发票图</div>
+        </div>
+        <div class="upload-item-img">
+          <label class="upload-item-img-one" for="file6">
+            <input id="file6" type="file" accept="image/*" >
+            <img :src="imgOne6" />
+          </label>
+          <div class="upload-item-text-one">交强险单据</div>
+        </div>
+        <div class="upload-item-img" v-show="this.censusRegister2 != 'B'">
           <label class="upload-item-img-one" for="file3">
             <input id="file3" type="file" accept="image/*" >
             <img :src="imgOne3" />
@@ -194,7 +194,7 @@
 <script>
   import uploadFile from '../../../../../service/uploadFile.js'
   import { Toast } from 'mint-ui'
-  import { isPhone, isChinese } from '../../../../../service/regExp.js'
+  import { isPhone } from '../../../../../service/regExp.js'
   import { applyCarTemporaryLicence } from '../../../../../config/baseUrl.js'
   export default {
     data () {
@@ -417,15 +417,16 @@
         this.carTypeOne = val
       },
       confirmInfo () {
-        if (!this.recipientName) {
+        if (!this.userName) {
           Toast({
-            message: '请输入收件人姓名',
+            message: '请输入姓名',
             duration: 2000
           })
           return
-        } else if (!isChinese(this.recipientName)) {
+        }
+        if (!isPhone(this.mobilephone)) {
           Toast({
-            message: '收件人姓名只能输入汉字',
+            message: '手机号码格式不正确',
             duration: 2000
           })
           return
@@ -433,6 +434,41 @@
         if (!isPhone(this.recipientPhone)) {
           Toast({
             message: '收件人手机号码格式不正确',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.identityCard) {
+          Toast({
+            message: '请输入身份证号码',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.cartModels) {
+          Toast({
+            message: '请输入车辆型号',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.engineNumber) {
+          Toast({
+            message: '请输入发动机型号',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.behindTheFrame4Digits) {
+          Toast({
+            message: '请输入车架号',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.recipientName) {
+          Toast({
+            message: '请输入收件人姓名',
             duration: 2000
           })
           return
@@ -454,6 +490,34 @@
         if (!this.IDcarfBack) {
           Toast({
             message: '请上传身份证反面',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.dealService1) {
+          Toast({
+            message: '请上传购置发票图',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.dealService2) {
+          Toast({
+            message: '请上传交强险单据',
+            duration: 2000
+          })
+          return
+        }
+        if ((!this.dealService3) && (this.censusRegister2 !== 'B')) {
+          Toast({
+            message: '请上传机动车合格证',
+            duration: 2000
+          })
+          return
+        }
+        if ((!this.dealService4) && (this.censusRegister2 !== 'A')) {
+          Toast({
+            message: '请上传进口货物证明书',
             duration: 2000
           })
           return
