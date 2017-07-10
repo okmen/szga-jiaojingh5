@@ -21,7 +21,7 @@
     "vuex": "^2.3.1",
     "weixin-js-sdk": "^1.2.0",
     "whatwg-fetch": "^2.0.3",
-    "moment": "^4.1.2"
+    "moment": "^2.18.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
