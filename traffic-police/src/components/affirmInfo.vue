@@ -163,6 +163,9 @@ export default {
       return this.$store.state.motorVehicleHandling
     }
   },
+  mounted () {
+    this.initScorllTop()
+  },
   methods: {
     affirmInfoBtn: function () {
       let reqData = Object.assign({}, this.dataList.textObj, this.dataList.imgObj, this.dataList.invisibleObj)
@@ -170,6 +173,9 @@ export default {
       resultPost(this.dataList.url, reqData).then(json => {
         console.log(json)
       })
+    },
+    initScorllTop: function () {
+      window.scrollTo(0, 0)
     }
   }
 }
