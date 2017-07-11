@@ -2,7 +2,7 @@
 *  #变更类#
  -->
 <template>
-  <div class="alter-outer">
+  <div class="alter-class-outer">
     <div class="alter-select pad-side-50">
       <div class="alter-chose">
         <span>业务类型</span>
@@ -75,9 +75,6 @@ export default {
     }
   },
   created () {
-    document.addEventListener('click', (e) => {
-      this.typeSelectShow = false
-    })
     switch (window.location.hash) {
       case '#/alterClass/taxiUseAlter':
         this.typeSelectMassage = this.typeSelectData[0]
@@ -95,18 +92,27 @@ export default {
         this.typeSelectMassage = this.typeSelectData[4]
         break
     }
+  },
+  mounted () {
+    document.addEventListener('click', this.select)
+  },
+  destroyed () {
+    document.removeEventListener('click', this.select)
   }
 }
 </script>
 <style lang="less">
-.alter-outer {
+.alter-class-outer {
   font-size: 26px;
   color: #000;
   overflow: hidden;
   .div-select{
     .btn-select{
+      background: url('../../../images/select1.png') no-repeat scroll;
+      background-position: 96% center;
+      background-size: 18px;
       border: 2px solid #e5e5e5;
-      background: #FFF;
+      background-color: #FFF;
     }
   }
   .width-120 {
