@@ -1,8 +1,8 @@
 <template>
-  <div class="alter-outer">
-    <div class="alter-select pad-side-50 clear">
-      <p class="alter-chose">业务类型</p>
-      <div class="div-select alter-wd left">
+  <div class="renewing-outer">
+    <div class="renewing-select pad-side-50 clear">
+      <p class="renewing-chose">业务类型</p>
+      <div class="div-select renewing-wd left">
         <span id="btnSelect" class="btn-select" @click.stop="typeSelectClick()">{{ typeSelectMassage.str }}</span>
         <div class="div-select-ul" v-if='typeSelectShow'>
           <ul>
@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <div class="alter-from pad-side-50">
+    <div class="renewing-from pad-side-50">
       <router-view></router-view>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
@@ -93,8 +93,8 @@ export default {
   }
 }
 </script>
-<style lang="less">
-.alter-outer {
+<style lang="less" scoped>
+.renewing-outer {
   font-size: 26px;
   color: #000;
   position: relative;
@@ -107,17 +107,17 @@ export default {
   .width-40{
     width: 40% !important;
   }
-  .alter-select {
+  .renewing-select {
     width: 100%;
     background-color: #fff;
     position: relative;
-    .alter-chose{
+    .renewing-chose{
       float: left;
       width: 180px;
       color: #666;
       line-height: 100px;
     }
-    .alter-wd{
+    .renewing-wd{
       width: 465px;
       padding-top: 22px;
     }
@@ -127,7 +127,7 @@ export default {
       height: 100%;
     }
   }
-  .alter-from{
+  .renewing-from{
     background:#FFF;
     margin-top:10px;
   }

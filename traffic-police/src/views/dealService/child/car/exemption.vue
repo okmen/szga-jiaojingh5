@@ -17,7 +17,7 @@
         </li>
         <li class="form-line">
           <div class="form-line-item item-name">
-            <span>所有人</span>
+            <span>车主姓名</span>
           </div>
           <div class="form-line-item">
             <input class="text-input" type="text" value="" v-model="name" readonly/>
