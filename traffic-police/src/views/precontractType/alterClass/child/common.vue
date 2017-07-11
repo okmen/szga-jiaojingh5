@@ -1,5 +1,6 @@
 <!-- 
 * 公共部分
+* 标星(*) 注释 为 接口所需参数
  -->
 <template>
   <div class="order-alter-class">
@@ -7,13 +8,13 @@
       <li class="alter-hbs-item">
         <div class="alter-hbs-name"><span>车主姓名</span></div>
         <div class="alter-hbs-text">
-          <input class="text-input" maxlength="10" placeholder="请输入车主姓名">
+          <input class="text-input bg-white" maxlength="10" v-model="carOwnerName" placeholder="请输入车主姓名">
         </div>
       </li>
       <li class="alter-hbs-item">
         <div class="alter-hbs-name"><span>证件名称</span></div>
         <div class="div-select">
-          <span class="btn-select" @click.stop="cardSelectClick()">{{ cardMassage }}</span>
+          <span class="btn-select bg-white" @click.stop="cardSelectClick()">{{ cardMassage }}</span>
           <div class="div-select-ul" v-if="cardSelectShow">
             <ul>
               <li v-for="(item, index) in cardSelectData" @click.stop="cardSelectClick(item.str, index)">{{item.str}}</li>
@@ -24,19 +25,20 @@
       <li class="alter-hbs-item">
         <div class="alter-hbs-name"><span>证件号码</span></div>
         <div class="alter-hbs-text">
-          <input class="text-input" type="text" maxlength="19" placeholder="请输入证件号码">
+          <input class="text-input bg-white" type="text" maxlength="19" v-model="cardNum" placeholder="请输入证件号码">
         </div>
       </li>
       <li class="alter-hbs-item">
         <div class="alter-hbs-name"><span>手机号码</span></div>
         <div class="alter-hbs-text">
-          <input class="text-input" v-model="userTelphone" type="tel" maxlength="11" placeholder="请输入您的手机号码">
+          <input class="text-input bg-white" v-model="userTelphone" type="tel" maxlength="11" 
+                 placeholder="请输入您的手机号码">
         </div>
       </li>
       <li class="alter-hbs-item clear">
         <div class="alter-hbs-name"><span>验证码</span></div>
         <div class="alter-hbs-text width-60 left">
-          <input class="text-input" type="tel" maxlength="6" v-model="validCode" placeholder="请输入验证码">
+          <input class="text-input bg-white" type="tel" maxlength="6" v-model="validCode" placeholder="请输入验证码">
         </div>
         <div class="left alter-hbs-code">
           <button class="verifyButton" type="button" name="button" @click.stop="getVerification()"
@@ -46,8 +48,9 @@
       </li>
       <li class="alter-hbs-item clear">
         <div class="alter-hbs-name"><span>号牌号码</span></div>
-        <div class="div-select width-120 left">
-          <span class="btn-select min-btn-select" @click.stop="abbreviationSelectClick()">{{ abbreviationSelectMassage }}</span>
+        <div class="div-select bg-white width-120 left">
+          <span class="btn-select bg-white min-btn-select" 
+                @click.stop="abbreviationSelectClick()">{{ abbreviationSelectMassage }}</span>
           <div class="div-select-ul" v-if="abbreviationSelectShow">
             <ul>
               <li v-for="item in abbreviationSelectData" @click.stop = "abbreviationSelectClick(item.str)">{{item.str}}</li>
@@ -55,19 +58,24 @@
           </div>
         </div>
         <div class="alter-hbs-text width-70 right">
-          <input class="text-input" placeholder="请输入车牌号码" type="text" maxlength="10">
+          <input class="text-input bg-white" placeholder="请输入车牌号码" v-model="carCardNum" type="text" maxlength="10">
         </div>
       </li>
       <li class="alter-hbs-item clear">
         <div class="alter-hbs-name"><span>车辆类型</span></div>
-        <div class="alter-hbs-text">
-          <input class="text-input" type="text" value="" readonly/>
+        <div class="div-select">
+          <span class="btn-select bg-white" @click.stop="carTypeClick()">{{ carTypeMassage }}</span>
+          <div class="div-select-ul" v-if="carTypeShow">
+            <ul>
+              <li v-for="(item, index) in carTypeData" @click.stop="carTypeClick(item.str, index)">{{item.str}}</li>
+            </ul>
+          </div>
         </div>
       </li>
       <li class="alter-hbs-item">
         <div class="alter-hbs-name"><span>使用性质</span></div>
         <div class="div-select">
-          <span class="btn-select" @click.stop="useNatureClick()">{{ useNatureMassage }}</span>
+          <span class="btn-select bg-white" @click.stop="useNatureClick()">{{ useNatureMassage }}</span>
           <div class="div-select-ul" v-if="useNatureShow">
             <ul>
               <li v-for="(item, index) in useNatureData" @click.stop="useNatureClick(item.str, index)">{{item.str}}</li>
@@ -78,13 +86,13 @@
       <li class="alter-hbs-item clear">
           <div class="alter-hbs-name"><span>车身架号</span></div>
           <div class="alter-hbs-text">
-            <input class="text-input" type="text" value="" placeholder="请输入车架号后四位" />
+            <input class="text-input bg-white" type="text" v-model="VIN" placeholder="请输入车架号后四位" />
           </div>
       </li>
       <li class="alter-hbs-item">
         <div class="alter-hbs-name"><span>预约地点</span></div>
         <div class="div-select">
-          <span class="btn-select" @click.stop="orderPlaceClick()">{{ orderPlaceMassage }}</span>
+          <span class="btn-select bg-white" @click.stop="orderPlaceClick()">{{ orderPlaceMassage }}</span>
           <div class="div-select-ul" v-if="orderPlaceShow">
             <ul>
               <li v-for="(item, index) in orderPlaceData" @click.stop="orderPlaceClick(item.str, index)">{{item.str}}</li>
@@ -96,25 +104,23 @@
       <li class="alter-item pad-0 flex">
         <input type="text" class="text-input year" v-model="getYear" readonly>
         年
-        <input type="text" class="text-input month" v-model="getMonth" readonly>
-        <!-- <div class="div-select month">
+        <div class="div-select month">
           <span class="btn-select">{{getMonth}}</span>
           <div class="div-select-ul" v-if="monthShow">
             <ul>
               <li v-for="item in months" @click.stop="monthClick(item)">{{item}}</li>
             </ul>
           </div>
-        </div> -->
+        </div>
         月
-        <input type="text" class="text-input date" v-model="getDate" readonly>
-        <!-- <div class="div-select date">
+        <div class="div-select date">
           <span class="btn-select" @click.stop="dateClick()">{{getDate}}</span>
           <div class="div-select-ul" v-if="dateShow">
             <ul>
               <li v-for="item in dates" @click.stop="dateClick(item)">{{item}}</li>
             </ul>
           </div>
-        </div> -->
+        </div>
         日
       </li>
     </ul>
@@ -126,18 +132,22 @@
       </li>
     </ul>
     <div class="alter-button-box">
-      <button class="btn alterButton">预约</button>
+      <button class="btn alterButton" @click="appointTaskClick">预约</button>
     </div>
   </div>
 </template>
 <script>
   import { resultPost } from '../../../../service/getData'
+  import {isPhone, specialCharacters, plateNumberDetection} from '../../../../service/regExp.js'
   import { sendSMS } from '../../../../config/baseUrl'
   import { Toast } from 'mint-ui'
   export default {
+    props: ['orderPlaceData'],
     data () {
       return {
-        cardMassage: '居民户口簿',          // 证件名称 选中值
+        carOwnerName: '',                   // * 车主姓名
+        cardNum: '',                        // * 证件号码
+        cardMassage: '居民户口簿',          // * 证件名称 选中值
         cardSelectShow: false,              // 是否显示 证件名称 ul列表
         cardSelectData: [                   // 证件名称 li
           { 'str': '居民户口簿' },
@@ -154,11 +164,12 @@
           { 'str': '统一社会信用代码' },
           { 'str': '组织机构代码证书' }
         ],
-        userTelphone: '',                   // 手机号
-        validCode: '',
+        userTelphone: '',                   // * 手机号
+        validCode: '',                      // * 验证码
         getValidCodeMsg: '获取验证码',
         isdisabled: false,
-        abbreviationSelectMassage: '粤',    // 车牌号 选中值
+        abbreviationSelectMassage: '粤',    // * 车牌号 选中值
+        carCardNum: '',                     // * 车牌号码
         abbreviationSelectShow: false,      // 是否显示 车牌号 ul列表
         abbreviationSelectData: [           // 车牌号  li
           { 'str': '粤' }, { 'str': '鄂' }, { 'str': '豫' }, { 'str': '皖' },
@@ -170,7 +181,32 @@
           { 'str': '琼' }, { 'str': '甘' }, { 'str': '青' }, { 'str': '津' },
           { 'str': '云' }, { 'str': '藏' }, { 'str': '新' }
         ],
-        useNatureMassage: '非运营',         // 使用性质 选中值
+        carTypeMassage: '大型汽车',         // * 车辆类型 选中值
+        carTypeShow: false,                 // 是否显示 车辆类型 ul列表
+        carTypeData: [                      // 车辆类型 li列表
+          { 'id': '01', 'str': '大型汽车' },
+          { 'id': '02', 'str': '小型汽车' },
+          { 'id': '03', 'str': '使馆汽车' },
+          { 'id': '04', 'str': '领馆汽车' },
+          { 'id': '05', 'str': '境外汽车' },
+          { 'id': '06', 'str': '外籍汽车' },
+          { 'id': '07', 'str': '普通摩托车' },
+          { 'id': '08', 'str': '轻便摩托车' },
+          { 'id': '09', 'str': '使馆摩托车' },
+          { 'id': '10', 'str': '领馆摩托车' },
+          { 'id': '15', 'str': '挂车' },
+          { 'id': '16', 'str': '教练汽车' },
+          { 'id': '17', 'str': '教练摩托车' },
+          { 'id': '18', 'str': '实验汽车' },
+          { 'id': '19', 'str': '实验摩托车' },
+          { 'id': '22', 'str': '临时行驶车' },
+          { 'id': '23', 'str': '警用汽车' },
+          { 'id': '24', 'str': '警用摩托' },
+          { 'id': '20', 'str': '临时入境车' },
+          { 'id': '51', 'str': '新能源大型车' },
+          { 'id': '52', 'str': '新能源小型车' }
+        ],
+        useNatureMassage: '非运营',         // * 使用性质 选中值
         useNatureShow: false,               // 是否显示 使用性质 ul列表
         useNatureData: [                    // 使用性质 li
           { 'str': '非运营' },
@@ -180,16 +216,16 @@
           { 'str': '货运' },
           { 'str': '租赁' }
         ],
-        orderPlaceMassage: '深圳市车管所',  // 预约地点 选中值
+        VIN: '',                            // * 车架号
+        orderPlaceMassage: '深圳市车管分所', // * 预约地点 选中值
         orderPlaceShow: false,              // 是否显示 预约地点 ul列表
-        orderPlaceData: [
-          { 'str': '深圳市车管分所' }
-        ],
-        getYear: new Date().getFullYear(),  // 年
-        getMonth: '',
-        getDate: '',
+        getYear: new Date().getFullYear(),  // * 年
+        getMonth: '2',                      // * 月
+        getDate: '22',                      // * 日
         monthShow: false,
-        dateShow: false
+        dateShow: false,
+        months: ['1', '2', '3'],
+        dates: ['2', '31']
       }
     },
     methods: {
@@ -202,10 +238,10 @@
           this.cardSelectShow = false
         } else {
           this.cardSelectShow = true
-          // this.typeSelectShow = false          // 业务选择下拉框隐藏
           this.abbreviationSelectShow = false  // 如果其它的下拉框是显示的，关闭
           this.useNatureShow = false
           this.orderPlaceShow = false
+          this.carTypeShow = false
         }
       },
 
@@ -218,9 +254,25 @@
           this.abbreviationSelectShow = false
         } else {
           this.abbreviationSelectShow = true
-          // this.typeSelectShow = false
           this.cardSelectShow = false
           this.useNatureShow = false
+          this.orderPlaceShow = false
+          this.carTypeShow = false
+        }
+      },
+
+      // 车辆选择
+      carTypeClick: function (str) {
+        if (str) {
+          this.carTypeMassage = str
+        }
+        if (this.carTypeShow === true) {
+          this.carTypeShow = false
+        } else {
+          this.carTypeShow = true
+          this.useNatureShow = false
+          this.cardSelectShow = false
+          this.abbreviationSelectShow = false
           this.orderPlaceShow = false
         }
       },
@@ -234,7 +286,7 @@
           this.useNatureShow = false
         } else {
           this.useNatureShow = true
-          // this.typeSelectShow = false
+          this.carTypeShow = false
           this.cardSelectShow = false
           this.abbreviationSelectShow = false
           this.orderPlaceShow = false
@@ -253,7 +305,18 @@
           this.cardSelectShow = false
           this.abbreviationSelectShow = false
           this.useNatureShow = false
+          this.carTypeShow = false
         }
+      },
+
+      // 选择月
+      monthClick: function (item) {
+        console.log('选择月')
+      },
+
+      // 选择日
+      dateClick: function (item) {
+        console.log('选择日')
       },
 
       // 获取验证码
@@ -278,12 +341,7 @@
             }
           })
         } else {
-          Toast({
-            message: '请输入正确的手机号码',
-            position: 'bottom',
-            className: 'white',
-            duration: 1500
-          })
+          Toast({ message: '请输入正确的手机号码', position: 'bottom', className: 'white', duration: 1500 })
         }
         function countDown (that) {
           setTimeout(() => {
@@ -299,12 +357,47 @@
         }
       },
 
+      // 预约 点击事件
+      appointTaskClick () {
+        if (this.judgeInput()) {
+          console.log('预约成功')
+        }
+      },
+
+      // 非空 or 错误判断
+      judgeInput () {
+        if (specialCharacters(this.carOwnerName)) {
+          Toast({ message: '车主姓名不能含有特殊字符', position: 'bottom', className: 'white', duration: 1500 })
+          return false
+        } else if (!this.carOwnerName) {
+          Toast({ message: '请输入车主姓名', position: 'bottom', className: 'white', duration: 1500 })
+          return false
+        } else if (!this.cardNum) {
+          Toast({ message: '证件号码不能为空', position: 'bottom', className: 'white', duration: 1500 })
+          return false
+        } else if (!isPhone(this.userTelphone)) {
+          Toast({ message: '手机号码格式不正确', position: 'bottom', className: 'white', duration: 1500 })
+          return false
+        } else if (!this.validCode) {
+          Toast({ message: '请输入验证码', position: 'bottom', className: 'white', duration: 1500 })
+          return false
+        } else if (!plateNumberDetection(this.abbreviationSelectMassage + this.carCardNum.toUpperCase())) {
+          Toast({ message: '车牌号码格式不正确', position: 'bottom', className: 'white', duration: 1500 })
+          return false
+        } else if (!this.VIN) {
+          Toast({ message: '请输入车架号后四位', position: 'bottom', className: 'white', duration: 1500 })
+          return false
+        }
+        return true
+      },
+
       // 不显示 select下拉框
       dontShowUL () {
         this.cardSelectShow = false
         this.abbreviationSelectShow = false
         this.useNatureShow = false
         this.orderPlaceShow = false
+        this.carTypeShow = false
         this.typeSelectShow = false
       }
     },

@@ -8,7 +8,7 @@
         <span>业务类型</span>
       </div>
       <div class="div-select alter-wd">
-        <span id="btnSelect" class="btn-select" @click.stop="typeSelectClick()">{{ typeSelectMassage.str }}</span>
+        <span id="btnSelect" class="btn-select bg-white" @click.stop="typeSelectClick()">{{ typeSelectMassage.str }}</span>
         <div class="div-select-ul" v-if='typeSelectShow'>
           <ul>
             <li v-for="(item, index) in typeSelectData" @click.stop = "typeSelectClick(index+1)">
@@ -106,14 +106,8 @@ export default {
   font-size: 26px;
   color: #000;
   overflow: hidden;
-  .div-select{
-    .btn-select{
-      background: url('../../../images/select1.png') no-repeat scroll;
-      background-position: 96% center;
-      background-size: 18px;
-      border: 2px solid #e5e5e5;
-      background-color: #FFF;
-    }
+  .bg-white{
+    background-color: #FFF;
   }
   .width-120 {
     width: 120px !important;
