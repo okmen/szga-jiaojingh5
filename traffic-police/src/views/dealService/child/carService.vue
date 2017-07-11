@@ -37,7 +37,7 @@
       <router-link :to="isLogin ? 'freeForFirst' : 'login'">首违免罚查询</router-link>
     </div>
     <div class="query-link">
-      <router-link to="carServicePage">一键挪车</router-link>
+      <router-link to="/moveCar">一键挪车</router-link>
     </div>
   </div>
 </template>

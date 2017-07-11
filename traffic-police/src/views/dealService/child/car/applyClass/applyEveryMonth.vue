@@ -87,21 +87,24 @@
       <p>2.工作日限外的时间段为（早高峰7：00至9：00，晚高峰17：00至19：30）</p>
       <p>3.法定节假日不限外，请勿申请。</p>
     </div>
-    <mt-datetime-picker ref="picker" type="date" v-model="informTime" @confirm="handleTime"></mt-datetime-picker>
+    <mt-datetime-picker ref="picker" type="date" v-model="informTime" @confirm="handleTime" :startDate="startTimeData" :endDate="endTimeData"></mt-datetime-picker>
   </div>
 </template>
 <script>
   import { Toast } from 'mint-ui'
+  import moment from 'moment'
   import { isPhone } from '../../../../../service/regExp.js'
   import { applyGatePass } from '../../../../../config/baseUrl.js'
   export default {
     name: 'applyEveryMonth',
     data () {
       return {
+        endTimeData: new Date(moment().add(1, 'months').format('YYYY-MM-DD')),
+        startTimeData: new Date(moment().add(1, 'days').format('YYYY-MM-DD')),
         name: '', // 车主姓名
         mtDateTimeMsg: '',                                              // 一进来默认当前时间
         formatTime: '',                                                 // 使用mt组件后，时间是中国标准时间，格式转换
-        informTime: this.currentTime(),                                 // 当前时间
+        informTime: moment().add(1, 'days').format('YYYY-MM-DD'),       // 明天的时间
         licensePlateNo: '',                   // 请求-车牌号
         cur_license_id: 'K31',                    // 请求-车牌类型（编号转换）
         cur_plate_id: '02',
@@ -262,8 +265,7 @@
       }
     },
     mounted: function () {
-      let getTime = this.currentTime()
-      this.mtDateTimeMsg = getTime
+      this.mtDateTimeMsg = moment().add(1, 'days').format('YYYY-MM-DD')
     },
     methods: {
       licenseSelectClick: function (str, id) {
@@ -399,6 +401,7 @@
       }
     },
     created () {
+      console.log(moment().add(1, 'months').format('YYYY-MM-DD'))
       document.addEventListener('click', (e) => {
         this.typeSelectShow = false
         this.licenseSelectShow = false

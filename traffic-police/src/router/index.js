@@ -58,9 +58,17 @@ const routes = [
     name: 'findPassword',
     path: '/findPassword',
     meta: {
-      title: '深圳交警'
+      title: '忘记密码'
     },
     component: require('../views/login/findPassword.vue')
+  },
+  {
+    name: 'initAuthentication',
+    path: '/initAuthentication',
+    meta: {
+      title: '重新认证'
+    },
+    component: require('../views/login/initAuthentication.vue')
   },
   {
     name: 'personalCenter',
@@ -788,7 +796,7 @@ const routes = [
     name: 'exemption',
     path: '/exemption',
     meta: {
-      title: '六年免检'
+      title: '六年免检申请'
     },
     component: require('../views/dealService/child/car/exemption.vue')
   },
@@ -796,7 +804,7 @@ const routes = [
     name: 'placeExamine',
     path: '/placeExamine',
     meta: {
-      title: '机动车异地检验申报'
+      title: '机动车委托异地定期检验申报'
     },
     component: require('../views/dealService/child/car/placeExamine.vue')
   },
@@ -812,7 +820,7 @@ const routes = [
     name: 'motorAlteration',
     path: '/motorAlteration',
     meta: {
-      title: '机动车变更联系方式'
+      title: '机动车联系方式变更'
     },
     component: require('../views/dealService/child/car/motorAlteration.vue')
   },
