@@ -598,7 +598,7 @@ padding: 20px 40px;
         left: 0;
       }
       .div-select {
-        font-size: 20px;
+        font-size: 26px;
       }
     }
     .form-li{

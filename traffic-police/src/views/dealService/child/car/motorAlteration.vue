@@ -499,7 +499,7 @@ padding: 20px 40px;
     width: 100%;
   }
   .div-select-ul{
-    font-size: 16px;
+    font-size: 26px;
   }
   .upload-all-img{
     display: flex;
