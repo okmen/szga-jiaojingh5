@@ -42,6 +42,7 @@ export default {
         applyDate: '申请日期',
         remarks: '备注',
         identityCard: '身份证号码',
+        driverLicense: '驾驶证号码',
         proposerIdentityCard: '申请人身份证号码',
         carOwnerIdentityCard: '车主身份证号码',
         bookerIdentityCard: '预约人身份证号码',
@@ -52,11 +53,15 @@ export default {
         receiverName: '收件人姓名',
         receiverNumber: '收件人号码',
         receiverAddress: '收件人地址',
+        photoReturnNumberString: '照片回执码',
         address: '住所地址',
         personType: '申请人类型',
         driveLicenseNumber: '行驶证编号',
+        fileNumber: '档案编号',
         identificationNO: '证件种类',
         identificationNum: '证件号码',
+        delayDate: '延期日期',
+        delayReason: '延期原因',
         telno: '固定号码',
         postCode: '邮政编码',
         effectiveDate: '保险生效日期',
@@ -67,6 +72,7 @@ export default {
         bookNumber: '预约流水号',
         proprietorship: '车辆所有权',
         associatedAgency: '委托机构',
+        issuingLicenceAuthority: '发证机关',
         PHOTO26: '购置发票图片',
         PHOTO27: '交强险单据',
         PHOTO9: '身份证(正面)',
@@ -78,7 +84,11 @@ export default {
         JZZB: '居住证反面',
         DJZSFYJ: '机动车登记证书',
         JDCXSZ: '机动车行驶证照片',
-        XSZZP: '车辆45度照片'
+        XSZZP: '车辆45度照片',
+        JSZZP: '驾驶证照片',
+        YQZMZP: '延期证明照片',
+        SHJYPXB: '审核教育培训表',
+        STTJSQB: '身体条件申请表'
       },
       valListObj: {
         cartype: {
@@ -123,7 +133,10 @@ export default {
         },
         placeOfDomicile: {
           '1': '深户',
-          '0': '外籍户口'
+          '0': '外籍户口',
+          '2': '港澳台籍',
+          '3': '外国籍',
+          '4': '其他'
         },
         personType: {
           '1': '机动车所有人',

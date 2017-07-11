@@ -112,7 +112,7 @@
             <span></span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" v-model="mailingAddress" type="text" name="" value="" maxlength="4" placeholder="请输入详细地址">
+            <input class="text-input" v-model="mailingAddress" type="text" name="" value="" placeholder="请输入详细地址">
           </div>
         </li>
       </ul>
@@ -130,7 +130,7 @@
 <script>
   import { resultPost, resultGet } from '../../../../../service/getData'
   import { intoCard, getIssuing, getFileNumber } from '../../../../../config/baseUrl'
-  import { Toast, Indicator } from 'mint-ui'
+  import { Toast } from 'mint-ui'
   import wx from 'weixin-js-sdk'
   import { mapActions } from 'vuex'
   export default {
@@ -301,44 +301,36 @@
         } else if (!idImgFour) {
           Toast({message: '请上传身体条件申请表', position: 'bottom', className: 'white'})
         } else {
-          Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
           let reqData = {
-            name: this.name,
-            identificationNO: 'A',
-            IDcard: this.IDcard,
-            driverLicense: this.driverLicense,
-            fileNumber: this.fileNumber,
-            issuingLicenceAuthority: this.cur_place_id,             // 发证机关传给后端的字段
-            photoReturnNumberString: this.photoReturnNumberString,
-            receiverName: this.receiverName,
-            receiverNumber: this.receiverNumber,
-            mailingAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress,
-            sourceOfCertification: 'C',
-            loginUser: window.localStorage.getItem('identityCard'),
-            IDCardPhoto1: idImgOne.split(',')[1],
-            IDCardPhoto2: idImgTwo.split(',')[1],
-            driverLicensePhoto: idImgThree.split(',')[1],
-            bodyConditionForm: idImgFour.split(',')[1]
+            type: '驾驶证转入',
+            url: intoCard,
+            textObj: {
+              userNma: this.name,
+              driverLicense: this.driverLicense,
+              fileNumber: this.fileNumber,
+              identityCard: this.IDcard,
+              issuingLicenceAuthority: this.cur_place_id,             // 发证机关传给后端的字段
+              photoReturnNumberString: this.photoReturnNumberString,
+              userName: this.name,
+              receiverName: this.receiverName,
+              receiverNumber: this.receiverNumber,
+              receiverAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress
+            },
+            imgObj: {
+              PHOTO9: idImgOne,
+              PHOTO10: idImgTwo,
+              JSZZP: idImgThree,
+              STTJSQB: idImgFour
+            },
+            invisibleObj: {
+              loginUser: window.localStorage.getItem('identityCard'),
+              userSource: 'C',
+              identificationNO: 'A'
+            }
           }
           console.log(reqData)
-          resultPost(intoCard, reqData).then(json => {
-            console.log(json)
-            if (json.code === '0000') {
-              Indicator.close()
-              this.postAppoin({
-                appoinNum: json.msg.split('：')[1],
-                appoinType: '驾驶证转入'
-              })
-              this.$router.push('/appointSuccess_WeChat')
-            } else {
-              Indicator.close()
-              Toast({
-                message: json.msg,
-                position: 'bottom',
-                className: 'white'
-              })
-            }
-          })
+          this.$store.commit('saveMotorVehicleHandling', reqData)
+          this.$router.push('/affirmInfo')
         }
       },
       beforeDestory () {

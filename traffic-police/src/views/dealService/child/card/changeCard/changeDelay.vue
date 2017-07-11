@@ -115,7 +115,7 @@
 <script>
   import { resultPost } from '../../../../../service/getData'
   import { changeDelay, getFileNumber } from '../../../../../config/baseUrl'
-  import { Toast, Indicator } from 'mint-ui'
+  import { Toast } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
     data () {
@@ -293,44 +293,35 @@
         } else if (!idImgFour) {
           Toast({message: '请上传延期说明图片', position: 'bottom', className: 'white'})
         } else {
-          Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
           let reqData = {
-            name: this.name,
-            identificationNO: 'A',
-            IDcard: this.IDcard,
-            driverLicense: this.driverLicense,
-            fileNumber: this.fileNumber,
-            delayDate: this.mtDateTimeMsg,
-            delayReason: this.reasonSelectMassage,
-            sourceOfCertification: 'C',
-            loginUser: window.localStorage.getItem('identityCard'),
-            IDCardPhoto1: idImgOne.split(',')[1],
-            IDCardPhoto2: idImgTwo.split(',')[1],
-            driverLicensePhoto: idImgThree.split(',')[1],
-            delayphoto: idImgFour.split(',')[1],
-            receiverName: this.receiverName,
-            receiverNumber: this.receiverNumber,
-            mailingAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress
+            type: '驾驶证延期换证',
+            url: changeDelay,
+            textObj: {
+              delayDate: this.mtDateTimeMsg,
+              delayReason: this.reasonSelectMassage,
+              driverLicense: this.driverLicense,
+              fileNumber: this.fileNumber,
+              identityCard: this.IDcard,
+              userName: this.name,
+              receiverName: this.receiverName,
+              receiverNumber: this.receiverNumber,
+              receiverAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress
+            },
+            imgObj: {
+              PHOTO9: idImgOne,
+              PHOTO10: idImgTwo,
+              JSZZP: idImgThree,
+              YQZMZP: idImgFour
+            },
+            invisibleObj: {
+              loginUser: window.localStorage.getItem('identityCard'),
+              userSource: 'C',
+              identificationNO: 'A'
+            }
           }
           console.log(reqData)
-          resultPost(changeDelay, reqData).then(json => {
-            console.log(json)
-            if (json.code === '0000') {
-              Indicator.close()
-              this.postAppoin({
-                appoinNum: json.msg.split('：')[1],          // 注：此处接口给出的msg为中文输入状态下的冒号
-                appoinType: '驾驶证延期换证'
-              })
-              this.$router.push('/appointSuccess_WeChat')
-            } else {
-              Indicator.close()
-              Toast({
-                message: json.msg,
-                position: 'bottom',
-                className: 'white'
-              })
-            }
-          })
+          this.$store.commit('saveMotorVehicleHandling', reqData)
+          this.$router.push('/affirmInfo')
         }
       },
       beforeDestory () {

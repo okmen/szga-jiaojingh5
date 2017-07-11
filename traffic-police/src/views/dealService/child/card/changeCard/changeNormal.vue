@@ -126,9 +126,9 @@
   </div>
 </template>
 <script>
-  import { resultPost } from '../../../../../service/getData'
+  // import { resultPost } from '../../../../../service/getData'
   import { cardRepair, cardReplace } from '../../../../../config/baseUrl'
-  import { Toast, Indicator } from 'mint-ui'
+  import { Toast } from 'mint-ui'
   import { mapActions } from 'vuex'
   import wx from 'weixin-js-sdk'
   export default {
@@ -338,66 +338,75 @@
         } else if (!idImgThree && this.cur_place_id === '3') {
           Toast({message: '请上传境外人员临住表', position: 'bottom', className: 'white'})
         } else {
-          Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
+          // Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
           let reqData = {  //  补证2个非必要字段 reason postcode  换证1个 postcode
-            identificationNO: 'A',
-            IDcard: this.IDcard,
-            name: this.name,
-            mobilephone: this.mobilephone,
-            photoReturnNumberString: this.photoReturnNumberString,
-            IDCardPhoto1: idImgOne.split(',')[1],
-            IDCardPhoto2: idImgTwo.split(',')[1],
-            foreignersLiveTable: idImgThree.split(',')[1],
-            placeOfDomicile: this.cur_place_id,
-            receiverName: this.receiverName,
-            receiverNumber: this.receiverNumber,
-            mailingAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress,
-            livePhoto1: idImgOne.split(',')[1],      // 居住证照片 页面不给居住证上传入口 直接传与身份证正反面同样的数据
-            livePhoto2: idImgTwo.split(',')[1],
-            loginUser: window.localStorage.getItem('identityCard'),
-            sourceOfCertification: 'C',
-            userSource: 'C'
+            type: '驾驶证补证',
+            url: this.cur_service_id === '1' ? cardRepair : cardReplace,
+            textObj: {
+              identityCard: this.IDcard,
+              userName: this.name,
+              mobilephone: this.mobilephone,
+              photoReturnNumberString: this.photoReturnNumberString,
+              placeOfDomicile: this.cur_place_id,
+              receiverName: this.receiverName,
+              receiverNumber: this.receiverNumber,
+              receiverAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress
+            },
+            imgObj: {
+              PHOTO9: idImgOne,
+              PHOTO10: idImgTwo,
+              PHOTO31: idImgThree
+            },
+            invisibleObj: {
+              JZZA: idImgOne,      // 居住证照片 页面不给居住证上传入口 直接传与身份证正反面同样的数据
+              JZZB: idImgTwo,
+              loginUser: window.localStorage.getItem('identityCard'),
+              userSource: 'C',
+              identificationNO: 'A'
+            }
           }
           console.log(reqData)
-          if (this.cur_service_id === '1') {                  // 补证服务
-            resultPost(cardRepair, reqData).then(json => {
-              console.log(json)
-              if (json.code === '0000') {
-                Indicator.close()
-                this.postAppoin({
-                  appoinNum: json.msg.split('：')[1],
-                  appoinType: '驾驶证补证'
-                })
-                this.$router.push('/appointSuccess_WeChat')
-              } else {
-                Indicator.close()
-                Toast({
-                  message: json.msg,
-                  position: 'bottom',
-                  className: 'white'
-                })
-              }
-            })
-          } else {                                             // 换证服务
-            resultPost(cardReplace, reqData).then(json => {
-              console.log(json)
-              if (json.code === '0000') {
-                Indicator.close()
-                this.postAppoin({
-                  appoinNum: json.msg.split('：')[1],
-                  appoinType: '驾驶证换证'
-                })
-                this.$router.push('/appointSuccess_WeChat')
-              } else {
-                Indicator.close()
-                Toast({
-                  message: json.msg,
-                  position: 'bottom',
-                  className: 'white'
-                })
-              }
-            })
-          }
+          this.$store.commit('saveMotorVehicleHandling', reqData)
+          this.$router.push('/affirmInfo')
+        //   if (this.cur_service_id === '4') {                  // 补证服务
+        //     resultPost(cardRepair, reqData).then(json => {
+        //       console.log(json)
+        //       if (json.code === '0000') {
+        //         Indicator.close()
+        //         this.postAppoin({
+        //           appoinNum: json.msg.split('：')[1],
+        //           appoinType: '驾驶证补证'
+        //         })
+        //         this.$router.push('/appointSuccess_WeChat')
+        //       } else {
+        //         Indicator.close()
+        //         Toast({
+        //           message: json.msg,
+        //           position: 'bottom',
+        //           className: 'white'
+        //         })
+        //       }
+        //     })
+        //   } else if (this.cur_service_id === '5') {            // 换证服务
+        //     resultPost(cardReplace, reqData).then(json => {
+        //       console.log(json)
+        //       if (json.code === '0000') {
+        //         Indicator.close()
+        //         this.postAppoin({
+        //           appoinNum: json.msg.split('：')[1],
+        //           appoinType: '驾驶证换证'
+        //         })
+        //         this.$router.push('/appointSuccess_WeChat')
+        //       } else {
+        //         Indicator.close()
+        //         Toast({
+        //           message: json.msg,
+        //           position: 'bottom',
+        //           className: 'white'
+        //         })
+        //       }
+        //     })
+        //   }
         }
       },
       beforeDestory () {

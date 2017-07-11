@@ -145,9 +145,8 @@
 
 </style>
 <script>
-  import { resultPost } from '../../../../../service/getData'
   import { annualExaminations } from '../../../../../config/baseUrl'
-  import { Toast, Indicator } from 'mint-ui'
+  import { Toast } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
     name: 'annualExaminations',
@@ -279,45 +278,35 @@
         } else if (!idImgFour && this.cur_place_id === '3') {
           Toast({message: '请上传境外人员临住表', position: 'bottom', className: 'white'})
         } else {
-          Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
           let reqData = {
-            identificationNO: 'A',
-            name: this.name,
-            IDcard: this.IDcard,
-            mobilephone: this.mobilephone,
-            placeOfDomicile: this.cur_place_id,     // 户籍地选择
-            receiverName: this.receiverName,
-            receiverNumber: this.receiverNumber,
-            mailingAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress,
-            IDCardPhoto1: idImgOne.split(',')[1],
-            IDCardPhoto2: idImgTwo.split(',')[1],
-            livePhoto1: idImgOne.split(',')[1],     // 居住证照片 页面不给居住证上传入口 直接传与身份证正反面同样的数据
-            livePhoto2: idImgTwo.split(',')[1],
-            educationDrawingtable: idImgThree.split(',')[1],    // 教育审核绘制表
-            foreignersLiveTable: idImgFour.split(',')[1],       // 境外人员临住表 除户籍为国外 非必须
-            loginUser: window.localStorage.getItem('identityCard'),
-            sourceOfCertification: 'C',
-            userSource: 'C'
+            type: '驾驶证年审',
+            url: annualExaminations,
+            textObj: {
+              identityCard: this.IDcard,
+              userName: this.name,
+              mobilephone: this.mobilephone,
+              placeOfDomicile: this.cur_place_id,
+              receiverName: this.receiverName,
+              receiverNumber: this.receiverNumber,
+              receiverAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress
+            },
+            imgObj: {
+              PHOTO9: idImgOne,
+              PHOTO10: idImgTwo,
+              PHOTO31: idImgFour,
+              SHJYPXB: idImgThree
+            },
+            invisibleObj: {
+              JZZA: idImgOne,      // 居住证照片 页面不给居住证上传入口 直接传与身份证正反面同样的数据
+              JZZB: idImgTwo,
+              loginUser: window.localStorage.getItem('identityCard'),
+              userSource: 'C',
+              identificationNO: 'A'
+            }
           }
           console.log(reqData)
-          resultPost(annualExaminations, reqData).then(json => {
-            console.log(json)
-            if (json.code === '0000') {
-              Indicator.close()
-              this.postAppoin({
-                appoinNum: json.msg.split('：')[1],
-                appoinType: '驾驶证年审'
-              })
-              this.$router.push('/appointSuccess_WeChat')
-            } else {
-              Indicator.close()
-              Toast({
-                message: json.msg,
-                position: 'bottom',
-                className: 'white'
-              })
-            }
-          })
+          this.$store.commit('saveMotorVehicleHandling', reqData)
+          this.$router.push('/affirmInfo')
         }
       },
       beforeDestory () {
