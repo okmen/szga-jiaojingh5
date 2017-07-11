@@ -21,4 +21,15 @@ const isChinese = function (str) {
     return false
   }
 }
-export {isPhone, isChinese}
+// 特殊字符判断
+const specialCharacters = function (str) {
+  var reg = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]")
+  return reg.test(str)
+}
+
+// 车牌号码正则判断
+const plateNumberDetection = function (str) {
+  var reg = /(^[\u4E00-\u9FA5]{1}[A-Z0-9]{6}$)|(^[A-Z]{2}[A-Z0-9]{2}[A-Z0-9\u4E00-\u9FA5]{1}[A-Z0-9]{4}$)|(^[\u4E00-\u9FA5]{1}[A-Z0-9]{5}[挂学警军港澳]{1}$)|(^[A-Z]{2}[0-9]{5}$)|(^(08|38){1}[A-Z0-9]{4}[A-Z0-9挂学警军港澳]{1}$)/
+  return reg.test(str)
+}
+export {isPhone, isChinese, specialCharacters, plateNumberDetection}

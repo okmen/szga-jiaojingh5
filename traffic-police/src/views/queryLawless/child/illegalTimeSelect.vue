@@ -162,6 +162,7 @@ export default {
       Indicator.open('正在加载...')
       resultGet(`${subscribeSorts}?cldbmid=${this.cldbmid}`).then(json => {
         Indicator.close()
+        console.log(json)
         if (json.code === '0000') {
           this.timeData = json.data.data
           this.newData = {}
