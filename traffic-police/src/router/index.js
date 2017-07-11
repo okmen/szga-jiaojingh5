@@ -863,7 +863,7 @@ const routes = [
         meta: {
           title: '机动车注销登记'
         },
-        component: require('../views/precontractType/registerClass/page/intoRegister.vue')
+        component: require('../views/precontractType/registerClass/page/cancellationRegister.vue')
       },
       {
         name: 'changeRegister',

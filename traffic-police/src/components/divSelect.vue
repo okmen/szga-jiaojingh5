@@ -1,7 +1,7 @@
 <template>
   <div class="replace-select">
-    <div class="select-title" v-if="thisInfo.title">{{thisInfo.title}}</div>
-    <input type="text" class="selected-value" :class="{'width-full':!thisInfo.title}" v-model="currentVal" readonly @click.stop="showSelectUl" @blur="">
+    <div class="select-title" v-if="thisInfo.title" :class="{'font-size28':childInfo.font}">{{thisInfo.title}}</div>
+    <input type="text" class="selected-value" :class="{'width-full':!thisInfo.title}" v-model="currentVal" readonly @click.stop="showSelectUl">
     <div class="div-select-ul" v-show="showUl" :class="{'width-full':!thisInfo.title}">
       <ul>
         <li v-for="item in thisInfo.option" @click="selectedValue(item)">{{item.str}}</li>
@@ -19,7 +19,11 @@
     line-height: 85px;
     align-items: center;
     .select-title{
-        width: 31%;
+      width: 31%;
+      white-space: nowrap;
+    }
+    .font-size28{
+      font-size:28px;
     }
     .selected-value{
       width: 68%;
@@ -28,8 +32,12 @@
       border-radius: 8px;
       height: 70px;
       line-height: 70px;
+      padding-right: 30px;
       font-size: 30px;
       background: white url("../images/select1.png") 95% center/22px 13px no-repeat;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     .div-select-ul{
       position: absolute;

@@ -16,8 +16,9 @@
     <div class="register-item">
       <span class="register-item-title">验证码</span>
       <div class="register-item-input send-code">
-        <input type="text" placeholder="请输入验证码" class="send-code-input" v-model="verificationCode">
-        <span class="send-code-btn">获取验证码</span>
+        <input type="text" placeholder="请输入验证码" class="send-code-input" v-model="verificationCode" maxlength="6">
+        <span class="send-code-btn" @click="getVerificationCode" v-if="showTime">获取验证码</span>
+        <span class="send-code-btn" style="background: gray" v-if="!showTime">{{countDown}} s</span>
       </div>
     </div>
     <div class="register-item">
@@ -33,7 +34,7 @@
     <div-select :childInfo="useNature" @getSelected="getUseNatureOne"></div-select>
     <div class="register-item">
       <span class="register-item-title">车身架号</span>
-      <input type="text" placeholder="请输入车身架号" class="register-item-input" v-model="vehicleNum">
+      <input type="text" placeholder="请输入车架号后四位" class="register-item-input" v-model="vehicleNum" maxlength="4">
     </div>
     <div-select :childInfo="appointmentLocation" @getSelected="getAppointmentLocationOne"></div-select>
     <div class="register-item">
@@ -54,13 +55,13 @@
       </div>
       <div class="choose-date-item">
         <div class="date-item-input">
-          <!--<div-select :childInfo="useNature"></div-select>-->
+          <div-select :childInfo="month"></div-select>
         </div>
         <span class="date-item-time">日</span>
       </div>
     </div>
     <div class="surplus-info">
-      <div class="surplus-info-item" :class="{'no-surplus': item.num == 0,'first-info-item': index == 0,'last-info-item': index==surplusData.length-1}" v-for="item in surplusData">
+      <div class="surplus-info-item" :class="{'no-surplus': item.num == 0,'toggle-active':index==activeIndex&&item.num != 0 }" v-for="(item, index) in surplusData" @click="toggleActive(index)">
         <div class="surplus-item-time">{{item.time}}</div>
         <div class="surplus-item-num" v-if="item.num!=0">剩余名额 <span class="surplus-item-number">{{item.num}}</span> 位</div>
         <div class="surplus-item-num" v-if="item.num == 0">已满</div>
@@ -69,7 +70,7 @@
     <div-select :childInfo="pointerType" @getSelected="getPointerTypeOne"></div-select>
     <div class="register-item">
       <span class="register-item-title">指标号</span>
-      <input type="text" placeholder="请输入指标号" class="register-item-input" v-model="targetNum">
+      <input type="text" :readonly="pointerTypeOne=='无指标'" placeholder="请输入指标号" class="register-item-input" v-model="targetNum">
     </div>
     <div class="register-reminder">
       提示: 非小型、微型载客汽车请选择无指标
@@ -163,7 +164,9 @@
       height: 78px;
       padding:0 35px ;
       align-items: center;
-      border-bottom: 2px solid #eaeaed;
+      border: 2px solid;
+      border-color: transparent;
+      border-bottom-color:#eaeaed ;
       .surplus-item-number{
         color: #19d051;
         width: 80px;
@@ -171,14 +174,8 @@
         text-align: center;
       }
     }
-    .first-info-item{
-      border-top-left-radius: 8px ;
-      border-top-right-radius: 8px ;
-    }
-    .last-info-item{
-      border-bottom-left-radius: 8px ;
-      border-bottom-right-radius: 8px ;
-      border-bottom: none;
+    .toggle-active{
+      border-color: #2696dd;
     }
   }
   .register-reminder{
@@ -195,9 +192,12 @@
   }
 </style>
 <script>
+  import {isPhone, specialCharacters, plateNumberDetection} from 'service/regExp.js'
+  import { Toast } from 'mint-ui'
   export default {
     data () {
       return {
+        activeIndex: '',  // 点击出现蓝色边框序号
         provinceCode: {
           option: [
             {
@@ -478,7 +478,10 @@
         useNatureOne: '', // 使用性质
         appointmentLocationOne: '',     // 预约地点
         pointerTypeOne: '',
-        credentialsNameOne: '' // 证件名称一项
+        credentialsNameOne: '', // 证件名称一项
+        showTime: true,
+        countDown: 5,
+        timer: ''
       }
     },
     components: {
@@ -501,16 +504,93 @@
         this.appointmentLocationOne = val
       },
       getPointerTypeOne (val) {
+        if (val === '无指标') {
+          this.targetNum = ''
+        }
         this.pointerTypeOne = val
       },
+      toggleActive (index) {
+        this.activeIndex = index
+      },
+      getVerificationCode (val) {
+        this.showTime = false
+        this.timer = setInterval(() => {
+          if (this.countDown === 0) {
+            clearInterval(this.timer)
+            this.showTime = true
+            return
+          }
+          this.countDown--
+        }, 1000)
+      },
+      beforeSubmit () {
+        if (specialCharacters(this.ownerName)) {
+          Toast({
+            message: '车主姓名不能含有特殊字符',
+            duration: 2000
+          })
+          return false
+        } else if (!this.ownerName) {
+          Toast({
+            message: '请输入车主姓名',
+            duration: 2000
+          })
+          return false
+        }
+        if (!this.IDcard) {
+          Toast({
+            message: '证件号码不能为空',
+            duration: 2000
+          })
+          return false
+        }
+        if (!isPhone(this.mobilePhone)) {
+          Toast({
+            message: '手机号码格式不正确',
+            duration: 2000
+          })
+          return false
+        }
+        if (!this.verificationCode) {
+          Toast({
+            message: '请输入验证码',
+            duration: 2000
+          })
+          return false
+        }
+        if (!plateNumberDetection(this.provinceCodeOne + this.plateNum.toUpperCase())) {
+          Toast({
+            message: '车牌号码格式不正确',
+            duration: 2000
+          })
+          return false
+        }
+        if (!this.vehicleNum) {
+          Toast({
+            message: '请输入车架号后四位',
+            duration: 2000
+          })
+          return false
+        }
+        if (!this.targetNum && this.pointerTypeOne !== '无指标') {
+          Toast({
+            message: '请输入指标号',
+            duration: 2000
+          })
+          return false
+        }
+        return true
+      },
       registerSubmit () {
+        //        if (!this.beforeSubmit()) return
         let requestObj = {
           ownerName: this.ownerName,
+          credentialsNameOne: this.credentialsNameOne, // 证件名称
           IDcard: this.IDcard,
           mobilePhone: this.mobilePhone,
           verificationCode: this.verificationCode,
           plateNum: this.provinceCodeOne + this.plateNum.toUpperCase(),
-          vehicleNum: this.vehicleNum,
+          vehicleNum: this.vehicleNum,  // 车身架号
           targetNum: this.targetNum,
           useNatureOne: this.useNatureOne,
           carSelectDataOne: this.carSelectDataOne,

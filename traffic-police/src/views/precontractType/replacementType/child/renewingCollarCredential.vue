@@ -1,6 +1,6 @@
 <!--  *换领机动车登记证书 -->
 <template>
-  <div class="renewingCollar">
+  <div id="renewingCollar">
     <div class="renewingCollar-form">
       <ul>
         <li class="form-line">
@@ -8,7 +8,7 @@
             <span>车主姓名</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input stylebackground" type="text" value="" placeholder="请输入车主姓名" v-model="name"/>
+            <input class="text-input" type="text" value="" placeholder="请输入车主姓名" v-model="name"/>
           </div>
         </li>
         <li class="form-line">
@@ -29,7 +29,7 @@
             <span>证件号码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input stylebackground" type="text" value="" placeholder="请输入证件号码" v-model="name"/>
+            <input class="text-input" type="text" value="" placeholder="请输入证件号码" v-model="identificationNum"/>
           </div>
         </li>
         <li class="form-line">
@@ -37,7 +37,7 @@
             <span>手机号码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input stylebackground" type="text" value="" placeholder="请输入手机号码" v-model="name"/>
+            <input class="text-input" type="text" value="" placeholder="请输入手机号码" v-model="mobilephone"/>
           </div>
         </li>
         <li class="form-line">
@@ -45,7 +45,7 @@
               <span>验证码</span>
             </div>
             <div class="form-line-item width-60">
-              <input class="text-input stylebackground" type="text" v-model="identifying" name="" value="" placeholder="请输入验证码">
+              <input class="text-input" type="text" v-model="identifying" name="" value="" maxlength="6" placeholder="请输入验证码">
             </div>
             <div class="form-line-item right width-35">
               <button class="btn browse-code" v-bind:class="{ 'show' : isShow}" :disabled="forbidden" @click="scanQRCode()">{{chronoScope}}</button>
@@ -64,15 +64,20 @@
             </div>
           </div>
           <div class="form-line-item width-70 right">
-            <input v-model="car_number" class="text-input" type="text" name="" value="" placeholder="请输入车牌号码">
+            <input class="text-input" type="text" name="" value="" placeholder="请输入车牌号码" v-model="numberPlate">
           </div>
         </li>
         <li class="form-line">
           <div class="form-line-item item-name">
             <span>车辆类型</span>
           </div>
-          <div class="form-line-item">
-            <input class="text-input" type="text" value="" readonly/>
+          <div class="div-select">
+            <span class="btn-select" @click.stop="vehicleType()">{{ vehicle }}</span>
+            <div class="div-select-ul" v-if="vehicleShow">
+              <ul>
+                <li v-for="item in vehicleData" @click.stop="vehicleType(item.str, item.id)">{{item.str}}</li>
+              </ul>
+            </div>
           </div>
         </li>
         <li class="form-line">
@@ -93,7 +98,7 @@
             <span>车架号</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input stylebackground" type="text" value="" placeholder="请输入车架号" v-model="name"/>
+            <input class="text-input" type="text" value="" maxlength="4" placeholder="请输入车架号" v-model="behindTheFrame4Digits"/>
           </div>
         </li>
         <li class="form-line">
@@ -113,22 +118,22 @@
           <span>选择预约日期</span>
         </li>
         <li class="form-li clear">
-          <input class="text-input stylebackground width-27 left" type="" name="" value="2017" readonly>
+          <input class="text-input width-27 left" type="" name="" value="" v-model="year" readonly/>
           <span class="left rene">年</span>
           <div class="div-select width-27 left">
-            <span class="btn-select">{{ month }}</span>
-            <div class="div-select-ul" v-if="varietyShow">
+            <span class="btn-select" @click.stop="monthClick()">{{month}}</span>
+            <div class="div-select-ul" v-if="monthShow">
               <ul>
-               <input class="text-input stylebackground" type="" name="" value="2017" readonly>
+                <li v-for="item in months" @click.stop="monthClick(item.str)">{{item.str}}</li>
               </ul>
             </div>
           </div>
           <span class="left rene">月</span>
           <div class="div-select width-27 left">
-            <span class="btn-select">{{ month }}</span>
-            <div class="div-select-ul" v-if="varietyShow">
+            <span class="btn-select" @click.stop="dateClick()">{{date}}</span>
+            <div class="div-select-ul" v-if="datesShow">
               <ul>
-               <input class="text-input stylebackground" type="" name="" value="2017" readonly>
+                <li v-for="item in dates" @click.stop="dateClick(item.str)">{{item.str}}</li>
               </ul>
             </div>
           </div>
@@ -136,9 +141,10 @@
         </li>
       </ul>
       <ul class="renewingUl clear">
-        <li>
-          <p class="width-50 left"> 9:10~10:00</p>
-          <p class="width-50 left">剩余名额<span>10</span>位</p>
+        <li v-for="item in surplusData" class="renewingLi" :class="{'rene-p': item.number == 0}">
+          <p>{{item.time}}</p>
+          <p v-if="item.number != 0">剩余名额<span class="renspan">{{item.number}}</span>位</p>
+          <p v-if="item.number == 0">已满</p>
         </li>
       </ul>
       <button class="btn btns" @click.stop="submitClick()">预约</button>
@@ -160,7 +166,10 @@ export default {
       chronoScope: '获取验证码',
       identifying: '',                        // 验证码
       variety: '居民户口簿',
-      car_number: '',  // 车牌号码
+      identificationNum: '',            // 证件号码
+      numberPlate: '',  // 车牌号码
+      mobilephone: '',   // 手机号码
+      behindTheFrame4Digits: '',  // 车架号
       cur_card_id: '01',
       varietyShow: false,
       varietyData: [
@@ -339,6 +348,7 @@ export default {
       },
       employ: '非运营',
       employShow: false,
+      employID: '01',
       employData: [
         {
           'id': '01',
@@ -366,6 +376,7 @@ export default {
         }
       ],
       subscribe: '福田车管分所',
+      subscribeId: '01',
       subscribeShow: false,
       subscribeData: [
         {
@@ -397,7 +408,152 @@ export default {
           'str': '坪山车管分所'
         }
       ],
-      month: '7'
+      monthShow: false,
+      datesShow: false,
+      timeData: '',
+      newData: '',
+      month: '7',
+      year: '2017',
+      date: '11',
+      years: [],
+      months: [
+        {
+          'str': '7'
+        },
+        {
+          'str': '8'
+        },
+        {
+          'str': '9'
+        },
+        {
+          'str': '10'
+        },
+        {
+          'str': '11'
+        },
+        {
+          'str': '12'
+        }
+      ],
+      dates: [
+        {
+          'str': '7'
+        },
+        {
+          'str': '8'
+        },
+        {
+          'str': '9'
+        },
+        {
+          'str': '10'
+        },
+        {
+          'str': '11'
+        },
+        {
+          'str': '12'
+        }
+      ],
+      surplusData: [
+        {'time': '9:00 - 10:00', 'number': '0'},
+        {'time': '10:00 - 11:00', 'number': '20'},
+        {'time': '11:00 - 12:00', 'number': '20'},
+        {'time': '14:00 - 15:00', 'number': '20'},
+        {'time': '15:00 - 16:00', 'number': '0'},
+        {'time': '14:00 - 15:00', 'number': '20'},
+        {'time': '15:00 - 16:00', 'number': '0'}
+      ],
+      vehicleShow: false,
+      vehicle: '大型汽车',
+      vehicleId: '01',
+      vehicleData: [
+        {
+          'id': '01',
+          'str': '大型汽车'
+        },
+        {
+          'id': '02',
+          'str': '小型汽车'
+        },
+        {
+          'id': '03',
+          'str': '使馆汽车'
+        },
+        {
+          'id': '04',
+          'str': '领馆汽车'
+        },
+        {
+          'id': '05',
+          'str': '境外汽车'
+        },
+        {
+          'id': '06',
+          'str': '外籍汽车'
+        },
+        {
+          'id': '07',
+          'str': '普通摩托车'
+        },
+        {
+          'id': '08',
+          'str': '轻便摩托车'
+        },
+        {
+          'id': '09',
+          'str': '使馆摩托车'
+        },
+        {
+          'id': '10',
+          'str': '领馆摩托车'
+        },
+        {
+          'id': '15',
+          'str': '挂车'
+        },
+        {
+          'id': '16',
+          'str': '教练汽车'
+        },
+        {
+          'id': '17',
+          'str': '教练摩托车'
+        },
+        {
+          'id': '18',
+          'str': '实验汽车'
+        },
+        {
+          'id': '19',
+          'str': '实验摩托车'
+        },
+        {
+          'id': '22',
+          'str': '临时行驶车'
+        },
+        {
+          'id': '23',
+          'str': '警用汽车'
+        },
+        {
+          'id': '24',
+          'str': '警用摩托'
+        },
+        {
+          'id': '20',
+          'str': '临时入境车'
+        },
+        {
+          'id': '51',
+          'str': '新能源大型车'
+        },
+        {
+          'id': '52',
+          'str': '新能源小型车'
+        }
+      ]
     }
   },
   methods: {
@@ -444,6 +600,39 @@ export default {
         this.subscribeShow = true
       }
     },
+    vehicleType: function (str, id) {
+      if (str) {
+        this.vehicle = str
+        this.vehicleId = id
+      }
+      if (this.vehicleShow === true) {
+        this.vehicleShow = false
+      } else {
+        this.vehicleShow = true
+      }
+    },
+    monthClick: function (str) {
+      if (str) {
+        this.month = str
+      }
+      this.datesShow = false
+      if (this.monthShow === true) {
+        this.monthShow = false
+      } else {
+        this.monthShow = true
+      }
+    },
+    dateClick: function (str) {
+      if (str) {
+        this.date = str
+      }
+      this.monthShow = false
+      if (this.datesShow === true) {
+        this.datesShow = false
+      } else {
+        this.datesShow = true
+      }
+    },
     scanQRCode: function () {
       let mobile = this.mobile
       if (!(mobile)) {
@@ -480,122 +669,37 @@ export default {
           this.isShow = false
         }
       }, 1000)
+    },
+    submitClick: function () {
+      if (!this.name) {
+
+      }
+      let renewingData = {
+        'name': this.name,   // 车主姓名
+        'identificationNO': this.cur_card_id,   // 证件名称
+        'identificationNum': this.identificationNum, // 证件号码
+        'mobilephone': this.mobilephone,             // 手机号码
+        'abbreviationSelectMassage': `${this.abbreviationSelectMassage}${this.numberPlate}`,   // 车牌号码
+        'cartype': this.vehicleId,             // 车辆类型
+        'employ': this.employID,               // 使用性质
+        'behindTheFrame4Digits': this.behindTheFrame4Digits,  // 车架号
+        'subscribeId': this.subscribeId   // 预约地点
+
+      }
+      console.log(renewingData)
     }
+  },
+  created () {
+    document.addEventListener('click', (e) => {
+      this.varietyShow = false
+      this.abbreviationSelectShow = false
+      this.abbreviationSelectShow = false
+      this.datesShow = false
+    })
   }
 }
 </script>
 <style lang="less" scoped>
 /*@import "./../../../../style/base";*/
-.renewingCollar {
-background-color: #fff;
-position: absolute;
-left: 0;
-right: 0;
-padding: 20px 40px;
-  .renewingCollar-form {
-    background-color: #fff;
-    padding-top:20px;
-    .form-line {
-      padding: 20px 0 0 180px;
-      position: relative;
-      line-height: 56px;
-      .form-line-item {
-        width: 100%;
-        display: inline-block;
-        height: 60px;
-        line-height:60px;
-        .photo-ex {
-          color: #2696dd;
-        }
-        span {
-          vertical-align: middle;
-        }
-        .browse-code {
-          margin: 0;
-          display: inline-block;
-          height: 56px;
-          width: 100%;
-          line-height: 56px;
-          border-radius: 10px;
-          text-align: center;
-          color:#fff;
-          vertical-align:middle;
-        }
-        &.city {
-          margin: 0 18px;
-        }
-        &.sex {
-          text-align: center;
-        }
-      }
-      .item-name {
-        width: 180px;
-        position: absolute;
-        left: 0;
-      }
-      .div-select {
-        font-size: 24px;
-      }
-    }
-    .form-li{
-      width: 100%;
-      display: inline-block;
-      height: 60px;
-      line-height:60px;
-      span{
-        font-size: 16px;
-      }
-    }
-    .form-annotation{
-      color: red;
-      font-size: 16px;
-    }
-  }
-  .width-27 {
-    width: 27% !important;
-  }
-  .width-40 {
-    width: 40% !important;
-  }
-  .width-35 {
-    width: 35% !important;
-  }
-  .width-50 {
-    width: 50% !important;
-  }
-  .width-60 {
-    width: 60% !important;
-  }
-  .btn {
-    width: 280px;
-    margin-top:30px;
-    display: inline-block;
-  }
-  .btns{
-    margin: 60px 0 30px 0;
-    width: 100%;
-  }
-  .div-select-ul{
-    font-size: 16px;
-  }
-  .rene{
-    display: inline-block;
-    width: 6%;
-    text-align: center;
-  }
-  .renewingUl{
-    margin-top: 30px;
-    display: block;
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    li{
-      line-height: 60px;
-      text-align: center;
-    }
-  }
-  .btns{
-    background: #0faeff;
-  }
-}
+@import "./../../../../style/replacementType";
 </style>

@@ -2,13 +2,13 @@
 *  #变更类#
  -->
 <template>
-  <div class="alter-outer">
+  <div class="alter-class-outer">
     <div class="alter-select pad-side-50">
       <div class="alter-chose">
         <span>业务类型</span>
       </div>
       <div class="div-select alter-wd">
-        <span id="btnSelect" class="btn-select" @click.stop="typeSelectClick()">{{ typeSelectMassage.str }}</span>
+        <span id="btnSelect" class="btn-select bg-white" @click.stop="typeSelectClick()">{{ typeSelectMassage.str }}</span>
         <div class="div-select-ul" v-if='typeSelectShow'>
           <ul>
             <li v-for="(item, index) in typeSelectData" @click.stop = "typeSelectClick(index+1)">
@@ -75,9 +75,6 @@ export default {
     }
   },
   created () {
-    document.addEventListener('click', (e) => {
-      this.typeSelectShow = false
-    })
     switch (window.location.hash) {
       case '#/alterClass/taxiUseAlter':
         this.typeSelectMassage = this.typeSelectData[0]
@@ -95,14 +92,23 @@ export default {
         this.typeSelectMassage = this.typeSelectData[4]
         break
     }
+  },
+  mounted () {
+    document.addEventListener('click', this.select)
+  },
+  destroyed () {
+    document.removeEventListener('click', this.select)
   }
 }
 </script>
 <style lang="less">
-.alter-outer {
+.alter-class-outer {
   font-size: 26px;
   color: #000;
   overflow: hidden;
+  .bg-white{
+    background-color: #FFF;
+  }
   .width-120 {
     width: 120px !important;
   }
