@@ -49,7 +49,7 @@
               'id': 'cancellationRegister'
             },
             {
-              'str': '机动车变更登记',
+              'str': '机动车变更登记(普通变更)',
               'id': 'changeRegister'
             },
             {
