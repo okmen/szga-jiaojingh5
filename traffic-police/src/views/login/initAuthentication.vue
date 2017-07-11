@@ -4,29 +4,41 @@
       <div class="login-form">
         <input v-model:value="userName" type="text" placeholder="请输入您的姓名">
         <input class="identityCard" v-model:value="identityCard" type="text" placeholder="请输入您的身份证号码">
-        <input class="mobilephone" v-model:value="mobilephone" type="tel" placeholder="请输入手机号">
+        <input class="mobilephone" v-model:value="mobilephone" type="tel" placeholder="请输入新的手机号">
         <div class="validateCode">
           <input class="inpValidateCode" v-model:value="validateCode" type="tel" placeholder="输入验证码">
           <button type="button" name="button" :disabled="isdisabled" @click.stop="sendValidateCode()" :class="{disabled: isdisabled}">{{btnValidateCode}}</button>
         </div>
-        <button id="login-btn" @click.stop="loginClick()"> 找 回 密 码</button>
-        <div class="login-link">
-          <router-link to="/starUser" class="login-link-forget">注册</router-link>
-          <router-link to="/login" class="login-link-register">登录</router-link>
+        <div class="login-img">
+          <p>上传相关证件照片</p>
+          <div class="login-img-flex">
+            <div class="login-item-img">
+              <label class="login-item-img-one" for="file1">
+                <input id="file1" type="file" accept="image/*" >
+                <img :src="imgOne1" />
+              </label>
+              <div class="login-item-text-one">身份证(正面)</div>
+            </div>
+            <div class="login-item-img">
+              <label class="login-item-img-one" for="file2">
+                <input id="file2" type="file" accept="image/*" >
+                <img :src="imgOne2" />
+              </label>
+              <div class="login-item-text-one">手持身份证</div>
+            </div>
+          </div>
         </div>
-        <div class="login-hint">
-          <p>温馨提示:</p>
-          <p>若您的手机号码已不再使用,或者不能正常接收到短信验证码,您可以通过 “<router-link to="/initAuthentication" class="login-hint-register">其他方式</router-link>” 变更手机号码！</p>
-        </div>
+        <button id="login-btn" @click.stop="loginClick()"> 重 新 认 证 </button>
       </div>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
 </template>
 
 <script>
+import uploadFile from '../../service/uploadFile.js'
 import { resultPost } from '../../service/getData'
-import { resetPwd, sendSMS } from '../../config/baseUrl'
-import { Toast, Indicator } from 'mint-ui'
+import { sendSMS } from '../../config/baseUrl'
+import { Toast } from 'mint-ui'
 
 export default {
   name: 'login',
@@ -38,12 +50,32 @@ export default {
       mobilephone: '',
       btnValidateCode: '获取验证码',
       openId: '',
-      isdisabled: false
+      isdisabled: false,
+      imgOne1: require('../../images/IDcard-front.png'),
+      imgOne2: require('../../images/ID-hand.png')
     }
   },
   methods: {
+    uploadImg () {
+      uploadFile.upload({
+        id: 'file1',
+        callback: (res) => {
+          console.log(res)
+          this.imgOne1 = res.imgUrl
+          // this.IDcardFront = res.imgUrl
+        }
+      })
+      uploadFile.upload({
+        id: 'file2',
+        callback: (res) => {
+          console.log(res)
+          this.imgOne2 = res.imgUrl
+          // this.IDcarfBack = res.imgUrl
+        }
+      })
+    },
     loginClick: function () {
-      let that = this
+      // let that = this
       if (!this.userName) {
         Toast({
           message: '姓名不能为空',
@@ -76,6 +108,10 @@ export default {
         })
         return false
       }
+      Toast({
+        message: '系统异常',
+        duration: 2000
+      })
       let reqData = {
         identityCard: this.identityCard,
         mobilephone: this.mobilephone,
@@ -83,20 +119,21 @@ export default {
         sourceOfCertification: 'C',
         validateCode: this.validateCode
       }
-      Indicator.open()
-      resultPost(resetPwd, reqData).then(data => {
-        Indicator.close()
-        console.log(data)
-        if (data.code === '0000') {
-          that.$router.push('/login')
-        } else {
-          Toast({
-            message: data.msg,
-            position: 'bottom',
-            duration: 2000
-          })
-        }
-      })
+      console.log(reqData)
+      // Indicator.open()
+      // resultPost(resetPwd, reqData).then(data => {
+      //   Indicator.close()
+      //   console.log(data)
+      //   if (data.code === '0000') {
+      //     that.$router.push('/login')
+      //   } else {
+      //     Toast({
+      //       message: data.msg,
+      //       position: 'bottom',
+      //       duration: 2000
+      //     })
+      //   }
+      // })
     },
     sendValidateCode: function () {
       if (!this.mobilephone) {
@@ -133,6 +170,7 @@ export default {
     }
   },
   mounted () {
+    this.uploadImg()
     // this.openId = window.localStorage.getItem('openId')
     // let url = window.location.href
     // let data = {
@@ -231,6 +269,45 @@ export default {
       font-size: 36px;
       margin-top: 70px;
     }
+    .login-img{
+      font-size: 28px;
+      p{
+        color: #d6e8f3;
+      }
+      .login-img-flex{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 10px;
+        flex-wrap: wrap;
+        .login-item-img{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-right: 28px;
+        }
+      }
+      .login-item-img-one{
+        width: 200px;
+        height: 200px;
+        border: 2px solid #eee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 20px;
+        background-color: rgba(255, 255, 255, .3);
+        input{
+          display: none;
+        }
+        img{
+          max-height: 90%;
+          max-width: 90%;
+        }
+      }
+      .login-item-text-one{
+        color: #d6e8f3;
+      }
+    }
     .login-link{
       width: 100%;
       height: 70px;
@@ -243,17 +320,6 @@ export default {
         color: #fff;
         font-size: 28px;
         text-decoration: underline;
-      }
-    }
-    .login-hint{
-      p{
-        font-size: 26px;
-        color: #fff;
-        line-height: 35px;
-        a{
-          color: #ffbe00;
-          text-decoration: underline;
-        }
       }
     }
   }

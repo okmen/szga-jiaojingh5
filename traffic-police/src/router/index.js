@@ -58,9 +58,17 @@ const routes = [
     name: 'findPassword',
     path: '/findPassword',
     meta: {
-      title: '深圳交警'
+      title: '忘记密码'
     },
     component: require('../views/login/findPassword.vue')
+  },
+  {
+    name: 'initAuthentication',
+    path: '/initAuthentication',
+    meta: {
+      title: '重新认证'
+    },
+    component: require('../views/login/initAuthentication.vue')
   },
   {
     name: 'personalCenter',
