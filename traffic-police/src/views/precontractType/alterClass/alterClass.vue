@@ -103,6 +103,12 @@ export default {
   font-size: 26px;
   color: #000;
   overflow: hidden;
+  .div-select{
+    .btn-select{
+      border: 2px solid #e5e5e5;
+      background: #FFF;
+    }
+  }
   .width-120 {
     width: 120px !important;
   }

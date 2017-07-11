@@ -46,7 +46,7 @@
         <div class="alter-hbs-name">
           <span>验证码</span>
         </div>
-        <div class="alter-hbs-text width-40 left">
+        <div class="alter-hbs-text width-60 left">
           <input class="text-input" type="tel" maxlength="6" v-model="validCode" placeholder="请输入验证码">
         </div>
         <div class="left alter-hbs-code">

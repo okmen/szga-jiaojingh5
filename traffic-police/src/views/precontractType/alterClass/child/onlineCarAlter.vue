@@ -46,7 +46,7 @@
         <div class="alter-hbs-name">
           <span>验证码</span>
         </div>
-        <div class="alter-hbs-text width-40 left">
+        <div class="alter-hbs-text width-60 left">
           <input class="text-input" type="tel" maxlength="6" v-model="validCode" placeholder="请输入验证码">
         </div>
         <div class="left alter-hbs-code">
@@ -237,7 +237,8 @@
         orderPlaceMassage: '深圳市车管所',  // 预约地点 选中值
         orderPlaceShow: false,              // 是否显示 预约地点 ul列表
         orderPlaceData: [
-          { 'str': '深圳市车管所' }
+          { 'str': '深圳市车管所' },
+          { 'str': '罗湖车管分所' }
         ],
         getYear: '',
         getMonth: '',
