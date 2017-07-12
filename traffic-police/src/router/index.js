@@ -1081,6 +1081,49 @@ const routes = [
         component: require('../views/precontractType/card/renewalClass/child/HkLicence.vue')
       }
     ]
+  },
+  {
+    name: 'recoverDrive',
+    path: '/recoverDrive',
+    mata: {
+      name: '恢复驾驶资格'
+    },
+    component: require('../views/precontractType/card/recoverDrive/recoverDrive.vue'),
+    redirect: '/recoverDrive/noPhysicalCheck',
+    children: [
+      {
+        name: 'noPhysicalCheck',
+        path: '/recoverDrive/noPhysicalCheck',
+        mata: {
+          name: '逾期一年以上未体检类'
+        },
+        component: require('../views/precontractType/card/recoverDrive/child/noPhysicalCheck.vue')
+      },
+      {
+        name: 'noChangeLicence',
+        path: '/recoverDrive/noChangeLicence',
+        mata: {
+          name: '逾期一年以上未体检类'
+        },
+        component: require('../views/precontractType/card/recoverDrive/child/noChangeLicence.vue')
+      }
+    ]
+  },
+  {
+    name: 'fullmarkStudy',
+    path: '/fullmarkStudy',
+    meta: {
+      name: '满分学习'
+    },
+    component: require('../views/precontractType/card/fullmarkStudy.vue')
+  },
+  {
+    name: 'otherBusiness',
+    path: '/otherBusiness',
+    meta: {
+      name: '其它业务'
+    },
+    component: require('../views/precontractType/card/otherBusiness.vue')
   }
 ]
 /* eslint-disable no-new */
