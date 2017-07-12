@@ -1010,8 +1010,6 @@ const routes = [
       }
     ]
   },
-  sceneManageClassRouter,   // 现场办理类
-  verifyIssueClassRouter,    // 核发类
   {
     name: 'carEmigration',
     path: '/carEmigration',
@@ -1028,6 +1026,8 @@ const routes = [
     },
     component: require('../views/precontractType/car/rollOutRecover')
   },
+  sceneManageClassRouter,   // 现场办理类
+  verifyIssueClassRouter,    // 核发类
   {
     name: 'applyClass',
     path: '/applyClass',
