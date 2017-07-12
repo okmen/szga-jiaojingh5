@@ -817,6 +817,14 @@ const routes = [
     component: require('../components/affirmInfo.vue')
   },
   {
+    name: 'submitSuccess',
+    path: '/submitSuccess',
+    meta: {
+      title: '提交成功'
+    },
+    component: require('../components/submitSuccess.vue')
+  },
+  {
     name: 'motorAlteration',
     path: '/motorAlteration',
     meta: {
