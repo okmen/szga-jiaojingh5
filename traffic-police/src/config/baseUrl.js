@@ -177,3 +177,6 @@ export const getCarTypeId = `${commonUrl}handleservice/getCarTypeId.html` // 获
 export const applyGatePass = `${commonUrl}handleservice/applyGatePass.html` // 申请通行证
 
 export const applyCarTemporaryLicence = `${commonUrl}handleservice/applyCarTemporaryLicence.html` // 申请机动车临牌
+
+export const getResultOfFirstIllegalImpunity = `${commonUrl}handleservice/getResultOfFirstIllegalImpunity.html` // 首违免罚
+

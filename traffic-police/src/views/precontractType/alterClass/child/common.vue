@@ -47,10 +47,10 @@
         </div>
       </li>
       <li class="alter-hbs-item clear">
-        <div class="alter-hbs-name"><span>号牌号码</span></div>
+        <div class="alter-hbs-name"><span>车牌号码</span></div>
         <div class="div-select bg-white width-120 left">
           <span class="btn-select bg-white min-btn-select" 
-                @click.stop="abbreviationSelectClick()">{{ abbreviationSelectMassage }}</span>
+                @click.stop="abbreviationSelectClick()">{{ abbreSelectValue }}</span>
           <div class="div-select-ul" v-if="abbreviationSelectShow">
             <ul>
               <li v-for="item in abbreviationSelectData" @click.stop = "abbreviationSelectClick(item.str)">{{item.str}}</li>
@@ -92,7 +92,7 @@
       <li class="alter-hbs-item">
         <div class="alter-hbs-name"><span>预约地点</span></div>
         <div class="div-select">
-          <span class="btn-select bg-white" @click.stop="orderPlaceClick()">{{ orderPlaceMassage }}</span>
+          <span class="btn-select bg-white" @click.stop="orderPlaceClick()">{{ orderPlaceValue }}</span>
           <div class="div-select-ul" v-if="orderPlaceShow">
             <ul>
               <li v-for="(item, index) in orderPlaceData" @click.stop="orderPlaceClick(item.str, index)">{{item.str}}</li>
@@ -168,7 +168,7 @@
         validCode: '',                      // * 验证码
         getValidCodeMsg: '获取验证码',
         isdisabled: false,
-        abbreviationSelectMassage: '粤',    // * 车牌号 选中值
+        abbreSelectValue: '粤',             // * 车牌号 选中值
         carCardNum: '',                     // * 车牌号码
         abbreviationSelectShow: false,      // 是否显示 车牌号 ul列表
         abbreviationSelectData: [           // 车牌号  li
@@ -184,12 +184,12 @@
         carTypeMassage: '大型汽车',         // * 车辆类型 选中值
         carTypeShow: false,                 // 是否显示 车辆类型 ul列表
         carTypeData: [                      // 车辆类型 li列表
-          { 'id': '01', 'str': '大型汽车' },
-          { 'id': '02', 'str': '小型汽车' },
+          { 'id': '01', 'str': '大型汽车(黄色)' },
+          { 'id': '02', 'str': '小型汽车(蓝色)' },
           { 'id': '03', 'str': '使馆汽车' },
           { 'id': '04', 'str': '领馆汽车' },
           { 'id': '05', 'str': '境外汽车' },
-          { 'id': '06', 'str': '外籍汽车' },
+          { 'id': '06', 'str': '外籍汽车(黑色)' },
           { 'id': '07', 'str': '普通摩托车' },
           { 'id': '08', 'str': '轻便摩托车' },
           { 'id': '09', 'str': '使馆摩托车' },
@@ -217,7 +217,7 @@
           { 'str': '租赁' }
         ],
         VIN: '',                            // * 车架号
-        orderPlaceMassage: '深圳市车管分所', // * 预约地点 选中值
+        orderPlaceValue: '深圳市车管分所',  // * 预约地点 选中值
         orderPlaceShow: false,              // 是否显示 预约地点 ul列表
         getYear: new Date().getFullYear(),  // * 年
         getMonth: '2',                      // * 月
@@ -248,7 +248,7 @@
       // 号牌 选择
       abbreviationSelectClick: function (str, index) {
         if (str) {
-          this.abbreviationSelectMassage = str
+          this.abbreSelectValue = str
         }
         if (this.abbreviationSelectShow === true) {
           this.abbreviationSelectShow = false
@@ -296,7 +296,7 @@
       // 预约地点 选择
       orderPlaceClick: function (str, index) {
         if (str) {
-          this.orderPlaceMassage = str
+          this.orderPlaceValue = str
         }
         if (this.orderPlaceShow === true) {
           this.orderPlaceShow = false
@@ -359,9 +359,25 @@
 
       // 预约 点击事件
       appointTaskClick () {
-        if (this.judgeInput()) {
-          console.log('预约成功')
+        // if (this.judgeInput()) {
+        let reqData = {
+          name: this.carOwnerName,                // 车主姓名
+          idCardName: this.cardMassage,           // 证件名称
+          idCardNumber: this.cardNum,             // 证件号码
+          mobilephone: this.userTelphone,         // 手机号
+          verify: this.validCode,                 // 验证码
+          abbreviation: this.abbreSelectValue,    // 车牌类型
+          abbreVaule: this.carCardNum,            // 车牌号码
+          carType: this.carTypeMassage,           // 车辆类型
+          useNature: this.useNatureMassage,       // 使用性质
+          vin: this.VIN,                          // 车架号
+          appointPlace: this.orderPlaceValue,     // 预约地点
+          orderYear: this.getYear,                // 预约时间 年
+          orderMonth: this.getMonth,              // 预约时间 月
+          orderDate: this.getDate                 // 预约时间 日
         }
+        this.$emit('appointTaskClick', reqData)
+        // }
       },
 
       // 非空 or 错误判断
@@ -381,7 +397,7 @@
         } else if (!this.validCode) {
           Toast({ message: '请输入验证码', position: 'bottom', className: 'white', duration: 1500 })
           return false
-        } else if (!plateNumberDetection(this.abbreviationSelectMassage + this.carCardNum.toUpperCase())) {
+        } else if (!plateNumberDetection(this.abbreSelectValue + this.carCardNum.toUpperCase())) {
           Toast({ message: '车牌号码格式不正确', position: 'bottom', className: 'white', duration: 1500 })
           return false
         } else if (!this.VIN) {
