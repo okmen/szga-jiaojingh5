@@ -118,10 +118,10 @@
           <span>选择预约日期</span>
         </li>
         <li class="form-li clear">
-          <input class="text-input width-27 left" type="" name="" value="" v-model="year" readonly/>
+          <input class="text-input width-27 btn-cen left" type="" name="" value="" v-model="year" readonly/>
           <span class="left rene">年</span>
           <div class="div-select width-27 left">
-            <span class="btn-select" @click.stop="monthClick()">{{month}}</span>
+            <span class="btn-select btn-cen" @click.stop="monthClick()">{{month}}</span>
             <div class="div-select-ul" v-if="monthShow">
               <ul>
                 <li v-for="item in months" @click.stop="monthClick(item.str)">{{item.str}}</li>
@@ -130,7 +130,7 @@
           </div>
           <span class="left rene">月</span>
           <div class="div-select width-27 left">
-            <span class="btn-select" @click.stop="dateClick()">{{date}}</span>
+            <span class="btn-select btn-cen" @click.stop="dateClick()">{{date}}</span>
             <div class="div-select-ul" v-if="datesShow">
               <ul>
                 <li v-for="item in dates" @click.stop="dateClick(item.str)">{{item.str}}</li>
@@ -634,14 +634,14 @@ export default {
       }
     },
     scanQRCode: function () {
-      let mobile = this.mobile
-      if (!(mobile)) {
+      let mobilephone = this.mobilephone
+      if (!(mobilephone)) {
         Toast({message: '请输入手机号', position: 'bottom', className: 'white'})
-      } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobile))) {
+      } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobilephone))) {
         Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
       } else {
         let phonedata = {
-          mobilephone: this.mobile,
+          mobilephone: mobilephone,
           businessType: 'szjj'
         }
         resultPost(sendSMS, phonedata).then(json => {
@@ -672,11 +672,25 @@ export default {
     },
     submitClick: function () {
       if (!this.name) {
-
+        Toast({message: '请输入车主姓名', position: 'bottom', className: 'white'})
+      } else if (!this.identificationNum) {
+        Toast({message: '请输入证件号码', position: 'bottom', className: 'white'})
+      } else if (!this.mobilephone) {
+        Toast({message: '请输入手机号码', position: 'bottom', className: 'white'})
+      } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobilephone))) {
+        Toast({message: '请输入正确手机号码', position: 'bottom', className: 'white'})
+      } else if (!this.numberPlate) {
+        Toast({message: '请输入车牌号码', position: 'bottom', className: 'white'})
+      } else if (!this.behindTheFrame4Digits) {
+        Toast({message: '请输入车架号', position: 'bottom', className: 'white'})
+      } else if (!this.identifying) {
+        Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
+      } else if (this.identifying !== 6) {
+        Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
       }
       let renewingData = {
         'name': this.name,   // 车主姓名
-        'identificationNO': this.cur_card_id,   // 证件名称
+        'identificationNO': this.cur_card_id,   // 证件号码
         'identificationNum': this.identificationNum, // 证件号码
         'mobilephone': this.mobilephone,             // 手机号码
         'abbreviationSelectMassage': `${this.abbreviationSelectMassage}${this.numberPlate}`,   // 车牌号码

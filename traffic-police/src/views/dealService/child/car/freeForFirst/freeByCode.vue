@@ -8,7 +8,7 @@
               <span>交通违法序号</span>
             </div>
             <div class="freeByCode-hbs-text">
-              <input class="text-input" type="text" maxlength="4" name="" value="" v-model="lawlessCode" placeholder="请输入违法序号">
+              <input class="text-input" type="text" name="" value="" v-model="lawlessCode" placeholder="请输入违法序号">
             </div>
           </li>
 
@@ -17,31 +17,91 @@
               <span>验证码</span>
             </div>
             <div class="freeByCode-hbs-text width-40 left">
-              <input class="text-input" type="text" name="" maxlength="4" value="" placeholder="请输入验证码" id="inp">
+              <input class="text-input" type="text" name="" maxlength="4" value="" v-model="verification" placeholder="请输入验证码" id="inp">
             </div>
             <div class="left freeByCode-hbs-code" id="code"></div>
           </li>
         </ul>
       </div>
-      <button class="btn btn-blue" type="button" name="button">查询</button>
+      <button class="btn btn-blue" type="button" name="button" @click.stop="demandClick()">查询</button>
     </div>
+    <ul class="freeByCarUl" v-if="freeUlShow">
+      <li class="freeByCarLi" v-for="(item, key) in freeData">
+        <div class="liDiv-title">{{keyListObj[key]}}</div>
+        <div class="liDiv-text">{{item}}</div>
+      </li>
+    </ul>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
   import { verifyCode } from '../../../../../config/verifyCode'
+  import { resultPost } from '../../../../../service/getData'
+  import { getResultOfFirstIllegalImpunity } from '../../../../../config/baseUrl'
+  import { Toast } from 'mint-ui'
   export default {
     name: 'freeByCode',
     data () {
       return {
+        freeUlShow: false,
+        verification: '', // 验证码
         lawlessCode: '',
-        verifyCode: false
+        verifyCode: false,
+        freeData: {},
+        keyListObj: {
+          'id': '记录ID',
+          'numberPlate': '号牌号码',
+          'plateType': '号牌种类',
+          'illegalTime': '违法时间',
+          'illegalAddress': '违法地址',
+          'illegalSite': '违法地点',
+          'sectionsCode': '路段代码',
+          'illegalAction': '违法行为',
+          'illegalContent': '违法内容',
+          'illegalMoney': '罚款金额',
+          'illegalCore': '违法记分数',
+          'inputTime': '录入时间',
+          'foundAuthority': '发现机关',
+          'foundAuthorityName': '发现机关名称',
+          'illegalNumber': '违法序号',
+          'productiveTime': '运算时间',
+          'updateTime': '更新时间'
+        }
       }
     },
     mounted () {
       verifyCode(document.getElementById('inp'), document.getElementById('code'), (result, code) => {
         this.verifyCode = result
       })
+    },
+    methods: {
+      demandClick: function () {
+        if (!this.lawlessCode) {
+          Toast({message: '请输入违法序号', position: 'bottom', className: 'white'})
+        } else if (!this.verification) {
+          Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
+        } else if (this.verifyCode === false) {
+          Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
+        } else {
+          this.referFn()
+        }
+      },
+      referFn: function () {
+        let freeByCarData = {
+          queryType: '2',
+          illegalNumber: this.lawlessCode,  // 违法编号
+          numberPlate: '',   // 车牌号码
+          plateType: ''      // 车牌种类
+        }
+        console.log(freeByCarData)
+        resultPost(getResultOfFirstIllegalImpunity, freeByCarData).then(json => {
+          console.log(json)
+          if (json.code === '0000') {
+            this.freeData = json.data[0]
+            this.freeUlShow = true
+          }
+        })
+      }
     }
   }
 </script>
@@ -83,6 +143,32 @@
             }
           }
         }
+      }
+    }
+    .freeByCarUl{
+      display: block;
+      width: 87%;
+      margin: 30px auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+
+      .freeByCarLi{
+        display: flex;
+        line-height: 60px;
+        justify-content: left;
+        border-bottom: 1px solid #ccc;
+        vertical-align: middle;
+        .liDiv-title{
+          text-indent: 20px;
+          flex: 1;
+        }
+        .liDiv-text{
+          flex:2;
+          padding-right: 20px;
+        }
+      }
+      .freeByCarLi:last-of-type{
+        border-bottom: none;
       }
     }
   }
