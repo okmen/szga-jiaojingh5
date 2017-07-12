@@ -137,9 +137,9 @@
   </div>
 </template>
 <script>
-  import { resultPost } from '../../../../service/getData'
-  import {isPhone, specialCharacters, plateNumberDetection} from '../../../../service/regExp.js'
-  import { sendSMS } from '../../../../config/baseUrl'
+  import { resultPost } from '../../../../../service/getData'
+  import {isPhone, specialCharacters, plateNumberDetection} from '../../../../../service/regExp.js'
+  import { sendSMS } from '../../../../../config/baseUrl'
   import { Toast } from 'mint-ui'
   export default {
     props: ['orderPlaceData'],
@@ -426,5 +426,5 @@
   }
 </script>
 <style lang="less">
-  @import '../../../../style/orderAlter';
+  @import '../../../../../style/orderAlter';
 </style>

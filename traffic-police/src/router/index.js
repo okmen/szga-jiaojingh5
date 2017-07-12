@@ -818,6 +818,14 @@ const routes = [
     component: require('../components/affirmInfo.vue')
   },
   {
+    name: 'submitSuccess',
+    path: '/submitSuccess',
+    meta: {
+      title: '提交成功'
+    },
+    component: require('../components/submitSuccess.vue')
+  },
+  {
     name: 'motorAlteration',
     path: '/motorAlteration',
     meta: {
@@ -906,7 +914,7 @@ const routes = [
     meta: {
       title: '变更类'
     },
-    component: require('../views/precontractType/alterClass/alterClass.vue'),
+    component: require('../views/precontractType/car/alterClass/alterClass.vue'),
     redirect: '/alterClass/taxiUseAlter',
     children: [
       {
@@ -915,7 +923,7 @@ const routes = [
         meta: {
           title: '出租客运车辆使用性质变更'
         },
-        component: require('../views/precontractType/alterClass/child/taxiUseAlter.vue')
+        component: require('../views/precontractType/car/alterClass/child/taxiUseAlter.vue')
       },
       {
         name: 'numberAlter',
@@ -923,7 +931,7 @@ const routes = [
         meta: {
           title: '机动车打刻原车发动机号码变更备案'
         },
-        component: require('../views/precontractType/alterClass/child/numberAlter.vue')
+        component: require('../views/precontractType/car/alterClass/child/numberAlter.vue')
       },
       {
         name: 'markAlter',
@@ -931,7 +939,7 @@ const routes = [
         meta: {
           title: '机动车打刻原车辆识别代号变更备案'
         },
-        component: require('../views/precontractType/alterClass/child/markAlter.vue')
+        component: require('../views/precontractType/car/alterClass/child/markAlter.vue')
       },
       {
         name: 'fileAlter',
@@ -939,7 +947,7 @@ const routes = [
         meta: {
           title: '档案更正'
         },
-        component: require('../views/precontractType/alterClass/child/fileAlter.vue')
+        component: require('../views/precontractType/car/alterClass/child/fileAlter.vue')
       },
       {
         name: 'onlineCarAlter',
@@ -947,7 +955,7 @@ const routes = [
         meta: {
           title: '网约车使用性质更正'
         },
-        component: require('../views/precontractType/alterClass/child/onlineCarAlter.vue')
+        component: require('../views/precontractType/car/alterClass/child/onlineCarAlter.vue')
       }
     ]
   },
@@ -957,7 +965,7 @@ const routes = [
     meta: {
       title: '补换领类'
     },
-    component: require('../views/precontractType/replacementType/renewingClass.vue'),
+    component: require('../views/precontractType/car/replacementType/renewingClass.vue'),
     redirect: '/replacementType/renewingCollarCredential',
     children: [
       {
@@ -966,7 +974,7 @@ const routes = [
         meta: {
           title: '换领机动车登记证书'
         },
-        component: require('../views/precontractType/replacementType/child/renewingCollarCredential.vue')
+        component: require('../views/precontractType/car/replacementType/child/renewingCollarCredential.vue')
       },
       {
         name: 'replacementNumber',
@@ -974,7 +982,7 @@ const routes = [
         meta: {
           title: '补换机动车号牌'
         },
-        component: require('../views/precontractType/replacementType/child/replacementNumber.vue')
+        component: require('../views/precontractType/car/replacementType/child/replacementNumber.vue')
       },
       {
         name: 'renewingDrivingLicense',
@@ -982,7 +990,7 @@ const routes = [
         meta: {
           title: '补换机动车行驶证'
         },
-        component: require('../views/precontractType/replacementType/child/renewingDrivingLicense.vue')
+        component: require('../views/precontractType/car/replacementType/child/renewingDrivingLicense.vue')
       },
       {
         name: 'renewingQualification',
@@ -990,7 +998,7 @@ const routes = [
         meta: {
           title: '补换检验合格标志'
         },
-        component: require('../views/precontractType/replacementType/child/renewingQualification.vue')
+        component: require('../views/precontractType/car/replacementType/child/renewingQualification.vue')
       },
       {
         name: 'renewingCertificate',
@@ -998,7 +1006,7 @@ const routes = [
         meta: {
           title: '申领/补领机动车登记证书'
         },
-        component: require('../views/precontractType/replacementType/child/renewingCertificate.vue')
+        component: require('../views/precontractType/car/replacementType/child/renewingCertificate.vue')
       }
     ]
   },
