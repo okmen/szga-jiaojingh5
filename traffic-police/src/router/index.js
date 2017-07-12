@@ -1010,8 +1010,6 @@ const routes = [
       }
     ]
   },
-  sceneManageClassRouter,   // 现场办理类
-  verifyIssueClassRouter,    // 核发类
   {
     name: 'carEmigration',
     path: '/carEmigration',
@@ -1027,7 +1025,9 @@ const routes = [
       title: '转出、注销恢复'
     },
     component: require('../views/precontractType/car/rollOutRecover')
-  }
+  },
+  sceneManageClassRouter,   // 现场办理类
+  verifyIssueClassRouter    // 核发类
 ]
 /* eslint-disable no-new */
 const router = new VueRouter({
