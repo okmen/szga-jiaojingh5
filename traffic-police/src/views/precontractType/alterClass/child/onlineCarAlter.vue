@@ -4,7 +4,8 @@
  -->
 <template>
     <div class="onlineAlter">
-      <common :orderPlaceData="appointPlaceData"></common>
+      <common :orderPlaceData="appointPlaceData"
+              @appointTaskClick="appointTask"></common>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
@@ -23,6 +24,11 @@ export default {
   },
   components: {
     common
+  },
+  methods: {
+    appointTask: function (params) {
+      console.log('网约车', params)
+    }
   }
 }
 </script>

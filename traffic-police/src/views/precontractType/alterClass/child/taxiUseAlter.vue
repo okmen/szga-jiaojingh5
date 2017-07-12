@@ -4,7 +4,8 @@
  -->
 <template>
     <div class="taxiUserAlter">
-      <common :orderPlaceData="appointPlaceData"></common>
+      <common :orderPlaceData="appointPlaceData"
+              @appointTaskClick="appointTask"></common>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
@@ -22,6 +23,11 @@ export default {
   },
   components: {
     common
+  },
+  methods: {
+    appointTask: function (params) {  // 从 common 组件获取 reqData
+      console.log(params)
+    }
   }
 }
 </script>

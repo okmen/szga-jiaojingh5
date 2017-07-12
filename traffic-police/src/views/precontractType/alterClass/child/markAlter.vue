@@ -4,7 +4,8 @@
  -->
 <template>
     <div class="markAlter">
-      <common :orderPlaceData="appointPlaceData"></common>
+      <common :orderPlaceData="appointPlaceData"
+              @appointTaskClick="appointTask"></common>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
@@ -22,6 +23,11 @@ export default {
   },
   components: {
     common
+  },
+  methods: {
+    appointTask: function (params) {
+      console.log('识别代号', params)
+    }
   }
 }
 </script>
