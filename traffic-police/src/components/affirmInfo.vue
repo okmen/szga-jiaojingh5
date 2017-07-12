@@ -38,6 +38,7 @@ export default {
         behindTheFrame4Digits: '车架号',
         name: '车主姓名', // 机动车所有人
         userName: '用户姓名',
+        gender: '性别',
         mobilephone: '手机号码',
         applyDate: '申请日期',
         remarks: '备注',
@@ -145,6 +146,10 @@ export default {
         bookerType: {
           '0': '本人'
         },
+        gender: {
+          '1': '男',
+          '2': '女'
+        },
         proprietorship: {
           '0': '个人',
           '1': '单位'
@@ -221,20 +226,17 @@ export default {
         border-radius: 6Px;
         line-height: 92px;
         .affirmInfo-text-item{
-          padding-left: 250px;
+          display: flex;
           position: relative;
           border-bottom: 1px solid #ccc;
           .affirmInfo-text-item-key{
-            position: absolute;
-            left: 0;
-            display: inline-block;
-            width: 250px;
+            min-width: 200px;
             color: #666;
             text-indent: 15px;
             height: 100%;
           }
           .affirmInfo-text-item-val{
-            display: inline-block;
+            text-indent: 54px;
           }
         }
         .affirmInfo-text-item:last-child{

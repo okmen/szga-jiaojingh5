@@ -20,7 +20,7 @@
             <span>证件号码</span>
           </div>
           <div class="form-line-item">
-            <input v-model="IDcard" class="text-input" type="tel" placeholder="请输入证件号码">
+            <input v-model="IDcard" maxlength="20" class="text-input" type="tel" placeholder="请输入证件号码">
           </div>
         </li>
         <li class="form-line">
@@ -91,9 +91,9 @@
   </div>
 </template>
 <script>
-  import { resultPost } from '../../../../../service/getData'
+  // import { resultPost } from '../../../../../service/getData'
   import { changeConnect } from '../../../../../config/baseUrl'
-  import { Toast, Indicator } from 'mint-ui'
+  import { Toast } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
     data () {
@@ -250,40 +250,31 @@
         } else if (!idImgThree) {
           Toast({message: '请上传驾驶证照片', position: 'bottom', className: 'white'})
         } else {
-          Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
           let reqData = {
-            name: this.name,
-            gender: this.sex,
-            identificationNO: this.cur_card_id,
-            IDcard: this.IDcard,
-            driverLicense: this.driverLicense,
-            mailingAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress,
-            mobilephone: this.mobilephone,
-            loginUser: window.localStorage.getItem('identityCard'),
-            userSource: 'C',
-            IDCardPhoto1: idImgOne.split(',')[1],
-            IDCardPhoto2: idImgTwo.split(',')[1],
-            driverLicensePhoto: idImgThree.split(',')[1]
+            type: '驾驶人联系方式变更',
+            url: changeConnect,
+            textObj: {
+              identificationNO: this.cur_card_id,
+              identificationNum: this.IDcard,
+              userName: this.name,
+              gender: this.sex,
+              driverLicense: this.driverLicense,
+              mobilephone: this.mobilephone,
+              receiverAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress
+            },
+            imgObj: {
+              PHOTO9: idImgOne,
+              PHOTO10: idImgTwo,
+              JSZZP: idImgThree
+            },
+            invisibleObj: {
+              loginUser: window.localStorage.getItem('identityCard'),
+              userSource: 'C'
+            }
           }
           console.log(reqData)
-          resultPost(changeConnect, reqData).then(json => {
-            console.log(json)
-            if (json.code === '0000') {
-              Indicator.close()
-              this.postAppoin({
-                appoinNum: json.msg.split('：')[1],
-                appoinType: '驾驶人联系方式变更'
-              })
-              this.$router.push('/appointSuccess_WeChat')
-            } else {
-              Indicator.close()
-              Toast({
-                message: json.msg,
-                position: 'bottom',
-                className: 'white'
-              })
-            }
-          })
+          this.$store.commit('saveMotorVehicleHandling', reqData)
+          this.$router.push('/affirmInfo')
         }
       },
       beforeDestory () {

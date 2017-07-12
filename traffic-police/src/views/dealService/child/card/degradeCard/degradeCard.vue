@@ -128,9 +128,10 @@
   </div>
 </template>
 <script>
-  import { resultPost } from '../../../../../service/getData'
+  // import { resultPost } from '../../../../../service/getData'
   import { degradeCard } from '../../../../../config/baseUrl'
-  import { Toast, Indicator } from 'mint-ui'
+  import { isPhotoNum } from '../../../../../service/regExp.js'
+  import { Toast } from 'mint-ui'
   import wx from 'weixin-js-sdk'
   import { mapActions } from 'vuex'
   export default {
@@ -260,7 +261,7 @@
         let idImgOne = this.$refs.getImgUrl.imgIDcard1
         let idImgTwo = this.$refs.getImgUrl.imgIDcard2
         let idImgThree = this.$refs.getImgUrl.imgLicense
-        if (!this.photoReturnNumberString) {
+        if (!isPhotoNum(this.photoReturnNumberString)) {
           Toast({message: '请输入照片回执号', position: 'bottom', className: 'white'})
         } else if (!this.address) {
           Toast({message: '请选择户籍所在地', position: 'bottom', className: 'white'})
@@ -273,43 +274,34 @@
         } else if (!idImgThree) {
           Toast({message: '请上传驾驶证照片', position: 'bottom', className: 'white'})
         } else {
-          Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
           let reqData = {
-            identificationNO: 'A',
-            loginUser: this.loginUser,
-            IDcard: this.IDcard,
-            driverLicense: this.driverLicense,
-            photoReturnNumberString: this.photoReturnNumberString,
-            name: this.name,
-            placeOfDomicile: this.address,
-            receiverName: this.receiverName,
-            receiverNumber: this.receiverNumber,
-            mailingAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress,
-            sourceOfCertification: 'C',
-            userSource: 'C',
-            IDCardPhoto1: idImgOne.split(',')[1],
-            IDCardPhoto2: idImgTwo.split(',')[1],
-            driverLicensePhoto: idImgThree.split(',')[1]
+            type: '驾驶证自愿降级',
+            url: degradeCard,
+            textObj: {
+              identificationNO: 'A',
+              identityCard: this.IDcard,
+              proposerIdentityCard: this.IDcard,
+              driverLicense: this.driverLicense,
+              userName: this.name,
+              placeOfDomicile: this.address,
+              photoReturnNumberString: this.photoReturnNumberString,
+              receiverName: this.receiverName,
+              receiverNumber: this.receiverNumber,
+              receiverAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress
+            },
+            imgObj: {
+              PHOTO9: idImgOne,
+              PHOTO10: idImgTwo,
+              JSZZP: idImgThree
+            },
+            invisibleObj: {
+              loginUser: this.loginUser,
+              userSource: 'C'
+            }
           }
           console.log(reqData)
-          resultPost(degradeCard, reqData).then(json => {
-            console.log(json)
-            if (json.code === '0000') {
-              Indicator.close()
-              this.postAppoin({
-                appoinNum: json.msg.split('：')[1],
-                appoinType: '驾驶证自愿降级'
-              })
-              this.$router.push('/appointSuccess_WeChat')
-            } else {
-              Indicator.close()
-              Toast({
-                message: json.msg,
-                position: 'bottom',
-                className: 'white'
-              })
-            }
-          })
+          this.$store.commit('saveMotorVehicleHandling', reqData)
+          this.$router.push('/affirmInfo')
         }
       },
       beforeDestory () {

@@ -30,7 +30,7 @@
             <span>身份证号</span>
           </div>
           <div class="form-line-item">
-            <input v-model="IDcard" class="text-input" type="text" name="" value="" placeholder="请输入身份证号">
+            <input v-model="IDcard" class="text-input" maxlength="18" type="text" name="" value="" placeholder="请输入身份证号">
           </div>
         </li>
         <li class="form-line">
@@ -38,7 +38,7 @@
             <span>手机号码</span>
           </div>
           <div class="form-line-item">
-            <input v-model="mobilephone" class="text-input" type="text" name="" value="" placeholder="请输入手机号码">
+            <input v-model="mobilephone" class="text-input" maxlength="11" type="text" name="" value="" placeholder="请输入手机号码">
           </div>
         </li>
         <li class="form-line">
@@ -46,7 +46,7 @@
             <span>照片回执码</span>
           </div>
           <div class="form-line-item width-60">
-            <input v-model="photoReturnNumberString" class="text-input" type="text" name="" value="" placeholder="请输入照片回执码">
+            <input v-model="photoReturnNumberString" maxlength="10" class="text-input" type="text" name="" value="" placeholder="请输入照片回执码">
           </div>
           <div class="form-line-item right width-35">
             <span class="btn browse-code" @click="scanQRCode()">扫一扫</span>
@@ -110,7 +110,7 @@
             <span></span>
           </div>
           <div class="form-line-item">
-            <input v-model="mailingAddress" class="text-input" type="text" name="" value="" maxlength="4" placeholder="请输入详细地址">
+            <input v-model="mailingAddress" class="text-input" type="text" name="" value="" placeholder="请输入详细地址">
           </div>
         </li>
       </ul>
@@ -128,6 +128,7 @@
 <script>
   // import { resultPost } from '../../../../../service/getData'
   import { cardRepair, cardReplace } from '../../../../../config/baseUrl'
+  import { isPhone, isPhotoNum } from '../../../../../service/regExp.js'
   import { Toast } from 'mint-ui'
   import { mapActions } from 'vuex'
   import wx from 'weixin-js-sdk'
@@ -323,14 +324,14 @@
           Toast({message: '请输入姓名', position: 'bottom', className: 'white'})
         } else if (!this.IDcard) {
           Toast({message: '请输入身份证号码', position: 'bottom', className: 'white'})
-        } else if (!this.mobilephone) {
-          Toast({message: '请输入手机号码', position: 'bottom', className: 'white'})
-        } else if (!this.photoReturnNumberString) {
-          Toast({message: '请输入照片回执码', position: 'bottom', className: 'white'})
+        } else if (!isPhone(this.mobilephone)) {
+          Toast({message: '请输入正确手机号码', position: 'bottom', className: 'white'})
+        } else if (!isPhotoNum(this.photoReturnNumberString)) {
+          Toast({message: '请输入正确照片回执码', position: 'bottom', className: 'white'})
         } else if (!this.receiverName) {
           Toast({message: '请输入收件人姓名', position: 'bottom', className: 'white'})
-        } else if (!this.receiverNumber) {
-          Toast({message: '请输入收件人号码', position: 'bottom', className: 'white'})
+        } else if (!isPhone(this.receiverNumber)) {
+          Toast({message: '请输入正确收件人号码', position: 'bottom', className: 'white'})
         } else if (!this.mailingAddress) {
           Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
         } else if (!idImgOne || !idImgTwo) {

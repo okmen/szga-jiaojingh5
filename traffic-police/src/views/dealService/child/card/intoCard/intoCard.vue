@@ -130,6 +130,7 @@
 <script>
   import { resultPost, resultGet } from '../../../../../service/getData'
   import { intoCard, getIssuing, getFileNumber } from '../../../../../config/baseUrl'
+  import { isPhotoNum } from '../../../../../service/regExp.js'
   import { Toast } from 'mint-ui'
   import wx from 'weixin-js-sdk'
   import { mapActions } from 'vuex'
@@ -290,8 +291,8 @@
         let idImgTwo = this.$refs.getImgUrl.imgIDcard2
         let idImgThree = this.$refs.getImgUrl.imgLicense
         let idImgFour = this.$refs.getImgUrl.imgBody
-        if (!this.photoReturnNumberString) {
-          Toast({message: '请输入照片回执号', position: 'bottom', className: 'white'})
+        if (!isPhotoNum(this.photoReturnNumberString)) {
+          Toast({message: '请输入正确照片回执号', position: 'bottom', className: 'white'})
         } else if (!this.mailingAddress) {
           Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
         } else if (!idImgOne || !idImgTwo) {

@@ -32,4 +32,15 @@ const plateNumberDetection = function (str) {
   var reg = /(^[\u4E00-\u9FA5]{1}[A-Z0-9]{6}$)|(^[A-Z]{2}[A-Z0-9]{2}[A-Z0-9\u4E00-\u9FA5]{1}[A-Z0-9]{4}$)|(^[\u4E00-\u9FA5]{1}[A-Z0-9]{5}[挂学警军港澳]{1}$)|(^[A-Z]{2}[0-9]{5}$)|(^(08|38){1}[A-Z0-9]{4}[A-Z0-9挂学警军港澳]{1}$)/
   return reg.test(str)
 }
-export {isPhone, isChinese, specialCharacters, plateNumberDetection}
+
+// 检测照片回执码
+const isPhotoNum = function (str) {
+  var reg = /^[a-zA-Z]{1}[0-9]{9}$/
+  if (reg.test(str)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export {isPhone, isChinese, specialCharacters, plateNumberDetection, isPhotoNum}
