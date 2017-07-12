@@ -58,7 +58,7 @@
               <span>车主姓名</span>
             </div>
             <div class="queryByCar-hbs-text">
-              <input v-model="name" class="text-input" type="text"  placeholder="请按驾驶证填写">
+              <input v-model="name" class="text-input" type="text"  placeholder="请按行驶证填写">
             </div>
           </li>
           <li class="queryByCar-hbs-item">
@@ -99,7 +99,7 @@
     name: 'applyEveryMonth',
     data () {
       return {
-        endTimeData: new Date(moment().add(1, 'months').format('YYYY-MM-DD')),
+        endTimeData: new Date(moment().add(1, 'months').endOf('month').format('YYYY-MM-DD')),
         startTimeData: new Date(moment().add(1, 'days').format('YYYY-MM-DD')),
         name: '', // 车主姓名
         mtDateTimeMsg: '',                                              // 一进来默认当前时间
@@ -401,7 +401,7 @@
       }
     },
     created () {
-      console.log(moment().add(1, 'months').format('YYYY-MM-DD'))
+      console.log(moment().add(1, 'months').endOf('month').format('YYYY-MM-DD'))
       document.addEventListener('click', (e) => {
         this.typeSelectShow = false
         this.licenseSelectShow = false

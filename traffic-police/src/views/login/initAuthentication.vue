@@ -37,8 +37,8 @@
 <script>
 import uploadFile from '../../service/uploadFile.js'
 import { resultPost } from '../../service/getData'
-import { sendSMS } from '../../config/baseUrl'
-import { Toast } from 'mint-ui'
+import { sendSMS, verificatioCode, reauthentication } from '../../config/baseUrl'
+import { Toast, MessageBox } from 'mint-ui'
 
 export default {
   name: 'login',
@@ -108,32 +108,37 @@ export default {
         })
         return false
       }
-      Toast({
-        message: '系统异常',
-        duration: 2000
-      })
       let reqData = {
         identityCard: this.identityCard,
         mobilephone: this.mobilephone,
         userName: this.userName,
-        sourceOfCertification: 'C',
-        validateCode: this.validateCode
+        authenticationType: '5',
+        photo6: this.imgOne2,
+        photo9: this.imgOne1
       }
       console.log(reqData)
-      // Indicator.open()
-      // resultPost(resetPwd, reqData).then(data => {
-      //   Indicator.close()
-      //   console.log(data)
-      //   if (data.code === '0000') {
-      //     that.$router.push('/login')
-      //   } else {
-      //     Toast({
-      //       message: data.msg,
-      //       position: 'bottom',
-      //       duration: 2000
-      //     })
-      //   }
-      // })
+      resultPost(verificatioCode, {mobilephone: this.mobilephone, validateCode: this.validateCode}).then(json => {
+        if (json.code === '0000') {
+          resultPost(reauthentication, reqData).then(data => {
+            console.log(data)
+            if (data.code === '0000') {
+              MessageBox.alert(data.msg).then(action => {
+                this.$router.push('/login')
+              })
+            } else {
+              MessageBox.alert(data.msg).then(action => {
+                this.$router.push('/findPassword')
+              })
+            }
+          })
+        } else {
+          Toast({
+            message: json.data,
+            position: 'bottom',
+            duration: 2000
+          })
+        }
+      })
     },
     sendValidateCode: function () {
       if (!this.mobilephone) {
