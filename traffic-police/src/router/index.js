@@ -3,7 +3,8 @@
  */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+import sceneManageClassRouter from '../views/precontractType/car/sceneManageClass/router'
+import verifyIssueClassRouter from '../views/precontractType/car/verifyIssueClass/router'
 Vue.use(VueRouter)
 const routes = [
   {
@@ -830,7 +831,7 @@ const routes = [
     meta: {
       title: '登记类'
     },
-    component: require('../views/precontractType/registerClass'),
+    component: require('../views/precontractType/car/registerClass'),
     redirect: '/registerClass/transferRegistration',
     children: [
       {
@@ -839,7 +840,7 @@ const routes = [
         meta: {
           title: '转移登记(市内过户)'
         },
-        component: require('../views/precontractType/registerClass/page/transferRegistration.vue')
+        component: require('../views/precontractType/car/registerClass/page/transferRegistration.vue')
       },
       {
         name: 'intoRegister',
@@ -847,7 +848,7 @@ const routes = [
         meta: {
           title: '机动车转移登记(转入)'
         },
-        component: require('../views/precontractType/registerClass/page/intoRegister.vue')
+        component: require('../views/precontractType/car/registerClass/page/intoRegister.vue')
       },
       {
         name: 'enteringRegister',
@@ -855,7 +856,7 @@ const routes = [
         meta: {
           title: '机动车注册登记'
         },
-        component: require('../views/precontractType/registerClass/page/enteringRegister.vue')
+        component: require('../views/precontractType/car/registerClass/page/enteringRegister.vue')
       },
       {
         name: 'cancellationRegister',
@@ -863,7 +864,7 @@ const routes = [
         meta: {
           title: '机动车注销登记'
         },
-        component: require('../views/precontractType/registerClass/page/cancellationRegister.vue')
+        component: require('../views/precontractType/car/registerClass/page/cancellationRegister.vue')
       },
       {
         name: 'changeRegister',
@@ -871,7 +872,7 @@ const routes = [
         meta: {
           title: '机动车变更登记'
         },
-        component: require('../views/precontractType/registerClass/page/changeRegister.vue')
+        component: require('../views/precontractType/car/registerClass/page/changeRegister.vue')
       },
       {
         name: 'fakeLicensedEvidence',
@@ -879,7 +880,7 @@ const routes = [
         meta: {
           title: '机动车变更登记(套牌车换证)'
         },
-        component: require('../views/precontractType/registerClass/page/fakeLicensedEvidence.vue')
+        component: require('../views/precontractType/car/registerClass/page/fakeLicensedEvidence.vue')
       },
       {
         name: 'manWifeChange',
@@ -887,7 +888,7 @@ const routes = [
         meta: {
           title: '机动车变更登记(夫妻变更)'
         },
-        component: require('../views/precontractType/registerClass/page/manWifeChange.vue')
+        component: require('../views/precontractType/car/registerClass/page/manWifeChange.vue')
       },
       {
         name: 'replaceLicense',
@@ -895,7 +896,7 @@ const routes = [
         meta: {
           title: '补换领机动车行驶证'
         },
-        component: require('../views/precontractType/registerClass/page/replaceLicense.vue')
+        component: require('../views/precontractType/car/registerClass/page/replaceLicense.vue')
       }
     ]
   },
@@ -1000,6 +1001,24 @@ const routes = [
         component: require('../views/precontractType/replacementType/child/renewingCertificate.vue')
       }
     ]
+  },
+  sceneManageClassRouter,   // 现场办理类
+  verifyIssueClassRouter,    // 核发类
+  {
+    name: 'carEmigration',
+    path: '/carEmigration',
+    meta: {
+      title: '机动车迁出'
+    },
+    component: require('../views/precontractType/car/carEmigration')
+  },
+  {
+    name: 'rollOutRecover',
+    path: '/rollOutRecover',
+    meta: {
+      title: '转出、注销恢复'
+    },
+    component: require('../views/precontractType/car/rollOutRecover')
   }
 ]
 /* eslint-disable no-new */
