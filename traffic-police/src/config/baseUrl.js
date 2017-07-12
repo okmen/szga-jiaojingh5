@@ -1,6 +1,6 @@
 // 添加URL需注释 哪个模块哪个接口
-const commonUrl = 'http://192.168.1.120:8100/' // 120环境
-// const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
+// const commonUrl = 'http://192.168.1.120:8100/' // 120环境
+const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
 // const commonUrl = 'https://szjjapi.stc.gov.cn/' // 正式环境d
 // const commonUrl = 'http://szjj.u-road.com/api/' // 正式环境d
 
@@ -162,7 +162,9 @@ export const replaceMotorVehicleLicensePlate = `${commonUrl}handleservice/replac
 
 export const iocomotiveCarReplace = `${commonUrl}handleservice/iocomotiveCarReplace.html`  // 换领行驶证
 
-export const verificatioCode = `${commonUrl}user/verificatioCode.html.html` // 验证码校验接口
+export const verificatioCode = `${commonUrl}user/verificatioCode.html` // 验证码校验接口
+
+export const reauthentication = `${commonUrl}user/reauthentication.html` // 重新认证接口
 
 export const createVehicleInspection = `${commonUrl}handleservice/createVehicleInspection.html` // 六年免检
 
@@ -175,3 +177,6 @@ export const getCarTypeId = `${commonUrl}handleservice/getCarTypeId.html` // 获
 export const applyGatePass = `${commonUrl}handleservice/applyGatePass.html` // 申请通行证
 
 export const applyCarTemporaryLicence = `${commonUrl}handleservice/applyCarTemporaryLicence.html` // 申请机动车临牌
+
+export const getResultOfFirstIllegalImpunity = `${commonUrl}handleservice/getResultOfFirstIllegalImpunity.html` // 首违免罚
+

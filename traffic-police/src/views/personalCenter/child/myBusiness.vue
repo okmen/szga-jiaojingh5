@@ -22,14 +22,18 @@
         </div>
       </div>
     </div>
-    <div v-for="business in businessList" class="business-box" :class="{ 'cancel': business.statusStr == '退办',
-                                                                         'first-review': business.statusStr == '待初审',
-                                                                         'success': business.statusStr == '已制证'||business.statusStr == '审核通过'}">
+    <div v-for="business in businessList" class="business-box" 
+         :class="{ 'cancel': business.statusStr == '退办',
+                   'first-review': business.statusStr == '待初审',
+                   'success': business.statusStr == '已制证'||business.statusStr == '审核通过'}">
       <div class="box-header">
         {{ business.businessTitle }}
-        <span class="service-status" :class="{ 'cancel': business.statusStr == '退办',
-                                               'first': business.statusStr == '待初审',
-                                               'success': business.statusStr == '已制证'||business.statusStr == '审核通过'}">{{ business.statusStr }}</span>
+        <span class="service-status" 
+              :class="{ 'cancel': business.statusStr == '退办',
+                        'first': business.statusStr == '待初审',
+                        'success': business.statusStr == '已制证'||business.statusStr == '审核通过'}">
+          {{ business.statusStr }}
+        </span>
       </div>
       <div class="box-line" v-if="business.userName">
         姓名: {{ business.userName }}

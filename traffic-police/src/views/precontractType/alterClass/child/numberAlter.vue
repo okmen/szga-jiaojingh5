@@ -4,7 +4,7 @@
  -->
 <template>
     <div class="numberAlter">
-      <common></common>
+      <common :orderPlaceData="appointPlaceData"></common>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
@@ -15,6 +15,9 @@ export default {
   name: 'numberAlter',
   data () {
     return {
+      appointPlaceData: [   // 预约地点
+        { 'str': '深圳市车管分所' }
+      ]
     }
   },
   components: {
@@ -25,3 +28,4 @@ export default {
 <style lang="less">
 
 </style>
+

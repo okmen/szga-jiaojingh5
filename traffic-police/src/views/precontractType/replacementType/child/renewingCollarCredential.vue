@@ -67,14 +67,6 @@
             <input class="text-input" type="text" name="" value="" placeholder="请输入车牌号码" v-model="numberPlate">
           </div>
         </li>
-<!--         <li class="form-line">
-          <div class="form-line-item item-name">
-            <span>车辆类型</span>
-          </div>
-          <div class="form-line-item">
-            <input class="text-input" type="text" value="" readonly/>
-          </div>
-        </li> -->
         <li class="form-line">
           <div class="form-line-item item-name">
             <span>车辆类型</span>
@@ -126,10 +118,10 @@
           <span>选择预约日期</span>
         </li>
         <li class="form-li clear">
-          <input class="text-input width-27 left" type="" name="" value="" v-model="year" readonly/>
+          <input class="text-input width-27 btn-cen left" type="" name="" value="" v-model="year" readonly/>
           <span class="left rene">年</span>
           <div class="div-select width-27 left">
-            <span class="btn-select" @click.stop="monthClick()">{{month}}</span>
+            <span class="btn-select btn-cen" @click.stop="monthClick()">{{month}}</span>
             <div class="div-select-ul" v-if="monthShow">
               <ul>
                 <li v-for="item in months" @click.stop="monthClick(item.str)">{{item.str}}</li>
@@ -138,7 +130,7 @@
           </div>
           <span class="left rene">月</span>
           <div class="div-select width-27 left">
-            <span class="btn-select" @click.stop="dateClick()">{{date}}</span>
+            <span class="btn-select btn-cen" @click.stop="dateClick()">{{date}}</span>
             <div class="div-select-ul" v-if="datesShow">
               <ul>
                 <li v-for="item in dates" @click.stop="dateClick(item.str)">{{item.str}}</li>
@@ -642,14 +634,14 @@ export default {
       }
     },
     scanQRCode: function () {
-      let mobile = this.mobile
-      if (!(mobile)) {
+      let mobilephone = this.mobilephone
+      if (!(mobilephone)) {
         Toast({message: '请输入手机号', position: 'bottom', className: 'white'})
-      } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobile))) {
+      } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobilephone))) {
         Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
       } else {
         let phonedata = {
-          mobilephone: this.mobile,
+          mobilephone: mobilephone,
           businessType: 'szjj'
         }
         resultPost(sendSMS, phonedata).then(json => {
@@ -679,9 +671,26 @@ export default {
       }, 1000)
     },
     submitClick: function () {
+      if (!this.name) {
+        Toast({message: '请输入车主姓名', position: 'bottom', className: 'white'})
+      } else if (!this.identificationNum) {
+        Toast({message: '请输入证件号码', position: 'bottom', className: 'white'})
+      } else if (!this.mobilephone) {
+        Toast({message: '请输入手机号码', position: 'bottom', className: 'white'})
+      } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobilephone))) {
+        Toast({message: '请输入正确手机号码', position: 'bottom', className: 'white'})
+      } else if (!this.numberPlate) {
+        Toast({message: '请输入车牌号码', position: 'bottom', className: 'white'})
+      } else if (!this.behindTheFrame4Digits) {
+        Toast({message: '请输入车架号', position: 'bottom', className: 'white'})
+      } else if (!this.identifying) {
+        Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
+      } else if (this.identifying !== 6) {
+        Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
+      }
       let renewingData = {
         'name': this.name,   // 车主姓名
-        'identificationNO': this.cur_card_id,   // 证件名称
+        'identificationNO': this.cur_card_id,   // 证件号码
         'identificationNum': this.identificationNum, // 证件号码
         'mobilephone': this.mobilephone,             // 手机号码
         'abbreviationSelectMassage': `${this.abbreviationSelectMassage}${this.numberPlate}`,   // 车牌号码
@@ -706,134 +715,5 @@ export default {
 </script>
 <style lang="less" scoped>
 /*@import "./../../../../style/base";*/
-#renewingCollar {
-background-color: #fff;
-position: absolute;
-left: 0;
-right: 0;
-padding: 20px 40px;
-  .renewingCollar-form {
-    background-color: #fff;
-    padding-top:20px;
-    .form-line {
-      padding: 20px 0 0 180px;
-      position: relative;
-      line-height: 56px;
-      .form-line-item {
-        width: 100%;
-        display: inline-block;
-        height: 60px;
-        line-height:60px;
-        .photo-ex {
-          color: #2696dd;
-        }
-        span {
-          vertical-align: middle;
-        }
-        .browse-code {
-          margin: 0;
-          display: inline-block;
-          height: 56px;
-          width: 100%;
-          line-height: 56px;
-          border-radius: 10px;
-          text-align: center;
-          color:#fff;
-          vertical-align:middle;
-        }
-        &.city {
-          margin: 0 18px;
-        }
-        &.sex {
-          text-align: center;
-        }
-      }
-      .item-name {
-        width: 180px;
-        position: absolute;
-        left: 0;
-      }
-      .div-select {
-        font-size: 24px;
-      }
-    }
-    .form-li{
-      width: 100%;
-      display: inline-block;
-      height: 60px;
-      line-height:60px;
-      span{
-        font-size: 26px;
-      }
-    }
-    .form-annotation{
-      color: red;
-      font-size: 26px;
-    }
-  }
-  .width-27 {
-    width: 27% !important;
-  }
-  .width-40 {
-    width: 40% !important;
-  }
-  .width-35 {
-    width: 35% !important;
-  }
-  .width-50 {
-    width: 50% !important;
-  }
-  .width-60 {
-    width: 60% !important;
-  }
-  .btn {
-    width: 280px;
-    margin-top:30px;
-    display: inline-block;
-  }
-  .btns{
-    margin: 60px 0 30px 0;
-    width: 100%;
-  }
-  .div-select-ul{
-    font-size: 26px;
-  }
-  .rene{
-    display: inline-block;
-    width: 6%;
-    text-align: center;
-  }
-  .renewingUl{
-    margin-top: 30px;
-    display: block;
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    height: 300px;
-    overflow-y:auto;
-    .renewingLi{
-      display: flex;
-      line-height: 60px;
-      text-align: center;
-      border-bottom: 1px solid #ccc;
-      margin: 0;
-      p{
-        flex: 1
-      }
-      .renspan{
-        color: #18d151;
-        padding: 0 10px;
-      }
-    }
-    .rene-p{
-      background: #eae9ee;
-    }
-  }
-  .btns{
-    background: #0faeff;
-  }
-  .alter-outer .div-select .btn-select{
-    background: #ccc;
-  }
-}
+@import "./../../../../style/replacementType";
 </style>
