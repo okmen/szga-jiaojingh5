@@ -1,6 +1,6 @@
 <!--  *换领机动车登记证书 -->
 <template>
-  <div id="renewingCollar">
+  <div class="renewingCollar">
     <div class="renewingCollar-form">
       <ul>
         <li class="form-line">
@@ -706,7 +706,10 @@ export default {
   created () {
     document.addEventListener('click', (e) => {
       this.varietyShow = false
-      this.abbreviationSelectShow = false
+      this.vehicleShow = false
+      this.employShow = false
+      this.monthShow = false
+      this.subscribeShow = false
       this.abbreviationSelectShow = false
       this.datesShow = false
     })
