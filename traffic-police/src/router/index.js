@@ -1027,7 +1027,104 @@ const routes = [
     component: require('../views/precontractType/car/rollOutRecover')
   },
   sceneManageClassRouter,   // 现场办理类
-  verifyIssueClassRouter    // 核发类
+  verifyIssueClassRouter,    // 核发类
+  {
+    name: 'applyClass',
+    path: '/applyClass',
+    meta: {
+      title: '申领类'
+    },
+    component: require('../views/precontractType/card/applyClass/applyClass.vue'),
+    redirect: '/applyClass/armyLicence',
+    children: [
+      {
+        name: 'armyLicence',
+        path: '/applyClass/armyLicence',
+        meta: {
+          title: '持军队、武警警察部队机动车驾驶证驾驶'
+        },
+        component: require('../views/precontractType/card/applyClass/child/armyLicence.vue')
+      },
+      {
+        name: 'temporaryLicence',
+        path: '/applyClass/temporaryLicence',
+        meta: {
+          title: '临时机动车驾驶证许可证申领'
+        },
+        component: require('../views/precontractType/card/applyClass/child/temporaryLicence.vue')
+      }
+    ]
+  },
+  {
+    name: 'renewalClass',
+    path: '/renewalClass',
+    meta: {
+      title: '换证类'
+    },
+    component: require('../views/precontractType/card/renewalClass/renewalClass.vue'),
+    redirect: '/renewalClass/overseasLicence',
+    children: [
+      {
+        name: 'overseasLicence',
+        path: '/renewalClass/overseasLicence',
+        meta: {
+          title: '持境外驾驶证申请换证'
+        },
+        component: require('../views/precontractType/card/renewalClass/child/overseasLicence.vue')
+      },
+      {
+        name: 'HkLicence',
+        path: '/renewalClass/HkLicence',
+        meta: {
+          title: '香港机动车驾驶证面试换证'
+        },
+        component: require('../views/precontractType/card/renewalClass/child/HkLicence.vue')
+      }
+    ]
+  },
+  {
+    name: 'recoverDrive',
+    path: '/recoverDrive',
+    mata: {
+      name: '恢复驾驶资格'
+    },
+    component: require('../views/precontractType/card/recoverDrive/recoverDrive.vue'),
+    redirect: '/recoverDrive/noPhysicalCheck',
+    children: [
+      {
+        name: 'noPhysicalCheck',
+        path: '/recoverDrive/noPhysicalCheck',
+        mata: {
+          name: '逾期一年以上未体检类'
+        },
+        component: require('../views/precontractType/card/recoverDrive/child/noPhysicalCheck.vue')
+      },
+      {
+        name: 'noChangeLicence',
+        path: '/recoverDrive/noChangeLicence',
+        mata: {
+          name: '逾期一年以上未体检类'
+        },
+        component: require('../views/precontractType/card/recoverDrive/child/noChangeLicence.vue')
+      }
+    ]
+  },
+  {
+    name: 'fullmarkStudy',
+    path: '/fullmarkStudy',
+    meta: {
+      name: '满分学习'
+    },
+    component: require('../views/precontractType/card/fullmarkStudy.vue')
+  },
+  {
+    name: 'otherBusiness',
+    path: '/otherBusiness',
+    meta: {
+      name: '其它业务'
+    },
+    component: require('../views/precontractType/card/otherBusiness.vue')
+  }
 ]
 /* eslint-disable no-new */
 const router = new VueRouter({

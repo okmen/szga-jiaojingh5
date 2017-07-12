@@ -1,4 +1,4 @@
-<!--  *换领机动车登记证书 -->
+<!-- 持军队、武警警察部队机动车驾驶证驾驶 -->
 <template>
   <div class="renewingCollar">
     <div class="renewingCollar-form">
@@ -50,56 +50,6 @@
             <div class="form-line-item right width-35">
               <button class="btn browse-code" v-bind:class="{ 'show' : isShow}" :disabled="forbidden" @click="scanQRCode()">{{chronoScope}}</button>
             </div>
-        </li>
-        <li class="form-line clear">
-          <div class="form-line-item item-name">
-            <span>车牌号码</span>
-          </div>
-          <div class="div-select width-25 left">
-            <span class="btn-select min-btn-select" @click.stop="abbreviationSelectClick()">{{ abbreviationSelectMassage }}</span>
-            <div class="div-select-ul" v-if="abbreviationSelectShow">
-              <ul>
-                <li v-for="item in abbreviationSelectData" @click.stop="abbreviationSelectClick(item.str)">{{item.str}}</li>
-              </ul>
-            </div>
-          </div>
-          <div class="form-line-item width-70 right">
-            <input class="text-input" type="text" name="" value="" placeholder="请输入车牌号码" v-model="numberPlate">
-          </div>
-        </li>
-        <li class="form-line">
-          <div class="form-line-item item-name">
-            <span>车辆类型</span>
-          </div>
-          <div class="div-select">
-            <span class="btn-select" @click.stop="vehicleType()">{{ vehicle }}</span>
-            <div class="div-select-ul" v-if="vehicleShow">
-              <ul>
-                <li v-for="item in vehicleData" @click.stop="vehicleType(item.str, item.id)">{{item.str}}</li>
-              </ul>
-            </div>
-          </div>
-        </li>
-        <li class="form-line">
-          <div class="form-line-item item-name">
-            <span>使用性质</span>
-          </div>
-          <div class="div-select">
-            <span class="btn-select" @click.stop="employClick()">{{ employ }}</span>
-            <div class="div-select-ul" v-if="employShow">
-              <ul>
-                <li v-for="item in employData" @click.stop="employClick(item.str, item.id)">{{item.str}}</li>
-              </ul>
-            </div>
-          </div>
-        </li>
-        <li class="form-line">
-          <div class="form-line-item item-name">
-            <span>车架号</span>
-          </div>
-          <div class="form-line-item">
-            <input class="text-input" type="text" value="" maxlength="4" placeholder="请输入车架号" v-model="behindTheFrame4Digits"/>
-          </div>
         </li>
         <li class="form-line">
           <div class="form-line-item item-name">
@@ -167,9 +117,7 @@ export default {
       identifying: '',                        // 验证码
       variety: '居民户口簿',
       identificationNum: '',            // 证件号码
-      numberPlate: '',  // 车牌号码
       mobilephone: '',   // 手机号码
-      behindTheFrame4Digits: '',  // 车架号
       cur_card_id: '01',
       varietyShow: false,
       varietyData: [
@@ -224,155 +172,6 @@ export default {
         {
           'id': '13',
           'str': '组织机构代码证书'
-        }
-      ],
-      abbreviationSelectShow: false,        // 省字列表显示与否
-      abbreviationSelectMassage: '粤',      // 默认省字
-      abbreviationSelectData: [
-        {
-          'str': '粤'
-        },
-        {
-          'str': '鄂'
-        },
-        {
-          'str': '豫'
-        },
-        {
-          'str': '皖'
-        },
-        {
-          'str': '赣'
-        },
-        {
-          'str': '冀'
-        },
-        {
-          'str': '鲁'
-        },
-        {
-          'str': '浙'
-        },
-        {
-          'str': '苏'
-        },
-        {
-          'str': '湘'
-        },
-        {
-          'str': '闽'
-        },
-        {
-          'str': '蒙'
-        },
-        {
-          'str': '京'
-        },
-        {
-          'str': '辽'
-        },
-        {
-          'str': '渝'
-        },
-        {
-          'str': '沪'
-        },
-        {
-          'str': '陕'
-        },
-        {
-          'str': '川'
-        },
-        {
-          'str': '黑'
-        },
-        {
-          'str': '晋'
-        },
-        {
-          'str': '桂'
-        },
-        {
-          'str': '吉'
-        },
-        {
-          'str': '宁'
-        },
-        {
-          'str': '贵'
-        },
-        {
-          'str': '琼'
-        },
-        {
-          'str': '甘'
-        },
-        {
-          'str': '青'
-        },
-        {
-          'str': '津'
-        },
-        {
-          'str': '云'
-        },
-        {
-          'str': '藏'
-        },
-        {
-          'str': '新'
-        }
-      ],
-      carSelectData: {
-        '01': '大型汽车',
-        '02': '小型汽车',
-        '03': '使馆汽车',
-        '04': '领馆汽车',
-        '05': '境外汽车',
-        '06': '外籍汽车',
-        '07': '普通摩托车',
-        '08': '轻便摩托车',
-        '09': '使馆摩托车',
-        '10': '领馆摩托车',
-        '15': '挂车',
-        '16': '教练汽车',
-        '17': '教练摩托车',
-        '18': '实验汽车',
-        '19': '实验摩托车',
-        '22': '临时行驶车',
-        '23': '警用汽车',
-        '24': '警用摩托',
-        '20': '临时入境车',
-        '51': '临时行驶车',
-        '52': '新能源小型车'
-      },
-      employ: '非运营',
-      employShow: false,
-      employID: '01',
-      employData: [
-        {
-          'id': '01',
-          'str': '非运营'
-        },
-        {
-          'id': '02',
-          'str': '公路客运'
-        },
-        {
-          'id': '03',
-          'str': '公交客运'
-        },
-        {
-          'id': '04',
-          'str': '旅游客运'
-        },
-        {
-          'id': '05',
-          'str': '货运'
-        },
-        {
-          'id': '06',
-          'str': '租赁'
         }
       ],
       subscribe: '福田车管分所',
@@ -464,95 +263,6 @@ export default {
         {'time': '15:00 - 16:00', 'number': '0'},
         {'time': '14:00 - 15:00', 'number': '20'},
         {'time': '15:00 - 16:00', 'number': '0'}
-      ],
-      vehicleShow: false,
-      vehicle: '大型汽车',
-      vehicleId: '01',
-      vehicleData: [
-        {
-          'id': '01',
-          'str': '大型汽车'
-        },
-        {
-          'id': '02',
-          'str': '小型汽车'
-        },
-        {
-          'id': '03',
-          'str': '使馆汽车'
-        },
-        {
-          'id': '04',
-          'str': '领馆汽车'
-        },
-        {
-          'id': '05',
-          'str': '境外汽车'
-        },
-        {
-          'id': '06',
-          'str': '外籍汽车'
-        },
-        {
-          'id': '07',
-          'str': '普通摩托车'
-        },
-        {
-          'id': '08',
-          'str': '轻便摩托车'
-        },
-        {
-          'id': '09',
-          'str': '使馆摩托车'
-        },
-        {
-          'id': '10',
-          'str': '领馆摩托车'
-        },
-        {
-          'id': '15',
-          'str': '挂车'
-        },
-        {
-          'id': '16',
-          'str': '教练汽车'
-        },
-        {
-          'id': '17',
-          'str': '教练摩托车'
-        },
-        {
-          'id': '18',
-          'str': '实验汽车'
-        },
-        {
-          'id': '19',
-          'str': '实验摩托车'
-        },
-        {
-          'id': '22',
-          'str': '临时行驶车'
-        },
-        {
-          'id': '23',
-          'str': '警用汽车'
-        },
-        {
-          'id': '24',
-          'str': '警用摩托'
-        },
-        {
-          'id': '20',
-          'str': '临时入境车'
-        },
-        {
-          'id': '51',
-          'str': '新能源大型车'
-        },
-        {
-          'id': '52',
-          'str': '新能源小型车'
-        }
       ]
     }
   },
@@ -568,27 +278,6 @@ export default {
         this.varietyShow = true
       }
     },
-    abbreviationSelectClick: function (str) {
-      if (str) {
-        this.abbreviationSelectMassage = str
-      }
-      if (this.abbreviationSelectShow === true) {
-        this.abbreviationSelectShow = false
-      } else {
-        this.abbreviationSelectShow = true
-      }
-    },
-    // 使用性质
-    employClick: function (str) {
-      if (str) {
-        this.employ = str
-      }
-      if (this.employShow === true) {
-        this.employShow = false
-      } else {
-        this.employShow = true
-      }
-    },
     // 预约地点
     subscribeClick: function (str) {
       if (str) {
@@ -598,17 +287,6 @@ export default {
         this.subscribeShow = false
       } else {
         this.subscribeShow = true
-      }
-    },
-    vehicleType: function (str, id) {
-      if (str) {
-        this.vehicle = str
-        this.vehicleId = id
-      }
-      if (this.vehicleShow === true) {
-        this.vehicleShow = false
-      } else {
-        this.vehicleShow = true
       }
     },
     monthClick: function (str) {
@@ -679,10 +357,6 @@ export default {
         Toast({message: '请输入手机号码', position: 'bottom', className: 'white'})
       } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobilephone))) {
         Toast({message: '请输入正确手机号码', position: 'bottom', className: 'white'})
-      } else if (!this.numberPlate) {
-        Toast({message: '请输入车牌号码', position: 'bottom', className: 'white'})
-      } else if (!this.behindTheFrame4Digits) {
-        Toast({message: '请输入车架号', position: 'bottom', className: 'white'})
       } else if (!this.identifying) {
         Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
       } else if (this.identifying !== 6) {
@@ -693,10 +367,6 @@ export default {
         'identificationNO': this.cur_card_id,   // 证件号码
         'identificationNum': this.identificationNum, // 证件号码
         'mobilephone': this.mobilephone,             // 手机号码
-        'abbreviationSelectMassage': `${this.abbreviationSelectMassage}${this.numberPlate}`,   // 车牌号码
-        'cartype': this.vehicleId,             // 车辆类型
-        'employ': this.employID,               // 使用性质
-        'behindTheFrame4Digits': this.behindTheFrame4Digits,  // 车架号
         'subscribeId': this.subscribeId   // 预约地点
 
       }
@@ -706,12 +376,9 @@ export default {
   created () {
     document.addEventListener('click', (e) => {
       this.varietyShow = false
-      this.vehicleShow = false
-      this.employShow = false
       this.monthShow = false
-      this.subscribeShow = false
-      this.abbreviationSelectShow = false
       this.datesShow = false
+      this.subscribeShow = false
     })
   }
 }

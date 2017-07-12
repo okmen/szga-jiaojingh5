@@ -262,7 +262,7 @@
         let idImgTwo = this.$refs.getImgUrl.imgIDcard2
         let idImgThree = this.$refs.getImgUrl.imgLicense
         if (!isPhotoNum(this.photoReturnNumberString)) {
-          Toast({message: '请输入照片回执号', position: 'bottom', className: 'white'})
+          Toast({message: '请输入正确照片回执号', position: 'bottom', className: 'white'})
         } else if (!this.address) {
           Toast({message: '请选择户籍所在地', position: 'bottom', className: 'white'})
         } else if (!this.receiverName) {
