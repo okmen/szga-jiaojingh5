@@ -54,7 +54,7 @@
           </li>
           <li class="form-line">
             <div class="form-line-item item-name">
-              <span>车主名字</span>
+              <span>车主姓名</span>
             </div>
             <div class="form-line-item">
               <input class="text-input stylebackground"  v-model="name" type="text" value="" />
@@ -75,7 +75,7 @@
           </li>
           <li class="form-line">
             <div class="form-line-item item-name">
-              <span>收件人名字</span>
+              <span>收件人姓名</span>
             </div>
             <div class="form-line-item">
               <input class="text-input" v-model="addresseeName" type="text" value="" readonly/>
@@ -379,7 +379,7 @@ export default {
       if (!this.identityCard) {
         Toast({message: '请输入身份证', position: 'bottom', className: 'white'})
       } else if (!this.name) {
-        Toast({message: '请输入车主名', position: 'bottom', className: 'white'})
+        Toast({message: '请输入车姓名', position: 'bottom', className: 'white'})
       } else if (!this.postalcode) {
         Toast({message: '请输入邮政编码', position: 'bottom', className: 'white'})
       } else if (!this.mailingAddress) {

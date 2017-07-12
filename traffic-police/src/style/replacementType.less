@@ -105,18 +105,28 @@ padding: 20px 40px;
     overflow-y:auto;
     .renewingLi{
       display: flex;
-      line-height: 60px;
-      text-align: center;
+      line-height: 80px;
+      /*text-align: center;*/
       border-bottom: 1px solid #ccc;
       margin: 0;
       p{
         flex: 1
+      }
+      p:nth-of-type(1){
+        text-indent: 40px;
+      }
+      p:nth-of-type(2){
+        text-align: right;
+        padding-right: 40px;
       }
       .renspan{
         color: #18d151;
         padding: 0 10px;
       }
     }
+    .renewingLi:last-of-type{
+        border-bottom: none;
+      }
     .rene-p{
       background: #eae9ee;
     }

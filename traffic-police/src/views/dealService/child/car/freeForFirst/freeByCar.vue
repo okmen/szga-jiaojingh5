@@ -13,7 +13,7 @@
           </li>
           <li class="freeByCar-hbs-item">
             <div class="freeByCar-hbs-name">
-              <span>汽车种类</span>
+              <span>汽车类型</span>
             </div>
             <div class="div-select">
               <span class="btn-select" @click.stop="licenseSelectClick()">{{ licenseSelectMassage }}</span>
