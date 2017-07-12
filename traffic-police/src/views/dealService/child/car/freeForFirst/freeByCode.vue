@@ -93,12 +93,12 @@
           numberPlate: '',   // 车牌号码
           plateType: ''      // 车牌种类
         }
-        console.log(freeByCarData)
         resultPost(getResultOfFirstIllegalImpunity, freeByCarData).then(json => {
-          console.log(json)
           if (json.code === '0000') {
             this.freeData = json.data[0]
             this.freeUlShow = true
+          } else {
+            Toast({message: json.msg, position: 'bottom', className: 'white'})
           }
         })
       }

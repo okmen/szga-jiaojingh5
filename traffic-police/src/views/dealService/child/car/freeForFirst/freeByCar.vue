@@ -144,10 +144,11 @@
           plateType: this.cur_type_id      // 车牌种类
         }
         resultPost(getResultOfFirstIllegalImpunity, freeByCarData).then(json => {
-          console.log(json)
           if (json.code === '0000') {
             this.freeData = json.data[0]
             this.freeUlShow = true
+          } else {
+            Toast({message: json.msg, position: 'bottom', className: 'white'})
           }
         })
       }
