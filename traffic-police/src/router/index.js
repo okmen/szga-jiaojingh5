@@ -905,7 +905,7 @@ const routes = [
     meta: {
       title: '变更类'
     },
-    component: require('../views/precontractType/alterClass/alterClass.vue'),
+    component: require('../views/precontractType/car/alterClass/alterClass.vue'),
     redirect: '/alterClass/taxiUseAlter',
     children: [
       {
@@ -914,7 +914,7 @@ const routes = [
         meta: {
           title: '出租客运车辆使用性质变更'
         },
-        component: require('../views/precontractType/alterClass/child/taxiUseAlter.vue')
+        component: require('../views/precontractType/car/alterClass/child/taxiUseAlter.vue')
       },
       {
         name: 'numberAlter',
@@ -922,7 +922,7 @@ const routes = [
         meta: {
           title: '机动车打刻原车发动机号码变更备案'
         },
-        component: require('../views/precontractType/alterClass/child/numberAlter.vue')
+        component: require('../views/precontractType/car/alterClass/child/numberAlter.vue')
       },
       {
         name: 'markAlter',
@@ -930,7 +930,7 @@ const routes = [
         meta: {
           title: '机动车打刻原车辆识别代号变更备案'
         },
-        component: require('../views/precontractType/alterClass/child/markAlter.vue')
+        component: require('../views/precontractType/car/alterClass/child/markAlter.vue')
       },
       {
         name: 'fileAlter',
@@ -938,7 +938,7 @@ const routes = [
         meta: {
           title: '档案更正'
         },
-        component: require('../views/precontractType/alterClass/child/fileAlter.vue')
+        component: require('../views/precontractType/car/alterClass/child/fileAlter.vue')
       },
       {
         name: 'onlineCarAlter',
@@ -946,7 +946,7 @@ const routes = [
         meta: {
           title: '网约车使用性质更正'
         },
-        component: require('../views/precontractType/alterClass/child/onlineCarAlter.vue')
+        component: require('../views/precontractType/car/alterClass/child/onlineCarAlter.vue')
       }
     ]
   },
