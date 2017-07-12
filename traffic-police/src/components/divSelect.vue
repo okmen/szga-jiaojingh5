@@ -65,12 +65,12 @@
   export default {
     data () {
       return {
-        showUl: false,
-        currentId: '',
-        currentVal: ''
+        showUl: false,   // 显示下拉框的参数
+        currentId: '',   // 返回父组件的值
+        currentVal: ''   // 界面显示的值
       }
     },
-    props: ['childInfo', 'defaultVal'],
+    props: ['childInfo', 'defaultVal'],  // childInfo: 父组件传进来的值， defaultVal：默认值
     computed: {
       thisInfo () {
         return this.childInfo
@@ -82,9 +82,9 @@
       }
     },
     methods: {
-      selectedValue (item) {
-        this.currentVal = item.str
-        if (item.id) {
+      selectedValue (item) {     // 点击下拉框的某一项
+        this.currentVal = item.str  // 选中的值
+        if (item.id) {                // 如果父组件传进来的参数没有id 则返回父组件的的字符串
           this.currentId = item.id
           this.$emit('getSelected', this.currentId)
         } else {
@@ -107,7 +107,7 @@
     mounted () {
       this.currentVal = this.defaultVal
       document.addEventListener('click', this.disappearSelectUl)
-      if (!this.defaultVal) {
+      if (!this.defaultVal) {       // 如果父组件没有传入默认显示值，则传入的对象中的第一项作为默认选项
         this.selectedValue(this.childInfo.option[0])
       }
     },
