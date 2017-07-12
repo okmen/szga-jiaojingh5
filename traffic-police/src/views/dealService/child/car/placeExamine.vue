@@ -7,7 +7,7 @@
               <span>车牌号码</span>
             </div>
             <div class="div-select">
-              <span class="btn-select" @click.stop="vehiclePlate()">{{ vehicle }}</span>
+              <span class="btn-select stylebackground" @click.stop="vehiclePlate()">{{ vehicle }}</span>
               <div class="div-select-ul" v-if="vehicleShow">
                 <ul>
                   <li v-for="(item, index) in cars" @click.stop="vehiclePlate(item)">{{item.myNumberPlate}}</li>
@@ -28,7 +28,7 @@
               <span>所有权</span>
             </div>
             <div class="div-select">
-              <span class="btn-select" @click.stop="ownerClick()">{{ ownerTimeMsg }}</span>
+              <span class="btn-select stylebackground" @click.stop="ownerClick()">{{ ownerTimeMsg }}</span>
               <div class="div-select-ul" v-if="ownerShow">
                 <ul>
                   <li v-for="item in ownerData" @click.stop="ownerClick(item.longName, item.id)">{{item.longName}}</li>
@@ -65,7 +65,7 @@
               <span>受托机构</span>
             </div>
             <div class="div-select">
-              <span class="btn-select" @click.stop="trusteeOrganisation()">{{ trusteeTimeMsg }}</span>
+              <span class="btn-select stylebackground" @click.stop="trusteeOrganisation()">{{ trusteeTimeMsg }}</span>
               <div class="div-select-ul" v-if="trusteeShow">
                 <ul>
                   <li v-for="item in trusteeData" @click.stop="trusteeOrganisation(item.longName, item.shortName)">{{item.longName}}</li>
@@ -116,7 +116,7 @@
               <span>深圳市</span>
             </div>
             <div class="div-select form-line-item width-50">
-              <span class="btn-select" @click.stop="areaSelectClick()">{{ areaSelectMassage }}</span>
+              <span class="btn-select stylebackground" @click.stop="areaSelectClick()">{{ areaSelectMassage }}</span>
               <div class="div-select-ul" v-if="areaSelectShow">
                 <ul>
                   <li v-for="item in areaSelectData" @click.stop="areaSelectClick(item.str, item.id)">{{item.str}}</li>
@@ -502,7 +502,7 @@ padding: 20px 40px;
     background: #999999;
   }
   .stylebackground{
-    background: #fff;
+    background-color: #fff;
   }
 }
 </style>
