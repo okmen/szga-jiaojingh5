@@ -69,10 +69,10 @@ export default {
         businessType: '业务类型',
         subscribeNo: '流水号码',
         reserveNo: '预约编号',
-    		numberPlate: '车牌号码',
-    		mobilephone: '手机号码',
-    		reserveAddress: '服务点',
-    		reserveTime: '预约时间'
+        numberPlate: '车牌号码',
+        mobilephone: '手机号码',
+        reserveAddress: '服务点',
+        reserveTime: '预约时间'
       }
     }
   },
