@@ -1,16 +1,19 @@
+<!-- 
+* 申请机动车临牌
+ -->
 <template>
-  <div class="replace-plate">
+  <div class="replace-plate" id="temporaryLicense">
     <div class="owners-name">
       <span class="item-title">姓名</span>
-      <input type="text" class="item-info" v-model="userName">
+      <input type="text" class="text-input" v-model="userName">
     </div>
     <div class="certificate-number">
       <span class="item-title">身份证号码</span>
-      <input type="text" class="item-info"  v-model="identityCard">
+      <input type="text" class="text-input"  v-model="identityCard">
     </div>
     <div class="owner-certificate">
       <span class="item-title">手机号码</span>
-      <input type="text" class="item-info" v-model="mobilephone">
+      <input type="text" class="text-input" v-model="mobilephone">
     </div>
     <div class="domicile-place">
       <span class="item-title">车辆产地</span>
@@ -18,16 +21,17 @@
     </div>
     <div class="owner-certificate">
       <span class="item-title">车辆型号</span>
-      <input type="text" class="item-info" v-model="cartModels">
+      <input type="text" class="text-input" v-model="cartModels">
     </div>
+    <!-- 车辆类型 -->
     <div-select :childInfo="cartype" @getSelected="getPlateType" defaultVal="小型普通客车"></div-select>
     <div class="owner-certificate">
       <span class="item-title">发动机号</span>
-      <input type="text" class="item-info" v-model="engineNumber" placeholder="请输入发动机号">
+      <input type="text" class="text-input" v-model="engineNumber" placeholder="请输入发动机号">
     </div>
     <div class="owner-certificate">
       <span class="item-title">车架号</span>
-      <input type="text" class="item-info" v-model="behindTheFrame4Digits" maxlength="4" placeholder="请输入车架号">
+      <input type="text" class="text-input" v-model="behindTheFrame4Digits" maxlength="4" placeholder="请输入车架号">
     </div>
     <div class="domicile-place">
       <span class="item-title">户籍所在地</span>
@@ -35,17 +39,17 @@
     </div>
     <div class="recipient-name">
       <span class="item-title">收件人姓名</span>
-      <input type="text" placeholder="请输入收件人姓名" class="item-info" v-model="recipientName">
+      <input type="text" placeholder="请输入收件人姓名" class="text-input" v-model="recipientName">
     </div>
     <div class="recipient-phone">
       <span class="item-title">收件人手机</span>
-      <input type="text" placeholder="请输入收件人手机号码" class="item-info" v-model="recipientPhone">
+      <input type="text" placeholder="请输入收件人手机号码" class="text-input" v-model="recipientPhone">
     </div>
     <div class="recipient-address">
       <span class="item-title">收件人地址</span>
-      <div class="recipient-address-select item-info">
+      <div class="recipient-address-select">
         <div-select :childInfo="recipientInfo" @getSelected="getRecipientAddress" defaultVal="福田区"></div-select>
-        <input type="text" placeholder="请输入详细地址" v-model="recipientAddressDetail">
+        <input class="text-input" type="text" placeholder="请输入详细地址" v-model="recipientAddressDetail">
       </div>
     </div>
     <div class="upload-photo">
@@ -107,90 +111,6 @@
     </div>
   </div>
 </template>
-<style lang="less" scoped>
-  .recipient-address-select input{
-    width: 100%;
-    margin-top: 10px;
-  }
-  .replace-plate>div{
-    margin: 0 0 30px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .replace-plate {
-    height: auto;
-    .item-title{
-      width: 33%;
-      line-height: 65px;
-    }
-    .item-info{
-      width: 66%;
-    }
-    input{
-      border: 2px solid #eee;
-      border-radius: 6px;
-      height: 65px;
-      padding-left: 10px;
-      line-height: 65px;
-      font-size: 30px;
-      outline: none;
-    }
-    .exchange-license-line{
-      height: 10px;
-      background: #eeeeee;
-      margin-left: 0;
-      margin-right: 0;
-    }
-    .upload-all-img{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 10px;
-      flex-wrap: wrap;
-      .upload-item-img{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-    .upload-photo{
-      margin-top: 30px;
-      display: block;
-      .upload-item-text-one{
-        margin-top: 10px;
-        margin-bottom: 30px;
-        color: #7e7e7e;
-        text-align: center;
-      }
-      .upload-item-img-one{
-        width: 300px;
-        height: 300px;
-        border: 2px solid #eee;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 10px;
-        input{
-          display: none;
-        }
-        img{
-          max-height: 90%;
-          max-width: 90%;
-        }
-      }
-    }
-    .confirm-information{
-      background: #09bb07;
-      height: 80px;
-      border-radius: 8px;
-      justify-content: center;
-      line-height: 80px;
-      font-size: 30px;
-      color: white;
-      margin-bottom: 0;
-    }
-  }
-</style>
 <script>
   import uploadFile from '../../../../../service/uploadFile.js'
   import { Toast } from 'mint-ui'
@@ -568,3 +488,95 @@
     }
   }
 </script>
+<style lang="less" scoped>
+  .recipient-address-select{
+    width: 100%;
+    input{
+      margin-top: 24px;
+    }
+  }
+  .replace-plate>div{
+    margin: 0 0 30px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .replace-plate {
+    height: auto;
+    .item-title{
+      width: 252px;
+      line-height: 65px;
+    }
+    .exchange-license-line{
+      height: 10px;
+      background: #eeeeee;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .upload-all-img{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      flex-wrap: wrap;
+      .upload-item-img{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    .upload-photo{
+      margin-top: 30px;
+      display: block;
+      .upload-item-text-one{
+        margin-top: 10px;
+        margin-bottom: 30px;
+        color: #7e7e7e;
+        text-align: center;
+      }
+      .upload-item-img-one{
+        width: 300px;
+        height: 300px;
+        border: 2px solid #eee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        input{
+          display: none;
+        }
+        img{
+          max-height: 90%;
+          max-width: 90%;
+        }
+      }
+    }
+    .confirm-information{
+      background: #09bb07;
+      height: 80px;
+      border-radius: 8px;
+      justify-content: center;
+      line-height: 80px;
+      font-size: 30px;
+      color: white;
+      margin-bottom: 0;
+    }
+  }
+</style>
+<style lang="less">
+#temporaryLicense{
+  .replace-select{
+    .select-title{
+      width: 252px;
+    }
+    .selected-value{
+      width: 100%;
+      background-color: #EAEAEE;
+      border: 1px solid #e2e2e7;
+      text-indent:10px;
+      font-size: 28px;
+    }
+  }
+}
+  
+</style>
+
