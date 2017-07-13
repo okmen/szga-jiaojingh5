@@ -1,12 +1,24 @@
+<!-- 补换机动车号牌 -->
 <template>
-  <div>不换机动车号牌</div>
+  <div class="replacementNumber">
+    <common @submitClick="subFn"></common>
+  </div>
 </template>
 
 <script>
+import common from './common.vue'
 export default {
   name: 'replacementNumber',
   data () {
     return {
+    }
+  },
+  components: {
+    common
+  },
+  methods: {
+    subFn: function (params) {
+      console.log('replacementNumber', params)
     }
   }
 }

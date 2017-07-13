@@ -3,7 +3,7 @@
     <div class="renewing-select pad-side-50 clear">
       <p class="renewing-chose">业务类型</p>
       <div class="div-select renewing-wd left">
-        <span id="btnSelect" class="btn-select" @click.stop="typeSelectClick()">{{ typeSelectMassage.str }}</span>
+        <span id="btnSelect" class="btn-select bg-colour" @click.stop="typeSelectClick()">{{ typeSelectMassage.str }}</span>
         <div class="div-select-ul" v-if='typeSelectShow'>
           <ul>
             <li v-for="(item, index) in typeSelectData" @click.stop = "typeSelectClick(index+1)">
@@ -130,6 +130,9 @@ export default {
   .renewing-from{
     background:#FFF;
     margin-top:10px;
+  }
+  .bg-colour{
+    background-color: #fff;
   }
 }
 </style>

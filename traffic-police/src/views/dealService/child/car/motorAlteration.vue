@@ -15,7 +15,7 @@
             <span>证件种类</span>
           </div>
           <div class="div-select">
-            <span class="btn-select" @click.stop="varietyID()">{{ variety }}</span>
+            <span class="btn-select stylebackground" @click.stop="varietyID()">{{ variety }}</span>
             <div class="div-select-ul" v-if="varietyShow">
               <ul>
                 <li v-for="item in varietyData" @click.stop="varietyID(item.str, item.id)">{{item.str}}</li>
@@ -36,7 +36,7 @@
             <span>车牌号码</span>
           </div>
           <div class="div-select">
-            <span class="btn-select" @click.stop="vehiclePlate()">{{ vehicle }}</span>
+            <span class="btn-select stylebackground" @click.stop="vehiclePlate()">{{ vehicle }}</span>
             <div class="div-select-ul" v-if="vehicleShow">
               <ul>
                 <li v-for="item in cars" @click.stop="vehiclePlate(item)">{{item.myNumberPlate}}</li>
@@ -89,7 +89,7 @@
             <span>深圳市</span>
           </div>
           <div class="div-select form-line-item width-50">
-            <span class="btn-select" @click.stop="areaSelectClick()">{{ areaSelectMassage }}</span>
+            <span class="btn-select stylebackground" @click.stop="areaSelectClick()">{{ areaSelectMassage }}</span>
             <div class="div-select-ul" v-if="areaSelectShow">
               <ul>
                 <li v-for="item in areaSelectData" @click.stop="areaSelectClick(item.str, item.id)">{{item.str}}</li>
@@ -503,18 +503,12 @@ padding: 20px 40px;
   }
   .upload-all-img{
     display: flex;
-/*    flex-wrap: wrap;*/
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
-    .upload-item-img{
-  /*    flex: 2;
-      flex-wrap: wrap;
-      align-items: center;*/
-    }
   }
   .stylebackground{
-    background: #fff;
+    background-color: #fff;
   }
   .upload-photo{
     margin-top: 30px; 

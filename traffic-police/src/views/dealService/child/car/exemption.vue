@@ -7,7 +7,7 @@
             <span>车牌名称</span>
           </div>
           <div class="div-select">
-            <span class="btn-select" @click.stop="vehiclePlate()">{{ vehicle }}</span>
+            <span class="btn-select stylebackground" @click.stop="vehiclePlate()">{{ vehicle }}</span>
             <div class="div-select-ul" v-if="vehicleShow">
               <ul>
                 <li v-for="item in cars" @click.stop="vehiclePlate(item)">{{item.myNumberPlate}}</li>
@@ -28,7 +28,7 @@
             <span>申请人类型</span>
           </div>
           <div class="div-select">
-            <span class="btn-select" @click.stop="applyClick()">{{ applyMassage }}</span>
+            <span class="btn-select stylebackground" @click.stop="applyClick()">{{ applyMassage }}</span>
             <div class="div-select-ul" v-if="applyShow">
               <ul>
                 <li v-for="item in applyData" @click.stop="applyClick(item.longName, item.applyId)">{{item.longName}}</li>
@@ -103,7 +103,7 @@
             <span>深圳市</span>
           </div>
           <div class="div-select form-line-item width-50">
-            <span class="btn-select" @click.stop="areaSelectClick()">{{ areaSelectMassage }}</span>
+            <span class="btn-select stylebackground" @click.stop="areaSelectClick()">{{ areaSelectMassage }}</span>
             <div class="div-select-ul" v-if="areaSelectShow">
               <ul>
                 <li v-for="item in areaSelectData" @click.stop="areaSelectClick(item.str, item.id)">{{item.str}}</li>
@@ -123,7 +123,7 @@
           <span>保险生效日期</span>
         </li>
         <li class="form-li">
-          <div class="form-line-item text-input" @click="datetimePick('picker')">
+          <div class="form-line-item text-input stylebackground" @click="datetimePick('picker')">
             <span>{{mtDateTimeMsg}}</span>
           </div>
         </li>
@@ -131,7 +131,7 @@
           <span>保险终止日期</span>
         </li>
         <li class="form-li">
-          <div class="form-line-item text-input" @click="terminationPick('pick')">
+          <div class="form-line-item text-input stylebackground" @click="terminationPick('pick')">
             <span>{{DateTimeMsg}}</span>
           </div>
         </li>
@@ -140,7 +140,7 @@
         </li>
         <li class="form-li">
           <div class="div-select">
-            <span class="btn-select" @click.stop="placeSelectClick()">{{ placeSelectMassage }}</span>
+            <span class="btn-select stylebackground" @click.stop="placeSelectClick()">{{ placeSelectMassage }}</span>
             <div class="div-select-ul" v-if="placeSelectShow">
               <ul>
                 <li v-for="item in placeSelectData" @click.stop="placeSelectClick(item.longName, item.shortName)">{{item.longName}}</li>
@@ -611,6 +611,7 @@ padding: 20px 40px;
       }
     }
     .form-annotation{
+      padding-top: 16px;
       color: red;
       font-size: 26px !important;
     }
