@@ -1132,6 +1132,14 @@ const routes = [
       name: '其它业务'
     },
     component: require('../views/precontractType/card/otherBusiness.vue')
+  },
+  {
+    name: 'freeAbstract',
+    path: '/freeAbstract',
+    meta: {
+      title: '首违免罚介绍'
+    },
+    component: require('../views/dealService/child/car/freeForFirst/freeAbstract.vue')
   }
 ]
 /* eslint-disable no-new */
