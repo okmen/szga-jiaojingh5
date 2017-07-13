@@ -18,7 +18,7 @@
           <div class="div-select flex">
             <span class="btn-select hidden"
                   @click.stop="subTypeSelectShow=!subTypeSelectShow">{{currentPlate || '请选择号牌号码'}}</span>
-            <div class="div-select-ul" style="top: 30px;" v-if="subTypeSelectShow">
+            <div class="div-select-ul"  v-if="subTypeSelectShow">
               <ul>
                 <li class="scroll-y" v-for="item in myNumberPlate" @click.stop="selectPlate(item)">{{item}}</li>
               </ul>
@@ -31,8 +31,8 @@
         <div class="ip-inform-content">
           <div class="div-select flex">
             <span class="btn-select hidden"
-                  @click.stop="typeSelectShow=!typeSelectShow">{{plateType || '请选择车牌类型'}}</span>
-            <div class="div-select-ul" style="top: 30px;" v-if="typeSelectShow">
+                  @click.stop="typeSelectShow=!typeSelectShow">{{plateType || '蓝牌'}}</span>
+            <div class="div-select-ul"  v-if="typeSelectShow">
               <ul>
                 <li class="scroll-y" v-for="item in plateTypes" @click.stop="selectType(item)">{{item.str}}</li>
               </ul>
@@ -146,7 +146,7 @@
         showMap: '',
         mapObj: '',                             // 地点坐标
         imgTime: '',
-        plateTypeValue: '',
+        plateTypeValue: '02',
         showImg: false,
         popupImgs: [require('../../images/ticket.png'), require('../../images/bigscence1.png'), require('../../images/headstock.png'), require('../../images/front5.png'), require('../../images/back5.png')],
         popupImg: '',
@@ -391,11 +391,12 @@
       display: block;
     }
   }
-
   input {
     outline: none;
   }
-
+  #ticket{
+  color: black;
+  }
   .div-select {
     width: 504px;
     height: 62px;
@@ -403,7 +404,7 @@
   }
 
   .btn-select, .scroll-y {
-    color: #666666;
+    color: black;
     font-weight: normal;
     font-size: 24px;
   }
@@ -414,7 +415,10 @@
 
   .illegalParking {
     background: white;
-    /*height: 100%;*/
+    .div-select-ul{
+      top: 56px;
+    }
+
   }
 
   .ip-inform-box > div {
@@ -433,6 +437,7 @@
 
   .ip-inform-title {
     font-size: 30px;
+    width: 28%;
   }
 
   .ip-inform-only {
@@ -443,7 +448,7 @@
   }
 
   .ip-inform-content {
-    width: 504px;
+    width: 71%;
     display: flex;
     justify-content: space-between;
   }
@@ -471,6 +476,7 @@
     resize: none;
     border-radius: 8px;
     padding: 18px 22px;
+    color: black;
   }
 
   .ip-inform-box .ip-inform-reason {
