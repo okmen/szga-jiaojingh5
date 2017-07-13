@@ -234,9 +234,9 @@
         behindTheFrame4Digits: '', // 车架号
         engineNumber: '', // 发动机号
         cartModels: '', // 车辆型号
-        mobilephone: '', // 手机号码
-        identityCard: '', // 身份证号码
-        userName: '', // 姓名
+        mobilephone: window.localStorage.getItem('mobilePhone'), // 手机号码
+        identityCard: window.localStorage.getItem('identityCard'), // 身份证号码
+        userName: window.localStorage.getItem('userName'), // 姓名
         IDcardFront: '', // 身份证正面
         IDcarfBack: '', // 身份证反面
         dealService1: '', // 购置发票
