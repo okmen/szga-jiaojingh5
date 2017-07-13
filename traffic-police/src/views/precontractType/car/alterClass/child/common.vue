@@ -125,10 +125,11 @@
       </li>
     </ul>
     <ul class="alter-detail">
-      <li class="alter-item">
-        <p>2017-88-98</p>
-        <p>已满</p>
-        <!-- <p>剩余名额<span class="yy_yysl">555</span>位</p> -->
+      <li class="alter-detail-time" v-for="(item, index) in orderTime" @click="selectOrderTime(index)"
+          :class="{'time-full': item.leftNum === 0, 'active': index === activeIndex && item.leftNum !== 0}">
+        <p>{{item.time}}</p>
+        <p v-if="item.leftNum === 0">已满</p>
+        <p v-else="item.leftNum !== 0">剩余名额<span class="yy_yysl">{{item.leftNum}}</span>位</p>
       </li>
     </ul>
     <div class="alter-button-box">
@@ -225,7 +226,17 @@
         monthShow: false,
         dateShow: false,
         months: ['1', '2', '3'],
-        dates: ['2', '31']
+        dates: ['2', '31'],
+        orderTime: [
+          {'time': '9:00 - 10:00', 'leftNum': 0},
+          {'time': '10:00 - 11:00', 'leftNum': 80},
+          {'time': '11:00 - 12:00', 'leftNum': 60},
+          {'time': '14:00 - 15:00', 'leftNum': 40},
+          {'time': '15:00 - 16:00', 'leftNum': 0},
+          {'time': '16:00 - 17:00', 'leftNum': 20},
+          {'time': '17:00 - 18:00', 'leftNum': 0}
+        ],
+        activeIndex: ''                     // 当前点击时间的li
       }
     },
     methods: {
@@ -319,6 +330,11 @@
         console.log('选择日')
       },
 
+      // 选择预约时间
+      selectOrderTime: function (index) {
+        this.activeIndex = index
+      },
+
       // 获取验证码
       getVerification: function () {
         let sendPhoneNumber = {
@@ -341,7 +357,7 @@
             }
           })
         } else {
-          Toast({ message: '请输入正确的手机号码', position: 'bottom', className: 'white', duration: 1500 })
+          Toast({ message: '请输入正确的手机号码', className: 'white', duration: 1500 })
         }
         function countDown (that) {
           setTimeout(() => {
@@ -359,49 +375,49 @@
 
       // 预约 点击事件
       appointTaskClick () {
-        // if (this.judgeInput()) {
-        let reqData = {
-          name: this.carOwnerName,                // 车主姓名
-          idCardName: this.cardMassage,           // 证件名称
-          idCardNumber: this.cardNum,             // 证件号码
-          mobilephone: this.userTelphone,         // 手机号
-          verify: this.validCode,                 // 验证码
-          abbreviation: this.abbreSelectValue,    // 车牌类型
-          abbreVaule: this.carCardNum,            // 车牌号码
-          carType: this.carTypeMassage,           // 车辆类型
-          useNature: this.useNatureMassage,       // 使用性质
-          vin: this.VIN,                          // 车架号
-          appointPlace: this.orderPlaceValue,     // 预约地点
-          orderYear: this.getYear,                // 预约时间 年
-          orderMonth: this.getMonth,              // 预约时间 月
-          orderDate: this.getDate                 // 预约时间 日
+        if (this.judgeInput()) {
+          let reqData = {
+            name: this.carOwnerName,                // 车主姓名
+            idCardName: this.cardMassage,           // 证件名称
+            idCardNumber: this.cardNum,             // 证件号码
+            mobilephone: this.userTelphone,         // 手机号
+            verify: this.validCode,                 // 验证码
+            abbreviation: this.abbreSelectValue,    // 车牌类型
+            abbreVaule: this.carCardNum,            // 车牌号码
+            carType: this.carTypeMassage,           // 车辆类型
+            useNature: this.useNatureMassage,       // 使用性质
+            vin: this.VIN,                          // 车架号
+            appointPlace: this.orderPlaceValue,     // 预约地点
+            orderYear: this.getYear,                // 预约时间 年
+            orderMonth: this.getMonth,              // 预约时间 月
+            orderDate: this.getDate                 // 预约时间 日
+          }
+          this.$emit('appointTaskClick', reqData)
         }
-        this.$emit('appointTaskClick', reqData)
-        // }
       },
 
       // 非空 or 错误判断
       judgeInput () {
         if (specialCharacters(this.carOwnerName)) {
-          Toast({ message: '车主姓名不能含有特殊字符', position: 'bottom', className: 'white', duration: 1500 })
+          Toast({ message: '车主姓名不能含有特殊字符', className: 'white', duration: 1500 })
           return false
         } else if (!this.carOwnerName) {
-          Toast({ message: '请输入车主姓名', position: 'bottom', className: 'white', duration: 1500 })
+          Toast({ message: '请输入车主姓名', className: 'white', duration: 1500 })
           return false
         } else if (!this.cardNum) {
-          Toast({ message: '证件号码不能为空', position: 'bottom', className: 'white', duration: 1500 })
+          Toast({ message: '证件号码不能为空', className: 'white', duration: 1500 })
           return false
         } else if (!isPhone(this.userTelphone)) {
-          Toast({ message: '手机号码格式不正确', position: 'bottom', className: 'white', duration: 1500 })
+          Toast({ message: '手机号码格式不正确', className: 'white', duration: 1500 })
           return false
         } else if (!this.validCode) {
-          Toast({ message: '请输入验证码', position: 'bottom', className: 'white', duration: 1500 })
+          Toast({ message: '请输入验证码', className: 'white', duration: 1500 })
           return false
         } else if (!plateNumberDetection(this.abbreSelectValue + this.carCardNum.toUpperCase())) {
-          Toast({ message: '车牌号码格式不正确', position: 'bottom', className: 'white', duration: 1500 })
+          Toast({ message: '车牌号码格式不正确', className: 'white', duration: 1500 })
           return false
         } else if (!this.VIN) {
-          Toast({ message: '请输入车架号后四位', position: 'bottom', className: 'white', duration: 1500 })
+          Toast({ message: '请输入车架号后四位', className: 'white', duration: 1500 })
           return false
         }
         return true

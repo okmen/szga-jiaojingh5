@@ -201,7 +201,7 @@ export default {
           this.$router.push('/appointSuccess')
         } else {
           MessageBox('提示', json.msg).then(action => {
-            this.$router.push('/')
+            // this.$router.push('/')
           })
         }
       })

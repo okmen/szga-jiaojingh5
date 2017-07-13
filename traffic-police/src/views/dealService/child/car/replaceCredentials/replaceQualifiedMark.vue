@@ -218,10 +218,10 @@
          }
          ]
          }, */
-      /*  optname: [
-          {'str': '深户', choose: true, id: '1'},
-          {'str': '外籍户口', choose: false, id: '0'}
-        ], */
+        /*  optname: [
+         {'str': '深户', choose: true, id: '1'},
+         {'str': '外籍户口', choose: false, id: '0'}
+         ], */
         mobilePhone: window.localStorage.getItem('mobilePhone'),
         ownersName: window.localStorage.getItem('userName'),
         certificateNumber: window.localStorage.getItem('identityCard'),
@@ -297,8 +297,10 @@
           option: []
         }
         JSON.parse(window.localStorage.getItem('cars')).map(item => {
-          plateInfo.option.push({'str': item.myNumberPlate})
-          this.plateToType[item.myNumberPlate] = item.plateType
+          if (item.isMySelf === 0) {
+            plateInfo.option.push({'str': item.myNumberPlate})
+            this.plateToType[item.myNumberPlate] = item.plateType
+          }
         })
         this.plateNumberOne = plateInfo.option[0].str
         this.defaultPlateNumber = plateInfo.option[0].str

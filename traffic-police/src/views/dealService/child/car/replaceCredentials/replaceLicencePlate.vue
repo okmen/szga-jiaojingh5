@@ -300,9 +300,11 @@
           option: []
         }
         JSON.parse(window.localStorage.getItem('cars')).map(item => {
-          plateInfo.option.push({'str': item.myNumberPlate})
-          this.plateToCarNumber[item.myNumberPlate] = item.identityCard
-          this.allOwnersName[item.myNumberPlate] = item.name
+          if (item.isMySelf === 0) {
+            plateInfo.option.push({'str': item.myNumberPlate})
+            this.plateToCarNumber[item.myNumberPlate] = item.identityCard
+            this.allOwnersName[item.myNumberPlate] = item.name
+          }
         })
         this.plateNumberOne = plateInfo.option[0].str
         this.defaultPlateNumber = plateInfo.option[0].str

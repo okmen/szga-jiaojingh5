@@ -288,9 +288,11 @@
           option: []
         }
         JSON.parse(window.localStorage.getItem('cars')).map(item => {
-          plateInfo.option.push({'str': item.myNumberPlate})
-          this.allOwnersName[item.myNumberPlate] = item.name
-          this.allCertificateNumber[item.myNumberPlate] = item.identityCard
+          if (item.isMySelf === 0) {
+            plateInfo.option.push({'str': item.myNumberPlate})
+            this.allOwnersName[item.myNumberPlate] = item.name
+            this.allCertificateNumber[item.myNumberPlate] = item.identityCard
+          }
         })
         this.defaultPlateNumber = plateInfo.option[0].str
         this.plateNumberOne = plateInfo.option[0].str
@@ -414,7 +416,7 @@
           })
           return
         }
-        if ((!this.outBoard) && (this.this.showIndex === '2')) {
+        if ((!this.outBoard) && (this.showIndex === '2')) {
           Toast({
             message: '请上传境外人员临住表',
             duration: 2000

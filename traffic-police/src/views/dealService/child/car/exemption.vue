@@ -7,7 +7,7 @@
             <span>车牌名称</span>
           </div>
           <div class="div-select">
-            <span class="btn-select" @click.stop="vehiclePlate()">{{ vehicle }}</span>
+            <span class="btn-select stylebackground" @click.stop="vehiclePlate()">{{ vehicle }}</span>
             <div class="div-select-ul" v-if="vehicleShow">
               <ul>
                 <li v-for="item in cars" @click.stop="vehiclePlate(item)">{{item.myNumberPlate}}</li>
@@ -28,7 +28,7 @@
             <span>申请人类型</span>
           </div>
           <div class="div-select">
-            <span class="btn-select" @click.stop="applyClick()">{{ applyMassage }}</span>
+            <span class="btn-select stylebackground" @click.stop="applyClick()">{{ applyMassage }}</span>
             <div class="div-select-ul" v-if="applyShow">
               <ul>
                 <li v-for="item in applyData" @click.stop="applyClick(item.longName, item.applyId)">{{item.longName}}</li>
@@ -103,7 +103,7 @@
             <span>深圳市</span>
           </div>
           <div class="div-select form-line-item width-50">
-            <span class="btn-select" @click.stop="areaSelectClick()">{{ areaSelectMassage }}</span>
+            <span class="btn-select stylebackground" @click.stop="areaSelectClick()">{{ areaSelectMassage }}</span>
             <div class="div-select-ul" v-if="areaSelectShow">
               <ul>
                 <li v-for="item in areaSelectData" @click.stop="areaSelectClick(item.str, item.id)">{{item.str}}</li>
@@ -123,7 +123,7 @@
           <span>保险生效日期</span>
         </li>
         <li class="form-li">
-          <div class="form-line-item text-input" @click="datetimePick('picker')">
+          <div class="form-line-item text-input stylebackground subscript" @click="datetimePick('picker')">
             <span>{{mtDateTimeMsg}}</span>
           </div>
         </li>
@@ -131,7 +131,7 @@
           <span>保险终止日期</span>
         </li>
         <li class="form-li">
-          <div class="form-line-item text-input" @click="terminationPick('pick')">
+          <div class="form-line-item text-input stylebackground subscript" @click="terminationPick('pick')">
             <span>{{DateTimeMsg}}</span>
           </div>
         </li>
@@ -140,7 +140,7 @@
         </li>
         <li class="form-li">
           <div class="div-select">
-            <span class="btn-select" @click.stop="placeSelectClick()">{{ placeSelectMassage }}</span>
+            <span class="btn-select stylebackground" @click.stop="placeSelectClick()">{{ placeSelectMassage }}</span>
             <div class="div-select-ul" v-if="placeSelectShow">
               <ul>
                 <li v-for="item in placeSelectData" @click.stop="placeSelectClick(item.longName, item.shortName)">{{item.longName}}</li>
@@ -375,7 +375,11 @@ export default {
     // 保险生效日期
     handleTimes: function (informTimes) {
       this.formatTimes = this.format(this.informTimes.toString(), 'yyyy-MM-dd')
-      this.DateTimeMsg = this.formatTimes
+      if (this.formatTimes < this.mtDateTimeMsg) {
+        Toast({message: '请选择生效日期以后日期', position: 'bottom', className: 'white'})
+      } else {
+        this.DateTimeMsg = this.formatTimes
+      }
     },
     currentTime: function (str) {  // 获取时间
       let now = new Date()
@@ -496,6 +500,7 @@ export default {
       this.$store.commit('saveMotorVehicleHandling', dataList)
       this.$router.push('/affirmInfo')
     },
+    // 验证码验证接口
     verificationFn: function () {
       let verificationData = {
         mobilephone: this.mobile,
@@ -524,6 +529,8 @@ export default {
         Toast({message: '请输入预约人姓名', position: 'bottom', className: 'white'})
       } else if (!this.appointmentID) {
         Toast({message: '请输入预约人身份证号', position: 'bottom', className: 'white'})
+      } else if (this.mtDateTimeMsg > this.DateTimeMsg) {
+        Toast({message: '请选择生效日期以后日期', position: 'bottom', className: 'white'})
       } else if (!this.identifying) {
         Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
       } else if (this.identifying.length !== 6) {
@@ -611,6 +618,7 @@ padding: 20px 40px;
       }
     }
     .form-annotation{
+      padding-top: 16px;
       color: red;
       font-size: 26px !important;
     }
@@ -644,6 +652,11 @@ padding: 20px 40px;
   }
   .stylebackground{
     background-color: #fff;
+  }
+  .subscript{
+    background: url(../../../../images/select1.png) no-repeat;
+    background-size: 18px;
+    background-position: 96% center;
   }
 /*  .exefont{
     font-size: 19px !important;

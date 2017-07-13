@@ -8,7 +8,7 @@ const sceneManageClassRouter = {
     title: '现场办理类'
   },
   component: require('../index.vue'),
-  redirect: '/sceneManageClass/otherPlaceAudit',
+  redirect: '/sceneManageClass/pledgeRegister',
   children: [
     {
       name: 'otherPlaceAudit',

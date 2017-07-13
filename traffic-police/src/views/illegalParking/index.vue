@@ -1,7 +1,7 @@
 <template>
   <div class="illegalParking" @click.stop="subTypeSelectShow=false,typeSelectShow=false">
     <mymap v-if="showMap" @submit="submitMap"></mymap>
-    <Popup  popup-transition="popup-fade" v-model="showImg" >
+    <Popup popup-transition="popup-fade" v-model="showImg">
       <img :src="popupImg" alt="">
     </Popup>
     <div style="height: 20px"></div>
@@ -13,10 +13,11 @@
         </div>
       </div>
       <div class="ip-inform-number">
-        <div class="ip-inform-title">号牌号码</div>
+        <div class="ip-inform-title">车牌号码</div>
         <div class="ip-inform-content">
           <div class="div-select flex">
-            <span class="btn-select hidden"  @click.stop="subTypeSelectShow=!subTypeSelectShow">{{currentPlate||'请选择号牌号码'}}</span>
+            <span class="btn-select hidden"
+                  @click.stop="subTypeSelectShow=!subTypeSelectShow">{{currentPlate || '请选择号牌号码'}}</span>
             <div class="div-select-ul" style="top: 30px;" v-if="subTypeSelectShow">
               <ul>
                 <li class="scroll-y" v-for="item in myNumberPlate" @click.stop="selectPlate(item)">{{item}}</li>
@@ -29,10 +30,11 @@
         <div class="ip-inform-title">车牌类型</div>
         <div class="ip-inform-content">
           <div class="div-select flex">
-            <span class="btn-select hidden"  @click.stop="typeSelectShow=!typeSelectShow">{{plateType||'请选择车牌类型'}}</span>
+            <span class="btn-select hidden"
+                  @click.stop="typeSelectShow=!typeSelectShow">{{plateType || '请选择车牌类型'}}</span>
             <div class="div-select-ul" style="top: 30px;" v-if="typeSelectShow">
               <ul>
-                <li class="scroll-y" v-for="item in plateTypes" @click.stop="selectType(item.str)">{{item.str}}</li>
+                <li class="scroll-y" v-for="item in plateTypes" @click.stop="selectType(item)">{{item.str}}</li>
               </ul>
             </div>
           </div>
@@ -47,13 +49,14 @@
       <div class="ip-inform-ticket">
         <div class="ip-inform-title">罚单单号</div>
         <div class="ip-inform-content">
-          <input id="ticket" type="text" placeholder="请输入罚单单号" class="ip-inform-only"  v-model="ticket">
+          <input id="ticket" type="text" placeholder="请输入罚单单号" class="ip-inform-only" v-model="ticket">
         </div>
       </div>
       <div class="ip-inform-place">
         <div class="ip-inform-title">停车地点</div>
         <div class="ip-inform-content">
-          <input type="text" class="ip-inform-local" :value="mapObj.showAdd" placeholder="点击右侧按钮选择地址" readonly style="background:rgb(239, 239, 244);padding-left: 18px">
+          <input type="text" class="ip-inform-local" :value="mapObj.showAdd" placeholder="点击右侧按钮选择地址" readonly
+                 style="background:rgb(239, 239, 244);padding-left: 18px">
           <span class="ip-inform-local-img" @click.stop="showMap=!showMap">
             <img src="../../images/location-1.png"/>
           </span>
@@ -75,21 +78,21 @@
         <div class="ip-photo-top">
           <div class="ip-photo-item">
             <label class="ip-photo-img" for="ip-photo-ticket">
-              <img src="../../images/ticket.png"/>
+              <img :src="popupImgs[0]"/>
               <input type="file" id="ip-photo-ticket" accept="image/*" capture="camera">
             </label>
             <div class="ip-photo-remake" @click="popupTicket(0)">罚单</div>
           </div>
           <div class="ip-photo-item">
             <label class="ip-photo-img" for="ip-photo-bigscence1">
-              <img src="../../images/bigscence1.png"/>
+              <img :src="popupImgs[1]"/>
               <input type="file" id="ip-photo-bigscence1" accept="image/*" capture="camera">
             </label>
             <div class="ip-photo-remake" @click="popupTicket(1)">大场景1</div>
           </div>
           <div class="ip-photo-item">
             <label class="ip-photo-img" for="ip-photo-headstock">
-              <img src="../../images/headstock.png"/>
+              <img :src="popupImgs[2]"/>
               <input type="file" id="ip-photo-headstock" accept="image/*" capture="camera">
             </label>
             <div class="ip-photo-remake" @click="popupTicket(2)">大场景(含车头正面)
@@ -99,14 +102,14 @@
         <div class="ip-photo-bottom">
           <div class="ip-photo-item">
             <label class="ip-photo-img" for="ip-photo-front5">
-              <img src="../../images/front5.png"/>
+              <img :src="popupImgs[3]"/>
               <input type="file" id="ip-photo-front5" accept="image/*" capture="camera">
             </label>
             <div class="ip-photo-remake" @click="popupTicket(3)">前5米无车辆全景</div>
           </div>
           <div class="ip-photo-item">
             <label class="ip-photo-img" for="ip-photo-back5">
-              <img src="../../images/back5.png"/>
+              <img :src="popupImgs[4]"/>
               <input type="file" id="ip-photo-back5" accept="image/*" capture="camera">
             </label>
             <div class="ip-photo-remake" @click="popupTicket(4)">后5米无车辆全景</div>
@@ -122,14 +125,15 @@
   </div>
 </template>
 <script>
-  import { reportingNoParking } from '../../config/baseUrl'
-  import { resultPost } from '../../service/getData'
+  import {reportingNoParking} from '../../config/baseUrl'
+  import {resultPost} from '../../service/getData'
   import UploadFile from '../../service/uploadFile'
-  import { Toast, Popup } from 'mint-ui'
+  import {Toast, Popup, MessageBox} from 'mint-ui'
   import mymap from '../map/map.vue'
   export default {
     data () {
       return {
+        beforeDate: '',  // 进入页面时的时间戳
         currentDate: '',                        // 时间
         myNumberPlate: [],
         plateTypes: '',
@@ -141,12 +145,17 @@
         ticket: '',                             // 罚单单号
         showMap: '',
         mapObj: '',                             // 地点坐标
-        sceneImg: '',
         imgTime: '',
+        plateTypeValue: '',
         showImg: false,
-        popupImgs: [require('../../images/ticket.png'), require('../../images/bigscence1.png'), require('../../images/front5.png'), require('../../images/back5.png'), require('../../images/headstock.png')],
+        popupImgs: [require('../../images/ticket.png'), require('../../images/bigscence1.png'), require('../../images/headstock.png'), require('../../images/front5.png'), require('../../images/back5.png')],
         popupImg: '',
-        reason: ''                              // 停车原因
+        reason: '',        // 停车原因
+        scenePhoto: '',    // 大场景1
+        scenePhoto1: '',    // 大场景
+        scenePhoto2: '',   // 前五米无车场景
+        scenePhoto3: '',  // 后五米无车场景
+        stopNoticePhoto: ''   // 罚单
       }
     },
     components: {
@@ -156,15 +165,48 @@
     mounted () {
       this.getUserInfo()
       this.getNowFormatDate()
+      this.init()
     },
     methods: {
       init: function () {
         UploadFile.upload({
-          id: 'file',
+          id: 'ip-photo-ticket',
           callback: (res) => {
             console.log(res)
-            this.sceneImg = res.imgUrl
-            this.imgTime = res.dateTime
+            this.stopNoticePhoto = res.imgUrl
+            this.$set(this.popupImgs, 0, res.imgUrl)
+          }
+        })
+        UploadFile.upload({
+          id: 'ip-photo-bigscence1',
+          callback: (res) => {
+            console.log(res)
+            this.scenePhoto = res.imgUrl
+            this.$set(this.popupImgs, 1, res.imgUrl)
+          }
+        })
+        UploadFile.upload({
+          id: 'ip-photo-headstock',
+          callback: (res) => {
+            console.log(res)
+            this.scenePhoto1 = res.imgUrl
+            this.$set(this.popupImgs, 2, res.imgUrl)
+          }
+        })
+        UploadFile.upload({
+          id: 'ip-photo-front5',
+          callback: (res) => {
+            console.log(res)
+            this.scenePhoto2 = res.imgUrl
+            this.$set(this.popupImgs, 3, res.imgUrl)
+          }
+        })
+        UploadFile.upload({
+          id: 'ip-photo-back5',
+          callback: (res) => {
+            console.log(res)
+            this.scenePhoto3 = res.imgUrl
+            this.$set(this.popupImgs, 4, res.imgUrl)
           }
         })
       },
@@ -174,7 +216,8 @@
         console.log(this.mapObj)
       },
       selectType (item) {
-        this.plateType = item
+        this.plateType = item.str
+        this.plateTypeValue = item.type
         this.typeSelectShow = !this.typeSelectShow
       },
       selectPlate (item) {
@@ -187,11 +230,19 @@
         cars.map(item => {
           this.myNumberPlate.push(item.myNumberPlate)
         })
-//        var number = window.localStorage.getItem('plateTypes')
         this.plateTypes = this.$store.state.licenseSelectData
         this.IDcard = window.localStorage.getItem('identityCard')
       },
       submit () {
+        let isSubmit = true
+        var submitTime = new Date()
+        if (submitTime - this.beforeDate > 600000) {
+          isSubmit = false
+          MessageBox('提示', '请在10分钟之内完成操作').then(action => {
+            window.location.reload()
+          })
+        }
+        if (!isSubmit) return
         if (!this.currentPlate) {
           Toast({
             message: '请选择车牌号码',
@@ -199,7 +250,7 @@
           })
           return
         }
-        if (!this.plateType) {
+        if (!this.plateTypeValue) {
           Toast({
             message: '请选择车牌类型',
             duration: 2000
@@ -214,13 +265,13 @@
           document.getElementById('ticket').focus()
           return
         }
-        if (!this.mapObj.showAdd) {
+      /*  if (!this.mapObj.showAdd) {
           Toast({
             message: '请选择停车地点',
             duration: 2000
           })
           return
-        }
+        } */
         if (!this.reason) {
           Toast({
             message: '请输入停车原因',
@@ -229,27 +280,76 @@
           document.getElementById('reason').focus()
           return
         }
+        if (!this.stopNoticePhoto) {
+          Toast({
+            message: '请上传罚单照片',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.scenePhoto) {
+          Toast({
+            message: '请上传大场景1照片',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.scenePhoto1) {
+          Toast({
+            message: '请上传大场景(含车头正面)照片',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.scenePhoto2) {
+          Toast({
+            message: '请上传前5米无车辆全景照片',
+            duration: 2000
+          })
+          return
+        }
+        if (!this.scenePhoto3) {
+          Toast({
+            message: '请上传后5米无车辆全景照片',
+            duration: 2000
+          })
+          return
+        }
         let reqData = {
           numberPlateNumber: this.currentPlate,     // 车牌号码
-          plateType: this.plateType,                // 车牌类型
+          plateType: this.plateTypeValue,                // 车牌类型
           IDcard: this.IDcard,                      // 身份证号
           ticketNo: this.ticket,                    // 罚单单号
           parkingSpot: this.mapObj.showAdd,         // 停车地点
           parkingReason: this.reason,               // 停车原因
-          scenePhoto: 'qweqweqw',
-          scenePhoto1: '12dfsdf3',
-          scenePhoto2: '1df2asd3',
-          scenePhoto3: '12sddfds3',
-          stopNoticePhoto: '12cvdsfsd3'
+          scenePhoto: this.scenePhoto,
+          scenePhoto1: this.scenePhoto1,
+          scenePhoto2: this.scenePhoto2,
+          scenePhoto3: this.scenePhoto3,
+          stopNoticePhoto: this.stopNoticePhoto
         }
         resultPost(reportingNoParking, reqData).then(data => {
           console.log(reqData)
           console.log(data)
+          if (data.code === '0000') {
+            let dataInfo = {
+              type: 1,
+              textObj: {
+                businessType: '违停免罚',
+                subscribeNo: data.data
+              }
+            }
+            this.$store.commit('saveSuccessInfo', dataInfo)
+            this.$router.push('/submitSuccess')
+          } else {
+            MessageBox('提示', data.msg)
+          }
         })
       },
       getNowFormatDate () {
         /* eslint-disable */
-        var date = new Date ()
+        var date = new Date()
+        this.beforeDate = date
         /* eslint-enable */
         var seperator1 = '-'
         var seperator2 = ':'
@@ -283,31 +383,40 @@
   }
 </script>
 <style lang="less" scoped>
-  .mint-popup{
+  .mint-popup {
     width: 80%;
     max-height: 80%;
-    img{
+    img {
       width: 100%;
       display: block;
     }
   }
-  .div-select{
+
+  input {
+    outline: none;
+  }
+
+  .div-select {
     width: 504px;
     height: 62px;
     border-radius: 8px;
   }
-  .btn-select,.scroll-y{
-    color:#666666;
+
+  .btn-select, .scroll-y {
+    color: #666666;
     font-weight: normal;
     font-size: 24px;
   }
-  .div-select .btn-select{
+
+  .div-select .btn-select {
     background-color: white;
   }
-  .illegalParking{
+
+  .illegalParking {
     background: white;
     /*height: 100%;*/
   }
+
   .ip-inform-box > div {
     height: 96px;
     display: flex;
@@ -316,10 +425,12 @@
     justify-content: space-between;
     align-items: center;
   }
-  input,textarea,select{
+
+  input, textarea, select {
     border: 1px solid #e2e2e7;
     color: #999;
   }
+
   .ip-inform-title {
     font-size: 30px;
   }
@@ -330,6 +441,7 @@
     border-radius: 8px;
     padding: 0 22px;
   }
+
   .ip-inform-content {
     width: 504px;
     display: flex;
@@ -366,16 +478,19 @@
     height: 186px;
     margin-top: 12px;
   }
-.ip-inform-local-img{
-  width: 70px;
-  height: 41px;
-  display: inline-block;
-  margin-top: 10px;
-  text-align: right;
-}
-  .ip-inform-local-img img{
-    height:100%;
+
+  .ip-inform-local-img {
+    width: 70px;
+    height: 41px;
+    display: inline-block;
+    margin-top: 10px;
+    text-align: right;
   }
+
+  .ip-inform-local-img img {
+    height: 100%;
+  }
+
   .ip-photo-title {
     margin-left: 50px;
   }
@@ -407,16 +522,25 @@
     flex-wrap: wrap;
     justify-content: space-between;
   }
+
   .ip-photo-bottom {
     justify-content: flex-start;
   }
+
   .ip-photo-item {
     margin-top: 30px;
   }
+
+  .ip-photo-item img {
+    max-height: 90%;
+    max-width: 90%;
+  }
+
   .ip-photo-bottom .ip-photo-item {
     margin-right: 34px;
     margin-top: 48px;
   }
+
   .ip-photo-remake {
     font-size: 23px;
     color: #666666;
@@ -424,7 +548,8 @@
     text-decoration: underline;
     margin-top: 18px;
   }
-  .submit{
+
+  .submit {
     margin: 68px 50px 0px;
     height: 80px;
     width: 650px;
@@ -435,19 +560,20 @@
     font-size: 30px;
     border-radius: 10px;
   }
-  .ip-photo-img{
+
+  .ip-photo-img {
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
   }
-  .ip-photo-img img{
-    height: 82%;
+
+  #reason {
+    outline: none;
+    color: #000;
   }
-  .ip-photo-bottom .ip-photo-img img{
-    height: 100%;
-  }
-  .ip-photo-img input{
+
+  .ip-photo-img input {
     display: none;
   }
 </style>
