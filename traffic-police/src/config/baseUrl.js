@@ -181,3 +181,5 @@ export const applyCarTemporaryLicence = `${commonUrl}handleservice/applyCarTempo
 export const getResultOfFirstIllegalImpunity = `${commonUrl}handleservice/getResultOfFirstIllegalImpunity.html` // 首违免罚
 
 export const getIdentificationOfAuditResults = `${commonUrl}user/getIdentificationOfAuditResults.html` // 星级用户认证查询
+
+export const illegalPictureQuery = `${commonUrl}illegalHanding/illegalPictureQuery.html` // 违法图片查询接口

@@ -18,12 +18,13 @@
             <p class="illegal-score-num">{{item.punishAmt}}</p>
             <p>罚款金额</p>
           </section>
+          <section v-if="item.imgQueryCode" class="illegal-query-img" @click="illegalImgBtn(item.imgQueryCode)" >查看违法图片</section>
         </div>
-        <div class="illegal-img">
-          <div class="illegal-img-box" v-for="imgList in item.illegalImgs" @click="illegalImgBtn(imgList)" >
+        <!-- <div class="illegal-img">
+          <div class="illegal-img-box" v-for="imgList in item.illegalImgs"  >
             <img :src="'data:image/png;base64,' + imgList" alt="">
           </div>
-        </div>
+        </div> -->
         <div class="illegal-select">
           <input type="checkbox" :id="'illegalSelectRadio'+ index" :name="'illegalSelectRadio'+ index" v-model:checked="item.checkAddBorder" @click="inputClick(index)">
           <label :for="'illegalSelectRadio'+ index"></label>
@@ -42,6 +43,8 @@
   </div>
 </template>
 <script>
+  import { resultPost } from './../../../service/getData'
+  import { illegalPictureQuery } from './../../../config/baseUrl'
   import popupImg from './../../../components/popupImg'
   import { mapGetters, mapActions } from 'vuex'
   import { MessageBox } from 'mint-ui'
@@ -85,9 +88,11 @@
       passCancel: function () { // 点击通过弹窗的取消按钮
         this.popupImgShow = false // 隐藏通过弹窗
       },
-      illegalImgBtn: function (img) {
-        this.popupImgShow = true
-        this.imgBase = img
+      illegalImgBtn: function (imgCode) {
+        resultPost(illegalPictureQuery, {imgQueryCode: imgCode}).then(json => {
+          this.popupImgShow = true
+          this.imgBase = json.data[0]
+        })
       },
       selectInformType: function (str) {  // li的点击事件
         if (str) {
@@ -173,7 +178,7 @@
         display: flex;
         overflow: hidden;
         justify-content: space-around;
-        padding: 0 50px;
+        align-items: center;
         section{
           margin: 0;
           margin-top:20px;
@@ -188,6 +193,15 @@
             font-size:24px;
             font-weight:bold;
           }
+        }
+        .illegal-query-img{
+          font-size: 28px;
+          color: #fff;
+          padding: 0 30px;
+          background-color: #2696dd;
+          line-height: 70px;
+          height: 70px;
+          border-radius: 6px;
         }
       }
       .illegal-img{
