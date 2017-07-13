@@ -8,7 +8,7 @@
     <freeByCar v-if="cur_tab == 'car'"></freeByCar>
     <freeByCode v-else></freeByCode>
     <div class="tp-look-tips">
-      <router-link to="freeAbstract">点击查看温馨提示</router-link>
+      <router-link to="freeAbstract">首违免罚介绍</router-link>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
