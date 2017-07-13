@@ -4,7 +4,7 @@
     <div class="nav">
       <div class="nav-tab" :class="{ 'active': cur_tab == 'car'}" @click="cur_tab = 'car'">机动车业务</div>
       <div class="nav-tab" :class="{ 'active': cur_tab == 'card'}" @click="cur_tab = 'card'">驾驶证业务</div>
-      <div class="nav-tab" :class="{ 'active': cur_tab == 'progress'}" @click="linkToProgress">办理类进度查询</div>
+      <div class="nav-tab" :class="{ 'active': cur_tab == 'progress'}" @click="linkToProgress">办理进度查询</div>
     </div>
     <carService v-if="cur_tab == 'car'"></carService>
     <cardService v-else></cardService>
