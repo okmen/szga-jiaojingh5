@@ -658,6 +658,14 @@ const routes = [
     component: require('../views/dealService/dealService.vue')
   },
   {
+    name: 'queryProgress',
+    path: '/queryProgress',
+    meta: {
+      title: '办理进度查询'
+    },
+    component: require('../views/dealService/child/queryProgress/queryProgress.vue')
+  },
+  {
     name: 'freeForFirst',
     path: '/freeForFirst',
     meta: {
