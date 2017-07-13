@@ -182,7 +182,7 @@
   export default {
     data () {
       return {
-        showIndex: '',
+        showIndex: 0,
         imgOne1: require('../../../../../images/IDcard-front.png'),
         imgOne2: require('../../../../../images/IDcard-back.png'),
         imgOne3: require('../../../../../images/register-credential.png'),
@@ -257,7 +257,7 @@
             }
           ]
         },
-        censusRegisterOne: '0',
+        censusRegisterOne: '1',
         censusRegister: {
           title: '户籍所在地',
           option: [
