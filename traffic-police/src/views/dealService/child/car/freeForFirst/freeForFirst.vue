@@ -7,6 +7,9 @@
     </div>
     <freeByCar v-if="cur_tab == 'car'"></freeByCar>
     <freeByCode v-else></freeByCode>
+    <div class="tp-look-tips">
+      <router-link to="freeAbstract">首违免罚介绍</router-link>
+    </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
@@ -47,6 +50,16 @@
           color: #2696dd;
           border-bottom: 6px solid #2696dd;
         }
+      }
+    }
+    .tp-look-tips{
+      width:100%;
+      height:26px;
+      margin:40px;
+      a{
+        font-size:26px;
+        color:#24a6f8;
+        text-decoration:underline;
       }
     }
   }

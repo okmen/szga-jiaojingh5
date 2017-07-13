@@ -61,7 +61,7 @@
       </div>
     </div>
     <div class="surplus-info">
-      <div class="surplus-info-item" :class="{'no-surplus': item.num == 0,'toggle-active':index==activeIndex&&item.num != 0 }" v-for="(item, index) in surplusData" @click="toggleActive(index)">
+      <div class="surplus-info-item" :class="{'no-surplus': item.num == 0,'toggle-active':index==activeIndex&&item.num != 0 }" v-for="(item, index) in surplusData" :key="index" @click="toggleActive(index)">
         <div class="surplus-item-time">{{item.time}}</div>
         <div class="surplus-item-num" v-if="item.num!=0">剩余名额 <span class="surplus-item-number">{{item.num}}</span> 位</div>
         <div class="surplus-item-num" v-if="item.num == 0">已满</div>

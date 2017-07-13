@@ -658,6 +658,14 @@ const routes = [
     component: require('../views/dealService/dealService.vue')
   },
   {
+    name: 'queryProgress',
+    path: '/queryProgress',
+    meta: {
+      title: '办理进度查询'
+    },
+    component: require('../views/dealService/child/queryProgress/queryProgress.vue')
+  },
+  {
     name: 'freeForFirst',
     path: '/freeForFirst',
     meta: {
@@ -1124,6 +1132,14 @@ const routes = [
       name: '其它业务'
     },
     component: require('../views/precontractType/card/otherBusiness.vue')
+  },
+  {
+    name: 'freeAbstract',
+    path: '/freeAbstract',
+    meta: {
+      title: '首违免罚介绍'
+    },
+    component: require('../views/dealService/child/car/freeForFirst/freeAbstract.vue')
   }
 ]
 /* eslint-disable no-new */

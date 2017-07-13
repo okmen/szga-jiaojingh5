@@ -47,13 +47,13 @@
           <div class="form-line-item item-name">
             <span>户籍所在地</span>
           </div>
-          <div class="form-line-item width-40 place">
-            <input type="radio"  name="address" value="1" v-model:checked="address">
-            <label>深户</label>
-          </div>
-          <div class="form-line-item width-40 place">
-            <input type="radio"  name="address" value="0" v-model:checked="address">
-            <label>外籍户口</label>
+          <div class="div-select">
+            <span class="btn-select stylebackground" @click.stop="vehiclePlate()">{{ vehicle }}</span>
+            <div class="div-select-ul" v-if="vehicleShow">
+              <ul>
+                <li v-for="item in vehicleData" @click.stop="vehiclePlate(item.str, item.id)">{{item.str}}</li>
+              </ul>
+            </div>
           </div>
         </li>
         <li class="form-line">
@@ -145,7 +145,6 @@
         photoReturnNumberString: '',                                  // 照片回执号
         receiverName: window.localStorage.getItem('userName'),
         receiverNumber: window.localStorage.getItem('mobilePhone'),
-        address: '',                                                  // 户籍所在地checkbox选择
         mailingAddress: '',
         cur_area_id: '01',                                            // 默认区名id  01为福田
         areaSelectShow: false,
@@ -192,6 +191,19 @@
             'str': '大鹏新区'
           }
         ],
+        vehicle: '深户',
+        vehicleShow: false,
+        vehicleId: '1',
+        vehicleData: [
+          {
+            'id': '1',
+            'str': '深户'
+          },
+          {
+            'id': '0',
+            'str': '外籍户口'
+          }
+        ],
         example: false
       }
     },
@@ -208,6 +220,17 @@
           this.areaSelectShow = false
         } else {
           this.areaSelectShow = true
+        }
+      },
+      vehiclePlate: function (str, id) {
+        if (str) {
+          this.vehicle = str
+          this.vehicleId = id
+        }
+        if (this.vehicleShow === true) {
+          this.vehicleShow = false
+        } else {
+          this.vehicleShow = true
         }
       },
       scanQRCode: function () {
@@ -263,8 +286,6 @@
         let idImgThree = this.$refs.getImgUrl.imgLicense
         if (!isPhotoNum(this.photoReturnNumberString)) {
           Toast({message: '请输入正确照片回执号', position: 'bottom', className: 'white'})
-        } else if (!this.address) {
-          Toast({message: '请选择户籍所在地', position: 'bottom', className: 'white'})
         } else if (!this.receiverName) {
           Toast({message: '请输入收件人姓名', position: 'bottom', className: 'white'})
         } else if (!this.mailingAddress) {
@@ -283,7 +304,7 @@
               proposerIdentityCard: this.IDcard,
               driverLicense: this.driverLicense,
               userName: this.name,
-              placeOfDomicile: this.address,
+              placeOfDomicile: this.vehicleId,
               photoReturnNumberString: this.photoReturnNumberString,
               receiverName: this.receiverName,
               receiverNumber: this.receiverNumber,
