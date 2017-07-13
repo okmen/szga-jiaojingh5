@@ -268,9 +268,9 @@
         censusRegister: {
           title: '户籍所在地',
           option: [
-            {'str': '深户', id: '0'},
-            {'str': '非深户', id: '1'},
-            {'str': '外籍', id: '1'}
+            {'str': '深户', id: '1'},
+            {'str': '非深户', id: '0'},
+            {'str': '外籍', id: '0'}
           ]
         },
         recipientAddressRegion: '福田区',  // 收件人地址区域
@@ -462,7 +462,7 @@
             'placeOfDomicile': this.censusRegisterOne,    // 户籍所在地
             'receiverName': this.recipientName,  // 收件人姓名
             'receiverNumber': this.recipientPhone,  // 收件人手机
-            'receiverAddress': `深圳市,${this.recipientAddressRegion},${this.recipientAddressDetail}`  // 收件人地址
+            'receiverAddress': `深圳市${this.recipientAddressRegion}${this.recipientAddressDetail}`  // 收件人地址
           },
           imgObj: {
             'PHOTO9': this.IDcardFront,

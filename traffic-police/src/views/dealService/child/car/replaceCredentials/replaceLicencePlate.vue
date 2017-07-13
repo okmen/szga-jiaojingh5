@@ -261,9 +261,9 @@
         censusRegister: {
           title: '户籍所在地',
           option: [
-            {'str': '深户', id: '0'},
-            {'str': '非深户', id: '1'},
-            {'str': '外籍', id: '1'}
+            {'str': '深户', id: '1'},
+            {'str': '非深户', id: '0'},
+            {'str': '外籍', id: '0'}
           ]
         },
         plateNumberOne: '',
@@ -461,7 +461,7 @@
             'placeOfDomicile': this.censusRegisterOne,
             'receiverName': this.recipientName,
             'receiverNumber': this.recipientPhone,
-            'receiverAddress': `深圳市,${this.recipientAddressRegion},${this.recipientAddressDetail}`,
+            'receiverAddress': `深圳市${this.recipientAddressRegion}${this.recipientAddressDetail}`,
             'address': this.homeAddress
           },
           imgObj: {
