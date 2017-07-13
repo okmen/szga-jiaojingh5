@@ -56,13 +56,13 @@
           <div class="form-line-item item-name">
             <span>户籍所在地</span>
           </div>
-          <div class="form-line-item width-40 sex">
-            <input type="radio"  name="permanent" value="1" v-model:checked="permanent">
-            <label>深户</label>
-          </div>
-          <div class="form-line-item width-40 sex">
-            <input type="radio"  name="permanent" value="0" v-model:checked="permanent">
-            <label>外籍户口</label>
+          <div class="div-select">
+            <span class="btn-select stylebackground" @click.stop="domicileFn()">{{ domicile }}</span>
+            <div class="div-select-ul" v-if="domicileShow">
+              <ul>
+                <li v-for="item in domicileData" @click.stop="domicileFn(item.str, item.id)">{{item.str}}</li>
+              </ul>
+            </div>
           </div>
         </li>
         <li class="form-line">
@@ -156,7 +156,6 @@
         registerCredential: '',                      // 机动车登记证书
         outBoard: '',                                // 境外人员临住表
         IDcard: window.localStorage.getItem('identityCard'),
-        permanent: '',                               // 户籍选择
         mailingAddress: '',                          // 详细地址
         varietyShow: false,
         variety: '居民身份证',
@@ -280,6 +279,19 @@
             'str': '大鹏新区'
           }
         ],
+        domicile: '深户',
+        domicileShow: false,
+        domicileId: '1',
+        domicileData: [
+          {
+            'id': '1',
+            'str': '深户'
+          },
+          {
+            'id': '0',
+            'str': '外籍户口'
+          }
+        ],
         mobilephone: '',
         cars: {}
       }
@@ -315,6 +327,18 @@
           this.varietyShow = false
         } else {
           this.varietyShow = true
+        }
+      },
+      // 户籍所在地下拉框
+      domicileFn: function (str, id) {
+        if (str) {
+          this.domicile = str
+          this.domicileId = id
+        }
+        if (this.domicileShow === true) {
+          this.domicileShow = false
+        } else {
+          this.domicileShow = true
         }
       },
       areaSelectClick: function (str, id) {
@@ -354,8 +378,6 @@
       submitClick: function () {
         if (!this.IDcard) {
           Toast({message: '请输入身份证', position: 'bottom', className: 'white'})
-        } else if (!this.permanent) {
-          Toast({message: '请输入户籍所在地', position: 'bottom', className: 'white'})
         } else if (!this.mailingAddress) {
           Toast({message: '请输入收件人详细地址', position: 'bottom', className: 'white'})
         } else if (!this.IDcardFront) {
@@ -379,7 +401,7 @@
             'numberPlate': this.vehicle,                     // 车牌号码
             'cartype': this.vehType,                         // 车辆类型
             'mobilephone': this.mobilephone,                 // 手机号码
-            'placeOfDomicile': this.permanent,               // 户籍所在地
+            'placeOfDomicile': this.domicileId,               // 户籍所在地
             'behindTheFrame4Digits': this.vehicleFlapper,    // 车架号
             'receiverAddress': `深圳市${this.areaSelectMassage}${this.mailingAddress}`    // 收件人地址
           },
