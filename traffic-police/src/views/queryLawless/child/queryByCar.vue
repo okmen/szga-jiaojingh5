@@ -78,7 +78,7 @@
       <div class="results-box">
         <div class="box-header">
           <div class="header-item left">违法信息</div>
-          <div class="header-item right order-print" @click.stop="clickJump(data.isNeedClaim)">{{ claimList[data.isNeedClaim] }}</div>
+          <div class="header-item right order-print" @click.stop="clickJump(data.isNeedClaim, data.billNo, data.licensePlateNo)">{{ claimList[data.isNeedClaim] }}</div>
         </div>
         <div class="box-body">
           <div class="body-left-side">
@@ -113,7 +113,7 @@
       <div class="results-box">
         <div class="box-header">
           <div class="header-item left">违法信息</div>
-          <div class="header-item right order-print" @click.stop="clickJump(data.isNeedClaim)">{{ claimList[data.isNeedClaim] }}</div>
+          <div class="header-item right order-print" @click.stop="clickJump(data.isNeedClaim, data.billNo, data.licensePlateNo)">{{ claimList[data.isNeedClaim] }}</div>
         </div>
         <div class="box-body">
           <div class="body-left-side">
@@ -143,7 +143,7 @@
 </template>
 <script>
   import { resultPost } from '../../../service/getData'
-  import { queryLawlessByCar } from '../../../config/baseUrl'
+  import { queryLawlessByCar, queryPay } from '../../../config/baseUrl'
   import { verifyCode } from '../../../config/verifyCode'
   import { Toast } from 'mint-ui'
   export default {
@@ -455,9 +455,20 @@
           console.log(json)
         })
       },
-      clickJump: function (num) {
+      clickJump: function (num, billNo, licensePlateNo) {
         if (num === '0') {
-          this.$router.push('/payLawless')
+          let reqData = {
+            billNo: billNo,
+            licensePlateNo: licensePlateNo,
+            openId: !window.localStorage.getItem('openId') ? '' : window.localStorage.getItem('openId')
+          }
+          resultPost(queryPay, reqData).then(json => {
+            console.log(json)
+            if (json.code === '0000') {
+              window.location.href = json.msg
+            }
+          })
+          // this.$router.push('/payLawless')
         } else if (num === '1') {
           this.$router.push('/confirm')
         } else if (num === '2') {
