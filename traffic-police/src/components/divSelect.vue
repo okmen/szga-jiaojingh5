@@ -1,7 +1,7 @@
 <template>
   <div class="replace-select">
     <div class="select-title" v-if="thisInfo.title" :class="{'font-size28':childInfo.font}">{{thisInfo.title}}</div>
-    <input type="text" class="selected-value" :class="{'width-full':!thisInfo.title}" v-model="currentVal" readonly @click.stop="showSelectUl">
+    <div  class="selected-value"  :class="{'width-full':!thisInfo.title}"  @click.stop="showSelectUl">{{currentVal}}</div>
     <div class="div-select-ul" v-show="showUl" :class="{'width-full':!thisInfo.title}">
       <ul>
         <li v-for="item in thisInfo.option" @click="selectedValue(item)">{{item.str}}</li>
