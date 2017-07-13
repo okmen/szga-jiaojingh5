@@ -529,6 +529,8 @@ export default {
         Toast({message: '请输入预约人姓名', position: 'bottom', className: 'white'})
       } else if (!this.appointmentID) {
         Toast({message: '请输入预约人身份证号', position: 'bottom', className: 'white'})
+      } else if (this.mtDateTimeMsg > this.DateTimeMsg) {
+        Toast({message: '请选择生效日期以后日期', position: 'bottom', className: 'white'})
       } else if (!this.identifying) {
         Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
       } else if (this.identifying.length !== 6) {
