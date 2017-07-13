@@ -427,6 +427,7 @@
           type: '换领行驶证',
           url: iocomotiveCarReplace,
           textObj: {
+            'showIndex': this.showIndex,
             'name': this.ownersName,
             'identificationNum': this.certificateNumber,
             'numberPlate': this.plateNumberOne,

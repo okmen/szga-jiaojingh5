@@ -1,7 +1,7 @@
 <template>
   <div class="replace-select">
     <div class="select-title">{{thisInfo.title}}</div>
-    <input type="text" class="selected-value" v-model="currentVal" readonly @click.stop="showSelectUl" @blur="">
+    <div  class="selected-value"   @click.stop="showSelectUl">{{currentVal}}</div>
     <div class="div-select-ul" v-show="showUl">
       <ul>
         <li v-for="(item, index) in thisInfo.option" @click="selectedValue(item, index)">{{item.str}}</li>

@@ -467,6 +467,7 @@
           type: '补换检验合格标志',
           url: replaceInspectionMark,
           textObj: {
+            'showIndex': this.showIndex,   // 0 表示深户，1 表示非深户，2 表示外籍
             'userName': this.ownersName,
             'identityCard': this.certificateNumber,
             'mobilephone': this.mobilePhone,
