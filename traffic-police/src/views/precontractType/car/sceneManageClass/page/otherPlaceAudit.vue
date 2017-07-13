@@ -77,24 +77,6 @@
   .province-code-input {
     width: 300px;
   }
-  .send-code {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 0;
-    .send-code-input {
-      width: 250px;
-    }
-    .send-code-btn {
-      background: #09bb07;
-      height: 70px;
-      line-height: 70px;
-      text-align: center;
-      color: white;
-      width: 180px;
-      border-radius: 8px;
-    }
-  }
   .choose-date {
     display: flex;
     .choose-date-item {
