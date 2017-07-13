@@ -125,10 +125,11 @@
       </li>
     </ul>
     <ul class="alter-detail">
-      <li class="alter-item">
-        <p>2017-88-98</p>
-        <p>已满</p>
-        <!-- <p>剩余名额<span class="yy_yysl">555</span>位</p> -->
+      <li class="alter-detail-time" v-for="(item, index) in orderTime" @click="selectOrderTime(index)"
+          :class="{'time-full': item.leftNum === 0, 'active': index === activeIndex && item.leftNum !== 0}">
+        <p>{{item.time}}</p>
+        <p v-if="item.leftNum === 0">已满</p>
+        <p v-else="item.leftNum !== 0">剩余名额<span class="yy_yysl">{{item.leftNum}}</span>位</p>
       </li>
     </ul>
     <div class="alter-button-box">
@@ -225,7 +226,17 @@
         monthShow: false,
         dateShow: false,
         months: ['1', '2', '3'],
-        dates: ['2', '31']
+        dates: ['2', '31'],
+        orderTime: [
+          {'time': '9:00 - 10:00', 'leftNum': 0},
+          {'time': '10:00 - 11:00', 'leftNum': 80},
+          {'time': '11:00 - 12:00', 'leftNum': 60},
+          {'time': '14:00 - 15:00', 'leftNum': 40},
+          {'time': '15:00 - 16:00', 'leftNum': 0},
+          {'time': '16:00 - 17:00', 'leftNum': 20},
+          {'time': '17:00 - 18:00', 'leftNum': 0}
+        ],
+        activeIndex: ''                     // 当前点击时间的li
       }
     },
     methods: {
@@ -317,6 +328,11 @@
       // 选择日
       dateClick: function (item) {
         console.log('选择日')
+      },
+
+      // 选择预约时间
+      selectOrderTime: function (index) {
+        this.activeIndex = index
       },
 
       // 获取验证码
