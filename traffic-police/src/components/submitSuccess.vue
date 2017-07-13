@@ -14,7 +14,18 @@
       type: 1,
       textObj: {
         businessType: '预约违法处理',
-        subscribeNo: 'L12344332154'
+        subscribeNo: '流水号码'
+      }
+    }
+
+    dataInfo = {
+      type: 2,
+      textObj: {
+        reserveNo: '预约编号',
+        numberPlate: '车牌号码',
+        mobilephone: '手机号码',
+        reserveAddress: '服务点',
+        reserveTime: '预约时间'
       }
     }
 
