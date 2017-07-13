@@ -191,14 +191,40 @@ export default {
       resultPost(this.dataList.url, reqData).then(json => {
         console.log(json)
         if (json.code === '0000') {
-          let successData = {
-            type: 1, // type为1 申办成功, 为2 预约成功
-            appoinType: this.dataList.type,
-            appoinNum: json.data,
-            appoinMsg: json.msg
+          // let successData = {
+          //   type: 1, // type为1 申办成功, 为2 预约成功
+          //   appoinType: this.dataList.type,
+          //   appoinNum: json.data.waterNumber,
+          //   appoinMsg: json.msg
+          // }
+          // this.$store.commit('appoinSuccess', successData)
+          // this.$router.push('/appointSuccess')
+          let dataInfo
+          switch (+json.data.type) {
+            case 1:
+              dataInfo = {
+                type: 1,
+                textObj: {
+                  businessType: this.dataList.type,
+                  subscribeNo: json.data.waterNumber
+                }
+              }
+              break
+            case 2:
+              dataInfo = {
+                type: 2,
+                textObj: {
+                  reserveNo: '预约编号',
+                  numberPlate: '车牌号码',
+                  mobilephone: '手机号码',
+                  reserveAddress: '服务点',
+                  reserveTime: '预约时间'
+                }
+              }
+              break
           }
-          this.$store.commit('appoinSuccess', successData)
-          this.$router.push('/appointSuccess')
+          this.$store.commit('saveSuccessInfo', dataInfo)
+          this.$router.push('/submitSuccess')
         } else {
           MessageBox('提示', json.msg).then(action => {
             // this.$router.push('/')

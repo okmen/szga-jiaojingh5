@@ -322,10 +322,9 @@ export default {
           width: 94px;
           height: 40px;
           margin-right: 10px;
-          vertical-align: middle;
+          vertical-align: text-bottom;
         }
         .div-select {
-          vertical-align: middle;
           display: inline-block;
           width: 180px;
           text-align: center;

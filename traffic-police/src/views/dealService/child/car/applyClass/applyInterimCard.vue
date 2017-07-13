@@ -213,9 +213,9 @@
         censusRegister3: {
           title: '户籍所在地',
           option: [
-            {'str': '深户', id: '0'},
-            {'str': '非深户', id: '1'},
-            {'str': '外籍', id: '1'}
+            {'str': '深户', id: '1'},
+            {'str': '非深户', id: '0'},
+            {'str': '外籍', id: '0'}
           ]
         },
         plateNumberOne: '',
@@ -452,13 +452,13 @@
           })
           return
         }
-        if ((!this.outBoard) && (this.censusRegister !== '0')) {
-          Toast({
-            message: '请上传境外人员临住表',
-            duration: 2000
-          })
-          return
-        }
+        // if ((!this.outBoard) && (this.censusRegister !== '0')) {
+        //   Toast({
+        //     message: '请上传境外人员临住表',
+        //     duration: 2000
+        //   })
+        //   return
+        // }
         let dataList = {
           type: '申请机动车临牌',
           url: applyCarTemporaryLicence,
