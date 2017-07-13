@@ -110,14 +110,14 @@ export default {
   name: 'renewingCollarCredential',
   data () {
     return {
-      name: '',
-      isShow: false,                           //  验证码
+      name: '',                     // 车主姓名
+      isShow: false,                //  验证码
       forbidden: false,
       chronoScope: '获取验证码',
-      identifying: '',                        // 验证码
+      identifying: '',              // 验证码
       variety: '居民户口簿',
-      identificationNum: '',            // 证件号码
-      mobilephone: '',   // 手机号码
+      identificationNum: '',        // 证件号码
+      mobilephone: '',              // 手机号码
       cur_card_id: '01',
       varietyShow: false,
       varietyData: [
@@ -209,12 +209,9 @@ export default {
       ],
       monthShow: false,
       datesShow: false,
-      timeData: '',
-      newData: '',
       month: '7',
       year: '2017',
       date: '11',
-      years: [],
       months: [
         {
           'str': '7'
@@ -267,6 +264,7 @@ export default {
     }
   },
   methods: {
+    // 证件名称
     varietyID: function (str, id) {
       if (str) {
         this.variety = str
@@ -289,6 +287,7 @@ export default {
         this.subscribeShow = true
       }
     },
+    // 月
     monthClick: function (str) {
       if (str) {
         this.month = str
@@ -300,6 +299,7 @@ export default {
         this.monthShow = true
       }
     },
+    // 日
     dateClick: function (str) {
       if (str) {
         this.date = str
