@@ -357,7 +357,7 @@
             }
           })
         } else {
-          Toast({ message: '请输入正确的手机号码', position: 'bottom', className: 'white', duration: 1500 })
+          Toast({ message: '请输入正确的手机号码', className: 'white', duration: 1500 })
         }
         function countDown (that) {
           setTimeout(() => {
@@ -375,49 +375,49 @@
 
       // 预约 点击事件
       appointTaskClick () {
-        // if (this.judgeInput()) {
-        let reqData = {
-          name: this.carOwnerName,                // 车主姓名
-          idCardName: this.cardMassage,           // 证件名称
-          idCardNumber: this.cardNum,             // 证件号码
-          mobilephone: this.userTelphone,         // 手机号
-          verify: this.validCode,                 // 验证码
-          abbreviation: this.abbreSelectValue,    // 车牌类型
-          abbreVaule: this.carCardNum,            // 车牌号码
-          carType: this.carTypeMassage,           // 车辆类型
-          useNature: this.useNatureMassage,       // 使用性质
-          vin: this.VIN,                          // 车架号
-          appointPlace: this.orderPlaceValue,     // 预约地点
-          orderYear: this.getYear,                // 预约时间 年
-          orderMonth: this.getMonth,              // 预约时间 月
-          orderDate: this.getDate                 // 预约时间 日
+        if (this.judgeInput()) {
+          let reqData = {
+            name: this.carOwnerName,                // 车主姓名
+            idCardName: this.cardMassage,           // 证件名称
+            idCardNumber: this.cardNum,             // 证件号码
+            mobilephone: this.userTelphone,         // 手机号
+            verify: this.validCode,                 // 验证码
+            abbreviation: this.abbreSelectValue,    // 车牌类型
+            abbreVaule: this.carCardNum,            // 车牌号码
+            carType: this.carTypeMassage,           // 车辆类型
+            useNature: this.useNatureMassage,       // 使用性质
+            vin: this.VIN,                          // 车架号
+            appointPlace: this.orderPlaceValue,     // 预约地点
+            orderYear: this.getYear,                // 预约时间 年
+            orderMonth: this.getMonth,              // 预约时间 月
+            orderDate: this.getDate                 // 预约时间 日
+          }
+          this.$emit('appointTaskClick', reqData)
         }
-        this.$emit('appointTaskClick', reqData)
-        // }
       },
 
       // 非空 or 错误判断
       judgeInput () {
         if (specialCharacters(this.carOwnerName)) {
-          Toast({ message: '车主姓名不能含有特殊字符', position: 'bottom', className: 'white', duration: 1500 })
+          Toast({ message: '车主姓名不能含有特殊字符', className: 'white', duration: 1500 })
           return false
         } else if (!this.carOwnerName) {
-          Toast({ message: '请输入车主姓名', position: 'bottom', className: 'white', duration: 1500 })
+          Toast({ message: '请输入车主姓名', className: 'white', duration: 1500 })
           return false
         } else if (!this.cardNum) {
-          Toast({ message: '证件号码不能为空', position: 'bottom', className: 'white', duration: 1500 })
+          Toast({ message: '证件号码不能为空', className: 'white', duration: 1500 })
           return false
         } else if (!isPhone(this.userTelphone)) {
-          Toast({ message: '手机号码格式不正确', position: 'bottom', className: 'white', duration: 1500 })
+          Toast({ message: '手机号码格式不正确', className: 'white', duration: 1500 })
           return false
         } else if (!this.validCode) {
-          Toast({ message: '请输入验证码', position: 'bottom', className: 'white', duration: 1500 })
+          Toast({ message: '请输入验证码', className: 'white', duration: 1500 })
           return false
         } else if (!plateNumberDetection(this.abbreSelectValue + this.carCardNum.toUpperCase())) {
-          Toast({ message: '车牌号码格式不正确', position: 'bottom', className: 'white', duration: 1500 })
+          Toast({ message: '车牌号码格式不正确', className: 'white', duration: 1500 })
           return false
         } else if (!this.VIN) {
-          Toast({ message: '请输入车架号后四位', position: 'bottom', className: 'white', duration: 1500 })
+          Toast({ message: '请输入车架号后四位', className: 'white', duration: 1500 })
           return false
         }
         return true

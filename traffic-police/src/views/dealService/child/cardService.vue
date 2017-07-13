@@ -11,9 +11,9 @@
     <div class="query-link">
       <router-link :to="isLogin ? '/userAgreement_WeChat/jszns' : 'login'">驾驶证年审</router-link>
     </div>
-    <!--<div class="query-link">-->
-      <!--<router-link to="cardServicePage">消分学习</router-link>-->
-    <!--</div>-->
+    <div class="query-link">
+      <router-link :to="isLogin ? '/userAgreement/xfNotice' : 'login'">消分学习</router-link>
+    </div>
     <div class="query-link">
       <router-link :to="isLogin ? '/userAgreement_WeChat/jszzr' : 'login'">驾驶证转入</router-link>
     </div>

@@ -38,7 +38,7 @@
         <span>身体条件申请表</span>
       </label>
     </div>
-    <button class="btn" type="button" name="button" @click="btnSureStar">确认提交</button>
+    <button class="btn" type="button" name="button" @click="btnSureStar">确认信息</button>
   </div>
 </template>
 <script>

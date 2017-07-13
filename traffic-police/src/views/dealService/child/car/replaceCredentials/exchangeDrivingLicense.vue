@@ -288,9 +288,11 @@
           option: []
         }
         JSON.parse(window.localStorage.getItem('cars')).map(item => {
-          plateInfo.option.push({'str': item.myNumberPlate})
-          this.allOwnersName[item.myNumberPlate] = item.name
-          this.allCertificateNumber[item.myNumberPlate] = item.identityCard
+          if (item.isMySelf === 0) {
+            plateInfo.option.push({'str': item.myNumberPlate})
+            this.allOwnersName[item.myNumberPlate] = item.name
+            this.allCertificateNumber[item.myNumberPlate] = item.identityCard
+          }
         })
         this.defaultPlateNumber = plateInfo.option[0].str
         this.plateNumberOne = plateInfo.option[0].str
@@ -425,6 +427,7 @@
           type: '换领行驶证',
           url: iocomotiveCarReplace,
           textObj: {
+            'showIndex': this.showIndex,
             'name': this.ownersName,
             'identificationNum': this.certificateNumber,
             'numberPlate': this.plateNumberOne,

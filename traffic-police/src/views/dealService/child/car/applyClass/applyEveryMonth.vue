@@ -74,7 +74,7 @@
               <span>申请日期</span>
             </div>
             <div class="queryByCar-hbs-text">
-              <input class="text-input" type="text" v-model="mtDateTimeMsg" readonly  @click="datetimePick('picker')">
+              <p class="text-input" @click="datetimePick('picker')">{{ mtDateTimeMsg }}</p>
             </div>
           </li>
         </ul>
