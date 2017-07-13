@@ -51,6 +51,11 @@
       z-index: 999;
       max-height: 400px;
       overflow: auto;
+      li{
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
     .width-full{
       width: 100%;
