@@ -10,7 +10,7 @@
             <span class="btn-select stylebackground" @click.stop="vehiclePlate()">{{ vehicle }}</span>
             <div class="div-select-ul" v-if="vehicleShow">
               <ul>
-                <li v-for="item in cars" @click.stop="vehiclePlate(item)">{{item.myNumberPlate}}</li>
+                <li v-for="item in cars" @click.stop="vehiclePlate(item)" v-if="item.isMySelf == 0">{{item.myNumberPlate}}</li>
               </ul>
             </div>
           </div>

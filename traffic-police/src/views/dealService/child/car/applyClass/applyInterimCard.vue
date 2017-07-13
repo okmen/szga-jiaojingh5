@@ -4,6 +4,10 @@
 <template>
   <div class="replace-plate" id="temporaryLicense">
     <div class="certificate-number">
+      <span class="item-title">姓名</span>
+      <input type="text" class="text-input" maxlength="18"  v-model="userName" placeholder="请输入姓名">
+    </div>
+    <div class="certificate-number">
       <span class="item-title">身份证号码</span>
       <input type="text" class="text-input" maxlength="18"  v-model="identityCard" placeholder="请输入身份证号码">
     </div>
