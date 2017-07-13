@@ -6,19 +6,30 @@
 
     dataInfo 需要加上 type 字段
     dataInfo.type
-      1 : 申办成功
-      2 : 预约成功
+      1 : 申办成功 // 办理类
+      2 : 预约成功 // 预约类
     接口返回的数据存至 dataInfo.textObj
 
     dataInfo = {
       type: 1,
       textObj: {
         businessType: '预约违法处理',
-        subscribeNo: 'L12344332154'
+        subscribeNo: '流水号码'
       }
     }
 
-    // TODO keyListObj 缺少预约成功的信息 待接口确定字段
+    dataInfo = {
+      type: 2,
+      textObj: {
+        reserveNo: '预约编号',
+        numberPlate: '车牌号码',
+        mobilephone: '手机号码',
+        reserveAddress: '服务点',
+        reserveTime: '预约时间'
+      }
+    }
+
+    // TODO keyListObj 缺少预约成功的信息 待接口统一字段
 -->
 
 <template>
@@ -26,11 +37,11 @@
     <section class="appoint-img">
       <dl>
         <dd></dd>
-        <dt>{{dataInfo.type === 1 ? '申办成功' : '预约成功'}}</dt>
+        <dt>{{dataInfo.type == 1 ? '申办成功' : '预约成功'}}</dt>
       </dl>
     </section>
     <!-- 申办成功的内容  -->
-    <section class="bid-box appoint-box" v-if="dataInfo.type === 1">
+    <section class="bid-box appoint-box" v-if="dataInfo.type == 1">
       <h3>预约结果</h3>
       <p>{{ tip }}</p>
       <ul class="bid-ul appoint-margin">
@@ -38,61 +49,26 @@
           <span class="bid-item-key">{{ keyListObj[key] }}</span>
           ：<span :class="{red: key === 'subscribeNo'}">{{ value }}</span>
         </li>
-        <!-- @test -->
-        <li class="bid-item">
-          <span class="bid-item-key">业务类型</span>
-          ：<span class="bid--item-value">业务类型</span>
-        </li>
-        <li class="bid-item">
-          <span class="bid-item-key">流水号码</span>
-          ：<span class="bid--item-value red">J456789153</span>
-        </li>
-        <!-- test -->
       </ul>
     </section>
     <!-- 预约成功的内容 -->
-    <section class="appoint-box" v-if="dataInfo.type !== 1">
+    <section class="appoint-box" v-if="dataInfo.type != 1">
       <h3>预约结果</h3>
       <ul class="submitSuccess-ul">
         <li v-for="(value, key) in dataInfo.textObj" class="submitSuccess-item">
           <span class="submitSuccess-item-key">{{ keyListObj[key] }}</span>
           ：<span class="submitSuccess-item-value">{{ value }}</span>
         </li>
-        <!-- @test -->
-        <li class="submitSuccess-item">
-          <span class="submitSuccess-item-key">预约编号</span>
-          ：<span class="submitSuccess-item-value">456158888</span>
-        </li>
-        <li class="submitSuccess-item">
-          <span class="submitSuccess-item-key">车牌号码</span>
-          ：<span class="submitSuccess-item-value">粤B 6A42E</span>
-        </li>
-        <li class="submitSuccess-item">
-          <span class="submitSuccess-item-key">手机号码</span>
-          ：<span class="submitSuccess-item-value">13800138000</span>
-        </li>
-        <li class="submitSuccess-item">
-          <span class="submitSuccess-item-key">服务点</span>
-          ：<span class="submitSuccess-item-value">南山交警-综合服务大厅</span>
-        </li>
-        <li class="submitSuccess-item">
-          <span class="submitSuccess-item-key">预约时间</span>
-          ：<span class="submitSuccess-item-value">2017-04-18 18:26:23</span>
-        </li>
-        <!-- test -->
       </ul>
     </section>
-    <div class="btn-appoint-backword" @click="btnBackword" v-if="dataInfo.type === 1">返回</div>
-    <div class="btn-appoint-backword mt-60" @click="btnBackword"  v-if="dataInfo.type !== 1">好的</div>
+    <div class="btn-appoint-backword" @click="btnBackword" v-if="dataInfo.type == 1">返回</div>
+    <div class="btn-appoint-backword mt-60" @click="btnBackword"  v-if="dataInfo.type != 1">好的</div>
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 export default {
   computed: {
-    ...mapGetters([
-      'showAppoin'
-    ]),
     dataInfo: function () {
       return this.$store.state.successInfo
     }
@@ -102,7 +78,12 @@ export default {
       tip: '您的信息已成功提交，我们将会在3个工作日内通过短信告知您的审核结果，您还可以凭身份证信息在深圳交警微信号中查询审核。',
       keyListObj: {
         businessType: '业务类型',
-        subscribeNo: '流水号'
+        subscribeNo: '流水号码',
+        reserveNo: '预约编号',
+        numberPlate: '车牌号码',
+        mobilephone: '手机号码',
+        reserveAddress: '服务点',
+        reserveTime: '预约时间'
       }
     }
   },

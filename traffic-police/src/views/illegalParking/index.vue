@@ -133,6 +133,7 @@
   export default {
     data () {
       return {
+        beforeDate: '',  // 进入页面时的时间戳
         currentDate: '',                        // 时间
         myNumberPlate: [],
         plateTypes: '',
@@ -233,6 +234,15 @@
         this.IDcard = window.localStorage.getItem('identityCard')
       },
       submit () {
+        let isSubmit = true
+        var submitTime = new Date()
+        if (submitTime - this.beforeDate > 600000) {
+          isSubmit = false
+          MessageBox('提示', '请在10分钟之内完成操作').then(action => {
+            window.location.reload()
+          })
+        }
+        if (!isSubmit) return
         if (!this.currentPlate) {
           Toast({
             message: '请选择车牌号码',
@@ -255,13 +265,13 @@
           document.getElementById('ticket').focus()
           return
         }
-        if (!this.mapObj.showAdd) {
+      /*  if (!this.mapObj.showAdd) {
           Toast({
             message: '请选择停车地点',
             duration: 2000
           })
           return
-        }
+        } */
         if (!this.reason) {
           Toast({
             message: '请输入停车原因',
@@ -321,12 +331,25 @@
         resultPost(reportingNoParking, reqData).then(data => {
           console.log(reqData)
           console.log(data)
-          MessageBox('提示', data.msg)
+          if (data.code === '0000') {
+            let dataInfo = {
+              type: 1,
+              textObj: {
+                businessType: '违停免罚',
+                subscribeNo: data.data
+              }
+            }
+            this.$store.commit('saveSuccessInfo', dataInfo)
+            this.$router.push('/submitSuccess')
+          } else {
+            MessageBox('提示', data.msg)
+          }
         })
       },
       getNowFormatDate () {
         /* eslint-disable */
         var date = new Date()
+        this.beforeDate = date
         /* eslint-enable */
         var seperator1 = '-'
         var seperator2 = ':'

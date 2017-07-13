@@ -203,6 +203,7 @@ export default {
 </script>
 <style lang="less">
 @import './style/base';
+@import "style/formTemplate";
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -414,7 +414,7 @@
           })
           return
         }
-        if ((!this.outBoard) && (this.this.showIndex === '2')) {
+        if ((!this.outBoard) && (this.showIndex === '2')) {
           Toast({
             message: '请上传境外人员临住表',
             duration: 2000
