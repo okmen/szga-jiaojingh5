@@ -19,8 +19,10 @@
         </ul>
       </div>
     </div>
-    <applyEveryMonth v-if="cur_type_id == '01'"></applyEveryMonth>
-    <applyInterimCard v-else></applyInterimCard>
+    <div class="appleyClass-from-child">
+      <applyEveryMonth v-if="cur_type_id == '01'"></applyEveryMonth>
+      <applyInterimCard v-else></applyInterimCard>
+    </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
@@ -68,7 +70,7 @@
 <style lang="less" scoped>
   @import "./../../../../../style/base";
   .applyClass-outer {
-    padding: 120px 40px 0;
+    padding-top: 120px;
     font-size: 28px;
     color: #000;
     position: relative;
@@ -78,7 +80,7 @@
       left: 0;
       right: 0;
       top:0;
-      padding: 0 40px;
+      padding: 0 40px 24px;
       #applyClass-hbs {
         padding: 20px 0 0;
         .applyClass-hbs-list {
@@ -110,6 +112,10 @@
           }
         }
       }
+    }
+    .appleyClass-from-child{
+      background: #FFF;
+      padding:24px 40px 50px;
     }
   }
 </style>
