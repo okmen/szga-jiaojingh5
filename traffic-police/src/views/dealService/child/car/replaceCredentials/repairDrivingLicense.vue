@@ -264,7 +264,7 @@
         recipientName: '',    // 收件人姓名
         plateNumberOne: '',
         plateTypeOne: '02',
-        censusRegisterOne: '0',     // 户籍所在地
+        censusRegisterOne: '1',     // 户籍所在地
         censusRegister: {
           title: '户籍所在地',
           option: [
@@ -285,7 +285,7 @@
         allOwnersName: {},  // 所有车主姓名
         allCertificateNumber: {}, // 所有身份证号
         ownersName: '',  // 车主姓名
-        showIndex: '',
+        showIndex: 0,
         certificateNumber: '' // 证件号码
       }
     },

@@ -173,7 +173,7 @@
   export default {
     data () {
       return {
-        showIndex: '',
+        showIndex: 0,
         defaultPlateNumber: '',
         imgOne1: require('../../../../../images/IDcard-front.png'),
         imgOne2: require('../../../../../images/IDcard-back.png'),
@@ -249,7 +249,7 @@
         recipientName: '',     // 收件人姓名
         plateNumberOne: '',
         plateTypeOne: '02',
-        censusRegisterOne: '0',     // 户籍所在地
+        censusRegisterOne: '1',     // 户籍所在地
         censusRegister: {
           title: '户籍所在地',
           option: [

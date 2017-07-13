@@ -268,7 +268,7 @@
             {'str': '外籍', id: '0'}
           ]
         },
-        censusRegisterOne: '0',
+        censusRegisterOne: '1',
         plateToType: {},
         plateTypeOneText: '',
         plateTypeOneVal: '',
@@ -283,7 +283,7 @@
         outBoard: '',
         residencePermitF: '',  // 居住证正面
         residencePermitB: '',   // 居住证反面
-        showIndex: ''
+        showIndex: 0
       }
     },
     components: {
