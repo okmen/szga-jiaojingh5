@@ -3,36 +3,18 @@
  -->
 <template>
   <div class="replace-plate" id="temporaryLicense">
-    <div class="owners-name">
-      <span class="item-title">姓名</span>
-      <input type="text" class="text-input" v-model="userName">
-    </div>
     <div class="certificate-number">
       <span class="item-title">身份证号码</span>
-      <input type="text" class="text-input"  v-model="identityCard">
+      <input type="text" class="text-input" maxlength="18"  v-model="identityCard" placeholder="请输入身份证号码">
     </div>
     <div class="owner-certificate">
       <span class="item-title">手机号码</span>
-      <input type="text" class="text-input" v-model="mobilephone">
-    </div>
-    <div class="domicile-place">
-      <span class="item-title">车辆产地</span>
-      <div-radio :optname="optname2" @getSelected="getCensusRegister2"> </div-radio>
-      <input type="text" class="item-info" maxlength="8" v-model="userName" placeholder="请输入姓名">
-    </div>
-    <div class="certificate-number">
-      <span class="item-title">身份证号码</span>
-      <input type="text" class="item-info" maxlength="18"  v-model="identityCard" placeholder="请输入身份证号码">
-    </div>
-    <div class="owner-certificate">
-      <span class="item-title">手机号码</span>
-      <input type="text" class="item-info" maxlength="11" v-model="mobilephone" placeholder="请输入手机号码">
+      <input type="text" class="text-input" maxlength="11" v-model="mobilephone" placeholder="请输入手机号码">
     </div>
     
     <div class="owner-certificate">
       <span class="item-title">车辆型号</span>
-      <input type="text" class="text-input" v-model="cartModels">
-      <input type="text" class="item-info" v-model="cartModels" placeholder="请输入车辆型号">
+      <input type="text" class="text-input" v-model="cartModels" placeholder="请输入车辆型号">
     </div>
     <!-- 车辆类型 -->
     <div-select :childInfo="cartype" @getSelected="getPlateType" defaultVal="小型普通客车"></div-select>
@@ -42,12 +24,7 @@
     </div>
     <div class="owner-certificate">
       <span class="item-title">车架号</span>
-      <input type="text" class="text-input" v-model="behindTheFrame4Digits" maxlength="4" placeholder="请输入车架号">
-      <input type="text" class="item-info" maxlength="20" v-model="engineNumber" placeholder="请输入发动机号">
-    </div>
-    <div class="owner-certificate">
-      <span class="item-title">车架号</span>
-      <input type="text" class="item-info" v-model="behindTheFrame4Digits" maxlength="4" placeholder="请输入车架号后四位">
+      <input type="text" class="text-input" v-model="behindTheFrame4Digits" maxlength="4" placeholder="请输入车架号后四位">
     </div>
     <div class="domicile-place">
       <span class="item-title">车辆产地</span>
@@ -64,8 +41,7 @@
     </div>
     <div class="recipient-phone">
       <span class="item-title">收件人手机</span>
-      <input type="text" placeholder="请输入收件人手机号码" class="text-input" v-model="recipientPhone">
-      <input type="text" placeholder="请输入收件人手机号码" maxlength="11" class="item-info" v-model="recipientPhone">
+      <input type="text" placeholder="请输入收件人手机号码" class="text-input" maxlength="11" v-model="recipientPhone">
     </div>
     <div class="recipient-address">
       <span class="item-title">收件人地址</span>
