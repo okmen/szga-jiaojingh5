@@ -3,15 +3,15 @@
     <div class="query-link" v-bind:class="{ 'show' : applyShow}">
       <p @click.stop="applyShow = !applyShow">申请类<i v-bind:class="{ 'arrow-open' : applyShow, 'arrow-close' : applyShow == false}"></i></p>
       <div class="li-box">
-        <router-link :to="isLogin ? 'applyClass' : 'login'">申请通行证（外地车）</router-link>
-        <router-link :to="isLogin ? 'applyClass' : 'login'">申请机动车临牌</router-link>
+        <router-link :to="isLogin ? 'applyClass/01' : 'login'">申请通行证（外地车）</router-link>
+        <router-link :to="isLogin ? 'applyClass/02' : 'login'">申请机动车临牌</router-link>
       </div>
     </div>
     <div class="query-link" v-bind:class="{ 'show' : lawlessShow}">
       <p @click.stop="lawlessShow = !lawlessShow">违法处理类<i v-bind:class="{ 'arrow-open' : lawlessShow, 'arrow-close' : lawlessShow == false}"></i></p>
       <div class="li-box">
         <router-link :to="isLogin ? 'confirm' : 'login'">违法在线处理</router-link>
-        <router-link :to="isLogin ? 'early' : 'login'">违法缴款</router-link>
+        <router-link :to="isLogin ? 'payLawless' : 'login'">违法缴款</router-link>
         <router-link :to="isLogin ? 'appeal' : 'login'">违法申诉</router-link>
       </div>
     </div>

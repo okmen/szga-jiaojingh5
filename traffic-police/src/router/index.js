@@ -667,7 +667,7 @@ const routes = [
   },
   {
     name: 'applyClass',
-    path: '/applyClass',
+    path: '/applyClass/:id',
     meta: {
       title: '申请类'
     },

@@ -48,6 +48,14 @@
       'applyEveryMonth': require('./applyEveryMonth.vue'),
       'applyInterimCard': require('./applyInterimCard.vue')
     },
+    mounted () {
+      this.cur_type_id = this.$route.params.id
+      if (this.$route.params.id === '01') {
+        this.licenseSelectMassage = '每月1天通行证业务申请'
+      } else {
+        this.licenseSelectMassage = '申请机动车临牌'
+      }
+    },
     methods: {
       licenseSelectClick: function (str, id) {
         if (str) {
