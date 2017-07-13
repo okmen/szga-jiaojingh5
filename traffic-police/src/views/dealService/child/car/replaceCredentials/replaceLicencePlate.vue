@@ -452,6 +452,7 @@
           type: '补换机动车号牌',
           url: replaceMotorVehicleLicensePlate,
           textObj: {
+            'showIndex': this.showIndex,
             'name': this.ownersName,
             'identityCard': this.certificateNumber,
             'carOwnerIdentityCard': this.carCertificateNumber,

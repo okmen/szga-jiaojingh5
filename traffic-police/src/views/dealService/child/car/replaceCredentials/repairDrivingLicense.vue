@@ -454,6 +454,7 @@
           type: '补领行驶证',
           url: complementTheMotorVehicleDrivingLicense,
           textObj: {
+            'showIndex': this.showIndex,
             'name': this.ownersName,   // 车主姓名
             'identificationNum': this.certificateNumber,
             'numberPlate': this.plateNumberOne, //

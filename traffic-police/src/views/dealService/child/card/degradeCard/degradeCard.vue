@@ -29,7 +29,7 @@
         </li>
         <li class="form-line">
           <div class="form-line-item item-name">
-            <span>驾驶证号</span>
+            <span>申请人驾驶证号</span>
           </div>
           <div class="form-line-item">
             <input v-model="driverLicense" class="text-input" readonly>

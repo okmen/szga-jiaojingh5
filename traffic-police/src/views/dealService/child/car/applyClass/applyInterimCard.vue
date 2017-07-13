@@ -18,10 +18,21 @@
     <div class="domicile-place">
       <span class="item-title">车辆产地</span>
       <div-radio :optname="optname2" @getSelected="getCensusRegister2"> </div-radio>
+      <input type="text" class="item-info" maxlength="8" v-model="userName" placeholder="请输入姓名">
     </div>
+    <div class="certificate-number">
+      <span class="item-title">身份证号码</span>
+      <input type="text" class="item-info" maxlength="18"  v-model="identityCard" placeholder="请输入身份证号码">
+    </div>
+    <div class="owner-certificate">
+      <span class="item-title">手机号码</span>
+      <input type="text" class="item-info" maxlength="11" v-model="mobilephone" placeholder="请输入手机号码">
+    </div>
+    
     <div class="owner-certificate">
       <span class="item-title">车辆型号</span>
       <input type="text" class="text-input" v-model="cartModels">
+      <input type="text" class="item-info" v-model="cartModels" placeholder="请输入车辆型号">
     </div>
     <!-- 车辆类型 -->
     <div-select :childInfo="cartype" @getSelected="getPlateType" defaultVal="小型普通客车"></div-select>
@@ -32,11 +43,21 @@
     <div class="owner-certificate">
       <span class="item-title">车架号</span>
       <input type="text" class="text-input" v-model="behindTheFrame4Digits" maxlength="4" placeholder="请输入车架号">
+      <input type="text" class="item-info" maxlength="20" v-model="engineNumber" placeholder="请输入发动机号">
+    </div>
+    <div class="owner-certificate">
+      <span class="item-title">车架号</span>
+      <input type="text" class="item-info" v-model="behindTheFrame4Digits" maxlength="4" placeholder="请输入车架号后四位">
     </div>
     <div class="domicile-place">
+      <span class="item-title">车辆产地</span>
+      <div-radio :optname="optname2" @getSelected="getCensusRegister2"> </div-radio>
+    </div>
+    <!-- <div class="domicile-place">
       <span class="item-title">户籍所在地</span>
       <div-radio :optname="optname1" @getSelected="getCensusRegister1"> </div-radio>
-    </div>
+    </div> -->
+    <div-select :childInfo="censusRegister3" @getSelected="getCensusRegister1" defaultVal="深户"></div-select>
     <div class="recipient-name">
       <span class="item-title">收件人姓名</span>
       <input type="text" placeholder="请输入收件人姓名" class="text-input" v-model="recipientName">
@@ -44,6 +65,7 @@
     <div class="recipient-phone">
       <span class="item-title">收件人手机</span>
       <input type="text" placeholder="请输入收件人手机号码" class="text-input" v-model="recipientPhone">
+      <input type="text" placeholder="请输入收件人手机号码" maxlength="11" class="item-info" v-model="recipientPhone">
     </div>
     <div class="recipient-address">
       <span class="item-title">收件人地址</span>
@@ -97,7 +119,7 @@
           </label>
           <div class="upload-item-text-one">进口货物证明书</div>
         </div>
-        <div class="upload-item-img" v-show="this.censusRegister != '1'">
+        <div class="upload-item-img" v-show="this.censusRegister != '0'">
           <label class="upload-item-img-one" for="file4">
             <input id="file4" type="file" accept="image/*" >
             <img :src="imgOne4" />
@@ -206,8 +228,16 @@
             }
           ]
         },
-        censusRegister: '1',
+        censusRegister: '0',
         censusRegister2: 'A',
+        censusRegister3: {
+          title: '户籍所在地',
+          option: [
+            {'str': '深户', id: '0'},
+            {'str': '非深户', id: '1'},
+            {'str': '外籍', id: '1'}
+          ]
+        },
         plateNumberOne: '',
         carTypeOne: 'K31',
         recipientPhone: '',    // 收件人手机号码
@@ -442,7 +472,7 @@
           })
           return
         }
-        if ((!this.outBoard) && (this.censusRegister !== '1')) {
+        if ((!this.outBoard) && (this.censusRegister !== '0')) {
           Toast({
             message: '请上传境外人员临住表',
             duration: 2000

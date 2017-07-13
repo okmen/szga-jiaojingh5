@@ -32,7 +32,7 @@
       border-radius: 8px;
       height: 70px;
       line-height: 70px;
-      padding-right: 30px;
+      padding-right: 50px;
       font-size: 30px;
       background: white url("../images/select1.png") 95% center/22px 13px no-repeat;
       overflow: hidden;
