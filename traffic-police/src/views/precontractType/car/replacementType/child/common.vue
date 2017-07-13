@@ -159,18 +159,18 @@ export default {
   name: 'renewingCollarCredential',
   data () {
     return {
-      name: '',
-      isShow: false,                           //  验证码
+      name: '',                         // 车主姓名
+      isShow: false,                    //  验证码样式
       forbidden: false,
       chronoScope: '获取验证码',
-      identifying: '',                        // 验证码
-      variety: '居民户口簿',
+      identifying: '',                  // 验证码
       identificationNum: '',            // 证件号码
-      numberPlate: '',  // 车牌号码
-      mobilephone: '',   // 手机号码
-      behindTheFrame4Digits: '',  // 车架号
-      cur_card_id: '01',
-      varietyShow: false,
+      numberPlate: '',                  // 车牌号码
+      mobilephone: '',                  // 手机号码
+      behindTheFrame4Digits: '',        // 车架号
+      variety: '居民户口簿',
+      cur_card_id: '01',                // 证件id
+      varietyShow: false,               // 证件样式
       varietyData: [
         {
           'id': '01',
@@ -225,8 +225,8 @@ export default {
           'str': '组织机构代码证书'
         }
       ],
-      abbreviationSelectShow: false,        // 省字列表显示与否
-      abbreviationSelectMassage: '粤',      // 默认省字
+      abbreviationSelectShow: false,    // 省字列表显示与否
+      abbreviationSelectMassage: '粤',  // 默认省字
       abbreviationSelectData: [
         {
           'str': '粤'
@@ -322,31 +322,8 @@ export default {
           'str': '新'
         }
       ],
-      carSelectData: {
-        '01': '大型汽车',
-        '02': '小型汽车',
-        '03': '使馆汽车',
-        '04': '领馆汽车',
-        '05': '境外汽车',
-        '06': '外籍汽车',
-        '07': '普通摩托车',
-        '08': '轻便摩托车',
-        '09': '使馆摩托车',
-        '10': '领馆摩托车',
-        '15': '挂车',
-        '16': '教练汽车',
-        '17': '教练摩托车',
-        '18': '实验汽车',
-        '19': '实验摩托车',
-        '22': '临时行驶车',
-        '23': '警用汽车',
-        '24': '警用摩托',
-        '20': '临时入境车',
-        '51': '临时行驶车',
-        '52': '新能源小型车'
-      },
       employ: '非运营',
-      employShow: false,
+      employShow: false,                // 使用性质样式
       employID: '01',
       employData: [
         {
@@ -406,63 +383,6 @@ export default {
           'id': '07',
           'str': '坪山车管分所'
         }
-      ],
-      monthShow: false,
-      datesShow: false,
-      timeData: '',
-      newData: '',
-      month: '7',
-      year: '2017',
-      date: '11',
-      years: [],
-      months: [
-        {
-          'str': '7'
-        },
-        {
-          'str': '8'
-        },
-        {
-          'str': '9'
-        },
-        {
-          'str': '10'
-        },
-        {
-          'str': '11'
-        },
-        {
-          'str': '12'
-        }
-      ],
-      dates: [
-        {
-          'str': '7'
-        },
-        {
-          'str': '8'
-        },
-        {
-          'str': '9'
-        },
-        {
-          'str': '10'
-        },
-        {
-          'str': '11'
-        },
-        {
-          'str': '12'
-        }
-      ],
-      surplusData: [
-        {'time': '9:00 - 10:00', 'number': '0'},
-        {'time': '10:00 - 11:00', 'number': '20'},
-        {'time': '11:00 - 12:00', 'number': '20'},
-        {'time': '14:00 - 15:00', 'number': '20'},
-        {'time': '15:00 - 16:00', 'number': '0'},
-        {'time': '14:00 - 15:00', 'number': '20'},
-        {'time': '15:00 - 16:00', 'number': '0'}
       ],
       vehicleShow: false,
       vehicle: '大型汽车',
@@ -552,10 +472,65 @@ export default {
           'id': '52',
           'str': '新能源小型车'
         }
+      ],
+      monthShow: false,
+      datesShow: false,
+      month: '7',
+      year: '2017',
+      date: '11',
+      months: [
+        {
+          'str': '7'
+        },
+        {
+          'str': '8'
+        },
+        {
+          'str': '9'
+        },
+        {
+          'str': '10'
+        },
+        {
+          'str': '11'
+        },
+        {
+          'str': '12'
+        }
+      ],
+      dates: [
+        {
+          'str': '7'
+        },
+        {
+          'str': '8'
+        },
+        {
+          'str': '9'
+        },
+        {
+          'str': '10'
+        },
+        {
+          'str': '11'
+        },
+        {
+          'str': '12'
+        }
+      ],
+      surplusData: [
+        {'time': '9:00 - 10:00', 'number': '0'},
+        {'time': '10:00 - 11:00', 'number': '20'},
+        {'time': '11:00 - 12:00', 'number': '20'},
+        {'time': '14:00 - 15:00', 'number': '20'},
+        {'time': '15:00 - 16:00', 'number': '0'},
+        {'time': '14:00 - 15:00', 'number': '20'},
+        {'time': '15:00 - 16:00', 'number': '0'}
       ]
     }
   },
   methods: {
+    // 证件名称
     varietyID: function (str, id) {
       if (str) {
         this.variety = str
@@ -567,6 +542,7 @@ export default {
         this.varietyShow = true
       }
     },
+    // 车牌号码
     abbreviationSelectClick: function (str) {
       if (str) {
         this.abbreviationSelectMassage = str
@@ -599,6 +575,7 @@ export default {
         this.subscribeShow = true
       }
     },
+    // 车辆类型
     vehicleType: function (str, id) {
       if (str) {
         this.vehicle = str
@@ -610,6 +587,7 @@ export default {
         this.vehicleShow = true
       }
     },
+    // 月
     monthClick: function (str) {
       if (str) {
         this.month = str
@@ -621,6 +599,7 @@ export default {
         this.monthShow = true
       }
     },
+    // 日
     dateClick: function (str) {
       if (str) {
         this.date = str
@@ -632,6 +611,7 @@ export default {
         this.datesShow = true
       }
     },
+    // 获取验证码
     scanQRCode: function () {
       let mobilephone = this.mobilephone
       if (!(mobilephone)) {
