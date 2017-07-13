@@ -504,6 +504,11 @@
     input{
       margin-top: 24px;
     }
+    .replace-select{
+      .select-title{
+        width: 200px;
+      }
+    }
   }
   .replace-plate>div{
     margin: 0 0 30px;
@@ -584,6 +589,16 @@
       border: 1px solid #e2e2e7;
       text-indent:10px;
       font-size: 28px;
+    }
+    .div-select-ul{
+      width: 73%
+    }
+  }
+  .recipient-address-select{
+    .replace-select{
+      .select-title{
+        width: 180px;
+      }
     }
   }
 }
