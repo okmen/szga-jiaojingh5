@@ -245,6 +245,7 @@
                 position: 'bottom',
                 className: 'white'
               })
+              this.initData()
             } else {
               Indicator.close()
               Toast({
@@ -277,6 +278,7 @@
                 position: 'bottom',
                 className: 'white'
               })
+              this.initData()
             } else {
               Indicator.close()
               Toast({
@@ -288,35 +290,37 @@
           })
         })
       },
+      initData: function () {
+        let reqData = {
+          identityCard: this.identityCard,
+          mobilephone: this.mobilephone
+        }
+        resultPost(bindCar, reqData).then(json => {
+          Indicator.close()
+          console.log(json)
+          if (json.code === '0000') {
+            if (json.data.length !== 0) {
+              this.show = true
+              this.carMsg = json.data
+              this.others = json.data[0].list
+              this.listNum = json.data[0].list.length
+              this.sumHeight = 90 * this.listNum
+            }
+          } else {
+            Toast({
+              message: json.msg,
+              position: 'bottom',
+              duration: 2000
+            })
+          }
+        })
+      },
       ...mapActions({
         postAppealQuery: 'postAppealQuery'
       })
     },
     mounted () {
-      Indicator.open()
-      let reqData = {
-        identityCard: this.identityCard,
-        mobilephone: this.mobilephone
-      }
-      resultPost(bindCar, reqData).then(json => {
-        Indicator.close()
-        console.log(json)
-        if (json.code === '0000') {
-          if (json.data.length !== 0) {
-            this.show = true
-            this.carMsg = json.data
-            this.others = json.data[0].list
-            this.listNum = json.data[0].list.length
-            this.sumHeight = 90 * this.listNum
-          }
-        } else {
-          Toast({
-            message: json.msg,
-            position: 'bottom',
-            duration: 2000
-          })
-        }
-      })
+      this.initData()
     }
   }
 </script>

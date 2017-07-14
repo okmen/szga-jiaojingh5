@@ -291,14 +291,14 @@
               receiverAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress
             },
             imgObj: {
-              PHOTO9: idImgOne,
-              PHOTO10: idImgTwo,
-              PHOTO31: idImgFour,
-              SHJYPXB: idImgThree
+              PHOTO9: idImgOne.split(',')[1] || '',
+              PHOTO10: idImgTwo.split(',')[1] || '',
+              PHOTO31: idImgFour.split(',')[1] || '',
+              SHJYPXB: idImgThree.split(',')[1] || ''
             },
             invisibleObj: {
-              JZZA: idImgOne,      // 居住证照片 页面不给居住证上传入口 直接传与身份证正反面同样的数据
-              JZZB: idImgTwo,
+              JZZA: idImgOne.split(',')[1] || '',      // 居住证照片 页面不给居住证上传入口 直接传与身份证正反面同样的数据
+              JZZB: idImgTwo.split(',')[1] || '',
               loginUser: window.localStorage.getItem('identityCard'),
               userSource: 'C',
               identificationNO: 'A'

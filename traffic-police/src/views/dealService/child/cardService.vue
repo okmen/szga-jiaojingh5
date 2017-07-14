@@ -4,24 +4,24 @@
     <div class="query-link" v-bind:class="{ 'show' : isShow}">
       <p @click.stop="clickShow()">补换证类<i v-bind:class="{ 'arrow-open' : isShow, 'arrow-close' : isShow == false}"></i></p>
       <div class="li-box">
-        <router-link :to="isLogin ? '/userAgreement_WeChat/jszbzhz' : 'login'">驾驶证补换证</router-link>
-        <router-link :to="isLogin ? '/userAgreement_WeChat/jszyqhz' : 'login'">驾驶证延期换证</router-link>
+        <router-link :to="isLogin ? '/userAgreement/jszbzhz' : 'login'">驾驶证补换证</router-link>
+        <router-link :to="isLogin ? '/userAgreement/jszyqhz' : 'login'">驾驶证延期换证</router-link>
       </div>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement_WeChat/jszns' : 'login'">驾驶证年审</router-link>
+      <router-link :to="isLogin ? '/userAgreement/jszns' : 'login'">驾驶证年审</router-link>
     </div>
     <div class="query-link">
       <router-link :to="isLogin ? '/userAgreement/xfNotice' : 'login'">消分学习</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement_WeChat/jszzr' : 'login'">驾驶证转入</router-link>
+      <router-link :to="isLogin ? '/userAgreement/jszzr' : 'login'">驾驶证转入</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement_WeChat/jsrlxfsbg' : 'login'">驾驶人联系方式变更</router-link>
+      <router-link :to="isLogin ? '/userAgreement/jsrlxfsbg' : 'login'">驾驶人联系方式变更</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement_WeChat/jszzyjj' : 'login'">驾驶证自愿降级</router-link>
+      <router-link :to="isLogin ? '/userAgreement/jszzyjj' : 'login'">驾驶证自愿降级</router-link>
     </div>
   </div>
 </template>

@@ -263,9 +263,9 @@
               receiverAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress
             },
             imgObj: {
-              PHOTO9: idImgOne,
-              PHOTO10: idImgTwo,
-              JSZZP: idImgThree
+              PHOTO9: idImgOne.split(',')[1] || '',
+              PHOTO10: idImgTwo.split(',')[1] || '',
+              JSZZP: idImgThree.split(',')[1] || ''
             },
             invisibleObj: {
               loginUser: window.localStorage.getItem('identityCard'),

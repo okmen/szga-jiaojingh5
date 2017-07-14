@@ -12,7 +12,7 @@
     <p v-if="dataList.imgObj">请按示例图上传以下证件照片</p>
     <div class="affirmInfo-img-content">
       <dl class="affirmInfo-img-item" v-for="(value, key) in dataList.imgObj" v-if="value">
-        <dt class="affirmInfo-img-item-val"><img :src="value" alt=""></dt>
+        <dt class="affirmInfo-img-item-val"><img :src="'data:image/jpeg;base64,' + value" alt=""></dt>
         <dd class="affirmInfo-img-item-key">{{ keyListObj[key] }}</dd>
       </dl>
     </div>

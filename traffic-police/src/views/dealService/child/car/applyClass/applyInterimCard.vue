@@ -477,13 +477,13 @@
             'receiverAddress': `深圳市,${this.recipientAddressRegion},${this.recipientAddressDetail}` // 收件人地址
           },
           imgObj: {
-            'PHOTO26': this.dealService1,
-            'PHOTO27': this.dealService2,
-            'PHOTO9': this.IDcardFront,
-            'PHOTO10': this.IDcarfBack,
-            'PHOTO28': this.dealService3,
-            'PHOTO31': this.outBoard,
-            'PHOTO29': this.dealService4
+            'PHOTO26': this.dealService1.split(',')[1] || '',
+            'PHOTO27': this.dealService2.split(',')[1] || '',
+            'PHOTO9': this.IDcardFront.split(',')[1] || '',
+            'PHOTO10': this.IDcarfBack.split(',')[1] || '',
+            'PHOTO28': this.dealService3.split(',')[1] || '',
+            'PHOTO31': this.outBoard.split(',')[1] || '',
+            'PHOTO29': this.dealService4.split(',')[1] || ''
           }
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)

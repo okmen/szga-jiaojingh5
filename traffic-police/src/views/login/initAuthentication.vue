@@ -113,8 +113,8 @@ export default {
         mobilephone: this.mobilephone,
         userName: this.userName,
         authenticationType: '5',
-        photo6: this.imgOne2,
-        photo9: this.imgOne1
+        photo6: this.imgOne2.split(',')[1] || '',
+        photo9: this.imgOne1.split(',')[1] || ''
       }
       console.log(reqData)
       resultPost(verificatioCode, {mobilephone: this.mobilephone, validateCode: this.validateCode}).then(json => {
