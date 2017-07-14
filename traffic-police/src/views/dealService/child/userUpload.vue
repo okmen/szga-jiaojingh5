@@ -189,8 +189,8 @@
         border: none;
       }
       .style-three {
-        background: #efeff4 url('../../../images/license-card.png') center no-repeat;
-        background-size: 80%;
+        background: #efeff4 url('../../../images/drivinglicense.png') center no-repeat;
+        background-size: 70%;
         border: none;
       }
       .style-four {
@@ -204,7 +204,7 @@
         border: none;
       }
       .style-six {
-        background: #efeff4 url('../../../images/delay.png') center no-repeat;
+        background: #efeff4 url('../../../images/newDelayIntro.png') center no-repeat;
         background-size: 80%;
         border: none;
       }
