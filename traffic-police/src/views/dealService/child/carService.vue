@@ -3,8 +3,8 @@
     <div class="query-link" v-bind:class="{ 'show' : applyShow}">
       <p @click.stop="applyShow = !applyShow">申请类<i v-bind:class="{ 'arrow-open' : applyShow, 'arrow-close' : applyShow == false}"></i></p>
       <div class="li-box">
-        <router-link :to="isLogin ? 'applyClass/01' : 'login'">申请通行证（外地车）</router-link>
-        <router-link :to="isLogin ? 'applyClass/02' : 'login'">申请机动车临牌</router-link>
+        <router-link :to="isLogin ? 'applyClass/01' : routerUrl">申请通行证（外地车）</router-link>
+        <router-link :to="isLogin ? 'applyClass/02' : routerUrl">申请机动车临牌</router-link>
       </div>
     </div>
     <div class="query-link" v-bind:class="{ 'show' : lawlessShow}">
@@ -18,20 +18,20 @@
     <div class="query-link" v-bind:class="{ 'show' : changeShow}">
       <p @click.stop="changeShow = !changeShow">补换领证类<i v-bind:class="{ 'arrow-open' : changeShow, 'arrow-close' : changeShow == false}"></i></p>
       <div class="li-box">
-        <router-link :to="isLogin ? '/userAgreement/szjj_hander_ctmvdl' : 'login'">补领行驶证</router-link>
-        <router-link :to="isLogin ? '/userAgreement/szjj_hander_icr' : 'login'">换领行驶证</router-link>
-        <router-link :to="isLogin ? '/userAgreement/szjj_hander_rim' : 'login'">补换检验合格标志</router-link>
-        <router-link :to="isLogin ? '/userAgreement/szjj_hander_rmvp' : 'login'">补换机动车号牌</router-link>
+        <router-link :to="isLogin ? '/userAgreement/szjj_hander_ctmvdl' : routerUrl">补领行驶证</router-link>
+        <router-link :to="isLogin ? '/userAgreement/szjj_hander_icr' : routerUrl">换领行驶证</router-link>
+        <router-link :to="isLogin ? '/userAgreement/szjj_hander_rim' : routerUrl">补换检验合格标志</router-link>
+        <router-link :to="isLogin ? '/userAgreement/szjj_hander_rmvp' : routerUrl">补换机动车号牌</router-link>
       </div>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/szjj_hander_cvi' : 'login'">六年免检</router-link>
+      <router-link :to="isLogin ? '/userAgreement/szjj_hander_cvi' : routerUrl">六年免检</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/szjj_hander_iccc' : 'login'">机动车联系方式变更</router-link>
+      <router-link :to="isLogin ? '/userAgreement/szjj_hander_iccc' : routerUrl">机动车联系方式变更</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/szjj_hander_id' : 'login'">机动车委托异地定期检验申报</router-link>
+      <router-link :to="isLogin ? '/userAgreement/szjj_hander_id' : routerUrl">机动车委托异地定期检验申报</router-link>
     </div>
     <div class="query-link">
       <router-link :to="isLogin ? 'freeForFirst' : 'login'">首违免罚查询</router-link>
@@ -50,12 +50,29 @@
         lawlessShow: false,
         changeShow: false,
         businesses: [],
-        isLogin: window.localStorage.getItem('isLogin')
+        isLogin: false,
+        routerUrl: ''
       }
     },
     methods: {
       clickShow: function () {
         this.isShow = !this.isShow
+      }
+    },
+    mounted () {
+      let isLogins = window.localStorage.getItem('isLogin')
+      let cars = JSON.parse(window.localStorage.getItem('cars'))
+      if (isLogins) {
+        this.routerUrl = 'login'
+        if (cars.length !== 0) {
+          this.isLogin = true
+        } else {
+          this.isLogin = false
+          this.routerUrl = 'addVehicle'
+        }
+      } else {
+        this.isLogin = false
+        this.routerUrl = 'login'
       }
     }
   }
