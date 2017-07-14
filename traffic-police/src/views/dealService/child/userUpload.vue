@@ -5,12 +5,12 @@
       <label class="img-box style-one" for="file1" v-show="idCard1">
         <input id="file1" type="file" accept="image/*">
         <img :src="imgIDcard1">
-        <span>身份证正面</span>
+        <span>身份证（正面）</span>
       </label>
       <label class="img-box style-two" for="file2" v-show="idCard2">
         <input id="file2" type="file" accept="image/*">
         <img :src="imgIDcard2">
-        <span>身份证反面</span>
+        <span>身份证（反面）</span>
       </label>
       <label class="img-box style-three" for="file3" v-show="license">
         <input id="file3" type="file" accept="image/*">
@@ -133,21 +133,23 @@
     position: relative;
     .container {
       .img-box {
-        margin: 20px 64px 0;
+        margin: 0 44px 90px 0;
         display: inline-block;
+        float: left;
         position: relative;
-        width: 200px;
-        height: 200px;
+        width: 304px;
+        height: 304px;
         background-color: #efeff4;
-        /*border: 1px solid #dddde1;*/
-        border-radius: 15px;
+        border-radius: 8px;
+        border: 2px solid #dddde1;
         color: #666;
         font-size: 22px;
         text-align: center;
         img {
-          width: 100%;
-          height: 100%;
-          border-radius: 15px;
+          max-height: 90%;
+          max-width: 90%;
+          border-radius: 8px;
+          margin-bottom: 24px;
         }
         input {
           position: absolute;
@@ -158,14 +160,26 @@
           left: 0;
           z-index: 998;
         }
+        span{
+          display: block;
+          position: absolute;
+          color: #666;
+          font-size: 28px;
+        }
+      }
+      .img-box:nth-of-type(2n) {
+        margin-right: 0;
+      }
+      .img-box:nth-of-type(1), .img-box:nth-of-type(2){
+        margin-top: 24px;
       }
       .style-one {
-        background: #efeff4 url('../../../images/ID-front.png') center no-repeat;
+        background: #efeff4 url('../../../images/IDcard-front.png') center no-repeat;
         background-size: 90%;
         border: none;
       }
       .style-two {
-        background: #efeff4 url('../../../images/ID-rear.png') center no-repeat;
+        background: #efeff4 url('../../../images/IDcard-back.png') center no-repeat;
         background-size: 90%;
         border: none;
       }
