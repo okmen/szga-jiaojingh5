@@ -394,8 +394,11 @@
             illegalTime: this.mtDateTimeMsg,                        // 违法时间
             illegalSections: this.informItem,                       // 违法路段
             reportImgOne: !this.imgOne.split(',')[1] ? '' : this.imgOne.split(',')[1],                // 上传照片
+            reportImgOneT1: this.imgOneTime || '',
             reportImgTwo: !this.imgTwo.split(',')[1] ? '' : this.imgTwo.split(',')[1],
+            reportImgOneT2: this.imgTwoTime || '',
             reportImgThree: !this.imgThree.split(',')[1] ? '' : this.imgThree.split(',')[1],
+            reportImgOneT3: this.imgThreeTime || '',
             licensePlateType: this.licenseSelectType,               // 车牌类型
             licensePlateNumber: this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase(),
             illegalActivitieOne: this.informIntroWhy,               // 违法行为
