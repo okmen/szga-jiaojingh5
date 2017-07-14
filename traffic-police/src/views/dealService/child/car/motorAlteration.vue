@@ -60,7 +60,7 @@
             <span class="btn-select stylebackground" @click.stop="domicileFn()">{{ domicile }}</span>
             <div class="div-select-ul" v-if="domicileShow">
               <ul>
-                <li v-for="item in domicileData" @click.stop="domicileFn(item.str, item.id)">{{item.str}}</li>
+                <li v-for="item in domicileData" @click.stop="domicileFn(item.str, item.id, item.index)">{{item.str}}</li>
               </ul>
             </div>
           </div>
@@ -282,17 +282,21 @@
         domicile: '深户',
         domicileShow: false,
         domicileId: '1',
+        showIndex: '0',
         domicileData: [
           {
             'id': '1',
+            'index': '0',
             'str': '深户'
           },
           {
             'id': '0',
+            'index': '1',
             'str': '非深户'
           },
           {
             'id': '0',
+            'index': '2',
             'str': '外籍户口'
           }
         ],
@@ -334,10 +338,11 @@
         }
       },
       // 户籍所在地下拉框
-      domicileFn: function (str, id) {
+      domicileFn: function (str, id, index) {
         if (str) {
           this.domicile = str
           this.domicileId = id
+          this.showIndex = index
         }
         if (this.domicileShow === true) {
           this.domicileShow = false
@@ -406,6 +411,7 @@
             'cartype': this.vehType,                         // 车辆类型
             'mobilephone': this.mobilephone,                 // 手机号码
             'placeOfDomicile': this.domicileId,               // 户籍所在地
+            'showIndex': this.showIndex,
             'behindTheFrame4Digits': this.vehicleFlapper,    // 车架号
             'receiverAddress': `深圳市${this.areaSelectMassage}${this.mailingAddress}`    // 收件人地址
           },
