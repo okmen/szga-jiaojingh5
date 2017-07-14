@@ -434,12 +434,12 @@
             'receiverAddress': `深圳市${this.recipientAddressRegion}${this.recipientAddressDetail}`
           },
           imgObj: {
-            'PHOTO9': this.IDcardFront,
-            'PHOTO10': this.IDcarfBack,
-            'DJZSFYJ': this.registerCredential,
-            'PHOTO31': this.outBoard,
-            'JZZA': this.residencePermitF,
-            'JZZB': this.residencePermitB
+            'PHOTO9': this.IDcardFront.split(',')[1] || this.IDcardFront,
+            'PHOTO10': this.IDcarfBack.split(',')[1] || this.IDcarfBack,
+            'DJZSFYJ': this.registerCredential.split(',')[1] || this.registerCredential,
+            'PHOTO31': this.outBoard.split(',')[1] || this.outBoard,
+            'JZZA': this.residencePermitF.split(',')[1] || this.residencePermitF,
+            'JZZB': this.residencePermitB.split(',')[1] || this.residencePermitB
           }
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)
