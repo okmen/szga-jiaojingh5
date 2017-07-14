@@ -2,37 +2,37 @@
   <div class="upload-img">
     <p>请按示例图上传以下证件照片</p>
     <div class="container">
-      <label class="img-box style-one" for="file1" v-show="idCard1">
+      <label class="img-box style-one" for="file1" v-if="idCard1">
         <input id="file1" type="file" accept="image/*">
         <img :src="imgIDcard1">
         <span>身份证（正面）</span>
       </label>
-      <label class="img-box style-two" for="file2" v-show="idCard2">
+      <label class="img-box style-two" for="file2" v-if="idCard2">
         <input id="file2" type="file" accept="image/*">
         <img :src="imgIDcard2">
         <span>身份证（反面）</span>
       </label>
-      <label class="img-box style-three" for="file3" v-show="license">
+      <label class="img-box style-three" for="file3" v-if="license">
         <input id="file3" type="file" accept="image/*">
         <img :src="imgLicense">
         <span>驾驶证照片</span>
       </label>
-      <label class="img-box style-four" for="file4" v-show="eduTable">
+      <label class="img-box style-four" for="file4" v-if="eduTable">
         <input id="file4" type="file" accept="image/*">
         <img :src="imgEducate">
         <span>审核教育绘制表</span>
       </label>
-      <label class="img-box style-five" for="file5" v-show="outTable">
+      <label class="img-box style-five" for="file5" v-if="outTable">
         <input id="file5" type="file" accept="image/*">
         <img :src="imgOut">
         <span>境外人员临住表</span>
       </label>
-      <label class="img-box style-six" for="file6" v-show="delay">
+      <label class="img-box style-six" for="file6" v-if="delay">
         <input id="file6" type="file" accept="image/*">
         <img :src="imgDelay">
         <span>延期说明照片</span>
       </label>
-      <label class="img-box style-seven" for="file7" v-show="bodyTable">
+      <label class="img-box style-seven" for="file7" v-if="bodyTable">
         <input id="file7" type="file" accept="image/*">
         <img :src="imgBody">
         <span>身体条件申请表</span>
