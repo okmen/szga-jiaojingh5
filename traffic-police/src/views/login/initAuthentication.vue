@@ -122,10 +122,10 @@ export default {
           resultPost(reauthentication, reqData).then(data => {
             console.log(data)
             if (data.code === '0000') {
-              MessageBox.alert(data.msg).then(action => {
-                this.$store.commit('appoinSuccess', {appoinNum: data.data, appoinType: '星级用户重新认证'})
-                this.$router.push('/appointSuccess')
-              })
+              // MessageBox.alert(data.msg).then(action => {
+              this.$store.commit('appoinSuccess', {appoinNum: data.data, appoinType: '星级用户重新认证'})
+              this.$router.push('/appointSuccess')
+              // })
             } else {
               MessageBox.alert(data.msg).then(action => {
                 this.$router.push('/findPassword')

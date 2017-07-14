@@ -1,14 +1,12 @@
 <template lang="html">
   <div class="queryProgress">
     <!--Tab切换栏-->
-    <div class="nav-warpper">
-      <div class="nav">
-        <div class="nav-tab" :class="{ 'active': cur_tab == 'car'}" @click="query('car')">机动车业务</div>
-        <div class="nav-tab" :class="{ 'active': cur_tab == 'card'}" @click="query('card')">驾驶证业务</div>
-        <div class="nav-tab" :class="{ 'active': cur_tab == 'other'}" @click="query('other')">其他</div>
-      </div>
+    <div class="nav">
+      <div class="nav-tab" :class="{ 'active': cur_tab == 'car'}" @click="query('car')">机动车业务</div>
+      <div class="nav-tab" :class="{ 'active': cur_tab == 'card'}" @click="query('card')">驾驶证业务</div>
+      <div class="nav-tab" :class="{ 'active': cur_tab == 'other'}" @click="query('other')">其他</div>
     </div>
-    <div class="content">
+    <div class="content" id="content" ref="content">
       <queryResult class="queryResult" v-for="item in dataList" :data="item"></queryResult>
     </div>
   </div>
@@ -51,27 +49,28 @@ export default {
           case 'other': // 查询其他业务
             resultPost(getIdentificationOfAuditResults, {identityCard: this.identityCard}).then(json => {
               if (json.code === '0000') {
-                let status = ''
-                switch (json.data.sHZT) {
-                  case '0':
-                    status = '待审核'
-                    break
-                  case '1':
-                    status = '审核通过'
-                    break
-                  case 'TB':
-                    status = '退办'
-                    break
-                }
-                let datalist = [
-                  {
+                let datalist = []
+                json.data.forEach(item => {
+                  let status = ''
+                  switch (item.sHZT) {
+                    case '0':
+                      status = '待审核'
+                      break
+                    case '1':
+                      status = '审核通过'
+                      break
+                    case 'TB':
+                      status = '退办'
+                      break
+                  }
+                  datalist.push({
                     businessTitle: '星级用户认证', // 业务名称
                     statusStr: status, // 业务状态
-                    receptionTime: json.data.sHSJ || '' // 受理时间
-                  }
-                ]
+                    receptionTime: item.sHSJ || '' // 受理时间
+                  })
+                })
                 this.dataList = datalist
-                window.scrollTo(0, 0)
+                this.$refs.content.scrollTop = 0
               } else {
                 Toast({
                   message: json.msg,
@@ -87,7 +86,7 @@ export default {
       resultPost(bindBusiness, reqData).then(json => {
         if (json.code === '0000') {
           this.dataList = json.data
-          window.scrollTo(0, 0)
+          this.$refs.content.scrollTop = 0
         } else {
           Toast({
             message: json.msg,
@@ -109,16 +108,13 @@ export default {
 
 <style lang="less" scoped>
 .queryProgress{
-  .nav-warpper{
-    height: 100px;
-  }
   .nav{
-    position: fixed;
+    position: absolute;
     top: 0;
     width: 100%;
     display: flex;
     font-size: 0;
-    background-color:#fff;
+    background-color: #FFF;
     border-bottom:1px solid #dbdbdb;
     z-index: 1;
     .nav-tab {
@@ -134,7 +130,13 @@ export default {
     }
   }
   .content{
-    padding-top: 6px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    padding-top: 106px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling:touch;
     .queryResult{
       margin: 20px 0;
     }

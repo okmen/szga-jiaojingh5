@@ -289,6 +289,10 @@
           },
           {
             'id': '0',
+            'str': '非深户'
+          },
+          {
+            'id': '0',
             'str': '外籍户口'
           }
         ],
@@ -406,9 +410,9 @@
             'receiverAddress': `深圳市${this.areaSelectMassage}${this.mailingAddress}`    // 收件人地址
           },
           imgObj: {
-            'PHOTO9': this.IDcardFront,
-            'PHOTO10': this.IDcarfBack,
-            'JDCXSZ': this.registerCredential
+            'PHOTO9': this.IDcardFront.split(',')[1],
+            'PHOTO10': this.IDcarfBack.split(',')[1],
+            'JDCXSZ': this.registerCredential.split(',')[1]
           }
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)
