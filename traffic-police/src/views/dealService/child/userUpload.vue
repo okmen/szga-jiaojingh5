@@ -150,6 +150,7 @@
           max-width: 90%;
           border-radius: 8px;
           margin-bottom: 24px;
+          vertical-align: middle;
         }
         input {
           position: absolute;
@@ -162,8 +163,10 @@
         }
         span{
           display: block;
+          width: 304px;
           position: absolute;
-          color: #666;
+          top: 325px;
+          text-align: center;
           font-size: 28px;
         }
       }
