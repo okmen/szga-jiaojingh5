@@ -146,11 +146,13 @@
         font-size: 22px;
         text-align: center;
         img {
+          position: absolute;
           max-height: 90%;
           max-width: 90%;
           border-radius: 8px;
-          margin-bottom: 24px;
-          vertical-align: middle;
+          top: 50%;
+          left: 50%;
+          transform:translate(-50%,-50%);
         }
         input {
           position: absolute;
