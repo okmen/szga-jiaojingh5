@@ -396,6 +396,13 @@
           })
           return
         }
+        if (this.behindTheFrame4Digits.length !== 4) {
+          Toast({
+            message: '请输入车架号后四位',
+            duration: 2000
+          })
+          return
+        }
         if (!this.recipientName) {
           Toast({
             message: '请输入收件人姓名',

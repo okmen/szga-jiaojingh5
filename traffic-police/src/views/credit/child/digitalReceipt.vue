@@ -13,8 +13,9 @@
         <h3>
           2、本回执不作为报销凭证，通过深圳交警星级用户平台网上支付、支付宝钱包、微信公众号、“深圳交警”APP等线上渠道
         </h3>
+      </div>
     </div>
-    </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 
@@ -36,13 +37,15 @@ export default {
       .digitalUl{
         width: 100%;
         border: 1px solid #a7d9f9;
-      }
-      li{
-        padding-left: 34px;
-        font: 100 26px/70px '';
+        li{
+          padding-left: 34px;
+          font: 100 26px/70px '';
+        }
       }
       li:first-of-type{
         color: #a7d9f9;
+        padding-left: 0;
+        text-align: center;
         font: 700 32px/70px '';
         border-bottom: 1px solid #a7d9f9;
       }
