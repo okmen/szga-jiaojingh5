@@ -99,7 +99,7 @@
           </label>
           <div class="upload-item-text-one">进口货物证明书</div>
         </div>
-        <div class="upload-item-img" v-show="this.censusRegister != '0'">
+        <div class="upload-item-img" v-show="this.showIndex == '2'">
           <label class="upload-item-img-one" for="file4">
             <input id="file4" type="file" accept="image/*" >
             <img :src="imgOne4" />
@@ -208,7 +208,8 @@
             }
           ]
         },
-        censusRegister: '0',
+        censusRegister: '1',
+        showIndex: '0',
         censusRegister2: 'A',
         censusRegister3: {
           title: '户籍所在地',
@@ -327,9 +328,10 @@
           }
         })
       },
-      getCensusRegister1 (val) {
+      getCensusRegister1 (val, index) {
         console.log(val)
         this.censusRegister = val
+        this.showIndex = index
       },
       getCensusRegister2 (val) {
         console.log(val)
@@ -459,13 +461,13 @@
           })
           return
         }
-        // if ((!this.outBoard) && (this.censusRegister !== '0')) {
-        //   Toast({
-        //     message: '请上传境外人员临住表',
-        //     duration: 2000
-        //   })
-        //   return
-        // }
+        if ((!this.outBoard) && (this.showIndex === '2')) {
+          Toast({
+            message: '请上传境外人员临住表',
+            duration: 2000
+          })
+          return
+        }
         let dataList = {
           type: '申请机动车临牌',
           url: applyCarTemporaryLicence,
@@ -479,6 +481,7 @@
             'behindTheFrame4Digits': this.behindTheFrame4Digits, // 车架号
             'carOrigin': this.censusRegister2, // 车辆产地
             'placeOfDomicile': this.censusRegister, // 户籍所在地
+            'showIndex': this.showIndex,
             'receiverName': this.recipientName, // 收件人姓名
             'receiverNumber': this.recipientPhone, // 收件人号码
             'receiverAddress': `深圳市,${this.recipientAddressRegion},${this.recipientAddressDetail}` // 收件人地址
