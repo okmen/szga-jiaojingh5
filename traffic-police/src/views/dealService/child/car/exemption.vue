@@ -4,7 +4,7 @@
       <ul>
         <li class="form-line">
           <div class="form-line-item item-name">
-            <span>车牌名称</span>
+            <span>车牌号码</span>
           </div>
           <div class="div-select">
             <span class="btn-select stylebackground" @click.stop="vehiclePlate()">{{ vehicle }}</span>

@@ -28,7 +28,7 @@
     <ul class="freeByCarUl" v-if="freeUlShow">
       <li class="freeByCarLi" v-for="(item, key) in freeData">
         <div class="liDiv-title">{{keyListObj[key]}}</div>
-        <div class="liDiv-text">{{item}}</div>
+        <div class="liDiv-text">{{key === 'plateType' ? licenseSelectDataList[item] : item}}</div>
       </li>
     </ul>
     <div v-wechat-title="$route.meta.title"></div>
@@ -47,6 +47,38 @@
         verification: '', // 验证码
         lawlessCode: '',
         verifyCode: false,
+        licenseSelectMassage: '蓝牌',         // 默认车牌类型
+        licenseSelectDataList: {
+          '02': '蓝牌',
+          '01': '黄牌',
+          '06': '黑牌'
+        },
+        licenseSelectData: [
+          {
+            'str': '蓝牌',
+            'id': '02'
+          },
+          {
+            'str': '黄牌',
+            'id': '01'
+          },
+          {
+            'str': '黑牌',
+            'id': '06'
+          },
+          {
+            'str': '个性牌',
+            'id': '02'
+          },
+          {
+            'str': '小型新能源车号牌',
+            'id': '02'
+          },
+          {
+            'str': '大型新能源车号牌',
+            'id': '02'
+          }
+        ],            // 车牌类型列表（编号转换
         freeData: {},
         keyListObj: {
           'id': '记录ID',
