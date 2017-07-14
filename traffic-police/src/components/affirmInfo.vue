@@ -2,7 +2,7 @@
 <div id="affirmInfo-body">
   <div class="affirmInfo-text">
     <ul class="affirmInfo-text-content">
-      <li class="affirmInfo-text-item" v-for="(value, key) in dataList.textObj">
+      <li class="affirmInfo-text-item" v-for="(value, key) in dataList.textObj" v-if="keyListObj[key]">
         <span class="affirmInfo-text-item-key">{{ keyListObj[key] }}</span>
         <span class="affirmInfo-text-item-val">{{ valListObj[key] ?  valListObj[key][value] : value }}</span>
       </li>
@@ -51,6 +51,7 @@ export default {
         engineNumber: '发动机号',
         carOrigin: '车辆产地',
         placeOfDomicile: '户籍所在地',
+        showIndex: '户籍所在地',
         receiverName: '收件人姓名',
         receiverNumber: '收件人号码',
         receiverAddress: '收件人地址',
@@ -125,6 +126,11 @@ export default {
           'K43': '微型轿车',
           'K38': '小型专用校车'
         },
+        showIndex: {
+          '0': '深户',
+          '1': '非深户',
+          '2': '外籍'
+        },
         plateType: {
           '02': '蓝牌',
           '06': '黑牌',
@@ -181,6 +187,12 @@ export default {
   computed: {
     dataList: function () {
       return this.$store.state.motorVehicleHandling
+    }
+  },
+  created () {
+    if (this.dataList.textObj.hasOwnProperty('showIndex')) {
+      delete this.keyListObj.placeOfDomicile
+      delete this.valListObj.placeOfDomicile
     }
   },
   mounted () {

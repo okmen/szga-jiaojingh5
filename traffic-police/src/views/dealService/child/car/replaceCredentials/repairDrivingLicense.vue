@@ -454,12 +454,12 @@
           type: '补领行驶证',
           url: complementTheMotorVehicleDrivingLicense,
           textObj: {
-            'showIndex': this.showIndex,
             'name': this.ownersName,   // 车主姓名
             'identificationNum': this.certificateNumber,
             'numberPlate': this.plateNumberOne, //
             'plateType': this.plateTypeOne,
             'placeOfDomicile': this.censusRegisterOne,    // 户籍所在地
+            'showIndex': this.showIndex,
             'receiverName': this.recipientName,  // 收件人姓名
             'receiverNumber': this.recipientPhone,  // 收件人手机
             'receiverAddress': `深圳市${this.recipientAddressRegion}${this.recipientAddressDetail}`  // 收件人地址

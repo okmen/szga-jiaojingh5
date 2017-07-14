@@ -423,12 +423,12 @@
           type: '换领行驶证',
           url: iocomotiveCarReplace,
           textObj: {
-            'showIndex': this.showIndex,
             'name': this.ownersName,
             'identificationNum': this.certificateNumber,
             'numberPlate': this.plateNumberOne,
             'plateType': this.plateTypeOne,
             'placeOfDomicile': this.censusRegisterOne,
+            'showIndex': this.showIndex,
             'receiverName': this.recipientName,
             'receiverNumber': this.recipientPhone,
             'receiverAddress': `深圳市${this.recipientAddressRegion}${this.recipientAddressDetail}`

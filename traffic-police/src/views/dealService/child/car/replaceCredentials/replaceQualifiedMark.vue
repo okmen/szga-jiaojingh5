@@ -467,13 +467,13 @@
           type: '补换检验合格标志',
           url: replaceInspectionMark,
           textObj: {
-            'showIndex': this.showIndex,   // 0 表示深户，1 表示非深户，2 表示外籍
             'userName': this.ownersName,
             'identityCard': this.certificateNumber,
             'mobilephone': this.mobilePhone,
             'numberPlate': this.plateNumberOne,
             'plateType': this.plateTypeOneVal,
             'placeOfDomicile': this.censusRegisterOne,
+            'showIndex': this.showIndex,   // 0 表示深户，1 表示非深户，2 表示外籍
             'receiverName': this.recipientName,
             'receiverNumber': this.recipientPhone,
             'receiverAddress': `深圳市${this.recipientAddressRegion}${this.recipientAddressDetail}`
