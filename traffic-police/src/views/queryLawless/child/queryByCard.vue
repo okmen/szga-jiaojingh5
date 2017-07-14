@@ -143,6 +143,14 @@
               duration: 3000
             })
           }
+          if (json.data.length === 0) {
+            Toast({
+              message: '当前车辆暂无违法信息',
+              position: 'middle',
+              className: 'white',
+              duration: 3000
+            })
+          }
           this.illegalData = json.data
         })
       }
