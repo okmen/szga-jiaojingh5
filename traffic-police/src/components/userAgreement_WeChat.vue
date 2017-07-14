@@ -115,6 +115,27 @@ export default {
           case 'jsrlxfsbg':  // 驾驶人联系方式变更
             this.$router.push('/changeConnect')
             break
+          case 'szjj_hander_ctmvdl':  // 补领行驶证
+            this.$router.push('/replaceCredentials/repairDrivingLicense')
+            break
+          case 'szjj_hander_cvi':  // 六年免检预约
+            this.$router.push('/exemption')
+            break
+          case 'szjj_hander_rim':  // 补换检验合格标志
+            this.$router.push('/replaceCredentials/replaceQualifiedMark')
+            break
+          case 'szjj_hander_id':  // 机动车异地定期检验申报
+            this.$router.push('/placeExamine')
+            break
+          case 'szjj_hander_rmvp':  // 补领机动车号牌
+            this.$router.push('/replaceCredentials/replaceLicencePlate')
+            break
+          case 'szjj_hander_icr':  // 换领机动车行驶证
+            this.$router.push('/replaceCredentials/exchangeDrivingLicense')
+            break
+          case 'szjj_hander_iccc':  // 机动车变更联系方式
+            this.$router.push('/motorAlteration')
+            break
         }
       } else {
         Toast({

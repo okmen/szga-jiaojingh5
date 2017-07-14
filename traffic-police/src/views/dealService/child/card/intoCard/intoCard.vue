@@ -306,13 +306,12 @@
             type: '驾驶证转入',
             url: intoCard,
             textObj: {
-              userNma: this.name,
+              userName: this.name,
               driverLicense: this.driverLicense,
               fileNumber: this.fileNumber,
               identityCard: this.IDcard,
-              issuingLicenceAuthority: this.cur_place_id,             // 发证机关传给后端的字段
+              issuingLicenceAuthorityMsg: this.placeSelectMassage,             // 发证机关传给后端的字段
               photoReturnNumberString: this.photoReturnNumberString,
-              userName: this.name,
               receiverName: this.receiverName,
               receiverNumber: this.receiverNumber,
               receiverAddress: '深圳市' + this.areaSelectMassage + this.mailingAddress
@@ -324,6 +323,7 @@
               STTJSQB: idImgFour.split(',')[1] || ''
             },
             invisibleObj: {
+              issuingLicenceAuthority: this.cur_place_id,             // 发证机关传给后端的字段
               loginUser: window.localStorage.getItem('identityCard'),
               userSource: 'C',
               identificationNO: 'A'

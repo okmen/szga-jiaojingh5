@@ -117,6 +117,24 @@ export default {
           case 'szjj_hander_iccc':  // 机动车变更联系方式
             this.$router.push('/motorAlteration')
             break
+          case 'jszbzhz':  // 驾驶证补证换证
+            this.$router.push('/changeCard/id/1')
+            break
+          case 'jszyqhz':  // 驾驶证延期换证
+            this.$router.push('/changeCard/id/2')
+            break
+          case 'jszns':  // 驾驶证年审
+            this.$router.push('/annualExaminations')
+            break
+          case 'jszzr':  // 驾驶证转入
+            this.$router.push('/intoCard')
+            break
+          case 'jszzyjj':  // 驾驶证自愿降级
+            this.$router.push('/degradeCard')
+            break
+          case 'jsrlxfsbg':  // 驾驶人联系方式变更
+            this.$router.push('/changeConnect')
+            break
         }
       } else {
         Toast({

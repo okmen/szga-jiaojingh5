@@ -73,7 +73,9 @@ export default {
         bookNumber: '预约流水号',
         proprietorship: '车辆所有权',
         associatedAgency: '委托机构',
+        associatedAgencyMsg: '委托机构', // 委托机构全称
         issuingLicenceAuthority: '发证机关',
+        issuingLicenceAuthorityMsg: '发证机关', // 发证机关全称
         PHOTO26: '购置发票图片',
         PHOTO27: '交强险单据',
         PHOTO9: '身份证(正面)',

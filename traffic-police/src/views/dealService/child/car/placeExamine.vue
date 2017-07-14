@@ -351,11 +351,14 @@ export default {
           'behindTheFrame4Digits': this.carriageNumber,      // 车架号
           'carOwnerIdentityCard': this.identityCard,         // 车主身份证
           'name': this.name,                                 // 车主名字
-          'associatedAgency': this.cur_place_id,             // 受托机构
+          'associatedAgencyMsg': this.trusteeTimeMsg,        // 受托机构全称
           'receiverName': this.addresseeName,                // 收件人名字
           'receiverNumber': this.mobile,                        // 联系电话
           'postCode': this.postalcode,                       // 邮政编码
           'receiverAddress': `深圳市,${this.areaSelectMassage},${this.mailingAddress}`    // 收件人地址
+        },
+        invisibleObj: {
+          'associatedAgency': this.cur_place_id             // 受托机构
         }
       }
       this.$store.commit('saveMotorVehicleHandling', dataList)
