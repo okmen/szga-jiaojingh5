@@ -78,7 +78,7 @@
             </div>
             <div class="left-line">
               预约时间:
-              <p>{{ reserve.yydate }}{{ reserve.yydate_sjd }}</p>
+              <p>{{ reserve.yydate }} {{ reserve.yydate_sjd }}</p>
             </div>
             <div class="left-line" v-if="reserve.zt == '正常'">
               <div class="cancel" @click.stop="CancelConfirm(reserve.yylsh)">
@@ -338,7 +338,6 @@
           licensePlateType: this.cur_type_id,
           mobilephone: this.mobilephone
         }
-        console.log(reqData)
         for (let key in reqData) {
           if (!reqData[key]) {
             console.log(key)
@@ -386,15 +385,14 @@
           subscribeNo: subscribeNo
         }
         resultPost(earlyCancel, reqData).then(json => {
-          console.log(json)
-          if (json.code === '0000') {
+          if (json.code === '0') {
+            this.earlyQuery() // 重新查询
             Toast({
               message: json.msg,
               position: 'middle',
               className: 'white',
               duration: 3000
             })
-            window.location.reload()
           } else {
             Toast({
               message: json.msg,
