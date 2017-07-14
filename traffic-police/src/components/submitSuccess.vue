@@ -28,8 +28,6 @@
         reserveTime: '预约时间'
       }
     }
-
-    // TODO keyListObj 缺少预约成功的信息 待接口统一字段
 -->
 
 <template>

@@ -51,25 +51,26 @@ export default {
           case 'other': // 查询其他业务
             resultPost(getIdentificationOfAuditResults, {identityCard: this.identityCard}).then(json => {
               if (json.code === '0000') {
-                let status = ''
-                switch (json.data.sHZT) {
-                  case '0':
-                    status = '待审核'
-                    break
-                  case '1':
-                    status = '审核通过'
-                    break
-                  case 'TB':
-                    status = '退办'
-                    break
-                }
-                let datalist = [
-                  {
+                let datalist = []
+                json.data.forEach(item => {
+                  let status = ''
+                  switch (item.sHZT) {
+                    case '0':
+                      status = '待审核'
+                      break
+                    case '1':
+                      status = '审核通过'
+                      break
+                    case 'TB':
+                      status = '退办'
+                      break
+                  }
+                  datalist.push({
                     businessTitle: '星级用户认证', // 业务名称
                     statusStr: status, // 业务状态
-                    receptionTime: json.data.sHSJ || '' // 受理时间
-                  }
-                ]
+                    receptionTime: item.sHSJ || '' // 受理时间
+                  })
+                })
                 this.dataList = datalist
                 window.scrollTo(0, 0)
               } else {

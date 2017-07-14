@@ -199,29 +199,27 @@ export default {
           // }
           // this.$store.commit('appoinSuccess', successData)
           // this.$router.push('/appointSuccess')
-          let dataInfo
-          switch (+json.data.type) {
-            case 1:
-              dataInfo = {
-                type: 1,
-                textObj: {
-                  businessType: this.dataList.type,
-                  subscribeNo: json.data.waterNumber
-                }
+          let dataInfo = {}
+          if (+json.data.type === 1) { // 办理类
+            dataInfo = {
+              type: 1,
+              textObj: {
+                businessType: this.dataList.type,
+                subscribeNo: json.data.waterNumber
               }
-              break
-            case 2:
-              dataInfo = {
-                type: 2,
-                textObj: {
-                  reserveNo: '预约编号',
-                  numberPlate: '车牌号码',
-                  mobilephone: '手机号码',
-                  reserveAddress: '服务点',
-                  reserveTime: '预约时间'
-                }
+            }
+          } else if (+json.data.type === 2) { // 预约类
+            // TODO: 接口返回的字段还未确定
+            dataInfo = {
+              type: 2,
+              textObj: {
+                reserveNo: '预约编号',
+                numberPlate: '车牌号码',
+                mobilephone: '手机号码',
+                reserveAddress: '服务点',
+                reserveTime: '预约时间'
               }
-              break
+            }
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')
