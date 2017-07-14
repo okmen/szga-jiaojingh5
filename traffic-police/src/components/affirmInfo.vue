@@ -204,8 +204,8 @@ export default {
             dataInfo = {
               type: 1,
               textObj: {
-                businessType: this.dataList.type,
-                subscribeNo: json.data.waterNumber
+                businessType: this.dataList.type, // 具体业务名称
+                subscribeNo: json.data.waterNumber // 流水号
               }
             }
           } else if (+json.data.type === 2) { // 预约类
