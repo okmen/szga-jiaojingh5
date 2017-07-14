@@ -18,7 +18,7 @@
           <div class="div-select flex">
             <span class="btn-select hidden"
                   @click.stop="subTypeSelectShow=!subTypeSelectShow">{{currentPlate || '请选择号牌号码'}}</span>
-            <div class="div-select-ul"  v-if="subTypeSelectShow">
+            <div class="div-select-ul" v-if="subTypeSelectShow">
               <ul>
                 <li class="scroll-y" v-for="item in myNumberPlate" @click.stop="selectPlate(item)">{{item}}</li>
               </ul>
@@ -32,7 +32,7 @@
           <div class="div-select flex">
             <span class="btn-select hidden"
                   @click.stop="typeSelectShow=!typeSelectShow">{{plateType || '蓝牌'}}</span>
-            <div class="div-select-ul"  v-if="typeSelectShow">
+            <div class="div-select-ul" v-if="typeSelectShow">
               <ul>
                 <li class="scroll-y" v-for="item in plateTypes" @click.stop="selectType(item)">{{item.str}}</li>
               </ul>
@@ -79,21 +79,21 @@
           <div class="ip-photo-item">
             <label class="ip-photo-img" for="ip-photo-ticket">
               <img :src="popupImgs[0]"/>
-              <input type="file" id="ip-photo-ticket" accept="image/*" capture="camera">
+              <input type="file" id="ip-photo-ticket" accept="image/*">
             </label>
             <div class="ip-photo-remake" @click="popupTicket(0)">罚单</div>
           </div>
           <div class="ip-photo-item">
             <label class="ip-photo-img" for="ip-photo-bigscence1">
               <img :src="popupImgs[1]"/>
-              <input type="file" id="ip-photo-bigscence1" accept="image/*" capture="camera">
+              <input type="file" id="ip-photo-bigscence1" accept="image/*">
             </label>
             <div class="ip-photo-remake" @click="popupTicket(1)">大场景1</div>
           </div>
           <div class="ip-photo-item">
             <label class="ip-photo-img" for="ip-photo-headstock">
               <img :src="popupImgs[2]"/>
-              <input type="file" id="ip-photo-headstock" accept="image/*" capture="camera">
+              <input type="file" id="ip-photo-headstock" accept="image/*">
             </label>
             <div class="ip-photo-remake" @click="popupTicket(2)">大场景(含车头正面)
             </div>
@@ -103,14 +103,14 @@
           <div class="ip-photo-item">
             <label class="ip-photo-img" for="ip-photo-front5">
               <img :src="popupImgs[3]"/>
-              <input type="file" id="ip-photo-front5" accept="image/*" capture="camera">
+              <input type="file" id="ip-photo-front5" accept="image/*">
             </label>
             <div class="ip-photo-remake" @click="popupTicket(3)">前5米无车辆全景</div>
           </div>
           <div class="ip-photo-item">
             <label class="ip-photo-img" for="ip-photo-back5">
               <img :src="popupImgs[4]"/>
-              <input type="file" id="ip-photo-back5" accept="image/*" capture="camera">
+              <input type="file" id="ip-photo-back5" accept="image/*">
             </label>
             <div class="ip-photo-remake" @click="popupTicket(4)">后5米无车辆全景</div>
           </div>
@@ -224,6 +224,31 @@
         this.currentPlate = item
         this.subTypeSelectShow = !this.subTypeSelectShow
       },
+      /* eslint-disable */
+      updateUrl (url, key) {
+        var key = (key || 't') + '='  // 默认是"t"
+        var reg = new RegExp(key + '\\d+')  // 正则：t=1472286066028
+        var timestamp = +new Date()
+        if (url.indexOf(key) > -1) { // 有时间戳，直接更新
+          return url.replace(reg, key + timestamp)
+        } else {  // 没有时间戳，加上时间戳
+          if (url.indexOf('\?') > -1) {
+            var urlArr = url.split('\?')
+            if (urlArr[1]) {
+              return urlArr[0] + '?' + key + timestamp + '&' + urlArr[1];
+            } else {
+              return urlArr[0] + '?' + key + timestamp;
+            }
+          } else {
+            if (url.indexOf('#') > -1) {
+              return url.split('#')[0] + '?' + key + timestamp + location.hash;
+            } else {
+              return url + '?' + key + timestamp;
+            }
+          }
+        }
+      },
+      /* eslint-enable */
       getUserInfo () {
         this.currentPlate = window.localStorage.getItem('myNumberPlate')
         let cars = JSON.parse(window.localStorage.getItem('cars')) || []
@@ -238,8 +263,9 @@
         var submitTime = new Date()
         if (submitTime - this.beforeDate > 600000) {
           isSubmit = false
-          MessageBox('提示', '请在10分钟之内完成操作').then(action => {
-            window.location.reload()
+          MessageBox('提示', '你已经超时操作').then(action => {
+//            window.location.href = this.updateUrl(window.location.href)
+            this.$router.push('/')
           })
         }
         if (!isSubmit) return
@@ -265,13 +291,13 @@
           document.getElementById('ticket').focus()
           return
         }
-      /*  if (!this.mapObj.showAdd) {
-          Toast({
-            message: '请选择停车地点',
-            duration: 2000
-          })
-          return
-        } */
+        /*  if (!this.mapObj.showAdd) {
+         Toast({
+         message: '请选择停车地点',
+         duration: 2000
+         })
+         return
+         } */
         if (!this.reason) {
           Toast({
             message: '请输入停车原因',
@@ -391,12 +417,15 @@
       display: block;
     }
   }
+
   input {
     outline: none;
   }
-  #ticket{
-  color: black;
+
+  #ticket {
+    color: black;
   }
+
   .div-select {
     width: 504px;
     height: 62px;
@@ -415,7 +444,7 @@
 
   .illegalParking {
     background: white;
-    .div-select-ul{
+    .div-select-ul {
       top: 56px;
     }
 
