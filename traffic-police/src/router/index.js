@@ -1148,6 +1148,22 @@ const routes = [
       title: '电子回单'
     },
     component: require('../views/credit/child/digitalReceipt.vue')
+  },
+  {
+    name: 'selfForm',
+    path: '/selfForm',
+    meta: {
+      name: '其它业务'
+    },
+    component: require('../components/formTemplate/index.vue')
+  },
+  {
+    name: 'testCardBag',
+    path: '/testCardBag',
+    meta: {
+      name: '测试卡包'
+    },
+    component: require('../views/testCardBag')
   }
 ]
 /* eslint-disable no-new */

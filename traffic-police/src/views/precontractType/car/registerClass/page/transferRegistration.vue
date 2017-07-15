@@ -43,19 +43,19 @@
     <div class="choose-date">
       <div class="choose-date-item">
         <div class="date-item-input">
-          <input type="text" readonly v-model="fullYear">
+          <div-select :childInfo="allYear"></div-select>
         </div>
         <span class="date-item-time">年</span>
       </div>
       <div class="choose-date-item">
         <div class="date-item-input">
-          <div-select :childInfo="month"></div-select>
+          <div-select :childInfo="allmonth"></div-select>
         </div>
         <span class="date-item-time">月</span>
       </div>
       <div class="choose-date-item">
         <div class="date-item-input">
-          <div-select :childInfo="month"></div-select>
+          <div-select :childInfo="allDay"></div-select>
         </div>
         <span class="date-item-time">日</span>
       </div>
@@ -193,6 +193,7 @@
 </style>
 <script>
   import {isPhone, specialCharacters, plateNumberDetection} from 'service/regExp.js'
+//  import {resultPost} from 'service/getData'
   import { Toast } from 'mint-ui'
   export default {
     data () {
@@ -427,23 +428,15 @@
             {'str': '罗湖车管所'}
           ]
         },  // 预约地点
-        fullYear: new Date().getFullYear(), // 整年
-        month: {
-          option: [
-            {'str': '1'},
-            {'str': '2'},
-            {'str': '3'},
-            {'str': '4'},
-            {'str': '5'},
-            {'str': '6'},
-            {'str': '7'},
-            {'str': '8'},
-            {'str': '9'},
-            {'str': '10'},
-            {'str': '11'},
-            {'str': '12'}
-          ]
-        },
+        allYear: {
+          option: []
+        }, // 年
+        allmonth: {
+          option: []
+        }, // 月份
+        allDay: {
+          option: []
+        }, // 日
         surplusData: [
           {'time': '9:00 - 10:00', 'num': '0'},
           {'time': '9:00 - 10:00', 'num': '20'},
@@ -488,6 +481,7 @@
       divSelect: require('components/divSelect.vue')
     },
     methods: {
+
       getCredentialsNameOne (val) {
         this.credentialsNameOne = val
       },
