@@ -14,19 +14,24 @@
       </div>
     </div>
     <div class="renewing-from pad-side-50">
-      <router-view></router-view>
+      <router-view :businessId="curTabID"></router-view>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
+import { resultPost } from '../../../../service/getData'
+import { getBusinessTypeId } from '../../../../config/baseUrl.js'
+import { Toast } from 'mint-ui'
 export default {
   name: 'renewingClass',
+  props: ['businesId'],
   data () {
     return {
       curTab: 'replacementType',   // 当前 tab
       typeSelectShow: false,
       typeSelectMassage: '',
+      curTabID: '',           // 当前选择业务 id
       typeSelectData: [
         {
           'name': 'renewingCollarCredential',
@@ -53,8 +58,16 @@ export default {
           'str': '申领/补领机动车登记证书',
           'path': '/replacementType/renewingCertificate'
         }
-      ]
+      ],
+      businescode: ''
     }
+  },
+  created () {
+    document.addEventListener('click', (e) => {
+      this.typeSelectShow = false
+    })
+    this.switchFn()
+    this.businessTypeIdFn()
   },
   methods: {
     typeSelectClick: function (index) {
@@ -62,33 +75,51 @@ export default {
         index--
         this.typeSelectMassage = this.typeSelectData[index]
         this.curTab = this.typeSelectMassage.name
+        this.businessTypeIdFn()
       }
       this.typeSelectShow = !this.typeSelectShow
     },
     select: function () {
       this.typeSelectShow = false
-    }
-  },
-  created () {
-    document.addEventListener('click', (e) => {
-      this.typeSelectShow = false
-    })
-    switch (window.location.hash) {
-      case '#/replacementType/renewingCollarCredential':
-        this.typeSelectMassage = this.typeSelectData[0]
-        break
-      case '#/replacementType/replacementNumber':
-        this.typeSelectMassage = this.typeSelectData[1]
-        break
-      case '#/replacementType/renewingDrivingLicense':
-        this.typeSelectMassage = this.typeSelectData[2]
-        break
-      case '#/replacementType/renewingQualification':
-        this.typeSelectMassage = this.typeSelectData[3]
-        break
-      case '#/replacementType/renewingCertificate':
-        this.typeSelectMassage = this.typeSelectData[4]
-        break
+    },
+    switchFn: function () {
+      switch (window.location.hash) {
+        case '#/replacementType/renewingCollarCredential':
+          this.typeSelectMassage = this.typeSelectData[0]
+          this.businescode = 'JD06'
+          break
+        case '#/replacementType/replacementNumber':
+          this.typeSelectMassage = this.typeSelectData[1]
+          this.businescode = 'JD02'
+          break
+        case '#/replacementType/renewingDrivingLicense':
+          this.typeSelectMassage = this.typeSelectData[2]
+          this.businescode = 'JD02'
+          break
+        case '#/replacementType/renewingQualification':
+          this.typeSelectMassage = this.typeSelectData[3]
+          this.businescode = 'JD30'
+          break
+        case '#/replacementType/renewingCertificate':
+          this.typeSelectMassage = this.typeSelectData[4]
+          this.businescode = 'JD13'
+          break
+      }
+    },
+    // 获取业务id
+    businessTypeIdFn: function () {
+      let businesData = {
+        type: '1',
+        part: '1',
+        code: this.businescode
+      }
+      resultPost(getBusinessTypeId, businesData).then(json => {
+        if (json.code === '0000') {
+          this.curTabID = json.data
+        } else {
+          Toast({message: json.msg, position: 'bottom', className: 'white'})
+        }
+      })
     }
   }
 }
