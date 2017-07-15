@@ -184,7 +184,16 @@ export const getIdentificationOfAuditResults = `${commonUrl}user/getIdentificati
 
 export const illegalPictureQuery = `${commonUrl}illegalHanding/illegalPictureQuery.html` // 违法图片查询接口
 
-export const getOrgsByBusinessTypeId = `http://192.168.1.243:8080/web/bookingbusiness/getOrgsByBusinessTypeId.html` // 根据业务类型获取预约时间
+/* ------------------------------------------------机动车预约类---------------------------------------------------- */
+export const getBusinessTypeId = `http://192.168.1.243:8080/web/bookingbusiness/getBusinessTypeId.html` // 根据业务类型Code获取业务类型Id
+
+export const getBusinessCarTypeId = `http://192.168.1.243:8080/web/bookingbusiness/getCarTypeId.html` // 根据车辆类型Code获取车辆类型Id
+
+export const getBusinessCarTypeIdhttp = `http://192.168.1.243:8080/web/bookingbusiness/getCarTypeId.html` // 根据证件类型Code获取证件类型Id
+
+export const getOrgsByBusinessTypeId = `http://192.168.1.243:8080/web/bookingbusiness/getOrgsByBusinessTypeId.html` // 根据业务类型获取预约地点
+
+export const getAppointmentDate = `http://192.168.1.243:8080/web/bookingbusiness/getAppointmentDate.html` // 根据业务类型获取预约日期
 
 export const getAppTimes = `http://192.168.1.243:8080/web/bookingbusiness/getAppTimes.html` // 根据预约时间获取配额信息
 
