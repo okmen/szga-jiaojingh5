@@ -143,7 +143,7 @@
   import { sendSMS } from '../../../../../config/baseUrl'
   import { Toast } from 'mint-ui'
   export default {
-    props: ['orderPlaceData'],
+    props: ['orderPlaceData', 'currentBusinessId'],
     data () {
       return {
         carOwnerName: '',                   // * 车主姓名
@@ -238,6 +238,9 @@
         ],
         activeIndex: ''                     // 当前点击时间的li
       }
+    },
+    mounted () {
+      console.log(this.currentBusinessId)
     },
     methods: {
       // 证件名称 选择
@@ -433,7 +436,7 @@
         this.typeSelectShow = false
       }
     },
-    mounted () {
+    created () {
       document.addEventListener('click', this.dontShowUL)
     },
     destroyed () {
