@@ -1,16 +1,16 @@
 <template>
   <div class="replace-select">
-    <div class="select-title" v-if="thisInfo.title" :class="{'font-size28':childInfo.font}">{{thisInfo.title}}</div>
-    <div  class="selected-value"  :class="{'width-full':!thisInfo.title}"  @click.stop="showSelectUl">{{currentVal}}</div>
-    <div class="div-select-ul" v-show="showUl" :class="{'width-full':!thisInfo.title}">
+    <div class="select-title" v-if="childInfo.title" :class="{'font-size28':childInfo.font}">{{childInfo.title}}</div>
+    <div class="selected-value" :class="{'width-full':!childInfo.title}" @click.stop="showSelectUl">{{currentVal}}</div>
+    <div class="div-select-ul" v-show="showUl" :class="{'width-full':!childInfo.title}">
       <ul>
-        <li v-for="item in thisInfo.option" @click="selectedValue(item)">{{item.str}}</li>
+        <li v-for="item in childInfo.option" @click="selectedValue(item)" v-if="item.str">{{item.str || ''}}</li>
       </ul>
     </div>
   </div>
 </template>
 <style lang="less" scoped>
-  .replace-select{
+  .replace-select {
     height: 85px;
     display: flex;
     justify-content: space-between;
@@ -18,14 +18,14 @@
     position: relative;
     line-height: 85px;
     align-items: center;
-    .select-title{
+    .select-title {
       width: 31%;
       white-space: nowrap;
     }
-    .font-size28{
-      font-size:28px;
+    .font-size28 {
+      font-size: 28px;
     }
-    .selected-value{
+    .selected-value {
       width: 68%;
       padding-left: 20px;
       border: 2px solid #eee;
@@ -39,7 +39,7 @@
       white-space: nowrap;
       text-overflow: ellipsis;
     }
-    .div-select-ul{
+    .div-select-ul {
       position: absolute;
       top: 78px;
       right: 0;
@@ -51,13 +51,13 @@
       z-index: 999;
       max-height: 400px;
       overflow: auto;
-      li{
+      li {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
       }
     }
-    .width-full{
+    .width-full {
       width: 100%;
       padding-left: 0;
       text-align: center;
@@ -76,14 +76,15 @@
       }
     },
     props: ['childInfo', 'defaultVal'],  // childInfo: 父组件传进来的值， defaultVal：默认值
-    computed: {
-      thisInfo () {
-        return this.childInfo
-      }
-    },
     watch: {
       defaultVal (val) {
         this.selectedValue(val)
+      },
+      childInfo: {
+        handler (val) {
+          this.selectedValue(val.option[0])
+        },
+        deep: true
       }
     },
     methods: {
@@ -112,7 +113,7 @@
     mounted () {
       this.currentVal = this.defaultVal
       document.addEventListener('click', this.disappearSelectUl)
-      if (!this.defaultVal) {       // 如果父组件没有传入默认显示值，则传入的对象中的第一项作为默认选项
+      if (!this.defaultVal && this.childInfo.option[0]) {       // 如果父组件没有传入默认显示值，则传入的对象中的第一项作为默认选项
         this.selectedValue(this.childInfo.option[0])
       }
     },

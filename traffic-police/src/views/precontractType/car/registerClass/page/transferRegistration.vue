@@ -43,34 +43,38 @@
     <div class="choose-date">
       <div class="choose-date-item">
         <div class="date-item-input">
-          <div-select :childInfo="allYear"></div-select>
+          <div-select :childInfo="allYear" @getSelected="getAllYearOne"></div-select>
         </div>
         <span class="date-item-time">年</span>
       </div>
       <div class="choose-date-item">
         <div class="date-item-input">
-          <div-select :childInfo="allmonth"></div-select>
+          <div-select :childInfo="allmonth" @getSelected="getAllmonthOne"></div-select>
         </div>
         <span class="date-item-time">月</span>
       </div>
       <div class="choose-date-item">
         <div class="date-item-input">
-          <div-select :childInfo="allDay"></div-select>
+          <div-select :childInfo="allDay" @getSelected="getAllDayOne"></div-select>
         </div>
         <span class="date-item-time">日</span>
       </div>
     </div>
     <div class="surplus-info">
-      <div class="surplus-info-item" :class="{'no-surplus': item.num == 0,'toggle-active':index==activeIndex&&item.num != 0 }" v-for="(item, index) in surplusData" @click="toggleActive(index)">
+      <div class="surplus-info-item"
+           :class="{'no-surplus': item.num == 0,'toggle-active':index===activeIndex&&item.num != 0 }"
+           v-for="(item, index) in surplusData" @click="toggleActive(index)">
         <div class="surplus-item-time">{{item.time}}</div>
-        <div class="surplus-item-num" v-if="item.num!=0">剩余名额 <span class="surplus-item-number">{{item.num}}</span> 位</div>
+        <div class="surplus-item-num" v-if="item.num!=0">剩余名额 <span class="surplus-item-number">{{item.num}}</span> 位
+        </div>
         <div class="surplus-item-num" v-if="item.num == 0">已满</div>
       </div>
     </div>
     <div-select :childInfo="pointerType" @getSelected="getPointerTypeOne"></div-select>
     <div class="register-item">
       <span class="register-item-title">指标号</span>
-      <input type="text" :readonly="pointerTypeOne=='无指标'" placeholder="请输入指标号" class="register-item-input" v-model="targetNum">
+      <input type="text" :readonly="pointerTypeOne=='无指标'" placeholder="请输入指标号" class="register-item-input"
+             v-model="targetNum">
     </div>
     <div class="register-reminder">
       提示: 非小型、微型载客汽车请选择无指标
@@ -87,6 +91,7 @@
     font-size: 30px;
     padding-left: 20px;
   }
+
   .register-item {
     display: flex;
     height: 85px;
@@ -127,6 +132,7 @@
       }
     }
   }
+
   .choose-date {
     display: flex;
     .choose-date-item {
@@ -135,54 +141,57 @@
       align-items: center;
       .date-item-input {
         width: 165px;
-        input{
+        input {
           width: 100%;
           text-align: center;
           padding-left: 0;
         }
       }
-      .date-item-time{
+      .date-item-time {
         margin-left: 15px;
         margin-right: 15px;
       }
     }
 
   }
-  .surplus-info{
+
+  .surplus-info {
     border: 2px solid #eaeaed;
     border-radius: 8px;
     max-height: 389px;
     overflow: auto;
     margin-top: 10px;
     margin-bottom: 10px;
-    .no-surplus{
+    .no-surplus {
       background: #eaeaed;
     }
-    .surplus-info-item{
+    .surplus-info-item {
       display: flex;
       justify-content: space-between;
       height: 78px;
-      padding:0 35px ;
+      padding: 0 35px;
       align-items: center;
       border: 2px solid;
       border-color: transparent;
-      border-bottom-color:#eaeaed ;
-      .surplus-item-number{
+      border-bottom-color: #eaeaed;
+      .surplus-item-number {
         color: #19d051;
         width: 80px;
         display: inline-block;
         text-align: center;
       }
     }
-    .toggle-active{
+    .toggle-active {
       border-color: #2696dd;
     }
   }
-  .register-reminder{
+
+  .register-reminder {
     color: #f02b28;
     margin: 34px 0 142px;
   }
-  .register-submit{
+
+  .register-submit {
     height: 80px;
     background: #10aeff;
     text-align: center;
@@ -193,8 +202,15 @@
 </style>
 <script>
   import {isPhone, specialCharacters, plateNumberDetection} from 'service/regExp.js'
-//  import {resultPost} from 'service/getData'
-  import { Toast } from 'mint-ui'
+  import {resultPost} from 'service/getData'
+  import {Toast} from 'mint-ui'
+  import {
+    getBusinessTypeId,
+    getOrgsByBusinessTypeId,
+    getAppointmentDate,
+    getAppTimes,
+    getBusinessCarTypeId
+  } from 'config/baseUrl.js'
   export default {
     data () {
       return {
@@ -416,37 +432,21 @@
         },   // 使用性质
         appointmentLocation: {
           title: '预约地点',
-          option: [
-            {'str': '福田车管分所'},
-            {'str': '澳康达服务站'},
-            {'str': '龙岗车管分所'},
-            {'str': '宝安车管分所'},
-            {'str': '盐田车管分所'},
-            {'str': '龙华车管分所'},
-            {'str': '坪山车管分所'},
-            {'str': '深圳市车管所'},
-            {'str': '罗湖车管所'}
-          ]
+          option: []
         },  // 预约地点
         allYear: {
           option: []
         }, // 年
+        allYearOne: '',
         allmonth: {
           option: []
         }, // 月份
+        allmonthOne: '',
         allDay: {
           option: []
         }, // 日
-        surplusData: [
-          {'time': '9:00 - 10:00', 'num': '0'},
-          {'time': '9:00 - 10:00', 'num': '20'},
-          {'time': '9:00 - 10:00', 'num': '20'},
-          {'time': '9:00 - 10:00', 'num': '20'},
-          {'time': '9:00 - 10:00', 'num': '0'},
-          {'time': '9:00 - 10:00', 'num': '20'},
-          {'time': '9:00 - 10:00', 'num': '0'},
-          {'time': '9:00 - 10:00', 'num': '20'}
-        ],   // 剩余数量
+        allDayOne: '',
+        surplusData: [],   // 剩余数量
         pointerType: {
           title: '指标类型',
           option: [
@@ -474,28 +474,131 @@
         credentialsNameOne: '', // 证件名称一项
         showTime: true,
         countDown: 5,
-        timer: ''
+        timer: '',
+        businessTypeId: '',  // 业务类型编码
+        businessCarTypeId: '', // 车辆类型编码
+        businessAddressId: '' // 可预约地点
       }
     },
     components: {
       divSelect: require('components/divSelect.vue')
     },
+    computed: {
+      // 时间 年月日
+      yearMonthDay () {
+        return `${this.allYearOne}-${this.allmonthOne}-${this.allDayOne}`
+      }
+    },
+    watch: {
+      yearMonthDay (val) {
+        console.log(val)
+      }
+    },
     methods: {
-
+      // 获取业务类型编码
+      getBusinessTypeId () {
+        let requestData = {
+          type: '1',
+          part: '1',
+          code: 'JD15'
+        }
+        resultPost(getBusinessTypeId, requestData).then(data => {
+          this.businessTypeId = data.data
+        })
+      },
+      //  获取地点
+      getBusinessAddressId () {
+        resultPost(getOrgsByBusinessTypeId, {businessTypeId: this.businessTypeId}).then(json => {
+          json.data.map(item => {
+            this.appointmentLocation.option.push({'str': item.name, 'id': item.id})
+          })
+        })
+      },
+      // 获取时间
+      getAllYearMonthDay () {
+        let requestData = {
+          businessTypeId: this.businessTypeId,
+          orgId: this.appointmentLocationOne
+        }
+        resultPost(getAppointmentDate, requestData).then(json => {
+          let allYear = []
+          let allmonth = []
+          let allDay = []
+          json.data.map((item, index) => {
+            let yearMonthDay = item.split('-')
+            if (index === 0) {
+              allYear.push({'str': yearMonthDay[0]})
+              allmonth.push({'str': yearMonthDay[1]})
+              allDay.push({'str': yearMonthDay[2]})
+            } else {
+              if (allYear[allYear.length - 1].str !== yearMonthDay[0]) {
+                allYear.push({'str': yearMonthDay[0]})
+              }
+              if (allmonth[allmonth.length - 1].str !== yearMonthDay[1]) {
+                allmonth.push({'str': yearMonthDay[1]})
+              }
+              if (allDay[allDay.length - 1].str !== yearMonthDay[2]) {
+                allDay.push({'str': yearMonthDay[2]})
+              }
+            }
+          })
+          this.allYear.option = allYear
+          this.allmonth.option = allmonth
+          this.allDay.option = allDay
+        })
+      },
+      // 获取配额信息
+      getQuotaInformation () {
+        let requestData = {
+          businessTypeId: this.businessTypeId,
+          orgId: this.appointmentLocationOne,
+          date: this.yearMonthDay,
+          carTypeId: this.businessCarTypeId
+        }
+        resultPost(getAppTimes, requestData).then(json => {
+          console.log(json, '配额信息')
+          let arrData = []
+          json.data.map(item => {
+            arrData.push({'time': item.apptime, 'num': item.maxnumber - item.yetnumber})
+          })
+          this.surplusData = arrData
+        })
+      },
+      // 获取车辆类型编号
+      getBusinessCarTypeId () {
+        let requestData = {
+          code: this.carSelectDataOne
+        }
+        resultPost(getBusinessCarTypeId, requestData).then(json => {
+          this.businessCarTypeId = json.data
+        })
+      },
       getCredentialsNameOne (val) {
         this.credentialsNameOne = val
       },
       getProvinceCodeOne (val) {
         this.provinceCodeOne = val
       },
+      // 选择车辆 获取对应的车辆类型编码
       getCarSelectDataOne (val) {
         this.carSelectDataOne = val
       },
       getUseNatureOne (val) {
         this.useNatureOne = val
       },
+      // 切换地点
       getAppointmentLocationOne (val) {
         this.appointmentLocationOne = val
+        this.getAllYearMonthDay()
+      },
+      getAllYearOne (val) {
+        this.allYearOne = val
+      },
+      getAllmonthOne (val) {
+        this.allmonthOne = val
+      },
+      getAllDayOne (val) {
+        this.allDayOne = val
       },
       getPointerTypeOne (val) {
         if (val === '无指标') {
@@ -594,6 +697,19 @@
         }
         console.log(requestObj)
       }
+    },
+    mounted () {
+      var promise = new Promise((resolve, reject) => {
+        resolve(this.getBusinessTypeId())
+      })
+      promise.then(() => {
+        this.getBusinessAddressId()
+        this.getBusinessCarTypeId()
+      }).then(() => {
+        this.getAllYearMonthDay()
+      }).then(() => {
+        this.getAllYearMonthDay()
+      })
     }
   }
 </script>
