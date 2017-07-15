@@ -97,7 +97,6 @@ export default {
         this.typeSelectMassage = this.typeSelectData[index]
         this.curTab = this.typeSelectMassage.name
       }
-      console.log(this.curTab)
       this.typeSelectShow = !this.typeSelectShow
       // 获取业务类型 id
       let taskReaData = {
@@ -107,7 +106,7 @@ export default {
       if (this.curTab === 'taxiUseAlter') {
         taskReaData.code = '1111'
       } else if (this.curTab === 'numberAlter') {
-        taskReaData.code = 'JD28'    // 机动车打刻原车发动机号码变更备案  JD28
+        taskReaData.code = 'JD28'       // 机动车打刻原车发动机号码变更备案  JD28
       } else if (this.curTab === 'markAlter') {
         taskReaData.code = '3333'
       } else if (this.curTab === 'fileAlter') {
@@ -119,7 +118,6 @@ export default {
         resultPost(getBusinessTypeId, taskReaData).then(json => {
           if (json.code === '0000') {
             this.curTabID = json.data   // 当前选择业务的id
-            console.log(this.curTabID)
           } else {
             Toast({ message: json.msg, className: 'white', duration: 1500 })
           }

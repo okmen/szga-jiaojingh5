@@ -67,7 +67,8 @@
           <span class="btn-select bg-white" @click.stop="carTypeClick()">{{ carTypeMassage }}</span>
           <div class="div-select-ul" v-if="carTypeShow">
             <ul>
-              <li v-for="(item, index) in carTypeData" @click.stop="carTypeClick(item.str, index)">{{item.str}}</li>
+              <li v-for="(item, index) in carTypeData" car-code="item.id"
+                  @click.stop="carTypeClick(item.str, item.id)">{{item.str}}</li>
             </ul>
           </div>
         </div>
@@ -140,7 +141,7 @@
 <script>
   import { resultPost } from '../../../../../service/getData'
   import {isPhone, specialCharacters, plateNumberDetection} from '../../../../../service/regExp.js'
-  import { sendSMS } from '../../../../../config/baseUrl'
+  import { sendSMS, getBusinessCarTypeId } from '../../../../../config/baseUrl'
   import { Toast } from 'mint-ui'
   export default {
     props: ['orderPlaceData', 'currentBusinessId'],
@@ -182,7 +183,8 @@
           { 'str': '琼' }, { 'str': '甘' }, { 'str': '青' }, { 'str': '津' },
           { 'str': '云' }, { 'str': '藏' }, { 'str': '新' }
         ],
-        carTypeMassage: '大型汽车',         // * 车辆类型 选中值
+        carTypeMassage: '大型汽车',         // 车辆类型 选中值
+        carTypeID: '',                    // * 车辆类型 选中值 id
         carTypeShow: false,                 // 是否显示 车辆类型 ul列表
         carTypeData: [                      // 车辆类型 li列表
           { 'id': '01', 'str': '大型汽车(黄色)' },
@@ -240,7 +242,11 @@
       }
     },
     mounted () {
-      console.log(this.currentBusinessId)
+    },
+    watch: {
+      currentBusinessId (val) {    // 从业务选择接收的 当前选择的业务 id
+        console.log(val)
+      }
     },
     methods: {
       // 证件名称 选择
@@ -276,9 +282,17 @@
       },
 
       // 车辆选择
-      carTypeClick: function (str) {
-        if (str) {
-          this.carTypeMassage = str
+      carTypeClick: function (str, code) {
+        if (str && code) {
+          this.carTypeMassage = str   // 选中车辆 value
+          resultPost(getBusinessCarTypeId, { code: code }).then(json => {
+            if (json.code === '0000') {
+              this.carTypeID = json.data
+              console.log('车辆类型id', this.carTypeID)
+            } else {
+              Toast({ message: json.msg, className: 'white', duration: 1500 })
+            }
+          })
         }
         if (this.carTypeShow === true) {
           this.carTypeShow = false
