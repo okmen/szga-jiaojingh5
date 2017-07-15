@@ -40,7 +40,7 @@
             </div>
           </div>
           <div class="addVehicle-hbs-text width-70 right">
-            <input class="text-input" type="text" v-model:value="licensePlateNumber" placeholder="请输入车牌号码" style="text-transform:uppercase;">
+            <input class="text-input" type="text" v-model:value="licensePlateNumber" maxlength="8" placeholder="请输入车牌号码" style="text-transform:uppercase;">
           </div>
         </li>
         <li class="addVehicle-hbs-item">
