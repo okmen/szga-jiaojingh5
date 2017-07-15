@@ -184,8 +184,8 @@ export const getIdentificationOfAuditResults = `${commonUrl}user/getIdentificati
 
 export const illegalPictureQuery = `${commonUrl}illegalHanding/illegalPictureQuery.html` // 违法图片查询接口
 
-export const getOrgsByBusinessTypeId = `http://192.168.1.243:8080/bookingbusiness/getOrgsByBusinessTypeId.html` // 根据业务类型获取预约时间
+export const getOrgsByBusinessTypeId = `http://192.168.1.243:8080/web/bookingbusiness/getOrgsByBusinessTypeId.html` // 根据业务类型获取预约时间
 
-export const getAppTimes = `http://192.168.1.243:8080/bookingbusiness/getAppTimes.html` // 根据预约时间获取配额信息
+export const getAppTimes = `http://192.168.1.243:8080/web/bookingbusiness/getAppTimes.html` // 根据预约时间获取配额信息
 
-export const createVehicleInfo = `http://192.168.1.243:8080/bookingbusiness/createVehicleInfo.html` // 机动车预约信息写入
+export const createVehicleInfo = `http://192.168.1.243:8080/web/bookingbusiness/createVehicleInfo.html` // 机动车预约信息写入
