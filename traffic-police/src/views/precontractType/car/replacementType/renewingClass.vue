@@ -75,6 +75,7 @@ export default {
         index--
         this.typeSelectMassage = this.typeSelectData[index]
         this.curTab = this.typeSelectMassage.name
+        this.switchFn()
         this.businessTypeIdFn()
       }
       this.typeSelectShow = !this.typeSelectShow

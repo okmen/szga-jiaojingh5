@@ -108,7 +108,7 @@
             <span class="btn-select bg-colour" @click.stop="subscribeClick()">{{ subscribe }}</span>
             <div class="div-select-ul" v-if="subscribeShow">
               <ul>
-                <li v-for="item in subscribeData" @click.stop="subscribeClick(item.str, item.id)">{{item.str}}</li>
+                <li v-for="item in businessData" @click.stop="subscribeClick(item.name, item.id)">{{item.name}}</li>
               </ul>
             </div>
           </div>
@@ -117,7 +117,15 @@
           <span>选择预约日期</span>
         </li>
         <li class="form-li clear">
-          <input class="text-input width-27 btn-cen left" type="" name="" value="" v-model="year" readonly/>
+          <!-- <input class="text-input width-27 btn-cen left" type="" name="" value="" v-model="year" readonly/> -->
+          <div class="div-select width-27 left">
+            <span class="btn-select btn-cen bg-colour" @click.stop="yearClick()">{{year}}</span>
+            <div class="div-select-ul" v-if="yearShow">
+              <ul>
+                <li v-for="item in years" @click.stop="yearClick(item.str)">{{item.str}}</li>
+              </ul>
+            </div>
+          </div>
           <span class="left rene">年</span>
           <div class="div-select width-27 left">
             <span class="btn-select btn-cen bg-colour" @click.stop="monthClick()">{{month}}</span>
@@ -153,7 +161,7 @@
 
 <script>
 import { resultPost } from '../../../../../service/getData'
-import { sendSMS, getBusinessCarTypeId } from '../../../../../config/baseUrl.js'
+import { sendSMS, getBusinessCarTypeId, getIdTypeId, getOrgsByBusinessTypeId, getAppointmentDate, getAppTimes } from '../../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
 export default {
   name: 'renewingCollarCredential',
@@ -170,59 +178,63 @@ export default {
       mobilephone: '',                  // 手机号码
       behindTheFrame4Digits: '',        // 车架号
       variety: '居民户口簿',
-      cur_card_id: '01',                // 证件id
+      cur_card_id: 'H',                // 证件id
       varietyShow: false,               // 证件样式
       varietyData: [
         {
-          'id': '01',
+          'id': 'H',
           'str': '居民户口簿'
         },
         {
-          'id': '02',
+          'id': 'J',
           'str': '单位注销证明'
         },
         {
-          'id': '03',
+          'id': 'L',
           'str': '驻华机构证明'
         },
         {
-          'id': '04',
+          'id': 'P',
           'str': '个体工商营业执照注册'
         },
         {
-          'id': '05',
+          'id': 'K',
           'str': '居住暂住证明'
         },
         {
-          'id': '06',
+          'id': 'A',
+          'str': '居民身份证'
+        },
+        {
+          'id': 'M',
           'str': '临时居民身份证'
         },
         {
-          'id': '07',
+          'id': 'C',
           'str': '军官证'
         },
         {
-          'id': '08',
+          'id': 'E',
           'str': '军官离退休证'
         },
         {
-          'id': '09',
+          'id': 'G',
           'str': '外交人员身份证明'
         },
         {
-          'id': '10',
+          'id': 'D',
           'str': '士兵证'
         },
         {
-          'id': '11',
+          'id': 'F',
           'str': '境外人员身份证明'
         },
         {
-          'id': '12',
+          'id': 'N',
           'str': '统一社会信用代码'
         },
         {
-          'id': '13',
+          'id': 'B',
           'str': '组织机构代码证书'
         }
       ],
@@ -352,42 +364,14 @@ export default {
           'str': '租赁'
         }
       ],
-      subscribe: '福田车管分所',
-      subscribeId: '01',
+      subscribe: '',
+      subscribeId: '',
       subscribeShow: false,
-      subscribeData: [
-        {
-          'id': '01',
-          'str': '福田车管分所'
-        },
-        {
-          'id': '02',
-          'str': '罗湖车管分所'
-        },
-        {
-          'id': '03',
-          'str': '龙岗车管分所'
-        },
-        {
-          'id': '04',
-          'str': '宝安车管分所'
-        },
-        {
-          'id': '05',
-          'str': '盐田车管分所'
-        },
-        {
-          'id': '06',
-          'str': '龙华车管分所'
-        },
-        {
-          'id': '07',
-          'str': '坪山车管分所'
-        }
-      ],
+      businessData: [],
       vehicleShow: false,
       vehicle: '大型汽车',
       vehicleId: '01',
+      vehicleTypeId: '',         // 车辆类型ID
       vehicleData: [
         {
           'id': '01',
@@ -430,6 +414,22 @@ export default {
           'str': '领馆摩托车'
         },
         {
+          'id': '11',
+          'str': '境外摩托车'
+        },
+        {
+          'id': '12',
+          'str': '外籍摩托车'
+        },
+        {
+          'id': '13',
+          'str': '低速车'
+        },
+        {
+          'id': '14',
+          'str': '拖拉机'
+        },
+        {
           'id': '15',
           'str': '挂车'
         },
@@ -447,86 +447,33 @@ export default {
         },
         {
           'id': '19',
-          'str': '实验摩托车'
-        },
-        {
-          'id': '22',
-          'str': '临时行驶车'
-        },
-        {
-          'id': '23',
-          'str': '警用汽车'
-        },
-        {
-          'id': '24',
-          'str': '警用摩托'
+          'str': '试验摩托车'
         },
         {
           'id': '20',
           'str': '临时入境车'
         },
         {
-          'id': '51',
-          'str': '新能源大型车'
-        },
-        {
-          'id': '52',
-          'str': '新能源小型车'
+          'id': '99',
+          'str': '其他号牌'
         }
       ],
       monthShow: false,
       datesShow: false,
-      month: '7',
-      year: '2017',
-      date: '11',
+      yearShow: false,
+      // month: months[0].str,
+      // year: years[0].str,
+      // date: dates[0].str,
+      month: '',
+      year: '',
+      date: '',
+      years: [
+      ],
       months: [
-        {
-          'str': '7'
-        },
-        {
-          'str': '8'
-        },
-        {
-          'str': '9'
-        },
-        {
-          'str': '10'
-        },
-        {
-          'str': '11'
-        },
-        {
-          'str': '12'
-        }
       ],
       dates: [
-        {
-          'str': '7'
-        },
-        {
-          'str': '8'
-        },
-        {
-          'str': '9'
-        },
-        {
-          'str': '10'
-        },
-        {
-          'str': '11'
-        },
-        {
-          'str': '12'
-        }
       ],
       surplusData: [
-        {'time': '9:00 - 10:00', 'number': '0'},
-        {'time': '10:00 - 11:00', 'number': '20'},
-        {'time': '11:00 - 12:00', 'number': '20'},
-        {'time': '14:00 - 15:00', 'number': '20'},
-        {'time': '15:00 - 16:00', 'number': '0'},
-        {'time': '14:00 - 15:00', 'number': '20'},
-        {'time': '15:00 - 16:00', 'number': '0'}
       ]
     }
   },
@@ -536,6 +483,7 @@ export default {
       if (str) {
         this.variety = str
         this.cur_card_id = id
+        this.certificateId()
       }
       if (this.varietyShow === true) {
         this.varietyShow = false
@@ -566,9 +514,11 @@ export default {
       }
     },
     // 预约地点
-    subscribeClick: function (str) {
+    subscribeClick: function (str, id) {
       if (str) {
         this.subscribe = str
+        this.subscribeId = id
+        this.getmentDate()
       }
       if (this.subscribeShow === true) {
         this.subscribeShow = false
@@ -589,11 +539,27 @@ export default {
         this.vehicleShow = true
       }
     },
+    // 年
+    yearClick: function (str) {
+      if (str) {
+        this.year = str
+        this.getTimes()
+      }
+      this.monthShow = false
+      this.datesShow = false
+      if (this.yearShow === true) {
+        this.yearShow = false
+      } else {
+        this.yearShow = true
+      }
+    },
     // 月
     monthClick: function (str) {
       if (str) {
         this.month = str
+        this.getTimes()
       }
+      this.yearShow = false
       this.datesShow = false
       if (this.monthShow === true) {
         this.monthShow = false
@@ -605,8 +571,10 @@ export default {
     dateClick: function (str) {
       if (str) {
         this.date = str
+        this.getTimes()
       }
       this.monthShow = false
+      this.yearShow = false
       if (this.datesShow === true) {
         this.datesShow = false
       } else {
@@ -692,24 +660,109 @@ export default {
       let vehicleTypeIdData = {
         code: this.vehicleId
       }
-      console.log('111')
       resultPost(getBusinessCarTypeId, vehicleTypeIdData).then(json => {
-        console.log(json)
         if (json.code === '0000') {
           this.vehicleTypeId = json.data
         }
       })
+    },
+    // 获取证件ID
+    certificateId: function () {
+      let certificateIdData = {
+        businessTypeId: this.currentBusinessId,
+        code: this.cur_card_id
+      }
+      console.log(certificateIdData)
+      resultPost(getIdTypeId, certificateIdData).then(json => {
+        if (json.code === '0000') {
+          this.certificate = json.data
+        } else {
+          Toast({message: json.msg, position: 'bottom', className: 'white'})
+        }
+      })
+    },
+    // 获取预约地点
+    businessId: function () {
+      let businessData = {
+        businessTypeId: this.currentBusinessId
+      }
+      resultPost(getOrgsByBusinessTypeId, businessData).then(json => {
+        if (json.code === '0000') {
+          this.businessData = json.data
+          this.subscribe = this.businessData[0].name
+          this.subscribeId = this.businessData[0].id
+          this.getmentDate()  // 获取预约日期
+        } else {
+          Toast({message: json.msg, position: 'bottom', className: 'white'})
+        }
+      })
+    },
+    // 获取预约日期
+    getmentDate: function () {
+      let getmentData = {
+        orgId: this.subscribeId,
+        businessTypeId: this.currentBusinessId
+      }
+      resultPost(getAppointmentDate, getmentData).then(json => {
+        console.log(json)
+        if (json.code === '0000') {
+          this.mentDate = json.data
+          let yearDate = []
+          let monthDate = []
+          let dayDate = []
+          this.mentDate.map((item, index) => {
+            let yearMonthDay = item.split('-')
+            if (index === 0) {
+              yearDate.push({'str': yearMonthDay[0]})
+              monthDate.push({'str': yearMonthDay[1]})
+              dayDate.push({'str': yearMonthDay[2]})
+            } else {
+              if (yearDate[yearDate.length - 1].str !== yearMonthDay[0]) {
+                yearDate.push({'str': yearMonthDay[0]})
+              }
+              if (monthDate[monthDate.length - 1].str !== yearMonthDay[1]) {
+                monthDate.push({'str': yearMonthDay[1]})
+              }
+              if (dayDate[dayDate.length - 1].str !== yearMonthDay[2]) {
+                dayDate.push({'str': yearMonthDay[2]})
+              }
+            }
+          })
+          this.years = yearDate
+          this.months = monthDate
+          this.dates = dayDate
+          this.year = yearDate[0].str
+          this.month = monthDate[0].str
+          this.date = dayDate[0].str
+          this.getTimes()     // 预约日期获取预约时间
+        } else {
+          Toast({message: json.msg, position: 'bottom', className: 'white'})
+        }
+      })
+    },
+    // 预约日期获取时间
+    getTimes: function () {
+      let time = `${this.year}-${this.month}-${this.date}`
+      let getTimesData = {
+        businessTypeId: this.currentBusinessId,  // 业务类型
+        orgId: this.subscribeId,                // 预约地点
+        date: time,                               // 预约日期
+        carTypeId: this.vehicleTypeId          // 汽车类型ID
+      }
+      console.log('时间', getTimesData)
+      resultPost(getAppTimes, getTimesData).then(json => {
+        if (json.code === '0000') {
+          let timeData = []
+          json.data.map(item => {
+            timeData.push({'time': item.apptime, 'number': item.maxnumber - item.yetnumber})
+          })
+          this.surplusData = timeData
+        } else {
+          Toast({message: json.msg, position: 'bottom', className: 'white'})
+        }
+      })
     }
   },
-  mounted () {
-    console.log(this.currentBusinessId)
-  },
-  // watch: {
-  //   currentBusinessId (val) {
-  //     console.log(val)
-  //     console.log(this.currentBusinessId)
-  //   }
-  // },
   created () {
     document.addEventListener('click', (e) => {
       this.varietyShow = false
@@ -719,7 +772,16 @@ export default {
       this.subscribeShow = false
       this.abbreviationSelectShow = false
       this.datesShow = false
+      this.yearShow = false
     })
+  },
+  mounted () {
+  },
+  watch: {
+    currentBusinessId (val) {
+      this.vehicleTypeIdFn() // 获取汽车类型ID
+      this.businessId()   // 获取地点
+    }
   }
 }
 </script>

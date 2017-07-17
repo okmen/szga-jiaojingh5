@@ -1,7 +1,10 @@
 <!--  *换领机动车登记证书 -->
 <template>
   <div class="renewingCollarCredential">
-    <common @submitClick="subFn"></common>
+    <common 
+      @submitClick="subFn"
+      :currentBusinessId="businessId"
+    ></common>
   </div>
 </template>
 
@@ -9,6 +12,7 @@
 import common from './common.vue'
 export default {
   name: 'renewingCollarCredential',
+  props: ['businessId'],    // 拿到当前业务的id  然后传给 common组件
   data () {
     return {
     }
