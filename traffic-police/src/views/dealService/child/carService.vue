@@ -10,9 +10,9 @@
     <div class="query-link" v-bind:class="{ 'show' : lawlessShow}">
       <p @click.stop="lawlessShow = !lawlessShow">违法处理类<i v-bind:class="{ 'arrow-open' : lawlessShow, 'arrow-close' : lawlessShow == false}"></i></p>
       <div class="li-box">
-        <router-link :to="isLogin ? 'confirm' : 'login'">违法在线处理</router-link>
-        <router-link :to="isLogin ? 'payLawless' : 'login'">违法缴款</router-link>
-        <router-link :to="isLogin ? 'appeal' : 'login'">违法申诉</router-link>
+        <router-link :to="isLogins ? 'confirm' : 'login'">违法在线处理</router-link>
+        <router-link :to="isLogins ? 'payLawless' : 'login'">违法缴款</router-link>
+        <router-link :to="isLogins ? 'appeal' : 'login'">违法申诉</router-link>
       </div>
     </div>
     <div class="query-link" v-bind:class="{ 'show' : changeShow}">
@@ -34,7 +34,7 @@
       <router-link :to="isLogin ? '/userAgreement/szjj_hander_id' : routerUrl">机动车委托异地定期检验申报</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? 'freeForFirst' : 'login'">首违免罚查询</router-link>
+      <router-link :to="isLogins ? 'freeForFirst' : 'login'">首违免罚查询</router-link>
     </div>
     <div class="query-link">
       <router-link to="/moveCar">一键挪车</router-link>
@@ -51,6 +51,7 @@
         changeShow: false,
         businesses: [],
         isLogin: false,
+        isLogins: window.localStorage.getItem('isLogin'),
         routerUrl: ''
       }
     },
