@@ -116,7 +116,7 @@
 <script>
   import { resultPost } from '../../service/getData'
   import { takePictures, getRoad } from '../../config/baseUrl'
-  import UploadFile from '../../service/uploadFile'
+  import UploadFile from '../../service/uploadFile-watermark'
   import { Toast, Indicator } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {

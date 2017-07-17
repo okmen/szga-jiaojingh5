@@ -47,13 +47,13 @@
     name: 'upload-img',
     data () {
       return {
-        imgIDcard1: '',  // 身份证正面
-        imgIDcard2: '',  // 身份证反面
-        imgLicense: '',  // 驾驶证照片
-        imgEducate: '',  // 审核教育绘制表
-        imgOut: '',      // 境外人员临住表
-        imgDelay: '',    // 延期说明照片
-        imgBody: ''      // 身体条件申请表
+        imgIDcard1: require('../../../images/IDcard-front.png'),  // 身份证正面
+        imgIDcard2: require('../../../images/IDcard-back.png'),  // 身份证反面
+        imgLicense: require('../../../images/drivinglicense.png'),  // 驾驶证照片
+        imgEducate: require('../../../images/edu-table.png'),  // 审核教育绘制表
+        imgOut: require('../../../images/out-board.png'),      // 境外人员临住表
+        imgDelay: require('../../../images/newDelayIntro.png'),    // 延期说明照片
+        imgBody: require('../../../images/body-table.png')      // 身体条件申请表
       }
     },
     props: ['idCard1', 'idCard2', 'license', 'eduTable', 'outTable', 'delay', 'bodyTable'],
@@ -62,6 +62,7 @@
     },
     methods: {
       init: function () {
+        console.log(this.eduTable)
         UploadFile.upload({
           id: 'file1',
           callback: (res) => {
@@ -76,13 +77,15 @@
             this.imgIDcard2 = res.imgUrl
           }
         })
-        UploadFile.upload({
-          id: 'file5',
-          callback: (res) => {
-            console.log(res)
-            this.imgOut = res.imgUrl
-          }
-        })
+        if (this.outTable) {
+          UploadFile.upload({
+            id: 'file5',
+            callback: (res) => {
+              console.log(res)
+              this.imgOut = res.imgUrl
+            }
+          })
+        }
         if (this.license) {
           UploadFile.upload({
             id: 'file3',
@@ -178,7 +181,7 @@
       .img-box:nth-of-type(1), .img-box:nth-of-type(2){
         margin-top: 24px;
       }
-      .style-one {
+      /* .style-one {
         background: #efeff4 url('../../../images/IDcard-front.png') center no-repeat;
         background-size: 90%;
         border: none;
@@ -212,7 +215,7 @@
         background: #efeff4 url('../../../images/body-table.png') center no-repeat;
         background-size: 80%;
         border: none;
-      }
+      } */
     }
   }
 </style>
