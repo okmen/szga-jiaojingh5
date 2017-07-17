@@ -213,29 +213,29 @@ export default {
           // }
           // this.$store.commit('appoinSuccess', successData)
           // this.$router.push('/appointSuccess')
-          let dataInfo = {}
-          if (+json.data.type === 1) { // 办理类
-            dataInfo = {
-              type: 1,
-              textObj: {
-                businessType: this.dataList.type, // 具体业务名称
-                subscribeNo: json.data.waterNumber // 流水号
-              }
-            }
-          } else if (+json.data.type === 2) { // 预约类
-            // TODO: 接口返回的字段还未确定
-            dataInfo = {
-              type: 2,
-              textObj: {
-                reserveNo: '预约编号',
-                numberPlate: '车牌号码',
-                mobilephone: '手机号码',
-                reserveAddress: '服务点',
-                reserveTime: '预约时间'
-              }
-            }
-          }
-          this.$store.commit('saveSuccessInfo', dataInfo)
+          // let dataInfo = {}
+          // if (+json.data.type === 1) { // 办理类
+          //   dataInfo = {
+          //     type: 1,
+          //     textObj: {
+          //       businessType: this.dataList.type, // 具体业务名称
+          //       subscribeNo: json.data.waterNumber // 流水号
+          //     }
+          //   }
+          // } else if (+json.data.type === 2) { // 预约类
+          //   // TODO: 接口返回的字段还未确定
+          //   dataInfo = {
+          //     type: 2,
+          //     textObj: {
+          //       reserveNo: '预约编号',
+          //       numberPlate: '车牌号码',
+          //       mobilephone: '手机号码',
+          //       reserveAddress: '服务点',
+          //       reserveTime: '预约时间'
+          //     }
+          //   }
+          // }
+          this.$store.commit('saveSuccessInfo', json.data)
           this.$router.push('/submitSuccess')
         } else {
           MessageBox('提示', json.msg).then(action => {

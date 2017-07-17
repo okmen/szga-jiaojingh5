@@ -35,32 +35,33 @@
     <section class="appoint-img">
       <dl>
         <dd></dd>
-        <dt>{{dataInfo.type == 1 ? '申办成功' : '预约成功'}}</dt>
+        <dt>{{JsonDataInfo.type == 1 ? '申办成功' : '预约成功'}}</dt>
       </dl>
     </section>
     <!-- 申办成功的内容  -->
-    <section class="bid-box appoint-box" v-if="dataInfo.type == 1">
-      <h3>预约结果</h3>
+    <section class="bid-box appoint-box" v-if="JsonDataInfo.type == 1">
+      <h3>申办结果</h3>
       <p>{{ tip }}</p>
       <ul class="bid-ul appoint-margin">
-        <li class="bid-item" v-for="(value, key) in dataInfo.textObj">
+        <li class="bid-item" v-for="(value, key) in JsonDataInfo" v-if="keyListObj[key]">
           <span class="bid-item-key">{{ keyListObj[key] }}</span>
-          ：<span :class="{red: key === 'subscribeNo'}">{{ value }}</span>
+          ：<span :class="{red: key === 'subscribeNo'}">{{ valListObj[key] ? valListObj[key][value] : value }}</span>
         </li>
       </ul>
     </section>
     <!-- 预约成功的内容 -->
-    <section class="appoint-box" v-if="dataInfo.type != 1">
+    <section class="appoint-box" v-if="JsonDataInfo.type != 1">
       <h3>预约结果</h3>
+      <p>{{ tip }}</p>
       <ul class="submitSuccess-ul">
-        <li v-for="(value, key) in dataInfo.textObj" class="submitSuccess-item">
+        <li v-for="(value, key) in JsonDataInfo" class="submitSuccess-item">
           <span class="submitSuccess-item-key">{{ keyListObj[key] }}</span>
-          ：<span class="submitSuccess-item-value">{{ value }}</span>
+          ：<span class="submitSuccess-item-value">{{ valListObj[key] ? valListObj[key][value] : value }}</span>
         </li>
       </ul>
     </section>
-    <div class="btn-appoint-backword" @click="btnBackword" v-if="dataInfo.type == 1">返回</div>
-    <div class="btn-appoint-backword mt-60" @click="btnBackword"  v-if="dataInfo.type != 1">好的</div>
+    <div class="btn-appoint-backword" @click="btnBackword" v-if="JsonDataInfo.type == 1">返回</div>
+    <div class="btn-appoint-backword mt-60" @click="btnBackword"  v-if="JsonDataInfo.type != 1">好的</div>
   </div>
 </template>
 <script>
@@ -73,6 +74,8 @@ export default {
   },
   data () {
     return {
+      JsonDataInfo: '',
+      urlJsonData: this.urlToJson(window.location.href),
       tip: '您的信息已成功提交，我们将会在3个工作日内通过短信告知您的审核结果，您还可以凭身份证信息在深圳交警微信号中查询审核。',
       keyListObj: {
         businessType: '业务类型',
@@ -81,14 +84,131 @@ export default {
         numberPlate: '车牌号码',
         mobilephone: '手机号码',
         reserveAddress: '服务点',
-        reserveTime: '预约时间'
+        reserveTime: '预约时间',
+        effectiveTime: '有效时间',
+        plateType: '车牌类型',
+        title: '业务类型'
+      },
+      valListObj: {
+        cartype: {
+          '01': '大型汽车',
+          '02': '小型汽车',
+          '03': '使馆汽车',
+          '04': '领馆汽车',
+          '05': '境外汽车',
+          '06': '外籍汽车',
+          '07': '普通摩托车',
+          '08': '轻便摩托车',
+          '09': '使馆摩托车',
+          '10': '领馆摩托车',
+          '15': '挂车',
+          '16': '教练汽车',
+          '17': '教练摩托车',
+          '18': '实验汽车',
+          '19': '实验摩托车',
+          '22': '临时行驶车',
+          '23': '警用汽车',
+          '24': '警用摩托',
+          '20': '临时入境车',
+          '51': '临时行驶车',
+          '52': '新能源小型车',
+          'K31': '小型普通客车',
+          'K32': '小型越野客车',
+          'K33': '小型轿车',
+          'K34': '小型专用客车',
+          'K41': '微型普通客车',
+          'K42': '微型越野客车',
+          'K43': '微型轿车',
+          'K38': '小型专用校车'
+        },
+        showIndex: {
+          '0': '深户',
+          '1': '非深户',
+          '2': '外籍'
+        },
+        plateType: {
+          '02': '蓝牌',
+          '06': '黑牌',
+          '01': '黄牌'
+        },
+        carOrigin: {
+          'A': '国产车',
+          'B': '进口车'
+        },
+        placeOfDomicile: {
+          '1': '深户',
+          '0': '外籍户口',
+          '2': '港澳台籍',
+          '3': '外国籍',
+          '4': '其他'
+        },
+        personType: {
+          '1': '机动车所有人',
+          '2': '代理人'
+        },
+        bookerType: {
+          '0': '本人'
+        },
+        gender: {
+          '1': '男',
+          '2': '女'
+        },
+        proprietorship: {
+          '0': '个人',
+          '1': '单位'
+        },
+        inform: {
+          '1': '互联网查询',
+          '2': '短信告知',
+          '3': '非移动电话告知'
+        },
+        identificationNO: {
+          'A': '居民身份证',
+          'B': '组织机构代码书',
+          'C': '军官证',
+          'D': '士兵证',
+          'E': '军官离退休证',
+          'F': '境外人员身份证明',
+          'G': '外交人员身份证明',
+          'H': '居民户口簿',
+          'J': '单位注销证明',
+          'K': '居住暂住证明',
+          'L': '驻华机构证明',
+          'M': '临时居民身份证'
+        },
+        title: {
+          applyGatePass: '申请通行证',
+          applyCarTemporaryLicence: '申请机动车临牌',
+          complementTheMotorVehicleDrivingLicense: '补领机动车行驶证',
+          createVehicleInspection: '六年免检预约',
+          replaceInspectionMark: '补换检验合格标志',
+          inspectionDeclaration: '机动车委托异地定期检验申报',
+          inspectionDeclarationQuery: '机动车委托异地定期检验申报查询',
+          replaceMotorVehicleLicensePlate: '补领机动车号牌',
+          iocomotiveCarReplace: '换领机动车行驶证',
+          iocomotiveCarChangeContact: ' 机动车变更联系方式'
+        }
       }
     }
   },
   methods: {
     btnBackword: function () {
       this.$router.push('/')
+    },
+    urlToJson: function (url) {
+      if (!url.split('?')[1]) {
+        return false
+      }
+      let urlJson = {}
+      let arr = url.split('?')[1].split('&')
+      arr.map(item => {
+        urlJson[item.split('=')[0]] = decodeURIComponent(item.split('=')[1])
+      })
+      return urlJson
     }
+  },
+  mounted () {
+    this.JsonDataInfo = this.urlJsonData ? this.urlJsonData : this.dataInfo
   }
 }
 </script>

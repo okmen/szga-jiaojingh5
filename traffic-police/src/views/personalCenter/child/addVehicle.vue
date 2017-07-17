@@ -100,6 +100,7 @@
       <button class="btn" type="button" name="button" @click.stop="submitClick()">提交</button>
     </div>
   </div>
+  <div v-wechat-title="$route.meta.title"></div>
 </div>
 </template>
 <script>
