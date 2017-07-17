@@ -477,7 +477,7 @@
         timer: '',
         businessTypeId: '',  // 业务类型编码
         businessCarTypeId: '', // 车辆类型编码
-        businessAddressId: '' // 可预约地点
+        businessAddressId: ''  // 可预约地点
       }
     },
     components: {
@@ -487,11 +487,55 @@
       // 时间 年月日
       yearMonthDay () {
         return `${this.allYearOne}-${this.allmonthOne}-${this.allDayOne}`
+      },
+      // 余量请求参数
+      quotaRequest () {
+        return {
+          businessTypeId: this.businessTypeId,
+          orgId: this.appointmentLocationOne,
+          date: this.yearMonthDay,
+          carTypeId: this.businessCarTypeId
+        }
+      },
+      // 时间请求参数
+      timeRequest () {
+        return {
+          businessTypeId: this.businessTypeId,
+          orgId: this.appointmentLocationOne
+        }
       }
     },
     watch: {
-      yearMonthDay (val) {
-        console.log(val)
+      carSelectDataOne () {
+        this.getBusinessCarTypeId()
+      },
+      businessTypeId () {
+        this.getBusinessAddressId()
+      },
+      timeRequest (val) {
+        for (let key in val) {
+          if (val[key] === '') {
+            return
+          }
+        }
+        this.getAllYearMonthDay()
+      },
+      quotaRequest (val) {
+        if (this.allYearOne === '') {
+          return
+        }
+        if (this.allmonthOne === '') {
+          return
+        }
+        if (this.allDayOne === '') {
+          return
+        }
+        for (let key in val) {
+          if (val[key] === '') {
+            return
+          }
+        }
+        this.getQuotaInformation()
       }
     },
     methods: {
@@ -503,12 +547,14 @@
           code: 'JD15'
         }
         resultPost(getBusinessTypeId, requestData).then(data => {
+          console.log(data, '业务类型编码获取')
           this.businessTypeId = data.data
         })
       },
       //  获取地点
       getBusinessAddressId () {
         resultPost(getOrgsByBusinessTypeId, {businessTypeId: this.businessTypeId}).then(json => {
+          console.log(json, '地点获取成功')
           json.data.map(item => {
             this.appointmentLocation.option.push({'str': item.name, 'id': item.id})
           })
@@ -516,11 +562,8 @@
       },
       // 获取时间
       getAllYearMonthDay () {
-        let requestData = {
-          businessTypeId: this.businessTypeId,
-          orgId: this.appointmentLocationOne
-        }
-        resultPost(getAppointmentDate, requestData).then(json => {
+        resultPost(getAppointmentDate, this.timeRequest).then(json => {
+          console.log(json, '时间获取成功')
           let allYear = []
           let allmonth = []
           let allDay = []
@@ -549,13 +592,7 @@
       },
       // 获取配额信息
       getQuotaInformation () {
-        let requestData = {
-          businessTypeId: this.businessTypeId,
-          orgId: this.appointmentLocationOne,
-          date: this.yearMonthDay,
-          carTypeId: this.businessCarTypeId
-        }
-        resultPost(getAppTimes, requestData).then(json => {
+        resultPost(getAppTimes, this.quotaRequest).then(json => {
           console.log(json, '配额信息')
           let arrData = []
           json.data.map(item => {
@@ -570,6 +607,7 @@
           code: this.carSelectDataOne
         }
         resultPost(getBusinessCarTypeId, requestData).then(json => {
+          console.log(json, '车辆类型编码获取成功')
           this.businessCarTypeId = json.data
         })
       },
@@ -588,10 +626,18 @@
       },
       // 切换地点
       getAppointmentLocationOne (val) {
+        if (this.appointmentLocationOne === '') {
+          this.appointmentLocationOne = val
+          return
+        }
         this.appointmentLocationOne = val
         this.getAllYearMonthDay()
       },
       getAllYearOne (val) {
+        if (this.allYearOne === '') {
+          this.allYearOne = val
+          return
+        }
         this.allYearOne = val
       },
       getAllmonthOne (val) {
@@ -699,17 +745,7 @@
       }
     },
     mounted () {
-      var promise = new Promise((resolve, reject) => {
-        resolve(this.getBusinessTypeId())
-      })
-      promise.then(() => {
-        this.getBusinessAddressId()
-        this.getBusinessCarTypeId()
-      }).then(() => {
-        this.getAllYearMonthDay()
-      }).then(() => {
-        this.getAllYearMonthDay()
-      })
+      this.getBusinessTypeId()
     }
   }
 </script>
