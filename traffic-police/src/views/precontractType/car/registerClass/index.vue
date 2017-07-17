@@ -2,7 +2,7 @@
   <div class="register-class">
     <div-select :childInfo="businessType" @getSelected="getBusinessType" :defaultVal="defaultVal"></div-select>
     <div class="exchange-license-line"></div>
-    <router-view :initData="initData"></router-view>
+    <router-view :businessTypeId="businessTypeId" :modelOfCar="modelOfCar"></router-view>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
@@ -28,10 +28,14 @@
 </style>
 <script>
   import {resultPost} from 'service/getData'
-  import {getBusinessTypeId, getOrgsByBusinessTypeId} from 'config/baseUrl.js'
+  import {getBusinessTypeId, getCarModelArray} from 'config/baseUrl.js'
   export default {
     data () {
       return {
+        modelOfCar: {
+          title: '车辆型号',
+          option: []
+        }, // 车辆型号
         defaultVal: '',
         businessType: {
           title: '业务类型',
@@ -53,8 +57,12 @@
               'id': 'cancellationRegister'
             },
             {
-              'str': '机动车变更登记(普通变更)',
+              'str': '机动车变更登记',
               'id': 'changeRegister'
+            },
+            {
+              'str': '机动车变更登记(普通变更)',
+              'id': 'generalChangeRegister'
             },
             {
               'str': '机动车变更登记(套牌车换证)',
@@ -70,16 +78,17 @@
             }
           ]
         },
-        initData: {},
+        businessTypeId: '',
         businessTypeToCode: {
           'transferRegistration': 'JD15',
           'intoRegister': 'JD19',
           'enteringRegister': 'JD17',
           'cancellationRegister': 'JD18',
-          'changeRegister': 'JD24',
+          'changeRegister': 'JD47',
           'fakeLicensedEvidence': 'JD36',
           'manWifeChange': 'JD35',
-          'replaceLicense': 'JD01'
+          'replaceLicense': 'JD01',
+          'generalChangeRegister': 'JD24'
         }
       }
     },
@@ -89,6 +98,9 @@
           if (item.id === to.name) {
             vm.defaultVal = item
           }
+        })
+        resultPost(getCarModelArray, {}).then(data => {
+          this.modelOfCar.option = data.data
         })
       })
     },
@@ -103,17 +115,16 @@
           code: this.businessTypeToCode[val]
         }
         resultPost(getBusinessTypeId, requestData).then(data => {
-          this.initData.businessTypeId = data.data
-          resultPost(getOrgsByBusinessTypeId, {businessTypeId: data.data}).then(json => {
-            json.data.map(item => {
-              this.initData.appointmentLocation.option.push({'str': item.name, 'id': item.id})
-            })
-          })
+          this.businessTypeId = data.data
+          console.log(data, '业务类型编码获取成功')
         })
       },
       getBusinessType (val) {
         this.$router.push(val)
-//        this.getBusinessTypeId(val)
+        this.businessTypeId = ''
+        if (this.defaultVal) {
+          this.getBusinessTypeId(val)
+        }
       }
     }
   }
