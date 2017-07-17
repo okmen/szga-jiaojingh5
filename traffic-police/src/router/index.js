@@ -891,6 +891,14 @@ const routes = [
         component: require('../views/precontractType/car/registerClass/page/changeRegister.vue')
       },
       {
+        name: 'generalChangeRegister',
+        path: 'generalChangeRegister',
+        meta: {
+          title: '机动车变更登记(普通变更)'
+        },
+        component: require('../views/precontractType/car/registerClass/page/generalChangeRegister.vue')
+      },
+      {
         name: 'fakeLicensedEvidence',
         path: 'fakeLicensedEvidence',
         meta: {
