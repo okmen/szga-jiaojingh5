@@ -678,14 +678,22 @@ export default {
     },
     dataFn: function () {
       let renewingData = {
+        'orgId': this.subscribeId, // 预约地点id
+        'businessTypeId': this.currentBusinessId,    // 业务id
         'name': this.name,   // 车主姓名
-        'identificationNO': this.cur_card_id,   // 证件号码
-        'identificationNum': this.identificationNum, // 证件号码
-        'mobilephone': this.mobilephone,             // 手机号码
-        'abbreviationSelectMassage': `${this.abbreviationSelectMassage}${this.numberPlate}`,   // 车牌号码
-        'cartype': this.vehicleId,             // 车辆类型
-        'employ': this.employID,               // 使用性质
-        'behindTheFrame4Digits': this.behindTheFrame4Digits,  // 车架号
+        // 'bookerIdNumber': '',       // 预约人身份证号
+        // 'bookerType': '',           //  预约方式 ‘0’本人
+        // 'identificationNO': this.cur_card_id,   // 证件号码
+        'idTypeId': this.certificate,              // 证件种类ID
+        'idNumber': this.identificationNum, // 证件号码
+        'mobile': this.mobilephone,             // 手机号码
+        'arg2': this.identifying,               // 验证码
+        'appointmentDate': `${this.year}-${this.month}-${this.date}`,  // 预约日期
+        'appointmentTime': '',             // 预约时间
+        'platNumber': `${this.abbreviationSelectMassage}${this.numberPlate}`,   // 车牌号码
+        'carTypeId': this.vehicleTypeId,             // 车辆类型Id
+        'useCharater': this.employID,               // 使用性质
+        'carFrame': this.behindTheFrame4Digits,  // 车架号
         'subscribeId': this.subscribeId   // 预约地点
 
       }
