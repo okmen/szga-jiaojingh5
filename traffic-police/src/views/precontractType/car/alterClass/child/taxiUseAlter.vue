@@ -24,6 +24,8 @@ export default {
   components: {
     common
   },
+  mounted () {
+  },
   methods: {
     appointTask: function (params) {  // 从 common 组件获取 reqData
       console.log(params)

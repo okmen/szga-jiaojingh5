@@ -19,12 +19,15 @@
       </div>
     </div>
     <div class="alter-from pad-side-50">
-      <router-view></router-view>
+      <router-view :businessId="curTabID"></router-view>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
+import { resultPost } from '../../../../service/getData'
+import { getBusinessTypeId } from '../../../../config/baseUrl'
+import { Toast } from 'mint-ui'
 export default {
   name: 'alterClass',
   data () {
@@ -32,6 +35,7 @@ export default {
       curTab: 'alterClass',   // 当前 tab
       typeSelectShow: false,
       typeSelectMassage: '',
+      curTabID: '',           // 当前选择业务 id
       typeSelectData: [
         {
           'name': 'taxiUseAlter',
@@ -61,19 +65,6 @@ export default {
       ]
     }
   },
-  methods: {
-    typeSelectClick: function (index) {
-      if (index) {
-        index--
-        this.typeSelectMassage = this.typeSelectData[index]
-        this.curTab = this.typeSelectMassage.name
-      }
-      this.typeSelectShow = !this.typeSelectShow
-    },
-    select: function () {
-      this.typeSelectShow = false
-    }
-  },
   created () {
     switch (window.location.hash) {
       case '#/alterClass/taxiUseAlter':
@@ -98,6 +89,44 @@ export default {
   },
   destroyed () {
     document.removeEventListener('click', this.select)
+  },
+  methods: {
+    typeSelectClick: function (index) {
+      if (index) {
+        index--
+        this.typeSelectMassage = this.typeSelectData[index]
+        this.curTab = this.typeSelectMassage.name
+      }
+      this.typeSelectShow = !this.typeSelectShow
+      // 获取业务类型 id
+      let taskReaData = {
+        type: '1',
+        part: '1'
+      }
+      if (this.curTab === 'taxiUseAlter') {
+        taskReaData.code = '1111'
+      } else if (this.curTab === 'numberAlter') {
+        taskReaData.code = 'JD28'       // 机动车打刻原车发动机号码变更备案  JD28
+      } else if (this.curTab === 'markAlter') {
+        taskReaData.code = '3333'
+      } else if (this.curTab === 'fileAlter') {
+        taskReaData.code = '4444'
+      } else if (this.curTab === 'onlineCarAlter') {
+        taskReaData.code = '5555'
+      }
+      if (this.curTab === 'numberAlter') {
+        resultPost(getBusinessTypeId, taskReaData).then(json => {
+          if (json.code === '0000') {
+            this.curTabID = json.data   // 当前选择业务的id
+          } else {
+            Toast({ message: json.msg, className: 'white', duration: 1500 })
+          }
+        })
+      }
+    },
+    select: function () {
+      this.typeSelectShow = false
+    }
   }
 }
 </script>

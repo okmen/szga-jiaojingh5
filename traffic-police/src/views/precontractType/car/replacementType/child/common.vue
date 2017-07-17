@@ -153,10 +153,11 @@
 
 <script>
 import { resultPost } from '../../../../../service/getData'
-import { sendSMS } from '../../../../../config/baseUrl.js'
+import { sendSMS, getBusinessCarTypeId } from '../../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
 export default {
   name: 'renewingCollarCredential',
+  props: ['currentBusinessId'],
   data () {
     return {
       name: '',                         // 车主姓名
@@ -580,6 +581,7 @@ export default {
       if (str) {
         this.vehicle = str
         this.vehicleId = id
+        this.vehicleTypeIdFn()
       }
       if (this.vehicleShow === true) {
         this.vehicleShow = false
@@ -684,8 +686,30 @@ export default {
 
       }
       this.$emit('submitClick', renewingData)
+    },
+    // 获取车辆Id
+    vehicleTypeIdFn: function () {
+      let vehicleTypeIdData = {
+        code: this.vehicleId
+      }
+      console.log('111')
+      resultPost(getBusinessCarTypeId, vehicleTypeIdData).then(json => {
+        console.log(json)
+        if (json.code === '0000') {
+          this.vehicleTypeId = json.data
+        }
+      })
     }
   },
+  mounted () {
+    console.log(this.currentBusinessId)
+  },
+  // watch: {
+  //   currentBusinessId (val) {
+  //     console.log(val)
+  //     console.log(this.currentBusinessId)
+  //   }
+  // },
   created () {
     document.addEventListener('click', (e) => {
       this.varietyShow = false
