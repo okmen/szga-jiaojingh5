@@ -198,4 +198,6 @@ export const getAppTimes = `http://192.168.1.243:8080/web/bookingbusiness/getApp
 
 export const createVehicleInfo = `http://192.168.1.243:8080/web/bookingbusiness/createVehicleInfo.html` // 机动车预约信息写入
 
+export const getCarModelArray = `http://192.168.1.247:8080/web/bookingbusiness/getCarModelArray.html`  // 机动车车辆类型
+
 export const simpleSendMessage = `http://192.168.1.243:8080/web/bookingbusiness/simpleSendMessage.html`  // 验证码接口
