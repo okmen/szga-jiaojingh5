@@ -38,10 +38,10 @@
         </li>
         <li class="form-line">
           <div class="form-line-item item-name">
-            <span>行驶证编码</span>
+            <span>行驶证编号</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input stylebackground" type="text" v-model="drivingLicense" value="" placeholder="请输入行驶证编码" />
+            <input class="text-input stylebackground" type="text" v-model="drivingLicense" value="" placeholder="请输入行驶证编号" />
           </div>
         </li>
         <li class="form-line">
@@ -516,7 +516,7 @@ export default {
     },
     submitClick: function () {
       if (!this.drivingLicense) {
-        Toast({message: '请输入行驶证编码', position: 'bottom', className: 'white'})
+        Toast({message: '请输入行驶证编号', position: 'bottom', className: 'white'})
       } else if (!this.mobile) {
         Toast({message: '请输入手机号码', position: 'bottom', className: 'white'})
       } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobile))) {

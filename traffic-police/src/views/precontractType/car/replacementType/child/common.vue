@@ -81,6 +81,19 @@
         </li>
         <li class="form-line">
           <div class="form-line-item item-name">
+            <span>车辆型号</span>
+          </div>
+          <div class="div-select">
+            <span class="btn-select bg-colour" @click.stop="vehiclemodel()">{{ model }}</span>
+            <div class="div-select-ul" v-if="modelShow">
+              <ul>
+                <li v-for="item in modelData" @click.stop="vehiclemodel(item.str, item.id)">{{item.str}}</li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="form-line">
+          <div class="form-line-item item-name">
             <span>使用性质</span>
           </div>
           <div class="div-select">
@@ -161,7 +174,7 @@
 
 <script>
 import { resultPost } from '../../../../../service/getData'
-import { sendSMS, getBusinessCarTypeId, getIdTypeId, getOrgsByBusinessTypeId, getAppointmentDate, getAppTimes } from '../../../../../config/baseUrl.js'
+import { simpleSendMessage, getBusinessCarTypeId, getIdTypeId, getOrgsByBusinessTypeId, getAppointmentDate, getAppTimes, getCarModelArray } from '../../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
 export default {
   name: 'renewingCollarCredential',
@@ -458,6 +471,10 @@ export default {
           'str': '其他号牌'
         }
       ],
+      modelShow: false,
+      modelId: '',
+      model: '',
+      modelData: [],
       monthShow: false,
       datesShow: false,
       yearShow: false,
@@ -539,6 +556,18 @@ export default {
         this.vehicleShow = true
       }
     },
+    // 车辆型号
+    vehiclemodel: function (str, id) {
+      if (str) {
+        this.model = str
+        this.modelId = id
+      }
+      if (this.modelShow === true) {
+        this.modelShow = false
+      } else {
+        this.modelShow = true
+      }
+    },
     // 年
     yearClick: function (str) {
       if (str) {
@@ -589,11 +618,18 @@ export default {
       } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobilephone))) {
         Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
       } else {
+        let name = this.name === window.localStorage.getItem('userName') ? 0 : 1  // 0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
         let phonedata = {
-          mobilephone: mobilephone,
-          businessType: 'szjj'
+          mobile: mobilephone,               // 手机号码
+          idType: this.certificate,          // 证件id
+          lx: '2',                           // 业务类型
+          bookerType: name,                    // 预约方式
+          bookerName: this.name,             // 预约人名字
+          bookerIdNumber: window.localStorage.getItem('identityCard'),
+          idNumber: this.identificationNum,
+          codes: 'JD01'
         }
-        resultPost(sendSMS, phonedata).then(json => {
+        resultPost(simpleSendMessage, phonedata).then(json => {
           if (json.code === '0000') {
             this.timePiece()
           } else {
@@ -654,6 +690,18 @@ export default {
 
       }
       this.$emit('submitClick', renewingData)
+    },
+    // 获取车辆型号
+    getCarModel: function () {
+      console.log('111')
+      let Cardata = {
+      }
+      resultPost(getCarModelArray, Cardata).then(json => {
+        console.log(json)
+        this.modelData = json.data
+        this.model = json.data[0].str
+        this.modelId = json.data[0].id
+      })
     },
     // 获取车辆Id
     vehicleTypeIdFn: function () {
@@ -751,6 +799,7 @@ export default {
       }
       console.log('时间', getTimesData)
       resultPost(getAppTimes, getTimesData).then(json => {
+        console.log(json)
         if (json.code === '0000') {
           let timeData = []
           json.data.map(item => {
@@ -764,6 +813,7 @@ export default {
     }
   },
   created () {
+    this.getCarModel()  // 获取车辆型号
     document.addEventListener('click', (e) => {
       this.varietyShow = false
       this.vehicleShow = false
@@ -773,6 +823,7 @@ export default {
       this.abbreviationSelectShow = false
       this.datesShow = false
       this.yearShow = false
+      this.modelShow = false
     })
   },
   mounted () {
@@ -781,6 +832,7 @@ export default {
     currentBusinessId (val) {
       this.vehicleTypeIdFn() // 获取汽车类型ID
       this.businessId()   // 获取地点
+      this.certificateId()  // 获取证件类型id
     }
   }
 }
