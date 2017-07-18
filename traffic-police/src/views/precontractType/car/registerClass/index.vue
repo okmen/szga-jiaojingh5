@@ -2,7 +2,7 @@
   <div class="register-class">
     <div-select :childInfo="businessType" @getSelected="getBusinessType" :defaultVal="defaultVal"></div-select>
     <div class="exchange-license-line"></div>
-    <router-view :businessTypeId="businessTypeId" :modelOfCar="modelOfCar"></router-view>
+    <router-view :businessTypeId="businessTypeId" :modelOfCar="modelOfCar" :achieveCode="achieveCode"></router-view>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
@@ -28,7 +28,11 @@
 </style>
 <script>
   import {resultPost} from 'service/getData'
-  import {getBusinessTypeId, getCarModelArray} from 'config/baseUrl.js'
+  import { MessageBox } from 'mint-ui'
+  import {
+    getBusinessTypeId,
+    getCarModelArray
+  } from 'config/baseUrl.js'
   export default {
     data () {
       return {
@@ -37,6 +41,7 @@
           option: []
         }, // 车辆型号
         defaultVal: '',
+        achieveCode: '',
         businessType: {
           title: '业务类型',
           option: [
@@ -79,6 +84,7 @@
           ]
         },
         businessTypeId: '',
+        businessTypeStr: '',
         businessTypeToCode: {
           'transferRegistration': 'JD15',
           'intoRegister': 'JD19',
@@ -104,11 +110,35 @@
         })
       })
     },
+    computed: {
+      responseData () {
+        return this.$store.getters.getResponseData
+      }
+    },
+    watch: {
+      responseData (val) {
+        console.log(val, '返回的预约信息')
+        if (val.code === '0000') {
+          let dataInfo = {
+            type: 1,
+            textObj: {
+              businessType: this.businessTypeStr,
+              subscribeNo: '流水号码'
+            }
+          }
+          this.$store.commit('saveSuccessInfo', dataInfo)
+          this.$router.push('/submitSuccess')
+        } else {
+          MessageBox('提示', '')
+        }
+      }
+    },
     components: {
       divSelect: require('components/divSelect.vue')
     },
     methods: {
       getBusinessTypeId (val) {
+        this.achieveCode = this.businessTypeToCode[val]
         let requestData = {
           type: '1',
           part: '1',
@@ -120,6 +150,11 @@
         })
       },
       getBusinessType (val) {
+        this.businessType.option.map(item => {
+          if (item.id === val) {
+            this.businessTypeStr = item.str
+          }
+        })
         this.$router.push(val)
         this.businessTypeId = ''
         if (this.defaultVal) {

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import motorVehicleAppointment from './modules/motorVehicleAppointment'
 Vue.use(Vuex)
 
 const state = {
@@ -104,5 +104,8 @@ export default new Vuex.Store({
   state,
   getters,
   mutations,
-  actions
+  actions,
+  modules: {
+    motorVehicleAppointment
+  }
 })
