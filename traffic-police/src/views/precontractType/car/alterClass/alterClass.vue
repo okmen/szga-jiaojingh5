@@ -89,7 +89,7 @@ export default {
       switch (window.location.hash) {
         case '#/alterClass/taxiUseAlter':
           this.typeSelectMassage = this.typeSelectData[0]
-          this.currentBussinessCode = '1111'
+          this.currentBussinessCode = 'D:Q'        // 出租客运车辆使用性质变更
           break
         case '#/alterClass/numberAlter':
           this.typeSelectMassage = this.typeSelectData[1]
@@ -97,11 +97,11 @@ export default {
           break
         case '#/alterClass/markAlter':
           this.typeSelectMassage = this.typeSelectData[2]
-          this.currentBussinessCode = '3333'
+          this.currentBussinessCode = 'JD29'      // 机动车打刻原车辆识别代号变更备案
           break
         case '#/alterClass/fileAlter':
           this.typeSelectMassage = this.typeSelectData[3]
-          this.currentBussinessCode = '4444'
+          this.currentBussinessCode = 'JD33'      // 档案更正
           break
         case '#/alterClass/onlineCarAlter':
           this.typeSelectMassage = this.typeSelectData[4]
