@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="renewing-from pad-side-50">
-      <router-view :businessId="curTabID"></router-view>
+      <router-view :businessId="curTabID" :businessCode="busines"></router-view>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -25,13 +25,14 @@ import { getBusinessTypeId } from '../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
 export default {
   name: 'renewingClass',
-  props: ['businesId'],
+  props: ['businessId', 'businessCode'],
   data () {
     return {
       curTab: 'replacementType',   // 当前 tab
       typeSelectShow: false,
       typeSelectMassage: '',
       curTabID: '',           // 当前选择业务 id
+      busines: '',            // 当前选择业务code
       typeSelectData: [
         {
           'name': 'renewingCollarCredential',
@@ -109,11 +110,14 @@ export default {
     },
     // 获取业务id
     businessTypeIdFn: function () {
+      // this.busines = this.businescode
+      // console.log(this.busines)
       let businesData = {
         type: '1',
         part: '1',
         code: this.businescode
       }
+      console.log(businesData)
       resultPost(getBusinessTypeId, businesData).then(json => {
         if (json.code === '0000') {
           this.curTabID = json.data

@@ -161,7 +161,7 @@
         </li>
       </ul>
       <ul class="renewingUl clear">
-        <li v-for="item in surplusData" class="renewingLi" :class="{'rene-p': item.number == 0}">
+        <li v-for="item in surplusData" class="renewingLi" :class="{'rene-p': item.number == 0}" @click="renewingClick()">
           <p>{{item.time}}</p>
           <p v-if="item.number != 0">剩余名额<span class="renspan">{{item.number}}</span>位</p>
           <p v-if="item.number == 0">已满</p>
@@ -178,7 +178,7 @@ import { simpleSendMessage, getBusinessCarTypeId, getIdTypeId, getOrgsByBusiness
 import { Toast } from 'mint-ui'
 export default {
   name: 'renewingCollarCredential',
-  props: ['currentBusinessId'],
+  props: ['currentBusinessId', 'currentCode'],
   data () {
     return {
       name: '',                         // 车主姓名
@@ -350,30 +350,30 @@ export default {
       ],
       employ: '非运营',
       employShow: false,                // 使用性质样式
-      employID: '01',
+      employId: 'A',
       employData: [
         {
-          'id': '01',
+          'id': 'A',
           'str': '非运营'
         },
         {
-          'id': '02',
+          'id': 'B',
           'str': '公路客运'
         },
         {
-          'id': '03',
+          'id': 'C',
           'str': '公交客运'
         },
         {
-          'id': '04',
+          'id': 'E',
           'str': '旅游客运'
         },
         {
-          'id': '05',
+          'id': 'F',
           'str': '货运'
         },
         {
-          'id': '06',
+          'id': 'G',
           'str': '租赁'
         }
       ],
@@ -478,9 +478,6 @@ export default {
       monthShow: false,
       datesShow: false,
       yearShow: false,
-      // month: months[0].str,
-      // year: years[0].str,
-      // date: dates[0].str,
       month: '',
       year: '',
       date: '',
@@ -520,9 +517,12 @@ export default {
       }
     },
     // 使用性质
-    employClick: function (str) {
+    employClick: function (str, id) {
       if (str) {
         this.employ = str
+        this.employId = id
+        console.log(this.employ)
+        console.log(this.employId)
       }
       if (this.employShow === true) {
         this.employShow = false
@@ -692,7 +692,7 @@ export default {
         'appointmentTime': '',             // 预约时间
         'platNumber': `${this.abbreviationSelectMassage}${this.numberPlate}`,   // 车牌号码
         'carTypeId': this.vehicleTypeId,             // 车辆类型Id
-        'useCharater': this.employID,               // 使用性质
+        'useCharater': this.employId,               // 使用性质
         'carFrame': this.behindTheFrame4Digits,  // 车架号
         'subscribeId': this.subscribeId   // 预约地点
 
@@ -841,6 +841,10 @@ export default {
       this.vehicleTypeIdFn() // 获取汽车类型ID
       this.businessId()   // 获取地点
       this.certificateId()  // 获取证件类型id
+      console.log(val)
+    },
+    currentCode (val) {
+      console.log(val)
     }
   }
 }
