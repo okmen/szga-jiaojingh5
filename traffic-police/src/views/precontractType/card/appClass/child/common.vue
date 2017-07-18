@@ -124,9 +124,7 @@ export default {
       chronoScope: '获取验证码',
       identifying: '',                  // 验证码
       identificationNum: '',            // 证件号码
-      numberPlate: '',                  // 车牌号码
       mobilephone: '',                  // 手机号码
-      behindTheFrame4Digits: '',        // 车架号
       variety: '居民户口簿',
       cur_card_id: 'H',                // 证件id
       varietyShow: false,               // 证件样式
@@ -471,7 +469,6 @@ export default {
         'bookerIdNumber': this.identificationNum,          // 预约人身份证号
         'bookerType': name,                                // 预约方式 ‘0’本人
         'bookerMobile': this.mobilephone                   // 预约手机号码
-
       }
       this.$emit('submitClick', renewingData)
     },
