@@ -118,6 +118,7 @@ export default {
       resultPost(getBusinessTypeId, businesData).then(json => {
         if (json.code === '0000') {
           this.curTabID = json.data
+          this.busines = this.businescode
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }

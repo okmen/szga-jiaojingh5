@@ -81,19 +81,6 @@
         </li>
         <li class="form-line">
           <div class="form-line-item item-name">
-            <span>车辆型号</span>
-          </div>
-          <div class="div-select">
-            <span class="btn-select bg-colour" @click.stop="vehiclemodel()">{{ model }}</span>
-            <div class="div-select-ul" v-if="modelShow">
-              <ul>
-                <li v-for="item in modelData" @click.stop="vehiclemodel(item.str, item.id)">{{item.str}}</li>
-              </ul>
-            </div>
-          </div>
-        </li>
-        <li class="form-line">
-          <div class="form-line-item item-name">
             <span>使用性质</span>
           </div>
           <div class="div-select">
@@ -133,6 +120,7 @@
           <!-- <input class="text-input width-27 btn-cen left" type="" name="" value="" v-model="year" readonly/> -->
           <div class="div-select width-27 left">
             <span class="btn-select btn-cen bg-colour" @click.stop="yearClick()">{{year}}</span>
+            <!-- <input class="btn-select btn-cen bg-colour" @click.stop="yearClick()" v-model="year" readonly/> -->
             <div class="div-select-ul" v-if="yearShow">
               <ul>
                 <li v-for="item in years" @click.stop="yearClick(item.str)">{{item.str}}</li>
@@ -174,7 +162,7 @@
 
 <script>
 import { resultPost } from '../../../../../service/getData'
-import { simpleSendMessage, getBusinessCarTypeId, getIdTypeId, getOrgsByBusinessTypeId, getAppointmentDate, getAppTimes, getCarModelArray } from '../../../../../config/baseUrl.js'
+import { simpleSendMessage, getBusinessCarTypeId, getIdTypeId, getOrgsByBusinessTypeId, getAppointmentDate, getAppTimes } from '../../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
 export default {
   name: 'renewingCollarCredential',
@@ -191,7 +179,7 @@ export default {
       mobilephone: '',                  // 手机号码
       behindTheFrame4Digits: '',        // 车架号
       variety: '居民户口簿',
-      cur_card_id: 'H',                // 证件id
+      cur_card_id: 'H',                 // 证件id
       varietyShow: false,               // 证件样式
       varietyData: [
         {
@@ -377,14 +365,14 @@ export default {
           'str': '租赁'
         }
       ],
-      subscribe: '',
-      subscribeId: '',
+      subscribe: '',                    // 预约地点
+      subscribeId: '',                  // 预约地点id
       subscribeShow: false,
       businessData: [],
       vehicleShow: false,
       vehicle: '大型汽车',
       vehicleId: '01',
-      vehicleTypeId: '',         // 车辆类型ID
+      vehicleTypeId: '',                // 车辆类型ID
       vehicleData: [
         {
           'id': '01',
@@ -471,24 +459,16 @@ export default {
           'str': '其他号牌'
         }
       ],
-      modelShow: false,
-      modelId: '',
-      model: '',
-      modelData: [],
       monthShow: false,
       datesShow: false,
       yearShow: false,
-      month: '',
-      year: '',
-      date: '',
-      years: [
-      ],
-      months: [
-      ],
-      dates: [
-      ],
-      surplusData: [
-      ],
+      month: '',                        // 月
+      year: '',                         // 年
+      date: '',                         // 日
+      years: [],
+      months: [],
+      dates: [],
+      surplusData: [],
       clickIndex: '',
       tmentTime: ''   // 预约时间
     }
@@ -556,18 +536,6 @@ export default {
         this.vehicleShow = true
       }
     },
-    // 车辆型号
-    vehiclemodel: function (str, id) {
-      if (str) {
-        this.model = str
-        this.modelId = id
-      }
-      if (this.modelShow === true) {
-        this.modelShow = false
-      } else {
-        this.modelShow = true
-      }
-    },
     // 年
     yearClick: function (str) {
       if (str) {
@@ -632,11 +600,11 @@ export default {
           mobile: mobilephone,               // 手机号码
           idType: this.certificate,          // 证件id
           lx: '2',                           // 业务类型
-          bookerType: name,                    // 预约方式
+          bookerType: name,                  // 预约方式
           bookerName: this.name,             // 预约人名字
           bookerIdNumber: window.localStorage.getItem('identityCard'),
-          idNumber: this.identificationNum,
-          codes: this.currentCode
+          idNumber: this.identificationNum,   // 预约人证件号码
+          codes: this.currentCode             // 业务类型id
         }
         resultPost(simpleSendMessage, phonedata).then(json => {
           if (json.code === '0000') {
@@ -705,21 +673,8 @@ export default {
         'bookerIdNumber': this.identificationNum,          // 预约人身份证号
         'bookerType': name,                                // 预约方式 ‘0’本人
         'bookerMobile': this.mobilephone                   // 预约手机号码
-
       }
       this.$emit('submitClick', renewingData)
-    },
-    // 获取车辆型号
-    getCarModel: function () {
-      console.log('111')
-      let Cardata = {
-      }
-      resultPost(getCarModelArray, Cardata).then(json => {
-        console.log(json)
-        this.modelData = json.data
-        this.model = json.data[0].str
-        this.modelId = json.data[0].id
-      })
     },
     // 获取车辆Id
     vehicleTypeIdFn: function () {
@@ -735,8 +690,8 @@ export default {
     // 获取证件ID
     certificateId: function () {
       let certificateIdData = {
-        businessTypeId: this.currentBusinessId,
-        code: this.cur_card_id
+        businessTypeId: this.currentBusinessId,   // 业务类型
+        code: this.cur_card_id                    // 证件id
       }
       console.log(certificateIdData)
       resultPost(getIdTypeId, certificateIdData).then(json => {
@@ -750,7 +705,7 @@ export default {
     // 获取预约地点
     businessId: function () {
       let businessData = {
-        businessTypeId: this.currentBusinessId
+        businessTypeId: this.currentBusinessId   // 业务类型
       }
       resultPost(getOrgsByBusinessTypeId, businessData).then(json => {
         if (json.code === '0000') {
@@ -766,8 +721,8 @@ export default {
     // 获取预约日期
     getmentDate: function () {
       let getmentData = {
-        orgId: this.subscribeId,
-        businessTypeId: this.currentBusinessId
+        orgId: this.subscribeId,     // 预约地点
+        businessTypeId: this.currentBusinessId    // 业务类型
       }
       resultPost(getAppointmentDate, getmentData).then(json => {
         console.log(json)
@@ -811,10 +766,10 @@ export default {
       let time = `${this.year}-${this.month}-${this.date}`
       let getTimesData = {
         businessTypeId: this.currentBusinessId,  // 业务类型
-        orgId: this.subscribeId,                // 预约地点
-        date: time,                               // 预约日期
-        carTypeId: this.vehicleTypeId,         // 汽车类型ID
-        optlittleCar: ''                       // 汽车产地
+        orgId: this.subscribeId,                 // 预约地点
+        date: time,                              // 预约日期
+        carTypeId: this.vehicleTypeId,           // 汽车类型ID
+        optlittleCar: ''                         // 汽车产地
       }
       console.log('时间', getTimesData)
       resultPost(getAppTimes, getTimesData).then(json => {
@@ -832,7 +787,6 @@ export default {
     }
   },
   created () {
-    this.getCarModel()  // 获取车辆型号
     document.addEventListener('click', (e) => {
       this.varietyShow = false
       this.vehicleShow = false
@@ -842,7 +796,6 @@ export default {
       this.abbreviationSelectShow = false
       this.datesShow = false
       this.yearShow = false
-      this.modelShow = false
     })
   },
   mounted () {
