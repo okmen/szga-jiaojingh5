@@ -32,10 +32,10 @@ export default {
   name: 'alterClass',
   data () {
     return {
-      curTab: 'alterClass',     // 当前 tab
+      curTab: 'alterClass',   // 当前 tab
       typeSelectShow: false,
       typeSelectMassage: '',
-      curTabID: '',             // 当前选择业务 id
+      curTabID: '',           // 当前选择业务 id
       typeSelectData: [
         {
           'name': 'taxiUseAlter',
@@ -62,13 +62,27 @@ export default {
           'str': '网约车使用性质更正',
           'path': '/alterClass/onlineCarAlter'
         }
-      ],
-      currentBussinessCode: ''  // 当前业务 code
+      ]
     }
   },
   created () {
-    this.distinguish()
-    this.getData()   // 从主菜单 进入页面 初始化 业务id
+    switch (window.location.hash) {
+      case '#/alterClass/taxiUseAlter':
+        this.typeSelectMassage = this.typeSelectData[0]
+        break
+      case '#/alterClass/numberAlter':
+        this.typeSelectMassage = this.typeSelectData[1]
+        break
+      case '#/alterClass/markAlter':
+        this.typeSelectMassage = this.typeSelectData[2]
+        break
+      case '#/alterClass/fileAlter':
+        this.typeSelectMassage = this.typeSelectData[3]
+        break
+      case '#/alterClass/onlineCarAlter':
+        this.typeSelectMassage = this.typeSelectData[4]
+        break
+    }
   },
   mounted () {
     document.addEventListener('click', this.select)
@@ -81,48 +95,34 @@ export default {
       if (index) {
         index--
         this.typeSelectMassage = this.typeSelectData[index]
-        this.getData()   // 选择业务入口 进入页面时 初始化 业务id
+        this.curTab = this.typeSelectMassage.name
       }
       this.typeSelectShow = !this.typeSelectShow
-    },
-    distinguish () {
-      switch (window.location.hash) {
-        case '#/alterClass/taxiUseAlter':
-          this.typeSelectMassage = this.typeSelectData[0]
-          this.currentBussinessCode = '1111'
-          break
-        case '#/alterClass/numberAlter':
-          this.typeSelectMassage = this.typeSelectData[1]
-          this.currentBussinessCode = 'JD28'       // 机动车打刻原车发动机号码变更备案  JD28
-          break
-        case '#/alterClass/markAlter':
-          this.typeSelectMassage = this.typeSelectData[2]
-          this.currentBussinessCode = '3333'
-          break
-        case '#/alterClass/fileAlter':
-          this.typeSelectMassage = this.typeSelectData[3]
-          this.currentBussinessCode = '4444'
-          break
-        case '#/alterClass/onlineCarAlter':
-          this.typeSelectMassage = this.typeSelectData[4]
-          this.currentBussinessCode = '5555'
-          break
-      }
-    },
-    getData: function () {
       // 获取业务类型 id
       let taskReaData = {
         type: '1',
-        part: '1',
-        code: this.currentBussinessCode
+        part: '1'
       }
-      resultPost(getBusinessTypeId, taskReaData).then(json => {   // 根据业务类型code 获取 业务类型 id
-        if (json.code === '0000') {
-          this.curTabID = json.data   // 当前选择业务的id
-        } else {
-          Toast({ message: json.msg, className: 'white', duration: 1500 })
-        }
-      })
+      if (this.curTab === 'taxiUseAlter') {
+        taskReaData.code = '1111'
+      } else if (this.curTab === 'numberAlter') {
+        taskReaData.code = 'JD28'       // 机动车打刻原车发动机号码变更备案  JD28
+      } else if (this.curTab === 'markAlter') {
+        taskReaData.code = '3333'
+      } else if (this.curTab === 'fileAlter') {
+        taskReaData.code = '4444'
+      } else if (this.curTab === 'onlineCarAlter') {
+        taskReaData.code = '5555'
+      }
+      if (this.curTab === 'numberAlter') {
+        resultPost(getBusinessTypeId, taskReaData).then(json => {
+          if (json.code === '0000') {
+            this.curTabID = json.data   // 当前选择业务的id
+          } else {
+            Toast({ message: json.msg, className: 'white', duration: 1500 })
+          }
+        })
+      }
     },
     select: function () {
       this.typeSelectShow = false
