@@ -1,6 +1,9 @@
-<!-- 补换检验合格标志 -->
+<!-- 
+  临时机动车驾驶证许可证申领 
+-->
+
 <template>
-  <div class="renewingQualification">
+  <div class="temporaryLicence">
     <common 
       @submitClick="subFn"
       :currentBusinessId="businessId"
@@ -12,7 +15,7 @@
 <script>
 import common from './common.vue'
 export default {
-  name: 'renewingQualification',
+  name: 'temporaryLicence',
   props: ['businessId', 'businessCode'],    // 拿到当前业务的id  然后传给 common组件
   data () {
     return {
@@ -23,10 +26,10 @@ export default {
   },
   methods: {
     subFn: function (params) {
-      console.log('renewingQualification', params)
+      console.log('temporaryLicence', params)
     }
   }
 }
 </script>
-<style lang="css" scoped>
+<style lang="less" scoped>
 </style>

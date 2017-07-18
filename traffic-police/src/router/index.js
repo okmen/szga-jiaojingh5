@@ -1045,29 +1045,29 @@ const routes = [
   sceneManageClassRouter,   // 现场办理类
   verifyIssueClassRouter,    // 核发类
   {
-    name: 'applyClass',
-    path: '/applyClass',
+    name: 'appClass',
+    path: '/appClass',
     meta: {
       title: '申领类'
     },
-    component: require('../views/precontractType/card/applyClass/applyClass.vue'),
-    redirect: '/applyClass/armyLicence',
+    component: require('../views/precontractType/card/appClass/appClass.vue'),
+    redirect: '/appClass/armyLicence',
     children: [
       {
         name: 'armyLicence',
-        path: '/applyClass/armyLicence',
+        path: '/appClass/armyLicence',
         meta: {
           title: '持军队、武警警察部队机动车驾驶证驾驶'
         },
-        component: require('../views/precontractType/card/applyClass/child/armyLicence.vue')
+        component: require('../views/precontractType/card/appClass/child/armyLicence.vue')
       },
       {
         name: 'temporaryLicence',
-        path: '/applyClass/temporaryLicence',
+        path: '/appClass/temporaryLicence',
         meta: {
           title: '临时机动车驾驶证许可证申领'
         },
-        component: require('../views/precontractType/card/applyClass/child/temporaryLicence.vue')
+        component: require('../views/precontractType/card/appClass/child/temporaryLicence.vue')
       }
     ]
   },
