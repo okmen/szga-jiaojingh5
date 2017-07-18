@@ -4,23 +4,22 @@
  -->
 <template>
     <div class="numberAlter">
-      <common :orderPlaceData="appointPlaceData"
-              @appointTaskClick="appointTask"
+      <common @appointTaskClick="appointTask"
               :currentBusinessId="businessId"></common>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
 </template>
 <script>
+// import { resultPost } from '../../../../../service/getData'
+// import { getOrgsByBusinessTypeId } from '../../../../../config/baseUrl'
 import common from './common.vue'
+// import { Toast } from 'mint-ui'
 export default {
   name: 'numberAlter',
   props: ['businessId'],    // 拿到当前业务的id  然后传给 common组件
   data () {
     return {
-      appointPlaceData: [   // 预约地点
-        { 'str': '深圳市车管分所' }
-      ]
     }
   },
   components: {
