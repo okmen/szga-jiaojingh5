@@ -159,7 +159,7 @@
     simpleSendMessage } from '../../../../../config/baseUrl'
   import { Toast } from 'mint-ui'
   export default {
-    props: ['currentBusinessId'],
+    props: ['currentBusinessId', 'currentBusinessCode'],
     data () {
       return {
         carOwnerName: '',                   // * 车主姓名
@@ -260,6 +260,7 @@
     },
     mounted () {
       console.log('业务ID', this.currentBusinessId)
+      console.log('业务code', this.currentBusinessCode)
     },
     watch: {
       currentBusinessId (val) {
@@ -423,6 +424,7 @@
           this.getYear = allYear[0].str
           this.getMonth = allmonth[0].str
           this.getDay = allDay[0].str
+          this.getDetailsTime()
         })
       },
 
@@ -514,7 +516,7 @@
           bookerName: this.name,             // 预约人名字
           bookerIdNumber: window.localStorage.getItem('identityCard'),  // 预约人身份证号码
           idNumber: this.cardNum,            // 本次预约业务填写的证件号码
-          codes: 'JD01'                      // 业务类型 code
+          codes: this.currentBusinessCode    // 业务类型 code
         }
         if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.userTelphone))) {
           Toast({message: '请输入正确的手机号码', className: 'white'})
@@ -552,8 +554,8 @@
             name: this.carOwnerName,                // 车主姓名
             idTypeId: this.cardID,                  // 证件种类 id
             idNumber: this.cardNum,                 // 证件号码
-            mobile: this.userTelphone,              // 手机号
-            arg2: this.validCode,                   // 验证码
+            mobile: window.localStorage.getItem('mobilePhone'),                   // 手机号
+            msgNumber: this.validCode,                   // 验证码
             platNumber: this.abbreSelectValue + this.carCardNum.toUpperCase(), // 车牌号
             carTypeId: this.carTypeID,              // 车辆类型
             useCharater: this.useNatureMassage,     // 使用性质
@@ -563,7 +565,8 @@
             appointmentTime: this.selectDetailTime, // 预约具体时间
             bookerName: window.localStorage.getItem('userName'),               // 预约车主姓名
             bookerIdNumber: window.localStorage.getItem('identityCard'),       // 预约人身份证号码
-            bookerType: this.orderWay               // 预约方式
+            bookerType: this.orderWay,              // 预约方式
+            bookerMobile: this.userTelphone         // 获取验证码 手机号
           }
           this.$emit('appointTaskClick', reqData)
         }

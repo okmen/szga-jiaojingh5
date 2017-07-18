@@ -19,7 +19,8 @@
       </div>
     </div>
     <div class="alter-from pad-side-50">
-      <router-view :businessId="curTabID"></router-view>
+      <router-view :businessId="curTabID"
+                   :bussinessCode="currentBussinessCode"></router-view>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -81,6 +82,7 @@ export default {
       if (index) {
         index--
         this.typeSelectMassage = this.typeSelectData[index]
+        this.distinguish()
         this.getData()   // 选择业务入口 进入页面时 初始化 业务id
       }
       this.typeSelectShow = !this.typeSelectShow
