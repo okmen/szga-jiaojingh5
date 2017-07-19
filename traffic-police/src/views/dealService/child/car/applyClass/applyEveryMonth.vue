@@ -97,6 +97,11 @@
   import { applyGatePass } from '../../../../../config/baseUrl.js'
   export default {
     name: 'applyEveryMonth',
+    computed: {
+      vuexData: function () {
+        return this.$store.state.motorVehicleHandling
+      }
+    },
     data () {
       return {
         endTimeData: new Date(moment().add(1, 'months').endOf('month').format('YYYY-MM-DD')),
@@ -271,7 +276,7 @@
       licenseSelectClick: function (str, id) {
         if (str) {
           this.licenseSelectMassage = str
-          this.cur_type_id = id
+          this.cur_license_id = id
         }
         if (this.licenseSelectShow === true) {
           this.licenseSelectShow = false
