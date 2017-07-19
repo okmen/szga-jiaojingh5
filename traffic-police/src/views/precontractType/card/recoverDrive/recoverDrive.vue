@@ -20,12 +20,16 @@
       </div>
     </div>
     <div class="alter-from pad-side-50">
-      <router-view></router-view>
+      <router-view :businessId="curTabID"
+                   :bussinessCode="curTabCode"></router-view>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
+import { resultPost } from '../../../../service/getData'
+import { getBusinessTypeId } from '../../../../config/baseUrl.js'
+import { Toast } from 'mint-ui'
 export default {
   name: 'alterClass',
   data () {
@@ -56,6 +60,8 @@ export default {
         index--
         this.typeSelectMassage = this.typeSelectData[index]
         this.curTab = this.typeSelectMassage.name
+        this.distinguish()
+        this.getBusinessId()
       }
       this.typeSelectShow = !this.typeSelectShow
     },
@@ -73,10 +79,27 @@ export default {
           this.currentBussinessCode = 'ZJ21'    // 恢复驾驶资格（逾期一年以上未换证类）
           break
       }
+    },
+    // 获取业务id
+    getBusinessId: function () {
+      let reqData = {
+        type: '0',
+        part: '',
+        code: this.currentBussinessCode
+      }
+      resultPost(getBusinessTypeId, reqData).then(json => {
+        if (json.code === '0000') {
+          this.curTabID = json.data
+          this.curTabCode = this.currentBussinessCode
+        } else {
+          Toast({message: json.msg, className: 'white'})
+        }
+      })
     }
   },
   created () {
     this.distinguish()
+    this.getBusinessId()
   },
   mounted () {
     document.addEventListener('click', this.select)

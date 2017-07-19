@@ -12,6 +12,8 @@
   </div>
 </template>
 <script>
+import { resultPost } from '../../../../../service/getData'
+import { fileAlter } from '../../../../../config/baseUrl'
 import common from './common.vue'
 export default {
   name: 'fileAlter',
@@ -26,6 +28,9 @@ export default {
   methods: {
     appointTask: function (params) {
       console.log('档案更正', params)
+      resultPost(fileAlter, params).then(json => {
+        console.log(json)
+      })
     }
   }
 }
