@@ -1,0 +1,125 @@
+.m-apply{
+  padding: 1rem; background: #fff;
+  >.title{
+    font-size: 1.4rem; line-height: 1.2; margin-bottom: 1rem;
+    color: #00be00;
+  }
+  .footer{
+    .info{
+      font-size: 10px; margin-bottom: 1rem; margin-top: 1rem;
+      label{ margin-right: .5rem; }
+    }
+    .el-button{
+      display: block; width: 100%;
+      span{ color: #fff; }
+    }
+    .el-button.is-disabled{
+      background: #ccc;
+    }
+  }
+}
+.m-format{
+  font-size: 1rem; line-height: 1.6; color: #666;
+  h1, h2, h3, h4, h5, h6{
+    margin-bottom: .5rem; color: #333;
+  }
+  ul, ol, p{
+    color: #666; margin-bottom: .5rem;
+  }
+}
+
+// 星级
+.m-starLevel{
+  height: 100%; position: relative;
+  background: url(~src/images/starLever-bg.jpg); background-size: 100% 100%;
+  .logo{
+    position: absolute;
+    right: 1rem; top: 1rem;
+    width: 116px;
+    img{ width: 100%; }
+  }
+  .info{
+    position: absolute; text-align: center;
+    bottom: 0; width: 100%; padding: 2rem 1rem;
+    .item{ margin-top: 1rem; }
+    .el-button{
+      display: block; width: 100%;
+      span{
+        color: #fff;
+      }
+    }
+    p{
+      text-shadow: 2px 2px 8px #fff;;
+    }
+  }
+}
+
+// 申请表单
+.m-greenApply{
+  .header{
+    width: 100%; padding-bottom: 66%;
+    background: url(~src/images/greenAppayHeader.jpg);
+    background-size: 100% 100%; 
+  }
+  .footer{
+    position: fixed;
+    bottom: 1rem; left: 1rem; right: 1rem;
+    .el-button{
+      width: 100%;
+      span{
+        color: #fff;
+      }
+    }
+  }
+}
+
+// 申报行驶日期
+.m-greenApplyDate{
+  padding: 1rem; background: #f9f9f9; min-height: 100%; font-size: 12px;
+  .list{
+    margin-bottom: 1rem;
+    li{
+      line-height: 50px; color: #666; white-space: nowrap; margin-bottom: 10px;
+      span{
+        display: inline-block; width: 100px; height: 50px; margin-right: 10px; vertical-align: middle;
+      }
+      span.green{ background: green; }
+      span.gray{ background: #aaa; }
+      span.yellow{ background: yellow; }
+    }
+  }
+  .info{ margin-bottom: 1rem; }
+  .info p{
+    color: #666; line-height: 1.6;
+  }
+  .el-button{
+    width: 100%;
+    span{ color: #fff; }
+  }
+}
+
+.m-greenItem{
+  padding: 1rem;
+  .item{
+    border: 1px solid #a7d9f9; border-radius: 5px;
+    .title{
+      line-height: 1; color: #00be00; padding: 1rem; font-size: 32px; border-bottom: 1px solid #a7d9d9;
+    }
+    .box{
+      padding: 1rem;
+      ul{ margin-bottom: 1rem; }
+      li{
+        margin-bottom: .5rem;
+      }
+      .r{
+        margin-right: ,5rem;
+      }
+      .r{
+        color: #666;
+      }
+      .el-button span{
+        color: #fff;
+      }
+    }
+  }
+}

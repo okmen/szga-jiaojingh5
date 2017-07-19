@@ -11,47 +11,53 @@
         </div>
       </div>
       <div class="alter-from pad-side-50">
-        <common :orderPlaceData="appointPlaceData"
-                @appointTaskClick="appointTask"></common>
+        <common @appointTaskClick="appointTask"
+                :currentBusinessId="businessId"
+                :currentBusinessCode="bussinessCode"></common>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { resultPost } from '../../../service/getData'
+import { getBusinessTypeId, createDriveInfoZJ20 } from '../../../config/baseUrl.js'
+import { Toast } from 'mint-ui'
 import common from './recoverDrive/child/common.vue'
 export default {
   name: 'otherBusiness',
   data () {
     return {
-      appointPlaceData: [   // 预约地点
-        { 'str': '深圳市车管分所' },
-        { 'str': '坪山车管分所' },
-        { 'str': '宝安车管分所' },
-        { 'str': '龙华车管分所' },
-        { 'str': '罗湖管分所' },
-        { 'str': '福田管分所' },
-        { 'str': '盐田车管分所' },
-        { 'str': '龙岗车管分所' },
-        { 'str': '福田区委行政大厅' },
-        { 'str': '宝安交警大队（福永中队）' },
-        { 'str': '福田交警大队' },
-        { 'str': '南山交警大队' },
-        { 'str': '宝安交警大队（西乡中队）' },
-        { 'str': '坪山交警大队' },
-        { 'str': '龙华交警大队' },
-        { 'str': '盐田交警大队' },
-        { 'str': '光明交警大队' },
-        { 'str': '龙岗交警大队' },
-        { 'str': '罗湖交警大队' }
-      ]
+      businessId: '',           // 当前业务 id
+      bussinessCode: 'ZJ20'     // 当前业务 code
     }
   },
   components: {
     common
   },
+  created () {
+    let reqData = {     // 获取业务id
+      type: '0',
+      part: '',
+      code: this.bussinessCode
+    }
+    resultPost(getBusinessTypeId, reqData).then(json => {
+      if (json.code === '0000') {
+        this.businessId = json.data
+      } else {
+        Toast({message: json.msg, className: 'white'})
+      }
+    })
+  },
   methods: {
     appointTask: function (params) {
       console.log('其它业务', params)
+      resultPost(createDriveInfoZJ20, params).then(json => {
+        if (json.code === '0000') {
+          console.log(json)
+        } else {
+          Toast({message: json.msg, className: 'white'})
+        }
+      })
     }
   }
 }

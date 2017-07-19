@@ -12,6 +12,8 @@
   </div>
 </template>
 <script>
+import { resultPost } from '../../../../../service/getData'
+import { markAlter } from '../../../../../config/baseUrl'
 import common from './common.vue'
 export default {
   name: 'markAlter',
@@ -26,6 +28,9 @@ export default {
   methods: {
     appointTask: function (params) {
       console.log('识别代号', params)
+      resultPost(markAlter, params).then(json => {
+        console.log(json)
+      })
     }
   }
 }

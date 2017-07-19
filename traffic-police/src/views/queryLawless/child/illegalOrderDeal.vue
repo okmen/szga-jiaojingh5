@@ -18,7 +18,7 @@
             <p class="illegal-score-num">{{item.punishAmt}}</p>
             <p>罚款金额</p>
           </section>
-          <section v-if="item.imgQueryCode" class="illegal-query-img" @click="illegalImgBtn(item.imgQueryCode)" >查看违法图片</section>
+          <section v-if="isIllegalImgBtnShow(item.imgQueryCode)" class="illegal-query-img" @click="illegalImgBtn(item.imgQueryCode)" >查看违法图片</section>
         </div>
         <!-- <div class="illegal-img">
           <div class="illegal-img-box" v-for="imgList in item.illegalImgs"  >
@@ -85,6 +85,13 @@
       this.AppealQueryData = this.showAppealQuery
     },
     methods: {
+      isIllegalImgBtnShow: function (code) { // 判断是否有imgCode 和是否是登录状态
+        if (code && window.localStorage.isLogin === 'true') {
+          return true
+        } else {
+          return false
+        }
+      },
       passCancel: function () { // 点击通过弹窗的取消按钮
         this.popupImgShow = false // 隐藏通过弹窗
       },

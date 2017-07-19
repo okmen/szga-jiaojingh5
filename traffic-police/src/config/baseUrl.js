@@ -225,3 +225,5 @@ export const createDriveInfoZJ20 = `http://192.168.1.247:8080/web/bookingbusines
 export const createDriveInfoZJ21 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ21.html.html`  // 恢复驾驶资格（逾期一年以上未换证类)
 
 export const createDriveInfoZJ22 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ22.html.html`  // 恢复驾驶资格（逾期一年以上未体检类)
+
+export const createDriveInfoZJ10 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ10.html` // 满分学习
