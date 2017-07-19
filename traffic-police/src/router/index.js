@@ -5,6 +5,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import sceneManageClassRouter from '../views/precontractType/car/sceneManageClass/router'
 import verifyIssueClassRouter from '../views/precontractType/car/verifyIssueClass/router'
+
+import greenTravel from 'src/router/greenTravel.js'
+
 Vue.use(VueRouter)
 const routes = [
   {
@@ -550,6 +553,15 @@ const routes = [
       title: '驾驶人信用单'
     },
     component: require('../views/credit/child/driverCredit.vue')
+  },
+  // 车管规费缴纳
+  {
+    name: 'feePayment',
+    path: '/feePayment',
+    meta: {
+      title: '车管规费缴纳'
+    },
+    component: require('../views/feePayment/feePayment.vue')
   },
   // 随手拍功能微信版本路由
   {
@@ -1172,7 +1184,9 @@ const routes = [
       name: '测试卡包'
     },
     component: require('../views/testCardBag')
-  }
+  },
+  // 绿色出行 - 开始
+  ...greenTravel
 ]
 /* eslint-disable no-new */
 const router = new VueRouter({
