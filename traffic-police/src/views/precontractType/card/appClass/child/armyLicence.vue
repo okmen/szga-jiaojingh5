@@ -1,9 +1,8 @@
 <!-- 
-  香港机动车驾驶证面试换证 
+  持军队、武警警察部队机动车驾驶证驾驶 
 -->
-
 <template>
-  <div class="HkLicence">
+  <div class="armyLicence">
     <common 
       @submitClick="subFn"
       :currentBusinessId="businessId"
@@ -14,11 +13,11 @@
 
 <script>
 import { resultPost } from '../../../../../service/getData'
-import { createDriveInfoZJ13 } from '../../../../../config/baseUrl.js'
+import { createDriveInfoZJ11 } from '../../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
 import common from './common.vue'
 export default {
-  name: 'HkLicence',
+  name: 'armyLicence',
   props: ['businessId', 'businessCode'],    // 拿到当前业务的id  然后传给 common组件
   data () {
     return {
@@ -29,8 +28,8 @@ export default {
   },
   methods: {
     subFn: function (params) {
-      console.log('HkLicence', params)
-      resultPost(createDriveInfoZJ13, params).then(json => {
+      console.log('armyLicence', params)
+      resultPost(createDriveInfoZJ11, params).then(json => {
         if (json.code === '0000') {
           this.certificate = json.data
           // let dataInfo = {

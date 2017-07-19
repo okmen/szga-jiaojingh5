@@ -4,8 +4,9 @@
  -->
 <template>
     <div class="taxiUserAlter">
-      <common :orderPlaceData="appointPlaceData"
-              @appointTaskClick="appointTask"></common>
+      <common @appointTaskClick="appointTask"
+              :currentBusinessId="businessId"
+              :currentBusinessCode="bussinessCode"></common>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
@@ -14,11 +15,9 @@
 import common from './common.vue'
 export default {
   name: 'taxiUserAlter',
+  props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件
   data () {
     return {
-      appointPlaceData: [   // 预约地点
-        { 'str': '深圳市车管分所' }
-      ]
     }
   },
   components: {
@@ -28,7 +27,7 @@ export default {
   },
   methods: {
     appointTask: function (params) {  // 从 common 组件获取 reqData
-      console.log(params)
+      console.log('出租客运车辆使用性质变更', params)
     }
   }
 }

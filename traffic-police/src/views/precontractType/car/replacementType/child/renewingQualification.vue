@@ -1,7 +1,11 @@
 <!-- 补换检验合格标志 -->
 <template>
   <div class="renewingQualification">
-    <common @submitClick="subFn"></common>
+    <common 
+      @submitClick="subFn"
+      :currentBusinessId="businessId"
+      :currentCode="businessCode"
+    ></common>
   </div>
 </template>
 
@@ -9,6 +13,7 @@
 import common from './common.vue'
 export default {
   name: 'renewingQualification',
+  props: ['businessId', 'businessCode'],    // 拿到当前业务的id  然后传给 common组件
   data () {
     return {
     }

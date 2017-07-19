@@ -4,6 +4,7 @@
     <common 
       @submitClick="subFn"
       :currentBusinessId="businessId"
+      :currentCode="businessCode"
     ></common>
   </div>
 </template>
@@ -12,7 +13,7 @@
 import common from './common.vue'
 export default {
   name: 'renewingCollarCredential',
-  props: ['businessId'],    // 拿到当前业务的id  然后传给 common组件
+  props: ['businessId', 'businessCode'],    // 拿到当前业务的id  然后传给 common组件
   data () {
     return {
     }
