@@ -55,10 +55,10 @@
         </router-link>
       </dl>
       <dl>
-        <router-link to="/feePayment">
+        <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/feePayment/'+openId">
           <dt><img class="top4" src="./images/nav4.png" alt=""></dt>
           <dd>车管规费缴纳</dd>
-        </router-link>
+        </a>
       </dl>
     </div>
     <div class="home-nav-bottom">
@@ -116,11 +116,6 @@
       </dl>
     </div>
   </div>
-  <!-- 绿色出行 开始 -->
-  <div class="m-greenTravel">
-    <router-link to="/greenTravel"><img src="./images/greenTravel.jpg"></router-link>
-  </div>
-  <!-- 绿色出行 结束 -->
   <mt-swipe :show-indicators="false" id="advertisement-box" :auto="4500" :speed="1500">
     <!-- <mt-swipe-item>
       <a href="https://mp.weixin.qq.com/s?__biz=MzA3NDMzNTQ4Mw==&mid=2655303753&idx=4&sn=dd1a97fb74ed6c0af29f81bba1d17d00&chksm=84b14dddb3c6c4cbe29629cd613721e8f99cdaf3f6c8ea71a065973c58f72c85b6125419898b&scene=0&key=0f8a38fa5354788f99ef711703ae6001248422a5737db061fb641ac04fd538682bbb35432167d3b76d9e704b9406dde9bc6598199bd6f948746958c80a7d36f9c979a60cf562004cbceb965863ca46e1&ascene=0&uin=MTUxMzU1MjA4MA%3D%3D&devicetype=iMac+MacBookAir7%2C2+OSX+OSX+10.11.6+build(15G1421)&version=12020110&nettype=WIFI&fontScale=100&pass_ticket=Os%2FdaZX6ah4cAnrhZVCRq7P1%2BzkNhag6IoM3Y4r5GHXvcOFKgG3NxpLzqVg0TC8L">
