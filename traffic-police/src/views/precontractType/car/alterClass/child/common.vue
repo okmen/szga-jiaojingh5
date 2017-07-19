@@ -255,18 +255,18 @@
         orderDetailsTime: [],               // 预约 具体时间 li
         activeIndex: '',                    // 当前点击时间的li
         selectDetailTime: '',               // * 选择的具体时间
-        orderWay: ''                        // * 预约方式  0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
+        // * 预约方式  0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
+        orderWay: this.carOwnerName === window.localStorage.getItem('userName') ? 0 : 1
       }
     },
     mounted () {
-      console.log('业务ID', this.currentBusinessId)
-      console.log('业务code', this.currentBusinessCode)
     },
     watch: {
       currentBusinessId (val) {
         this.getCardId()        // 获取证件 id
         this.getCardTypeId()    // 获取车辆类型 id
         this.getOrderPlace()    // 获取预约地点 id
+        console.log('业务ID', val)
       },
       timeRequest (val) {
         for (let key in val) {
@@ -275,6 +275,9 @@
           }
         }
         this.getAllYearMonthDay()
+      },
+      currentBusinessCode (val) {
+        console.log('业务code', val)
       }
     },
     computed: {
@@ -506,8 +509,7 @@
 
       // 获取验证码
       getVerification: function () {
-        this.orderWay = this.carOwnerName === window.localStorage.getItem('userName') ? 0 : 1
-        let time = 30
+        let time = 60
         let phonedata = {
           mobile: this.userTelphone,         // 手机号码
           idType: this.cardID,               // 证件id
@@ -521,7 +523,7 @@
         if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.userTelphone))) {
           Toast({message: '请输入正确的手机号码', className: 'white'})
         } else {
-          this.getValidCodeMsg = `（${time}）s`
+          this.getValidCodeMsg = `${time}s`
           this.isdisabled = true
           countDown(this)
           resultPost(simpleSendMessage, phonedata).then(json => {
@@ -539,7 +541,7 @@
               that.getValidCodeMsg = '发送验证码'
             } else {
               time--
-              that.getValidCodeMsg = `（${time}）s`
+              that.getValidCodeMsg = `${time}s`
               countDown(that)
             }
           }, 1000)

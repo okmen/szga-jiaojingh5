@@ -6,19 +6,19 @@
     <div class="numberAlter">
       <common @appointTaskClick="appointTask"
               :currentBusinessId="businessId"
-              :currentBusinessCode="currentBusinessCode"></common>
+              :currentBusinessCode="bussinessCode"></common>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
 </template>
 <script>
 import { resultPost } from '../../../../../service/getData'
-import { createVehicleInfo } from '../../../../../config/baseUrl'
+import { numberAlter } from '../../../../../config/baseUrl'
 import common from './common.vue'
 // import { Toast } from 'mint-ui'
 export default {
   name: 'numberAlter',
-  props: ['businessId', 'currentBusinessCode'],    // 拿到当前业务的id  然后传给 common组件
+  props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件
   data () {
     return {
     }
@@ -30,8 +30,8 @@ export default {
   },
   methods: {
     appointTask: function (params) {
-      console.log('预约参数', params)
-      resultPost(createVehicleInfo, params).then(json => {
+      console.log('号码变更', params)
+      resultPost(numberAlter, params).then(json => {
         console.log(json)
       })
     }

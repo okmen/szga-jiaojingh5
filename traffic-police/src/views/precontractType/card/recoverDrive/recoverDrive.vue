@@ -30,9 +30,12 @@ export default {
   name: 'alterClass',
   data () {
     return {
-      curTab: 'alterClass',   // 当前 tab
+      curTab: 'alterClass',      // 当前 tab
       typeSelectShow: false,
       typeSelectMassage: '',
+      curTabID: '',              // 当前选择业务 id
+      curTabCode: '',            // 当前选择业务 code
+      currentBussinessCode: '',  // 当前业务 code
       typeSelectData: [
         {
           'name': 'noPhysicalCheck',
@@ -58,17 +61,22 @@ export default {
     },
     select: function () {
       this.typeSelectShow = false
+    },
+    distinguish: function () {
+      switch (window.location.hash) {
+        case '#/recoverDrive/noPhysicalCheck':
+          this.typeSelectMassage = this.typeSelectData[0]
+          this.currentBussinessCode = 'ZJ22'    // 恢复驾驶资格（逾期一年以上未体检类）
+          break
+        case '#/recoverDrive/noChangeLicence':
+          this.typeSelectMassage = this.typeSelectData[1]
+          this.currentBussinessCode = 'ZJ21'    // 恢复驾驶资格（逾期一年以上未换证类）
+          break
+      }
     }
   },
   created () {
-    switch (window.location.hash) {
-      case '#/recoverDrive/noPhysicalCheck':
-        this.typeSelectMassage = this.typeSelectData[0]
-        break
-      case '#/recoverDrive/noChangeLicence':
-        this.typeSelectMassage = this.typeSelectData[1]
-        break
-    }
+    this.distinguish()
   },
   mounted () {
     document.addEventListener('click', this.select)

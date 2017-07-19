@@ -5,7 +5,8 @@
 <template>
     <div class="fileAlter">
       <common @appointTaskClick="appointTask"
-              :currentBusinessId="businessId"></common>
+              :currentBusinessId="businessId"
+              :currentBusinessCode="bussinessCode"></common>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
@@ -14,7 +15,7 @@
 import common from './common.vue'
 export default {
   name: 'fileAlter',
-  props: ['businessId'],    // 拿到当前业务的id  然后传给 common组件
+  props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件
   data () {
     return {
     }

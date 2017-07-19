@@ -20,7 +20,7 @@
     </div>
     <div class="alter-from pad-side-50">
       <router-view :businessId="curTabID"
-                   :bussinessCode="currentBussinessCode"></router-view>
+                   :bussinessCode="curTabCode"></router-view>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -37,6 +37,7 @@ export default {
       typeSelectShow: false,
       typeSelectMassage: '',
       curTabID: '',             // 当前选择业务 id
+      curTabCode: '',           // 当前选择业务 code
       typeSelectData: [
         {
           'name': 'taxiUseAlter',
@@ -68,14 +69,9 @@ export default {
     }
   },
   created () {
+    document.addEventListener('click', this.select)
     this.distinguish()
     this.getData()   // 从主菜单 进入页面 初始化 业务id
-  },
-  mounted () {
-    document.addEventListener('click', this.select)
-  },
-  destroyed () {
-    document.removeEventListener('click', this.select)
   },
   methods: {
     typeSelectClick: function (index) {
@@ -121,6 +117,7 @@ export default {
       resultPost(getBusinessTypeId, taskReaData).then(json => {   // 根据业务类型code 获取 业务类型 id
         if (json.code === '0000') {
           this.curTabID = json.data   // 当前选择业务的id
+          this.curTabCode = this.currentBussinessCode
         } else {
           Toast({ message: json.msg, className: 'white', duration: 1500 })
         }

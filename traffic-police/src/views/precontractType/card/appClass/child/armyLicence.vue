@@ -12,6 +12,9 @@
 </template>
 
 <script>
+import { resultPost } from '../../../../../service/getData'
+import { createDriveInfoZJ11 } from '../../../../../config/baseUrl.js'
+import { Toast } from 'mint-ui'
 import common from './common.vue'
 export default {
   name: 'armyLicence',
@@ -26,6 +29,22 @@ export default {
   methods: {
     subFn: function (params) {
       console.log('armyLicence', params)
+      resultPost(createDriveInfoZJ11, params).then(json => {
+        if (json.code === '0000') {
+          this.certificate = json.data
+          // let dataInfo = {
+          //   type: json.data.type
+          //   textObj: {
+          //     reserveTime: son.data.bidDate,
+          //     reserveNo: waterNumber
+          //   }
+          // }
+          // this.$store.commit('saveSuccessInfo', dataInfo)
+        } else {
+          // let msg = json.data + json.msg
+          Toast({message: json.msg, position: 'bottom', className: 'white'})
+        }
+      })
     }
   }
 }
