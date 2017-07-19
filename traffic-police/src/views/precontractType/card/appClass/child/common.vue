@@ -399,8 +399,8 @@ export default {
         let phonedata = {
           mobile: mobilephone,               // 手机号码
           idType: this.certificate,          // 证件id
-          lx: '2',                           // 业务类型
-          bookerType: name,                    // 预约方式
+          lx: '1',                           // 业务类型
+          bookerType: name,                   // 预约方式
           bookerName: this.name,             // 预约人名字
           bookerIdNumber: window.localStorage.getItem('identityCard'),
           idNumber: this.identificationNum,
@@ -441,10 +441,6 @@ export default {
         Toast({message: '请输入手机号码', position: 'bottom', className: 'white'})
       } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobilephone))) {
         Toast({message: '请输入正确手机号码', position: 'bottom', className: 'white'})
-      } else if (!this.numberPlate) {
-        Toast({message: '请输入车牌号码', position: 'bottom', className: 'white'})
-      } else if (!this.behindTheFrame4Digits) {
-        Toast({message: '请输入车架号', position: 'bottom', className: 'white'})
       } else if (!this.identifying) {
         Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
       } else if (this.identifying.length !== 6) {
@@ -458,15 +454,15 @@ export default {
       let renewingData = {
         'orgId': this.subscribeId,                         // 预约地点id
         'businessTypeId': this.currentBusinessId,          // 业务id
-        'name': window.localStorage.getItem('userName'),   // 车主姓名
+        'name': this.name,   // 车主姓名
         'idTypeId': this.certificate,                      // 证件种类ID
-        'idNumber': window.localStorage.getItem('identityCard'),              // 证件号码
+        'idNumber': this.identificationNum,              // 证件号码
         'mobile': window.localStorage.getItem('mobilePhone'),                 // 手机号码
         'msgNumber': this.identifying,                     // 验证码
         'appointmentDate': `${this.year}-${this.month}-${this.date}`,        // 预约日期
         'appointmentTime': this.tmentTime,                 // 预约时间
-        'bookerName': this.name,                           // 预约人名字
-        'bookerIdNumber': this.identificationNum,          // 预约人身份证号
+        'bookerName': window.localStorage.getItem('userName'),                           // 预约人名字
+        'bookerIdNumber': window.localStorage.getItem('identityCard'),          // 预约人身份证号
         'bookerType': name,                                // 预约方式 ‘0’本人
         'bookerMobile': this.mobilephone                   // 预约手机号码
       }

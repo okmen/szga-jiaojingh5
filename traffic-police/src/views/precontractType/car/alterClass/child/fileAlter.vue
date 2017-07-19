@@ -4,21 +4,22 @@
  -->
 <template>
     <div class="fileAlter">
-      <common :orderPlaceData="appointPlaceData"
-              @appointTaskClick="appointTask"></common>
+      <common @appointTaskClick="appointTask"
+              :currentBusinessId="businessId"
+              :currentBusinessCode="bussinessCode"></common>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
 </template>
 <script>
+import { resultPost } from '../../../../../service/getData'
+import { fileAlter } from '../../../../../config/baseUrl'
 import common from './common.vue'
 export default {
   name: 'fileAlter',
+  props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件
   data () {
     return {
-      appointPlaceData: [   // 预约地点
-        { 'str': '深圳市车管分所' }
-      ]
     }
   },
   components: {
@@ -27,6 +28,9 @@ export default {
   methods: {
     appointTask: function (params) {
       console.log('档案更正', params)
+      resultPost(fileAlter, params).then(json => {
+        console.log(json)
+      })
     }
   }
 }

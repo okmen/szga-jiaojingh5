@@ -13,6 +13,9 @@
 </template>
 
 <script>
+import { resultPost } from '../../../../../service/getData'
+import { createDriveInfoZJ13 } from '../../../../../config/baseUrl.js'
+import { Toast } from 'mint-ui'
 import common from './common.vue'
 export default {
   name: 'HkLicence',
@@ -27,6 +30,22 @@ export default {
   methods: {
     subFn: function (params) {
       console.log('HkLicence', params)
+      resultPost(createDriveInfoZJ13, params).then(json => {
+        if (json.code === '0000') {
+          this.certificate = json.data
+          // let dataInfo = {
+          //   type: json.data.type
+          //   textObj: {
+          //     reserveTime: son.data.bidDate,
+          //     reserveNo: waterNumber
+          //   }
+          // }
+          // this.$store.commit('saveSuccessInfo', dataInfo)
+        } else {
+          // let msg = json.data + json.msg
+          Toast({message: json.msg, position: 'bottom', className: 'white'})
+        }
+      })
     }
   }
 }

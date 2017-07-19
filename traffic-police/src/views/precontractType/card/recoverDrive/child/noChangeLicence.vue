@@ -4,21 +4,23 @@
  -->
 <template>
     <div class="noChangeLicence">
-      <common :orderPlaceData="appointPlaceData"
-              @appointTaskClick="appointTask"></common>
+      <common @appointTaskClick="appointTask"
+              :currentBusinessId="businessId"
+              :currentBusinessCode="bussinessCode"></common>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
 </template>
 <script>
+import { resultPost } from '../../../../../service/getData'
+import { createDriveInfoZJ21 } from '../../../../../config/baseUrl.js'
+import { Toast } from 'mint-ui'
 import common from './common.vue'
 export default {
   name: 'noChangeLicence',
+  props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件
   data () {
     return {
-      appointPlaceData: [   // 预约地点
-        { 'str': '深圳市车管分所' }
-      ]
     }
   },
   components: {
@@ -27,6 +29,13 @@ export default {
   methods: {
     appointTask: function (params) {
       console.log('未换证类', params)
+      resultPost(createDriveInfoZJ21, params).then(json => {
+        if (json.code === '0000') {
+          console.log(json)
+        } else {
+          Toast({message: json.msg, className: 'white'})
+        }
+      })
     }
   }
 }

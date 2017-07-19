@@ -6,8 +6,8 @@
     <div>
       {{cardBagData}}
     </div>
+    <vue-calendar :date="time" :carNum="carNum" v-on:arrTime="testArrTime" :selectedDate="selectedDate" v-on:skipDate="testskipDate"></vue-calendar>
   </div>
-
 </template>
 <script>
   import {resultPost} from '../../service/getData'
@@ -15,10 +15,22 @@
   export default {
     data () {
       return {
-        cardBagData: ''
+        cardBagData: '',
+        time: new Date().getTime(),
+        carNum: '粤A12345',
+        selectedDate: ['2017-6-20', '2017-7-2', '2017-7-5', '2017-8-15']
       }
     },
+    components: {
+      'vueCalendar': require('./../../components/calendar.vue')
+    },
     methods: {
+      testskipDate (data) {
+        console.log(data)
+      },
+      testArrTime (data) {
+        console.log(data)
+      },
       getData () {
         var that = this
         let requestData = {

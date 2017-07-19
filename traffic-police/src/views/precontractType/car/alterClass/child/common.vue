@@ -98,7 +98,7 @@
           <div class="div-select-ul" v-if="orderPlaceShow">
             <ul>
               <li v-for="item in appointPlaceData" place-id="item.id"
-                  @click.stop="orderPlaceClick(item.name, item.id)">{{item.str}}</li>
+                  @click.stop="orderPlaceClick(item.name, item.id)">{{item.name}}</li>
             </ul>
           </div>
         </div>
@@ -148,25 +148,25 @@
   </div>
 </template>
 <script>
-  import { resultPost } from '../../../../../service/getData'
+  import { resultPost, resultPostNoLoading } from '../../../../../service/getData'
   import {isPhone, specialCharacters, plateNumberDetection} from '../../../../../service/regExp.js'
   import {
-    sendSMS,
     getBusinessCarTypeId,
     getIdTypeId,
     getOrgsByBusinessTypeId,
     getAppointmentDate,
-    getAppTimes } from '../../../../../config/baseUrl'
+    getAppTimes,
+    simpleSendMessage } from '../../../../../config/baseUrl'
   import { Toast } from 'mint-ui'
   export default {
-    props: ['currentBusinessId'],
+    props: ['currentBusinessId', 'currentBusinessCode'],
     data () {
       return {
         carOwnerName: '',                   // * 车主姓名
         cardNum: '',                        // * 证件号码
         cardMassage: '居民户口簿',          // 证件名称 选中值
-        cardCode: '',
-        cardID: 'H',                         // * 证件名称 选中 id
+        cardCode: 'H',
+        cardID: '',                         // * 证件名称 选中 id
         cardSelectShow: false,              // 是否显示 证件名称 ul列表
         cardSelectData: [                   // 证件名称 li
           { 'code': 'H', 'name': '居民户口簿' },
@@ -201,9 +201,9 @@
           { 'str': '琼' }, { 'str': '甘' }, { 'str': '青' }, { 'str': '津' },
           { 'str': '云' }, { 'str': '藏' }, { 'str': '新' }
         ],
-        carTypeMassage: '大型汽车',         // 车辆类型 选中值
-        carTypeCode: '',
-        carTypeID: '01',                      // * 车辆类型 选中值 id
+        carTypeMassage: '大型汽车(黄色)',   // 车辆类型 选中值
+        carTypeCode: '01',
+        carTypeID: '',                      // * 车辆类型 选中值 id
         carTypeShow: false,                 // 是否显示 车辆类型 ul列表
         carTypeData: [                      // 车辆类型 li列表
           { 'id': '01', 'str': '大型汽车(黄色)' },
@@ -239,7 +239,7 @@
           { 'str': '租赁' }
         ],
         VIN: '',                            // * 车架号
-        orderPlaceValue: '深圳市车管分所',  // 预约地点 选中值
+        orderPlaceValue: '',                // 预约地点 选中值
         orderPlaceID: '',                   // * 预约地点 选中 id
         orderPlaceShow: false,              // 是否显示 预约地点 ul列表
         appointPlaceData: [],               // 预约地点 li
@@ -252,19 +252,21 @@
         years: [],                          // 从接口获取 日期
         months: [],
         days: [],
-        orderDetailsTime: [],               // 预约 具体时间
+        orderDetailsTime: [],               // 预约 具体时间 li
         activeIndex: '',                    // 当前点击时间的li
-        saveCurBussinesID: ''               // 当前选择的 业务 id
+        selectDetailTime: '',               // * 选择的具体时间
+        // * 预约方式  0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
+        orderWay: this.carOwnerName === window.localStorage.getItem('userName') ? 0 : 1
       }
     },
     mounted () {
-      console.log('业务ID', this.currentBusinessId)
     },
     watch: {
-      currentBusinessId () {
-        this.getCardTypeId()
-        this.orderPlaceClick()
-        this.getOrderPlace()
+      currentBusinessId (val) {
+        this.getCardId()        // 获取证件 id
+        this.getCardTypeId()    // 获取车辆类型 id
+        this.getOrderPlace()    // 获取预约地点 id
+        console.log('业务ID', val)
       },
       timeRequest (val) {
         for (let key in val) {
@@ -273,6 +275,9 @@
           }
         }
         this.getAllYearMonthDay()
+      },
+      currentBusinessCode (val) {
+        console.log('业务code', val)
       }
     },
     computed: {
@@ -362,9 +367,10 @@
         resultPost(getOrgsByBusinessTypeId, { businessTypeId: this.currentBusinessId }).then(json => {
           console.log('预约地点', json)
           if (json.code === '0000') {
-            json.data.map(item => {
-              this.appointPlaceData.push({ 'str': item.name, 'id': item.id })
-            })
+            this.appointPlaceData = json.data
+            this.orderPlaceValue = this.appointPlaceData[0].name  // 默认预约地点
+            this.orderPlaceID = this.appointPlaceData[0].id
+            this.getAllYearMonthDay()   // 获取预约日期
           } else {
             Toast({ message: json.msg, className: 'white', duration: 1500 })
           }
@@ -375,10 +381,8 @@
       orderPlaceClick: function (str, placeID) {
         if (str) {
           this.orderPlaceValue = str
-          this.getAllYearMonthDay()
-        }
-        if (placeID) {
           this.orderPlaceID = placeID
+          this.getAllYearMonthDay()
           console.log('预约地点id', this.orderPlaceID)
         }
         if (this.orderPlaceShow === true) {
@@ -423,6 +427,7 @@
           this.getYear = allYear[0].str
           this.getMonth = allmonth[0].str
           this.getDay = allDay[0].str
+          this.getDetailsTime()
         })
       },
 
@@ -496,31 +501,38 @@
       // 选择预约时间 添加 选中样式
       selectOrderTime: function (index) {
         this.activeIndex = index
+        if (this.orderDetailsTime[index].leftNum === 0) {
+          return
+        }
+        this.selectDetailTime = this.orderDetailsTime[index].time
       },
 
       // 获取验证码
       getVerification: function () {
-        let sendPhoneNumber = {
-          mobilephone: this.userTelphone,
-          businessType: 'szjj'
+        let time = 60
+        let phonedata = {
+          mobile: this.userTelphone,         // 手机号码
+          idType: this.cardID,               // 证件id
+          lx: '2',                           // 业务类型 (机动车业务)
+          bookerType: this.orderWay,         // 预约方式
+          bookerName: this.name,             // 预约人名字
+          bookerIdNumber: window.localStorage.getItem('identityCard'),  // 预约人身份证号码
+          idNumber: this.cardNum,            // 本次预约业务填写的证件号码
+          codes: this.currentBusinessCode    // 业务类型 code
         }
-        let time = 30
-        if (/^1[34578]\d{9}$/.test(this.userTelphone)) {
-          this.getValidCodeMsg = `已发送（${time}）`
+        if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.userTelphone))) {
+          Toast({message: '请输入正确的手机号码', className: 'white'})
+        } else {
+          this.getValidCodeMsg = `${time}s`
           this.isdisabled = true
           countDown(this)
-          resultPost(sendSMS, sendPhoneNumber).then(json => {
+          resultPost(simpleSendMessage, phonedata).then(json => {
             if (json.code === '0000') {
-              Toast({
-                message: '验证码已发送，请查收',
-                position: 'bottom',
-                className: 'white',
-                duration: 1500
-              })
+              Toast({ message: '验证码已发送，请查收', className: 'white', duration: 1500 })
+            } else {
+              Toast({ message: json.msg, className: 'white', duration: 1500 })
             }
           })
-        } else {
-          Toast({ message: '请输入正确的手机号码', className: 'white', duration: 1500 })
         }
         function countDown (that) {
           setTimeout(() => {
@@ -529,7 +541,7 @@
               that.getValidCodeMsg = '发送验证码'
             } else {
               time--
-              that.getValidCodeMsg = `已发送（${time}）`
+              that.getValidCodeMsg = `${time}s`
               countDown(that)
             }
           }, 1000)
@@ -540,20 +552,23 @@
       appointTaskClick () {
         if (this.judgeInput()) {
           let reqData = {
+            businessTypeId: this.currentBusinessId, // 预约类型 id
             name: this.carOwnerName,                // 车主姓名
-            idCardName: this.cardMassage,           // 证件名称
-            idCardNumber: this.cardNum,             // 证件号码
-            mobilephone: this.userTelphone,         // 手机号
-            verify: this.validCode,                 // 验证码
-            abbreviation: this.abbreSelectValue,    // 车牌类型
-            abbreVaule: this.carCardNum,            // 车牌号码
-            carType: this.carTypeMassage,           // 车辆类型
-            useNature: this.useNatureMassage,       // 使用性质
-            vin: this.VIN,                          // 车架号
-            appointPlace: this.orderPlaceValue,     // 预约地点
-            orderYear: this.getYear,                // 预约时间 年
-            orderMonth: this.getMonth,              // 预约时间 月
-            orderDate: this.getDay                  // 预约时间 日
+            idTypeId: this.cardID,                  // 证件种类 id
+            idNumber: this.cardNum,                 // 证件号码
+            mobile: window.localStorage.getItem('mobilePhone'),                   // 手机号
+            msgNumber: this.validCode,                   // 验证码
+            platNumber: this.abbreSelectValue + this.carCardNum.toUpperCase(), // 车牌号
+            carTypeId: this.carTypeID,              // 车辆类型
+            useCharater: this.useNatureMassage,     // 使用性质
+            carFrame: this.VIN,                     // 车架号
+            orgId: this.orderPlaceID,               // 预约地点 id
+            appointmentDate: this.yearMonthDay,     // 预约日期
+            appointmentTime: this.selectDetailTime, // 预约具体时间
+            bookerName: window.localStorage.getItem('userName'),               // 预约车主姓名
+            bookerIdNumber: window.localStorage.getItem('identityCard'),       // 预约人身份证号码
+            bookerType: this.orderWay,              // 预约方式
+            bookerMobile: this.userTelphone         // 获取验证码 手机号
           }
           this.$emit('appointTaskClick', reqData)
         }
@@ -565,7 +580,7 @@
           code: this.cardCode,
           businessTypeId: this.currentBusinessId
         }
-        resultPost(getIdTypeId, cardCodeReq).then(json => {   // 根据证件类型Code获取证件类型Id
+        resultPostNoLoading(getIdTypeId, cardCodeReq).then(json => {   // 根据证件类型Code获取证件类型Id
           if (json.code === '0000') {
             this.cardID = json.data
             console.log('证件类型id', this.cardID)

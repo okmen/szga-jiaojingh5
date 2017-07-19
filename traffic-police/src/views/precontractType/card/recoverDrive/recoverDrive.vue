@@ -20,19 +20,26 @@
       </div>
     </div>
     <div class="alter-from pad-side-50">
-      <router-view></router-view>
+      <router-view :businessId="curTabID"
+                   :bussinessCode="curTabCode"></router-view>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
+import { resultPost } from '../../../../service/getData'
+import { getBusinessTypeId } from '../../../../config/baseUrl.js'
+import { Toast } from 'mint-ui'
 export default {
   name: 'alterClass',
   data () {
     return {
-      curTab: 'alterClass',   // 当前 tab
+      curTab: 'alterClass',      // 当前 tab
       typeSelectShow: false,
       typeSelectMassage: '',
+      curTabID: '',              // 当前选择业务 id
+      curTabCode: '',            // 当前选择业务 code
+      currentBussinessCode: '',  // 当前业务 code
       typeSelectData: [
         {
           'name': 'noPhysicalCheck',
@@ -53,22 +60,46 @@ export default {
         index--
         this.typeSelectMassage = this.typeSelectData[index]
         this.curTab = this.typeSelectMassage.name
+        this.distinguish()
+        this.getBusinessId()
       }
       this.typeSelectShow = !this.typeSelectShow
     },
     select: function () {
       this.typeSelectShow = false
+    },
+    distinguish: function () {
+      switch (window.location.hash) {
+        case '#/recoverDrive/noPhysicalCheck':
+          this.typeSelectMassage = this.typeSelectData[0]
+          this.currentBussinessCode = 'ZJ22'    // 恢复驾驶资格（逾期一年以上未体检类）
+          break
+        case '#/recoverDrive/noChangeLicence':
+          this.typeSelectMassage = this.typeSelectData[1]
+          this.currentBussinessCode = 'ZJ21'    // 恢复驾驶资格（逾期一年以上未换证类）
+          break
+      }
+    },
+    // 获取业务id
+    getBusinessId: function () {
+      let reqData = {
+        type: '0',
+        part: '',
+        code: this.currentBussinessCode
+      }
+      resultPost(getBusinessTypeId, reqData).then(json => {
+        if (json.code === '0000') {
+          this.curTabID = json.data
+          this.curTabCode = this.currentBussinessCode
+        } else {
+          Toast({message: json.msg, className: 'white'})
+        }
+      })
     }
   },
   created () {
-    switch (window.location.hash) {
-      case '#/recoverDrive/noPhysicalCheck':
-        this.typeSelectMassage = this.typeSelectData[0]
-        break
-      case '#/recoverDrive/noChangeLicence':
-        this.typeSelectMassage = this.typeSelectData[1]
-        break
-    }
+    this.distinguish()
+    this.getBusinessId()
   },
   mounted () {
     document.addEventListener('click', this.select)

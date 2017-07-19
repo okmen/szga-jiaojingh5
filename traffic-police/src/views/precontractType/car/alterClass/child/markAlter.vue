@@ -4,21 +4,22 @@
  -->
 <template>
     <div class="markAlter">
-      <common :orderPlaceData="appointPlaceData"
-              @appointTaskClick="appointTask"></common>
+      <common @appointTaskClick="appointTask"
+              :currentBusinessId="businessId"
+              :currentBusinessCode="bussinessCode"></common>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
 </template>
 <script>
+import { resultPost } from '../../../../../service/getData'
+import { markAlter } from '../../../../../config/baseUrl'
 import common from './common.vue'
 export default {
   name: 'markAlter',
+  props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件
   data () {
     return {
-      appointPlaceData: [   // 预约地点
-        { 'str': '深圳市车管分所' }
-      ]
     }
   },
   components: {
@@ -27,6 +28,9 @@ export default {
   methods: {
     appointTask: function (params) {
       console.log('识别代号', params)
+      resultPost(markAlter, params).then(json => {
+        console.log(json)
+      })
     }
   }
 }

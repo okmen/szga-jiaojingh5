@@ -19,7 +19,8 @@
       </div>
     </div>
     <div class="alter-from pad-side-50">
-      <router-view :businessId="curTabID"></router-view>
+      <router-view :businessId="curTabID"
+                   :bussinessCode="curTabCode"></router-view>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -36,6 +37,7 @@ export default {
       typeSelectShow: false,
       typeSelectMassage: '',
       curTabID: '',             // 当前选择业务 id
+      curTabCode: '',           // 当前选择业务 code
       typeSelectData: [
         {
           'name': 'taxiUseAlter',
@@ -67,20 +69,16 @@ export default {
     }
   },
   created () {
+    document.addEventListener('click', this.select)
     this.distinguish()
     this.getData()   // 从主菜单 进入页面 初始化 业务id
-  },
-  mounted () {
-    document.addEventListener('click', this.select)
-  },
-  destroyed () {
-    document.removeEventListener('click', this.select)
   },
   methods: {
     typeSelectClick: function (index) {
       if (index) {
         index--
         this.typeSelectMassage = this.typeSelectData[index]
+        this.distinguish()
         this.getData()   // 选择业务入口 进入页面时 初始化 业务id
       }
       this.typeSelectShow = !this.typeSelectShow
@@ -89,7 +87,7 @@ export default {
       switch (window.location.hash) {
         case '#/alterClass/taxiUseAlter':
           this.typeSelectMassage = this.typeSelectData[0]
-          this.currentBussinessCode = '1111'
+          this.currentBussinessCode = 'D:Q'        // 出租客运车辆使用性质变更
           break
         case '#/alterClass/numberAlter':
           this.typeSelectMassage = this.typeSelectData[1]
@@ -97,11 +95,11 @@ export default {
           break
         case '#/alterClass/markAlter':
           this.typeSelectMassage = this.typeSelectData[2]
-          this.currentBussinessCode = '3333'
+          this.currentBussinessCode = 'JD29'      // 机动车打刻原车辆识别代号变更备案
           break
         case '#/alterClass/fileAlter':
           this.typeSelectMassage = this.typeSelectData[3]
-          this.currentBussinessCode = '4444'
+          this.currentBussinessCode = 'JD33'      // 档案更正
           break
         case '#/alterClass/onlineCarAlter':
           this.typeSelectMassage = this.typeSelectData[4]
@@ -119,6 +117,7 @@ export default {
       resultPost(getBusinessTypeId, taskReaData).then(json => {   // 根据业务类型code 获取 业务类型 id
         if (json.code === '0000') {
           this.curTabID = json.data   // 当前选择业务的id
+          this.curTabCode = this.currentBussinessCode
         } else {
           Toast({ message: json.msg, className: 'white', duration: 1500 })
         }
