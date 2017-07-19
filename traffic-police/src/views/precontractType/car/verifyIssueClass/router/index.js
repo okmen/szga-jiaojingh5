@@ -9,23 +9,23 @@ const verifyIssueClassRouter = {
     title: '核发类'
   },
   component: require('../index.vue'),
-  redirect: '/verifyIssueClass/changeEngineNumber',
+  redirect: '/verifyIssueClass/verifyIssueCard',
   children: [
     {
-      name: 'changeEngineNumber',
-      path: 'changeEngineNumber',
+      name: 'verifyIssueCard',
+      path: 'verifyIssueCard',
       meta: {
-        title: '机动车打刻原车发动机号码变更备案'
+        title: '核发临牌'
       },
-      component: require('../page/changeEngineNumber.vue')
+      component: require('../page/verifyIssueCard.vue')
     },
     {
-      name: 'changeUseNature',
-      path: 'changeUseNature',
+      name: 'verifyIssueSchoolCard',
+      path: 'verifyIssueSchoolCard',
       meta: {
-        title: '出租客运车辆使用性质变更'
+        title: '核发校车标牌'
       },
-      component: require('../page/changeUseNature.vue')
+      component: require('../page/verifyIssueSchoolCard.vue')
     }
   ]
 }

@@ -22,13 +22,22 @@
       </div>
     </div>
     <div class="form-template-item">
-      <span class="form-template-item-left">车牌号码</span>
-      <div class="form-template-item-right send-code ">
-        <div class="province-code">
-          <div-select :childInfo="provinceCode" @getSelected="getProvinceCodeOne"></div-select>
-        </div>
-        <input type="text" placeholder="请输入车牌号码" class="province-code-input" v-model="plateNum">
+      <span class="form-template-item-title">居住地址</span>
+      <div class="form-template-item-right">
+        <div-select :childInfo="cityDistrict" @getSelected="getCityDistrict"></div-select>
       </div>
+    </div>
+    <div class="form-template-item">
+      <span class="form-template-item-title"></span>
+      <input type="text" placeholder="请输入详细地址" class="form-template-item-right" v-model="detailedAddress">
+    </div>
+    <div class="form-template-item">
+      <span class="form-template-item-left">中文品牌</span>
+      <input type="text" placeholder="请输入中文品牌" class="form-template-item-right" v-model="mobilePhone">
+    </div>
+    <div class="form-template-item">
+      <span class="form-template-item-left">载客人数</span>
+      <input type="text" placeholder="请输入载客人数" class="form-template-item-right" v-model="mobilePhone" maxlength="3">
     </div>
     <div-select :childInfo="carSelectData" @getSelected="getCarSelectDataOne"></div-select>
     <div-select :childInfo="useNature" @getSelected="getUseNatureOne"></div-select>
@@ -233,6 +242,41 @@
             }
           ]
         },  // 省份 简称
+        cityDistrict: {
+          title: '深圳市',
+          option: [
+            {
+              'str': '福田区'
+            },
+            {
+              'str': '罗湖区'
+            },
+            {
+              'str': '南山区'
+            },
+            {
+              'str': '宝安区'
+            },
+            {
+              'str': '龙岗区'
+            },
+            {
+              'str': '盐田区'
+            },
+            {
+              'str': '龙华新区'
+            },
+            {
+              'str': '光明新区'
+            },
+            {
+              'str': '坪山新区'
+            },
+            {
+              'str': '大鹏新区'
+            }
+          ]
+        },
         credentialsName: {
           title: '证件名称',
           option: [
@@ -404,6 +448,7 @@
         appointmentLocationOne: '',     // 预约地点
         credentialsNameOne: '', // 证件名称一项
         showTime: true,
+        detailedAddress: '', // 详细地址
         countDown: 5,
         timer: ''
       }
@@ -423,6 +468,9 @@
       },
       getUseNatureOne (val) {
         this.useNatureOne = val
+      },
+      getCityDistrict (val) {
+        this.cityDistrictOne = val
       },
       getAppointmentLocationOne (val) {
         this.appointmentLocationOne = val
@@ -505,7 +553,8 @@
           vehicleNum: this.vehicleNum,
           useNatureOne: this.useNatureOne,
           carSelectDataOne: this.carSelectDataOne,
-          appointmentLocationOne: this.appointmentLocationOne
+          appointmentLocationOne: this.appointmentLocationOne,
+          address: `深圳市${this.cityDistrictOne}${this.detailedAddress}`
         }
         console.log(requestObj)
       }
