@@ -95,6 +95,7 @@ export default {
       } else {
         this.data = (this.m === 12) ? this.getCalendar(parseInt(this.y++), this.m = 1) : this.getCalendar(parseInt(this.y), parseInt(this.m += flag))
       }
+      this.$emit('skipDate', `${this.y}-${this.m}`)
     },
     pickYear (flag) {
       this.data = this.getCalendar(parseInt(this.y += flag), parseInt(this.m))

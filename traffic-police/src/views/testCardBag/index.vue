@@ -6,7 +6,7 @@
     <div>
       {{cardBagData}}
     </div>
-    <vue-calendar :date="time" :carNum="carNum" v-on:arrTime="testArrTime" :selectedDate="selectedDate"></vue-calendar>
+    <vue-calendar :date="time" :carNum="carNum" v-on:arrTime="testArrTime" :selectedDate="selectedDate" v-on:skipDate="testskipDate"></vue-calendar>
   </div>
 </template>
 <script>
@@ -25,6 +25,9 @@
       'vueCalendar': require('./../../components/calendar.vue')
     },
     methods: {
+      testskipDate (data) {
+        console.log(data)
+      },
       testArrTime (data) {
         console.log(data)
       },
