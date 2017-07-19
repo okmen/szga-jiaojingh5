@@ -50,6 +50,7 @@
       <input type="text" placeholder="请输入详细地址" class="register-item-input" v-model="detailedAddress">
     </div>
     <div-select :childInfo="carSelectData" @getSelected="getCarSelectDataOne"></div-select>
+    <div-select :childInfo="modelOfCar" @getSelected="getModelOfCarOne"></div-select>
     <div-select :childInfo="useNature" @getSelected="getUseNatureOne"></div-select>
     <div class="register-item">
       <span class="register-item-title">车身架号</span>
@@ -62,27 +63,30 @@
     <div class="choose-date">
       <div class="choose-date-item">
         <div class="date-item-input">
-          <input type="text" readonly v-model="fullYear">
+          <div-select :childInfo="allYear" @getSelected="getAllYearOne"></div-select>
         </div>
         <span class="date-item-time">年</span>
       </div>
       <div class="choose-date-item">
         <div class="date-item-input">
-          <div-select :childInfo="month"></div-select>
+          <div-select :childInfo="allmonth" @getSelected="getAllmonthOne"></div-select>
         </div>
         <span class="date-item-time">月</span>
       </div>
       <div class="choose-date-item">
         <div class="date-item-input">
-          <div-select :childInfo="month"></div-select>
+          <div-select :childInfo="allDay" @getSelected="getAllDayOne"></div-select>
         </div>
         <span class="date-item-time">日</span>
       </div>
     </div>
     <div class="surplus-info">
-      <div class="surplus-info-item" :class="{'no-surplus': item.num == 0,'toggle-active':index==activeIndex&&item.num != 0 }" v-for="(item, index) in surplusData" @click="toggleActive(index)">
+      <div class="surplus-info-item"
+           :class="{'no-surplus': item.num == 0,'toggle-active':index===activeIndex}"
+           v-for="(item, index) in surplusData" @click="toggleActive(index)">
         <div class="surplus-item-time">{{item.time}}</div>
-        <div class="surplus-item-num" v-if="item.num!=0">剩余名额 <span class="surplus-item-number">{{item.num}}</span> 位</div>
+        <div class="surplus-item-num" v-if="item.num!=0">剩余名额 <span class="surplus-item-number">{{item.num}}</span> 位
+        </div>
         <div class="surplus-item-num" v-if="item.num == 0">已满</div>
       </div>
     </div>
@@ -209,7 +213,10 @@
 <script>
   import {isPhone, specialCharacters, plateNumberDetection} from 'service/regExp.js'
   import { Toast } from 'mint-ui'
+  import {resultPost} from 'service/getData'
+  import {getOrgsByBusinessTypeId, getAppointmentDate, getAppTimes, getBusinessCarTypeId, getIdTypeId, simpleSendMessage, createVehicleInfo} from 'config/baseUrl.js'
   export default {
+    props: ['businessTypeId', 'modelOfCar', 'achieveCode'],
     data () {
       return {
         activeIndex: '',  // 点击出现蓝色边框序号
@@ -314,38 +321,40 @@
           title: '新车主证件类型',
           font: 1,
           option: [
-            {'str': '居民户口簿'},
-            {'str': '单位注销证明'},
-            {'str': '驻华机构证明'},
-            {'str': '个体工商营业执照注册'},
-            {'str': '居住暂时证明'},
-            {'str': '临时居民身份'},
-            {'str': '军官证'},
-            {'str': '军官离退休证'},
-            {'str': '外交人员身份证明'},
-            {'str': '士兵证'},
-            {'str': '境外人员身份证明'},
-            {'str': '统一社会信用代码'},
-            {'str': '组织机构代码证书'}
+            {'str': '居民户口簿', 'id': 'H'},
+            {'str': '单位注销证明', 'id': 'J'},
+            {'str': '驻华机构证明', 'id': 'L'},
+            {'str': '个体工商营业执照注册', 'id': 'P'},
+            {'str': '居住暂时证明', 'id': 'K'},
+            {'str': '居住身份证', 'id': 'A'},
+            {'str': '临时居民身份', 'id': 'M'},
+            {'str': '军官证', 'id': 'C'},
+            {'str': '军官离退休证', 'id': 'E'},
+            {'str': '外交人员身份证明', 'id': 'G'},
+            {'str': '士兵证', 'id': 'D'},
+            {'str': '境外人员身份证明', 'id': 'F'},
+            {'str': '统一社会信用代码', 'id': 'N'},
+            {'str': '组织机构代码证书', 'id': 'B'}
           ]
         },  // 新证件名称
         oldCredentialsName: {
           title: '旧车主证件类型',
           font: 1,
           option: [
-            {'str': '居民户口簿'},
-            {'str': '单位注销证明'},
-            {'str': '驻华机构证明'},
-            {'str': '个体工商营业执照注册'},
-            {'str': '居住暂时证明'},
-            {'str': '临时居民身份'},
-            {'str': '军官证'},
-            {'str': '军官离退休证'},
-            {'str': '外交人员身份证明'},
-            {'str': '士兵证'},
-            {'str': '境外人员身份证明'},
-            {'str': '统一社会信用代码'},
-            {'str': '组织机构代码证书'}
+            {'str': '居民户口簿', 'id': 'H'},
+            {'str': '单位注销证明', 'id': 'J'},
+            {'str': '驻华机构证明', 'id': 'L'},
+            {'str': '个体工商营业执照注册', 'id': 'P'},
+            {'str': '居住暂时证明', 'id': 'K'},
+            {'str': '居住身份证', 'id': 'A'},
+            {'str': '临时居民身份', 'id': 'M'},
+            {'str': '军官证', 'id': 'C'},
+            {'str': '军官离退休证', 'id': 'E'},
+            {'str': '外交人员身份证明', 'id': 'G'},
+            {'str': '士兵证', 'id': 'D'},
+            {'str': '境外人员身份证明', 'id': 'F'},
+            {'str': '统一社会信用代码', 'id': 'N'},
+            {'str': '组织机构代码证书', 'id': 'B'}
           ]
         }, // 旧证明名称
         carSelectData: {
@@ -440,26 +449,17 @@
         useNature: {
           title: '使用性质',
           option: [
-            {'str': '非运营'},
-            {'str': '公路客运'},
-            {'str': '公交客运'},
-            {'str': '旅游客运'},
-            {'str': '货运'},
-            {'str': '租赁'}
+            {'str': '非运营', 'id': 'A'},
+            {'str': '公路客运', 'id': 'B'},
+            {'str': '公交客运', 'id': 'C'},
+            {'str': '旅游客运', 'id': 'E'},
+            {'str': '货运', 'id': 'F'},
+            {'str': '租赁', 'id': 'G'}
           ]
         },   // 使用性质
         appointmentLocation: {
           title: '预约地点',
           option: [
-            {'str': '福田车管分所'},
-            {'str': '澳康达服务站'},
-            {'str': '龙岗车管分所'},
-            {'str': '宝安车管分所'},
-            {'str': '盐田车管分所'},
-            {'str': '龙华车管分所'},
-            {'str': '坪山车管分所'},
-            {'str': '深圳市车管所'},
-            {'str': '罗湖车管所'}
           ]
         },  // 预约地点
         cityDistrict: {
@@ -498,32 +498,20 @@
           ]
         },
         fullYear: new Date().getFullYear(), // 整年
-        month: {
-          option: [
-            {'str': '1'},
-            {'str': '2'},
-            {'str': '3'},
-            {'str': '4'},
-            {'str': '5'},
-            {'str': '6'},
-            {'str': '7'},
-            {'str': '8'},
-            {'str': '9'},
-            {'str': '10'},
-            {'str': '11'},
-            {'str': '12'}
-          ]
-        },
-        surplusData: [
-          {'time': '9:00 - 10:00', 'num': '0'},
-          {'time': '9:00 - 10:00', 'num': '20'},
-          {'time': '9:00 - 10:00', 'num': '20'},
-          {'time': '9:00 - 10:00', 'num': '20'},
-          {'time': '9:00 - 10:00', 'num': '0'},
-          {'time': '9:00 - 10:00', 'num': '20'},
-          {'time': '9:00 - 10:00', 'num': '0'},
-          {'time': '9:00 - 10:00', 'num': '20'}
-        ],   // 剩余数量
+        allYear: {
+          option: []
+        }, // 年
+        allYearOne: '',
+        allmonth: {
+          option: []
+        }, // 月份
+        allmonthOne: '',
+        allDay: {
+          option: []
+        }, // 日
+        allDayOne: '',
+        surplusData: [],   // 剩余数量
+        modelOfCarOne: '', // 车辆型号
         newOwnerName: '',  // 新车主姓名
         oldOwnerName: '',
         newIDcard: '',
@@ -539,17 +527,187 @@
         appointmentLocationOne: '',     // 预约地点
         newCredentialsNameOne: '', // 新证件名称一项
         oldCredentialsNameOne: '', // 老证件名称的一项
+        oldCertificateTypeId: '', // 旧证件ID
+        newCertificateTypeId: '',  // 新证件ID
         cityDistrictOne: '', // 城区
         detailedAddress: '', // 详细地址
         showTime: true,
         countDown: 5,
-        timer: ''
+        timer: '',
+        bookerType: 0 // 预约方式，0 本人， 1普通代办 2专业代办
+      }
+    },
+    computed: {
+      // 时间 年月日
+      yearMonthDay () {
+        return `${this.allYearOne}-${this.allmonthOne}-${this.allDayOne}`
+      },
+      // 余量请求参数
+      quotaRequest () {
+        return {
+          businessTypeId: this.businessTypeId,
+          orgId: this.appointmentLocationOne,
+          date: this.yearMonthDay,
+          carTypeId: this.businessCarTypeId
+        }
+      },
+      // 时间请求参数
+      timeRequest () {
+        return {
+          businessTypeId: this.businessTypeId,
+          orgId: this.appointmentLocationOne
+        }
+      },
+      // 新车主证件类型请求参数
+      newCertificateRequest () {
+        return {
+          businessTypeId: this.businessTypeId,
+          code: this.newCredentialsNameOne
+        }
+      },
+      oldCertificateRequest () {
+        return {
+          businessTypeId: this.businessTypeId,
+          code: this.oldCredentialsNameOne
+        }
+      }
+    },
+    watch: {
+      carSelectDataOne () {
+        this.getBusinessCarTypeId()
+      },
+      businessTypeId () {
+        this.getBusinessAddressId()
+      },
+      timeRequest (val) {
+        for (let key in val) {
+          if (val[key] === '') {
+            return
+          }
+        }
+        this.getAllYearMonthDay()
+      },
+      quotaRequest (val) {
+        if (this.allYearOne === '') {
+          return
+        }
+        if (this.allmonthOne === '') {
+          return
+        }
+        if (this.allDayOne === '') {
+          return
+        }
+        for (let key in val) {
+          if (val[key] === '') {
+            return
+          }
+        }
+        this.getQuotaInformation()
+      },
+      newCertificateRequest (val, oldVal) {
+        if (val === oldVal) {
+          return
+        }
+        for (let key in val) {
+          if (val[key] === '') {
+            return
+          }
+        }
+        this.getNewCertificateTypeId()
+      },
+      oldCertificateRequest (val, oldVal) {
+        if (val === oldVal) {
+          return
+        }
+        for (let key in val) {
+          if (val[key] === '') {
+            return
+          }
+        }
+        this.getOldCertificateTypeId()
       }
     },
     components: {
       divSelect: require('components/divSelect.vue')
     },
     methods: {
+      // 新车主获取证件类型ID
+      getNewCertificateTypeId () {
+        resultPost(getIdTypeId, this.newCertificateRequest).then(data => {
+          console.log(data, '新车主证件类型ID')
+          this.newCertificateTypeId = data.data
+        })
+      },
+      getOldCertificateTypeId () {
+        resultPost(getIdTypeId, this.oldCertificateRequest).then(data => {
+          console.log(data, '旧证件类型ID')
+          this.oldCertificateTypeId = data.data
+        })
+      },
+      // 获取地点
+      getBusinessAddressId () {
+        resultPost(getOrgsByBusinessTypeId, {businessTypeId: this.businessTypeId}).then(json => {
+          console.log(json, '地点获取成功')
+          json.data.map(item => {
+            this.appointmentLocation.option.push({'str': item.name, 'id': item.id})
+          })
+        })
+      },
+      // 获取时间
+      getAllYearMonthDay () {
+        resultPost(getAppointmentDate, this.timeRequest).then(json => {
+          console.log(json, '时间获取成功')
+          let allYear = []
+          let allmonth = []
+          let allDay = []
+          json.data.map((item, index) => {
+            let yearMonthDay = item.split('-')
+            if (index === 0) {
+              allYear.push({'str': yearMonthDay[0]})
+              allmonth.push({'str': yearMonthDay[1]})
+              allDay.push({'str': yearMonthDay[2]})
+            } else {
+              if (allYear[allYear.length - 1].str !== yearMonthDay[0]) {
+                allYear.push({'str': yearMonthDay[0]})
+              }
+              if (allmonth[allmonth.length - 1].str !== yearMonthDay[1]) {
+                allmonth.push({'str': yearMonthDay[1]})
+              }
+              if (allDay[allDay.length - 1].str !== yearMonthDay[2]) {
+                allDay.push({'str': yearMonthDay[2]})
+              }
+            }
+          })
+          this.allYear.option = allYear
+          this.allmonth.option = allmonth
+          this.allDay.option = allDay
+        })
+      },
+      // 获取配额信息
+      getQuotaInformation () {
+        resultPost(getAppTimes, this.quotaRequest).then(json => {
+          console.log(json, '配额信息')
+          let arrData = []
+          json.data.map(item => {
+            arrData.push({'time': item.apptime, 'num': item.maxnumber - item.yetnumber})
+          })
+          this.surplusData = arrData
+        })
+      },
+      // 获取车辆类型编号
+      getBusinessCarTypeId () {
+        let requestData = {
+          code: this.carSelectDataOne
+        }
+        resultPost(getBusinessCarTypeId, requestData).then(json => {
+          console.log(json, '车辆类型编码获取成功')
+          this.businessCarTypeId = json.data
+        })
+      },
+      // 获取车辆型号
+      getModelOfCarOne (val) {
+        this.modelOfCarOne = val
+      },
       getNewCredentialsNameOne (val) {
         this.newCredentialsNameOne = val
       },
@@ -565,8 +723,21 @@
       getAppointmentLocationOne (val) {
         this.appointmentLocationOne = val
       },
+      getAllYearOne (val) {
+        this.allYearOne = val
+      },
+      getAllmonthOne (val) {
+        this.allmonthOne = val
+      },
+      getAllDayOne (val) {
+        this.allDayOne = val
+      },
       toggleActive (index) {
+        if (this.surplusData[index].num === 0) {
+          return
+        }
         this.activeIndex = index
+        this.appointmentTime = this.surplusData[index].time
       },
       getCityDistrict (val) {
         this.cityDistrictOne = val
@@ -576,6 +747,22 @@
       },
       getVerificationCode (val) {
         this.showTime = false
+        if (window.localStorage.getItem('userName') !== this.ownerName || this.IDcard === window.localStorage.getItem('identityCard')) {
+          this.bookerType = 1
+        }
+        let requestData = {
+          mobile: this.mobilePhone,
+          idType: this.newCertificateTypeId,
+          lx: 2,
+          bookerType: this.bookerType,
+          bookerName: this.newOwnerName,
+          bookerIdNumber: window.localStorage.getItem('identityCard'),
+          idNumber: this.IDcard,
+          codes: this.achieveCode
+        }
+        resultPost(simpleSendMessage, requestData).then(data => {
+          console.log(data, '验证码')
+        })
         this.timer = setInterval(() => {
           if (this.countDown === 0) {
             clearInterval(this.timer)
@@ -655,6 +842,13 @@
           })
           return false
         }
+        if (!this.appointmentTime) {
+          Toast({
+            message: '请选择预约时间段',
+            duration: 2000
+          })
+          return false
+        }
         return true
       },
       registerSubmit () {
@@ -675,7 +869,10 @@
           appointmentLocationOne: this.appointmentLocationOne,
           address: `深圳市${this.cityDistrictOne}${this.detailedAddress}`
         }
-        console.log(requestObj)
+        console.log(requestObj, '预约请求的信息')
+        resultPost(createVehicleInfo, requestObj).then(data => {
+          this.$store.commit('saveResponseData', data)
+        })
       }
     }
   }

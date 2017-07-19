@@ -4,8 +4,8 @@
  -->
 <template>
     <div class="onlineAlter">
-      <common :orderPlaceData="appointPlaceData"
-              @appointTaskClick="appointTask"></common>
+      <common @appointTaskClick="appointTask"
+              :currentBusinessId="businessId"></common>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
@@ -14,12 +14,9 @@
 import common from './common.vue'
 export default {
   name: 'onlineAlter',
+  props: ['businessId'],    // 拿到当前业务的id  然后传给 common组件
   data () {
     return {
-      appointPlaceData: [   // 预约地点
-        { 'str': '深圳市车管分所' },
-        { 'str': '罗湖车管分所' }
-      ]
     }
   },
   components: {

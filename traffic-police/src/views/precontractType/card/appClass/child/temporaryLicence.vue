@@ -1,9 +1,9 @@
 <!-- 
-  持境外驾驶证申请换证 
+  临时机动车驾驶证许可证申领 
 -->
 
 <template>
-  <div class="overseasLicence">
+  <div class="temporaryLicence">
     <common 
       @submitClick="subFn"
       :currentBusinessId="businessId"
@@ -15,7 +15,7 @@
 <script>
 import common from './common.vue'
 export default {
-  name: 'overseasLicence',
+  name: 'temporaryLicence',
   props: ['businessId', 'businessCode'],    // 拿到当前业务的id  然后传给 common组件
   data () {
     return {
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     subFn: function (params) {
-      console.log('overseasLicence', params)
+      console.log('temporaryLicence', params)
     }
   }
 }

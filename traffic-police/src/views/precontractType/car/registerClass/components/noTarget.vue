@@ -418,12 +418,12 @@
         useNature: {
           title: '使用性质',
           option: [
-            {'str': '非运营'},
-            {'str': '公路客运'},
-            {'str': '公交客运'},
-            {'str': '旅游客运'},
-            {'str': '货运'},
-            {'str': '租赁'}
+            {'str': '非运营', 'id': 'A'},
+            {'str': '公路客运', 'id': 'B'},
+            {'str': '公交客运', 'id': 'C'},
+            {'str': '旅游客运', 'id': 'E'},
+            {'str': '货运', 'id': 'F'},
+            {'str': '租赁', 'id': 'G'}
           ]
         },   // 使用性质
         appointmentLocation: {
@@ -469,7 +469,7 @@
     components: {
       divSelect: require('components/divSelect.vue')
     },
-    props: ['businessTypeId', 'modelOfCar'],
+    props: ['businessTypeId', 'modelOfCar', 'achieveCode'],
     computed: {
       // 时间 年月日
       yearMonthDay () {
@@ -659,6 +659,33 @@
       },
       // 点击获取验证码
       getVerificationCode () {
+        if (specialCharacters(this.ownerName)) {
+          Toast({
+            message: '车主姓名不能含有特殊字符',
+            duration: 2000
+          })
+          return false
+        } else if (!this.ownerName) {
+          Toast({
+            message: '请输入车主姓名',
+            duration: 2000
+          })
+          return false
+        }
+        if (!this.IDcard) {
+          Toast({
+            message: '证件号码不能为空',
+            duration: 2000
+          })
+          return false
+        }
+        if (!isPhone(this.mobilePhone)) {
+          Toast({
+            message: '手机号码格式不正确',
+            duration: 2000
+          })
+          return false
+        }
         this.showTime = false
         if (window.localStorage.getItem('userName') !== this.ownerName || this.IDcard === window.localStorage.getItem('identityCard')) {
           this.bookerType = 1
@@ -671,7 +698,7 @@
           bookerName: this.ownerName,
           bookerIdNumber: this.IDcard,
           idNumber: this.IDcard,
-          codes: 'JD15'
+          codes: this.achieveCode
         }
         resultPost(simpleSendMessage, requestData).then(data => {
           console.log(data, '验证码')
@@ -735,6 +762,13 @@
           })
           return false
         }
+        if (!this.appointmentTime) {
+          Toast({
+            message: '请选择预约时间段',
+            duration: 2000
+          })
+          return false
+        }
         return true
       },
       registerSubmit () {
@@ -744,8 +778,8 @@
           businessTypeId: this.businessTypeId,
           idTypeId: this.certificateTypeId, // 证件名称
           idNumber: this.IDcard,
-          mobile: this.mobilePhone,
-          arg2: this.verificationCode,
+          mobile: window.localStorage.getItem('mobilePhone'),
+          msgNumber: this.verificationCode,
           platNumber: this.provinceCodeOne + this.plateNum.toUpperCase(),
           carTypeId: this.businessCarTypeId,
           useCharater: this.useNatureOne,
@@ -756,11 +790,12 @@
           bookerName: window.localStorage.getItem('userName'),
           bookerIdNumber: window.localStorage.getItem('identityCard'),
           bookerType: this.bookerType,
-          arg0: this.modelOfCarOne
+          modelName: this.modelOfCarOne,
+          bookerMobile: this.mobilePhone
         }
-        console.log(requestObj)
+        console.log(requestObj, '请求的数据')
         resultPost(createVehicleInfo, requestObj).then(data => {
-          console.log(data, '预约信息')
+          this.$store.commit('saveResponseData', data)
         })
       }
     },

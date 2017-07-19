@@ -3,6 +3,7 @@
     <common 
       @submitClick="subFn"
       :currentBusinessId="businessId"
+      :currentCode="businessCode"
     ></common>
   </div>
 </template>
@@ -11,7 +12,7 @@
 import common from './common.vue'
 export default {
   name: 'renewingQualification',
-  props: ['businessId'],    // 拿到当前业务的id  然后传给 common组件
+  props: ['businessId', 'businessCode'],    // 拿到当前业务的id  然后传给 common组件
   data () {
     return {
     }
@@ -26,5 +27,5 @@ export default {
   }
 }
 </script>
-<style lang="css" scoped>
+<style lang="less" scoped>
 </style>
