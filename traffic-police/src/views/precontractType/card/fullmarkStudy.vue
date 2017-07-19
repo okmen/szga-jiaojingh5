@@ -10,29 +10,54 @@
       </div>
     </div>
     <div class="alter-from pad-side-50">
-      <common :orderPlaceData="appointPlaceData"
-              @appointTaskClick="appointTask"></common>
+      <common @appointTaskClick="appointTask"
+              :currentBusinessId="businessId"
+              :currentBusinessCode="bussinessCode"></common>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
+import { resultPost } from '../../../service/getData'
+import { getBusinessTypeId, createDriveInfoZJ10 } from '../../../config/baseUrl.js'
+import { Toast } from 'mint-ui'
 import common from './recoverDrive/child/common.vue'
 export default {
   name: 'fullmarkStudy',
   data () {
     return {
-      appointPlaceData: [   // 预约地点
-        { 'str': '深圳市车管分所' }
-      ]
+      businessId: '',           // 当前业务 id
+      bussinessCode: 'ZJ10'     // 当前业务 code
     }
   },
   components: {
     common
   },
+  created () {
+    // 获取业务id
+    let reqData = {
+      type: '0',
+      part: '',
+      code: this.bussinessCode
+    }
+    resultPost(getBusinessTypeId, reqData).then(json => {
+      if (json.code === '0000') {
+        this.businessId = json.data
+      } else {
+        Toast({message: json.msg, className: 'white'})
+      }
+    })
+  },
   methods: {
     appointTask: function (params) {
       console.log('满分学习', params)
+      resultPost(createDriveInfoZJ10, params).then(json => {
+        if (json.code === '0000') {
+          console.log(json)
+        } else {
+          Toast({message: json.msg, className: 'white'})
+        }
+      })
     }
   }
 }

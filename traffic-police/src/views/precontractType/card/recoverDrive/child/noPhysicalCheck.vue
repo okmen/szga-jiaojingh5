@@ -4,39 +4,23 @@
  -->
 <template>
     <div class="noPhysicalCheck">
-      <common :orderPlaceData="appointPlaceData"
-            @appointTaskClick="appointTask"></common>
+      <common @appointTaskClick="appointTask"
+              :currentBusinessId="businessId"
+              :currentBusinessCode="bussinessCode"></common>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
 </template>
 <script>
+import { resultPost } from '../../../../../service/getData'
+import { createDriveInfoZJ22 } from '../../../../../config/baseUrl.js'
+import { Toast } from 'mint-ui'
 import common from './common.vue'
 export default {
   name: 'noPhysicalCheck',
+  props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件
   data () {
     return {
-      appointPlaceData: [   // 预约地点
-        { 'str': '深圳市车管分所' },
-        { 'str': '坪山车管分所' },
-        { 'str': '宝安车管分所' },
-        { 'str': '龙华车管分所' },
-        { 'str': '罗湖管分所' },
-        { 'str': '福田管分所' },
-        { 'str': '盐田车管分所' },
-        { 'str': '龙岗车管分所' },
-        { 'str': '福田区委行政大厅' },
-        { 'str': '宝安交警大队（福永中队）' },
-        { 'str': '福田交警大队' },
-        { 'str': '南山交警大队' },
-        { 'str': '宝安交警大队（西乡中队）' },
-        { 'str': '坪山交警大队' },
-        { 'str': '龙华交警大队' },
-        { 'str': '盐田交警大队' },
-        { 'str': '光明交警大队' },
-        { 'str': '龙岗交警大队' },
-        { 'str': '罗湖交警大队' }
-      ]
     }
   },
   components: {
@@ -45,6 +29,13 @@ export default {
   methods: {
     appointTask: function (params) {
       console.log('未体检类', params)
+      resultPost(createDriveInfoZJ22, params).then(json => {
+        if (json.code === '0000') {
+          console.log(json)
+        } else {
+          Toast({message: json.msg, className: 'white'})
+        }
+      })
     }
   }
 }
