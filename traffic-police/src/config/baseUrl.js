@@ -202,6 +202,15 @@ export const getCarModelArray = `http://192.168.1.247:8080/web/bookingbusiness/g
 
 export const simpleSendMessage = `http://192.168.1.240:8080/web/bookingbusiness/simpleSendMessage.html`  // 验证码接口
 
+/* --------------机动车预约 变更类--------------- */
+export const numberAlter = 'http://192.168.1.136:8080/web/bookingbusiness/createVehicleInfo_JD28.html' // 机动车打刻原车发动机号码变更备案
+
+export const markAlter = 'http://192.168.1.136:8080/web/bookingbusiness/createVehicleInfo_JD29.html' // 机动车打刻原车辆识别代号变更备案
+
+export const fileAlter = 'http://192.168.1.136:8080/web/bookingbusiness/createVehicleInfo_JD33.html' // 档案更正
+
+export const taxiAlter = 'http://192.168.1.136:8080/web/bookingbusiness/createVehicleInfo_DQ.html' // 出租客运使用性质变更
+
 /* --------------------------------------------驾驶证预约类-------------------------------------------------------------- */
 export const createDriveInfoZJ11 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ11.html`  // 持军队、武装警察部队机动车驾驶证申领
 
