@@ -186,7 +186,14 @@ export default {
           inspectionDeclarationQuery: '机动车委托异地定期检验申报查询',
           replaceMotorVehicleLicensePlate: '补领机动车号牌',
           iocomotiveCarReplace: '换领机动车行驶证',
-          iocomotiveCarChangeContact: ' 机动车变更联系方式'
+          iocomotiveCarChangeContact: ' 机动车变更联系方式',
+          driverLicenseAnnualVerification: '驾驶证年审',
+          renewalDriverLicense: '驾驶证延期换证',
+          driverLicenseInto: '驾驶证转入',
+          driverLicenseVoluntaryDemotion: '驾驶证自愿降级',
+          repairDriverLicense: '驾驶证补证',
+          replaceDriverLicense: '驾驶证换证',
+          driverChangeContact: '驾驶人联系方式变更'
         }
       }
     }
