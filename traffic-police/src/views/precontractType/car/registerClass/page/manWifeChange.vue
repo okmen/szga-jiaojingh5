@@ -497,7 +497,7 @@
             }
           ]
         },
-        fullYear: new Date().getFullYear(), // 整年
+        allYearMonthDay: {}, // 所有的年月日
         allYear: {
           option: []
         }, // 年
@@ -573,6 +573,20 @@
       }
     },
     watch: {
+      allYearOne (val) {
+        let option = []
+        for (let key in this.allYearMonthDay[val]) {
+          option.push({'str': key})
+        }
+        this.allmonth.option = option
+      },
+      allmonthOne (val) {
+        let option = []
+        this.allYearMonthDay[this.allYearOne][val].map(item => {
+          option.push({'str': item})
+        })
+        this.allDay.option = option
+      },
       carSelectDataOne () {
         this.getBusinessCarTypeId()
       },
@@ -657,30 +671,28 @@
       getAllYearMonthDay () {
         resultPost(getAppointmentDate, this.timeRequest).then(json => {
           console.log(json, '时间获取成功')
-          let allYear = []
-          let allmonth = []
-          let allDay = []
-          json.data.map((item, index) => {
-            let yearMonthDay = item.split('-')
-            if (index === 0) {
-              allYear.push({'str': yearMonthDay[0]})
-              allmonth.push({'str': yearMonthDay[1]})
-              allDay.push({'str': yearMonthDay[2]})
-            } else {
-              if (allYear[allYear.length - 1].str !== yearMonthDay[0]) {
-                allYear.push({'str': yearMonthDay[0]})
+          if (json.code === '0000') {
+            json.data.map((item, index) => {
+              let yearMonthDay = item.split('-')
+              if (!this.allYearMonthDay[yearMonthDay[0]]) {
+                this.allYearMonthDay[yearMonthDay[0]] = {}
               }
-              if (allmonth[allmonth.length - 1].str !== yearMonthDay[1]) {
-                allmonth.push({'str': yearMonthDay[1]})
+              if (!this.allYearMonthDay[yearMonthDay[0]][yearMonthDay[1]]) {
+                this.allYearMonthDay[yearMonthDay[0]][yearMonthDay[1]] = []
               }
-              if (allDay[allDay.length - 1].str !== yearMonthDay[2]) {
-                allDay.push({'str': yearMonthDay[2]})
-              }
+              this.allYearMonthDay[yearMonthDay[0]][yearMonthDay[1]].push(yearMonthDay[2])
+            })
+            let option = []
+            for (let key in this.allYearMonthDay) {
+              option.push({'str': key})
             }
-          })
-          this.allYear.option = allYear
-          this.allmonth.option = allmonth
-          this.allDay.option = allDay
+            this.allYear.option = option
+          } else {
+            this.allYear.option = ''
+            this.allmonth.option = ''
+            this.allDay.option = ''
+            MessageBox('提示', json.data)
+          }
         })
       },
       // 获取配额信息

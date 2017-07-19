@@ -74,7 +74,7 @@
     <div-select :childInfo="pointerType" @getSelected="getPointerTypeOne"></div-select>
     <div class="register-item">
       <span class="register-item-title">指标号</span>
-      <input type="text" :readonly="pointerTypeOne=='无指标'" placeholder="请输入指标号" class="register-item-input"
+      <input type="text" :readonly="pointerTypeOne=='WZB'" placeholder="请输入指标号" class="register-item-input"
              v-model="targetNum">
     </div>
     <div class="register-reminder">
@@ -204,7 +204,7 @@
 <script>
   import {isPhone, specialCharacters, plateNumberDetection} from 'service/regExp.js'
   import {resultPost} from 'service/getData'
-  import {Toast} from 'mint-ui'
+  import {Toast, MessageBox} from 'mint-ui'
   import {
     getOrgsByBusinessTypeId,
     getAppointmentDate,
@@ -438,10 +438,11 @@
           title: '预约地点',
           option: []
         },  // 预约地点
+        allYearMonthDay: {}, // 所有的年月日
+        allYearOne: '',
         allYear: {
           option: []
-        }, // 年
-        allYearOne: '',
+        },
         allmonth: {
           option: []
         }, // 月份
@@ -455,13 +456,13 @@
         pointerType: {
           title: '指标类型',
           option: [
-            {'str': '增量指标'},
-            {'str': '更新指标'},
-            {'str': '其他指标'},
-            {'str': '备案车辆指标'},
-            {'str': '二手车辆指标'},
-            {'str': '二手车周转指标'},
-            {'str': '无指标'}
+            {'str': '增量指标', 'id': 'ZLZB'},
+            {'str': '更新指标', 'id': 'GXZB'},
+            {'str': '其他指标', 'id': 'QTZB'},
+            {'str': '备案车辆指标', 'id': 'BAZB'},
+            {'str': '二手车辆指标', 'id': 'ESCLZB'},
+            {'str': '二手车周转指标', 'id': 'ESCZZZB'},
+            {'str': '无指标', 'id': 'WZB'}
           ]
         },   // 指标类型
         ownerName: '',  // 车主姓名
@@ -474,7 +475,8 @@
         provinceCodeOne: '',  // 车牌省份简称
         carSelectDataOne: '', // 车辆类型
         useNatureOne: '', // 使用性质
-        appointmentLocationOne: '',     // 预约地点
+        appointmentLocationOne: '',     // 预约地点参数
+        appointmentLocationStr: '', // 预约地点的字符串
         pointerTypeOne: '',
         credentialsNameOne: '', // 证件名称一项
         certificateTypeId: '', // 证件类型ID
@@ -521,6 +523,20 @@
       }
     },
     watch: {
+      allYearOne (val) {
+        let option = []
+        for (let key in this.allYearMonthDay[val]) {
+          option.push({'str': key})
+        }
+        this.allmonth.option = option
+      },
+      allmonthOne (val) {
+        let option = []
+        this.allYearMonthDay[this.allYearOne][val].map(item => {
+          option.push({'str': item})
+        })
+        this.allDay.option = option
+      },
       carSelectDataOne () {
         this.getBusinessCarTypeId()
       },
@@ -585,7 +601,12 @@
       getCertificateTypeId () {
         resultPost(getIdTypeId, this.certificateRequest).then(data => {
           console.log(data, '证件类型ID')
-          this.certificateTypeId = data.data
+          if (data.code === '0000') {
+            this.certificateTypeId = data.data
+          } else {
+            this.certificateTypeId = ''
+            MessageBox('提示', data.data)
+          }
         })
       },
       //  获取地点
@@ -601,41 +622,44 @@
       getAllYearMonthDay () {
         resultPost(getAppointmentDate, this.timeRequest).then(json => {
           console.log(json, '时间获取成功')
-          let allYear = []
-          let allmonth = []
-          let allDay = []
-          json.data.map((item, index) => {
-            let yearMonthDay = item.split('-')
-            if (index === 0) {
-              allYear.push({'str': yearMonthDay[0]})
-              allmonth.push({'str': yearMonthDay[1]})
-              allDay.push({'str': yearMonthDay[2]})
-            } else {
-              if (allYear[allYear.length - 1].str !== yearMonthDay[0]) {
-                allYear.push({'str': yearMonthDay[0]})
+          if (json.code === '0000') {
+            json.data.map((item, index) => {
+              let yearMonthDay = item.split('-')
+              if (!this.allYearMonthDay[yearMonthDay[0]]) {
+                this.allYearMonthDay[yearMonthDay[0]] = {}
               }
-              if (allmonth[allmonth.length - 1].str !== yearMonthDay[1]) {
-                allmonth.push({'str': yearMonthDay[1]})
+              if (!this.allYearMonthDay[yearMonthDay[0]][yearMonthDay[1]]) {
+                this.allYearMonthDay[yearMonthDay[0]][yearMonthDay[1]] = []
               }
-              if (allDay[allDay.length - 1].str !== yearMonthDay[2]) {
-                allDay.push({'str': yearMonthDay[2]})
-              }
+              this.allYearMonthDay[yearMonthDay[0]][yearMonthDay[1]].push(yearMonthDay[2])
+            })
+            let option = []
+            for (let key in this.allYearMonthDay) {
+              option.push({'str': key})
             }
-          })
-          this.allYear.option = allYear
-          this.allmonth.option = allmonth
-          this.allDay.option = allDay
+            this.allYear.option = option
+          } else {
+            this.allYear.option = ''
+            this.allmonth.option = ''
+            this.allDay.option = ''
+            MessageBox('提示', json.data)
+          }
         })
       },
       // 获取配额信息
       getQuotaInformation () {
         resultPost(getAppTimes, this.quotaRequest).then(json => {
           console.log(json, '配额信息')
-          let arrData = []
-          json.data.map(item => {
-            arrData.push({'time': item.apptime, 'num': item.maxnumber - item.yetnumber})
-          })
-          this.surplusData = arrData
+          if (json.code === '0000') {
+            let arrData = []
+            json.data.map(item => {
+              arrData.push({'time': item.apptime, 'num': item.maxnumber - item.yetnumber})
+            })
+            this.surplusData = arrData
+          } else {
+            this.surplusData = ''
+            MessageBox('提示', json.data)
+          }
         })
       },
       // 获取车辆类型编号
@@ -675,7 +699,7 @@
         this.allDayOne = val
       },
       getPointerTypeOne (val) {
-        if (val === '无指标') {
+        if (val === 'WZB') {
           this.targetNum = ''
         }
         this.pointerTypeOne = val
@@ -730,7 +754,6 @@
           idNumber: this.IDcard,
           codes: this.achieveCode
         }
-        console.log(requestData)
         resultPost(simpleSendMessage, requestData).then(data => {
           console.log(data, '验证码')
         })
@@ -829,13 +852,30 @@
           bookerIdNumber: window.localStorage.getItem('identityCard'),
           bookerType: this.bookerType,
           indexType: this.pointerTypeOne,
-          IndexNo: this.targetNum,
+          indexNo: this.targetNum,
           modelName: this.modelOfCarOne,
           bookerMobile: this.mobilePhone
         }
         console.log(requestObj, '请求的数据')
         resultPost(createVehicleInfo, requestObj).then(data => {
-          this.$store.commit('saveResponseData', data)
+          this.appointmentLocation.option.map(item => {
+            if (item.id === this.appointmentLocationOne) {
+              this.appointmentLocationStr = item.str
+            }
+          })
+          let dataInfo = {
+            type: 2,
+            textObj: {
+              reserveNo: data.data,
+              numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(),
+              mobilephone: this.mobilePhone,
+              reserveAddress: this.appointmentLocationStr,
+              reserveTime: `${this.yearMonthDay} ${this.appointmentTime}`
+            }
+          }
+//          this.$store.commit('saveResponseData', data)
+          this.$store.commit('saveSuccessInfo', dataInfo)
+          this.$router.push('/submitSuccess')
         })
       }
     },
