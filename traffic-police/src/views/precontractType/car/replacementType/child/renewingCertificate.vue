@@ -9,6 +9,8 @@
 </template>
 
 <script>
+// import { resultpost } from '../../../../../service/getData'
+// import { createVehicleInfo } from '../../../../../config/baseUrl.js'
 import common from './common.vue'
 export default {
   name: 'renewingQualification',
@@ -23,6 +25,9 @@ export default {
   methods: {
     subFn: function (params) {
       console.log('renewingQualification', params)
+      // resultPost (createVehicleInfo, params).then(json => {
+      //   console.log(json)
+      // })
     }
   }
 }
