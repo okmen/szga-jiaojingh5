@@ -656,10 +656,10 @@ export default {
     dataFn: function () {
       let name = this.name === window.localStorage.getItem('userName') ? 0 : 1  // 0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
       let renewingData = {
-        'name': window.localStorage.getItem('userName'),   // 车主姓名
+        'name': this.name,   // 车主姓名
         'businessTypeId': this.currentBusinessId,          // 业务id
         'idTypeId': this.certificate,                      // 证件种类ID
-        'idNumber': window.localStorage.getItem('identityCard'),              // 证件号码
+        'idNumber': this.identificationNum,              // 证件号码
         'mobile': window.localStorage.getItem('mobilePhone'),                 // 手机号码
         'msgNumber': this.identifying,                     // 验证码
         'platNumber': `${this.abbreviationSelectMassage}${this.numberPlate}`, // 车牌号码
@@ -669,8 +669,8 @@ export default {
         'orgId': this.subscribeId,                         // 预约地点id
         'appointmentDate': `${this.year}-${this.month}-${this.date}`,        // 预约日期
         'appointmentTime': this.tmentTime,                 // 预约时间
-        'bookerName': this.name,                           // 预约人名字
-        'bookerIdNumber': this.identificationNum,          // 预约人身份证号
+        'bookerName': window.localStorage.getItem('userName'),                           // 预约人名字
+        'bookerIdNumber': window.localStorage.getItem('identityCard'),          // 预约人身份证号
         'bookerType': name,                                // 预约方式 ‘0’本人
         'bookerMobile': this.mobilephone                   // 预约手机号码
       }

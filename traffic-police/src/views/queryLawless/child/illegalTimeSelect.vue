@@ -185,6 +185,7 @@ export default {
           this.years.sort(function (a, b) { return a - b })
           this.year = this.years[0]
 
+          console.log(this.newData)
           this.snm = json.data.snm
         } else {
           MessageBox({
