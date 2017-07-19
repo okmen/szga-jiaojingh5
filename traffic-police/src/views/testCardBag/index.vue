@@ -6,7 +6,7 @@
     <div>
       {{cardBagData}}
     </div>
-    <vue-calendar :date="time" :carNum="carNum" v-on:arrTime="testArrTime"></vue-calendar>
+    <vue-calendar :date="time" :carNum="carNum" v-on:arrTime="testArrTime" :selectedDate="selectedDate"></vue-calendar>
   </div>
 </template>
 <script>
@@ -17,7 +17,8 @@
       return {
         cardBagData: '',
         time: new Date().getTime(),
-        carNum: '粤A12345'
+        carNum: '粤A12345',
+        selectedDate: ['2017-6-20', '2017-7-2', '2017-7-5', '2017-8-15']
       }
     },
     components: {

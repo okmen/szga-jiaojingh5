@@ -30,7 +30,7 @@
         </thead>
         <tbody>
           <tr v-for="cell in data">
-            <td v-for="item in cell" :class="{'dp-last': m!== item.month, 'dp-overdue': item.isCanChoose < 0, 'dp-select': arrTime.indexOf(item.data) >= 0}">
+            <td v-for="item in cell" :class="{'dp-last': m!== item.month, 'dp-overdue': item.isCanChoose < 0, 'dp-select': arrTime.indexOf(item.data) >= 0, 'dp-yellow': item.isSelectedDate >=0 }">
               <div @click="pickConform(item)" class="box-out">
                 <div class="box-int">
                   <span>{{ item.day }}</span>
@@ -111,6 +111,14 @@ export default {
         })
         return false
       }
+      if (item.isSelectedDate >= 0) {
+        Toast({
+          message: '该时间段不能选择',
+          position: 'middle',
+          duration: 2000
+        })
+        return false
+      }
       let arrInd = this.arrTime.indexOf(item.data)
       if (arrInd >= 0) { // 点击正确时间 显示并排序
         this.arrTime.splice(arrInd, 1)
@@ -170,6 +178,7 @@ export default {
           day: t,
           data: `${y}-${m}-${t}`,
           isCanChoose: Date.parse(`${y}-${m}-${t}`) - (Date.now() + 172800000),
+          isSelectedDate: this.selectedDate.indexOf(`${y}-${m}-${t}`),
           pitchOn: false
         }
       }
@@ -270,6 +279,12 @@ export default {
 
 .dp-table .dp-select .box-out {
   background: #00be00;
+  color: #fff !important;
+  border: 1px solid transparent;
+}
+
+.dp-table .dp-yellow .box-out {
+  background: #f1dd33;
   color: #fff !important;
   border: 1px solid transparent;
 }
