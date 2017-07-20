@@ -289,8 +289,7 @@
         let getTimesData = {
           businessTypeId: this.currentBusinessId,  // 业务类型
           orgId: this.orderPlaceID,                // 预约地点
-          date: this.yearMonthDay,                              // 预约日期
-          carTypeId: this.carTypeID                // 车辆类型ID
+          date: this.yearMonthDay                  // 预约日期
         }
         console.log('具体时间', getTimesData)
         resultPost(getAppTimes, getTimesData).then(json => {
