@@ -212,7 +212,7 @@
 </style>
 <script>
   import {isPhone, specialCharacters, plateNumberDetection} from 'service/regExp.js'
-  import { Toast } from 'mint-ui'
+  import { Toast, MessageBox } from 'mint-ui'
   import {resultPost} from 'service/getData'
   import {getOrgsByBusinessTypeId, getAppointmentDate, getAppTimes, getBusinessCarTypeId, getIdTypeId, simpleSendMessage, createVehicleInfo} from 'config/baseUrl.js'
   export default {
@@ -670,6 +670,7 @@
       // 获取时间
       getAllYearMonthDay () {
         resultPost(getAppointmentDate, this.timeRequest).then(json => {
+          this.allYearMonthDay = {}
           console.log(json, '时间获取成功')
           if (json.code === '0000') {
             json.data.map((item, index) => {
@@ -866,24 +867,50 @@
       registerSubmit () {
         //        if (!this.beforeSubmit()) return
         let requestObj = {
-          oldOwnerName: this.oldOwnerName,
-          newOwnerName: this.newOwnerName,
-          newIDcard: this.newIDcard,
-          oldIDcard: this.oldIDcard,
-          newCredentialsNameOne: this.newCredentialsNameOne, // 新车主证件类型
-          oldCredentialsNameOne: this.oldCredentialsNameOne,
-          mobilePhone: this.mobilePhone,
-          verificationCode: this.verificationCode,
-          plateNum: this.provinceCodeOne + this.plateNum.toUpperCase(),
-          vehicleNum: this.vehicleNum, // 车架号后四位
-          useNatureOne: this.useNatureOne,  // 使用性质
+          name: this.newOwnerName,
+          businessTypeId: this.businessTypeId,
+          idTypeId: this.newCertificateTypeId,
+          idNumber: this.newIDcard,
+          mobile: window.localStorage.getItem('mobilePhone'),
+          msgNumber: this.verificationCode,
+          platNumber: this.provinceCodeOne + this.plateNum.toUpperCase(),
+          carTypeId: this.businessCarTypeId,
+          carFrame: this.vehicleNum, // 车架号后四位
+          useCharater: this.useNatureOne,  // 使用性质
           carSelectDataOne: this.carSelectDataOne, // 车辆类型
-          appointmentLocationOne: this.appointmentLocationOne,
-          address: `深圳市${this.cityDistrictOne}${this.detailedAddress}`
+          orgId: this.appointmentLocationOne,
+          address: `深圳市${this.cityDistrictOne}${this.detailedAddress}`,
+          appointmentDate: this.yearMonthDay,
+          appointmentTime: this.appointmentTime,
+          bookerName: window.localStorage.getItem('userName'),
+          bookerIdNumber: window.localStorage.getItem('identityCard'),
+          bookerType: this.bookerType,
+          modelName: this.modelOfCarOne,
+          bookerMobile: this.mobilePhone
         }
         console.log(requestObj, '预约请求的信息')
         resultPost(createVehicleInfo, requestObj).then(data => {
-          this.$store.commit('saveResponseData', data)
+          console.log(data, '预约信息')
+          if (data.code === '0000') {
+            this.appointmentLocation.option.map(item => {
+              if (item.id === this.appointmentLocationOne) {
+                this.appointmentLocationStr = item.str
+              }
+            })
+            let dataInfo = {
+              type: 2,
+              textObj: {
+                reserveNo: data.data,
+                numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(),
+                mobilephone: this.mobilePhone,
+                reserveAddress: this.appointmentLocationStr,
+                reserveTime: `${this.yearMonthDay} ${this.appointmentTime}`
+              }
+            }
+//          this.$store.commit('saveResponseData', data)
+            this.$store.commit('saveSuccessInfo', dataInfo)
+            this.$router.push('/submitSuccess')
+          }
         })
       }
     }
