@@ -8,25 +8,21 @@
     dataInfo.type
       1 : 申办成功 // 办理类
       2 : 预约成功 // 预约类
-    接口返回的数据存至 dataInfo.textObj
+    接口返回的数据存至 dataInfo
 
     dataInfo = {
       type: 1,
-      textObj: {
-        businessType: '预约违法处理',
-        subscribeNo: '流水号码'
-      }
+      businessType: '预约违法处理',
+      subscribeNo: '流水号码'
     }
 
     dataInfo = {
       type: 2,
-      textObj: {
-        reserveNo: '预约编号',
-        numberPlate: '车牌号码',
-        mobilephone: '手机号码',
-        reserveAddress: '服务点',
-        reserveTime: '预约时间'
-      }
+      reserveNo: '预约编号',
+      numberPlate: '车牌号码',
+      mobilephone: '手机号码',
+      reserveAddress: '服务点',
+      reserveTime: '预约时间'
     }
 -->
 
@@ -54,7 +50,7 @@
       <h3>预约结果</h3>
       <p>{{ tip }}</p>
       <ul class="submitSuccess-ul">
-        <li v-for="(value, key) in JsonDataInfo" class="submitSuccess-item">
+        <li v-for="(value, key) in JsonDataInfo" class="submitSuccess-item"  v-if="keyListObj[key]">
           <span class="submitSuccess-item-key">{{ keyListObj[key] }}</span>
           ：<span class="submitSuccess-item-value">{{ valListObj[key] ? valListObj[key][value] : value }}</span>
         </li>

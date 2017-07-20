@@ -32,16 +32,14 @@ export default {
       resultPost(createDriveInfoZJ11, params).then(json => {
         if (json.code === '0000') {
           this.certificate = json.data
-          // let dataInfo = {
-          //   type: json.data.type
-          //   textObj: {
-          //     reserveTime: son.data.bidDate,
-          //     reserveNo: waterNumber
-          //   }
-          // }
-          // this.$store.commit('saveSuccessInfo', dataInfo)
+          let dataInfo = {
+            type: 2,
+            reserveTime: json.data.bidDate,
+            reserveNo: json.data.waterNumber
+          }
+          this.$store.commit('saveSuccessInfo', dataInfo)
+          this.$router.push('/submitSuccess')
         } else {
-          // let msg = json.data + json.msg
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
       })
