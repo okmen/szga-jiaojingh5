@@ -823,13 +823,11 @@
             })
             let dataInfo = {
               type: 2,
-              textObj: {
-                reserveNo: data.data,
-                numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(),
-                mobilephone: this.mobilePhone,
-                reserveAddress: this.appointmentLocationStr,
-                reserveTime: `${this.yearMonthDay} ${this.appointmentTime}`
-              }
+              reserveNo: data.data,
+              numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(),
+              mobilephone: this.mobilePhone,
+              reserveAddress: this.appointmentLocationStr,
+              reserveTime: `${this.yearMonthDay} ${this.appointmentTime}`
             }
 //          this.$store.commit('saveResponseData', data)
             this.$store.commit('saveSuccessInfo', dataInfo)

@@ -51,10 +51,13 @@
         currentBusinessType: ''
       }
     },
-    beforeRouteEnter (to, from, next) {
-      next(vm => {
-        vm.currentBusinessType = vm.businessType[to.name]
-      })
+    created () {
+      this.currentBusinessType = this.businessType[this.$route.name]
+    },
+    watch: {
+      '$route' (val) {
+        this.currentBusinessType = this.businessType[val.name]
+      }
     },
     components: {
       divSelect: require('./components/divSelect.vue')

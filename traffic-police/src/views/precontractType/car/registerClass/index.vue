@@ -668,6 +668,7 @@
     },
     created () {
       this.getBusinessTypeId()
+      console.log(this.$route, '路由')
     },
     watch: {
       '$route': 'getBusinessTypeId'
@@ -700,12 +701,12 @@
     },
     methods: {
       getBusinessTypeId () {
-        this.currentBusinessType = this.businessType[this.$router.currentRoute.name]
-        this.achieveCode = this.businessTypeToCode[this.$router.currentRoute.name]
+        this.currentBusinessType = this.businessType[this.$route.name]
+        this.achieveCode = this.businessTypeToCode[this.$route.name]
         let requestData = {
           type: '1',
           part: '1',
-          code: this.businessTypeToCode[this.$router.currentRoute.name]
+          code: this.businessTypeToCode[this.$route.name]
         }
         resultPost(getBusinessTypeId, requestData).then(data => {
           this.businessTypeId = data.data

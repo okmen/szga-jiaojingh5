@@ -25,16 +25,7 @@
     watch: {
       thisInfo: {
         handler (val) {
-          val.option.map(item => {
-            if (item.choose === true) {
-              if (item.id) {
-                this.selectedVal = item.id
-              } else {
-                this.selectedVal = item.str
-              }
-            }
-          })
-          this.$emit('getSelected', this.selectedVal)
+          this.chooseDefault
         },
         deep: true
       }
@@ -45,12 +36,27 @@
       }
     },
     methods: {
+      chooseDefault () {
+        this.thisInfo.option.map(item => {
+          if (item.choose === true) {
+            if (item.id) {
+              this.selectedVal = item.id
+            } else {
+              this.selectedVal = item.str
+            }
+          }
+        })
+        this.$emit('getSelected', this.selectedVal)
+      },
       chooseRadio (item) {
         this.childInfo.option.map(choose => {
           choose.choose = false
         })
         item.choose = true
       }
+    },
+    mounted () {
+      this.chooseDefault()
     }
   }
 </script>
