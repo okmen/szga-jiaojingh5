@@ -156,6 +156,7 @@
         years: [],                          // 从接口获取 日期
         months: [],
         days: [],
+        orderAllDate: {},                   // 获取 年月日
         orderDetailsTime: [],               // 预约 具体时间 li
         activeIndex: '',                    // 当前点击时间的li
         selectDetailTime: '',               // * 选择的具体时间
@@ -171,6 +172,9 @@
         this.getOrderPlace()    // 获取预约地点 id
         console.log('业务ID', val)
       },
+      currentBusinessCode (val) {
+        console.log('业务code', val)
+      },
       timeRequest (val) {
         for (let key in val) {
           if (val[key] === '') {
@@ -179,8 +183,19 @@
         }
         this.getAllYearMonthDay()
       },
-      currentBusinessCode (val) {
-        console.log('业务code', val)
+      getYear (val) {          // 当前年份的所有月份
+        let option = []
+        for (let key in this.orderAllDate[val]) {
+          option.push({'str': key})
+        }
+        this.months = option
+      },
+      getMonth (val) {        // 当前月份的所有日期
+        let option = []
+        this.orderAllDate[this.getYear][val].map(item => {
+          option.push({'str': item})
+        })
+        this.days = option
       }
     },
     computed: {
@@ -253,34 +268,30 @@
       getAllYearMonthDay () {
         resultPost(getAppointmentDate, this.timeRequest).then(json => {
           console.log(json, '时间获取成功')
-          let allYear = []
-          let allmonth = []
-          let allDay = []
-          json.data.map((item, index) => {
-            let yearMonthDay = item.split('-')
-            if (index === 0) {
-              allYear.push({'str': yearMonthDay[0]})
-              allmonth.push({'str': yearMonthDay[1]})
-              allDay.push({'str': yearMonthDay[2]})
-            } else {
-              if (allYear[allYear.length - 1].str !== yearMonthDay[0]) {
-                allYear.push({'str': yearMonthDay[0]})
+          this.orderAllDate = {}
+          if (json.code === '0000') {
+            json.data.map((item, index) => {
+              let yearMonthDay = item.split('-')
+              if (!this.orderAllDate[yearMonthDay[0]]) {
+                this.orderAllDate[yearMonthDay[0]] = {}
               }
-              if (allmonth[allmonth.length - 1].str !== yearMonthDay[1]) {
-                allmonth.push({'str': yearMonthDay[1]})
+              if (!this.orderAllDate[yearMonthDay[0]][yearMonthDay[1]]) {
+                this.orderAllDate[yearMonthDay[0]][yearMonthDay[1]] = []
               }
-              if (allDay[allDay.length - 1].str !== yearMonthDay[2]) {
-                allDay.push({'str': yearMonthDay[2]})
-              }
+              this.orderAllDate[yearMonthDay[0]][yearMonthDay[1]].push(yearMonthDay[2])
+            })
+            let option = []
+            for (let key in this.orderAllDate) {
+              option.push({'str': key})
             }
-          })
-          this.years = allYear
-          this.months = allmonth
-          this.days = allDay
-          this.getYear = allYear[0].str
-          this.getMonth = allmonth[0].str
-          this.getDay = allDay[0].str
-          this.getDetailsTime()
+            this.years = option
+            this.getDetailsTime()    // 获取到了预约日期后 立即获取预约时间
+          } else {
+            this.years = ''
+            this.months = ''
+            this.days = ''
+            Toast({message: json.msg, className: 'white', duration: 1500})
+          }
         })
       },
 
