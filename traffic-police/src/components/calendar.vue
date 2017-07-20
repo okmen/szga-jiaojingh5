@@ -200,8 +200,7 @@ export default {
 <style lang="less">
 .dp {
   margin-top: 5px;
-  width: 650px;
-  height: 670px;
+  padding-bottom: 10px;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.17);
   border: 1px solid #d9d9d9;
   border-radius: 8px;
@@ -218,7 +217,7 @@ export default {
 }
 
 .dp-table th {
-  padding: 6px 0;
+  padding: .5rem 0;
   border: 0;
 }
 
@@ -296,8 +295,8 @@ export default {
 .dp-header {
   position: relative;
   text-align: center;
-  height: 34px;
-  line-height: 34px;
+  height: 2rem;
+  line-height: 2rem;
   border-bottom: 1px solid #e9e9e9;
 }
 
@@ -307,8 +306,8 @@ export default {
 
 .dp-header a {
   color: #999;
-  line-height: 34px;
-  height: 34px;
+  height: 2rem;
+  line-height: 2rem;
   font-size: 16px;
   display: inline-block;
   padding: 0 5px;
@@ -376,13 +375,14 @@ export default {
   border-bottom: 1px solid #D9D9D9;
   line-height: 75px;
   font-size: 32px;
+  padding: 0 10px;
 }
 .dp-carNum span{
   color: #00be00;
   text-indent: 24px;
 }
 .dp-carNum em{
-  color: #ccc;
+  color: #999;
   font-style: normal;
 }
 </style>

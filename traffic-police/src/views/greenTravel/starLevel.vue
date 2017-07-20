@@ -1,3 +1,9 @@
+<!--
+  描述：绿色出行-未登录用户显示页面
+  时间：2017-07-20
+  作者：猪不乐意
+  联系：914230482
+-->
 <template>
   <div class="m-starLevel">
     <div class="logo"><img src="~src/images/green-logo.png"></div>
@@ -7,7 +13,7 @@
         <el-button type="success" @click.native="$router.push({ name: 'login' })">我是星级用户</el-button>
       </div>
       <div class="item">
-        <el-button type="primary" @click.native="$router.push({ name: 'carOwner' })">我不是星级用户</el-button>
+        <el-button type="primary" @click.native="$router.push({ name: 'greenApplyNoLogin' })">我不是星级用户</el-button>
       </div>
     </div>
   </div>
