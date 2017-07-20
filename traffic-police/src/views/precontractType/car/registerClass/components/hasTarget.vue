@@ -31,6 +31,7 @@
       </div>
     </div>
     <div-select :childInfo="carSelectData" @getSelected="getCarSelectDataOne"></div-select>
+    <div-radio  v-if="carSelectDataOne == '02'&&$router.currentRoute.name == 'enteringRegister'" :childInfo="vehicleOrigin" @getSelected="getVehicleOriginOne" style="margin-bottom: 0"></div-radio>
     <div-select :childInfo="modelOfCar" @getSelected="getModelOfCarOne"></div-select>
     <div-select :childInfo="useNature" @getSelected="getUseNatureOne"></div-select>
     <div class="register-item">
@@ -486,11 +487,20 @@
         appointmentTime: '', // 预约时间
 //        businessTypeId: '',  // 业务类型编码
         businessCarTypeId: '', // 车辆类型编码
-        bookerType: 0 // 预约方式，0 本人， 1普通代办 2专业代办
+        bookerType: 0, // 预约方式，0 本人， 1普通代办 2专业代办
+        vehicleOrigin: {
+          title: '车辆产地',
+          option: [
+            {'str': '国产', 'id': '1', 'choose': true},
+            {'str': '进口', 'id': '0', 'choose': false}
+          ]
+        }, // 车辆产地
+        vehicleOriginOne: ''
       }
     },
     components: {
-      divSelect: require('components/divSelect.vue')
+      divSelect: require('components/divSelect.vue'),
+      divRadio: require('components/formTemplate/src/selfRadio.vue')
     },
     props: ['businessTypeId', 'modelOfCar', 'achieveCode'],
     computed: {
@@ -692,6 +702,10 @@
       getAppointmentLocationOne (val) {
         this.appointmentLocationOne = val
       },
+      // 获取车辆产地
+      getVehicleOriginOne (val) {
+        this.vehicleOriginOne = val
+      },
       getAllYearOne (val) {
         this.allYearOne = val
       },
@@ -857,7 +871,8 @@
           indexType: this.pointerTypeOne,
           indexNo: this.targetNum,
           modelName: this.modelOfCarOne,
-          bookerMobile: this.mobilePhone
+          bookerMobile: this.mobilePhone,
+          optlittleCar: this.vehicleOriginOne
         }
         console.log(requestObj, '请求的数据')
         resultPost(createVehicleInfo, requestObj).then(data => {
@@ -881,6 +896,8 @@
 //          this.$store.commit('saveResponseData', data)
             this.$store.commit('saveSuccessInfo', dataInfo)
             this.$router.push('/submitSuccess')
+          } else {
+            MessageBox('提示', data.data)
           }
         })
       }
