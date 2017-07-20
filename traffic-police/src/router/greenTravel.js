@@ -19,9 +19,17 @@ let routerConfig = [
     name: 'greenApply',
     path: '/greenTravel/greenApply',
     meta: {
-      title: '绿色出行'
+      title: '绿色出行-录入信息'
     },
     component: require('../views/greenTravel/greenApply.vue')
+  },
+  {
+    name: 'greenApplyNoLogin',
+    path: '/greenTravel/greenApplyNoLogin',
+    meta: {
+      title: '绿色出行-非星级用户录入信息'
+    },
+    component: require('../views/greenTravel/greenApplyNoLogin.vue')
   },
   {
     name: 'greenApplyDate',
