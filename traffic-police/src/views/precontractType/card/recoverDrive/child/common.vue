@@ -166,6 +166,27 @@
     },
     mounted () {
     },
+    computed: {
+      // 获取 预约日期 请求参数
+      timeRequest () {
+        return {
+          businessTypeId: this.currentBusinessId,
+          orgId: this.orderPlaceID
+        }
+      },
+      // 具体预约时间 年月日
+      yearMonthDay () {
+        return `${this.getYear}-${this.getMonth}-${this.getDay}`
+      },
+      // 获取 具体时间 参数
+      getTimesData () {
+        return {
+          businessTypeId: this.currentBusinessId,  // 业务类型
+          orgId: this.orderPlaceID,                // 预约地点
+          date: this.yearMonthDay                  // 预约日期
+        }
+      }
+    },
     watch: {
       currentBusinessId (val) {
         this.getCardId()        // 获取证件 id
@@ -189,6 +210,7 @@
           option.push({'str': key})
         }
         this.months = option
+        this.getMonth = option[0].str
       },
       getMonth (val) {        // 当前月份的所有日期
         let option = []
@@ -196,19 +218,18 @@
           option.push({'str': item})
         })
         this.days = option
-      }
-    },
-    computed: {
-      // 获取 预约日期 请求参数
-      timeRequest () {
-        return {
-          businessTypeId: this.currentBusinessId,
-          orgId: this.orderPlaceID
-        }
+        this.getDay = option[0].str
       },
-      // 获取 具体预约时间 传年月日
-      yearMonthDay () {
-        return `${this.getYear}-${this.getMonth}-${this.getDay}`
+      getTimesData (val) {
+        if (this.getYear === '') return
+        if (this.getMonth === '') return
+        if (this.getDay === '') return
+        for (let key in val) {
+          if (val[key] === '') {
+            return
+          }
+        }
+        this.getDetailsTime()
       }
     },
     methods: {
@@ -285,7 +306,7 @@
               option.push({'str': key})
             }
             this.years = option
-            this.getDetailsTime()    // 获取到了预约日期后 立即获取预约时间
+            this.getYear = option[0].str  // 年初始值设置
           } else {
             this.years = ''
             this.months = ''
@@ -297,13 +318,7 @@
 
       // 根据预约日期 获取 具体预约时间
       getDetailsTime: function () {
-        let getTimesData = {
-          businessTypeId: this.currentBusinessId,  // 业务类型
-          orgId: this.orderPlaceID,                // 预约地点
-          date: this.yearMonthDay                  // 预约日期
-        }
-        console.log('具体时间', getTimesData)
-        resultPost(getAppTimes, getTimesData).then(json => {
+        resultPost(getAppTimes, this.getTimesData).then(json => {
           if (json.code === '0000') {
             let timeData = []
             json.data.map(item => {
