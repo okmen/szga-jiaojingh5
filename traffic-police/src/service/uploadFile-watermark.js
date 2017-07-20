@@ -56,7 +56,6 @@ const UploadFile = {
 	 * @return {[type]}             [description]
 	 */
 	compressImg: function(src,size,maxHeight,quality,callback){
-		console.log('compressImgcompressImgcompressImgcompressImg')
 		if(!src) return;
 		let img = document.createElement('img');
 		img.src = src;
@@ -91,12 +90,16 @@ const UploadFile = {
 		    canvas.width = img.width;
 		    canvas.height = img.height;
 
+		    let dateTimeStr = `${imgObj.dateTime.split(' ')[0].replace(/:/g, '/')} ${imgObj.dateTime.split(' ')[1]}`
+
+		    console.log(dateTimeStr)
+
 		    // canvas清屏
 		    context.clearRect(0, 0, canvas.width, canvas.height);
 		    context.drawImage(img, sx, sy, sWidth, sHeight);
-		    // context.font="30px microsoft yahei";
-		    // context.fillStyle = "rgba(255,255,255,1)";
-		    // context.fillText(imgObj.dateTime, sWidth - 300, sHeight - 50, 200); // 给图片添加水印
+		    context.font="14px microsoft yahei";
+		    context.fillStyle = "rgba(255,255,255,1)";
+		    context.fillText(dateTimeStr, sWidth - 150, sHeight - 30, 150); // 给图片添加水印
 
 		    var dataUrl = canvas.toDataURL('image/jpeg',quality);
 		    imgObj.imgUrl = dataUrl;
