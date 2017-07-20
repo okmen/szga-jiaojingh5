@@ -244,96 +244,6 @@ export default {
       abbreviationSelectData: [
         {
           'str': '粤'
-        },
-        {
-          'str': '鄂'
-        },
-        {
-          'str': '豫'
-        },
-        {
-          'str': '皖'
-        },
-        {
-          'str': '赣'
-        },
-        {
-          'str': '冀'
-        },
-        {
-          'str': '鲁'
-        },
-        {
-          'str': '浙'
-        },
-        {
-          'str': '苏'
-        },
-        {
-          'str': '湘'
-        },
-        {
-          'str': '闽'
-        },
-        {
-          'str': '蒙'
-        },
-        {
-          'str': '京'
-        },
-        {
-          'str': '辽'
-        },
-        {
-          'str': '渝'
-        },
-        {
-          'str': '沪'
-        },
-        {
-          'str': '陕'
-        },
-        {
-          'str': '川'
-        },
-        {
-          'str': '黑'
-        },
-        {
-          'str': '晋'
-        },
-        {
-          'str': '桂'
-        },
-        {
-          'str': '吉'
-        },
-        {
-          'str': '宁'
-        },
-        {
-          'str': '贵'
-        },
-        {
-          'str': '琼'
-        },
-        {
-          'str': '甘'
-        },
-        {
-          'str': '青'
-        },
-        {
-          'str': '津'
-        },
-        {
-          'str': '云'
-        },
-        {
-          'str': '藏'
-        },
-        {
-          'str': '新'
         }
       ],
       employ: '非运营',
@@ -659,7 +569,7 @@ export default {
         'name': this.name,   // 车主姓名
         'businessTypeId': this.currentBusinessId,          // 业务id
         'idTypeId': this.certificate,                      // 证件种类ID
-        'idNumber': this.identificationNum,              // 证件号码
+        'idNumber': this.identificationNum,                // 证件号码
         'mobile': window.localStorage.getItem('mobilePhone'),                 // 手机号码
         'msgNumber': this.identifying,                     // 验证码
         'platNumber': `${this.abbreviationSelectMassage}${this.numberPlate}`, // 车牌号码
@@ -667,10 +577,10 @@ export default {
         'useCharater': this.employId,                      // 使用性质
         'carFrame': this.behindTheFrame4Digits,            // 车架号
         'orgId': this.subscribeId,                         // 预约地点id
-        'appointmentDate': `${this.year}-${this.month}-${this.date}`,        // 预约日期
+        'appointmentDate': `${this.year}-${this.month}-${this.date}`,          // 预约日期
         'appointmentTime': this.tmentTime,                 // 预约时间
-        'bookerName': window.localStorage.getItem('userName'),                           // 预约人名字
-        'bookerIdNumber': window.localStorage.getItem('identityCard'),          // 预约人身份证号
+        'bookerName': window.localStorage.getItem('userName'),                 // 预约人名字
+        'bookerIdNumber': window.localStorage.getItem('identityCard'),         // 预约人身份证号
         'bookerType': name,                                // 预约方式 ‘0’本人
         'bookerMobile': this.mobilephone                   // 预约手机号码
       }

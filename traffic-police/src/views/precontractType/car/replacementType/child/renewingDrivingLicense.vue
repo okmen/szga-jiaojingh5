@@ -32,6 +32,15 @@ export default {
         console.log(json)
         if (json.code === '0000') {
           this.certificate = json.data
+          let dataInfo = {
+            type: 2,
+            textObj: {
+              reserveTime: json.data.bidDate,
+              reserveNo: json.data.waterNumber
+            }
+          }
+          this.$store.commit('saveSuccessInfo', dataInfo)
+          this.$router.push('/submitSuccess')
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
