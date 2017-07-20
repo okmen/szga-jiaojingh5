@@ -2,7 +2,7 @@
     <div class="form-template">
       <div-select :childInfo="businessType" @getSelected="getBusinessType" :defaultVal="defaultVal"></div-select>
       <div class="exchange-license-line"></div>
-      <router-view></router-view>
+      <router-view :businessTypeId="businessTypeId"></router-view>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
 </template>
@@ -16,7 +16,7 @@
 </style>
 <script>
   import {resultPost} from 'service/getData'
-  import {getBusinessTypeId, getCarModelArray} from 'config/baseUrl.js'
+  import {getBusinessTypeId} from 'config/baseUrl.js'
   export default {
     data () {
       return {
@@ -48,10 +48,6 @@
             vm.defaultVal = item
           }
         })
-        // 获取车辆型号数组
-        resultPost(getCarModelArray, {}).then(data => {
-          this.modelOfCar.option = data.data
-        })
       })
     },
     components: {
@@ -62,7 +58,8 @@
       getBusinessTypeId (val) {
         let requestData = {
           type: '1',
-          part: '1',
+          part: '0',
+          // code: 'JD34'
           code: this.businessTypeToCode[val]
         }
         resultPost(getBusinessTypeId, requestData).then(data => {
