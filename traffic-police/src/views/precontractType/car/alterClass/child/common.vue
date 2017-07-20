@@ -3,7 +3,7 @@
 * 标星(*) 注释 为 接口所需参数
  -->
 <template>
-  <div class="order-alter-class">
+  <div class="order-alter-class" id="orderAlterClass">
     <ul class="alter-hbs-list">
       <li class="alter-hbs-item">
         <div class="alter-hbs-name"><span>车主姓名</span></div>
@@ -256,7 +256,8 @@
         activeIndex: '',                    // 当前点击时间的li
         selectDetailTime: '',               // * 选择的具体时间
         // * 预约方式  0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
-        orderWay: this.carOwnerName === window.localStorage.getItem('userName') ? 0 : 1
+        orderWay: this.carOwnerName === window.localStorage.getItem('userName') ? 0 : 1,
+        test: '402882824747f258014754a501281430'
       }
     },
     mounted () {
@@ -552,7 +553,7 @@
       appointTaskClick () {
         if (this.judgeInput()) {
           let reqData = {
-            businessTypeId: this.currentBusinessId, // 预约类型 id
+            businessTypeId: this.test, // 预约类型 id
             name: this.carOwnerName,                // 车主姓名
             idTypeId: this.cardID,                  // 证件种类 id
             idNumber: this.cardNum,                 // 证件号码

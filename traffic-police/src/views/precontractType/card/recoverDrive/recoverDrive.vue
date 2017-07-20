@@ -3,7 +3,7 @@
 * 选择业务
  -->
 <template>
-  <div class="alter-class-outer">
+  <div class="alter-class-outer" id="orderAlterClass">
     <div class="alter-select pad-side-50">
       <div class="alter-chose">
         <span>业务类型</span>
@@ -114,9 +114,6 @@ export default {
   font-size: 26px;
   color: #000;
   overflow: hidden;
-  .bg-white{
-    background-color: #FFF;
-  }
   .width-120 {
     width: 120px !important;
   }
@@ -150,6 +147,11 @@ export default {
   .alter-from{
     background:#FFF;
     margin-top:10px;
+  }
+}
+#orderAlterClass{
+  .bg-white{
+    background-color: #FFF;
   }
 }
 </style>
