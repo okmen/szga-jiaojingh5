@@ -1168,8 +1168,8 @@ const routes = [
       title: '电子回单'
     },
     component: require('../views/credit/child/digitalReceipt.vue')
-  },
-  /* {
+  }, /*
+  {
     name: 'selfForm',
     path: '/selfForm',
     meta: {
