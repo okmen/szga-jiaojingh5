@@ -692,7 +692,7 @@
             this.allYear.option = ''
             this.allmonth.option = ''
             this.allDay.option = ''
-            // MessageBox('提示', json.data)
+            MessageBox('提示', json.data)
           }
         })
       },
