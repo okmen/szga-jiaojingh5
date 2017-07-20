@@ -211,6 +211,17 @@ export const fileAlter = 'http://192.168.1.136:8080/web/bookingbusiness/createVe
 
 export const taxiAlter = 'http://192.168.1.136:8080/web/bookingbusiness/createVehicleInfo_DQ.html' // 出租客运使用性质变更
 
+/* ---------------------------------------------机动车预约 现场办理、核发、转出注销恢复-------------------------------- */
+export const createVehicleInfoJD38 = 'http://192.168.1.120:8100/bookingbusiness/createVehicleInfo_JD38.html' // 机动车委托异地年审现场办理
+
+export const createVehicleInfoJD37 = 'http://192.168.1.120:8100/bookingbusiness/createVehicleInfo_JD37.html' // 抵押/解押登记现场办理
+
+export const createTemporaryLicenseVehicleInfo = 'http://192.168.1.120:8100/bookingbusiness/createTemporaryLicenseVehicleInfo.html' // 核发临牌
+
+export const createVehicleInfoJD27 = 'http://192.168.1.120:8100/bookingbusiness/createVehicleInfo_JD27.html' // 核发校车标牌
+
+export const createVehicleInfoJD41 = 'http://192.168.1.120:8100/bookingbusiness/createVehicleInfo_JD41.html' // 转出、注销恢复
+
 /* --------------------------------------------驾驶证预约类-------------------------------------------------------------- */
 export const createDriveInfoZJ11 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ11.html`  // 持军队、武装警察部队机动车驾驶证申领
 
