@@ -49,11 +49,21 @@ export default {
     })
   },
   methods: {
-    appointTask: function (params) {
+    appointTask: function (params, orderPlace) {
       console.log('其它业务', params)
       resultPost(createDriveInfoZJ20, params).then(json => {
         if (json.code === '0000') {
           console.log(json)
+          let dataInfo = {
+            type: 2,
+            reserveNo: json.data.waterNumber,    // 流水号
+            numberPlate: params.platNumber,      // 车牌号码
+            mobilephone: params.bookerMobile,    // 手机号码
+            reserveAddress: orderPlace,          // 服务点
+            reserveTime: json.data.bidDate       // 预约日期
+          }
+          this.$store.commit('saveSuccessInfo', dataInfo)
+          this.$router.push('/submitSuccess')
         } else {
           Toast({message: json.msg, className: 'white'})
         }

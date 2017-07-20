@@ -436,9 +436,9 @@
       getDetailsTime: function () {
         let getTimesData = {
           businessTypeId: this.currentBusinessId,  // 业务类型
-          orgId: this.orderPlaceID,                // 预约地点
-          date: this.yearMonthDay,                              // 预约日期
-          carTypeId: this.carTypeID                // 车辆类型ID
+          orgId: this.orderPlaceID,                  // 预约地点
+          date: this.yearMonthDay,                   // 预约日期
+          carTypeId: this.carTypeID                  // 车辆类型ID
         }
         console.log('具体时间', getTimesData)
         resultPost(getAppTimes, getTimesData).then(json => {
@@ -553,12 +553,12 @@
       appointTaskClick () {
         if (this.judgeInput()) {
           let reqData = {
-            businessTypeId: this.test, // 预约类型 id
+            businessTypeId: this.currentBusinessId, // 预约类型 id
             name: this.carOwnerName,                // 车主姓名
             idTypeId: this.cardID,                  // 证件种类 id
             idNumber: this.cardNum,                 // 证件号码
             mobile: window.localStorage.getItem('mobilePhone'),                   // 手机号
-            msgNumber: this.validCode,                   // 验证码
+            msgNumber: this.validCode,              // 验证码
             platNumber: this.abbreSelectValue + this.carCardNum.toUpperCase(), // 车牌号
             carTypeId: this.carTypeID,              // 车辆类型
             useCharater: this.useNatureMassage,     // 使用性质
@@ -571,7 +571,7 @@
             bookerType: this.orderWay,              // 预约方式
             bookerMobile: this.userTelphone         // 获取验证码 手机号
           }
-          this.$emit('appointTaskClick', reqData)
+          this.$emit('appointTaskClick', reqData, this.orderPlaceValue)
         }
       },
 
