@@ -9,7 +9,7 @@ const verifyIssueClassRouter = {
     title: '核发类'
   },
   component: require('../index.vue'),
-  redirect: '/verifyIssueClass/verifyIssueSchoolCard',
+  // redirect: '/verifyIssueClass/verifyIssueSchoolCard',
   children: [
     {
       name: 'verifyIssueCard',

@@ -1,6 +1,9 @@
 <template>
     <div class="form-template">
-      <div-select :childInfo="businessType" @getSelected="getBusinessType" :defaultVal="defaultVal"></div-select>
+      <div class="form-template-item">
+        <span class="form-template-item-left">业务类型</span>
+        <div class="form-template-item-right">{{currentBusinessType}}</div>
+      </div>
       <div class="exchange-license-line"></div>
       <router-view :businessTypeId="businessTypeId"></router-view>
       <div v-wechat-title="$route.meta.title"></div>
@@ -21,18 +24,11 @@
     data () {
       return {
         defaultVal: '',
+        achieveCode: '',
+        currentBusinessType: '',
         businessType: {
-          title: '业务类型',
-          option: [
-            {
-              'str': '核发临牌',
-              'id': 'verifyIssueCard'
-            },
-            {
-              'str': '核发校车标牌',
-              'id': 'verifyIssueSchoolCard'
-            }
-          ]
+          'verifyIssueCard': '核发临牌',
+          'verifyIssueSchoolCard': '核发校车标牌'
         },
         businessTypeId: '',
         businessTypeToCode: {
@@ -41,14 +37,11 @@
         }
       }
     },
-    beforeRouteEnter (to, from, next) {
-      next(vm => {
-        vm.businessType.option.map(item => {
-          if (item.id === to.name) {
-            vm.defaultVal = item
-          }
-        })
-      })
+    created () {
+      this.getBusinessTypeId()
+    },
+    watch: {
+      '$route': 'getBusinessTypeId'
     },
     components: {
       divSelect: require('components/divSelect.vue')
@@ -56,24 +49,18 @@
     methods: {
       // 获取业务类型ID
       getBusinessTypeId (val) {
+        this.currentBusinessType = this.businessType[this.$router.currentRoute.name]
+        this.achieveCode = this.businessTypeToCode[this.$router.currentRoute.name]
         let requestData = {
           type: '1',
           part: '0',
           // code: 'JD34'
-          code: this.businessTypeToCode[val]
+          code: this.businessTypeToCode[this.$router.currentRoute.name]
         }
         resultPost(getBusinessTypeId, requestData).then(data => {
           this.businessTypeId = data.data
           console.log(data, '业务类型编码获取成功')
         })
-      },
-      // 业务类型选择
-      getBusinessType (val) {
-        this.$router.push(val)
-        this.businessTypeId = ''
-        if (this.defaultVal) {
-          this.getBusinessTypeId(val)
-        }
       }
     }
   }
