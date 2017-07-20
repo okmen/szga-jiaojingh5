@@ -45,7 +45,7 @@
       <ul class="bid-ul appoint-margin">
         <li class="bid-item" v-for="(value, key) in JsonDataInfo" v-if="keyListObj[key]">
           <span class="bid-item-key">{{ keyListObj[key] }}</span>
-          ：<span :class="{red: key === 'subscribeNo'}">{{ valListObj[key] ? valListObj[key][value] : value }}</span>
+          ：<span :class="{red: key === 'subscribeNo' || key === 'waterNumber'}">{{ valListObj[key] ? valListObj[key][value] : value }}</span>
         </li>
       </ul>
     </section>
@@ -80,6 +80,7 @@ export default {
       keyListObj: {
         businessType: '业务类型',
         subscribeNo: '流水号码',
+        waterNumber: '流水号码',
         reserveNo: '预约编号',
         numberPlate: '车牌号码',
         mobilephone: '手机号码',
