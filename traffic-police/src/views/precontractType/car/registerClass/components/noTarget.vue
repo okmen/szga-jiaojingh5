@@ -591,6 +591,7 @@
       // 获取时间
       getAllYearMonthDay () {
         resultPost(getAppointmentDate, this.timeRequest).then(json => {
+          this.allYearMonthDay = {}
           console.log(json, '时间获取成功')
           if (json.code === '0000') {
             json.data.map((item, index) => {
@@ -809,17 +810,33 @@
           bookerIdNumber: window.localStorage.getItem('identityCard'),
           bookerType: this.bookerType,
           modelName: this.modelOfCarOne,
-          optlittleCar: '0',
           bookerMobile: this.mobilePhone
         }
         console.log(requestObj, '请求的数据')
         resultPost(createVehicleInfo, requestObj).then(data => {
-          this.$store.commit('saveResponseData', data)
+          console.log(data, '预约信息')
+          if (data.code === '0000') {
+            this.appointmentLocation.option.map(item => {
+              if (item.id === this.appointmentLocationOne) {
+                this.appointmentLocationStr = item.str
+              }
+            })
+            let dataInfo = {
+              type: 2,
+              textObj: {
+                reserveNo: data.data,
+                numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(),
+                mobilephone: this.mobilePhone,
+                reserveAddress: this.appointmentLocationStr,
+                reserveTime: `${this.yearMonthDay} ${this.appointmentTime}`
+              }
+            }
+//          this.$store.commit('saveResponseData', data)
+            this.$store.commit('saveSuccessInfo', dataInfo)
+            this.$router.push('/submitSuccess')
+          }
         })
       }
-    },
-    mounted () {
-//      this.getBusinessTypeId()
     }
   }
 </script>
