@@ -18,7 +18,7 @@ var dataFun = (obj) => {
 }
 
 export const resultPost = (url, bodyData) => {
-  Indicator.open()
+  // Indicator.open()
   return fetch(url, {
       method: 'POST',
       body: dataFun(bodyData),
@@ -27,7 +27,7 @@ export const resultPost = (url, bodyData) => {
       },
       credentials: 'same-origin'
     }).then((res) => {
-      Indicator.close()
+      // Indicator.close()
     	return res.json()
     })
 }
