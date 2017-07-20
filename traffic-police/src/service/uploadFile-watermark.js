@@ -94,9 +94,9 @@ const UploadFile = {
 		    // canvas清屏
 		    context.clearRect(0, 0, canvas.width, canvas.height);
 		    context.drawImage(img, sx, sy, sWidth, sHeight);
-		    context.font="30px microsoft yahei";
-		    context.fillStyle = "rgba(255,0,0,1)";
-		    context.fillText(imgObj.dateTime, 40, 80); // 给图片添加水印
+		    // context.font="30px microsoft yahei";
+		    // context.fillStyle = "rgba(255,255,255,1)";
+		    // context.fillText(imgObj.dateTime, sWidth - 300, sHeight - 50, 200); // 给图片添加水印
 
 		    var dataUrl = canvas.toDataURL('image/jpeg',quality);
 		    imgObj.imgUrl = dataUrl;
