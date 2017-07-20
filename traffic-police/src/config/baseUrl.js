@@ -228,3 +228,6 @@ export const createDriveInfoZJ22 = `${commonUrl}bookingbusiness/createDriveInfo_
 
 export const createDriveInfoZJ10 = `${commonUrl}bookingbusiness/createDriveInfo_ZJ10.html` // 满分学习
 
+/* -------------- 绿色出行 --------------- */
+export const getGreenApply = `${commonUrl}greentravel/applyDownDateReport.html` // 获取申报日期数据
+export const postGreenApply = `${commonUrl}greentravel/downDatedeclareReport.html` // 申请申报日期数据

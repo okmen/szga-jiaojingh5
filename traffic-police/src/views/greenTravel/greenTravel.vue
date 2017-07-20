@@ -17,7 +17,7 @@
     </div>
     <div class="footer">
       <!-- <p><el-button type="primary" @click.native="toComplaint">如需申诉，请点击这里</el-button></p> -->
-      <p class="info" @click="reading = !reading"><el-checkbox :value="reading"></el-checkbox>我已认真阅读以上内容，并愿意承担相关法律责任</p>
+      <p class="info"><el-checkbox v-model="reading"></el-checkbox><span @click="reading = !reading">我已认真阅读以上内容，并愿意承担相关法律责任</span></p>
       <p><el-button type="success" :disabled="!reading" @click.native="toStarLever">我接受</el-button></p>
     </div>
   </div>
