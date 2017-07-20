@@ -3,7 +3,7 @@
 * 标星(*) 注释 为 接口所需参数
  -->
 <template>
-  <div class="order-alter-class">
+  <div class="order-alter-class" id="orderAlterClass">
     <ul class="alter-hbs-list">
       <li class="alter-hbs-item">
         <div class="alter-hbs-name"><span>车主姓名</span></div>

@@ -3,6 +3,14 @@ import verifyIssueClassRouter from '../views/precontractType/car/verifyIssueClas
 
 let precontractTypeRouter = [
   {
+    name: 'precontractType',
+    path: '/precontractType',
+    meta: {
+      title: '办理类业务'
+    },
+    component: require('../views/precontractType/precontract.vue')
+  },
+  {
     name: 'registerClass',
     path: '/registerClass',
     meta: {

@@ -1,3 +1,9 @@
+<!--
+  描述：绿色出行-申报输入信息
+  时间：2017-07-20
+  作者：猪不乐意
+  联系：914230482
+-->
 <template>
   <div class="m-greenApply">
     <header class="header"></header>
@@ -23,12 +29,12 @@
       <div class="item">
         <label>名下车辆</label>
         <div class="box">
-          <el-select v-model="form.car" class="zly-select" size="small">
+          <el-select v-model="selectCars" class="zly-select" size="small" @change="handleCarChange">
             <el-option
-              v-for="item in carData"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="(item, index) in cars"
+              :key="index"
+              :label="item.myNumberPlate"
+              :value="item"
             ></el-option>
           </el-select>
         </div>
@@ -65,12 +71,6 @@ export default {
   },
   data () {
     return {
-      carData: [
-        {
-          label: '标签',
-          value: '值'
-        }
-      ],
       typeData: [
         {
           label: '蓝牌',
@@ -85,12 +85,15 @@ export default {
           value: '01'
         }
       ],
+      cars: JSON.parse(window.localStorage.getItem('cars')),
+      selectCars: null,
       form: {
         name: '',
         tel: '',
         IdCard: '',
         car: '',
-        type: ''
+        type: '',
+        isMySelf: ''
       }
     }
   },
@@ -101,10 +104,21 @@ export default {
         state: this.form
       })
     },
+    // 选择名下车辆
+    handleCarChange (data) {
+      this.form = {
+        name: data.name,
+        tel: data.mobilephone,
+        IdCard: data.identityCard,
+        car: data.myNumberPlate,
+        type: data.plateType,
+        isMySelf: data.isMySelf
+      }
+    },
     // 提交表单
     submit () {
       for (let key in this.form) {
-        if (!this.form[key]) {
+        if (this.form[key] === '') {
           Toast({
             message: '信息填写不完整',
             position: 'bottom'
@@ -137,6 +151,8 @@ export default {
       this.registerModule()
       this.$router.push({ name: 'greenApplyDate' })
     }
+  },
+  created () {
   }
 }
 </script>
