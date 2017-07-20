@@ -3,7 +3,7 @@ import { Indicator } from 'mint-ui'
 /* eslint-disable */
 
 var dataFun = (obj) => {
-  obj.version = '1.0.1'
+  obj.version = '1.0.3'
   obj.sourceOfCertification = window.localStorage.getItem('sourceOfCertification') ? window.localStorage.getItem('sourceOfCertification') : 'C'
 	obj.openId = window.localStorage.getItem('openId') ? window.localStorage.getItem('openId') : ''
   var length = obj && obj.length,
@@ -18,7 +18,7 @@ var dataFun = (obj) => {
 }
 
 export const resultPost = (url, bodyData) => {
-  // Indicator.open()
+  Indicator.open()
   return fetch(url, {
       method: 'POST',
       body: dataFun(bodyData),
@@ -27,7 +27,7 @@ export const resultPost = (url, bodyData) => {
       },
       credentials: 'same-origin'
     }).then((res) => {
-      // Indicator.close()
+      Indicator.close()
     	return res.json()
     })
 }
