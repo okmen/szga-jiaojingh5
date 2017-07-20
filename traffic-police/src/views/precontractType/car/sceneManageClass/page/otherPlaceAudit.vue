@@ -140,7 +140,7 @@
     getAppTimes,
     simpleSendMessage,
     getIdTypeId,
-    createVehicleInfo
+    createVehicleInfoJD27
   } from 'config/baseUrl.js'
   export default {
     data () {
@@ -379,7 +379,6 @@
           option: []
         }, // 日
         allDayOne: '',
-        modelOfCarOne: '', // 车辆型号
         surplusData: [],   // 剩余数量
         ownerName: '',  // 车主姓名
         IDcard: '',
@@ -405,7 +404,7 @@
     components: {
       divSelect: require('components/divSelect.vue')
     },
-    props: ['businessTypeId'],
+    props: ['businessTypeId', 'achieveCode'],
     computed: {
       // 时间 年月日
       yearMonthDay () {
@@ -697,7 +696,7 @@
         return true
       },
       registerSubmit () {
-        // if (!this.beforeSubmit()) return
+        if (!this.beforeSubmit()) return
         let requestObj = {
           name: this.ownerName,
           businessTypeId: this.businessTypeId,
@@ -715,12 +714,29 @@
           bookerName: window.localStorage.getItem('userName'),
           bookerIdNumber: window.localStorage.getItem('identityCard'),
           bookerType: this.bookerType,
-          modelName: this.modelOfCarOne,
           bookerMobile: this.mobilePhone
         }
         console.log(requestObj, '请求的数据')
-        resultPost(createVehicleInfo, requestObj).then(data => {
-          this.$store.commit('saveResponseData', data)
+        resultPost(createVehicleInfoJD27, requestObj).then(data => {
+          console.log(data, '预约信息')
+          if (data.code === '0000') {
+            this.appointmentLocation.option.map(item => {
+              if (item.id === this.appointmentLocationOne) {
+                this.appointmentLocationStr = item.str
+              }
+            })
+            let dataInfo = {
+              type: 2,
+              reserveNo: data.data,
+              numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(),
+              mobilephone: this.mobilePhone,
+              reserveAddress: this.appointmentLocationStr,
+              reserveTime: `${this.yearMonthDay} ${this.appointmentTime}`
+            }
+//          this.$store.commit('saveResponseData', data)
+            this.$store.commit('saveSuccessInfo', dataInfo)
+            this.$router.push('/submitSuccess')
+          }
         })
       }
     }
