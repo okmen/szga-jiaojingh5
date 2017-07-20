@@ -198,11 +198,7 @@ export const getAppTimes = `${commonUrl}bookingbusiness/getAppTimes.html` // 根
 
 export const createVehicleInfo = `${commonUrl}bookingbusiness/createVehicleInfo.html` // 机动车预约信息写入
 
-<<<<<<< HEAD
-export const getCarModelArray = `http://192.168.1.247:8080/web/bookingbusiness/getCarModelArray.html`  // 机动车车辆类型
-=======
 export const getCarModelArray = `${commonUrl}bookingbusiness/getCarModelArray.html`  // 机动车车辆型号
->>>>>>> 16c920a5bead42cb6320e00bd049232d301e0b05
 
 export const simpleSendMessage = `${commonUrl}bookingbusiness/simpleSendMessage.html`  // 验证码接口
 
@@ -218,21 +214,6 @@ export const taxiAlter = `${commonUrl}bookingbusiness/createVehicleInfo_DQ.html`
 /* --------------------------------------------驾驶证预约类-------------------------------------------------------------- */
 export const createDriveInfoZJ11 = `${commonUrl}bookingbusiness/createDriveInfo_ZJ11.html`  // 持军队、武装警察部队机动车驾驶证申领
 
-<<<<<<< HEAD
-export const createDriveInfoZJ13 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ13.html.html`  // 香港机动车驾驶证免试换证
-
-export const createDriveInfoZJ16 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveinfo_ZJ16.html.html`  // 临时机动车驾驶许可申领
-
-export const createDriveInfoZJ17 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ17.html.html`  // 持境外驾驶证申请换证
-
-export const createDriveInfoZJ20 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ20.html.html`  // 其他业务(驾驶证)
-
-export const createDriveInfoZJ21 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ21.html.html`  // 恢复驾驶资格（逾期一年以上未换证类)
-
-export const createDriveInfoZJ22 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ22.html.html`  // 恢复驾驶资格（逾期一年以上未体检类)
-
-export const createDriveInfoZJ10 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ10.html` // 满分学习
-=======
 export const createDriveInfoZJ13 = `${commonUrl}bookingbusiness/createDriveInfo_ZJ13.html`  // 香港机动车驾驶证免试换证
 
 export const createDriveInfoZJ16 = `${commonUrl}bookingbusiness/createDriveinfo_ZJ16.html`  // 临时机动车驾驶许可申领
@@ -247,4 +228,3 @@ export const createDriveInfoZJ22 = `${commonUrl}bookingbusiness/createDriveInfo_
 
 export const createDriveInfoZJ10 = `${commonUrl}bookingbusiness/createDriveInfo_ZJ10.html` // 满分学习
 
->>>>>>> 16c920a5bead42cb6320e00bd049232d301e0b05
