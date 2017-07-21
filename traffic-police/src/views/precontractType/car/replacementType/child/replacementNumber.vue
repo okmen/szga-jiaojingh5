@@ -30,12 +30,13 @@ export default {
       resultPost(createVehicleInfo, params).then(json => {
         console.log(json)
         if (json.code === '0000') {
-          this.certificate = json.data
           let dataInfo = {
             type: 2,
-            textObj: {
-              reserveNo: json.data
-            }
+            reserveNo: json.data,    // 流水号
+            numberPlate: params.platNumber,      // 车牌号码
+            mobilephone: params.bookerMobile,    // 手机号码
+            reserveAddress: subscribe,          // 服务点
+            reserveTime: params.appointmentDate  // 预约日期
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')

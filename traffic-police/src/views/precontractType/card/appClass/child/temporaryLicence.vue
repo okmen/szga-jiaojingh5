@@ -27,15 +27,15 @@ export default {
     common
   },
   methods: {
-    subFn: function (params) {
-      console.log('temporaryLicence', params)
+    subFn: function (params, subscribe) {
       resultPost(createDriveInfoZJ16, params).then(json => {
         if (json.code === '0000') {
-          this.certificate = json.data
           let dataInfo = {
             type: 2,
-            reserveTime: json.data.bidDate,
-            reserveNo: json.data.waterNumber
+            reserveTime: json.data.bidDate,      // 预约日期
+            reserveNo: json.data.waterNumber,    // 流水号
+            reserveAddress: subscribe,          // 服务点
+            mobilephone: params.bookerMobile    // 手机号码
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')

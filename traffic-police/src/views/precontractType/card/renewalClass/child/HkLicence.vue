@@ -28,19 +28,18 @@ export default {
     common
   },
   methods: {
-    subFn: function (params) {
+    subFn: function (params, subscribe) {
       console.log('HkLicence', params)
       resultPost(createDriveInfoZJ13, params).then(json => {
         if (json.code === '0000') {
-          this.certificate = json.data
           console.log(json.data.bidDate)
           console.log(json.data.waterNumber)
           let dataInfo = {
             type: 2,
-            textObj: {
-              reserveTime: json.data.bidDate,
-              reserveNo: json.data.waterNumber
-            }
+            reserveTime: json.data.bidDate,      // 预约日期
+            reserveNo: json.data.waterNumber,    // 流水号
+            reserveAddress: subscribe,          // 服务点
+            mobilephone: params.bookerMobile    // 手机号码
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')

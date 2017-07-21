@@ -26,7 +26,7 @@ export default {
     common
   },
   methods: {
-    subFn: function (params) {
+    subFn: function (params, subscribe) {
       console.log('renewingDrivingLicense', params)
       resultPost(createVehicleInfo, params).then(json => {
         console.log(json)
@@ -34,10 +34,11 @@ export default {
           this.certificate = json.data
           let dataInfo = {
             type: 2,
-            textObj: {
-              reserveTime: json.data.bidDate,
-              reserveNo: json.data.waterNumber
-            }
+            reserveNo: json.data,    // 流水号
+            numberPlate: params.platNumber,      // 车牌号码
+            mobilephone: params.bookerMobile,    // 手机号码
+            reserveAddress: subscribe,          // 服务点
+            reserveTime: params.appointmentDate  // 预约日期
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')

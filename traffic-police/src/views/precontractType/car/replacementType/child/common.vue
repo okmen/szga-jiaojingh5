@@ -584,7 +584,7 @@ export default {
         'bookerType': name,                                // 预约方式 ‘0’本人
         'bookerMobile': this.mobilephone                   // 预约手机号码
       }
-      this.$emit('submitClick', renewingData)
+      this.$emit('submitClick', renewingData, this.subscribe)
     },
     // 获取车辆Id
     vehicleTypeIdFn: function () {
