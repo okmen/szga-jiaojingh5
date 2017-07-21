@@ -1,6 +1,6 @@
 // 添加URL需注释 哪个模块哪个接口
-// const commonUrl = 'http://192.168.1.120:8100/' // 120环境
-const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
+const commonUrl = 'http://192.168.1.120:8100/' // 120环境
+// const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
 // const commonUrl = 'http://szjj.u-road.com/api/' // 正式环境d
 
 export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
@@ -216,15 +216,15 @@ export const fileAlter = `${commonUrl}bookingbusiness/createVehicleInfo_JD33.htm
 export const taxiAlter = `${commonUrl}bookingbusiness/createVehicleInfo_DQ.html` // 出租客运使用性质变更
 
 /* ---------------------------------------------机动车预约 现场办理、核发、转出注销恢复-------------------------------- */
-export const createVehicleInfoJD38 = 'http://192.168.1.120:8100/bookingbusiness/createVehicleInfo_JD38.html' // 机动车委托异地年审现场办理
+export const createVehicleInfoJD38 = `${commonUrl}bookingbusiness/createVehicleInfo_JD38.html` // 机动车委托异地年审现场办理
 
-export const createVehicleInfoJD37 = 'http://192.168.1.120:8100/bookingbusiness/createVehicleInfo_JD37.html' // 抵押/解押登记现场办理
+export const createVehicleInfoJD37 = `${commonUrl}bookingbusiness/createVehicleInfo_JD37.html` // 抵押/解押登记现场办理
 
-export const createTemporaryLicenseVehicleInfo = 'http://192.168.1.120:8100/bookingbusiness/createTemporaryLicenseVehicleInfo.html' // 核发临牌
+export const createTemporaryLicenseVehicleInfo = `${commonUrl}bookingbusiness/createTemporaryLicenseVehicleInfo.html` // 核发临牌
 
-export const createVehicleInfoJD27 = 'http://192.168.1.120:8100/bookingbusiness/createVehicleInfo_JD27.html' // 核发校车标牌
+export const createVehicleInfoJD27 = `${commonUrl}bookingbusiness/createVehicleInfo_JD27.html` // 核发校车标牌
 
-export const createVehicleInfoJD41 = 'http://192.168.1.120:8100/bookingbusiness/createVehicleInfo_JD41.html' // 转出、注销恢复
+export const createVehicleInfoJD41 = `${commonUrl}bookingbusiness/createVehicleInfo_JD41.html` // 转出、注销恢复
 
 /* --------------------------------------------驾驶证预约类-------------------------------------------------------------- */
 export const createDriveInfoZJ11 = `${commonUrl}bookingbusiness/createDriveInfo_ZJ11.html`  // 持军队、武装警察部队机动车驾驶证申领

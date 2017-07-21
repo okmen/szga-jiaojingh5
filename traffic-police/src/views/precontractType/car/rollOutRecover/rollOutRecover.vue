@@ -1,10 +1,13 @@
 <template>
     <div class="form-template">
-      <div-select :childInfo="businessType" @getSelected="getBusinessType" :defaultVal="defaultVal"></div-select>
+      <div class="form-template-item">
+        <span class="form-template-item-left">业务类型</span>
+        <div class="form-template-item-right">转出、注销恢复</div>
+      </div>
       <div class="exchange-license-line"></div>
       <div class="register">
         <div class="form-template-item">
-          <span class="form-template-item-left">车主asdf姓名</span>
+          <span class="form-template-item-left">车主姓名</span>
           <input type="text" placeholder="请输入车主姓名" class="form-template-item-right" v-model="ownerName">
         </div>
         <div-select :childInfo="credentialsName" @getSelected="getCredentialsNameOne"></div-select>
@@ -46,19 +49,19 @@
         <div class="choose-date">
           <div class="choose-date-item">
             <div class="date-item-input">
-              <input type="text" readonly v-model="fullYear">
+              <div-select :childInfo="allYear" @getSelected="getAllYearOne"></div-select>
             </div>
             <span class="date-item-time">年</span>
           </div>
           <div class="choose-date-item">
             <div class="date-item-input">
-              <div-select :childInfo="month"></div-select>
+              <div-select :childInfo="allmonth" @getSelected="getAllmonthOne"></div-select>
             </div>
             <span class="date-item-time">月</span>
           </div>
           <div class="choose-date-item">
             <div class="date-item-input">
-              <div-select :childInfo="month"></div-select>
+              <div-select :childInfo="allDay" @getSelected="getAllDayOne"></div-select>
             </div>
             <span class="date-item-time">日</span>
           </div>
