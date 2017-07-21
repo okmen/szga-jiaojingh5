@@ -108,11 +108,17 @@
         <dd>轻微事故远程<br/>处理中心</dd>
         </a>
       </dl>
-      <dl>
+      <!-- <dl>
         <a :href="'http://szjj.u-road.com/szjjpro/index.php/Business/Member/unlogin/selfbook/'+openId">
         <dt><img class="top6" src="./images/nav12.png" alt=""></dt>
         <dd>自主考试</dd>
         </a>
+      </dl> -->
+      <dl>
+        <router-link to="/greenTravel">
+        <dt><img class="top11" src="./images/green-logo.png" alt=""></dt>
+        <dd>绿色出行</dd>
+        </router-link>
       </dl>
     </div>
   </div>
@@ -449,6 +455,10 @@ export default {
       .top10{
         width: 40px;
         height: 51px;
+      }
+      .top11{
+        width: 58px;
+        height: 58px;
       }
     }
   }

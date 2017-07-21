@@ -1,12 +1,25 @@
 <template>
     <div class="replace-credentials">
-      <div-select :childInfo="businessType" @getSelected="getBusinessType" :defaultVal="defaultVal"></div-select>
+      <div class="form-template-item">
+        <span class="form-template-item-left">业务类型</span>
+        <div class="form-template-item-type">{{currentBusinessType}}</div>
+      </div>
       <div class="exchange-license-line"></div>
       <router-view></router-view>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
 </template>
 <style lang="less" scoped>
+  .form-template-item-type{
+    border: 2px solid #e5e5e5;
+    border-radius: 8px;
+    outline: none;
+    height: 70px;
+    font-size: 30px;
+    padding-left:15px;
+    line-height:70px;
+    width: 66%;
+  }
   .replace-credentials>div{
     margin: 0 40px 30px;
   }
@@ -30,59 +43,24 @@
       return {
         defaultVal: '',
         businessType: {
-          title: '业务类型',
-          option: [
-            {
-              'str': '补领行驶证',
-              'id': '01'
-            },
-            {
-              'str': '换领行驶证',
-              'id': '02'
-            },
-            {
-              'str': '补换检验合格标志',
-              'id': '03'
-            },
-            {
-              'str': '补换机动车号牌',
-              'id': '04'
-            }
-          ]
-        }
+          'repairDrivingLicense': '补领行驶证',
+          'exchangeDrivingLicense': '换领行驶证',
+          'replaceQualifiedMark': '补换检验合格标志',
+          'replaceLicencePlate': '补换机动车号牌'
+        },
+        currentBusinessType: ''
       }
     },
-    beforeRouteEnter (to, from, next) {
-      next(vm => {
-        if (to.name === 'repairDrivingLicense') {
-          vm.defaultVal = '补领行驶证'
-        } else if (to.name === 'exchangeDrivingLicense') {
-          vm.defaultVal = '换领行驶证'
-        } else if (to.name === 'replaceQualifiedMark') {
-          vm.defaultVal = '补换检验合格标志'
-        } else if (to.name === 'replaceLicencePlate') {
-          vm.defaultVal = '补换机动车号牌'
-        }
-      })
+    created () {
+      this.currentBusinessType = this.businessType[this.$route.name]
+    },
+    watch: {
+      '$route' (val) {
+        this.currentBusinessType = this.businessType[val.name]
+      }
     },
     components: {
       divSelect: require('./components/divSelect.vue')
-    },
-    methods: {
-      hopRouting (val) {
-        if (val === '01') {
-          this.$router.push('repairDrivingLicense')
-        } else if (val === '02') {
-          this.$router.push('exchangeDrivingLicense')
-        } else if (val === '03') {
-          this.$router.push('replaceQualifiedMark')
-        } else if (val === '04') {
-          this.$router.push('replaceLicencePlate')
-        }
-      },
-      getBusinessType (val) {
-        this.hopRouting(val)
-      }
     }
   }
 </script>

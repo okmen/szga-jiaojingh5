@@ -106,6 +106,14 @@ const routes = [
     },
     component: require('../views/feePayment/feePayment.vue')
   },
+  {                                                                                          // 预约类
+    name: 'userAgreement_precontract',
+    path: '/userAgreement_precontract',
+    meta: {
+      title: '用户须知'
+    },
+    component: require('../components/userAgreement_precontract.vue')
+  },
   {                                                                                          // 微信版本
     name: 'userAgreement_WeChat',
     path: '/userAgreement_WeChat/:id',
@@ -219,14 +227,14 @@ const routes = [
     },
     component: require('../views/credit/child/digitalReceipt.vue')
   },
-  {
+  /* {
     name: 'selfForm',
     path: '/selfForm',
     meta: {
       name: '其它业务'
     },
     component: require('../components/formTemplate/index.vue')
-  },
+  }, */
   {
     name: 'testCardBag',
     path: '/testCardBag',

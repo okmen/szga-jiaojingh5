@@ -252,6 +252,7 @@
         years: [],                          // 从接口获取 日期
         months: [],
         days: [],
+        orderAllDate: {},                   // 获取 年月日
         orderDetailsTime: [],               // 预约 具体时间 li
         activeIndex: '',                    // 当前点击时间的li
         selectDetailTime: '',               // * 选择的具体时间
@@ -261,25 +262,6 @@
       }
     },
     mounted () {
-    },
-    watch: {
-      currentBusinessId (val) {
-        this.getCardId()        // 获取证件 id
-        this.getCardTypeId()    // 获取车辆类型 id
-        this.getOrderPlace()    // 获取预约地点 id
-        console.log('业务ID', val)
-      },
-      timeRequest (val) {
-        for (let key in val) {
-          if (val[key] === '') {
-            return
-          }
-        }
-        this.getAllYearMonthDay()
-      },
-      currentBusinessCode (val) {
-        console.log('业务code', val)
-      }
     },
     computed: {
       // 获取 预约日期 请求参数
@@ -292,6 +274,60 @@
       // 获取 具体预约时间 传年月日
       yearMonthDay () {
         return `${this.getYear}-${this.getMonth}-${this.getDay}`
+      },
+      // 获取 具体时间 参数
+      getTimesData () {
+        return {
+          businessTypeId: this.currentBusinessId,  // 业务类型
+          orgId: this.orderPlaceID,                // 预约地点
+          date: this.yearMonthDay                  // 预约日期
+        }
+      }
+    },
+    watch: {
+      currentBusinessId (val) {
+        this.getCardId()        // 获取证件 id
+        this.getCardTypeId()    // 获取车辆类型 id
+        this.getOrderPlace()    // 获取预约地点 id
+        console.log('业务ID', val)
+      },
+      currentBusinessCode (val) {
+        console.log('业务code', val)
+      },
+      timeRequest (val) {
+        for (let key in val) {
+          if (val[key] === '') {
+            return
+          }
+        }
+        this.getAllYearMonthDay()
+      },
+      getYear (val) {          // 当前年份的所有月份
+        let option = []
+        for (let key in this.orderAllDate[val]) {
+          option.push({'str': key})
+        }
+        this.months = option
+        this.getMonth = option[0].str // 月初始值设置
+      },
+      getMonth (val) {         // 当前月份的所有日期
+        let option = []
+        this.orderAllDate[this.getYear][val].map(item => {
+          option.push({'str': item})
+        })
+        this.days = option
+        this.getDay = option[0].str  // 日初始值设置
+      },
+      getTimesData (val) {
+        if (this.getYear === '') return
+        if (this.getMonth === '') return
+        if (this.getDay === '') return
+        for (let key in val) {
+          if (val[key] === '') {
+            return
+          }
+        }
+        this.getDetailsTime()  //  选择完日期立即获取时间
       }
     },
     methods: {
@@ -401,34 +437,30 @@
       getAllYearMonthDay () {
         resultPost(getAppointmentDate, this.timeRequest).then(json => {
           console.log(json, '时间获取成功')
-          let allYear = []
-          let allmonth = []
-          let allDay = []
-          json.data.map((item, index) => {
-            let yearMonthDay = item.split('-')
-            if (index === 0) {
-              allYear.push({'str': yearMonthDay[0]})
-              allmonth.push({'str': yearMonthDay[1]})
-              allDay.push({'str': yearMonthDay[2]})
-            } else {
-              if (allYear[allYear.length - 1].str !== yearMonthDay[0]) {
-                allYear.push({'str': yearMonthDay[0]})
+          this.orderAllDate = {}
+          if (json.code === '0000') {
+            json.data.map((item, index) => {
+              let yearMonthDay = item.split('-')
+              if (!this.orderAllDate[yearMonthDay[0]]) {
+                this.orderAllDate[yearMonthDay[0]] = {}
               }
-              if (allmonth[allmonth.length - 1].str !== yearMonthDay[1]) {
-                allmonth.push({'str': yearMonthDay[1]})
+              if (!this.orderAllDate[yearMonthDay[0]][yearMonthDay[1]]) {
+                this.orderAllDate[yearMonthDay[0]][yearMonthDay[1]] = []
               }
-              if (allDay[allDay.length - 1].str !== yearMonthDay[2]) {
-                allDay.push({'str': yearMonthDay[2]})
-              }
+              this.orderAllDate[yearMonthDay[0]][yearMonthDay[1]].push(yearMonthDay[2])
+            })
+            let option = []
+            for (let key in this.orderAllDate) {
+              option.push({'str': key})
             }
-          })
-          this.years = allYear
-          this.months = allmonth
-          this.days = allDay
-          this.getYear = allYear[0].str
-          this.getMonth = allmonth[0].str
-          this.getDay = allDay[0].str
-          this.getDetailsTime()
+            this.years = option
+            this.getYear = option[0].str  // 年初始值设置
+          } else {
+            this.years = ''
+            this.months = ''
+            this.days = ''
+            Toast({message: json.msg, className: 'white', duration: 1500})
+          }
         })
       },
 
@@ -436,9 +468,9 @@
       getDetailsTime: function () {
         let getTimesData = {
           businessTypeId: this.currentBusinessId,  // 业务类型
-          orgId: this.orderPlaceID,                // 预约地点
-          date: this.yearMonthDay,                              // 预约日期
-          carTypeId: this.carTypeID                // 车辆类型ID
+          orgId: this.orderPlaceID,                  // 预约地点
+          date: this.yearMonthDay,                   // 预约日期
+          carTypeId: this.carTypeID                  // 车辆类型ID
         }
         console.log('具体时间', getTimesData)
         resultPost(getAppTimes, getTimesData).then(json => {
@@ -553,12 +585,12 @@
       appointTaskClick () {
         if (this.judgeInput()) {
           let reqData = {
-            businessTypeId: this.test, // 预约类型 id
+            businessTypeId: this.currentBusinessId, // 预约类型 id
             name: this.carOwnerName,                // 车主姓名
             idTypeId: this.cardID,                  // 证件种类 id
             idNumber: this.cardNum,                 // 证件号码
             mobile: window.localStorage.getItem('mobilePhone'),                   // 手机号
-            msgNumber: this.validCode,                   // 验证码
+            msgNumber: this.validCode,              // 验证码
             platNumber: this.abbreSelectValue + this.carCardNum.toUpperCase(), // 车牌号
             carTypeId: this.carTypeID,              // 车辆类型
             useCharater: this.useNatureMassage,     // 使用性质
@@ -571,7 +603,7 @@
             bookerType: this.orderWay,              // 预约方式
             bookerMobile: this.userTelphone         // 获取验证码 手机号
           }
-          this.$emit('appointTaskClick', reqData)
+          this.$emit('appointTaskClick', reqData, this.orderPlaceValue)
         }
       },
 

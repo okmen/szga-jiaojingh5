@@ -306,7 +306,7 @@ export default {
       surplusData: [
       ],
       clickIndex: '',
-      tmentTime: ''   // 预约时间
+      tmentTime: ''  // 预约时间
     }
   },
   methods: {
@@ -466,7 +466,7 @@ export default {
         'bookerType': name,                                // 预约方式 ‘0’本人
         'bookerMobile': this.mobilephone                   // 预约手机号码
       }
-      this.$emit('submitClick', renewingData)
+      this.$emit('submitClick', renewingData, this.subscribe)
     },
     // 获取证件ID
     certificateId: function () {
@@ -493,7 +493,7 @@ export default {
           this.businessData = json.data
           this.subscribe = this.businessData[0].name
           this.subscribeId = this.businessData[0].id
-          this.getmentDate()  // 获取预约日期
+          // this.getmentDate()  // 获取预约日期
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
@@ -501,59 +501,47 @@ export default {
     },
     // 获取预约日期
     getmentDate: function () {
-      let getmentData = {
-        orgId: this.subscribeId,
-        businessTypeId: this.currentBusinessId
-      }
-      resultPost(getAppointmentDate, getmentData).then(json => {
+      resultPost(getAppointmentDate, this.timesData).then(json => {
         console.log(json)
         if (json.code === '0000') {
           this.mentDate = json.data
-          let yearDate = []
-          let monthDate = []
-          let dayDate = []
+          this.allYearMonthDay = {}
           this.mentDate.map((item, index) => {
             let yearMonthDay = item.split('-')
-            if (index === 0) {
-              yearDate.push({'str': yearMonthDay[0]})
-              monthDate.push({'str': yearMonthDay[1]})
-              dayDate.push({'str': yearMonthDay[2]})
-            } else {
-              if (yearDate[yearDate.length - 1].str !== yearMonthDay[0]) {
-                yearDate.push({'str': yearMonthDay[0]})
-              }
-              if (monthDate[monthDate.length - 1].str !== yearMonthDay[1]) {
-                monthDate.push({'str': yearMonthDay[1]})
-              }
-              if (dayDate[dayDate.length - 1].str !== yearMonthDay[2]) {
-                dayDate.push({'str': yearMonthDay[2]})
-              }
+            if (!this.allYearMonthDay[yearMonthDay[0]]) {
+              this.allYearMonthDay[yearMonthDay[0]] = {}
             }
+            if (!this.allYearMonthDay[yearMonthDay[0]][yearMonthDay[1]]) {
+              this.allYearMonthDay[yearMonthDay[0]][yearMonthDay[1]] = []
+            }
+            this.allYearMonthDay[yearMonthDay[0]][yearMonthDay[1]].push(yearMonthDay[2])
           })
-          this.years = yearDate
-          this.months = monthDate
-          this.dates = dayDate
-          this.year = yearDate[0].str
-          this.month = monthDate[0].str
-          this.date = dayDate[0].str
+          console.log(this.allYearMonthDay)
+          let option = []
+          for (let key in this.allYearMonthDay) {
+            option.push({'str': key})
+          }
+          this.years = option
+          this.year = option[0].str  // 年初始值设置
           this.getTimes()     // 预约日期获取预约时间
         } else {
+          this.years = ''
+          this.months = ''
+          this.days = ''
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
       })
     },
     // 预约日期获取时间
     getTimes: function () {
-      let time = `${this.year}-${this.month}-${this.date}`
-      let getTimesData = {
-        businessTypeId: this.currentBusinessId,  // 业务类型
-        orgId: this.subscribeId,                // 预约地点
-        date: time,                               // 预约日期
-        carTypeId: this.vehicleTypeId,         // 汽车类型ID
-        optlittleCar: ''                       // 汽车产地
-      }
-      console.log('时间', getTimesData)
-      resultPost(getAppTimes, getTimesData).then(json => {
+      // let time = `${this.year}-${this.month}-${this.date}`
+      // console.log('预约日期获取时间', time)
+      // let getTimesData = {
+      //   businessTypeId: this.currentBusinessId,  // 业务类型
+      //   orgId: this.subscribeId,                // 预约地点
+      //   date: time                               // 预约日期
+      // }
+      resultPost(getAppTimes, this.timesData).then(json => {
         console.log(json)
         if (json.code === '0000') {
           let timeData = []
@@ -582,6 +570,24 @@ export default {
   },
   mounted () {
   },
+  computed: {
+    thimeRequest () {
+      return {
+        businessTypeId: this.currentBusinessId,
+        orgId: this.subscribeId
+      }
+    },
+    yearMonthDay () {
+      return `${this.year}-${this.month}-${this.date}`
+    },
+    timesData () {
+      return {
+        businessTypeId: this.currentBusinessId,  // 业务类型
+        orgId: this.subscribeId,                // 预约地点
+        date: this.yearMonthDay                  // 预约日期
+      }
+    }
+  },
   watch: {
     currentBusinessId (val) {
       this.businessId()   // 获取地点
@@ -590,6 +596,41 @@ export default {
     },
     currentCode (val) {
       console.log(val)
+    },
+    thimeRequest (val) {
+      for (let key in val) {
+        if (val[key] === '') {
+          return
+        }
+      }
+      this.getmentDate()
+    },
+    year (val) {
+      let option = []
+      for (let key in this.allYearMonthDay[val]) {
+        option.push({'str': key})
+      }
+      this.months = option
+      this.month = option[0].str
+    },
+    month (val) {
+      let option = []
+      this.allYearMonthDay[this.year][val].map(item => {
+        option.push({'str': item})
+      })
+      this.dates = option
+      this.date = option[0].str
+    },
+    timesData (val) {
+      if (this.year === '') return
+      if (this.month === '') return
+      if (this.date === '') return
+      for (let key in val) {
+        if (val[key] === '') {
+          return
+        }
+      }
+      this.getTimes()
     }
   }
 }

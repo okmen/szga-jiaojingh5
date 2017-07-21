@@ -184,32 +184,36 @@ export const getIdentificationOfAuditResults = `${commonUrl}user/getIdentificati
 export const illegalPictureQuery = `${commonUrl}illegalHanding/illegalPictureQuery.html` // 违法图片查询接口
 
 /* ------------------------------------------------机动车预约类---------------------------------------------------- */
-export const getBusinessTypeId = `http://192.168.1.240:8080/web/bookingbusiness/getBusinessTypeId.html` // 根据业务类型Code获取业务类型Id
+export const getBusinessTypes = `${commonUrl}bookingbusiness/getBusinessTypes.html` // 获取菜单
 
-export const getBusinessCarTypeId = `http://192.168.1.240:8080/web/bookingbusiness/getCarTypeId.html` // 根据车辆类型Code获取车辆类型Id
+export const getBusinessTypeId = `${commonUrl}bookingbusiness/getBusinessTypeId.html` // 获取业务类型id 须知 名称
 
-export const getIdTypeId = `http://192.168.1.240:8080/web/bookingbusiness/getIdTypeId.html` // 根据证件类型Code获取证件类型Id
+export const getBusinessCarTypeId = `${commonUrl}bookingbusiness/getCarTypeId.html` // 根据车辆类型Code获取车辆类型Id
 
-export const getOrgsByBusinessTypeId = `http://192.168.1.240:8080/web/bookingbusiness/getOrgsByBusinessTypeId.html` // 根据业务类型获取预约地点
+export const getIdTypeId = `${commonUrl}bookingbusiness/getIdTypeId.html` // 根据证件类型Code获取证件类型Id
 
-export const getAppointmentDate = `http://192.168.1.240:8080/web/bookingbusiness/getAppointmentDate.html` // 根据业务类型获取预约日期
+export const getOrgsByBusinessTypeId = `${commonUrl}bookingbusiness/getOrgsByBusinessTypeId.html` // 根据业务类型获取预约地点
 
-export const getAppTimes = `http://192.168.1.240:8080/web/bookingbusiness/getAppTimes.html` // 根据预约时间获取配额信息
+export const getAppointmentDate = `${commonUrl}bookingbusiness/getAppointmentDate.html` // 根据业务类型获取预约日期
 
-export const createVehicleInfo = `http://192.168.1.240:8080/web/bookingbusiness/createVehicleInfo.html` // 机动车预约信息写入
+export const getAppTimes = `${commonUrl}bookingbusiness/getAppTimes.html` // 根据预约时间获取配额信息
 
-export const getCarModelArray = `http://192.168.1.247:8080/web/bookingbusiness/getCarModelArray.html`  // 机动车车辆型号
+export const createVehicleInfo = `${commonUrl}bookingbusiness/createVehicleInfo.html` // 机动车预约信息写入
 
-export const simpleSendMessage = `http://192.168.1.240:8080/web/bookingbusiness/simpleSendMessage.html`  // 验证码接口
+export const getCarModelArray = `${commonUrl}bookingbusiness/getCarModelArray.html`  // 机动车车辆型号
+
+export const simpleSendMessage = `${commonUrl}bookingbusiness/simpleSendMessage.html`  // 验证码接口
+
+export const getPageInit = `${commonUrl}/bookingbusiness/getPageInit.html` // 进去页面初始化获取的数据
 
 /* --------------机动车预约 变更类--------------- */
-export const numberAlter = 'http://192.168.1.136:8080/web/bookingbusiness/createVehicleInfo_JD28.html' // 机动车打刻原车发动机号码变更备案
+export const numberAlter = `${commonUrl}bookingbusiness/createVehicleInfo_JD28.html` // 机动车打刻原车发动机号码变更备案
 
-export const markAlter = 'http://192.168.1.136:8080/web/bookingbusiness/createVehicleInfo_JD29.html' // 机动车打刻原车辆识别代号变更备案
+export const markAlter = `${commonUrl}bookingbusiness/createVehicleInfo_JD29.html` // 机动车打刻原车辆识别代号变更备案
 
-export const fileAlter = 'http://192.168.1.136:8080/web/bookingbusiness/createVehicleInfo_JD33.html' // 档案更正
+export const fileAlter = `${commonUrl}bookingbusiness/createVehicleInfo_JD33.html` // 档案更正
 
-export const taxiAlter = 'http://192.168.1.136:8080/web/bookingbusiness/createVehicleInfo_DQ.html' // 出租客运使用性质变更
+export const taxiAlter = `${commonUrl}bookingbusiness/createVehicleInfo_DQ.html` // 出租客运使用性质变更
 
 /* ---------------------------------------------机动车预约 现场办理、核发、转出注销恢复-------------------------------- */
 export const createVehicleInfoJD38 = 'http://192.168.1.120:8100/bookingbusiness/createVehicleInfo_JD38.html' // 机动车委托异地年审现场办理
@@ -223,18 +227,23 @@ export const createVehicleInfoJD27 = 'http://192.168.1.120:8100/bookingbusiness/
 export const createVehicleInfoJD41 = 'http://192.168.1.120:8100/bookingbusiness/createVehicleInfo_JD41.html' // 转出、注销恢复
 
 /* --------------------------------------------驾驶证预约类-------------------------------------------------------------- */
-export const createDriveInfoZJ11 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ11.html`  // 持军队、武装警察部队机动车驾驶证申领
+export const createDriveInfoZJ11 = `${commonUrl}bookingbusiness/createDriveInfo_ZJ11.html`  // 持军队、武装警察部队机动车驾驶证申领
 
-export const createDriveInfoZJ13 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ13.html.html`  // 香港机动车驾驶证免试换证
+export const createDriveInfoZJ13 = `${commonUrl}bookingbusiness/createDriveInfo_ZJ13.html`  // 香港机动车驾驶证免试换证
 
-export const createDriveInfoZJ16 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveinfo_ZJ16.html.html`  // 临时机动车驾驶许可申领
+export const createDriveInfoZJ16 = `${commonUrl}bookingbusiness/createDriveinfo_ZJ16.html`  // 临时机动车驾驶许可申领
 
-export const createDriveInfoZJ17 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ17.html.html`  // 持境外驾驶证申请换证
+export const createDriveInfoZJ17 = `${commonUrl}bookingbusiness/createDriveInfo_ZJ17.html`  // 持境外驾驶证申请换证
 
-export const createDriveInfoZJ20 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ20.html.html`  // 其他业务(驾驶证)
+export const createDriveInfoZJ20 = `${commonUrl}bookingbusiness/createDriveInfo_ZJ20.html`  // 其他业务(驾驶证)
 
-export const createDriveInfoZJ21 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ21.html.html`  // 恢复驾驶资格（逾期一年以上未换证类)
+export const createDriveInfoZJ21 = `${commonUrl}bookingbusiness/createDriveInfo_ZJ21.html`  // 恢复驾驶资格（逾期一年以上未换证类)
 
-export const createDriveInfoZJ22 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ22.html.html`  // 恢复驾驶资格（逾期一年以上未体检类)
+export const createDriveInfoZJ22 = `${commonUrl}bookingbusiness/createDriveInfo_ZJ22.html`  // 恢复驾驶资格（逾期一年以上未体检类)
 
-export const createDriveInfoZJ10 = `http://192.168.1.247:8080/web/bookingbusiness/createDriveInfo_ZJ10.html` // 满分学习
+export const createDriveInfoZJ10 = `${commonUrl}bookingbusiness/createDriveInfo_ZJ10.html` // 满分学习
+
+/* -------------- 绿色出行 --------------- */
+export const getGreenApply = `${commonUrl}greentravel/applyDownDateReport.html` // 获取申报日期数据
+
+export const postGreenApply = `${commonUrl}greentravel/downDatedeclareReport.html` // 申请申报日期数据

@@ -1,25 +1,49 @@
 <template>
   <!-- 预约类-驾驶证业务导航页 -->
   <div class="cardService-outer">
-    <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/jszbzhz' : 'login'">驾驶证补换证</router-link>
+    <div class="query-link" v-for="(item, index) in menuArr">
+      <a href="javascript:;" @click="routerLink(index)">{{ item.name }}</a>
     </div>
   </div>
 </template>
 <script>
+  import { resultPost } from '../../service/getData'
+  import { Toast } from 'mint-ui'
+  import { getBusinessTypes } from '../../config/baseUrl'
   export default {
     name: 'cardService',
     data () {
       return {
         isShow: false,
         businesses: [],
-        isLogin: window.localStorage.getItem('isLogin')
+        isLogin: window.localStorage.getItem('isLogin'),
+        menuArr: []
       }
     },
     methods: {
       clickShow: function () {
         this.isShow = !this.isShow
+      },
+      initMenu: function () {
+        let reqData = {
+          type: 0
+        }
+        resultPost(getBusinessTypes, reqData).then(json => {
+          console.log(json)
+          if (json.code === '0000') {
+            this.menuArr = json.data
+            window.sessionStorage.setItem('card', JSON.stringify(json.data))
+          } else {
+            Toast('系统异常')
+          }
+        })
+      },
+      routerLink: function (index) {
+        this.$router.push({name: 'userAgreement_precontract', query: { type: 'card', index: index }})
       }
+    },
+    mounted () {
+      this.initMenu()
     }
   }
 </script>

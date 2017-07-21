@@ -1,9 +1,9 @@
 <template>
-  <div class="renewalClass-outer">
+  <div id="renewalClass-outer">
     <div class="renewalClass-select pad-side-50 clear">
       <p class="renewalClass-chose">业务类型</p>
       <div class="div-select renewalClass-wd left">
-        <span id="btnSelect" class="btn-select" @click.stop="typeSelectClick()">{{ typeSelectMassage.str }}</span>
+        <span id="btnSelect" class="btn-select bg-colour" @click.stop="typeSelectClick()">{{ typeSelectMassage.str }}</span>
         <div class="div-select-ul" v-if='typeSelectShow'>
           <ul>
             <li v-for="(item, index) in typeSelectData" @click.stop = "typeSelectClick(index+1)">
@@ -100,7 +100,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.renewalClass-outer {
+#renewalClass-outer {
   font-size: 26px;
   color: #000;
   position: relative;
@@ -136,6 +136,9 @@ export default {
   .renewalClass-from{
     background:#FFF;
     margin-top:10px;
+  }
+  .bg-colour{
+    background-color: #fff;
   }
 }
 </style>

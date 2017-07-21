@@ -38,6 +38,7 @@ import calendar from 'components/calendar.vue'
 import { resultGet, resultPost } from 'src/service/getData'
 import moment from 'moment'
 import { Toast } from 'mint-ui'
+import { getGreenApply, postGreenApply } from 'src/config/baseUrl.js'
 export default {
   components: {
     'el-button': Button,
@@ -89,7 +90,7 @@ export default {
         sfzmhm: greenApply.IdCard,
         month: month
       }
-      resultGet(`http://192.168.1.34:8080/web/greentravel/applyDownDateReport.html?hphm=${requestData.hphm}&hpzl=${requestData.hpzl}&sfzmhm=${requestData.sfzmhm}&month=${requestData.month}`).then(data => {
+      resultGet(`${getGreenApply}?hphm=${requestData.hphm}&hpzl=${requestData.hpzl}&sfzmhm=${requestData.sfzmhm}&month=${requestData.month}`).then(data => {
         let Arr = []
         data.date.ret.forEach((item, index, array) => {
           if (item.state !== '0') {
@@ -125,7 +126,7 @@ export default {
         cdate: this.selectArrTime.join(),
         type: '1'
       }
-      resultPost('http://192.168.1.34:8080/web/greentravel/downDatedeclareReport.html', requestData).then(data => {
+      resultPost(postGreenApply, requestData).then(data => {
         console.log(data)
         if (data.code === '0000') {
           this.$store.commit('saveSuccessInfo', {

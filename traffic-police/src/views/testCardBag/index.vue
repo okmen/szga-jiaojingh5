@@ -6,7 +6,7 @@
     <div>
       {{cardBagData}}
     </div>
-    <vue-calendar :date="time" :carNum="carNum" v-on:arrTime="testArrTime" :selectedDate="selectedDate" v-on:skipDate="testskipDate"></vue-calendar>
+
   </div>
 </template>
 <script>
@@ -15,14 +15,8 @@
   export default {
     data () {
       return {
-        cardBagData: '',
-        time: new Date().getTime(),
-        carNum: '粤A12345',
-        selectedDate: ['2017-6-20', '2017-7-2', '2017-7-5', '2017-8-15']
+        cardBagData: ''
       }
-    },
-    components: {
-      'vueCalendar': require('./../../components/calendar.vue')
     },
     methods: {
       testskipDate (data) {
@@ -36,12 +30,14 @@
         let requestData = {
           cardId: 'pPyqQjq_2LnZeey0y5XK-ArtZDSo'
         }
-        resultPost('http://192.168.1.108/h5/cardConfig.html', requestData).then(data => {
+        resultPost('https://szjjapi.stc.gov.cn/h5/cardConfig.html', requestData).then(data => {
           console.log(data)
           this.cardBagData = data
           let cardExt = {
+            openId: window.localStorage.openId,
             timestamp: data.data.timestamp,
-            signature: data.data.signature
+            signature: data.data.signature,
+            nonce_str: data.data.nonceStr
           }
           wx.addCard({
             cardList: [{

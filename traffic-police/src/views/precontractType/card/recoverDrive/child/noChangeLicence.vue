@@ -27,11 +27,20 @@ export default {
     common
   },
   methods: {
-    appointTask: function (params) {
+    appointTask: function (params, orderPlace) {
       console.log('未换证类', params)
       resultPost(createDriveInfoZJ21, params).then(json => {
         if (json.code === '0000') {
           console.log(json)
+          let dataInfo = {
+            type: 2,
+            reserveNo: json.data.waterNumber,    // 流水号
+            mobilephone: params.bookerMobile,    // 手机号码
+            reserveAddress: orderPlace,          // 服务点
+            reserveTime: json.data.bidDate       // 预约日期
+          }
+          this.$store.commit('saveSuccessInfo', dataInfo)
+          this.$router.push('/submitSuccess')
         } else {
           Toast({message: json.msg, className: 'white'})
         }

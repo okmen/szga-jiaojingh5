@@ -15,6 +15,7 @@
 import { resultPost } from '../../../../../service/getData'
 import { markAlter } from '../../../../../config/baseUrl'
 import common from './common.vue'
+import { Toast } from 'mint-ui'
 export default {
   name: 'markAlter',
   props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件
@@ -26,10 +27,24 @@ export default {
     common
   },
   methods: {
-    appointTask: function (params) {
+    appointTask: function (params, orderPlace) {
       console.log('识别代号', params)
       resultPost(markAlter, params).then(json => {
         console.log(json)
+        if (json.code === '0000') {
+          let dataInfo = {
+            type: 2,
+            reserveNo: json.data.waterNumber,    // 流水号
+            numberPlate: params.platNumber,      // 车牌号码
+            mobilephone: params.bookerMobile,    // 手机号码
+            reserveAddress: orderPlace,          // 服务点
+            reserveTime: params.appointmentDate  // 预约日期
+          }
+          this.$store.commit('saveSuccessInfo', dataInfo)
+          this.$router.push('/submitSuccess')
+        } else {
+          Toast({ message: json.msg, className: 'white', duration: 1500 })
+        }
       })
     }
   }

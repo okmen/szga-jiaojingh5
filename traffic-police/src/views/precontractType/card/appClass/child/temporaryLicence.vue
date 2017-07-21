@@ -1,7 +1,6 @@
 <!-- 
   临时机动车驾驶证许可证申领 
 -->
-
 <template>
   <div class="temporaryLicence">
     <common 
@@ -28,21 +27,19 @@ export default {
     common
   },
   methods: {
-    subFn: function (params) {
-      console.log('temporaryLicence', params)
+    subFn: function (params, subscribe) {
       resultPost(createDriveInfoZJ16, params).then(json => {
         if (json.code === '0000') {
-          this.certificate = json.data
-          // let dataInfo = {
-          //   type: json.data.type
-          //   textObj: {
-          //     reserveTime: son.data.bidDate,
-          //     reserveNo: waterNumber
-          //   }
-          // }
-          // this.$store.commit('saveSuccessInfo', dataInfo)
+          let dataInfo = {
+            type: 2,
+            reserveTime: json.data.bidDate,      // 预约日期
+            reserveNo: json.data.waterNumber,    // 流水号
+            reserveAddress: subscribe,          // 服务点
+            mobilephone: params.bookerMobile    // 手机号码
+          }
+          this.$store.commit('saveSuccessInfo', dataInfo)
+          this.$router.push('/submitSuccess')
         } else {
-          // let msg = json.data + json.msg
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
       })
