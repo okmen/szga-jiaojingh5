@@ -611,6 +611,7 @@
           codes: this.achieveCode
         }
         resultPost(simpleSendMessage, requestData).then(data => {
+          console.log(requestData)
           console.log(data, '验证码')
         })
         this.timer = setInterval(() => {

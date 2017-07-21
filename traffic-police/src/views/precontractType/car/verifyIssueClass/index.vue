@@ -58,6 +58,7 @@
           code: this.businessTypeToCode[this.$router.currentRoute.name]
         }
         resultPost(getBusinessTypeId, requestData).then(data => {
+          console.log(this.achieveCode)
           this.businessTypeId = data.data
           console.log(data, '业务类型编码获取成功')
         })

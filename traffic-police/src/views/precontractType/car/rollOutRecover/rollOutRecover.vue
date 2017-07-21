@@ -4,7 +4,7 @@
       <div class="exchange-license-line"></div>
       <div class="register">
         <div class="form-template-item">
-          <span class="form-template-item-left">车主姓名</span>
+          <span class="form-template-item-left">车主asdf姓名</span>
           <input type="text" placeholder="请输入车主姓名" class="form-template-item-right" v-model="ownerName">
         </div>
         <div-select :childInfo="credentialsName" @getSelected="getCredentialsNameOne"></div-select>
