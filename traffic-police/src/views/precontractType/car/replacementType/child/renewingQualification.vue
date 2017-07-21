@@ -25,7 +25,7 @@ export default {
     common
   },
   methods: {
-    subFn: function (params) {
+    subFn: function (params, subscribe) {
       console.log('renewingQualification', params)
       resultPost(createVehicleInfo, params).then(json => {
         if (json.code === '0000') {

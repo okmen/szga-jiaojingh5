@@ -25,7 +25,7 @@ export default {
     common
   },
   methods: {
-    subFn: function (params) {
+    subFn: function (params, subscribe) {
       console.log('replacementNumber', params)
       resultPost(createVehicleInfo, params).then(json => {
         console.log(json)
