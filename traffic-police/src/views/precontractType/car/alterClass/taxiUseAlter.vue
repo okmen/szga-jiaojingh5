@@ -1,9 +1,9 @@
 <!-- 
 *  #变更类#
-*  #档案更正
+*  #出租客运车辆使用性质变更
  -->
 <template>
-    <div class="fileAlter">
+    <div class="taxiUserAlter">
       <common @appointTaskClick="appointTask"
               :currentBusinessId="businessId"
               :currentBusinessCode="bussinessCode"></common>
@@ -12,12 +12,12 @@
   </div>
 </template>
 <script>
-import { resultPost } from '../../../../../service/getData'
-import { fileAlter } from '../../../../../config/baseUrl'
-import common from './common.vue'
+import { resultPost } from '../../../../service/getData'
+import { taxiAlter } from '../../../../config/baseUrl'
+import common from './child/common.vue'
 import { Toast } from 'mint-ui'
 export default {
-  name: 'fileAlter',
+  name: 'taxiUserAlter',
   props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件
   data () {
     return {
@@ -26,19 +26,21 @@ export default {
   components: {
     common
   },
+  mounted () {
+  },
   methods: {
-    appointTask: function (params, orderPlace) {
-      console.log('档案更正', params)
-      resultPost(fileAlter, params).then(json => {
+    appointTask: function (params, orderPlace) {  // 从 common 组件获取 reqData
+      console.log('出租客运车辆使用性质变更', params)
+      resultPost(taxiAlter, params).then(json => {
         console.log(json)
         if (json.code === '0000') {
           let dataInfo = {
             type: 2,
-            reserveNo: json.data,    // 流水号
+            reserveNo: json.data.waterNumber,    // 流水号
             numberPlate: params.platNumber,      // 车牌号码
             mobilephone: params.bookerMobile,    // 手机号码
             reserveAddress: orderPlace,          // 服务点
-            reserveTime: params.appointmentDate  // 预约日期
+            reserveTime: json.data.bidDate       // 预约日期
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')
@@ -53,4 +55,3 @@ export default {
 <style lang="less">
 
 </style>
-

@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import common from './common.vue'
+import common from './child/common.vue'
 export default {
   name: 'onlineAlter',
   props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件

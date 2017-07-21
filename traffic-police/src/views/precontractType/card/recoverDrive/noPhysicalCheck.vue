@@ -1,57 +1,42 @@
 <!-- 
-* 满分学习
+*  #恢复驾驶资格#
+*  #逾期一年以上 * 未体检 * 类
  -->
 <template>
-  <div id="fullmarkStudy">
-    <div class="alter-select pad-side-50">
-      <div class="alter-chose"><span>业务类型</span></div>
-      <div class="div-select alter-wd">
-        <input class="text-input bg-white" value="满分学习考试" readonly>
+    <div id="noPhysicalCheck">
+      <div class="alter-select pad-side-50">
+        <div class="alter-chose"><span>业务类型</span></div>
+        <div class="div-select alter-wd">
+          <input class="text-input bg-white" value="未体检" readonly>
+        </div>
       </div>
+      <div class="alter-from">
+        <common @appointTaskClick="appointTask"
+                :currentBusinessId="businessId"
+                :currentBusinessCode="bussinessCode"></common>
+        <div v-wechat-title="$route.meta.title"></div>
     </div>
-    <div class="alter-from">
-      <common @appointTaskClick="appointTask"
-              :currentBusinessId="businessId"
-              :currentBusinessCode="bussinessCode"></common>
-    </div>
-    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
-import { resultPost } from '../../../service/getData'
-import { getBusinessTypeId, createDriveInfoZJ10 } from '../../../config/baseUrl.js'
+import { resultPost } from '../../../../service/getData'
+import { createDriveInfoZJ22 } from '../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
-import common from './recoverDrive/child/common.vue'
+import common from './child/common.vue'
 export default {
-  name: 'fullmarkStudy',
+  name: 'noPhysicalCheck',
+  props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件
   data () {
     return {
-      businessId: '',           // 当前业务 id
-      bussinessCode: 'ZJ10'     // 当前业务 code
     }
   },
   components: {
     common
   },
-  created () {
-    // 获取业务id
-    let reqData = {
-      type: '0',
-      part: '',
-      code: this.bussinessCode
-    }
-    resultPost(getBusinessTypeId, reqData).then(json => {
-      if (json.code === '0000') {
-        this.businessId = json.data
-      } else {
-        Toast({message: json.msg, className: 'white'})
-      }
-    })
-  },
   methods: {
     appointTask: function (params, orderPlace) {
-      console.log('满分学习', params)
-      resultPost(createDriveInfoZJ10, params).then(json => {
+      console.log('未体检类', params)
+      resultPost(createDriveInfoZJ22, params).then(json => {
         if (json.code === '0000') {
           console.log(json)
           let dataInfo = {
@@ -72,7 +57,7 @@ export default {
 }
 </script>
 <style lang="less">
-#fullmarkStudy {
+#noPhysicalCheck{
   font-size: 26px;
   color: #000;
   overflow: hidden;
@@ -101,4 +86,3 @@ export default {
   }
 }
 </style>
-

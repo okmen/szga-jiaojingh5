@@ -108,18 +108,18 @@
         <dd>轻微事故远程<br/>处理中心</dd>
         </a>
       </dl>
-      <dl>
+<!--       <dl>
         <a :href="'http://szjj.u-road.com/szjjpro/index.php/Business/Member/unlogin/selfbook/'+openId">
         <dt><img class="top6" src="./images/nav12.png" alt=""></dt>
         <dd>自主考试</dd>
         </a>
-      </dl>
-      <!-- <dl>
-        <router-link to="/greenTravel">
+      </dl> -->
+      <dl>
+        <router-link :to="!isLogin ? '/login' : '/greenTravel'">
         <dt><img class="top11" src="./images/green-logo.png" alt=""></dt>
         <dd>绿色出行</dd>
         </router-link>
-      </dl> -->
+      </dl>
     </div>
   </div>
   <mt-swipe :show-indicators="false" id="advertisement-box" :auto="4500" :speed="1500">

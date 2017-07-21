@@ -1,6 +1,6 @@
-<!-- 申领/补领机动车登记证书 -->
+<!-- 补换机动车号牌 -->
 <template>
-  <div class="renewingCertificate">
+  <div class="replacementNumber">
     <common 
       @submitClick="subFn"
       :currentBusinessId="businessId"
@@ -10,12 +10,12 @@
 </template>
 
 <script>
-import { resultPost } from '../../../../../service/getData'
-import { createVehicleInfo } from '../../../../../config/baseUrl.js'
+import { resultPost } from '../../../../service/getData'
+import { createVehicleInfo } from '../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
-import common from './common.vue'
+import common from './child/common.vue'
 export default {
-  name: 'renewingCertificate',
+  name: 'replacementNumber',
   props: ['businessId', 'businessCode'],    // 拿到当前业务的id  然后传给 common组件
   data () {
     return {
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     subFn: function (params, subscribe) {
-      console.log('renewingCertificate', params)
+      console.log('replacementNumber', params)
       resultPost(createVehicleInfo, params).then(json => {
         console.log(json)
         if (json.code === '0000') {
@@ -48,5 +48,5 @@ export default {
   }
 }
 </script>
-<style lang="less" scoped>
+<style lang="css" scoped>
 </style>

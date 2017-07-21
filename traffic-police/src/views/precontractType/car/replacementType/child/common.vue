@@ -113,39 +113,18 @@
             </div>
           </div>
         </li>
-        <li class="form-li">
-          <span>选择预约日期</span>
-        </li>
-        <li class="form-li clear">
-          <!-- <input class="text-input width-27 btn-cen left" type="" name="" value="" v-model="year" readonly/> -->
-          <div class="div-select width-27 left">
-            <span class="btn-select btn-cen bg-colour" @click.stop="yearClick()">{{year}}</span>
-            <!-- <input class="btn-select btn-cen bg-colour" @click.stop="yearClick()" v-model="year" readonly/> -->
-            <div class="div-select-ul" v-if="yearShow">
+        <li class="form-line">
+          <div class="form-line-item item-name">
+            <span>预约日期</span>
+          </div>
+          <div class="div-select">
+            <span class="btn-select bg-colour" @click.stop="timeType()">{{ time }}</span>
+            <div class="div-select-ul" v-if="timeShow">
               <ul>
-                <li v-for="item in years" @click.stop="yearClick(item.str)">{{item.str}}</li>
+                <li v-for="item in timeData" @click.stop="timeType(item.str, item.id)">{{item.str}}</li>
               </ul>
             </div>
           </div>
-          <span class="left rene">年</span>
-          <div class="div-select width-27 left">
-            <span class="btn-select btn-cen bg-colour" @click.stop="monthClick()">{{month}}</span>
-            <div class="div-select-ul" v-if="monthShow">
-              <ul>
-                <li v-for="item in months" @click.stop="monthClick(item.str)">{{item.str}}</li>
-              </ul>
-            </div>
-          </div>
-          <span class="left rene">月</span>
-          <div class="div-select width-27 left">
-            <span class="btn-select btn-cen bg-colour" @click.stop="dateClick()">{{date}}</span>
-            <div class="div-select-ul" v-if="datesShow">
-              <ul>
-                <li v-for="item in dates" @click.stop="dateClick(item.str)">{{item.str}}</li>
-              </ul>
-            </div>
-          </div>
-          <span class="left rene">日</span>
         </li>
       </ul>
       <ul class="renewingUl clear">
@@ -369,6 +348,9 @@ export default {
           'str': '其他号牌'
         }
       ],
+      timeShow: false,
+      timeData: [],
+      time: '2017-7-21',
       monthShow: false,
       datesShow: false,
       yearShow: false,
@@ -446,46 +428,14 @@ export default {
         this.vehicleShow = true
       }
     },
-    // 年
-    yearClick: function (str) {
+    timeType: function (str) {
       if (str) {
-        this.year = str
-        this.getTimes()
+        this.vehicle = str
       }
-      this.monthShow = false
-      this.datesShow = false
-      if (this.yearShow === true) {
-        this.yearShow = false
+      if (this.timeShow === true) {
+        this.timeShow = false
       } else {
-        this.yearShow = true
-      }
-    },
-    // 月
-    monthClick: function (str) {
-      if (str) {
-        this.month = str
-        this.getTimes()
-      }
-      this.yearShow = false
-      this.datesShow = false
-      if (this.monthShow === true) {
-        this.monthShow = false
-      } else {
-        this.monthShow = true
-      }
-    },
-    // 日
-    dateClick: function (str) {
-      if (str) {
-        this.date = str
-        this.getTimes()
-      }
-      this.monthShow = false
-      this.yearShow = false
-      if (this.datesShow === true) {
-        this.datesShow = false
-      } else {
-        this.datesShow = true
+        this.timeShow = true
       }
     },
     // 选择预约时段

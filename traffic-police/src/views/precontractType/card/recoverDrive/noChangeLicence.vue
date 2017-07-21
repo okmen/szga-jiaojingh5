@@ -3,7 +3,14 @@
 *  #逾期一年以上 * 未换证 * 类
  -->
 <template>
-    <div class="noChangeLicence">
+    <div id="noChangeLicence">
+      <div class="alter-select pad-side-50">
+        <div class="alter-chose"><span>业务类型</span></div>
+        <div class="div-select alter-wd">
+          <input class="text-input bg-white" value="未换证" readonly>
+        </div>
+      </div>
+      <div class="alter-from">
       <common @appointTaskClick="appointTask"
               :currentBusinessId="businessId"
               :currentBusinessCode="bussinessCode"></common>
@@ -12,10 +19,10 @@
   </div>
 </template>
 <script>
-import { resultPost } from '../../../../../service/getData'
-import { createDriveInfoZJ21 } from '../../../../../config/baseUrl.js'
+import { resultPost } from '../../../../service/getData'
+import { createDriveInfoZJ21 } from '../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
-import common from './common.vue'
+import common from './child/common.vue'
 export default {
   name: 'noChangeLicence',
   props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件
@@ -50,5 +57,32 @@ export default {
 }
 </script>
 <style lang="less">
-
+#noChangeLicence{
+  font-size: 26px;
+  color: #000;
+  overflow: hidden;
+  .bg-white{
+    background-color: #FFF;
+  }
+  .alter-select {
+    height: 100px;
+    background-color: #fff;
+    position: relative;
+    padding-left: 230px;
+    .alter-chose{
+      width: 180px;
+      position: absolute;
+      left: 50px;
+      color: #666;
+      line-height: 100px;
+    }
+    .alter-wd{
+      padding-top: 22px;
+    }
+  }
+  .alter-from{
+    background:#FFF;
+    margin-top:10px;
+  }
+}
 </style>

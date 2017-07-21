@@ -12,9 +12,9 @@
   </div>
 </template>
 <script>
-import { resultPost } from '../../../../../service/getData'
-import { numberAlter } from '../../../../../config/baseUrl'
-import common from './common.vue'
+import { resultPost } from '../../../../service/getData'
+import { numberAlter } from '../../../../config/baseUrl'
+import common from './child/common.vue'
 import { Toast } from 'mint-ui'
 export default {
   name: 'numberAlter',

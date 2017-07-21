@@ -1,9 +1,9 @@
 <!-- 
-*  #恢复驾驶资格#
-*  #逾期一年以上 * 未体检 * 类
+*  #变更类#
+*  #机动车打刻原车辆 #识别代号# 变更备案
  -->
 <template>
-    <div class="noPhysicalCheck">
+    <div class="markAlter">
       <common @appointTaskClick="appointTask"
               :currentBusinessId="businessId"
               :currentBusinessCode="bussinessCode"></common>
@@ -12,12 +12,12 @@
   </div>
 </template>
 <script>
-import { resultPost } from '../../../../../service/getData'
-import { createDriveInfoZJ22 } from '../../../../../config/baseUrl.js'
+import { resultPost } from '../../../../service/getData'
+import { markAlter } from '../../../../config/baseUrl'
+import common from './child/common.vue'
 import { Toast } from 'mint-ui'
-import common from './common.vue'
 export default {
-  name: 'noPhysicalCheck',
+  name: 'markAlter',
   props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件
   data () {
     return {
@@ -28,21 +28,22 @@ export default {
   },
   methods: {
     appointTask: function (params, orderPlace) {
-      console.log('未体检类', params)
-      resultPost(createDriveInfoZJ22, params).then(json => {
+      console.log('识别代号', params)
+      resultPost(markAlter, params).then(json => {
+        console.log(json)
         if (json.code === '0000') {
-          console.log(json)
           let dataInfo = {
             type: 2,
             reserveNo: json.data.waterNumber,    // 流水号
+            numberPlate: params.platNumber,      // 车牌号码
             mobilephone: params.bookerMobile,    // 手机号码
             reserveAddress: orderPlace,          // 服务点
-            reserveTime: json.data.bidDate       // 预约日期
+            reserveTime: params.appointmentDate  // 预约日期
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')
         } else {
-          Toast({message: json.msg, className: 'white'})
+          Toast({ message: json.msg, className: 'white', duration: 1500 })
         }
       })
     }

@@ -1,8 +1,9 @@
 <!-- 
-  持军队、武警警察部队机动车驾驶证驾驶 
+  香港机动车驾驶证面试换证 
 -->
+
 <template>
-  <div class="armyLicence">
+  <div class="HkLicence">
     <common 
       @submitClick="subFn"
       :currentBusinessId="businessId"
@@ -12,12 +13,12 @@
 </template>
 
 <script>
-import { resultPost } from '../../../../../service/getData'
-import { createDriveInfoZJ11 } from '../../../../../config/baseUrl.js'
+import { resultPost } from '../../../../service/getData'
+import { createDriveInfoZJ13 } from '../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
-import common from './common.vue'
+import common from './child/common.vue'
 export default {
-  name: 'armyLicence',
+  name: 'HkLicence',
   props: ['businessId', 'businessCode'],    // 拿到当前业务的id  然后传给 common组件
   data () {
     return {
@@ -28,9 +29,11 @@ export default {
   },
   methods: {
     subFn: function (params, subscribe) {
-      console.log('armyLicence', params)
-      resultPost(createDriveInfoZJ11, params).then(json => {
+      console.log('HkLicence', params)
+      resultPost(createDriveInfoZJ13, params).then(json => {
         if (json.code === '0000') {
+          console.log(json.data.bidDate)
+          console.log(json.data.waterNumber)
           let dataInfo = {
             type: 2,
             reserveTime: json.data.bidDate,      // 预约日期
