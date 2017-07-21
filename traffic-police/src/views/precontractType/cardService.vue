@@ -28,6 +28,11 @@
         let reqData = {
           type: 0
         }
+        if (window.sessionStorage.card) {
+          console.log('1111111')
+          this.menuArr = JSON.parse(window.sessionStorage.card)
+          return false
+        }
         resultPost(getBusinessTypes, reqData).then(json => {
           console.log(json)
           if (json.code === '0000') {
