@@ -35,32 +35,100 @@ export default {
       checked: '',
       entryHash: '',
       isShow: true,
-      card: [],
-      car: []
+      menuJson: {},
+      routerQuery: ''
     }
   },
   mounted: function () {
     console.log(this.$route.query)
     if (JSON.stringify(this.$route.query) !== '{}') {
-      console.log('1111111')
+      this.routerQuery = this.$route.query
       if (this.$route.query.type === 'card') {
-        this.card = JSON.parse(window.sessionStorage.card)
-        this.userAgreementCon = this.card[this.$route.query.index].description
-        this.getNoticeTitle = this.card[this.$route.query.index].name
+        this.menuJson = JSON.parse(window.sessionStorage.card)[this.routerQuery.index]
       } else {
-        this.car = JSON.parse(window.sessionStorage.car)
-        this.userAgreementCon = this.car[this.$route.query.index].description
-        this.getNoticeTitle = this.car[this.$route.query.index].name
+        this.menuJson = JSON.parse(window.sessionStorage.car)[this.routerQuery.index]
       }
+      this.userAgreementCon = this.menuJson.description
+      this.getNoticeTitle = this.menuJson.name
     }
   },
   methods: {
     btnAgreeRequest: function () {
       if (this.checked === true) {
-        console.log(this.entryHash)
-        switch (this.entryHash) {
-          case 'wfsspjbzy':  // 随手拍举报范围说明
-            this.$router.push('/takePicturesInform')
+        switch (this.menuJson.code) {
+          case 'JD06':  // 换领机动车登记证书
+            this.$router.push({name: 'renewingCollarCredential', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'JD02':  // 补领机动车号牌
+            this.$router.push({name: 'replacementNumber', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'JD01':  // 补换机动车行驶证
+            this.$router.push({name: 'renewingDrivingLicense', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'JD30':  // 换领机动车登记证书
+            this.$router.push({name: 'renewingQualification', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'JD13':  // 换领机动车登记证书
+            this.$router.push({name: 'renewingCertificate', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'ZJ11':  // 换领机动车登记证书
+            this.$router.push({name: 'armyLicence', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'ZJ16':  // 换领机动车登记证书
+            console.log('222222222222')
+            // this.$router.push('/appClass/temporaryLicence')
+            this.$router.push({name: 'temporaryLicence', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'ZJ17':  // 换领机动车登记证书
+            this.$router.push({name: 'overseasLicence', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'ZJ13':  // 换领机动车登记证书
+            this.$router.push({name: 'HkLicence', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'JD15':  // 换领机动车登记证书
+            this.$router.push({name: 'transferRegistration', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'JD19':  // 换领机动车登记证书
+            this.$router.push({name: 'intoRegister', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'JD17':  // 换领机动车登记证书
+            this.$router.push({name: 'enteringRegister', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'JD18':  // 换领机动车登记证书
+            this.$router.push({name: 'cancellationRegister', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'JD36':  // 换领机动车登记证书
+            this.$router.push({name: 'fakeLicensedEvidence', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'JD35':  // 换领机动车登记证书
+            this.$router.push({name: 'manWifeChange', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          // case 'JD01':  // 换领机动车登记证书
+          //   this.$router.push({name: '/registerClass/replaceLicense', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+          //   break
+          case 'JD24':  // 换领机动车登记证书
+            this.$router.push({name: 'generalChangeRegister', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'JD28':  // 机动车打刻原车发动机号变更备案
+            this.$router.push({name: 'numberAlter', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'JD29':  // 机动车打刻原车辆识别代号变更备案
+            this.$router.push({name: 'markAlter', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'JD33':  // 档案更正
+            this.$router.push({name: 'fileAlter', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'ZJ22':  // 逾期一年以上未体检类
+            this.$router.push({name: 'noPhysicalCheck', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'ZJ21':  // 逾期一年以上未体检类
+            this.$router.push({name: 'noChangeLicence', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'ZJ10':  // 满分学习
+            this.$router.push({name: 'fullmarkStudy', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
+            break
+          case 'ZJ20':  // 其他业务
+            this.$router.push({name: 'otherBusiness', query: { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }})
             break
         }
       } else {
