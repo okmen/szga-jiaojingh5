@@ -11,19 +11,19 @@
       <div class="item">
         <label>姓名</label>
         <div class="box">
-          <el-input v-model="form.name" placeholder="请输入真是姓名" size="small" />
+          <el-input v-model="form.name" disabled placeholder="请输入姓名" size="small" />
         </div>
       </div>
       <div class="item">
         <label>联系方式</label>
         <div class="box">
-          <el-input v-model="form.tel" placeholder="请输入手机号码" size="small" />
+          <el-input v-model="form.tel" disabled placeholder="请输入手机号码" size="small" />
         </div>
       </div>
       <div class="item">
         <label>身份证号</label>
         <div class="box">
-          <el-input v-model="form.IdCard" placeholder="请输入身份证号码" size="small" />
+          <el-input v-model="form.IdCard" disabled placeholder="请输入身份证号码" size="small" />
         </div>
       </div>
       <div class="item">
@@ -42,7 +42,7 @@
       <div class="item">
         <label>车牌类型</label>
         <div class="box">
-          <el-select v-model="form.type" class="zly-select" size="small" placeholder="请选择车牌类型">
+          <el-select v-model="form.type" disabled class="zly-select" size="small" placeholder="请选择车牌类型">
             <el-option
               v-for="item in typeData"
               :key="item.value"
@@ -86,14 +86,14 @@ export default {
         }
       ],
       cars: JSON.parse(window.localStorage.getItem('cars')),
-      selectCars: null,
+      selectCars: window.localStorage.getItem('myNumberPlate'),
       form: {
-        name: '',
-        tel: '',
-        IdCard: '',
-        car: '',
-        type: '',
-        isMySelf: ''
+        name: window.localStorage.getItem('userName'),
+        tel: window.localStorage.getItem('mobilePhone'),
+        IdCard: window.localStorage.getItem('identityCard'),
+        car: window.localStorage.getItem('myNumberPlate'),
+        type: window.localStorage.getItem('plateType'),
+        isMySelf: 0
       }
     }
   },
@@ -106,43 +106,15 @@ export default {
     },
     // 选择名下车辆
     handleCarChange (data) {
-      this.form = {
-        name: data.name,
-        tel: data.mobilephone,
-        IdCard: data.identityCard,
-        car: data.myNumberPlate,
-        type: data.plateType,
-        isMySelf: data.isMySelf
-      }
+      this.form.car = data.myNumberPlate
+      this.form.type = data.plateType
+      this.form.isMySelf = data.isMySelf
     },
     // 提交表单
     submit () {
-      for (let key in this.form) {
-        if (this.form[key] === '') {
-          Toast({
-            message: '信息填写不完整',
-            position: 'bottom'
-          })
-          return false
-        }
-      }
-      if (!/^[A-Za-z\u4e00-\u9fa5]+$/.test(this.form.name)) {
+      if (!this.form.car.includes('粤B')) {
         Toast({
-          message: '真实姓名格式错误',
-          position: 'bottom'
-        })
-        return false
-      }
-      if (!/^1\d{10}$/.test(this.form.tel)) {
-        Toast({
-          message: '手机号码格式错误',
-          position: 'bottom'
-        })
-        return false
-      }
-      if (!/^\d{17}[\d|x]|\d{15}$/.test(this.form.IdCard)) {
-        Toast({
-          message: '身份证格式错误',
+          message: '只允许粤B小型汽车申请',
           position: 'bottom'
         })
         return false
@@ -151,8 +123,6 @@ export default {
       this.registerModule()
       this.$router.push({ name: 'greenApplyDate' })
     }
-  },
-  created () {
   }
 }
 </script>

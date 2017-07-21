@@ -219,14 +219,14 @@ const routes = [
     },
     component: require('../views/credit/child/digitalReceipt.vue')
   },
-  {
+  /* {
     name: 'selfForm',
     path: '/selfForm',
     meta: {
       name: '其它业务'
     },
     component: require('../components/formTemplate/index.vue')
-  },
+  }, */
   {
     name: 'testCardBag',
     path: '/testCardBag',

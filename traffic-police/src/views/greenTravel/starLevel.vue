@@ -15,6 +15,9 @@
       <div class="item">
         <el-button type="primary" @click.native="$router.push({ name: 'greenApplyNoLogin' })">我不是星级用户</el-button>
       </div>
+      <div class="link">
+        <router-link to="/userAgreement/xjyhrz">注册</router-link>
+      </div>
     </div>
   </div>
 </template>
