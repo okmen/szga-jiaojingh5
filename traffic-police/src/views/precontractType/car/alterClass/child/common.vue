@@ -4,129 +4,145 @@
  -->
 <template>
   <div class="order-alter-class" id="orderAlterClass">
-    <ul class="alter-hbs-list">
-      <li class="alter-hbs-item">
-        <div class="alter-hbs-name"><span>车主姓名</span></div>
-        <div class="alter-hbs-text">
-          <input class="text-input bg-white" maxlength="10" v-model="carOwnerName" placeholder="请输入车主姓名">
-        </div>
-      </li>
-      <li class="alter-hbs-item">
-        <div class="alter-hbs-name"><span>证件名称</span></div>
-        <div class="div-select">
-          <span class="btn-select bg-white" @click.stop="cardSelectClick()">{{ cardMassage }}</span>
-          <div class="div-select-ul" v-if="cardSelectShow">
-            <ul>
-              <li v-for="(item, index) in cardSelectData" card-id="item.code"
-                  @click.stop="cardSelectClick(item.name, item.code)">{{item.name}}</li>
-            </ul>
-          </div>
-        </div>
-      </li>
-      <li class="alter-hbs-item">
-        <div class="alter-hbs-name"><span>证件号码</span></div>
-        <div class="alter-hbs-text">
-          <input class="text-input bg-white" type="text" maxlength="19" v-model="cardNum" placeholder="请输入证件号码">
-        </div>
-      </li>
-      <li class="alter-hbs-item">
-        <div class="alter-hbs-name"><span>手机号码</span></div>
-        <div class="alter-hbs-text">
-          <input class="text-input bg-white" v-model="userTelphone" type="tel" maxlength="11" 
-                 placeholder="请输入您的手机号码">
-        </div>
-      </li>
-      <li class="alter-hbs-item clear">
-        <div class="alter-hbs-name"><span>验证码</span></div>
-        <div class="alter-hbs-text width-60 left">
-          <input class="text-input bg-white" type="tel" maxlength="6" v-model="validCode" placeholder="请输入验证码">
-        </div>
-        <div class="left alter-hbs-code">
-          <button class="verifyButton" type="button" name="button" @click.stop="getVerification()"
-            :class="{disabled: isdisabled}" :disabled="this.isdisabled">{{getValidCodeMsg}}
-          </button>
-        </div>
-      </li>
-      <li class="alter-hbs-item clear">
-        <div class="alter-hbs-name"><span>车牌号码</span></div>
-        <div class="div-select bg-white width-120 left">
-          <span class="btn-select bg-white min-btn-select" 
-                @click.stop="abbreviationSelectClick()">{{ abbreSelectValue }}</span>
-          <div class="div-select-ul" v-if="abbreviationSelectShow">
-            <ul>
-              <li v-for="item in abbreviationSelectData" @click.stop = "abbreviationSelectClick(item.str)">{{item.str}}</li>
-            </ul>
-          </div>
-        </div>
-        <div class="alter-hbs-text width-70 right">
-          <input class="text-input bg-white" placeholder="请输入车牌号码" v-model="carCardNum" type="text" maxlength="10">
-        </div>
-      </li>
-      <li class="alter-hbs-item clear">
-        <div class="alter-hbs-name"><span>车辆类型</span></div>
-        <div class="div-select">
-          <span class="btn-select bg-white" @click.stop="carTypeClick()">{{ carTypeMassage }}</span>
-          <div class="div-select-ul" v-if="carTypeShow">
-            <ul>
-              <li v-for="(item, index) in carTypeData" car-code="item.id"
-                  @click.stop="carTypeClick(item.str, item.id)">{{item.str}}</li>
-            </ul>
-          </div>
-        </div>
-      </li>
-      <li class="alter-hbs-item">
-        <div class="alter-hbs-name"><span>使用性质</span></div>
-        <div class="div-select">
-          <span class="btn-select bg-white" @click.stop="useNatureClick()">{{ useNatureMassage }}</span>
-          <div class="div-select-ul" v-if="useNatureShow">
-            <ul>
-              <li v-for="(item, index) in useNatureData" @click.stop="useNatureClick(item.str, index)">{{item.str}}</li>
-            </ul>
-          </div>
-        </div>
-      </li>
-      <li class="alter-hbs-item clear">
-          <div class="alter-hbs-name"><span>车身架号</span></div>
+    <div class="alter-select pad-side-50">
+      <div class="alter-chose"><span>业务类型</span></div>
+      <div class="div-select alter-wd"><span></span></div>
+    </div>
+    <!-- 列表 -->
+    <div class="alter-hbs-list pad-side-50">
+      <ul>
+        <li class="alter-hbs-item">
+          <div class="alter-hbs-name"><span>车主姓名</span></div>
           <div class="alter-hbs-text">
-            <input class="text-input bg-white" type="text" v-model="VIN" placeholder="请输入车架号后四位" />
+            <input class="text-input bg-white" maxlength="10" v-model="carOwnerName" placeholder="请输入车主姓名">
           </div>
-      </li>
-      <li class="alter-hbs-item">
-        <div class="alter-hbs-name"><span>预约地点</span></div>
-        <div class="div-select">
-          <span class="btn-select bg-white" @click.stop="orderPlaceClick()">{{ orderPlaceValue }}</span>
-          <div class="div-select-ul" v-if="orderPlaceShow">
-            <ul>
-              <li v-for="item in appointPlaceData" place-id="item.id"
-                  @click.stop="orderPlaceClick(item.name, item.id)">{{item.name}}</li>
-            </ul>
+        </li>
+        <li class="alter-hbs-item">
+          <div class="alter-hbs-name"><span>证件名称</span></div>
+          <div class="div-select">
+            <span class="btn-select bg-white" @click.stop="cardSelectClick()">{{ cardMassage }}</span>
+            <div class="div-select-ul" v-if="cardSelectShow">
+              <ul>
+                <li v-for="(item, index) in cardSelectData" card-id="item.code"
+                    @click.stop="cardSelectClick(item.name, item.code)">{{item.name}}</li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </li>
-      <li class="alter-hbs-item">
-        <div class="alter-hbs-name"><span>预约日期</span></div>
-        <div class="div-select">
-          <span class="btn-select bg-white" @click.stop="dateClick(str)">{{ orderAllDate }}</span>
-          <div class="div-select-ul" v-if="dateShow">
-            <ul>
-              <li></li>
-            </ul>
+        </li>
+        <li class="alter-hbs-item">
+          <div class="alter-hbs-name"><span>证件号码</span></div>
+          <div class="alter-hbs-text">
+            <input class="text-input bg-white" type="text" maxlength="19" v-model="cardNum" placeholder="请输入证件号码">
           </div>
-        </div>
-      </li>
-      <li class="alter-item pad-0"><p class="alter-order-date">选择预约时间</p></li>
-
-    </ul>
-    <ul class="alter-detail">
-      <li class="alter-detail-time" v-for="(item, index) in orderDetailsTime" @click="selectOrderTime(index)"
-          :class="{'time-full': item.leftNum === 0, 'active': index === activeIndex && item.leftNum !== 0}">
-        <p>{{item.time}}</p>
-        <p v-if="item.leftNum === 0">已满</p>
-        <p v-else="item.leftNum !== 0">剩余名额<span class="yy_yysl">{{item.leftNum}}</span>位</p>
-      </li>
-    </ul>
-    <div class="alter-button-box">
-      <button class="btn alterButton" @click="appointTaskClick">预约</button>
+        </li>
+        <li class="alter-hbs-item">
+          <div class="alter-hbs-name"><span>手机号码</span></div>
+          <div class="alter-hbs-text">
+            <input class="text-input bg-white" v-model="userTelphone" type="tel" maxlength="11" 
+                   placeholder="请输入您的手机号码">
+          </div>
+        </li>
+        <li class="alter-hbs-item clear">
+          <div class="alter-hbs-name"><span>验证码</span></div>
+          <div class="alter-hbs-text width-60 left">
+            <input class="text-input bg-white" type="tel" maxlength="6" v-model="validCode" placeholder="请输入验证码">
+          </div>
+          <div class="left alter-hbs-code">
+            <button class="verifyButton" type="button" name="button" @click.stop="getVerification()"
+              :class="{disabled: isdisabled}" :disabled="this.isdisabled">{{getValidCodeMsg}}
+            </button>
+          </div>
+        </li>
+        <li class="alter-hbs-item clear">
+          <div class="alter-hbs-name"><span>车牌号码</span></div>
+          <div class="div-select bg-white width-120 left">
+            <span class="btn-select bg-white min-btn-select" 
+                  @click.stop="abbreviationSelectClick()">{{ abbreSelectValue }}</span>
+            <div class="div-select-ul" v-if="abbreviationSelectShow">
+              <ul>
+                <li v-for="item in abbreviationSelectData" @click.stop = "abbreviationSelectClick(item.str)">{{item.str}}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="alter-hbs-text width-70 right">
+            <input class="text-input bg-white" placeholder="请输入车牌号码" v-model="carCardNum" type="text" maxlength="10">
+          </div>
+        </li>
+        <li class="alter-hbs-item clear">
+          <div class="alter-hbs-name"><span>车辆类型</span></div>
+          <div class="div-select">
+            <span class="btn-select bg-white" @click.stop="carTypeClick()">{{ carTypeMassage }}</span>
+            <div class="div-select-ul" v-if="carTypeShow">
+              <ul>
+                <li v-for="(item, index) in carTypeData" car-code="item.id"
+                    @click.stop="carTypeClick(item.str, item.id)">{{item.str}}</li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="alter-hbs-item">
+          <div class="alter-hbs-name"><span>使用性质</span></div>
+          <div class="div-select">
+            <span class="btn-select bg-white" @click.stop="useNatureClick()">{{ useNatureMassage }}</span>
+            <div class="div-select-ul" v-if="useNatureShow">
+              <ul>
+                <li v-for="(item, index) in useNatureData" @click.stop="useNatureClick(item.str, index)">{{item.str}}</li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="alter-hbs-item clear">
+            <div class="alter-hbs-name"><span>车身架号</span></div>
+            <div class="alter-hbs-text">
+              <input class="text-input bg-white" type="text" v-model="VIN" placeholder="请输入车架号后四位" />
+            </div>
+        </li>
+        <li class="alter-hbs-item">
+          <div class="alter-hbs-name"><span>预约地点</span></div>
+          <div class="div-select">
+            <span class="btn-select bg-white" @click.stop="orderPlaceClick()">{{ orderPlaceValue }}</span>
+            <div class="div-select-ul" v-if="orderPlaceShow">
+              <ul>
+                <li v-for="item in appointPlaceData" place-id="item.id"
+                    @click.stop="orderPlaceClick(item.name, item.id)">{{item.name}}</li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="alter-hbs-item">
+          <div class="alter-hbs-name"><span>预约日期</span></div>
+          <div class="div-select">
+            <span class="btn-select bg-white" @click.stop="dateClick(str)">{{ orderAllDate }}</span>
+            <div class="div-select-ul" v-if="dateShow">
+              <ul>
+                <li></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="alter-hbs-item">
+          <div class="alter-hbs-name"><span>预约时间</span></div>
+          <div class="div-select">
+            <span class="btn-select bg-white"></span>
+            <div class="div-select-ul" v-if="dateShow">
+              <ul>
+                <li></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul class="alter-detail">
+        <li class="alter-detail-time" v-for="(item, index) in orderDetailsTime" @click="selectOrderTime(index)"
+            :class="{'time-full': item.leftNum === 0, 'active': index === activeIndex && item.leftNum !== 0}">
+          <p>{{item.time}}</p>
+          <p v-if="item.leftNum === 0">已满</p>
+          <p v-else="item.leftNum !== 0">剩余名额<span class="yy_yysl">{{item.leftNum}}</span>位</p>
+        </li>
+      </ul>
+      <div class="alter-button-box">
+        <button class="btn alterButton" @click="appointTaskClick">预约</button>
+      </div>
     </div>
   </div>
 </template>

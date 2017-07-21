@@ -3,11 +3,18 @@
 *  #逾期一年以上 * 未体检 * 类
  -->
 <template>
-    <div class="noPhysicalCheck">
-      <common @appointTaskClick="appointTask"
-              :currentBusinessId="businessId"
-              :currentBusinessCode="bussinessCode"></common>
-      <div v-wechat-title="$route.meta.title"></div>
+    <div id="noPhysicalCheck">
+      <div class="alter-select pad-side-50">
+        <div class="alter-chose"><span>业务类型</span></div>
+        <div class="div-select alter-wd">
+          <input class="text-input bg-white" value="未体检" readonly>
+        </div>
+      </div>
+      <div class="alter-from">
+        <common @appointTaskClick="appointTask"
+                :currentBusinessId="businessId"
+                :currentBusinessCode="bussinessCode"></common>
+        <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
 </template>
@@ -50,5 +57,32 @@ export default {
 }
 </script>
 <style lang="less">
-
+#noPhysicalCheck{
+  font-size: 26px;
+  color: #000;
+  overflow: hidden;
+  .bg-white{
+    background-color: #FFF;
+  }
+  .alter-select {
+    height: 100px;
+    background-color: #fff;
+    position: relative;
+    padding-left: 230px;
+    .alter-chose{
+      width: 180px;
+      position: absolute;
+      left: 50px;
+      color: #666;
+      line-height: 100px;
+    }
+    .alter-wd{
+      padding-top: 22px;
+    }
+  }
+  .alter-from{
+    background:#FFF;
+    margin-top:10px;
+  }
+}
 </style>

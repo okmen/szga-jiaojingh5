@@ -10,7 +10,7 @@
           损坏换证、遗失换证、注销业务、降驾换证、转入换证的预约</p>
         </div>
       </div>
-      <div class="alter-from pad-side-50">
+      <div class="alter-from">
         <common @appointTaskClick="appointTask"
                 :currentBusinessId="businessId"
                 :currentBusinessCode="bussinessCode"></common>

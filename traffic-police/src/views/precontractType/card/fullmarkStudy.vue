@@ -9,7 +9,7 @@
         <input class="text-input bg-white" value="满分学习考试" readonly>
       </div>
     </div>
-    <div class="alter-from pad-side-50">
+    <div class="alter-from">
       <common @appointTaskClick="appointTask"
               :currentBusinessId="businessId"
               :currentBusinessCode="bussinessCode"></common>
