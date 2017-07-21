@@ -1,5 +1,5 @@
 <template>
-  <div class="renewing-outer">
+  <div id="renewing-outer">
     <div class="renewing-select pad-side-50 clear">
       <p class="renewing-chose">业务类型</p>
       <div class="div-select renewing-wd left">
@@ -128,7 +128,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.renewing-outer {
+#renewing-outer {
   font-size: 26px;
   color: #000;
   position: relative;
