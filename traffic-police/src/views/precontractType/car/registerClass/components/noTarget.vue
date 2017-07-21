@@ -529,7 +529,7 @@
         }
         this.getAllYearMonthDay()
       },
-      quotaRequest (val) {
+      quotaRequest (val, oldVal) {
         if (this.allYearOne === '') {
           return
         }
@@ -537,6 +537,9 @@
           return
         }
         if (this.allDayOne === '') {
+          return
+        }
+        if ((val.date.split('-')[0] !== oldVal.date.split('-')[0]) || (val.date.split('-')[1] !== oldVal.date.split('-')[1])) {
           return
         }
         for (let key in val) {
@@ -620,7 +623,6 @@
       // 获取配额信息
       getQuotaInformation () {
         resultPost(getAppTimes, this.quotaRequest).then(json => {
-          console.log(json, '配额信息')
           if (json.code === '0000') {
             let arrData = []
             json.data.map(item => {
@@ -823,17 +825,17 @@
             })
             let dataInfo = {
               type: 2,
-              textObj: {
-                reserveNo: data.data,
-                numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(),
-                mobilephone: this.mobilePhone,
-                reserveAddress: this.appointmentLocationStr,
-                reserveTime: `${this.yearMonthDay} ${this.appointmentTime}`
-              }
+              reserveNo: data.data,
+              numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(),
+              mobilephone: this.mobilePhone,
+              reserveAddress: this.appointmentLocationStr,
+              reserveTime: `${this.yearMonthDay} ${this.appointmentTime}`
             }
 //          this.$store.commit('saveResponseData', data)
             this.$store.commit('saveSuccessInfo', dataInfo)
             this.$router.push('/submitSuccess')
+          } else {
+            MessageBox('提示', data.data)
           }
         })
       }
