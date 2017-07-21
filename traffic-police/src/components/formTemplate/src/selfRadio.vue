@@ -25,7 +25,7 @@
     watch: {
       thisInfo: {
         handler (val) {
-          this.chooseDefault
+          this.chooseDefault()
         },
         deep: true
       }

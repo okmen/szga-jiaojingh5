@@ -21,7 +21,7 @@
         <span class="send-code-btn" style="background: gray" v-if="!showTime">{{countDown}} s</span>
       </div>
     </div>
-    <div class="register-item">
+    <div class="register-item" v-if="$router.currentRoute.name != 'enteringRegister'">
       <span class="register-item-title">车牌号码</span>
       <div class="register-item-input send-code ">
         <div class="province-code">
@@ -31,13 +31,17 @@
       </div>
     </div>
     <div-select :childInfo="carSelectData" @getSelected="getCarSelectDataOne"></div-select>
-    <div-radio v-if="carSelectDataOne == '02'&&$router.currentRoute.name == 'enteringRegister'"
-               :childInfo="vehicleOrigin" @getSelected="getVehicleOriginOne" style="margin-bottom: 0"></div-radio>
+   <!-- <div-radio v-if="carSelectDataOne == '02'&&$router.currentRoute.name == 'enteringRegister'"
+               :childInfo="vehicleOrigin" @getSelected="getVehicleOriginOne" style="margin-bottom: 0"></div-radio>-->
     <div-select :childInfo="modelOfCar" @getSelected="getModelOfCarOne"></div-select>
     <div-select :childInfo="useNature" @getSelected="getUseNatureOne"></div-select>
-    <div class="register-item">
+    <div class="register-item" v-if="carSelectDataOne != '02'|| $router.currentRoute.name != 'enteringRegister'">
       <span class="register-item-title">车身架号</span>
       <input type="text" placeholder="请输入车架号后四位" class="register-item-input" v-model="vehicleNum" maxlength="4">
+    </div>
+    <div class="register-item" v-else-if="carSelectDataOne == '02'&&$router.currentRoute.name == 'enteringRegister'">
+      <span class="register-item-title">车身架号</span>
+      <input type="text" placeholder="请输入车架号" class="register-item-input" v-model="vehicleNum">
     </div>
     <div-select :childInfo="appointmentLocation" @getSelected="getAppointmentLocationOne"></div-select>
     <div class="register-item">
@@ -488,15 +492,15 @@
         appointmentTime: '', // 预约时间
 //        businessTypeId: '',  // 业务类型编码
         businessCarTypeId: '', // 车辆类型编码
-        bookerType: 0, // 预约方式，0 本人， 1普通代办 2专业代办
-        vehicleOrigin: {
+        bookerType: 0 // 预约方式，0 本人， 1普通代办 2专业代办
+     /*   vehicleOrigin: {
           title: '车辆产地',
           option: [
             {'str': '国产', 'id': '1', 'choose': true},
             {'str': '进口', 'id': '0', 'choose': false}
           ]
-        }, // 车辆产地
-        vehicleOriginOne: ''
+        }, // 车辆产地 */
+//        vehicleOriginOne: ''
       }
     },
     components: {
@@ -515,7 +519,8 @@
           businessTypeId: this.businessTypeId,
           orgId: this.appointmentLocationOne,
           date: this.yearMonthDay,
-          carTypeId: this.businessCarTypeId
+          carTypeId: this.businessCarTypeId,
+          optlittleCar: this.vehicleOriginOne
         }
       },
       // 时间请求参数
@@ -562,7 +567,7 @@
         }
         this.getAllYearMonthDay()
       },
-      quotaRequest (val) {
+      quotaRequest (val, oldVal) {
         if (this.allYearOne === '') {
           return
         }
@@ -570,6 +575,9 @@
           return
         }
         if (this.allDayOne === '') {
+          return
+        }
+        if ((val.date.split('-')[0] !== oldVal.date.split('-')[0]) || (val.date.split('-')[1] !== oldVal.date.split('-')[1])) {
           return
         }
         for (let key in val) {
@@ -772,6 +780,7 @@
           idNumber: this.IDcard,
           codes: this.achieveCode
         }
+        console.log(requestData, '验证码请求参数')
         resultPost(simpleSendMessage, requestData).then(data => {
           console.log(data, '验证码')
         })
@@ -859,7 +868,7 @@
           idNumber: this.IDcard,
           mobile: window.localStorage.getItem('mobilePhone'),
           msgNumber: this.verificationCode,
-          platNumber: this.provinceCodeOne + this.plateNum.toUpperCase(),
+          platNumber: (this.provinceCodeOne + this.plateNum.toUpperCase()) || this.vehicleNum,
           carTypeId: this.businessCarTypeId,
           useCharater: this.useNatureOne,
           carFrame: this.vehicleNum,  // 车身架号

@@ -645,7 +645,7 @@
           'intoRegister': '机动车转移登记(转入)',
           'enteringRegister': '机动车注册登记',
           'cancellationRegister': '机动车注销登记',
-          'changeRegister': '机动车变更登记',
+//          'changeRegister': '机动车变更登记',
           'generalChangeRegister': '机动车变更登记(普通变更)',
           'fakeLicensedEvidence': '机动车变更登记(套牌车换证)',
           'manWifeChange': '机动车变更登记(夫妻变更)',
@@ -658,7 +658,7 @@
           'intoRegister': 'JD19',
           'enteringRegister': 'JD17',
           'cancellationRegister': 'JD18',
-          'changeRegister': 'JD47',
+//          'changeRegister': 'JD47',
           'fakeLicensedEvidence': 'JD36',
           'manWifeChange': 'JD35',
           'replaceLicense': 'JD01',
@@ -668,7 +668,6 @@
     },
     created () {
       this.getBusinessTypeId()
-      console.log(this.$route, '路由')
     },
     watch: {
       '$route': 'getBusinessTypeId'
@@ -701,6 +700,7 @@
     },
     methods: {
       getBusinessTypeId () {
+        this.businessTypeId = ''
         this.currentBusinessType = this.businessType[this.$route.name]
         this.achieveCode = this.businessTypeToCode[this.$route.name]
         let requestData = {
