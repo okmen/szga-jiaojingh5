@@ -43,9 +43,7 @@
 <script>
   import {resultPost} from 'service/getData'
   //  import { MessageBox } from 'mint-ui'
-  import {
-    getBusinessTypeId
-  } from 'config/baseUrl.js'
+  import {getBusinessTypeId, getPageInit} from 'config/baseUrl.js'
   export default {
     data () {
       return {
@@ -648,8 +646,8 @@
 //          'changeRegister': '机动车变更登记',
           'generalChangeRegister': '机动车变更登记(普通变更)',
           'fakeLicensedEvidence': '机动车变更登记(套牌车换证)',
-          'manWifeChange': '机动车变更登记(夫妻变更)',
-          'replaceLicense': '补换领机动车行驶证'
+          'manWifeChange': '机动车变更登记(夫妻变更)'
+//          'replaceLicense': '补换领机动车行驶证'
         },
         businessTypeId: '',
         businessTypeStr: '',
@@ -661,7 +659,7 @@
 //          'changeRegister': 'JD47',
           'fakeLicensedEvidence': 'JD36',
           'manWifeChange': 'JD35',
-          'replaceLicense': 'JD01',
+//          'replaceLicense': 'JD01',
           'generalChangeRegister': 'JD24'
         }
       }
@@ -711,6 +709,11 @@
         resultPost(getBusinessTypeId, requestData).then(data => {
           this.businessTypeId = data.data
           console.log(data, '业务类型编码获取成功')
+          resultPost(getPageInit, {businessTypeId: this.businessTypeId}).then(json => {
+            console.log(json, '页面初始化的数据')
+            this.$store.commit('saveModelOfCar', json.data.carModelArray) // 车辆型号
+            this.$store.commit('saveCarSelectData', json.data.carTypeVOs) // 车辆类型
+          })
         })
       }
     }
