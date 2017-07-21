@@ -33,17 +33,12 @@ export default {
   name: 'alterClass',
   data () {
     return {
-      curTab: 'alterClass',     // 当前 tab
+      curTab: 'numberAlter',     // 当前 tab
       typeSelectShow: false,
       typeSelectMassage: '',
       curTabID: '',             // 当前选择业务 id
       curTabCode: '',           // 当前选择业务 code
       typeSelectData: [
-        {
-          'name': 'taxiUseAlter',
-          'str': '出租客运车辆使用性质变更',
-          'path': '/alterClass/taxiUseAlter'
-        },
         {
           'name': 'numberAlter',
           'str': '机动车打刻原车发动机号码变更备案',
@@ -62,7 +57,7 @@ export default {
         {
           'name': 'onlineCarAlter',
           'str': '网约车使用性质更正',
-          'path': '/alterClass/onlineCarAlter'
+          'path': '/systemUpdate'
         }
       ],
       currentBussinessCode: ''  // 当前业务 code
@@ -85,24 +80,20 @@ export default {
     },
     distinguish () {
       switch (window.location.hash) {
-        case '#/alterClass/taxiUseAlter':
-          this.typeSelectMassage = this.typeSelectData[0]
-          this.currentBussinessCode = 'D:Q'        // 出租客运车辆使用性质变更
-          break
         case '#/alterClass/numberAlter':
-          this.typeSelectMassage = this.typeSelectData[1]
+          this.typeSelectMassage = this.typeSelectData[0]
           this.currentBussinessCode = 'JD28'       // 机动车打刻原车发动机号码变更备案  JD28
           break
         case '#/alterClass/markAlter':
-          this.typeSelectMassage = this.typeSelectData[2]
+          this.typeSelectMassage = this.typeSelectData[1]
           this.currentBussinessCode = 'JD29'      // 机动车打刻原车辆识别代号变更备案
           break
         case '#/alterClass/fileAlter':
-          this.typeSelectMassage = this.typeSelectData[3]
+          this.typeSelectMassage = this.typeSelectData[2]
           this.currentBussinessCode = 'JD33'      // 档案更正
           break
         case '#/alterClass/onlineCarAlter':
-          this.typeSelectMassage = this.typeSelectData[4]
+          this.typeSelectMassage = this.typeSelectData[3]
           this.currentBussinessCode = '5555'
           break
       }

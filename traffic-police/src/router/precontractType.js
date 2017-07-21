@@ -209,7 +209,7 @@ let precontractTypeRouter = [
     meta: {
       title: '转出、注销恢复'
     },
-    component: require('../views/precontractType/car/rollOutRecover')
+    component: require('../views/precontractType/car/rollOutRecover/rollOutRecover.vue')
   },
   sceneManageClassRouter,   // 现场办理类
   verifyIssueClassRouter,    // 核发类
