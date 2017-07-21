@@ -309,7 +309,6 @@
         }
         this.months = option
         this.getMonth = option[0].str // 月初始值设置
-        this.getDetailsTime()  //  选择完日期立即获取时间
       },
       getMonth (val) {         // 当前月份的所有日期
         let option = []
