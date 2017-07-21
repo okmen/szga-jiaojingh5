@@ -1,6 +1,6 @@
 // 添加URL需注释 哪个模块哪个接口
-const commonUrl = 'http://192.168.1.120:8100/' // 120环境
-// const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
+// const commonUrl = 'http://192.168.1.120:8100/' // 120环境
+const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
 // const commonUrl = 'http://szjj.u-road.com/api/' // 正式环境d
 
 export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
@@ -184,7 +184,7 @@ export const getIdentificationOfAuditResults = `${commonUrl}user/getIdentificati
 export const illegalPictureQuery = `${commonUrl}illegalHanding/illegalPictureQuery.html` // 违法图片查询接口
 
 /* ------------------------------------------------机动车预约类---------------------------------------------------- */
-export const getBusinessTypeId = `${commonUrl}bookingbusiness/getBusinessTypeId.html` // 根据业务类型Code获取业务类型Id
+export const getBusinessTypeId = `${commonUrl}bookingbusiness/getBusinessTypeId.html` // 获取业务类型id 须知 名称
 
 export const getBusinessCarTypeId = `${commonUrl}bookingbusiness/getCarTypeId.html` // 根据车辆类型Code获取车辆类型Id
 
