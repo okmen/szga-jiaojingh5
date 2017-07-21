@@ -197,7 +197,7 @@ let precontractTypeRouter = [
     meta: {
       title: '持军队、武警警察部队机动车驾驶证驾驶'
     },
-    component: require('../views/precontractType/card/appClass/sarmyLicence.vue')
+    component: require('../views/precontractType/card/appClass/armyLicence.vue')
   },
   {
     name: 'temporaryLicence',

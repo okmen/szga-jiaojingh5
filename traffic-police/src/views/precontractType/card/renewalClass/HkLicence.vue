@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import { resultPost } from '../../../../../service/getData'
-import { createDriveInfoZJ13 } from '../../../../../config/baseUrl.js'
+import { resultPost } from '../../../../service/getData'
+import { createDriveInfoZJ13 } from '../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
-import common from './common.vue'
+import common from './child/common.vue'
 export default {
   name: 'HkLicence',
   props: ['businessId', 'businessCode'],    // 拿到当前业务的id  然后传给 common组件
