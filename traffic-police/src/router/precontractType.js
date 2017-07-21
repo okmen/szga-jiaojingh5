@@ -94,106 +94,84 @@ let precontractTypeRouter = [
     ]
   },
   {
-    name: 'alterClass',
-    path: '/alterClass',
+    name: 'taxiUseAlter',
+    path: '/taxiUseAlter',
     meta: {
-      title: '变更类'
+      title: '出租客运车辆使用性质变更'
     },
-    component: require('../views/precontractType/car/alterClass/alterClass.vue'),
-    redirect: '/alterClass/taxiUseAlter',
-    children: [
-      {
-        name: 'taxiUseAlter',
-        path: '/alterClass/taxiUseAlter',
-        meta: {
-          title: '出租客运车辆使用性质变更'
-        },
-        component: require('../views/precontractType/car/alterClass/child/taxiUseAlter.vue')
-      },
-      {
-        name: 'numberAlter',
-        path: '/alterClass/numberAlter',
-        meta: {
-          title: '机动车打刻原车发动机号码变更备案'
-        },
-        component: require('../views/precontractType/car/alterClass/child/numberAlter.vue')
-      },
-      {
-        name: 'markAlter',
-        path: '/alterClass/markAlter',
-        meta: {
-          title: '机动车打刻原车辆识别代号变更备案'
-        },
-        component: require('../views/precontractType/car/alterClass/child/markAlter.vue')
-      },
-      {
-        name: 'fileAlter',
-        path: '/alterClass/fileAlter',
-        meta: {
-          title: '档案更正'
-        },
-        component: require('../views/precontractType/car/alterClass/child/fileAlter.vue')
-      },
-      {
-        name: 'onlineCarAlter',
-        path: '/alterClass/onlineCarAlter',
-        meta: {
-          title: '网约车使用性质更正'
-        },
-        component: require('../views/precontractType/car/alterClass/child/onlineCarAlter.vue')
-      }
-    ]
+    component: require('../views/precontractType/car/alterClass/taxiUseAlter.vue')
   },
   {
-    name: 'replacementType',
-    path: '/replacementType',
+    name: 'numberAlter',
+    path: '/numberAlter',
     meta: {
-      title: '补换领类'
+      title: '机动车打刻原车发动机号码变更备案'
     },
-    component: require('../views/precontractType/car/replacementType/renewingClass.vue'),
-    redirect: '/replacementType/renewingCollarCredential',
-    children: [
-      {
-        name: 'renewingCollarCredential',
-        path: '/replacementType/renewingCollarCredential',
-        meta: {
-          title: '换领机动车登记证书'
-        },
-        component: require('../views/precontractType/car/replacementType/child/renewingCollarCredential.vue')
-      },
-      {
-        name: 'replacementNumber',
-        path: '/replacementType/replacementNumber',
-        meta: {
-          title: '补换机动车号牌'
-        },
-        component: require('../views/precontractType/car/replacementType/child/replacementNumber.vue')
-      },
-      {
-        name: 'renewingDrivingLicense',
-        path: '/replacementType/renewingDrivingLicense',
-        meta: {
-          title: '补换机动车行驶证'
-        },
-        component: require('../views/precontractType/car/replacementType/child/renewingDrivingLicense.vue')
-      },
-      {
-        name: 'renewingQualification',
-        path: '/replacementType/renewingQualification',
-        meta: {
-          title: '补换检验合格标志'
-        },
-        component: require('../views/precontractType/car/replacementType/child/renewingQualification.vue')
-      },
-      {
-        name: 'renewingCertificate',
-        path: '/replacementType/renewingCertificate',
-        meta: {
-          title: '申领/补领机动车登记证书'
-        },
-        component: require('../views/precontractType/car/replacementType/child/renewingCertificate.vue')
-      }
-    ]
+    component: require('../views/precontractType/car/alterClass/numberAlter.vue')
+  },
+  {
+    name: 'markAlter',
+    path: '/markAlter',
+    meta: {
+      title: '机动车打刻原车辆识别代号变更备案'
+    },
+    component: require('../views/precontractType/car/alterClass/markAlter.vue')
+  },
+  {
+    name: 'fileAlter',
+    path: '/fileAlter',
+    meta: {
+      title: '档案更正'
+    },
+    component: require('../views/precontractType/car/alterClass/fileAlter.vue')
+  },
+  {
+    name: 'onlineCarAlter',
+    path: '/onlineCarAlter',
+    meta: {
+      title: '网约车使用性质更正'
+    },
+    component: require('../views/precontractType/car/alterClass/onlineCarAlter.vue')
+  },
+  {
+    name: 'renewingCollarCredential',
+    path: '/renewingCollarCredential',
+    meta: {
+      title: '换领机动车登记证书'
+    },
+    component: require('../views/precontractType/car/replacementType/renewingCollarCredential.vue')
+  },
+  {
+    name: 'replacementNumber',
+    path: '/replacementNumber',
+    meta: {
+      title: '补换机动车号牌'
+    },
+    component: require('../views/precontractType/car/replacementType/replacementNumber.vue')
+  },
+  {
+    name: 'renewingDrivingLicense',
+    path: '/renewingDrivingLicense',
+    meta: {
+      title: '补换机动车行驶证'
+    },
+    component: require('../views/precontractType/car/replacementType/renewingDrivingLicense.vue')
+  },
+  {
+    name: 'renewingQualification',
+    path: '/renewingQualification',
+    meta: {
+      title: '补换检验合格标志'
+    },
+    component: require('../views/precontractType/car/replacementType/renewingQualification.vue')
+  },
+  {
+    name: 'renewingCertificate',
+    path: '/renewingCertificate',
+    meta: {
+      title: '申领/补领机动车登记证书'
+    },
+    component: require('../views/precontractType/car/replacementType/renewingCertificate.vue')
   },
   {
     name: 'carEmigration',
@@ -214,85 +192,52 @@ let precontractTypeRouter = [
   sceneManageClassRouter,   // 现场办理类
   verifyIssueClassRouter,    // 核发类
   {
-    name: 'appClass',
-    path: '/appClass',
+    name: 'armyLicence',
+    path: '/armyLicence',
     meta: {
-      title: '申领类'
+      title: '持军队、武警警察部队机动车驾驶证驾驶'
     },
-    component: require('../views/precontractType/card/appClass/appClass.vue'),
-    redirect: '/appClass/armyLicence',
-    children: [
-      {
-        name: 'armyLicence',
-        path: '/appClass/armyLicence',
-        meta: {
-          title: '持军队、武警警察部队机动车驾驶证驾驶'
-        },
-        component: require('../views/precontractType/card/appClass/child/armyLicence.vue')
-      },
-      {
-        name: 'temporaryLicence',
-        path: '/appClass/temporaryLicence',
-        meta: {
-          title: '临时机动车驾驶证许可证申领'
-        },
-        component: require('../views/precontractType/card/appClass/child/temporaryLicence.vue')
-      }
-    ]
+    component: require('../views/precontractType/card/appClass/sarmyLicence.vue')
   },
   {
-    name: 'renewalClass',
-    path: '/renewalClass',
+    name: 'temporaryLicence',
+    path: '/temporaryLicence',
     meta: {
-      title: '换证类'
+      title: '临时机动车驾驶证许可证申领'
     },
-    component: require('../views/precontractType/card/renewalClass/renewalClass.vue'),
-    redirect: '/renewalClass/overseasLicence',
-    children: [
-      {
-        name: 'overseasLicence',
-        path: '/renewalClass/overseasLicence',
-        meta: {
-          title: '持境外驾驶证申请换证'
-        },
-        component: require('../views/precontractType/card/renewalClass/child/overseasLicence.vue')
-      },
-      {
-        name: 'HkLicence',
-        path: '/renewalClass/HkLicence',
-        meta: {
-          title: '香港机动车驾驶证面试换证'
-        },
-        component: require('../views/precontractType/card/renewalClass/child/HkLicence.vue')
-      }
-    ]
+    component: require('../views/precontractType/card/appClass/temporaryLicence.vue')
   },
   {
-    name: 'recoverDrive',
-    path: '/recoverDrive',
+    name: 'overseasLicence',
+    path: '/overseasLicence',
+    meta: {
+      title: '持境外驾驶证申请换证'
+    },
+    component: require('../views/precontractType/card/renewalClass/overseasLicence.vue')
+  },
+  {
+    name: 'HkLicence',
+    path: '/HkLicence',
+    meta: {
+      title: '香港机动车驾驶证面试换证'
+    },
+    component: require('../views/precontractType/card/renewalClass/HkLicence.vue')
+  },
+  {
+    name: 'noPhysicalCheck',
+    path: '/noPhysicalCheck',
     mata: {
-      name: '恢复驾驶资格'
+      name: '逾期一年以上未体检类'
     },
-    component: require('../views/precontractType/card/recoverDrive/recoverDrive.vue'),
-    redirect: '/recoverDrive/noPhysicalCheck',
-    children: [
-      {
-        name: 'noPhysicalCheck',
-        path: '/recoverDrive/noPhysicalCheck',
-        mata: {
-          name: '逾期一年以上未体检类'
-        },
-        component: require('../views/precontractType/card/recoverDrive/child/noPhysicalCheck.vue')
-      },
-      {
-        name: 'noChangeLicence',
-        path: '/recoverDrive/noChangeLicence',
-        mata: {
-          name: '逾期一年以上未体检类'
-        },
-        component: require('../views/precontractType/card/recoverDrive/child/noChangeLicence.vue')
-      }
-    ]
+    component: require('../views/precontractType/card/recoverDrive/noPhysicalCheck.vue')
+  },
+  {
+    name: 'noChangeLicence',
+    path: '/noChangeLicence',
+    mata: {
+      name: '逾期一年以上未体检类'
+    },
+    component: require('../views/precontractType/card/recoverDrive/noChangeLicence.vue')
   },
   {
     name: 'fullmarkStudy',
