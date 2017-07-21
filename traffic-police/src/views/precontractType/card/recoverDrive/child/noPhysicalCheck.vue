@@ -35,7 +35,6 @@ export default {
           let dataInfo = {
             type: 2,
             reserveNo: json.data.waterNumber,    // 流水号
-            numberPlate: params.platNumber,      // 车牌号码
             mobilephone: params.bookerMobile,    // 手机号码
             reserveAddress: orderPlace,          // 服务点
             reserveTime: json.data.bidDate       // 预约日期
