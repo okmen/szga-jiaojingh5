@@ -138,7 +138,7 @@ export default {
       dateData: [],
       date: '请选择预约日期',
       clickIndex: '',
-      surplusData: '',
+      surplusData: [],
       tmentTime: ''   // 预约时间
     }
   },
@@ -169,9 +169,10 @@ export default {
     },
     // 预约日期
     dateType: function (item) {
-      if (!item && !this.date) {
+      console.log(item, this.date)
+      if (!this.date || this.date === '请选择预约日期') {
+        this.getmentDate()
       }
-      this.getmentDate()
       if (item) {
         this.date = item
       }
@@ -183,7 +184,9 @@ export default {
     },
     // 预约时间
     timeType: function (str) {
-      this.getTimes()
+      if (!this.time || this.time === '请选择预约时间') {
+        this.getTimes()
+      }
       if (str) {
         this.time = str
       }
@@ -301,6 +304,10 @@ export default {
     },
     // 预约日期获取时间
     getTimes: function () {
+      if (this.date === '请选择预约日期') {
+        Toast({message: '请先选择日期', position: 'bottom', className: 'white'})
+        return
+      }
       let getTimesData = {
         businessTypeId: this.codeId,  // 业务类型
         orgId: this.subscribeId,                 // 预约地点
@@ -362,11 +369,11 @@ export default {
       this.date = '请选择预约日期'
       this.dateData = []
       this.time = '请选择预约时间'
-      this.dateData = []
+      this.surplusData = []
     },
     date () {
       this.time = '请选择预约时间'
-      this.dateData = []
+      this.surplusData = []
     }
   }
 }

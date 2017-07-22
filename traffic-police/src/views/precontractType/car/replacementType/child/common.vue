@@ -273,9 +273,9 @@ export default {
     },
     // 预约日期
     dateType: function (item) {
-      if (!item && !this.date) {
+      if (!this.date || this.date === '请选择预约日期') {
+        this.getmentDate()
       }
-      this.getmentDate()
       if (item) {
         this.date = item
       }
@@ -287,7 +287,9 @@ export default {
     },
     // 预约时间
     timeType: function (str) {
-      this.getTimes()
+      if (!this.time || this.time === '请选择预约时间') {
+        this.getTimes()
+      }
       if (str) {
         this.time = str
       }
@@ -317,7 +319,7 @@ export default {
         let name = this.name === window.localStorage.getItem('userName') ? 0 : 1  // 0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
         let phonedata = {
           mobile: mobilephone,               // 手机号码
-          idType: this.certificate,          // 证件id
+          idType: this.cur_card_id,          // 证件id
           lx: '2',                           // 业务类型
           bookerType: name,                  // 预约方式
           bookerName: this.name,             // 预约人名字
@@ -376,8 +378,8 @@ export default {
       let name = this.name === window.localStorage.getItem('userName') ? 0 : 1  // 0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
       let renewingData = {
         'name': this.name,   // 车主姓名
-        'businessTypeId': this.nametype,          // 业务id
-        'idTypeId': this.certificate,                      // 证件种类ID
+        'businessTypeId': this.codeId,          // 业务id
+        'idTypeId': this.cur_card_id,                      // 证件种类ID
         'idNumber': this.identificationNum,                // 证件号码
         'mobile': window.localStorage.getItem('mobilePhone'),                 // 手机号码
         'msgNumber': this.identifying,                     // 验证码
@@ -413,6 +415,11 @@ export default {
     },
     // 预约日期获取时间
     getTimes: function () {
+      if (this.date === '请选择预约日期') {
+        this.timeShow = false
+        Toast({message: '请先选择日期', position: 'bottom', className: 'white'})
+        return
+      }
       let getTimesData = {
         businessTypeId: this.codeId,  // 业务类型
         orgId: this.subscribeId,                 // 预约地点
@@ -460,7 +467,7 @@ export default {
       if (json.code === '0000') {
         this.varietyData = json.data.idTypeVOs     // 初始化证件类型
         this.variety = this.varietyData[0].name    // 初始化证件类型
-        this.cur_card_id = this.varietyData[0].code    // 初始化证件类型
+        this.cur_card_id = this.varietyData[0].id  // 初始化证件类型
         this.vehicleData = json.data.carTypeVOs     // 初始化车辆类型
         this.vehicle = json.data.carTypeVOs[0].name
         this.vehicleId = json.data.carTypeVOs[0].id
@@ -485,11 +492,11 @@ export default {
       this.date = '请选择预约日期'
       this.dateData = []
       this.time = '请选择预约时间'
-      this.dateData = []
+      this.surplusData = []
     },
     date () {
       this.time = '请选择预约时间'
-      this.dateData = []
+      this.surplusData = []
     }
   }
 }
