@@ -6,7 +6,7 @@
   <div class="order-alter-class" id="orderAlterClass">
     <!-- 列表 -->
     <div class="alter-hbs-list pad-side-50">
-      <ul class="alter-hbs-list">
+      <ul>
         <li class="alter-hbs-item">
           <div class="alter-hbs-name"><span>车主姓名</span></div>
           <div class="alter-hbs-text">
@@ -19,8 +19,8 @@
             <span class="btn-select bg-white" @click.stop="cardSelectClick()">{{ cardMassage }}</span>
             <div class="div-select-ul" v-if="cardSelectShow">
               <ul>
-                <li v-for="(item, index) in cardSelectData" card-id="item.code"
-                    @click.stop="cardSelectClick(item.name, item.code)">{{item.name}}</li>
+                <li v-for="(item, index) in cardSelectData" card-id="item.id"
+                    @click.stop="cardSelectClick(item.name, item.id)">{{item.name}}</li>
               </ul>
             </div>
           </div>
@@ -61,87 +61,59 @@
             </div>
           </div>
         </li>
-        <li class="alter-item pad-0"><p class="alter-order-date">选择预约日期</p></li>
-        <li class="alter-item pad-0 flex">
-          <div class="div-select year">
-            <span class="btn-select" @click.stop="yearClick()">{{getYear}}</span>
-            <div class="div-select-ul" v-if="yearShow">
+        <li class="alter-hbs-item">
+          <div class="alter-hbs-name"><span>预约日期</span></div>
+          <div class="div-select">
+            <span class="btn-select bg-white" @click.stop="dateClick()">{{ orderAllDate }}</span>
+            <div class="div-select-ul" v-if="dateShow">
               <ul>
-                <li v-for="item in years" @click.stop="yearClick(item.str)">{{item.str}}</li>
+                <li v-for="(item, index) in orderAllDateData" @click.stop="dateClick(item, index)">{{item}}</li>
               </ul>
             </div>
           </div>
-          年
-          <div class="div-select month">
-            <span class="btn-select" @click.stop="monthClick()">{{getMonth}}</span>
-            <div class="div-select-ul" v-if="monthShow">
+        </li>
+        <li class="alter-hbs-item">
+          <div class="alter-hbs-name"><span>预约时间</span></div>
+          <div class="div-select">
+            <span class="btn-select bg-white" @click="selectOrderTime()">{{selectDetailTime}}</span>
+            <div class="div-select-ul" v-if="detailTimeShow">
               <ul>
-                <li v-for="item in months" @click.stop="monthClick(item.str)">{{item.str}}</li>
+                <li class="alter-detail-time" v-for="(item, index) in orderDetailsTime" 
+                    @click="selectOrderTime(item, index, item.leftNum)"
+                    :class="{'time-full': item.leftNum === 0, 'active': index === activeIndex && item.leftNum !== 0}">
+                  <p>{{item.time}}</p>
+                  <p v-if="item.leftNum === 0">已满</p>
+                  <p v-else="item.leftNum !== 0">剩余名额<span class="yy_yysl">{{item.leftNum}}</span>位</p>
+                </li>
               </ul>
             </div>
           </div>
-          月
-          <div class="div-select date">
-            <span class="btn-select" @click.stop="dayClick()">{{getDay}}</span>
-            <div class="div-select-ul" v-if="dayShow">
-              <ul>
-                <li v-for="item in days" @click.stop="dayClick(item.str)">{{item.str}}</li>
-              </ul>
-            </div>
-          </div>
-          日
         </li>
       </ul>
-      <ul class="alter-detail">
-        <li class="alter-detail-time" v-for="(item, index) in orderDetailsTime" @click="selectOrderTime(index)"
-            :class="{'time-full': item.leftNum === 0, 'active': index === activeIndex && item.leftNum !== 0}">
-          <p>{{item.time}}</p>
-          <p v-if="item.leftNum === 0">已满</p>
-          <p v-else="item.leftNum !== 0">剩余名额<span class="yy_yysl">{{item.leftNum}}</span>位</p>
-        </li>
-      </ul>
-    </div>
-    <div class="alter-button-box pad-side-50">
-      <button class="btn alterButton" @click="appointTaskClick">预约</button>
+      <div class="alter-button-box">
+        <button class="btn alterButton" @click="appointTaskClick">预约</button>
+      </div>
     </div>
   </div>
 </template>
 <script>
-  import { resultPost, resultPostNoLoading } from '../../../../../service/getData'
+  import { resultPost } from '../../../../../service/getData'
   import { isPhone, specialCharacters } from '../../../../../service/regExp.js'
-  import {
-    getIdTypeId,
-    getOrgsByBusinessTypeId,
-    getAppointmentDate,
-    getAppTimes,
-    simpleSendMessage } from '../../../../../config/baseUrl'
+  import { simpleSendMessage,
+           getPageInit,
+           getAppointmentDate,
+           getAppTimes } from '../../../../../config/baseUrl'
   import { Toast } from 'mint-ui'
   export default {
-    props: ['currentBusinessId', 'currentBusinessCode', 'currentBusinessName'],
+    props: ['currentBusinessId', 'currentBusinessCode'],
     data () {
       return {
         carOwnerName: '',                   // * 车主姓名
         cardNum: '',                        // * 证件号码
-        cardMassage: '居民户口簿',          // 证件名称 选中值
-        cardCode: 'H',
+        cardMassage: '',                    // 证件名称 选中值
         cardID: '',                         // * 证件名称 选中 id
         cardSelectShow: false,              // 是否显示 证件名称 ul列表
-        cardSelectData: [                   // 证件名称 li
-          { 'code': 'H', 'name': '居民户口簿' },
-          { 'code': 'J', 'name': '单位注销证明' },
-          { 'code': 'L', 'name': '驻华机构证明' },
-          { 'code': 'P', 'name': '个体工商户营业执照注册' },
-          { 'code': 'K', 'name': '居住暂住证明' },
-          { 'code': 'A', 'name': '居民身份证' },
-          { 'code': 'M', 'name': '临时居民身份证' },
-          { 'code': 'C', 'name': '军官证' },
-          { 'code': 'E', 'name': '军官离退休证' },
-          { 'code': 'G', 'name': '外交人员身份证明' },
-          { 'code': 'D', 'name': '士兵证' },
-          { 'code': 'F', 'name': '境外人员身份证明' },
-          { 'code': 'N', 'name': '统一社会信用代码' },
-          { 'code': 'B', 'name': '组织机构代码证书' }
-        ],
+        cardSelectData: [],                 // 证件名称 li
         userTelphone: '',                   // * 手机号
         validCode: '',                      // * 验证码
         getValidCodeMsg: '获取验证码',
@@ -150,17 +122,11 @@
         orderPlaceID: '',                   // * 预约地点 选中 id
         orderPlaceShow: false,              // 是否显示 预约地点 ul列表
         appointPlaceData: [],               // 预约地点 li
-        getYear: '',                        // * 年
-        getMonth: '',                       // * 月
-        getDay: '',                         // * 日
-        yearShow: false,                    // 是否显示 年月日 下拉框
-        monthShow: false,
-        dayShow: false,
-        years: [],                          // 从接口获取 日期
-        months: [],
-        days: [],
-        orderAllDate: {},                   // 获取 年月日
+        dateShow: false,
+        orderAllDate: '',                   // * 获取 年月日 值
+        orderAllDateData: [],               // 获取 日期 li
         orderDetailsTime: [],               // 预约 具体时间 li
+        detailTimeShow: false,
         activeIndex: '',                    // 当前点击时间的li
         selectDetailTime: '',               // * 选择的具体时间
         // * 预约方式  0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
@@ -174,74 +140,65 @@
       timeRequest () {
         return {
           businessTypeId: this.currentBusinessId,
-          orgId: this.orderPlaceID
+          orgId: this.orderPlaceID   // 预约地点
         }
-      },
-      // 具体预约时间 年月日
-      yearMonthDay () {
-        return `${this.getYear}-${this.getMonth}-${this.getDay}`
       },
       // 获取 具体时间 参数
       getTimesData () {
         return {
-          businessTypeId: this.currentBusinessId,  // 业务类型
-          orgId: this.orderPlaceID,                // 预约地点
-          date: this.yearMonthDay                  // 预约日期
+          businessTypeId: this.currentBusinessId,    // 业务类型
+          orgId: this.orderPlaceID,                  // 预约地点
+          date: this.orderAllDate,                   // 预约日期
+          carTypeId: this.carTypeID                  // 车辆类型ID
         }
       }
     },
     watch: {
       currentBusinessId (val) {
-        this.getCardId()        // 获取证件 id
-        this.getOrderPlace()    // 获取预约地点 id
         console.log('业务ID', val)
+        this.initData()
       },
       currentBusinessCode (val) {
         console.log('业务code', val)
       },
-      timeRequest (val) {
-        for (let key in val) {
-          if (val[key] === '') {
-            return
-          }
-        }
-        this.getAllYearMonthDay()
+      orderPlaceID () {   // 当预约地点改变的时候 清空预约日期和预约时间
+        this.orderAllDate = ''
+        this.orderAllDateData = []
+        this.selectDetailTime = ''
+        this.orderDetailsTime = []
       },
-      getYear (val) {          // 当前年份的所有月份
-        let option = []
-        for (let key in this.orderAllDate[val]) {
-          option.push({'str': key})
-        }
-        this.months = option
-        this.getMonth = option[0].str
-      },
-      getMonth (val) {        // 当前月份的所有日期
-        let option = []
-        this.orderAllDate[this.getYear][val].map(item => {
-          option.push({'str': item})
-        })
-        this.days = option
-        this.getDay = option[0].str
-      },
-      getTimesData (val) {
-        if (this.getYear === '') return
-        if (this.getMonth === '') return
-        if (this.getDay === '') return
-        for (let key in val) {
-          if (val[key] === '') {
-            return
-          }
-        }
-        this.getDetailsTime()
+      orderAllDate () {   // 预约日期改变的时候 清空预约时间
+        this.selectDetailTime = ''
+        this.orderDetailsTime = []
       }
     },
     methods: {
+      // 初始化页面 证件，车辆类型，使用性质
+      initData () {
+        resultPost(getPageInit, { businessTypeId: this.currentBusinessId }).then(json => {
+          console.log(json)
+          if (json.code === '0000') {
+            if (json.data) {
+              // 证件 id name
+              this.cardSelectData = json.data.idTypeVOs
+              this.cardMassage = this.cardSelectData[0].name
+              this.cardID = this.cardSelectData[0].id
+              console.log(this.cardMassage + this.cardID)
+              // 预约地点 id name
+              this.appointPlaceData = json.data.orgVOs
+              this.orderPlaceValue = this.appointPlaceData[0].name
+              this.orderPlaceID = this.appointPlaceData[0].id
+            }
+          }
+        })
+      },
+
       // 证件名称 选择
-      cardSelectClick: function (str, code) {
+      cardSelectClick: function (str, id) {
         if (str) {
           this.cardMassage = str
-          this.cardCode = code
-          this.getCardId()
+          this.cardID = id
+          console.log('证件id', this.cardID)
         }
         if (this.cardSelectShow === true) {
           this.cardSelectShow = false
@@ -254,27 +211,11 @@
         }
       },
 
-      // 获取预约地点
-      getOrderPlace: function () {
-        resultPost(getOrgsByBusinessTypeId, { businessTypeId: this.currentBusinessId }).then(json => {
-          console.log('预约地点', json)
-          if (json.code === '0000') {
-            this.appointPlaceData = json.data
-            this.orderPlaceValue = this.appointPlaceData[0].name  // 默认预约地点
-            this.orderPlaceID = this.appointPlaceData[0].id
-            this.getAllYearMonthDay()   // 获取预约日期
-          } else {
-            Toast({ message: json.msg, className: 'white', duration: 1500 })
-          }
-        })
-      },
-
       // 预约地点 选择
       orderPlaceClick: function (str, placeID) {
         if (str) {
           this.orderPlaceValue = str
           this.orderPlaceID = placeID
-          this.getAllYearMonthDay()
           console.log('预约地点id', this.orderPlaceID)
         }
         if (this.orderPlaceShow === true) {
@@ -289,103 +230,72 @@
       },
 
       // 根据预约地点 获取预约日期
-      getAllYearMonthDay () {
+      getOrderDate () {
         resultPost(getAppointmentDate, this.timeRequest).then(json => {
           console.log(json, '时间获取成功')
-          this.orderAllDate = {}
           if (json.code === '0000') {
-            json.data.map((item, index) => {
-              let yearMonthDay = item.split('-')
-              if (!this.orderAllDate[yearMonthDay[0]]) {
-                this.orderAllDate[yearMonthDay[0]] = {}
-              }
-              if (!this.orderAllDate[yearMonthDay[0]][yearMonthDay[1]]) {
-                this.orderAllDate[yearMonthDay[0]][yearMonthDay[1]] = []
-              }
-              this.orderAllDate[yearMonthDay[0]][yearMonthDay[1]].push(yearMonthDay[2])
-            })
-            let option = []
-            for (let key in this.orderAllDate) {
-              option.push({'str': key})
-            }
-            this.years = option
-            this.getYear = option[0].str  // 年初始值设置
+            this.orderAllDateData = json.data
           } else {
-            this.years = ''
-            this.months = ''
-            this.days = ''
             Toast({message: json.msg, className: 'white', duration: 1500})
           }
         })
+      },
+
+      // 选择日期
+      dateClick: function (item, index) {
+        if (!item && !this.orderAllDate) {  // 当有日期的时候再点击选择日期 不调接口
+          this.getOrderDate()
+        }
+        if (item) {
+          this.orderAllDate = item
+          console.log(this.orderAllDate)
+        }
+        if (this.dateShow === true) {
+          this.dateShow = false
+        } else {
+          this.dateShow = true
+          this.detailTimeShow = false
+        }
       },
 
       // 根据预约日期 获取 具体预约时间
       getDetailsTime: function () {
         resultPost(getAppTimes, this.getTimesData).then(json => {
           if (json.code === '0000') {
-            let timeData = []
+            let detailData = []
             json.data.map(item => {
-              timeData.push({'time': item.apptime, 'leftNum': item.maxnumber - item.yetnumber})
+              detailData.push({'time': item.apptime, 'leftNum': item.maxnumber - item.yetnumber})
             })
-            this.orderDetailsTime = timeData
+            this.orderDetailsTime = detailData
           } else {
+            this.orderDetailsTime = ''
             Toast({message: json.msg, className: 'white', duration: 1500})
           }
         })
       },
 
-      // 选择年
-      yearClick: function (str) {
-        if (str) {
-          this.getYear = str
-          this.getDetailsTime()
-        }
-        this.monthShow = false
-        this.dayShow = false
-        if (this.yearShow === true) {
-          this.yearShow = false
-        } else {
-          this.yearShow = true
-        }
-      },
-
-      // 选择月
-      monthClick: function (str) {
-        if (str) {
-          this.getMonth = str
-          this.getDetailsTime()
-        }
-        this.yearShow = false
-        this.dayShow = false
-        if (this.monthShow === true) {
-          this.monthShow = false
-        } else {
-          this.monthShow = true
-        }
-      },
-
-      // 选择日
-      dayClick: function (str) {
-        if (str) {
-          this.getDay = str
-          this.getDetailsTime()
-        }
-        this.monthShow = false
-        this.yearShow = false
-        if (this.dayShow === true) {
-          this.dayShow = false
-        } else {
-          this.dayShow = true
-        }
-      },
-
-      // 选择预约时间 添加 选中样式
-      selectOrderTime: function (index) {
-        this.activeIndex = index
-        if (this.orderDetailsTime[index].leftNum === 0) {
+      // 选择预约时间
+      selectOrderTime: function (item, index, leftNum) {
+        if (!this.orderAllDate) {
+          Toast({message: '请先选择预约日期', className: 'white', duration: 1500})
           return
         }
-        this.selectDetailTime = this.orderDetailsTime[index].time
+        if (leftNum === '0') {
+          return
+        }
+        if (!item && !this.selectDetailTime) {  // 当有时间的时候再点击选择日期 不调接口
+          this.getDetailsTime()
+        }
+        if (item) {
+          this.activeIndex = index
+          this.selectDetailTime = this.orderDetailsTime[index].time
+        }
+        if (this.detailTimeShow === true) {
+          this.detailTimeShow = false
+        } else {
+          this.detailTimeShow = true
+          this.dateShow = false
+        }
       },
 
       // 获取验证码
@@ -438,9 +348,9 @@
             idTypeId: this.cardID,                  // 证件种类 id
             idNumber: this.cardNum,                 // 证件号码
             mobile: window.localStorage.getItem('mobilePhone'),                   // 手机号
-            msgNumber: this.validCode,                   // 验证码
+            msgNumber: this.validCode,              // 验证码
             orgId: this.orderPlaceID,               // 预约地点 id
-            appointmentDate: this.yearMonthDay,     // 预约日期
+            appointmentDate: this.orderAllDate,     // 预约日期
             appointmentTime: this.selectDetailTime, // 预约具体时间
             bookerName: window.localStorage.getItem('userName'),               // 预约车主姓名
             bookerIdNumber: window.localStorage.getItem('identityCard'),       // 预约人身份证号码
@@ -449,22 +359,6 @@
           }
           this.$emit('appointTaskClick', reqData, this.orderPlaceValue)
         }
-      },
-
-      // 获取证件 id
-      getCardId () {
-        let cardCodeReq = {
-          code: this.cardCode,
-          businessTypeId: this.currentBusinessId
-        }
-        resultPostNoLoading(getIdTypeId, cardCodeReq).then(json => {   // 根据证件类型Code获取证件类型Id
-          if (json.code === '0000') {
-            this.cardID = json.data
-            console.log('证件类型id', this.cardID)
-          } else {
-            Toast({ message: json.msg, className: 'white', duration: 1500 })
-          }
-        })
       },
 
       // 非空 or 错误判断
@@ -491,6 +385,8 @@
       // 不显示 select下拉框
       dontShowUL () {
         this.cardSelectShow = false
+        this.abbreviationSelectShow = false
+        this.useNatureShow = false
         this.orderPlaceShow = false
         this.carTypeShow = false
         this.typeSelectShow = false

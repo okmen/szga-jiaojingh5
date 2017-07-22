@@ -6,7 +6,8 @@
       <div class="alter-select pad-side-50">
         <div class="alter-chose"><span>业务类型</span></div>
         <div class="alter-wd bg-white">
-          <p>{{bussinessName}}</p>
+          <p>此界面提供：信息更变、延期换证、期满换证、规定年龄换证、
+          损坏换证、遗失换证、注销业务、降驾换证、转入换证的预约</p>
         </div>
       </div>
       <div class="alter-from">
