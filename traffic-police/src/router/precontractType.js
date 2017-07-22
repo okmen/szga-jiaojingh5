@@ -50,14 +50,6 @@ let precontractTypeRouter = [
         component: require('../views/precontractType/car/registerClass/page/cancellationRegister.vue')
       },
       {
-        name: 'changeRegister',
-        path: 'changeRegister',
-        meta: {
-          title: '机动车变更登记'
-        },
-        component: require('../views/precontractType/car/registerClass/page/changeRegister.vue')
-      },
-      {
         name: 'generalChangeRegister',
         path: 'generalChangeRegister',
         meta: {
@@ -80,14 +72,6 @@ let precontractTypeRouter = [
           title: '机动车变更登记(夫妻变更)'
         },
         component: require('../views/precontractType/car/registerClass/page/manWifeChange.vue')
-      },
-      {
-        name: 'replaceLicense',
-        path: 'replaceLicense',
-        meta: {
-          title: '补换领机动车行驶证'
-        },
-        component: require('../views/precontractType/car/registerClass/page/replaceLicense.vue')
       }
     ]
   },

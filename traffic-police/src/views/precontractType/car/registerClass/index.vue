@@ -43,7 +43,7 @@
 <script>
   import {resultPost} from 'service/getData'
   //  import { MessageBox } from 'mint-ui'
-  import {getBusinessTypeId, getPageInit} from 'config/baseUrl.js'
+  import {getPageInit} from 'config/baseUrl.js'
   export default {
     data () {
       return {
@@ -60,7 +60,6 @@
           'manWifeChange': '机动车变更登记(夫妻变更)'
 //          'replaceLicense': '补换领机动车行驶证'
         },
-        businessTypeId: '',
         businessTypeStr: '',
         businessTypeToCode: {
           'transferRegistration': 'JD15',
@@ -78,6 +77,11 @@
     created () {
       this.getBusinessTypeId()
     },
+    computed: {
+      businessTypeId () {
+        return this.$route.query.id
+      }
+    },
     watch: {
       '$route': 'getBusinessTypeId'
     },
@@ -89,25 +93,16 @@
         this.businessTypeId = ''
         this.currentBusinessType = this.businessType[this.$route.name]
         this.achieveCode = this.businessTypeToCode[this.$route.name]
-        let requestData = {
-          type: '1',
-          part: '1',
-          code: this.businessTypeToCode[this.$route.name]
-        }
-        resultPost(getBusinessTypeId, requestData).then(data => {
-          this.businessTypeId = data.data
-          console.log(data, '业务类型编码获取成功')
-          resultPost(getPageInit, {businessTypeId: this.businessTypeId}).then(json => {
-            console.log(json, '页面初始化的数据')
-            if (json.code === '0000') {
-              this.$store.commit('saveModelOfCar', json.data.carModelArray) // 车辆型号
-              this.$store.commit('saveCarSelectData', json.data.carTypeVOs) // 车辆类型
-              this.$store.commit('saveCredentialsName', json.data.idTypeVOs) // 证件名称
-              this.$store.commit('savePointerType', json.data.indexTypeVos) // 指标类型
-              this.$store.commit('saveAppointmentLocation', json.data.orgVOs) // 预约地点
-              this.$store.commit('saveUseNature', json.data.useCharaters) // 预约地点
-            }
-          })
+        resultPost(getPageInit, {businessTypeId: this.businessTypeId}).then(json => {
+          console.log(json, '页面初始化的数据')
+          if (json.code === '0000') {
+            this.$store.commit('saveModelOfCar', json.data.carModelArray) // 车辆型号
+            this.$store.commit('saveCarSelectData', json.data.carTypeVOs) // 车辆类型
+            this.$store.commit('saveCredentialsName', json.data.idTypeVOs) // 证件名称
+            this.$store.commit('savePointerType', json.data.indexTypeVos) // 指标类型
+            this.$store.commit('saveAppointmentLocation', json.data.orgVOs) // 预约地点
+            this.$store.commit('saveUseNature', json.data.useCharaters) // 预约地点
+          }
         })
       }
     }

@@ -604,9 +604,16 @@
           })
           return false
         }
+        if (!this.yearMonthDay) {
+          Toast({
+            message: '请选择预约日期',
+            duration: 2000
+          })
+          return false
+        }
         if (!this.appointmentTime) {
           Toast({
-            message: '请选择预约时间段',
+            message: '请选择预约时间',
             duration: 2000
           })
           return false
