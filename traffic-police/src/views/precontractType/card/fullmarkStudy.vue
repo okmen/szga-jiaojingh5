@@ -6,10 +6,10 @@
     <div class="alter-select pad-side-50">
       <div class="alter-chose"><span>业务类型</span></div>
       <div class="div-select alter-wd">
-        <input class="text-input bg-white" value="满分学习考试" readonly>
+        <input class="text-input bg-white" :value="bussinessName" readonly>
       </div>
     </div>
-    <div class="alter-from pad-side-50">
+    <div class="alter-from">
       <common @appointTaskClick="appointTask"
               :currentBusinessId="businessId"
               :currentBusinessCode="bussinessCode"></common>
@@ -19,34 +19,27 @@
 </template>
 <script>
 import { resultPost } from '../../../service/getData'
-import { getBusinessTypeId, createDriveInfoZJ10 } from '../../../config/baseUrl.js'
+import { createDriveInfoZJ10 } from '../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
 import common from './recoverDrive/child/common.vue'
 export default {
   name: 'fullmarkStudy',
   data () {
     return {
-      businessId: '',           // 当前业务 id
-      bussinessCode: 'ZJ10'     // 当前业务 code
+      businessId: '',      // 业务id
+      bussinessCode: '',   // 业务code
+      bussinessName: ''    // 业务名称
     }
   },
   components: {
     common
   },
-  created () {
-    // 获取业务id
-    let reqData = {
-      type: '0',
-      part: '',
-      code: this.bussinessCode
-    }
-    resultPost(getBusinessTypeId, reqData).then(json => {
-      if (json.code === '0000') {
-        this.businessId = json.data
-      } else {
-        Toast({message: json.msg, className: 'white'})
-      }
-    })
+  mounted () {
+    var query = this.$route.query
+    // console.log(query)
+    this.businessId = query.id
+    this.bussinessCode = query.code
+    this.bussinessName = query.name
   },
   methods: {
     appointTask: function (params, orderPlace) {

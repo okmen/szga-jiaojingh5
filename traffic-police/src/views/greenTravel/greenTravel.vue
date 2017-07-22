@@ -56,7 +56,7 @@ export default {
       // 未登录状态跳转
       if (this.reading && !this.isLogin) {
         this.$router.push({
-          name: 'starLevel'
+          name: 'login'
         })
       }
       // 已登录跳转

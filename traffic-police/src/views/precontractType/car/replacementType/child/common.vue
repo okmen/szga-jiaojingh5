@@ -18,7 +18,7 @@
             <span class="btn-select bg-colour" @click.stop="varietyID()">{{ variety }}</span>
             <div class="div-select-ul" v-if="varietyShow">
               <ul>
-                <li v-for="item in varietyData" @click.stop="varietyID(item.str, item.id)">{{item.str}}</li>
+                <li v-for="item in varietyData" @click.stop="varietyID(item.name, item.code)">{{item.name}}</li>
               </ul>
             </div>
           </div>
@@ -74,7 +74,7 @@
             <span class="btn-select bg-colour" @click.stop="vehicleType()">{{ vehicle }}</span>
             <div class="div-select-ul" v-if="vehicleShow">
               <ul>
-                <li v-for="item in vehicleData" @click.stop="vehicleType(item.str, item.id)">{{item.str}}</li>
+                <li v-for="item in vehicleData" @click.stop="vehicleType(item.name, item.code)">{{item.name}}</li>
               </ul>
             </div>
           </div>
@@ -87,7 +87,7 @@
             <span class="btn-select bg-colour" @click.stop="employClick()">{{ employ }}</span>
             <div class="div-select-ul" v-if="employShow">
               <ul>
-                <li v-for="item in employData" @click.stop="employClick(item.str, item.id)">{{item.str}}</li>
+                <li v-for="item in employData" @click.stop="employClick(item.name, item.id)">{{item.name}}</li>
               </ul>
             </div>
           </div>
@@ -113,39 +113,18 @@
             </div>
           </div>
         </li>
-        <li class="form-li">
-          <span>选择预约日期</span>
-        </li>
-        <li class="form-li clear">
-          <!-- <input class="text-input width-27 btn-cen left" type="" name="" value="" v-model="year" readonly/> -->
-          <div class="div-select width-27 left">
-            <span class="btn-select btn-cen bg-colour" @click.stop="yearClick()">{{year}}</span>
-            <!-- <input class="btn-select btn-cen bg-colour" @click.stop="yearClick()" v-model="year" readonly/> -->
-            <div class="div-select-ul" v-if="yearShow">
+        <li class="form-line">
+          <div class="form-line-item item-name">
+            <span>预约日期</span>
+          </div>
+          <div class="div-select">
+            <span class="btn-select bg-colour" @click.stop="timeType()">{{ time }}</span>
+            <div class="div-select-ul" v-if="timeShow">
               <ul>
-                <li v-for="item in years" @click.stop="yearClick(item.str)">{{item.str}}</li>
+                <li v-for="item in timeData" @click.stop="timeType(item.str, item.id)">{{item.str}}</li>
               </ul>
             </div>
           </div>
-          <span class="left rene">年</span>
-          <div class="div-select width-27 left">
-            <span class="btn-select btn-cen bg-colour" @click.stop="monthClick()">{{month}}</span>
-            <div class="div-select-ul" v-if="monthShow">
-              <ul>
-                <li v-for="item in months" @click.stop="monthClick(item.str)">{{item.str}}</li>
-              </ul>
-            </div>
-          </div>
-          <span class="left rene">月</span>
-          <div class="div-select width-27 left">
-            <span class="btn-select btn-cen bg-colour" @click.stop="dateClick()">{{date}}</span>
-            <div class="div-select-ul" v-if="datesShow">
-              <ul>
-                <li v-for="item in dates" @click.stop="dateClick(item.str)">{{item.str}}</li>
-              </ul>
-            </div>
-          </div>
-          <span class="left rene">日</span>
         </li>
       </ul>
       <ul class="renewingUl clear">
@@ -162,7 +141,7 @@
 
 <script>
 import { resultPost } from '../../../../../service/getData'
-import { simpleSendMessage, getBusinessCarTypeId, getIdTypeId, getOrgsByBusinessTypeId, getAppointmentDate, getAppTimes } from '../../../../../config/baseUrl.js'
+import { simpleSendMessage, getBusinessCarTypeId, getIdTypeId, getOrgsByBusinessTypeId, getAppointmentDate, getAppTimes, getPageInit } from '../../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
 export default {
   name: 'renewingCollarCredential',
@@ -178,66 +157,10 @@ export default {
       numberPlate: '',                  // 车牌号码
       mobilephone: '',                  // 手机号码
       behindTheFrame4Digits: '',        // 车架号
-      variety: '居民户口簿',
-      cur_card_id: 'H',                 // 证件id
+      variety: '',
+      cur_card_id: '',                 // 证件id
       varietyShow: false,               // 证件样式
       varietyData: [
-        {
-          'id': 'H',
-          'str': '居民户口簿'
-        },
-        {
-          'id': 'J',
-          'str': '单位注销证明'
-        },
-        {
-          'id': 'L',
-          'str': '驻华机构证明'
-        },
-        {
-          'id': 'P',
-          'str': '个体工商营业执照注册'
-        },
-        {
-          'id': 'K',
-          'str': '居住暂住证明'
-        },
-        {
-          'id': 'A',
-          'str': '居民身份证'
-        },
-        {
-          'id': 'M',
-          'str': '临时居民身份证'
-        },
-        {
-          'id': 'C',
-          'str': '军官证'
-        },
-        {
-          'id': 'E',
-          'str': '军官离退休证'
-        },
-        {
-          'id': 'G',
-          'str': '外交人员身份证明'
-        },
-        {
-          'id': 'D',
-          'str': '士兵证'
-        },
-        {
-          'id': 'F',
-          'str': '境外人员身份证明'
-        },
-        {
-          'id': 'N',
-          'str': '统一社会信用代码'
-        },
-        {
-          'id': 'B',
-          'str': '组织机构代码证书'
-        }
       ],
       abbreviationSelectShow: false,    // 省字列表显示与否
       abbreviationSelectMassage: '粤',  // 默认省字
@@ -246,140 +169,26 @@ export default {
           'str': '粤'
         }
       ],
-      employ: '非运营',
+      employ: '',
       employShow: false,                // 使用性质样式
       employId: 'A',
       employData: [
-        {
-          'id': 'A',
-          'str': '非运营'
-        },
-        {
-          'id': 'B',
-          'str': '公路客运'
-        },
-        {
-          'id': 'C',
-          'str': '公交客运'
-        },
-        {
-          'id': 'E',
-          'str': '旅游客运'
-        },
-        {
-          'id': 'F',
-          'str': '货运'
-        },
-        {
-          'id': 'G',
-          'str': '租赁'
-        }
       ],
       subscribe: '',                    // 预约地点
       subscribeId: '',                  // 预约地点id
       subscribeShow: false,
       businessData: [],
       vehicleShow: false,
-      vehicle: '大型汽车',
-      vehicleId: '01',
+      vehicle: '',
+      vehicleId: '',
       vehicleTypeId: '',                // 车辆类型ID
       vehicleData: [
-        {
-          'id': '01',
-          'str': '大型汽车'
-        },
-        {
-          'id': '02',
-          'str': '小型汽车'
-        },
-        {
-          'id': '03',
-          'str': '使馆汽车'
-        },
-        {
-          'id': '04',
-          'str': '领馆汽车'
-        },
-        {
-          'id': '05',
-          'str': '境外汽车'
-        },
-        {
-          'id': '06',
-          'str': '外籍汽车'
-        },
-        {
-          'id': '07',
-          'str': '普通摩托车'
-        },
-        {
-          'id': '08',
-          'str': '轻便摩托车'
-        },
-        {
-          'id': '09',
-          'str': '使馆摩托车'
-        },
-        {
-          'id': '10',
-          'str': '领馆摩托车'
-        },
-        {
-          'id': '11',
-          'str': '境外摩托车'
-        },
-        {
-          'id': '12',
-          'str': '外籍摩托车'
-        },
-        {
-          'id': '13',
-          'str': '低速车'
-        },
-        {
-          'id': '14',
-          'str': '拖拉机'
-        },
-        {
-          'id': '15',
-          'str': '挂车'
-        },
-        {
-          'id': '16',
-          'str': '教练汽车'
-        },
-        {
-          'id': '17',
-          'str': '教练摩托车'
-        },
-        {
-          'id': '18',
-          'str': '实验汽车'
-        },
-        {
-          'id': '19',
-          'str': '试验摩托车'
-        },
-        {
-          'id': '20',
-          'str': '临时入境车'
-        },
-        {
-          'id': '99',
-          'str': '其他号牌'
-        }
       ],
-      monthShow: false,
-      datesShow: false,
-      yearShow: false,
-      month: '',                        // 月
-      year: '',                         // 年
-      date: '',                         // 日
-      years: [],
-      months: [],
-      dates: [],
-      surplusData: [],
+      timeShow: false,
+      timeData: [],
+      time: '2017-7-21',
       clickIndex: '',
+      surplusData: '',
       tmentTime: ''   // 预约时间
     }
   },
@@ -446,46 +255,14 @@ export default {
         this.vehicleShow = true
       }
     },
-    // 年
-    yearClick: function (str) {
+    timeType: function (str) {
       if (str) {
-        this.year = str
-        this.getTimes()
+        this.vehicle = str
       }
-      this.monthShow = false
-      this.datesShow = false
-      if (this.yearShow === true) {
-        this.yearShow = false
+      if (this.timeShow === true) {
+        this.timeShow = false
       } else {
-        this.yearShow = true
-      }
-    },
-    // 月
-    monthClick: function (str) {
-      if (str) {
-        this.month = str
-        this.getTimes()
-      }
-      this.yearShow = false
-      this.datesShow = false
-      if (this.monthShow === true) {
-        this.monthShow = false
-      } else {
-        this.monthShow = true
-      }
-    },
-    // 日
-    dateClick: function (str) {
-      if (str) {
-        this.date = str
-        this.getTimes()
-      }
-      this.monthShow = false
-      this.yearShow = false
-      if (this.datesShow === true) {
-        this.datesShow = false
-      } else {
-        this.datesShow = true
+        this.timeShow = true
       }
     },
     // 选择预约时段
@@ -637,34 +414,6 @@ export default {
       resultPost(getAppointmentDate, getmentData).then(json => {
         console.log(json)
         if (json.code === '0000') {
-          this.mentDate = json.data
-          let yearDate = []
-          let monthDate = []
-          let dayDate = []
-          this.mentDate.map((item, index) => {
-            let yearMonthDay = item.split('-')
-            if (index === 0) {
-              yearDate.push({'str': yearMonthDay[0]})
-              monthDate.push({'str': yearMonthDay[1]})
-              dayDate.push({'str': yearMonthDay[2]})
-            } else {
-              if (yearDate[yearDate.length - 1].str !== yearMonthDay[0]) {
-                yearDate.push({'str': yearMonthDay[0]})
-              }
-              if (monthDate[monthDate.length - 1].str !== yearMonthDay[1]) {
-                monthDate.push({'str': yearMonthDay[1]})
-              }
-              if (dayDate[dayDate.length - 1].str !== yearMonthDay[2]) {
-                dayDate.push({'str': yearMonthDay[2]})
-              }
-            }
-          })
-          this.years = yearDate
-          this.months = monthDate
-          this.dates = dayDate
-          this.year = yearDate[0].str
-          this.month = monthDate[0].str
-          this.date = dayDate[0].str
           this.getTimes()     // 预约日期获取预约时间
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
@@ -709,17 +458,35 @@ export default {
     })
   },
   mounted () {
+    this.code = this.$route.query.code
+    this.codeId = this.$route.query.id
+    this.nametype = this.$route.query.name
+    console.log(this.$route.query.code)
+    console.log(this.$route.query.id)
+    console.log(this.$route.query.name)
+    let getBusinessData = {
+      businessTypeId: this.$route.query.id
+    }
+    console.log(getBusinessData)
+    resultPost(getPageInit, getBusinessData).then(json => {
+      if (json.code === '0000') {
+        this.varietyData = json.data.idTypeVOs     // 初始化证件类型
+        this.variety = this.varietyData[0].name    // 初始化证件类型
+        this.cur_card_id = this.varietyData[0].code    // 初始化证件类型
+        this.vehicleData = json.data.carTypeVOs     // 初始化车辆类型
+        this.vehicle = json.data.carTypeVOs[0].name
+        this.vehicleId = json.data.carTypeVOs[0].code
+        this.employData = json.data.useCharaters    // 初始化使用性质
+        this.employ = json.data.useCharaters[0].name
+        this.employId = json.data.useCharaters[0].id
+        this.businessData = json.data.orgVOs         // 初始化车辆类型
+        this.subscribe = json.date.orgVOs[0].name
+        console.log('车辆类型', this.subscribe)
+        this.subscribeId = json.date.orgVOs[0].id
+      }
+    })
   },
   watch: {
-    currentBusinessId (val) {
-      this.vehicleTypeIdFn() // 获取汽车类型ID
-      this.businessId()   // 获取地点
-      this.certificateId()  // 获取证件类型id
-      console.log(val)
-    },
-    currentCode (val) {
-      console.log(val)
-    }
   }
 }
 </script>

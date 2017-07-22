@@ -1,6 +1,9 @@
-<!-- 补换机动车号牌 -->
+<!-- 
+  持境外驾驶证申请换证 
+-->
+
 <template>
-  <div class="replacementNumber">
+  <div class="overseasLicence">
     <common 
       @submitClick="subFn"
       :currentBusinessId="businessId"
@@ -10,12 +13,12 @@
 </template>
 
 <script>
-import { resultPost } from '../../../../../service/getData'
-import { createVehicleInfo } from '../../../../../config/baseUrl.js'
+import { resultPost } from '../../../../service/getData'
+import { createDriveInfoZJ17 } from '../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
-import common from './common.vue'
+import common from './child/common.vue'
 export default {
-  name: 'replacementNumber',
+  name: 'overseasLicence',
   props: ['businessId', 'businessCode'],    // 拿到当前业务的id  然后传给 common组件
   data () {
     return {
@@ -26,17 +29,17 @@ export default {
   },
   methods: {
     subFn: function (params, subscribe) {
-      console.log('replacementNumber', params)
-      resultPost(createVehicleInfo, params).then(json => {
-        console.log(json)
+      console.log('overseasLicence', params)
+      resultPost(createDriveInfoZJ17, params).then(json => {
         if (json.code === '0000') {
+          console.log(json.data.bidDate)
+          console.log(json.data.waterNumber)
           let dataInfo = {
             type: 2,
-            reserveNo: json.data,    // 流水号
-            numberPlate: params.platNumber,      // 车牌号码
-            mobilephone: params.bookerMobile,    // 手机号码
+            reserveTime: json.data.bidDate,      // 预约日期
+            reserveNo: json.data.waterNumber,    // 流水号
             reserveAddress: subscribe,          // 服务点
-            reserveTime: params.appointmentDate  // 预约日期
+            mobilephone: params.bookerMobile    // 手机号码
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')
@@ -48,5 +51,5 @@ export default {
   }
 }
 </script>
-<style lang="css" scoped>
+<style lang="less" scoped>
 </style>

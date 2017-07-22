@@ -1,12 +1,15 @@
 <template>
   <!-- 预约类-机动车业务导航页 -->
   <div class="carService-outer">
-    <div class="query-link">
-      <router-link :to="isLogin ? 'applyClass/01' : routerUrl">申请通行证（外地车）</router-link>
+    <div class="query-link" v-for="(item, index) in menuArr">
+      <a href="javascript:;" @click="routerLink(index)">{{ item.name }}</a>
     </div>
   </div>
 </template>
 <script>
+  import { resultPost } from '../../service/getData'
+  import { Toast } from 'mint-ui'
+  import { getBusinessTypes } from '../../config/baseUrl'
   export default {
     name: 'carService',
     data () {
@@ -17,29 +20,39 @@
         businesses: [],
         isLogin: false,
         isLogins: window.localStorage.getItem('isLogin'),
-        routerUrl: ''
+        routerUrl: '',
+        menuArr: []
       }
     },
     methods: {
       clickShow: function () {
         this.isShow = !this.isShow
+      },
+      initMenu: function () {
+        let reqData = {
+          type: 1
+        }
+        if (window.sessionStorage.car) {
+          console.log('22222222222')
+          this.menuArr = JSON.parse(window.sessionStorage.car)
+          return false
+        }
+        resultPost(getBusinessTypes, reqData).then(json => {
+          console.log(json)
+          if (json.code === '0000') {
+            this.menuArr = json.data
+            window.sessionStorage.setItem('car', JSON.stringify(json.data))
+          } else {
+            Toast('系统异常')
+          }
+        })
+      },
+      routerLink: function (index) {
+        this.$router.push({name: 'userAgreement_precontract', query: { type: 'car', index: index }})
       }
     },
     mounted () {
-      let isLogins = window.localStorage.getItem('isLogin')
-      let cars = JSON.parse(window.localStorage.getItem('cars'))
-      if (isLogins) {
-        this.routerUrl = 'login'
-        if (cars.length !== 0) {
-          this.isLogin = true
-        } else {
-          this.isLogin = false
-          this.routerUrl = 'addVehicle'
-        }
-      } else {
-        this.isLogin = false
-        this.routerUrl = 'login'
-      }
+      this.initMenu()
     }
   }
 </script>

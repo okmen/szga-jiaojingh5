@@ -6,25 +6,35 @@
     <div class="markAlter">
       <common @appointTaskClick="appointTask"
               :currentBusinessId="businessId"
-              :currentBusinessCode="bussinessCode"></common>
+              :currentBusinessCode="bussinessCode"
+              :currentBusinessName="bussinessName"></common>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
 </template>
 <script>
-import { resultPost } from '../../../../../service/getData'
-import { markAlter } from '../../../../../config/baseUrl'
-import common from './common.vue'
+import { resultPost } from '../../../../service/getData'
+import { markAlter } from '../../../../config/baseUrl'
+import common from './child/common.vue'
 import { Toast } from 'mint-ui'
 export default {
   name: 'markAlter',
-  props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件
   data () {
     return {
+      businessId: '',      // 业务id
+      bussinessCode: '',   // 业务code
+      bussinessName: ''    // 业务名称
     }
   },
   components: {
     common
+  },
+  mounted () {
+    var query = this.$route.query
+    // console.log(query)
+    this.businessId = query.id
+    this.bussinessCode = query.code
+    this.bussinessName = query.name
   },
   methods: {
     appointTask: function (params, orderPlace) {

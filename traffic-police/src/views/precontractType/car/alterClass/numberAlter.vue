@@ -1,37 +1,45 @@
 <!-- 
 *  #变更类#
-*  #出租客运车辆使用性质变更
+*  #机动车打刻原车发动机 #号码# 变更备案
  -->
 <template>
-    <div class="taxiUserAlter">
+    <div class="numberAlter">
       <common @appointTaskClick="appointTask"
               :currentBusinessId="businessId"
-              :currentBusinessCode="bussinessCode"></common>
+              :currentBusinessCode="bussinessCode"
+              :currentBusinessName="bussinessName"></common>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
 </template>
 <script>
-import { resultPost } from '../../../../../service/getData'
-import { taxiAlter } from '../../../../../config/baseUrl'
-import common from './common.vue'
+import { resultPost } from '../../../../service/getData'
+import { numberAlter } from '../../../../config/baseUrl'
+import common from './child/common.vue'
 import { Toast } from 'mint-ui'
 export default {
-  name: 'taxiUserAlter',
-  props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件
+  name: 'numberAlter',
   data () {
     return {
+      businessId: '',      // 业务id
+      bussinessCode: '',   // 业务code
+      bussinessName: ''    // 业务名称
     }
   },
   components: {
     common
   },
   mounted () {
+    var query = this.$route.query
+    // console.log(query)
+    this.businessId = query.id
+    this.bussinessCode = query.code
+    this.bussinessName = query.name
   },
   methods: {
-    appointTask: function (params, orderPlace) {  // 从 common 组件获取 reqData
-      console.log('出租客运车辆使用性质变更', params)
-      resultPost(taxiAlter, params).then(json => {
+    appointTask: function (params, orderPlace) {
+      console.log('号码变更', params)
+      resultPost(numberAlter, params).then(json => {
         console.log(json)
         if (json.code === '0000') {
           let dataInfo = {
@@ -40,7 +48,7 @@ export default {
             numberPlate: params.platNumber,      // 车牌号码
             mobilephone: params.bookerMobile,    // 手机号码
             reserveAddress: orderPlace,          // 服务点
-            reserveTime: json.data.bidDate       // 预约日期
+            reserveTime: params.appointmentDate  // 预约日期
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')
@@ -55,3 +63,4 @@ export default {
 <style lang="less">
 
 </style>
+

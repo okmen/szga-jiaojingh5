@@ -1,6 +1,7 @@
-<!--  *换领机动车登记证书 -->
+<!-- 补换机动车行驶证 -->
+
 <template>
-  <div class="renewingCollarCredential">
+  <div class="renewingDrivingLicense">
     <common 
       @submitClick="subFn"
       :currentBusinessId="businessId"
@@ -10,12 +11,12 @@
 </template>
 
 <script>
-import { resultPost } from '../../../../../service/getData'
-import { createVehicleInfo } from '../../../../../config/baseUrl.js'
+import { resultPost } from '../../../../service/getData'
+import { createVehicleInfo } from '../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
-import common from './common.vue'
+import common from './child/common.vue'
 export default {
-  name: 'renewingCollarCredential',
+  name: 'renewingDrivingLicense',
   props: ['businessId', 'businessCode'],    // 拿到当前业务的id  然后传给 common组件
   data () {
     return {
@@ -26,10 +27,11 @@ export default {
   },
   methods: {
     subFn: function (params, subscribe) {
-      console.log('renewingCollarCredential', params)
+      console.log('renewingDrivingLicense', params)
       resultPost(createVehicleInfo, params).then(json => {
         console.log(json)
         if (json.code === '0000') {
+          this.certificate = json.data
           let dataInfo = {
             type: 2,
             reserveNo: json.data,    // 流水号

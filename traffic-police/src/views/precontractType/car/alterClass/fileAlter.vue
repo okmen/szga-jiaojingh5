@@ -1,42 +1,50 @@
 <!-- 
 *  #变更类#
-*  #机动车打刻原车发动机 #号码# 变更备案
+*  #档案更正
  -->
 <template>
-    <div class="numberAlter">
+    <div class="fileAlter">
       <common @appointTaskClick="appointTask"
               :currentBusinessId="businessId"
-              :currentBusinessCode="bussinessCode"></common>
+              :currentBusinessCode="bussinessCode"
+              :currentBusinessName="bussinessName"></common>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
   </div>
 </template>
 <script>
-import { resultPost } from '../../../../../service/getData'
-import { numberAlter } from '../../../../../config/baseUrl'
-import common from './common.vue'
+import { resultPost } from '../../../../service/getData'
+import { fileAlter } from '../../../../config/baseUrl'
+import common from './child/common.vue'
 import { Toast } from 'mint-ui'
 export default {
-  name: 'numberAlter',
-  props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件
+  name: 'fileAlter',
   data () {
     return {
+      businessId: '',      // 业务id
+      bussinessCode: '',   // 业务code
+      bussinessName: ''    // 业务名称
     }
   },
   components: {
     common
   },
   mounted () {
+    var query = this.$route.query
+    // console.log(query)
+    this.businessId = query.id
+    this.bussinessCode = query.code
+    this.bussinessName = query.name
   },
   methods: {
     appointTask: function (params, orderPlace) {
-      console.log('号码变更', params)
-      resultPost(numberAlter, params).then(json => {
+      console.log('档案更正', params)
+      resultPost(fileAlter, params).then(json => {
         console.log(json)
         if (json.code === '0000') {
           let dataInfo = {
             type: 2,
-            reserveNo: json.data.waterNumber,    // 流水号
+            reserveNo: json.data,    // 流水号
             numberPlate: params.platNumber,      // 车牌号码
             mobilephone: params.bookerMobile,    // 手机号码
             reserveAddress: orderPlace,          // 服务点
