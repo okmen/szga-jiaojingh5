@@ -4,7 +4,6 @@
     <common 
       @submitClick="subFn"
       :currentBusinessId="businessId"
-      :currentCode="businessCode"
     ></common>
   </div>
 </template>
@@ -16,7 +15,7 @@ import { Toast } from 'mint-ui'
 import common from './child/common.vue'
 export default {
   name: 'renewingCertificate',
-  props: ['businessId', 'businessCode'],    // 拿到当前业务的id  然后传给 common组件
+  props: ['businessId'],    // 拿到当前业务的id  然后传给 common组件
   data () {
     return {
     }

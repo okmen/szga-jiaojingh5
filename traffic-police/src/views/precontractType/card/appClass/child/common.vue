@@ -1,4 +1,9 @@
 <template>
+<div class="renewing">
+  <div class="alter-select pad-side-50">
+    <div class="alter-chose"><span>业务类型</span></div>
+    <div class="div-select alter-wd"><span></span></div>
+  </div>
   <div class="renewingCollar">
     <div class="renewingCollar-form">
       <ul>
@@ -107,6 +112,7 @@
       <button class="btn btns" @click="submitClick">预约</button>
     </div>
   </div>
+</div>
 </template>
 
 <script>

@@ -1,6 +1,11 @@
 <template>
-  <div class="renewingCollar">
-    <div class="renewingCollar-form">
+  <div class="renewing">
+    <div class="alter-select pad-side-50">
+      <div class="alter-chose"><span>业务类型</span></div>
+      <div class="div-select alter-wd"><span>{{nametype}}</span></div>
+    </div>
+    <div class="renewingCollar">
+      <div class="renewingCollar-form">
       <ul>
         <li class="form-line">
           <div class="form-line-item item-name">
@@ -18,7 +23,7 @@
             <span class="btn-select bg-colour" @click.stop="varietyID()">{{ variety }}</span>
             <div class="div-select-ul" v-if="varietyShow">
               <ul>
-                <li v-for="item in varietyData" @click.stop="varietyID(item.name, item.code)">{{item.name}}</li>
+                <li v-for="item in varietyData" @click.stop="varietyID(item.name, item.id)">{{item.name}}</li>
               </ul>
             </div>
           </div>
@@ -74,7 +79,7 @@
             <span class="btn-select bg-colour" @click.stop="vehicleType()">{{ vehicle }}</span>
             <div class="div-select-ul" v-if="vehicleShow">
               <ul>
-                <li v-for="item in vehicleData" @click.stop="vehicleType(item.name, item.code)">{{item.name}}</li>
+                <li v-for="item in vehicleData" @click.stop="vehicleType(item.name, item.id)">{{item.name}}</li>
               </ul>
             </div>
           </div>
@@ -118,36 +123,48 @@
             <span>预约日期</span>
           </div>
           <div class="div-select">
+            <span class="btn-select bg-colour" @click.stop="dateType()">{{ date }}</span>
+            <div class="div-select-ul" v-if="dateShow">
+              <ul>
+                <li v-for="item in dateData" @click.stop="dateType(item)">{{item}}</li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="form-line">
+          <div class="form-line-item item-name">
+            <span>预约时间</span>
+          </div>
+          <div class="div-select">
             <span class="btn-select bg-colour" @click.stop="timeType()">{{ time }}</span>
             <div class="div-select-ul" v-if="timeShow">
               <ul>
-                <li v-for="item in timeData" @click.stop="timeType(item.str, item.id)">{{item.str}}</li>
+                <li v-for="item in surplusData" @click.stop="timeType(item.time)">
+                  <span>{{item.time}}</span>
+                  <span v-if="item.number != 0">剩余名额<i class="renspan">{{item.number}}</i>位</span>
+                  <span v-if="item.number == 0">已满</span>
+                </li>
               </ul>
             </div>
           </div>
         </li>
       </ul>
-      <ul class="renewingUl clear">
-        <li v-for="(item, index) in surplusData" class="renewingLi" :class="{'rene-p': item.number == 0,'rene-c': index === clickIndex}" @click="renewingClick(index)">
-          <p>{{item.time}}</p>
-          <p v-if="item.number != 0">剩余名额<span class="renspan">{{item.number}}</span>位</p>
-          <p v-if="item.number == 0">已满</p>
-        </li>
-      </ul>
       <button class="btn btns" @click="submitClick">预约</button>
+    </div>
     </div>
   </div>
 </template>
 
 <script>
 import { resultPost } from '../../../../../service/getData'
-import { simpleSendMessage, getBusinessCarTypeId, getIdTypeId, getOrgsByBusinessTypeId, getAppointmentDate, getAppTimes, getPageInit } from '../../../../../config/baseUrl.js'
+import { simpleSendMessage, getAppointmentDate, getAppTimes, getPageInit } from '../../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
 export default {
   name: 'renewingCollarCredential',
-  props: ['currentBusinessId', 'currentCode'],
   data () {
     return {
+      nametype: '',                     // 业务类型名称
+      codeId: '',                       // 业务类型id
       name: '',                         // 车主姓名
       isShow: false,                    //  验证码样式
       forbidden: false,
@@ -180,13 +197,15 @@ export default {
       businessData: [],
       vehicleShow: false,
       vehicle: '',
-      vehicleId: '',
-      vehicleTypeId: '',                // 车辆类型ID
+      vehicleId: '',                // 车辆类型ID
       vehicleData: [
       ],
       timeShow: false,
       timeData: [],
-      time: '2017-7-21',
+      time: '请选择预约时间',
+      dateShow: false,
+      dateData: [],
+      date: '请选择预约日期',
       clickIndex: '',
       surplusData: '',
       tmentTime: ''   // 预约时间
@@ -198,7 +217,6 @@ export default {
       if (str) {
         this.variety = str
         this.cur_card_id = id
-        this.certificateId()
       }
       if (this.varietyShow === true) {
         this.varietyShow = false
@@ -234,7 +252,6 @@ export default {
       if (str) {
         this.subscribe = str
         this.subscribeId = id
-        this.getmentDate()
       }
       if (this.subscribeShow === true) {
         this.subscribeShow = false
@@ -247,7 +264,6 @@ export default {
       if (str) {
         this.vehicle = str
         this.vehicleId = id
-        this.vehicleTypeIdFn()
       }
       if (this.vehicleShow === true) {
         this.vehicleShow = false
@@ -255,9 +271,25 @@ export default {
         this.vehicleShow = true
       }
     },
+    // 预约日期
+    dateType: function (str) {
+      if (str) {
+        this.date = str
+      } else {
+        this.getmentDate()
+      }
+      if (this.dateShow === true) {
+        this.dateShow = false
+      } else {
+        this.dateShow = true
+      }
+    },
+    // 预约时间
     timeType: function (str) {
       if (str) {
-        this.vehicle = str
+        this.time = str
+      } else {
+        this.getTimes()
       }
       if (this.timeShow === true) {
         this.timeShow = false
@@ -291,7 +323,7 @@ export default {
           bookerName: this.name,             // 预约人名字
           bookerIdNumber: window.localStorage.getItem('identityCard'),
           idNumber: this.identificationNum,   // 预约人证件号码
-          codes: this.currentCode             // 业务类型id
+          codes: this.code            // 业务类型id
         }
         resultPost(simpleSendMessage, phonedata).then(json => {
           if (json.code === '0000') {
@@ -344,13 +376,13 @@ export default {
       let name = this.name === window.localStorage.getItem('userName') ? 0 : 1  // 0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
       let renewingData = {
         'name': this.name,   // 车主姓名
-        'businessTypeId': this.currentBusinessId,          // 业务id
+        'businessTypeId': this.nametype,          // 业务id
         'idTypeId': this.certificate,                      // 证件种类ID
         'idNumber': this.identificationNum,                // 证件号码
         'mobile': window.localStorage.getItem('mobilePhone'),                 // 手机号码
         'msgNumber': this.identifying,                     // 验证码
         'platNumber': `${this.abbreviationSelectMassage}${this.numberPlate}`, // 车牌号码
-        'carTypeId': this.vehicleTypeId,                   // 车辆类型Id
+        'carTypeId': this.vehicleId,                   // 车辆类型Id
         'useCharater': this.employId,                      // 使用性质
         'carFrame': this.behindTheFrame4Digits,            // 车架号
         'orgId': this.subscribeId,                         // 预约地点id
@@ -363,58 +395,17 @@ export default {
       }
       this.$emit('submitClick', renewingData, this.subscribe)
     },
-    // 获取车辆Id
-    vehicleTypeIdFn: function () {
-      let vehicleTypeIdData = {
-        code: this.vehicleId
-      }
-      resultPost(getBusinessCarTypeId, vehicleTypeIdData).then(json => {
-        if (json.code === '0000') {
-          this.vehicleTypeId = json.data
-        }
-      })
-    },
-    // 获取证件ID
-    certificateId: function () {
-      let certificateIdData = {
-        businessTypeId: this.currentBusinessId,   // 业务类型
-        code: this.cur_card_id                    // 证件id
-      }
-      console.log(certificateIdData)
-      resultPost(getIdTypeId, certificateIdData).then(json => {
-        if (json.code === '0000') {
-          this.certificate = json.data
-        } else {
-          Toast({message: json.msg, position: 'bottom', className: 'white'})
-        }
-      })
-    },
-    // 获取预约地点
-    businessId: function () {
-      let businessData = {
-        businessTypeId: this.currentBusinessId   // 业务类型
-      }
-      resultPost(getOrgsByBusinessTypeId, businessData).then(json => {
-        if (json.code === '0000') {
-          this.businessData = json.data
-          this.subscribe = this.businessData[0].name
-          this.subscribeId = this.businessData[0].id
-          this.getmentDate()  // 获取预约日期
-        } else {
-          Toast({message: json.msg, position: 'bottom', className: 'white'})
-        }
-      })
-    },
     // 获取预约日期
     getmentDate: function () {
       let getmentData = {
         orgId: this.subscribeId,     // 预约地点
-        businessTypeId: this.currentBusinessId    // 业务类型
+        businessTypeId: this.codeId    // 业务类型
       }
+      console.log('预约地点', getmentData)
       resultPost(getAppointmentDate, getmentData).then(json => {
         console.log(json)
         if (json.code === '0000') {
-          this.getTimes()     // 预约日期获取预约时间
+          this.dateData = json.data
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
@@ -422,12 +413,11 @@ export default {
     },
     // 预约日期获取时间
     getTimes: function () {
-      let time = `${this.year}-${this.month}-${this.date}`
       let getTimesData = {
-        businessTypeId: this.currentBusinessId,  // 业务类型
+        businessTypeId: this.codeId,  // 业务类型
         orgId: this.subscribeId,                 // 预约地点
-        date: time,                              // 预约日期
-        carTypeId: this.vehicleTypeId,           // 汽车类型ID
+        date: this.date,                              // 预约日期
+        carTypeId: this.vehicleId,           // 汽车类型ID
         optlittleCar: ''                         // 汽车产地
       }
       console.log('时间', getTimesData)
@@ -439,6 +429,7 @@ export default {
             timeData.push({'time': item.apptime, 'number': item.maxnumber - item.yetnumber})
           })
           this.surplusData = timeData
+          console.log(this.surplusData)
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
@@ -453,17 +444,14 @@ export default {
       this.monthShow = false
       this.subscribeShow = false
       this.abbreviationSelectShow = false
-      this.datesShow = false
-      this.yearShow = false
+      this.dateShow = false
+      this.timeData = false
     })
   },
   mounted () {
     this.code = this.$route.query.code
     this.codeId = this.$route.query.id
     this.nametype = this.$route.query.name
-    console.log(this.$route.query.code)
-    console.log(this.$route.query.id)
-    console.log(this.$route.query.name)
     let getBusinessData = {
       businessTypeId: this.$route.query.id
     }
@@ -475,14 +463,16 @@ export default {
         this.cur_card_id = this.varietyData[0].code    // 初始化证件类型
         this.vehicleData = json.data.carTypeVOs     // 初始化车辆类型
         this.vehicle = json.data.carTypeVOs[0].name
-        this.vehicleId = json.data.carTypeVOs[0].code
+        this.vehicleId = json.data.carTypeVOs[0].id
         this.employData = json.data.useCharaters    // 初始化使用性质
         this.employ = json.data.useCharaters[0].name
         this.employId = json.data.useCharaters[0].id
-        this.businessData = json.data.orgVOs         // 初始化车辆类型
-        this.subscribe = json.date.orgVOs[0].name
-        console.log('车辆类型', this.subscribe)
-        this.subscribeId = json.date.orgVOs[0].id
+        this.businessData = json.data.orgVOs         // 初始化预约地点
+        this.subscribe = json.data.orgVOs[0].name
+        this.subscribeId = json.data.orgVOs[0].id
+        console.log('地点id', this.subscribeId)
+      } else {
+        Toast({message: json.msg, position: 'bottom', className: 'white'})
       }
     })
   },
@@ -493,3 +483,4 @@ export default {
 <style lang="less" scoped>
 @import "./../../../../../style/replacementType";
 </style>
+
