@@ -1,5 +1,3 @@
-import sceneManageClassRouter from '../views/precontractType/car/sceneManageClass/router'
-import verifyIssueClassRouter from '../views/precontractType/car/verifyIssueClass/router'
 
 let precontractTypeRouter = [
   {
@@ -189,8 +187,38 @@ let precontractTypeRouter = [
     },
     component: require('../views/precontractType/car/rollOutRecover/rollOutRecover.vue')
   },
-  sceneManageClassRouter,   // 现场办理类
-  verifyIssueClassRouter,    // 核发类
+  {
+    name: 'verifyIssueCard',
+    path: '/verifyIssueCard',
+    meta: {
+      title: '核发临牌'
+    },
+    component: require('../views/precontractType/car/verifyIssueClass/verifyIssueCard.vue')
+  },
+  {
+    name: 'verifyIssueSchoolCard',
+    path: '/verifyIssueSchoolCard',
+    meta: {
+      title: '核发校车标牌'
+    },
+    component: require('../views/precontractType/car/verifyIssueClass/verifyIssueSchoolCard.vue')
+  },
+  {
+    name: 'pledgeRegister',
+    path: '/pledgeRegister',
+    meta: {
+      title: '抵押/解押登记现场办理'
+    },
+    component: require('../views/precontractType/car/sceneManageClass/pledgeRegister.vue')
+  },
+  {
+    name: 'otherPlaceAudit',
+    path: '/otherPlaceAudit',
+    meta: {
+      title: '机动车委托异地年审现场办理'
+    },
+    component: require('../views/precontractType/car/sceneManageClass/otherPlaceAudit.vue')
+  },
   {
     name: 'armyLicence',
     path: '/armyLicence',

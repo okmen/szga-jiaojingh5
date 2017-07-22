@@ -1,78 +1,106 @@
 <template>
-  <div class="register">
-    <div class="form-template-item">
-      <span class="form-template-item-left">车主姓名</span>
-      <input type="text" placeholder="请输入车主姓名" class="form-template-item-right" v-model="ownerName">
-    </div>
-    <div-select :childInfo="credentialsName" @getSelected="getCredentialsNameOne"></div-select>
-    <div class="form-template-item">
-      <span class="form-template-item-left">证件号码</span>
-      <input type="text" placeholder="请输入证件号码" class="form-template-item-right" v-model="IDcard">
-    </div>
-    <div class="form-template-item">
-      <span class="form-template-item-left">手机号码</span>
-      <input type="text" placeholder="请输入手机号码" class="form-template-item-right" v-model="mobilePhone">
-    </div>
-    <div class="form-template-item">
-      <span class="form-template-item-left">验证码</span>
-      <div class="form-template-item-right send-code">
-        <input type="text" placeholder="请输入验证码" maxlength="6" class="send-code-input" v-model="verificationCode">
-        <span class="send-code-btn" @click="getVerificationCode" v-if="showTime">获取验证码</span>
-        <span class="send-code-btn" style="background: gray" v-if="!showTime">{{countDown}} s</span>
+    <div class="form-template">
+      <div class="form-template-item">
+        <span class="form-template-item-left">业务类型</span>
+        <div class="form-template-item-type">转出、注销恢复</div>
       </div>
-    </div>
-    <div class="form-template-item">
-      <span class="form-template-item-left">车牌号码</span>
-      <div class="form-template-item-right send-code ">
-        <div class="province-code">
-          <div-select :childInfo="provinceCode" @getSelected="getProvinceCodeOne"></div-select>
+      <div class="exchange-license-line"></div>
+      <div class="register">
+        <div class="form-template-item">
+          <span class="form-template-item-left">车主姓名</span>
+          <input type="text" placeholder="请输入车主姓名" class="form-template-item-right" v-model="ownerName">
         </div>
-        <input type="text" placeholder="请输入车牌号码" class="province-code-input" v-model="plateNum">
-      </div>
-    </div>
-    <div-select :childInfo="carSelectData" @getSelected="getCarSelectDataOne"></div-select>
-    <div-select :childInfo="useNature" @getSelected="getUseNatureOne"></div-select>
-    <div class="form-template-item">
-      <span class="form-template-item-left">车身架号</span>
-      <input type="text" placeholder="请输入车架号后四位" maxlength="4" class="form-template-item-right" v-model="vehicleNum">
-    </div>
-    <div-select :childInfo="appointmentLocation" @getSelected="getAppointmentLocationOne"></div-select>
-    <div class="form-template-item">
-      <span class="form-template-item-left">选择预约日期</span>
-    </div>
-    <div class="choose-date">
-      <div class="choose-date-item">
-        <div class="date-item-input">
-          <div-select :childInfo="allYear" @getSelected="getAllYearOne"></div-select>
+        <div-select :childInfo="credentialsName" @getSelected="getCredentialsNameOne"></div-select>
+        <div class="form-template-item">
+          <span class="form-template-item-left">证件号码</span>
+          <input type="text" placeholder="请输入证件号码" class="form-template-item-right" v-model="IDcard">
         </div>
-        <span class="date-item-time">年</span>
-      </div>
-      <div class="choose-date-item">
-        <div class="date-item-input">
-          <div-select :childInfo="allmonth" @getSelected="getAllmonthOne"></div-select>
+        <div class="form-template-item">
+          <span class="form-template-item-left">手机号码</span>
+          <input type="text" placeholder="请输入手机号码" class="form-template-item-right" v-model="mobilePhone">
         </div>
-        <span class="date-item-time">月</span>
-      </div>
-      <div class="choose-date-item">
-        <div class="date-item-input">
-          <div-select :childInfo="allDay" @getSelected="getAllDayOne"></div-select>
+        <div class="form-template-item">
+          <span class="form-template-item-left">验证码</span>
+          <div class="form-template-item-right send-code">
+            <input type="text" placeholder="请输入验证码" maxlength="6" class="send-code-input" v-model="verificationCode">
+            <span class="send-code-btn" @click="getVerificationCode" v-if="showTime">获取验证码</span>
+            <span class="send-code-btn" style="background: gray" v-if="!showTime">{{countDown}} s</span>
+          </div>
         </div>
-        <span class="date-item-time">日</span>
+        <div class="form-template-item">
+          <span class="form-template-item-left">车牌号码</span>
+          <div class="form-template-item-right send-code ">
+            <div class="province-code">
+              <div-select :childInfo="provinceCode" @getSelected="getProvinceCodeOne"></div-select>
+            </div>
+            <input type="text" placeholder="请输入车牌号码" class="province-code-input" v-model="plateNum">
+          </div>
+        </div>
+        <div-select :childInfo="carSelectData" @getSelected="getCarSelectDataOne"></div-select>
+        <div-select :childInfo="useNature" @getSelected="getUseNatureOne"></div-select>
+        <div class="form-template-item">
+          <span class="form-template-item-left">车身架号</span>
+          <input type="text" placeholder="请输入车架号后四位" maxlength="4" class="form-template-item-right" v-model="vehicleNum">
+        </div>
+        <div-select :childInfo="appointmentLocation" @getSelected="getAppointmentLocationOne"></div-select>
+        <!-- <div-select :childInfo="carSelectData" @getSelected="getCarSelectDataOne"></div-select> -->
+        <!-- <div-select :childInfo="carSelectData" @getSelected="getCarSelectDataOne"></div-select> -->
+        <div class="form-template-item">
+          <span class="form-template-item-left">预约日期</span>
+          <input type="text" placeholder="请选择预约日期" maxlength="4" class="form-template-item-right" v-model="vehicleNum">
+        </div>
+        <div class="form-template-item">
+          <span class="form-template-item-left">预约时间</span>
+          <input type="text" placeholder="请选择预约时间" maxlength="4" class="form-template-item-right" v-model="vehicleNum">
+        </div>
+        <div class="form-template-item">
+          <span class="form-template-item-left">选择预约日期</span>
+        </div>
+        <div class="choose-date">
+          <div class="choose-date-item">
+            <div class="date-item-input">
+              <div-select :childInfo="allYear" @getSelected="getAllYearOne"></div-select>
+            </div>
+            <span class="date-item-time">年</span>
+          </div>
+          <div class="choose-date-item">
+            <div class="date-item-input">
+              <div-select :childInfo="allmonth" @getSelected="getAllmonthOne"></div-select>
+            </div>
+            <span class="date-item-time">月</span>
+          </div>
+          <div class="choose-date-item">
+            <div class="date-item-input">
+              <div-select :childInfo="allDay" @getSelected="getAllDayOne"></div-select>
+            </div>
+            <span class="date-item-time">日</span>
+          </div>
+        </div>
+        <div class="surplus-info">
+          <div class="surplus-info-item" :class="{'no-surplus': item.num == 0,'toggle-active':index==activeIndex&&item.num != 0 }" v-for="(item, index) in surplusData" :key="index" @click="toggleActive(index)">
+            <div class="surplus-item-time">{{item.time}}</div>
+            <div class="surplus-item-num" v-if="item.num!=0">剩余名额 <span class="surplus-item-number">{{item.num}}</span> 位</div>
+            <div class="surplus-item-num" v-if="item.num == 0">已满</div>
+          </div>
+        </div>
+        <div class="form-template-submit" @click="registerSubmit">预  约</div>
       </div>
+      <div v-wechat-title="$route.meta.title"></div>
     </div>
-    <div class="surplus-info">
-      <div class="surplus-info-item" :class="{'no-surplus': item.num == 0,'toggle-active':index==activeIndex&&item.num != 0 }" v-for="(item, index) in surplusData" :key="index" @click="toggleActive(index)">
-        <div class="surplus-item-time">{{item.time}}</div>
-        <div class="surplus-item-num" v-if="item.num!=0">剩余名额 <span class="surplus-item-number">{{item.num}}</span> 位</div>
-        <div class="surplus-item-num" v-if="item.num == 0">已满</div>
-      </div>
-    </div>
-    <div class="form-template-submit" @click="registerSubmit">预  约</div>
-  </div>
 </template>
 <style lang="less" scoped>
   .province-code {
     width: 140px;
+  }
+  .form-template-item-type {
+    border: 2px solid #e5e5e5;
+    border-radius: 8px;
+    outline: none;
+    height: 70px;
+    font-size: 30px;
+    padding-left: 15px;
+    line-height: 70px;
+    width: 68%;
   }
   .province-code-input {
     width: 300px;
@@ -128,18 +156,26 @@
       border-color: #2696dd;
     }
   }
+  .form-template .exchange-license-line{
+    height: 10px;
+    background: #eeeeee;
+    margin-left: 0;
+    margin-right: 0;
+  }
 </style>
 <script>
   import {isPhone, specialCharacters, plateNumberDetection} from 'service/regExp.js'
   import {resultPost} from 'service/getData'
   import {Toast, MessageBox} from 'mint-ui'
   import {
+    getBusinessTypeId,
     getBusinessCarTypeId,
     getOrgsByBusinessTypeId,
     getAppointmentDate,
     getAppTimes,
     simpleSendMessage,
     getIdTypeId,
+    getPageInit,
     createVehicleInfoJD27
   } from 'config/baseUrl.js'
   export default {
@@ -245,122 +281,15 @@
         },  // 省份 简称
         credentialsName: {
           title: '证件名称',
-          option: [
-            {'str': '居民户口簿', 'id': 'H'},
-            {'str': '单位注销证明', 'id': 'J'},
-            {'str': '驻华机构证明', 'id': 'L'},
-            {'str': '个体工商营业执照注册', 'id': 'P'},
-            {'str': '居住暂时证明', 'id': 'K'},
-            {'str': '居住身份证', 'id': 'A'},
-            {'str': '临时居民身份', 'id': 'M'},
-            {'str': '军官证', 'id': 'C'},
-            {'str': '军官离退休证', 'id': 'E'},
-            {'str': '外交人员身份证明', 'id': 'G'},
-            {'str': '士兵证', 'id': 'D'},
-            {'str': '境外人员身份证明', 'id': 'F'},
-            {'str': '统一社会信用代码', 'id': 'N'},
-            {'str': '组织机构代码证书', 'id': 'B'}
-          ]
+          option: []
         },  // 证件名称
         carSelectData: {
           title: '车辆类型',
-          option: [
-            {
-              'id': '01',
-              'str': '大型汽车'
-            },
-            {
-              'id': '02',
-              'str': '小型汽车'
-            },
-            {
-              'id': '03',
-              'str': '使馆汽车'
-            },
-            {
-              'id': '04',
-              'str': '领馆汽车'
-            },
-            {
-              'id': '05',
-              'str': '境外汽车'
-            },
-            {
-              'id': '06',
-              'str': '外籍汽车'
-            },
-            {
-              'id': '07',
-              'str': '普通摩托车'
-            },
-            {
-              'id': '08',
-              'str': '轻便摩托车'
-            },
-            {
-              'id': '09',
-              'str': '使馆摩托车'
-            },
-            {
-              'id': '10',
-              'str': '领馆摩托车'
-            },
-            {
-              'id': '15',
-              'str': '挂车'
-            },
-            {
-              'id': '16',
-              'str': '教练汽车'
-            },
-            {
-              'id': '17',
-              'str': '教练摩托车'
-            },
-            {
-              'id': '18',
-              'str': '实验汽车'
-            },
-            {
-              'id': '19',
-              'str': '实验摩托车'
-            },
-            {
-              'id': '22',
-              'str': '临时行驶车'
-            },
-            {
-              'id': '23',
-              'str': '警用汽车'
-            },
-            {
-              'id': '24',
-              'str': '警用摩托'
-            },
-            {
-              'id': '20',
-              'str': '临时入境车'
-            },
-            {
-              'id': '51',
-              'str': '新能源大型车'
-            },
-            {
-              'id': '52',
-              'str': '新能源小型车'
-            }
-          ]
+          option: []
         },  // 车辆类型
         useNature: {
           title: '使用性质',
-          option: [
-            {'str': '非运营'},
-            {'str': '公路客运'},
-            {'str': '公交客运'},
-            {'str': '旅游客运'},
-            {'str': '货运'},
-            {'str': '租赁'}
-          ]
+          option: []
         },   // 使用性质
         appointmentLocation: {
           title: '预约地点',
@@ -397,6 +326,7 @@
         showTime: true,
         countDown: 5,
         timer: '',
+        businessTypeId: '', // 业务类型编码
         appointmentTime: '', // 预约时间
         businessCarTypeId: '', // 车辆类型编码
         bookerType: 0 // 预约方式，0 本人， 1普通代办 2专业代办
@@ -405,7 +335,7 @@
     components: {
       divSelect: require('components/divSelect.vue')
     },
-    props: ['businessTypeId', 'achieveCode'],
+    // props: ['businessTypeId', 'achieveCode'],
     computed: {
       // 时间 年月日
       yearMonthDay () {
@@ -434,6 +364,9 @@
           code: this.credentialsNameOne
         }
       }
+    },
+    created () {
+      this.getBusinessTypeId()
     },
     watch: {
       allYearOne (val) {
@@ -491,6 +424,47 @@
       }
     },
     methods: {
+      // 获取业务类型ID
+      getAllData () {
+        let requestData = {
+          businessTypeId: this.businessTypeId
+        }
+        resultPost(getPageInit, requestData).then(data => {
+          console.log(requestData)
+          console.log(data, '所有数据获取成功')
+          // 证件名称
+          data.data.map(item => {
+            this.appointmentLocation.option.push({'str': item.name, 'id': item.id})
+          })
+          // 车辆类型
+          data.data.map(item => {
+            this.appointmentLocation.option.push({'str': item.name, 'id': item.id})
+          })
+          // 使用性质
+          data.data.map(item => {
+            this.appointmentLocation.option.push({'str': item.name, 'id': item.id})
+          })
+          // 预约地点
+          data.data.map(item => {
+            this.appointmentLocation.option.push({'str': item.name, 'id': item.id})
+          })
+        })
+      },
+      getBusinessTypeId (val) {
+        // this.currentBusinessType = this.businessType[this.$router.currentRoute.name]
+        // this.achieveCode = this.businessTypeToCode[this.$router.currentRoute.name]
+        let requestData = {
+          type: '1',
+          part: '0',
+          code: 'JD41'
+          // code: this.businessTypeToCode[this.$router.currentRoute.name]
+        }
+        resultPost(getBusinessTypeId, requestData).then(data => {
+          this.businessTypeId = data.data
+          console.log(data, '业务类型编码获取成功')
+          this.getAllData()
+        })
+      },
       // 获取证件类型ID
       getCertificateTypeId () {
         resultPost(getIdTypeId, this.certificateRequest).then(data => {
@@ -506,11 +480,20 @@
         resultPost(getBusinessCarTypeId, requestData).then(json => {
           console.log(json, '车辆类型编码获取成功')
           this.businessCarTypeId = json.data
+          console.log(this.businessCarTypeId)
         })
       },
       // 获取配额信息
       getQuotaInformation () {
-        resultPost(getAppTimes, this.quotaRequest).then(json => {
+        // console.log(this.quotaRequest)
+        let requestData = {
+          businessTypeId: this.businessTypeId,
+          orgId: this.appointmentLocationOne,
+          date: this.yearMonthDay,
+          carTypeId: this.businessCarTypeId
+        }
+        console.log(requestData)
+        resultPost(getAppTimes, requestData).then(json => {
           console.log(json, '配额信息')
           let arrData = []
           json.data.map(item => {
