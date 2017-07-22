@@ -7,7 +7,7 @@
       <div class="alter-select pad-side-50">
         <div class="alter-chose"><span>业务类型</span></div>
         <div class="div-select alter-wd">
-          <input class="text-input bg-white" value="未换证" readonly>
+          <input class="text-input bg-white" :value="bussinessName" readonly>
         </div>
       </div>
       <div class="alter-from">
@@ -25,13 +25,22 @@ import { Toast } from 'mint-ui'
 import common from './child/common.vue'
 export default {
   name: 'noChangeLicence',
-  props: ['businessId', 'bussinessCode'],    // 拿到当前业务的id和code  然后传给 common组件
   data () {
     return {
+      businessId: '',      // 业务id
+      bussinessCode: '',   // 业务code
+      bussinessName: ''    // 业务名称
     }
   },
   components: {
     common
+  },
+  mounted () {
+    var query = this.$route.query
+    // console.log(query)
+    this.businessId = query.id
+    this.bussinessCode = query.code
+    this.bussinessName = query.name
   },
   methods: {
     appointTask: function (params, orderPlace) {

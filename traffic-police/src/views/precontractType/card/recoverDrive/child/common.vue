@@ -117,7 +117,7 @@
     simpleSendMessage } from '../../../../../config/baseUrl'
   import { Toast } from 'mint-ui'
   export default {
-    props: ['currentBusinessId', 'currentBusinessCode'],
+    props: ['currentBusinessId', 'currentBusinessCode', 'currentBusinessName'],
     data () {
       return {
         carOwnerName: '',                   // * 车主姓名
