@@ -2,7 +2,7 @@
     <div class="form-template">
       <div class="form-template-item">
         <span class="form-template-item-left">业务类型</span>
-        <div class="form-template-item-type">转出、注销恢复</div>
+        <div class="form-template-item-type">{{businessName}}</div>
       </div>
       <div class="exchange-license-line"></div>
       <div class="register">
@@ -222,7 +222,7 @@
   import {resultPost} from 'service/getData'
   import {Toast, MessageBox} from 'mint-ui'
   import {
-    getBusinessTypeId,
+    // getBusinessTypeId,
     getPageInit,
     getAppointmentDate,
     getAppTimes,
@@ -380,10 +380,10 @@
         showTime: true,
         countDown: 5,
         timer: '',
-        code: 'JD41',
+        code: '',
+        businessName: '',  // 业务类型名
         businessTypeId: '', // 业务类型编码
         appointmentTime: '', // 预约时间
-        // businessCarTypeId: '', // 车辆类型编码
         bookerType: 0 // 预约方式，0 本人， 1普通代办 2专业代办
       }
     },
@@ -409,7 +409,11 @@
       }
     },
     created () {
-      this.getBusinessTypeId()
+      // 通过路由参数获取业务类型code，业务类型ID，业务类型name
+      this.code = this.$route.query.code
+      this.businessTypeId = this.$route.query.id
+      this.businessName = this.$route.query.name
+      this.getAllData()
     },
     // 监听变化，清空显示数据
     watch: {
@@ -459,18 +463,18 @@
         })
       },
       // 获取业务类型ID
-      getBusinessTypeId (val) {
-        let requestData = {
-          type: '1',
-          part: '0',
-          code: 'JD41'
-        }
-        resultPost(getBusinessTypeId, requestData).then(data => {
-          this.businessTypeId = data.data
-          console.log(data, '业务类型编码获取成功')
-          this.getAllData()
-        })
-      },
+      // getBusinessTypeId (val) {
+      //   let requestData = {
+      //     type: '1',
+      //     part: '0',
+      //     code: 'JD41'
+      //   }
+      //   resultPost(getBusinessTypeId, requestData).then(data => {
+      //     this.businessTypeId = data.data
+      //     console.log(data, '业务类型编码获取成功')
+      //     this.getAllData()
+      //   })
+      // },
       // 点击获取验证码
       getVerificationCode () {
         // 获取验证码的简单表单验证
@@ -519,6 +523,7 @@
         resultPost(simpleSendMessage, requestData).then(data => {
           console.log(requestData)
           console.log(data, '验证码')
+          MessageBox('提示', data.msg)
         })
         this.timer = setInterval(() => {
           if (this.countDown === 0) {
