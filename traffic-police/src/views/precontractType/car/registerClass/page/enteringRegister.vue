@@ -400,7 +400,7 @@
       divSelect: require('components/divSelect.vue'),
       divRadio: require('components/formTemplate/src/selfRadio.vue')
     },
-    props: ['businessTypeId', 'modelOfCar', 'achieveCode'],
+    props: ['businessTypeId', 'achieveCode'],
     computed: {
       // 时间 年月日
       yearMonthDay () {
@@ -493,18 +493,6 @@
       }
     },
     methods: {
-      /*  // 获取业务类型编码
-       getBusinessTypeId () {
-       let requestData = {
-       type: '1',
-       part: '1',
-       code: 'JD15'
-       }
-       resultPost(getBusinessTypeId, requestData).then(data => {
-       console.log(data, '业务类型编码获取')
-       this.businessTypeId = data.data
-       })
-       }, */
       // 获取车辆型号
       getModelOfCarOne (val) {
         this.modelOfCarOne = val

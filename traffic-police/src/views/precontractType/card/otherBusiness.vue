@@ -20,33 +20,27 @@
 </template>
 <script>
 import { resultPost } from '../../../service/getData'
-import { getBusinessTypeId, createDriveInfoZJ20 } from '../../../config/baseUrl.js'
+import { createDriveInfoZJ20 } from '../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
 import common from './recoverDrive/child/common.vue'
 export default {
   name: 'otherBusiness',
   data () {
     return {
-      businessId: '',           // 当前业务 id
-      bussinessCode: 'ZJ20'     // 当前业务 code
+      businessId: '',      // 业务id
+      bussinessCode: '',   // 业务code
+      bussinessName: ''    // 业务名称
     }
   },
   components: {
     common
   },
-  created () {
-    let reqData = {     // 获取业务id
-      type: '0',
-      part: '',
-      code: this.bussinessCode
-    }
-    resultPost(getBusinessTypeId, reqData).then(json => {
-      if (json.code === '0000') {
-        this.businessId = json.data
-      } else {
-        Toast({message: json.msg, className: 'white'})
-      }
-    })
+  mounted () {
+    var query = this.$route.query
+    // console.log(query)
+    this.businessId = query.id
+    this.bussinessCode = query.code
+    this.bussinessName = query.name
   },
   methods: {
     appointTask: function (params, orderPlace) {

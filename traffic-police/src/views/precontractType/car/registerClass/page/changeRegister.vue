@@ -1,10 +1,10 @@
 <template>
-  <common :businessTypeId="businessTypeId" :modelOfCar="modelOfCar" :achieveCode="achieveCode"></common>
+  <common :businessTypeId="businessTypeId" :achieveCode="achieveCode"></common>
 </template>
 
 <script>
   export default {
-    props: ['businessTypeId', 'modelOfCar', 'achieveCode'],
+    props: ['businessTypeId', 'achieveCode'],
     components: {
       common: require('../components/noTarget.vue')
     }
