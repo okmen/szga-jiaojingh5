@@ -45,36 +45,26 @@
     </div>
     <div-select :childInfo="appointmentLocation" @getSelected="getAppointmentLocationOne"></div-select>
     <div class="register-item">
-      <span class="register-item-title">选择预约日期</span>
-    </div>
-    <div class="choose-date">
-      <div class="choose-date-item">
-        <div class="date-item-input">
-          <div-select :childInfo="allYear" @getSelected="getAllYearOne"></div-select>
-        </div>
-        <span class="date-item-time">年</span>
-      </div>
-      <div class="choose-date-item">
-        <div class="date-item-input">
-          <div-select :childInfo="allmonth" @getSelected="getAllmonthOne"></div-select>
-        </div>
-        <span class="date-item-time">月</span>
-      </div>
-      <div class="choose-date-item">
-        <div class="date-item-input">
-          <div-select :childInfo="allDay" @getSelected="getAllDayOne"></div-select>
-        </div>
-        <span class="date-item-time">日</span>
+      <span class="register-item-title">预约日期</span>
+      <div class="register-item-input register-item-select">
+        <input type="text" placeholder="请选择预约日期" readonly  v-model="yearMonthDay" @click.stop="toggleData">
+        <ul class="register-item-ul" v-if="showItemData" >
+          <li class="register-item-li" v-for="item in allYearMonthDay" @click="chooseData(item)">{{item}}</li>
+        </ul>
       </div>
     </div>
-    <div class="surplus-info">
-      <div class="surplus-info-item"
-           :class="{'no-surplus': item.num == 0,'toggle-active':index===activeIndex}"
-           v-for="(item, index) in surplusData" @click="toggleActive(index)">
-        <div class="surplus-item-time">{{item.time}}</div>
-        <div class="surplus-item-num" v-if="item.num!=0">剩余名额 <span class="surplus-item-number">{{item.num}}</span> 位
-        </div>
-        <div class="surplus-item-num" v-if="item.num == 0">已满</div>
+    <div class="register-item">
+      <span class="register-item-title">预约时间</span>
+      <div class="register-item-input register-item-select">
+        <input type="text" placeholder="请选择预约时间" readonly  v-model="appointmentTime" @click.stop="toggleTime">
+        <ul class="register-item-ul" v-if="showItemTime">
+          <li class="register-item-li" v-for="item in surplusData" @click="chooseTime(item)" :class="{'bg-gray': item.num == 0}">
+            <div class="register-item-li-time">{{item.time}}</div>
+            <div class="register-item-li-num" v-if="item.num!=0">剩余名额 <span class="register-item-li-number">{{item.num}}</span> 位
+            </div>
+            <div class="register-item-li-num" v-if="item.num == 0">已满</div>
+          </li>
+        </ul>
       </div>
     </div>
     <div-select :childInfo="pointerType" @getSelected="getPointerTypeOne"></div-select>
@@ -98,7 +88,9 @@
     font-size: 30px;
     padding-left: 20px;
   }
-
+  .bg-gray{
+    background: #cdcdcd;
+  }
   .register-item {
     display: flex;
     height: 85px;
@@ -119,6 +111,37 @@
     }
     .province-code-input {
       width: 300px;
+    }
+    .register-item-select{
+      padding-left: 0;
+      width: 68%;
+      position: relative;
+      input{
+        width: 100%;
+        background: white url("../../../../../images/select1.png") 95% center/22px 13px no-repeat;
+      }
+      .register-item-ul{
+        position: absolute;
+        top: 72px;
+        border: 1px solid #e5e5e5;
+        width: 100%;
+        z-index: 3;
+        background: white;
+        max-height: 400px;
+        overflow: auto;
+        .register-item-li{
+          font-size: 30px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          line-height: 65px;
+          padding-left: 20px;
+          padding-right: 20px;
+          .register-item-li-number{
+            color: #19D051;
+          }
+        }
+      }
     }
     .send-code {
       display: flex;
@@ -162,36 +185,6 @@
 
   }
 
-  .surplus-info {
-    border: 2px solid #eaeaed;
-    border-radius: 8px;
-    max-height: 389px;
-    overflow: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    .no-surplus {
-      background: #eaeaed;
-    }
-    .surplus-info-item {
-      display: flex;
-      justify-content: space-between;
-      height: 78px;
-      padding: 0 35px;
-      align-items: center;
-      border: 2px solid;
-      border-color: transparent;
-      border-bottom-color: #eaeaed;
-      .surplus-item-number {
-        color: #19d051;
-        width: 80px;
-        display: inline-block;
-        text-align: center;
-      }
-    }
-    .toggle-active {
-      border-color: #2696dd;
-    }
-  }
 
   .register-reminder {
     color: #f02b28;
@@ -211,11 +204,10 @@
   import {isPhone, specialCharacters, plateNumberDetection} from 'service/regExp.js'
   import {resultPost} from 'service/getData'
   import {Toast, MessageBox} from 'mint-ui'
+  import {mapGetters} from 'vuex'
   import {
-    getOrgsByBusinessTypeId,
     getAppointmentDate,
     getAppTimes,
-    getBusinessCarTypeId,
     getIdTypeId,
     simpleSendMessage,
     createVehicleInfo
@@ -223,6 +215,8 @@
   export default {
     data () {
       return {
+        showItemData: false, // 日期选择框
+        showItemTime: false, // 时间选择框
         activeIndex: '',  // 点击出现蓝色边框序号
         provinceCode: {
           option: [
@@ -321,156 +315,10 @@
             }
           ]
         },  // 省份 简称
-        credentialsName: {
-          title: '证件名称',
-          option: [
-            {'str': '居民户口簿', 'id': 'H'},
-            {'str': '单位注销证明', 'id': 'J'},
-            {'str': '驻华机构证明', 'id': 'L'},
-            {'str': '个体工商营业执照注册', 'id': 'P'},
-            {'str': '居住暂时证明', 'id': 'K'},
-            {'str': '居住身份证', 'id': 'A'},
-            {'str': '临时居民身份', 'id': 'M'},
-            {'str': '军官证', 'id': 'C'},
-            {'str': '军官离退休证', 'id': 'E'},
-            {'str': '外交人员身份证明', 'id': 'G'},
-            {'str': '士兵证', 'id': 'D'},
-            {'str': '境外人员身份证明', 'id': 'F'},
-            {'str': '统一社会信用代码', 'id': 'N'},
-            {'str': '组织机构代码证书', 'id': 'B'}
-          ]
-        },  // 证件名称
-        carSelectData: {
-          title: '车辆类型',
-          option: [
-            {
-              'id': '01',
-              'str': '大型汽车'
-            },
-            {
-              'id': '02',
-              'str': '小型汽车'
-            },
-            {
-              'id': '03',
-              'str': '使馆汽车'
-            },
-            {
-              'id': '04',
-              'str': '领馆汽车'
-            },
-            {
-              'id': '05',
-              'str': '境外汽车'
-            },
-            {
-              'id': '06',
-              'str': '外籍汽车'
-            },
-            {
-              'id': '07',
-              'str': '普通摩托车'
-            },
-            {
-              'id': '08',
-              'str': '轻便摩托车'
-            },
-            {
-              'id': '09',
-              'str': '使馆摩托车'
-            },
-            {
-              'id': '10',
-              'str': '领馆摩托车'
-            },
-            {
-              'id': '15',
-              'str': '挂车'
-            },
-            {
-              'id': '16',
-              'str': '教练汽车'
-            },
-            {
-              'id': '17',
-              'str': '教练摩托车'
-            },
-            {
-              'id': '18',
-              'str': '实验汽车'
-            },
-            {
-              'id': '19',
-              'str': '实验摩托车'
-            },
-            {
-              'id': '22',
-              'str': '临时行驶车'
-            },
-            {
-              'id': '23',
-              'str': '警用汽车'
-            },
-            {
-              'id': '24',
-              'str': '警用摩托'
-            },
-            {
-              'id': '20',
-              'str': '临时入境车'
-            },
-            {
-              'id': '51',
-              'str': '新能源大型车'
-            },
-            {
-              'id': '52',
-              'str': '新能源小型车'
-            }
-          ]
-        },  // 车辆类型
-        useNature: {
-          title: '使用性质',
-          option: [
-            {'str': '非运营', 'id': 'A'},
-            {'str': '公路客运', 'id': 'B'},
-            {'str': '公交客运', 'id': 'C'},
-            {'str': '旅游客运', 'id': 'E'},
-            {'str': '货运', 'id': 'F'},
-            {'str': '租赁', 'id': 'G'}
-          ]
-        },   // 使用性质
-        appointmentLocation: {
-          title: '预约地点',
-          option: []
-        },  // 预约地点
-        allYearMonthDay: {}, // 所有的年月日
-        allYearOne: '',
-        allYear: {
-          option: []
-        },
-        allmonth: {
-          option: []
-        }, // 月份
-        allmonthOne: '',
-        allDay: {
-          option: []
-        }, // 日
-        allDayOne: '',
+        allYearMonthDay: '', // 所有的年月日
+        yearMonthDay: '',
         modelOfCarOne: '', // 车辆型号
         surplusData: [],   // 剩余数量
-        pointerType: {
-          title: '指标类型',
-          option: [
-            {'str': '增量指标', 'id': 'ZLZB'},
-            {'str': '更新指标', 'id': 'GXZB'},
-            {'str': '其他指标', 'id': 'QTZB'},
-            {'str': '备案车辆指标', 'id': 'BAZB'},
-            {'str': '二手车辆指标', 'id': 'ESCLZB'},
-            {'str': '二手车周转指标', 'id': 'ESCZZZB'},
-            {'str': '无指标', 'id': 'WZB'}
-          ]
-        },   // 指标类型
         ownerName: '',  // 车主姓名
         IDcard: '',
         mobilePhone: '',
@@ -491,7 +339,6 @@
         timer: '',
         appointmentTime: '', // 预约时间
 //        businessTypeId: '',  // 业务类型编码
-        businessCarTypeId: '', // 车辆类型编码
         bookerType: 0 // 预约方式，0 本人， 1普通代办 2专业代办
      /*   vehicleOrigin: {
           title: '车辆产地',
@@ -507,20 +354,15 @@
       divSelect: require('components/divSelect.vue'),
       divRadio: require('components/formTemplate/src/selfRadio.vue')
     },
-    props: ['businessTypeId', 'modelOfCar', 'achieveCode'],
+    props: ['businessTypeId', 'achieveCode'],
     computed: {
-      // 时间 年月日
-      yearMonthDay () {
-        return `${this.allYearOne}-${this.allmonthOne}-${this.allDayOne}`
-      },
       // 余量请求参数
       quotaRequest () {
         return {
           businessTypeId: this.businessTypeId,
           orgId: this.appointmentLocationOne,
           date: this.yearMonthDay,
-          carTypeId: this.businessCarTypeId,
-          optlittleCar: this.vehicleOriginOne
+          carTypeId: this.carSelectDataOne
         }
       },
       // 时间请求参数
@@ -530,88 +372,32 @@
           orgId: this.appointmentLocationOne
         }
       },
-      // 证件类型请求参数
-      certificateRequest () {
-        return {
-          businessTypeId: this.businessTypeId,
-          code: this.credentialsNameOne
-        }
-      }
+      ...mapGetters({
+        modelOfCar: 'getModelOfCar',
+        credentialsName: 'getCredentialsName',
+        carSelectData: 'getCarSelectData',
+        pointerType: 'getPointerType',
+        appointmentLocation: 'getAppointmentLocation',
+        useNature: 'getUseNature'
+      })
     },
     watch: {
-      allYearOne (val) {
-        let option = []
-        for (let key in this.allYearMonthDay[val]) {
-          option.push({'str': key})
-        }
-        this.allmonth.option = option
+      appointmentLocationOne () {
+        this.allYearMonthDay = ''
+        this.surplusData = ''
+        this.yearMonthDay = ''
+        this.appointmentTime = ''
       },
-      allmonthOne (val) {
-        let option = []
-        this.allYearMonthDay[this.allYearOne][val].map(item => {
-          option.push({'str': item})
-        })
-        this.allDay.option = option
+      yearMonthDay () {
+        this.surplusData = ''
+        this.appointmentTime = ''
       },
       carSelectDataOne () {
-        this.getBusinessCarTypeId()
-      },
-      businessTypeId () {
-        this.getBusinessAddressId()
-      },
-      timeRequest (val) {
-        for (let key in val) {
-          if (val[key] === '') {
-            return
-          }
-        }
-        this.getAllYearMonthDay()
-      },
-      quotaRequest (val, oldVal) {
-        if (this.allYearOne === '') {
-          return
-        }
-        if (this.allmonthOne === '') {
-          return
-        }
-        if (this.allDayOne === '') {
-          return
-        }
-        if ((val.date.split('-')[0] !== oldVal.date.split('-')[0]) || (val.date.split('-')[1] !== oldVal.date.split('-')[1])) {
-          return
-        }
-        for (let key in val) {
-          if (val[key] === '') {
-            return
-          }
-        }
-        this.getQuotaInformation()
-      },
-      certificateRequest (val, oldVal) {
-        if (val === oldVal) {
-          return
-        }
-        for (let key in val) {
-          if (val[key] === '') {
-            return
-          }
-        }
-        this.getCertificateTypeId()
+        this.surplusData = ''
+        this.appointmentTime = ''
       }
     },
     methods: {
-      /*  // 获取业务类型编码
-       getBusinessTypeId () {
-       let requestData = {
-       type: '1',
-       part: '1',
-       code: 'JD15'
-       }
-       resultPost(getBusinessTypeId, requestData).then(data => {
-       console.log(data, '业务类型编码获取')
-       this.businessTypeId = data.data
-       })
-       }, */
       // 获取车辆型号
       getModelOfCarOne (val) {
         this.modelOfCarOne = val
@@ -628,40 +414,42 @@
           }
         })
       },
-      //  获取地点
-      getBusinessAddressId () {
-        resultPost(getOrgsByBusinessTypeId, {businessTypeId: this.businessTypeId}).then(json => {
-          console.log(json, '地点获取成功')
-          json.data.map(item => {
-            this.appointmentLocation.option.push({'str': item.name, 'id': item.id})
-          })
-        })
+      // 选择预约日期
+      chooseData (item) {
+        this.yearMonthDay = item
+        this.showItemData = false
+      },
+      // 选择预约时间
+      chooseTime (item) {
+        if (item.num === '0') {
+          return
+        }
+        this.appointmentTime = item.time
+        this.showItemTime = false
+      },
+      toggleData () {
+        if (!this.allYearMonthDay) {
+          this.getAllYearMonthDay()
+        } else {
+          this.showItemData = !this.showItemData
+        }
+      },
+      toggleTime () {
+        if (!this.surplusData) {
+          this.getQuotaInformation()
+        } else {
+          this.showItemTime = !this.showItemTime
+        }
       },
       // 获取时间
       getAllYearMonthDay () {
         resultPost(getAppointmentDate, this.timeRequest).then(json => {
-          this.allYearMonthDay = {}
           console.log(json, '时间获取成功')
           if (json.code === '0000') {
-            json.data.map((item, index) => {
-              let yearMonthDay = item.split('-')
-              if (!this.allYearMonthDay[yearMonthDay[0]]) {
-                this.allYearMonthDay[yearMonthDay[0]] = {}
-              }
-              if (!this.allYearMonthDay[yearMonthDay[0]][yearMonthDay[1]]) {
-                this.allYearMonthDay[yearMonthDay[0]][yearMonthDay[1]] = []
-              }
-              this.allYearMonthDay[yearMonthDay[0]][yearMonthDay[1]].push(yearMonthDay[2])
-            })
-            let option = []
-            for (let key in this.allYearMonthDay) {
-              option.push({'str': key})
-            }
-            this.allYear.option = option
+            this.allYearMonthDay = json.data
+            this.showItemData = !this.showItemData
           } else {
-            this.allYear.option = ''
-            this.allmonth.option = ''
-            this.allDay.option = ''
+            this.allYearMonthDay = ''
             MessageBox('提示', json.data)
           }
         })
@@ -678,20 +466,11 @@
               arrData.push({'time': item.apptime, 'num': item.maxnumber - item.yetnumber})
             })
             this.surplusData = arrData
+            this.showItemTime = !this.showItemTime
           } else {
             this.surplusData = ''
             MessageBox('提示', json.data)
           }
-        })
-      },
-      // 获取车辆类型编号
-      getBusinessCarTypeId () {
-        let requestData = {
-          code: this.carSelectDataOne
-        }
-        resultPost(getBusinessCarTypeId, requestData).then(json => {
-          console.log(json, '车辆类型编码获取成功')
-          this.businessCarTypeId = json.data
         })
       },
       getCredentialsNameOne (val) {
@@ -715,27 +494,11 @@
       getVehicleOriginOne (val) {
         this.vehicleOriginOne = val
       },
-      getAllYearOne (val) {
-        this.allYearOne = val
-      },
-      getAllmonthOne (val) {
-        this.allmonthOne = val
-      },
-      getAllDayOne (val) {
-        this.allDayOne = val
-      },
       getPointerTypeOne (val) {
         if (val === 'WZB') {
           this.targetNum = ''
         }
         this.pointerTypeOne = val
-      },
-      toggleActive (index) {
-        if (this.surplusData[index].num === 0) {
-          return
-        }
-        this.activeIndex = index
-        this.appointmentTime = this.surplusData[index].time
       },
       // 点击获取验证码
       getVerificationCode () {
@@ -869,7 +632,7 @@
           mobile: window.localStorage.getItem('mobilePhone'),
           msgNumber: this.verificationCode,
           platNumber: (this.provinceCodeOne + this.plateNum.toUpperCase()) || this.vehicleNum,
-          carTypeId: this.businessCarTypeId,
+          carTypeId: this.carSelectDataOne,
           useCharater: this.useNatureOne,
           carFrame: this.vehicleNum,  // 车身架号
           orgId: this.appointmentLocationOne,
