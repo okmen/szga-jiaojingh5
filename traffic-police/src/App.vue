@@ -63,20 +63,24 @@
     </div>
     <div class="home-nav-bottom">
       <dl>
-        <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/appointList/'+openId">
+        <!-- <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/appointList/'+openId">
         <dt><img class="top5" src="./images/nav5.png" alt=""></dt>
         <dd>预约类服务</dd>
-        </a>
+        </a> -->
+        <router-link :to="!isLogin ? '/login' : '/precontractType'">
+        <dt><img class="top5" src="./images/nav5.png" alt=""></dt>
+        <dd>预约类服务</dd>
+        </router-link>
       </dl>
       <dl>
-        <!-- <router-link :to="!isLogin ? '/login' : '/dealService'">
+        <router-link :to="!isLogin ? '/login' : '/dealService'">
         <dt><img class="top6" src="./images/nav6.png" alt=""></dt>
         <dd>办理类服务</dd>
-        </router-link> -->
-        <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/businessList/'+openId">
+        </router-link>
+        <!-- <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/businessList/'+openId">
         <dt><img class="top6" src="./images/nav6.png" alt=""></dt>
         <dd>办理类服务</dd>
-        </a>
+        </a> -->
       </dl>
       <dl>
         <router-link :to="!isLogin ? '/login' : '/credit'">

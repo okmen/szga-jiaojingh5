@@ -43,7 +43,7 @@
             this.menuArr = json.data
             window.sessionStorage.setItem('car', JSON.stringify(json.data))
           } else {
-            Toast('系统异常')
+            Toast(json.msg)
           }
         })
       },

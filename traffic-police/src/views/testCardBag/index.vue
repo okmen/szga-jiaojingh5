@@ -28,16 +28,16 @@
       getData () {
         var that = this
         let requestData = {
-          cardId: 'pPyqQjq_2LnZeey0y5XK-ArtZDSo'
+          cardId: 'pILMDwI0YyTv1ikElE4IOHDxU00I'
         }
-        resultPost('https://szjjapi.stc.gov.cn/h5/cardConfig.html', requestData).then(data => {
+        resultPost('https://testjava.chudaokeji.com/h5/cardConfig.html', requestData).then(data => {
           console.log(data)
           this.cardBagData = data
           let cardExt = {
-            openId: window.localStorage.openId,
+            openid: window.localStorage.openId,
             timestamp: data.data.timestamp,
             signature: data.data.signature,
-            nonce_str: data.data.nonceStr
+            nonce_str: data.data.noncestr
           }
           wx.addCard({
             cardList: [{

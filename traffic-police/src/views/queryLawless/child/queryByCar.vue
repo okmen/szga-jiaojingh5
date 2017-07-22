@@ -413,7 +413,26 @@
           return false
         }
         resultPost(queryLawlessByCar, reqData).then(json => {
-          if (!json.data) {
+          if (json.code === '0000') {
+            if (!json.data) {
+              Toast({
+                message: json.msg,
+                position: 'middle',
+                className: 'white',
+                duration: 3000
+              })
+            }
+            if (json.data.length === 0) {
+              Toast({
+                message: '当前车辆暂无违法信息',
+                position: 'middle',
+                className: 'white',
+                duration: 3000
+              })
+            }
+            console.log(json)
+            this.illegalData = json.data
+          } else {
             Toast({
               message: json.msg,
               position: 'middle',
@@ -421,16 +440,6 @@
               duration: 3000
             })
           }
-          if (json.data.length === 0) {
-            Toast({
-              message: '当前车辆暂无违法信息',
-              position: 'middle',
-              className: 'white',
-              duration: 3000
-            })
-          }
-          console.log(json)
-          this.illegalData = json.data
         })
       },
       queryMineByCar: function () {

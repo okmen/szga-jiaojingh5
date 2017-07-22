@@ -39,7 +39,7 @@
             this.menuArr = json.data
             window.sessionStorage.setItem('card', JSON.stringify(json.data))
           } else {
-            Toast('系统异常')
+            Toast(json.msg)
           }
         })
       },

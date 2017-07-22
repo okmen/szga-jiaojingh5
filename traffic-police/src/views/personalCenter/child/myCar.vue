@@ -12,7 +12,7 @@
           </div>
           <div class="car-deal" @click="hrefBtn(car)">
             当前本车有{{ car.illegalNumber }}宗违法尚未处理
-        <i class="arrow"></i>
+            <i class="arrow"></i>
           </div>
           <div class="car-status">
             <ul>
@@ -192,15 +192,17 @@
     },
     methods: {
       hrefBtn: function (item) {
+        console.log(item)
         let that = this
         let reqData = {
           licensePlateType: item.plateType,
           licensePlateNo: item.numberPlateNumber,
-          vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
+          vehicleIdentifyNoLast4: item.behindTheFrame4Digits,
           identityCard: item.identityCard,
-          mobilephone: item.mobilephone,
-          drivingLicenceNo: this.identityCard
+          mobilephone: item.mobilephone === 'undefined' ? that.mobilephone : item.mobilephone,
+          drivingLicenceNo: item.identityCard
         }
+        console.log(reqData)
         Indicator.open()
         resultPostNoLoading(queryLawlessByCar, reqData).then(json => {
           console.log(json)
