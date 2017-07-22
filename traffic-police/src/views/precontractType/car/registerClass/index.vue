@@ -2,7 +2,7 @@
   <div class="register-class">
     <div class="form-template-item">
     <span class="form-template-item-left">业务类型</span>
-    <div class="form-template-item-type">{{currentBusinessType}}</div>
+    <div class="form-template-item-type ellipsis">{{currentBusinessType}}</div>
   </div>
     <div class="exchange-license-line"></div>
     <router-view :businessTypeId="businessTypeId" :achieveCode="achieveCode"></router-view>
