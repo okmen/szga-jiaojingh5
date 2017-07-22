@@ -1,7 +1,7 @@
 <template>
   <div class="confirmLawless-outer">
     <div class="confirm-item" v-for="car in carMsg">
-      <router-link :to="{ name: 'confirmClaim', params: { licensePlateNo: car.numberPlateNumber, plateType: car.plateType }}" >
+      <router-link :to="{ name: 'confirmClaim', params: { licensePlateNo: car.numberPlateNumber, plateType: car.plateType, behindTheFrame4Digits: car.behindTheFrame4Digits }}" >
         <div class="car-number">
           <i class="car-icon"></i>
           {{ car.numberPlateNumber }}

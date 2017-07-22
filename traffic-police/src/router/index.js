@@ -179,6 +179,14 @@ const routes = [
     },
     component: require('../components/systemUpdate.vue')
   },
+  {                                                                               // 系统升级中 无弹窗
+    name: 'systemUpdateNoAlert',
+    path: '/systemUpdateNoAlert',
+    meta: {
+      title: '系统升级中'
+    },
+    component: require('../components/systemUpdateNoAlert.vue')
+  },
   {
     name: 'CGPageOne',
     path: '/CGPageOne',

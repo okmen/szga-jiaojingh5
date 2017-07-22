@@ -4,7 +4,7 @@
     <div class="selected-value" :class="{'width-full':!childInfo.title}" @click.stop="showSelectUl">{{currentVal}}</div>
     <div class="div-select-ul" v-show="showUl" :class="{'width-full':!childInfo.title}">
       <ul>
-        <li v-for="item in childInfo.option" @click="selectedValue(item)" v-if="item.str">{{item.str || ''}}</li>
+        <li v-for="(item, index) in childInfo.option" @click="selectedValue(item)" v-if="item.str">{{item.str || ''}}</li>
       </ul>
     </div>
   </div>
@@ -82,20 +82,20 @@
       },
       childInfo: {
         handler (val) {
-          this.selectedValue(val.option[0])
+          this.selectedValue(val.option[0], 0)
         },
         deep: true
       }
     },
     methods: {
-      selectedValue (item) {     // 点击下拉框的某一项
+      selectedValue (item, index) {     // 点击下拉框的某一项
         this.currentVal = item.str  // 选中的值
         if (item.id) {                // 如果父组件传进来的参数没有id 则返回父组件的的字符串
           this.currentId = item.id
-          this.$emit('getSelected', this.currentId)
+          this.$emit('getSelected', this.currentId, index, item.str)
         } else {
           this.currentId = item.str
-          this.$emit('getSelected', this.currentId)
+          this.$emit('getSelected', this.currentId, index, item.str)
         }
         this.showUl = false
       },

@@ -2,7 +2,7 @@
     <div class="form-template">
       <div class="form-template-item">
         <span class="form-template-item-left">业务类型</span>
-        <div class="form-template-item-type">转出、注销恢复</div>
+        <div class="form-template-item-type">{{businessName}}</div>
       </div>
       <div class="exchange-license-line"></div>
       <div class="register">
@@ -222,7 +222,7 @@
   import {resultPost} from 'service/getData'
   import {Toast, MessageBox} from 'mint-ui'
   import {
-    getBusinessTypeId,
+    // getBusinessTypeId,
     getPageInit,
     getAppointmentDate,
     getAppTimes,
@@ -380,9 +380,10 @@
         showTime: true,
         countDown: 5,
         timer: '',
+        code: '',
+        businessName: '',  // 业务类型名
         businessTypeId: '', // 业务类型编码
         appointmentTime: '', // 预约时间
-        // businessCarTypeId: '', // 车辆类型编码
         bookerType: 0 // 预约方式，0 本人， 1普通代办 2专业代办
       }
     },
@@ -408,19 +409,27 @@
       }
     },
     created () {
-      this.getBusinessTypeId()
+      // 通过路由参数获取业务类型code，业务类型ID，业务类型name
+      this.code = this.$route.query.code
+      this.businessTypeId = this.$route.query.id
+      this.businessName = this.$route.query.name
+      this.getAllData()
     },
+    // 监听变化，清空显示数据
     watch: {
+      // 预约地点发生变化
       appointmentLocationOne () {
         this.allYearMonthDay = ''
         this.surplusData = ''
         this.yearMonthDay = ''
         this.appointmentTime = ''
       },
+      // 日期发生变化
       yearMonthDay () {
         this.surplusData = ''
         this.appointmentTime = ''
       },
+      // 车辆类型发生变化
       carSelectDataOne () {
         this.surplusData = ''
         this.appointmentTime = ''
@@ -434,12 +443,11 @@
         }
         resultPost(getPageInit, requestData).then(data => {
           console.log(requestData)
-          console.log(data.data.orgVOs, '所有数据获取成功')
+          console.log(data.data, '所有数据获取成功')
           // 证件名称
           data.data.idTypeVOs.map(item => {
             this.credentialsName.option.push({'code': item.code, 'description': item.description, 'id': item.id, 'str': item.name})
           })
-          // console.log(this.credentialsName, '数据')
           // 车辆类型
           data.data.carTypeVOs.map(item => {
             this.carSelectData.option.push({'code': item.code, 'id': item.id, 'description': item.description, 'str': item.name})
@@ -455,20 +463,21 @@
         })
       },
       // 获取业务类型ID
-      getBusinessTypeId (val) {
-        let requestData = {
-          type: '1',
-          part: '0',
-          code: 'JD41'
-        }
-        resultPost(getBusinessTypeId, requestData).then(data => {
-          this.businessTypeId = data.data
-          console.log(data, '业务类型编码获取成功')
-          this.getAllData()
-        })
-      },
+      // getBusinessTypeId (val) {
+      //   let requestData = {
+      //     type: '1',
+      //     part: '0',
+      //     code: 'JD41'
+      //   }
+      //   resultPost(getBusinessTypeId, requestData).then(data => {
+      //     this.businessTypeId = data.data
+      //     console.log(data, '业务类型编码获取成功')
+      //     this.getAllData()
+      //   })
+      // },
       // 点击获取验证码
       getVerificationCode () {
+        // 获取验证码的简单表单验证
         if (specialCharacters(this.ownerName)) {
           Toast({
             message: '车主姓名不能含有特殊字符',
@@ -497,22 +506,24 @@
           return false
         }
         this.showTime = false
+        // 判断是否是本人办理，不是就设置为代办
         if (window.localStorage.getItem('userName') !== this.ownerName || this.IDcard === window.localStorage.getItem('identityCard')) {
           this.bookerType = 1
         }
         let requestData = {
           mobile: this.mobilePhone,
-          idType: this.certificateTypeId,
+          idType: this.credentialsNameOne,
           lx: 2,
           bookerType: this.bookerType,
           bookerName: this.ownerName,
           bookerIdNumber: this.IDcard,
           idNumber: this.IDcard,
-          codes: this.achieveCode
+          codes: this.code
         }
         resultPost(simpleSendMessage, requestData).then(data => {
           console.log(requestData)
           console.log(data, '验证码')
+          MessageBox('提示', data.msg)
         })
         this.timer = setInterval(() => {
           if (this.countDown === 0) {
@@ -537,6 +548,7 @@
         this.appointmentTime = item.time
         this.showItemTime = false
       },
+      // 判断是否已经显示日期，如果有就不重新获取日期
       toggleData () {
         if (!this.allYearMonthDay) {
           this.getAllYearMonthDay()
@@ -544,6 +556,7 @@
           this.showItemData = !this.showItemData
         }
       },
+      // 判断是否已经显示时间段，如果有就不重新获取时间段配额
       toggleTime () {
         if (!this.surplusData) {
           this.getQuotaInformation()
@@ -584,21 +597,27 @@
           }
         })
       },
+      // 获取选择的证件类型
       getCredentialsNameOne (val) {
         this.credentialsNameOne = val
       },
+      // 获取选择的车牌省份
       getProvinceCodeOne (val) {
         this.provinceCodeOne = val
       },
+      // 获取选择的车辆类型
       getCarSelectDataOne (val) {
         this.carSelectDataOne = val
       },
+      // 获取选择的使用性质
       getUseNatureOne (val) {
         this.useNatureOne = val
       },
+      // 获取选择的预约地点
       getAppointmentLocationOne (val) {
         this.appointmentLocationOne = val
       },
+      // 提交前的校验规则
       beforeSubmit () {
         if (specialCharacters(this.ownerName)) {
           Toast({
@@ -656,7 +675,7 @@
         let requestObj = {
           name: this.ownerName,
           businessTypeId: this.businessTypeId,
-          idTypeId: this.certificateTypeId, // 证件名称
+          idTypeId: this.credentialsNameOne, // 证件名称
           idNumber: this.IDcard,
           mobile: window.localStorage.getItem('mobilePhone'),
           msgNumber: this.verificationCode,

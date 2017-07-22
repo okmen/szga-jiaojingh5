@@ -31,8 +31,8 @@
       </div>
     </div>
     <div-select :childInfo="carSelectData" @getSelected="getCarSelectDataOne"></div-select>
-   <!-- <div-radio v-if="carSelectDataOne == '02'&&$router.currentRoute.name == 'enteringRegister'"
-               :childInfo="vehicleOrigin" @getSelected="getVehicleOriginOne" style="margin-bottom: 0"></div-radio>-->
+    <!-- <div-radio v-if="carSelectDataOne == '02'&&$router.currentRoute.name == 'enteringRegister'"
+                :childInfo="vehicleOrigin" @getSelected="getVehicleOriginOne" style="margin-bottom: 0"></div-radio>-->
     <div-select :childInfo="modelOfCar" @getSelected="getModelOfCarOne"></div-select>
     <div-select :childInfo="useNature" @getSelected="getUseNatureOne"></div-select>
     <div class="register-item" v-if="carSelectDataOne != '02'|| $router.currentRoute.name != 'enteringRegister'">
@@ -47,8 +47,8 @@
     <div class="register-item">
       <span class="register-item-title">预约日期</span>
       <div class="register-item-input register-item-select">
-        <input type="text" placeholder="请选择预约日期" readonly  v-model="yearMonthDay" @click.stop="toggleData">
-        <ul class="register-item-ul" v-if="showItemData" >
+        <input type="text" placeholder="请选择预约日期" readonly v-model="yearMonthDay" @click.stop="toggleData">
+        <ul class="register-item-ul" v-if="showItemData">
           <li class="register-item-li" v-for="item in allYearMonthDay" @click="chooseData(item)">{{item}}</li>
         </ul>
       </div>
@@ -56,11 +56,13 @@
     <div class="register-item">
       <span class="register-item-title">预约时间</span>
       <div class="register-item-input register-item-select">
-        <input type="text" placeholder="请选择预约时间" readonly  v-model="appointmentTime" @click.stop="toggleTime">
+        <input type="text" placeholder="请选择预约时间" readonly v-model="appointmentTime" @click.stop="toggleTime">
         <ul class="register-item-ul" v-if="showItemTime">
-          <li class="register-item-li" v-for="item in surplusData" @click="chooseTime(item)" :class="{'bg-gray': item.num == 0}">
+          <li class="register-item-li" v-for="item in surplusData" @click="chooseTime(item)"
+              :class="{'bg-gray': item.num == 0}">
             <div class="register-item-li-time">{{item.time}}</div>
-            <div class="register-item-li-num" v-if="item.num!=0">剩余名额 <span class="register-item-li-number">{{item.num}}</span> 位
+            <div class="register-item-li-num" v-if="item.num!=0">剩余名额 <span
+              class="register-item-li-number">{{item.num}}</span> 位
             </div>
             <div class="register-item-li-num" v-if="item.num == 0">已满</div>
           </li>
@@ -88,9 +90,11 @@
     font-size: 30px;
     padding-left: 20px;
   }
-  .bg-gray{
+
+  .bg-gray {
     background: #cdcdcd;
   }
+
   .register-item {
     display: flex;
     height: 85px;
@@ -112,15 +116,15 @@
     .province-code-input {
       width: 300px;
     }
-    .register-item-select{
+    .register-item-select {
       padding-left: 0;
       width: 68%;
       position: relative;
-      input{
+      input {
         width: 100%;
         background: white url("../../../../../images/select1.png") 95% center/22px 13px no-repeat;
       }
-      .register-item-ul{
+      .register-item-ul {
         position: absolute;
         top: 72px;
         border: 1px solid #e5e5e5;
@@ -129,7 +133,7 @@
         background: white;
         max-height: 400px;
         overflow: auto;
-        .register-item-li{
+        .register-item-li {
           font-size: 30px;
           display: flex;
           justify-content: space-between;
@@ -137,7 +141,7 @@
           line-height: 65px;
           padding-left: 20px;
           padding-right: 20px;
-          .register-item-li-number{
+          .register-item-li-number {
             color: #19D051;
           }
         }
@@ -184,7 +188,6 @@
     }
 
   }
-
 
   .register-reminder {
     color: #f02b28;
@@ -338,13 +341,13 @@
         appointmentTime: '', // 预约时间
 //        businessTypeId: '',  // 业务类型编码
         bookerType: 0, // 预约方式，0 本人， 1普通代办 2专业代办
-     /*   vehicleOrigin: {
-          title: '车辆产地',
-          option: [
-            {'str': '国产', 'id': '1', 'choose': true},
-            {'str': '进口', 'id': '0', 'choose': false}
-          ]
-        }, // 车辆产地 */
+        /*   vehicleOrigin: {
+         title: '车辆产地',
+         option: [
+         {'str': '国产', 'id': '1', 'choose': true},
+         {'str': '进口', 'id': '0', 'choose': false}
+         ]
+         }, // 车辆产地 */
         vehicleOriginOne: ''
       }
     },
@@ -414,6 +417,7 @@
         this.showItemTime = false
       },
       toggleData () {
+        this.showItemTime = false
         if (!this.allYearMonthDay) {
           this.getAllYearMonthDay()
         } else {
@@ -421,6 +425,7 @@
         }
       },
       toggleTime () {
+        this.showItemData = false
         if (!this.surplusData) {
           this.getQuotaInformation()
         } else {
@@ -599,24 +604,31 @@
           })
           return false
         }
-        if (!this.appointmentTime) {
+        if (!this.yearMonthDay) {
           Toast({
-            message: '请选择预约时间段',
+            message: '请选择预约日期',
             duration: 2000
           })
           return false
         }
-        /* if (!this.targetNum && this.pointerTypeOne !== '无指标') {
-         Toast({
-         message: '请输入指标号',
-         duration: 2000
-         })
-         return false
-         } */
+        if (!this.appointmentTime) {
+          Toast({
+            message: '请选择预约时间',
+            duration: 2000
+          })
+          return false
+        }
+        if (!this.targetNum && this.pointerTypeOne !== 'WZB') {
+          Toast({
+            message: '请输入指标号',
+            duration: 2000
+          })
+          return false
+        }
         return true
       },
       registerSubmit () {
-        //        if (!this.beforeSubmit()) return
+        if (!this.beforeSubmit()) return
         let requestObj = {
           name: this.ownerName,
           businessTypeId: this.businessTypeId,
@@ -661,13 +673,20 @@
             this.$store.commit('saveSuccessInfo', dataInfo)
             this.$router.push('/submitSuccess')
           } else {
-            MessageBox('提示', data.data)
+            MessageBox('提示', data.msg)
           }
         })
+      },
+      disappearSelectUl () {
+        this.showItemTime = false
+        this.showItemData = false
       }
     },
     mounted () {
-//      this.getBusinessTypeId()
+      document.addEventListener('click', this.disappearSelectUl)
+    },
+    destroyed () {
+      document.removeEventListener('click', this.disappearSelectUl)
     }
   }
 </script>

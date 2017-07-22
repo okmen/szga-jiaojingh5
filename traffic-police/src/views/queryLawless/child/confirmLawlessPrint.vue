@@ -65,7 +65,8 @@
         licensePlateType: this.$route.params.plateType,
         mobilephone: window.localStorage.getItem('mobilePhone'),
         identityCard: window.localStorage.getItem('identityCard'),
-        sourceOfCertification: 'C'
+        sourceOfCertification: 'C',
+        vehicleIdentifyNoLast4: this.$route.params.behindTheFrame4Digits
       }
       console.log(reqData)
       Indicator.open()
