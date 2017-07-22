@@ -381,6 +381,7 @@
 
       // 选择日期
       dateClick: function (item, index) {
+        console.log(item)
         if (!item && !this.orderAllDate) {  // 当有日期的时候再点击选择日期 不调接口
           this.getOrderDate()
         }

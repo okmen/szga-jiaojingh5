@@ -272,11 +272,12 @@ export default {
       }
     },
     // 预约日期
-    dateType: function (str) {
-      if (str) {
-        this.date = str
-      } else {
-        this.getmentDate()
+    dateType: function (item) {
+      if (!item && !this.date) {
+      }
+      this.getmentDate()
+      if (item) {
+        this.date = item
       }
       if (this.dateShow === true) {
         this.dateShow = false
@@ -286,10 +287,9 @@ export default {
     },
     // 预约时间
     timeType: function (str) {
+      this.getTimes()
       if (str) {
         this.time = str
-      } else {
-        this.getTimes()
       }
       if (this.timeShow === true) {
         this.timeShow = false
@@ -386,8 +386,8 @@ export default {
         'useCharater': this.employId,                      // 使用性质
         'carFrame': this.behindTheFrame4Digits,            // 车架号
         'orgId': this.subscribeId,                         // 预约地点id
-        'appointmentDate': `${this.year}-${this.month}-${this.date}`,          // 预约日期
-        'appointmentTime': this.tmentTime,                 // 预约时间
+        'appointmentDate': this.date,          // 预约日期
+        'appointmentTime': this.time,                 // 预约时间
         'bookerName': window.localStorage.getItem('userName'),                 // 预约人名字
         'bookerIdNumber': window.localStorage.getItem('identityCard'),         // 预约人身份证号
         'bookerType': name,                                // 预约方式 ‘0’本人
@@ -477,6 +477,20 @@ export default {
     })
   },
   watch: {
+    vehicleId () { // 当车辆类型改变的时候 清空预约时间
+      this.time = '请选择预约时间'
+      this.dateData = []
+    },
+    subscribeId () { // 当预约地点改变的时候 清空预约日期和预约时间
+      this.date = '请选择预约日期'
+      this.dateData = []
+      this.time = '请选择预约时间'
+      this.dateData = []
+    },
+    date () {
+      this.time = '请选择预约时间'
+      this.dateData = []
+    }
   }
 }
 </script>
