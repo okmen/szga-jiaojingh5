@@ -208,7 +208,6 @@
   import {
     getAppointmentDate,
     getAppTimes,
-    getIdTypeId,
     simpleSendMessage,
     createVehicleInfo
   } from 'config/baseUrl.js'
@@ -333,13 +332,12 @@
         appointmentLocationStr: '', // 预约地点的字符串
         pointerTypeOne: '',
         credentialsNameOne: '', // 证件名称一项
-        certificateTypeId: '', // 证件类型ID
         showTime: true,
         countDown: 5,
         timer: '',
         appointmentTime: '', // 预约时间
 //        businessTypeId: '',  // 业务类型编码
-        bookerType: 0 // 预约方式，0 本人， 1普通代办 2专业代办
+        bookerType: 0, // 预约方式，0 本人， 1普通代办 2专业代办
      /*   vehicleOrigin: {
           title: '车辆产地',
           option: [
@@ -347,7 +345,7 @@
             {'str': '进口', 'id': '0', 'choose': false}
           ]
         }, // 车辆产地 */
-//        vehicleOriginOne: ''
+        vehicleOriginOne: ''
       }
     },
     components: {
@@ -402,18 +400,6 @@
       getModelOfCarOne (val) {
         this.modelOfCarOne = val
       },
-      // 获取证件类型ID
-      getCertificateTypeId () {
-        resultPost(getIdTypeId, this.certificateRequest).then(data => {
-          console.log(data, '证件类型ID')
-          if (data.code === '0000') {
-            this.certificateTypeId = data.data
-          } else {
-            this.certificateTypeId = ''
-            MessageBox('提示', data.data)
-          }
-        })
-      },
       // 选择预约日期
       chooseData (item) {
         this.yearMonthDay = item
@@ -456,6 +442,13 @@
       },
       // 获取配额信息
       getQuotaInformation () {
+        if (!this.yearMonthDay) {
+          Toast({
+            message: '请先选择预约日期',
+            duration: 2000
+          })
+          return
+        }
         resultPost(getAppTimes, this.quotaRequest).then(json => {
           console.log(json, '配额信息')
           this.activeIndex = ''
@@ -535,7 +528,7 @@
         }
         let requestData = {
           mobile: this.mobilePhone,
-          idType: this.certificateTypeId,
+          idType: this.credentialsNameOne,
           lx: 2,
           bookerType: this.bookerType,
           bookerName: this.ownerName,
@@ -627,7 +620,7 @@
         let requestObj = {
           name: this.ownerName,
           businessTypeId: this.businessTypeId,
-          idTypeId: this.certificateTypeId, // 证件名称
+          idTypeId: this.credentialsNameOne, // 证件名称
           idNumber: this.IDcard,
           mobile: window.localStorage.getItem('mobilePhone'),
           msgNumber: this.verificationCode,
