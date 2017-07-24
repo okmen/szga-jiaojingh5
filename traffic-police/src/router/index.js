@@ -156,6 +156,14 @@ const routes = [
     component: require('../views/electrocarFile')
   },
   {
+    name: 'electrocarFileScancode',
+    path: '/electrocarFile/scancode',
+    meta: {
+      title: '电动车档案-扫一扫'
+    },
+    component: require('../views/electrocarFile/scancode.vue')
+  },
+  {
     name: 'roadMsgList',
     path: '/roadMsgList',
     meta: {

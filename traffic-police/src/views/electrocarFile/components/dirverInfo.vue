@@ -1,21 +1,25 @@
 <template>
   <div class="dirver-info">
-    <div class="dirver-info-img">
-      <img src="../../../images/upload.png" height="92" width="134"/></div>
-    <div class="dirver-info-text">
-      <div class="dirver-info-text-item" v-for="(item, key) in list">
-        {{key + ':' +item}}
+    <div class="item" v-for="item in userInfoList">
+      <div class="dirver-info-img">
+        <img v-if="item.userImgUrl" :src="item.userImgUrl"/>
+        <img v-else src="../../../images/upload.png" height="92" width="134"/>
       </div>
-    </div>
-    <div class="dirver-info-change">
-      修改密码
+      <div class="dirver-info-text">
+        <div class="dirver-info-text-item" v-for="(el, key) in item" v-if="key !== 'userImgUrl'">
+          <template v-if="key === 'gender'">{{ itemType[key] }} : {{ el | gender }}</template>
+          <template v-else>{{itemType[key] + ' :  ' +el}}</template>
+        </div>
+      </div>
+      <div class="dirver-info-change">
+        修改密码
+      </div>
     </div>
   </div>
 </template>
 <style lang="less" scoped>
   .dirver-info{
     width: 650px;
-    padding: 38px 60px 60px 64px;
     margin:0 auto ;
     border: 2px solid #40aadb;
     border-top:none;
@@ -24,6 +28,7 @@
     .dirver-info-img{
       width: 296px;
       height: 296px;
+      overflow: hidden;
       margin: 0 auto 40px;
       border: 1px solid #b2b2b2;
       border-radius: 4px;
@@ -31,8 +36,12 @@
       justify-content: center;
       align-items: center;
       img{
-
+        width: 100%;
       }
+    }
+   .item{
+      padding: 38px 60px 60px 64px;
+      border-top: 2px solid #40aadb;
     }
     .dirver-info-text-item{
       color:#333;
@@ -53,18 +62,26 @@
   }
 </style>
 <script>
-//  import {resultPost} from '../../../service/getData'
   export default {
+    props: ['userInfoList'],
     data () {
       return {
-        list: {
-          '状态': '已备案',
-          '驾驶人姓名': '已备案',
-          '性别': '已备案',
-          '年龄': '已备案',
-          '身份证号码': '已备案',
-          '联系电话': '已备案',
-          '所属单位名称': '已备案'
+        itemType: {
+          'age': '年龄',
+          'companyName': '所属单位名称',
+          'driverName': '驾驶人姓名',
+          'gender': '性别',
+          'identityNo': '身份证号码',
+          'mobilephone': '联系电话'
+        }
+      }
+    },
+    filters: {
+      gender (value) {
+        if (value === '0') {
+          return '男'
+        } else {
+          return '女'
         }
       }
     }

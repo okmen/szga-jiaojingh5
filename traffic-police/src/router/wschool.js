@@ -55,14 +55,6 @@ let wschoolRouter = [
       title: '学习答题'
     },
     component: require('../views/wschool/subclass/answers.vue')
-  },
-  {
-    name: 'scanCode',
-    path: '/scanCode',
-    meta: {
-      title: '电动车扫码'
-    },
-    component: require('../views/wschool/scanCode.vue')
   }
 ]
 

@@ -135,7 +135,7 @@
         resultPost(queryLawlessByCar, reqData).then(json => {
           console.log(json)
           if (json.code === '0000') {
-            if (json.msg === '成功') {
+            if (json.data.length !== '0') {
               json.data.forEach((item, index) => { // 循环dataList 给每个item上面添加 check关联属性
                 item.checkAddBorder = false
               })
