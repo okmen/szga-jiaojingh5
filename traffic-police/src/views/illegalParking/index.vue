@@ -291,13 +291,13 @@
           document.getElementById('ticket').focus()
           return
         }
-        /*  if (!this.mapObj.showAdd) {
-         Toast({
-         message: '请选择停车地点',
-         duration: 2000
-         })
-         return
-         } */
+        if (!this.mapObj.showAdd) {
+          Toast({
+            message: '请选择停车地点',
+            duration: 2000
+          })
+          return
+        }
         if (!this.reason) {
           Toast({
             message: '请输入停车原因',

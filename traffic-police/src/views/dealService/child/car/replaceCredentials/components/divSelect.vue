@@ -88,10 +88,10 @@
     },
     mounted () {
       this.currentVal = this.defaultVal
-      document.addEventListener('click', this.disappearSelectUl)
+      document.getElementById('app').addEventListener('click', this.disappearSelectUl)
     },
     destroyed () {
-      document.removeEventListener('click', this.disappearSelectUl)
+      document.getElementById('app').removeEventListener('click', this.disappearSelectUl)
     }
   }
 </script>

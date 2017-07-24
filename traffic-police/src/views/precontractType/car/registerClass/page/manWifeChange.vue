@@ -66,8 +66,8 @@
     <div class="register-item">
       <span class="register-item-title">预约日期</span>
       <div class="register-item-input register-item-select">
-        <input type="text" placeholder="请选择预约日期" readonly  v-model="yearMonthDay" @click.stop="toggleData">
-        <ul class="register-item-ul" v-if="showItemData" >
+        <input type="text" placeholder="请选择预约日期" readonly v-model="yearMonthDay" @click.stop="toggleData">
+        <ul class="register-item-ul" v-if="showItemData">
           <li class="register-item-li" v-for="item in allYearMonthDay" @click="chooseData(item)">{{item}}</li>
         </ul>
       </div>
@@ -75,11 +75,13 @@
     <div class="register-item">
       <span class="register-item-title">预约时间</span>
       <div class="register-item-input register-item-select">
-        <input type="text" placeholder="请选择预约时间" readonly  v-model="appointmentTime" @click.stop="toggleTime">
+        <input type="text" placeholder="请选择预约时间" readonly v-model="appointmentTime" @click.stop="toggleTime">
         <ul class="register-item-ul" v-if="showItemTime">
-          <li class="register-item-li" v-for="item in surplusData" @click="chooseTime(item)" :class="{'bg-gray': item.num == 0}">
+          <li class="register-item-li" v-for="item in surplusData" @click="chooseTime(item)"
+              :class="{'bg-gray': item.num == 0}">
             <div class="register-item-li-time">{{item.time}}</div>
-            <div class="register-item-li-num" v-if="item.num!=0">剩余名额 <span class="register-item-li-number">{{item.num}}</span> 位
+            <div class="register-item-li-num" v-if="item.num!=0">剩余名额 <span
+              class="register-item-li-number">{{item.num}}</span> 位
             </div>
             <div class="register-item-li-num" v-if="item.num == 0">已满</div>
           </li>
@@ -98,16 +100,18 @@
     font-size: 30px;
     padding-left: 20px;
   }
-  .bg-gray{
+
+  .bg-gray {
     background: #cdcdcd;
   }
+
   .register-item {
     display: flex;
     height: 85px;
     margin-bottom: 10px;
     align-items: center;
     justify-content: space-between;
-    .font-size28{
+    .font-size28 {
       font-size: 28px;
     }
     .register-item-title {
@@ -125,15 +129,15 @@
     .province-code-input {
       width: 300px;
     }
-    .register-item-select{
+    .register-item-select {
       padding-left: 0;
       width: 68%;
       position: relative;
-      input{
+      input {
         width: 100%;
         background: white url("../../../../../images/select1.png") 95% center/22px 13px no-repeat;
       }
-      .register-item-ul{
+      .register-item-ul {
         position: absolute;
         top: 72px;
         border: 1px solid #e5e5e5;
@@ -142,7 +146,7 @@
         background: white;
         max-height: 240px;
         overflow: auto;
-        .register-item-li{
+        .register-item-li {
           font-size: 30px;
           display: flex;
           justify-content: space-between;
@@ -150,7 +154,7 @@
           line-height: 65px;
           padding-left: 20px;
           padding-right: 20px;
-          .register-item-li-number{
+          .register-item-li-number {
             color: #19D051;
           }
         }
@@ -175,6 +179,7 @@
       }
     }
   }
+
   .choose-date {
     display: flex;
     .choose-date-item {
@@ -195,10 +200,12 @@
       }
     }
   }
+
   .register-reminder {
     color: #f02b28;
     margin: 34px 0 142px;
   }
+
   .register-submit {
     height: 80px;
     background: #10aeff;
@@ -384,7 +391,7 @@
         timer: '',
         appointmentTime: '', // 预约时间
 //        businessTypeId: '',  // 业务类型编码
-        bookerType: 0, // 预约方式，0 本人， 1普通代办 2专业代办
+        bookerType: 0 // 预约方式，0 本人， 1普通代办 2专业代办
         /*   vehicleOrigin: {
          title: '车辆产地',
          option: [
@@ -392,7 +399,6 @@
          {'str': '进口', 'id': '0', 'choose': false}
          ]
          }, // 车辆产地 */
-        vehicleOriginOne: ''
       }
     },
     components: {
@@ -500,7 +506,7 @@
             this.showItemData = !this.showItemData
           } else {
             this.allYearMonthDay = ''
-            MessageBox('提示', json.data)
+            MessageBox('提示', json.msg)
           }
         })
       },
@@ -526,7 +532,7 @@
             this.showItemTime = !this.showItemTime
           } else {
             this.surplusData = ''
-            MessageBox('提示', json.data)
+            MessageBox('提示', json.msg)
           }
         })
       },
@@ -549,10 +555,6 @@
       // 切换地点
       getAppointmentLocationOne (val) {
         this.appointmentLocationOne = val
-      },
-      // 获取车辆产地
-      getVehicleOriginOne (val) {
-        this.vehicleOriginOne = val
       },
       // 点击获取验证码
       getVerificationCode () {
@@ -730,7 +732,7 @@
           businessTypeId: this.businessTypeId,
           idTypeId: this.newCredentialsNameOne, // 证件名称
           idNumber: this.newIDcard,
-          mobile: window.localStorage.getItem('mobilePhone'),
+          mobile: this.mobilePhone,
           msgNumber: this.verificationCode,
           platNumber: (this.provinceCodeOne + this.plateNum.toUpperCase()) || this.vehicleNum,
           carTypeId: this.carSelectDataOne,
@@ -743,8 +745,7 @@
           bookerIdNumber: window.localStorage.getItem('identityCard'),
           bookerType: this.bookerType,
           modelName: this.modelOfCarOne,
-          bookerMobile: this.mobilePhone,
-          optlittleCar: this.vehicleOriginOne
+          bookerMobile: this.mobilePhone
         }
         console.log(requestObj, '请求的数据')
         resultPost(createVehicleInfo, requestObj).then(data => {
@@ -777,10 +778,10 @@
       }
     },
     mounted () {
-      document.addEventListener('click', this.disappearSelectUl)
+      document.getElementById('app').addEventListener('click', this.disappearSelectUl)
     },
     destroyed () {
-      document.removeEventListener('click', this.disappearSelectUl)
+      document.getElementById('app').removeEventListener('click', this.disappearSelectUl)
     }
   }
 </script>

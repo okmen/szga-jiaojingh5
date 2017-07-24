@@ -427,7 +427,7 @@
             this.showItemData = !this.showItemData
           } else {
             this.allYearMonthDay = ''
-            MessageBox('提示', json.data)
+            MessageBox('提示', json.msg)
           }
         })
       },
@@ -453,7 +453,7 @@
             this.showItemTime = !this.showItemTime
           } else {
             this.surplusData = ''
-            MessageBox('提示', json.data)
+            MessageBox('提示', json.msg)
           }
         })
       },
@@ -607,7 +607,7 @@
           businessTypeId: this.businessTypeId,
           idTypeId: this.credentialsNameOne, // 证件名称
           idNumber: this.IDcard,
-          mobile: window.localStorage.getItem('mobilePhone'),
+          mobile: this.mobilePhone,
           msgNumber: this.verificationCode,
           platNumber: (this.provinceCodeOne + this.plateNum.toUpperCase()) || this.vehicleNum,
           carTypeId: this.carSelectDataOne,
@@ -654,10 +654,10 @@
       }
     },
     mounted () {
-      document.addEventListener('click', this.disappearSelectUl)
+      document.getElementById('app').addEventListener('click', this.disappearSelectUl)
     },
     destroyed () {
-      document.removeEventListener('click', this.disappearSelectUl)
+      document.getElementById('app').removeEventListener('click', this.disappearSelectUl)
     }
   }
 </script>
