@@ -70,7 +70,7 @@ export default {
         '01': '黄牌'
       },
       cars: JSON.parse(window.localStorage.getItem('cars')),
-      selectCars: window.localStorage.getItem('myNumberPlate'),
+      selectCars: window.localStorage.getItem('myNumberPlate') === 'undefined' ? '' : window.localStorage.getItem('myNumberPlate'),
       form: {
         name: window.localStorage.getItem('userName'),
         tel: window.localStorage.getItem('mobilePhone'),
