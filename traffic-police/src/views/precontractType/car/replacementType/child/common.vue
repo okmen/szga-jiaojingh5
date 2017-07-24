@@ -123,7 +123,8 @@
             <span>预约日期</span>
           </div>
           <div class="div-select">
-            <span class="btn-select bg-colour" @click.stop="dateType()">{{ date }}</span>
+            <!-- <span class="btn-select bg-colour" @click.stop="dateType()">{{ date }}</span> -->
+            <input class="btn-select bg-colour" placeholder="请选择预约日期" @click.stop="dateType()" v-model="date" type="text" name="" readonly>
             <div class="div-select-ul" v-if="dateShow">
               <ul>
                 <li v-for="item in dateData" @click.stop="dateType(item)">{{item}}</li>
@@ -136,7 +137,8 @@
             <span>预约时间</span>
           </div>
           <div class="div-select">
-            <span class="btn-select bg-colour" @click.stop="timeType()">{{ time }}</span>
+            <!-- <span class="btn-select bg-colour" @click.stop="timeType()">{{ time }}</span> -->
+            <input class="btn-select bg-colour" placeholder="请选择预约时间" @click.stop="timeType()" v-model="time" type="text" name="" readonly>
             <div class="div-select-ul" v-if="timeShow">
               <ul>
                 <li class="time-liOrder" v-for="item in surplusData" @click.stop="timeType(item.time, item.number)">
@@ -202,10 +204,10 @@ export default {
       ],
       timeShow: false,
       timeData: [],
-      time: '请选择预约时间',
+      time: '',
       dateShow: false,
       dateData: [],
-      date: '请选择预约日期',
+      date: '',
       clickIndex: '',
       surplusData: '',
       tmentTime: ''   // 预约时间
@@ -277,7 +279,7 @@ export default {
     dateType: function (item) {
       this.subscribeShow = false   // 预约地点
       this.timeShow = false        // 预约时间
-      if (!this.date || this.date === '请选择预约日期') {
+      if (!this.date && !item) {
         this.getmentDate()
       }
       if (item) {
@@ -293,7 +295,11 @@ export default {
     timeType: function (str, id) {
       this.subscribeShow = false  // 预约地点
       this.dateShow = false       // 预约日期
-      if (!this.time || this.time === '请选择预约时间') {
+      if (!this.date) {
+        Toast({message: '请先选择日期', className: 'white'})
+        return
+      }
+      if (!this.time && !this.time) {
         this.getTimes()
       }
       if (str) {
@@ -387,7 +393,7 @@ export default {
         'businessTypeId': this.codeId,          // 业务id
         'idTypeId': this.cur_card_id,                      // 证件种类ID
         'idNumber': this.identificationNum,                // 证件号码
-        'mobile': window.localStorage.getItem('mobilePhone'),                 // 手机号码
+        'mobile': this.mobilephone,                 // 手机号码
         'msgNumber': this.identifying,                     // 验证码
         'platNumber': `${this.abbreviationSelectMassage}${this.numberPlate}`, // 车牌号码
         'carTypeId': this.vehicleId,                   // 车辆类型Id
@@ -421,11 +427,6 @@ export default {
     },
     // 预约日期获取时间
     getTimes: function () {
-      if (this.date === '请选择预约日期') {
-        this.timeShow = false
-        Toast({message: '请先选择日期', position: 'bottom', className: 'white'})
-        return
-      }
       let getTimesData = {
         businessTypeId: this.codeId,  // 业务类型
         orgId: this.subscribeId,                 // 预约地点
@@ -491,17 +492,17 @@ export default {
   },
   watch: {
     vehicleId () { // 当车辆类型改变的时候 清空预约时间
-      this.time = '请选择预约时间'
-      this.dateData = []
+      this.time = ''
+      this.surplusData = []
     },
     subscribeId () { // 当预约地点改变的时候 清空预约日期和预约时间
-      this.date = '请选择预约日期'
+      this.date = ''
       this.dateData = []
-      this.time = '请选择预约时间'
+      this.time = ''
       this.surplusData = []
     },
     date () {
-      this.time = '请选择预约时间'
+      this.time = ''
       this.surplusData = []
     }
   }
