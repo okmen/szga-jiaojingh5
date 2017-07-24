@@ -79,7 +79,7 @@
             <div class="div-select-ul" v-if="detailTimeShow">
               <ul>
                 <li class="alter-detail-time" v-for="(item, index) in orderDetailsTime" 
-                    @click="selectOrderTime(item, index, item.leftNum)"
+                    @click="selectOrderTime(item.time, index, item.leftNum)"
                     :class="{'time-full': item.leftNum === 0, 'active': index === activeIndex && item.leftNum !== 0}">
                   <p>{{item.time}}</p>
                   <p v-if="item.leftNum === 0">已满</p>
@@ -235,6 +235,7 @@
           console.log(json, '时间获取成功')
           if (json.code === '0000') {
             this.orderAllDateData = json.data
+            this.dateShow = true
           } else {
             Toast({message: json.msg, className: 'white', duration: 1500})
           }
@@ -253,7 +254,6 @@
         if (this.dateShow === true) {
           this.dateShow = false
         } else {
-          this.dateShow = true
           this.detailTimeShow = false
         }
       },
@@ -267,6 +267,7 @@
               detailData.push({'time': item.apptime, 'leftNum': item.maxnumber - item.yetnumber})
             })
             this.orderDetailsTime = detailData
+            this.detailTimeShow = true
           } else {
             this.orderDetailsTime = ''
             Toast({message: json.msg, className: 'white', duration: 1500})
@@ -275,7 +276,7 @@
       },
 
       // 选择预约时间
-      selectOrderTime: function (item, index, leftNum) {
+      selectOrderTime: function (time, index, leftNum) {
         if (!this.orderAllDate) {
           Toast({message: '请先选择预约日期', className: 'white', duration: 1500})
           return
@@ -283,17 +284,16 @@
         if (leftNum === '0') {
           return
         }
-        if (!item && !this.selectDetailTime) {  // 当有时间的时候再点击选择日期 不调接口
+        if (!time && !this.selectDetailTime) {  // 当有时间的时候再点击选择日期 不调接口
           this.getDetailsTime()
         }
-        if (item) {
+        if (time) {
           this.activeIndex = index
-          this.selectDetailTime = this.orderDetailsTime[index].time
+          this.selectDetailTime = time
         }
         if (this.detailTimeShow === true) {
           this.detailTimeShow = false
         } else {
-          this.detailTimeShow = true
           this.dateShow = false
         }
       },
@@ -304,7 +304,7 @@
         let phonedata = {
           mobile: this.userTelphone,         // 手机号码
           idType: this.cardID,               // 证件id
-          lx: '1',                           // 业务类型 (机动车业务)
+          lx: '1',                           // 业务类型 (驾驶证业务)
           bookerType: this.orderWay,         // 预约方式
           bookerName: this.name,             // 预约人名字
           bookerIdNumber: window.localStorage.getItem('identityCard'),  // 预约人身份证号码
@@ -347,7 +347,7 @@
             name: this.carOwnerName,                // 车主姓名
             idTypeId: this.cardID,                  // 证件种类 id
             idNumber: this.cardNum,                 // 证件号码
-            mobile: window.localStorage.getItem('mobilePhone'),                   // 手机号
+            mobile: this.userTelphone,              // 手机号
             msgNumber: this.validCode,              // 验证码
             orgId: this.orderPlaceID,               // 预约地点 id
             appointmentDate: this.orderAllDate,     // 预约日期
