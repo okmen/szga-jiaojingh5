@@ -198,7 +198,7 @@ export default {
         this.getTimes()
       }
       if (str) {
-        id === 0 ? Toast({message: '剩余名额已满', className: 'white'}) : this.time = str
+        id === 0 ? Toast({message: '当前预约日期已满，请选择其它时间', className: 'white'}) : this.time = str
       }
       if (this.timeShow === true) {
         this.timeShow = false
@@ -307,8 +307,7 @@ export default {
         businessTypeId: this.codeId,  // 业务类型
         orgId: this.subscribeId,      // 预约地点
         date: this.date,              // 预约日期
-        carTypeId: this.vehicleId,    // 汽车类型ID
-        optlittleCar: ''              // 汽车产地
+        carTypeId: this.vehicleId    // 汽车类型ID
       }
       resultPost(getAppTimes, getTimesData).then(json => {
         if (json.code === '0000') {

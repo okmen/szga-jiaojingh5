@@ -198,7 +198,7 @@ export default {
         this.getTimes()
       }
       if (str) {
-        id === 0 ? Toast({message: '剩余名额已满', className: 'white'}) : this.time = str
+        id === 0 ? Toast({message: '当前预约日期已满，请选择其它时间', className: 'white'}) : this.time = str
       }
       if (this.timeShow === true) {
         this.timeShow = false
