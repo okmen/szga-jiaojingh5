@@ -247,3 +247,6 @@ export const createDriveInfoZJ10 = `${commonUrl}bookingbusiness/createDriveInfo_
 export const getGreenApply = `${commonUrl}greentravel/applyDownDateReport.html` // 获取申报日期数据
 
 export const postGreenApply = `${commonUrl}greentravel/downDatedeclareReport.html` // 申请申报日期数据
+
+/* -------------  电动车扫码 ------------- */
+export const electrocarFileScancode = `${commonUrl}convenience/getEbikeInfoByFileNo.html` // 获取扫码数据
