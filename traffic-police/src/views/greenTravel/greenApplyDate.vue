@@ -93,12 +93,14 @@ export default {
       resultGet(`${getGreenApply}?hphm=${requestData.hphm}&hpzl=${requestData.hpzl}&sfzmhm=${requestData.sfzmhm}&month=${requestData.month}`).then(data => {
         let Arr = []
         data.date.ret.forEach((item, index, array) => {
-          if (item.state !== '0') {
+          if (item.state === '7' || item.state === '1') {
             Arr.push(moment(item.cdate).format('YYYY-M-D'))
           }
         })
         this.selectedDate.push(...Arr)
         this.loadDateArr.push(month)
+      }).catch(error => {
+        console.log(error)
       })
     },
     // 提交
