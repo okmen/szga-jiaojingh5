@@ -777,7 +777,7 @@
           businessTypeId: this.businessTypeId, // 业务类型ID
           idTypeId: this.credentialsNameOne, // 证件名称
           idNumber: this.IDcard, // 证件号码
-          mobile: window.localStorage.getItem('mobilePhone'), // 手机号码
+          mobile: this.mobilePhone, // 手机号码
           adress: '深圳市' + this.cityDistrictOne + this.detailedAddress, // 居住地址
           appointmentDate: this.yearMonthDay, // 预约日期
           appointmentTime: this.appointmentTime, // 预约时间

@@ -88,6 +88,16 @@ export default {
       show: true
     }
   },
+  watch: {
+    selectedDate: {
+      handler (curDate, oldDate) {
+        console.log('curDate', curDate)
+        console.log('oldDate', oldDate)
+        this.data = this.getCalendar(this.y, this.m)
+      },
+      deep: true
+    }
+  },
   methods: {
     pickMonth (flag) {
       if (flag === -1) {
