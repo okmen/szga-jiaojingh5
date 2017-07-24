@@ -684,7 +684,7 @@
           businessTypeId: this.businessTypeId,
           idTypeId: this.credentialsNameOne, // 证件名称
           idNumber: this.IDcard,
-          mobile: window.localStorage.getItem('mobilePhone'),
+          mobile: this.mobilePhone,
           msgNumber: this.verificationCode,
           platNumber: this.provinceCodeOne + this.plateNum.toUpperCase(),
           carTypeId: this.carSelectDataOne,
