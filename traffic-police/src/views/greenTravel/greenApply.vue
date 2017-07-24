@@ -42,14 +42,7 @@
       <div class="item">
         <label>车牌类型</label>
         <div class="box">
-          <el-select v-model="form.type" disabled class="zly-select" size="small" placeholder="请选择车牌类型">
-            <el-option
-              v-for="item in typeData"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+          <el-input :value="typeData[form.type]" disabled placeholder="请输入身份证号码" size="small" />
         </div>
       </div>
     </div>
@@ -71,20 +64,11 @@ export default {
   },
   data () {
     return {
-      typeData: [
-        {
-          label: '蓝牌',
-          value: '02'
-        },
-        {
-          label: '黑牌',
-          value: '06'
-        },
-        {
-          label: '黄牌',
-          value: '01'
-        }
-      ],
+      typeData: {
+        '02': '蓝牌',
+        '06': '黑牌',
+        '01': '黄牌'
+      },
       cars: JSON.parse(window.localStorage.getItem('cars')),
       selectCars: window.localStorage.getItem('myNumberPlate'),
       form: {
