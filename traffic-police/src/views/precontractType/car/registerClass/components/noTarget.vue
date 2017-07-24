@@ -323,7 +323,7 @@
         appointmentLocationStr: '', // 预约地点的字符串
         credentialsNameOne: '', // 证件名称一项
         showTime: true,
-        countDown: 5,
+        countDown: 60,
         timer: '',
         appointmentTime: '', // 预约时间
 //        businessTypeId: '',  // 业务类型编码
@@ -529,7 +529,7 @@
           if (this.countDown === 0) {
             clearInterval(this.timer)
             this.showTime = true
-            this.countDown = 5
+            this.countDown = 60
             return
           }
           this.countDown--

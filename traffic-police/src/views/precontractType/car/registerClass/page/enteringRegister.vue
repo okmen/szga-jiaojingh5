@@ -555,7 +555,7 @@
           if (this.countDown === 0) {
             clearInterval(this.timer)
             this.showTime = true
-            this.countDown = 5
+            this.countDown = 60
             return
           }
           this.countDown--
