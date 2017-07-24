@@ -75,10 +75,10 @@ export default {
     },
     // 切换月份
     handleSkipDate (date) {
-      let nowMonth = moment(date).format('YYYYMM')
+      // let nowMonth = moment(new Date(date)).format('YYYYMM')
       // 如果当前月份没有数据，则拉取数据
-      if (!this.loadDateArr.includes(nowMonth)) {
-        this.getDate(nowMonth)
+      if (!this.loadDateArr.includes(date)) {
+        this.getDate(date)
       }
     },
     // 获取数据
