@@ -6,7 +6,7 @@
     <div class="alter-select pad-side-50">
       <div class="alter-chose"><span>业务类型</span></div>
       <div class="div-select alter-wd">
-        <input class="text-input bg-white" :value="bussinessName" readonly>
+        <input class="text-input bg-white" v-model="bussinessName" readonly>
       </div>
     </div>
     <div class="alter-from">

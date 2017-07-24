@@ -1,9 +1,9 @@
 <template>
   <div class="register-class">
     <div class="form-template-item">
-    <span class="form-template-item-left">业务类型</span>
-    <div class="form-template-item-type ellipsis">{{currentBusinessType}}</div>
-  </div>
+      <span class="form-template-item-left">业务类型</span>
+      <div class="form-template-item-type ellipsis">{{currentBusinessType}}</div>
+    </div>
     <div class="exchange-license-line"></div>
     <router-view :businessTypeId="businessTypeId" :achieveCode="achieveCode"></router-view>
     <div v-wechat-title="$route.meta.title"></div>
@@ -42,7 +42,7 @@
 </style>
 <script>
   import {resultPost} from 'service/getData'
-  //  import { MessageBox } from 'mint-ui'
+  import {MessageBox} from 'mint-ui'
   import {getPageInit} from 'config/baseUrl.js'
   export default {
     data () {
@@ -102,6 +102,8 @@
             this.$store.commit('savePointerType', json.data.indexTypeVos) // 指标类型
             this.$store.commit('saveAppointmentLocation', json.data.orgVOs) // 预约地点
             this.$store.commit('saveUseNature', json.data.useCharaters) // 预约地点
+          } else {
+            MessageBox('提示', json.msg)
           }
         })
       }

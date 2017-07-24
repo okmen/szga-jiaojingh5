@@ -1,3 +1,29 @@
+<!--
+  使用方法：
+  父组件中
+  <template>
+    <div-select :childInfo="obj" @getSelected="getData"></div-select>
+  </template>
+     data () {
+      接受一个对象
+        obj = {
+          title: '标题',  // title为此框的描述
+          option: [      // option 为一个数组,就是下拉框的内容，里面的每一项一个对象,传入显示的参数为str，对应的为id 值
+            {str: 深圳, id: 1},
+            {str: 深圳, id: 1},
+          ]
+        }
+     }
+    components: {
+      divSelect: require('components/divSelect.vue')
+    },
+    methods: {
+      getData (val, index, str) {   // 可以传3个值，第一个为传入对象的id(如果传入对象没有id,则是str，第二个为option数组的index，第三个为str)
+
+      }
+    }
+
+ -->
 <template>
   <div class="replace-select">
     <div class="select-title" v-if="childInfo.title" :class="{'font-size28':childInfo.font}">{{childInfo.title}}</div>
@@ -112,13 +138,13 @@
     },
     mounted () {
       this.currentVal = this.defaultVal
-      document.addEventListener('click', this.disappearSelectUl)
+      document.getElementById('app').addEventListener('click', this.disappearSelectUl)
       if (!this.defaultVal && this.childInfo.option[0]) {       // 如果父组件没有传入默认显示值，则传入的对象中的第一项作为默认选项
         this.selectedValue(this.childInfo.option[0])
       }
     },
     destroyed () {
-      document.removeEventListener('click', this.disappearSelectUl)
+      document.getElementById('app').removeEventListener('click', this.disappearSelectUl)
     }
   }
 </script>

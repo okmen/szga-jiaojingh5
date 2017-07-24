@@ -293,9 +293,7 @@ export default {
         orgId: this.subscribeId,     // 预约地点
         businessTypeId: this.codeId  // 业务类型
       }
-      console.log('预约地点', getmentData)
       resultPost(getAppointmentDate, getmentData).then(json => {
-        console.log(json)
         if (json.code === '0000') {
           this.dateData = json.data
         } else {
@@ -312,16 +310,13 @@ export default {
         carTypeId: this.vehicleId,    // 汽车类型ID
         optlittleCar: ''              // 汽车产地
       }
-      console.log('时间', getTimesData)
       resultPost(getAppTimes, getTimesData).then(json => {
-        console.log(json)
         if (json.code === '0000') {
           let timeData = []
           json.data.map(item => {
             timeData.push({'time': item.apptime, 'number': item.maxnumber - item.yetnumber})
           })
           this.surplusData = timeData
-          console.log(this.surplusData)
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
@@ -347,7 +342,6 @@ export default {
     let getBusinessData = {
       businessTypeId: this.$route.query.id
     }
-    console.log(getBusinessData)
     resultPost(getPageInit, getBusinessData).then(json => {
       if (json.code === '0000') {
         this.varietyData = json.data.idTypeVOs     // 初始化证件类型
@@ -368,7 +362,7 @@ export default {
       this.time = ''
       this.surplusData = []
     },
-    date () {
+    date () { // 当预约日期改变时，清空预约时间
       this.time = ''
       this.surplusData = []
     }
