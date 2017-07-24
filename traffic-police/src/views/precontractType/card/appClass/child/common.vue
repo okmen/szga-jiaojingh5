@@ -89,10 +89,10 @@
             <span class="btn-select bg-colour" @click.stop="timeType()">{{ time }}</span>
             <div class="div-select-ul" v-if="timeShow">
               <ul>
-                <li v-for="item in surplusData" @click.stop="timeType(item.time)">
-                  <span>{{item.time}}</span>
-                  <span v-if="item.number != 0">剩余名额<i class="renspan">{{item.number}}</i>位</span>
-                  <span v-if="item.number == 0">已满</span>
+                <li class="time-liOrder" v-for="item in surplusData" @click.stop="timeType(item.time, item.number)">
+                  <span class="time-order">{{item.time}}</span>
+                  <span class="time-one" v-if="item.number != 0">剩余名额<i class="renspan">{{item.number}}</i>位</span>
+                  <span class="time-one" v-if="item.number == 0">已满</span>
                 </li>
               </ul>
             </div>
@@ -187,14 +187,14 @@ export default {
       }
     },
     // 预约时间
-    timeType: function (str) {
+    timeType: function (str, id) {
       this.subscribeShow = false  // 预约地点
       this.dateShow = false       // 预约日期
-      if (!this.time || this.time === '请选择预约时间') {
+      if (!this.time && this.time === '请选择预约时间') {
         this.getTimes()
       }
       if (str) {
-        this.time = str
+        id === 0 ? Toast({message: '剩余名额已满', position: 'bottom', className: 'white'}) : this.time = str
       }
       if (this.timeShow === true) {
         this.timeShow = false
