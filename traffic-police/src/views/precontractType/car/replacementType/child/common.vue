@@ -177,10 +177,9 @@ export default {
       mobilephone: '',                  // 手机号码
       behindTheFrame4Digits: '',        // 车架号
       variety: '',
-      cur_card_id: '',                 // 证件id
+      cur_card_id: '',                  // 证件id
       varietyShow: false,               // 证件样式
-      varietyData: [
-      ],
+      varietyData: [],
       abbreviationSelectShow: false,    // 省字列表显示与否
       abbreviationSelectMassage: '粤',  // 默认省字
       abbreviationSelectData: [
@@ -190,25 +189,22 @@ export default {
       ],
       employ: '',
       employShow: false,                // 使用性质样式
-      employId: 'A',
-      employData: [
-      ],
+      employId: '',
+      employData: [],
       subscribe: '',                    // 预约地点
       subscribeId: '',                  // 预约地点id
       subscribeShow: false,
-      businessData: [],
+      businessData: [],                 // 预约地点数据
       vehicleShow: false,
       vehicle: '',
-      vehicleId: '',                // 车辆类型ID
-      vehicleData: [
-      ],
+      vehicleId: '',                   // 车辆类型ID
+      vehicleData: [],
       timeShow: false,
       timeData: [],
       time: '',
       dateShow: false,
       dateData: [],
       date: '',
-      clickIndex: '',
       surplusData: '',
       tmentTime: ''   // 预约时间
     }
@@ -299,26 +295,17 @@ export default {
         Toast({message: '请先选择日期', className: 'white'})
         return
       }
-      if (!this.time && !this.time) {
+      if (!this.time && !str) {
         this.getTimes()
       }
       if (str) {
-        id === 0 ? Toast({message: '剩余名额已满', position: 'bottom', className: 'white'}) : this.time = str
+        id === 0 ? Toast({message: '剩余名额已满', className: 'white'}) : this.time = str
       }
       if (this.timeShow === true) {
         this.timeShow = false
       } else {
         this.timeShow = true
       }
-    },
-    // 选择预约时段
-    renewingClick: function (index) {
-      if (this.surplusData[index].number === 0) {
-        return
-      }
-      this.clickIndex = index
-      this.tmentTime = this.surplusData[index].time
-      console.log(this.tmentTime)
     },
     // 获取验证码
     scanQRCode: function () {
@@ -389,19 +376,19 @@ export default {
     dataFn: function () {
       let name = this.name === window.localStorage.getItem('userName') ? 0 : 1  // 0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
       let renewingData = {
-        'name': this.name,   // 车主姓名
-        'businessTypeId': this.codeId,          // 业务id
-        'idTypeId': this.cur_card_id,                      // 证件种类ID
-        'idNumber': this.identificationNum,                // 证件号码
-        'mobile': this.mobilephone,                 // 手机号码
-        'msgNumber': this.identifying,                     // 验证码
+        'name': this.name,                   // 车主姓名
+        'businessTypeId': this.codeId,       // 业务id
+        'idTypeId': this.cur_card_id,        // 证件种类ID
+        'idNumber': this.identificationNum,  // 证件号码
+        'mobile': this.mobilephone,          // 手机号码
+        'msgNumber': this.identifying,       // 验证码
         'platNumber': `${this.abbreviationSelectMassage}${this.numberPlate}`, // 车牌号码
-        'carTypeId': this.vehicleId,                   // 车辆类型Id
-        'useCharater': this.employId,                      // 使用性质
-        'carFrame': this.behindTheFrame4Digits,            // 车架号
-        'orgId': this.subscribeId,                         // 预约地点id
-        'appointmentDate': this.date,          // 预约日期
-        'appointmentTime': this.time,                 // 预约时间
+        'carTypeId': this.vehicleId,         // 车辆类型Id
+        'useCharater': this.employId,        // 使用性质
+        'carFrame': this.behindTheFrame4Digits, // 车架号
+        'orgId': this.subscribeId,           // 预约地点id
+        'appointmentDate': this.date,        // 预约日期
+        'appointmentTime': this.time,        // 预约时间
         'bookerName': window.localStorage.getItem('userName'),                 // 预约人名字
         'bookerIdNumber': window.localStorage.getItem('identityCard'),         // 预约人身份证号
         'bookerType': name,                                // 预约方式 ‘0’本人
@@ -429,10 +416,9 @@ export default {
     getTimes: function () {
       let getTimesData = {
         businessTypeId: this.codeId,  // 业务类型
-        orgId: this.subscribeId,                 // 预约地点
-        date: this.date,                              // 预约日期
-        carTypeId: this.vehicleId,           // 汽车类型ID
-        optlittleCar: ''                         // 汽车产地
+        orgId: this.subscribeId,      // 预约地点
+        date: this.date,              // 预约日期
+        carTypeId: this.vehicleId     // 汽车类型ID
       }
       console.log('时间', getTimesData)
       resultPost(getAppTimes, getTimesData).then(json => {
@@ -501,7 +487,7 @@ export default {
       this.time = ''
       this.surplusData = []
     },
-    date () {
+    date () {     // 当时间改变的时候 清空预约时间
       this.time = ''
       this.surplusData = []
     }
