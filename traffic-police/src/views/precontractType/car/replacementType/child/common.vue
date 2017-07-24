@@ -299,11 +299,11 @@ export default {
         Toast({message: '请先选择日期', className: 'white'})
         return
       }
-      if (!this.time && !this.time) {
+      if (!this.time && !str) {
         this.getTimes()
       }
       if (str) {
-        id === 0 ? Toast({message: '剩余名额已满', position: 'bottom', className: 'white'}) : this.time = str
+        id === 0 ? Toast({message: '剩余名额已满', className: 'white'}) : this.time = str
       }
       if (this.timeShow === true) {
         this.timeShow = false

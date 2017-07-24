@@ -195,7 +195,7 @@ export default {
         Toast({message: '请先选择日期', className: 'white'})
         return
       }
-      if (!this.time && !this.time) {
+      if (!this.time && !str) {
         this.getTimes()
       }
       if (str) {
