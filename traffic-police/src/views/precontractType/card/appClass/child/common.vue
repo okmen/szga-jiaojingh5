@@ -293,9 +293,7 @@ export default {
         orgId: this.subscribeId,     // 预约地点
         businessTypeId: this.codeId  // 业务类型
       }
-      console.log('预约地点', getmentData)
       resultPost(getAppointmentDate, getmentData).then(json => {
-        console.log(json)
         if (json.code === '0000') {
           this.dateData = json.data
         } else {
@@ -312,16 +310,13 @@ export default {
         carTypeId: this.vehicleId,    // 汽车类型ID
         optlittleCar: ''              // 汽车产地
       }
-      console.log('时间', getTimesData)
       resultPost(getAppTimes, getTimesData).then(json => {
-        console.log(json)
         if (json.code === '0000') {
           let timeData = []
           json.data.map(item => {
             timeData.push({'time': item.apptime, 'number': item.maxnumber - item.yetnumber})
           })
           this.surplusData = timeData
-          console.log(this.surplusData)
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
@@ -330,14 +325,10 @@ export default {
   },
   created () {
     document.addEventListener('click', (e) => {
-      this.varietyShow = false
-      this.vehicleShow = false
-      this.employShow = false
-      this.monthShow = false
-      this.subscribeShow = false
-      this.abbreviationSelectShow = false
-      this.dateShow = false
-      this.timeData = false
+      this.varietyShow = false      // 证件名称
+      this.subscribeShow = false    // 预约地点
+      this.dateShow = false         // 预约日期
+      this.timeData = false         // 预约时间
     })
   },
   mounted () {
@@ -347,15 +338,14 @@ export default {
     let getBusinessData = {
       businessTypeId: this.$route.query.id
     }
-    console.log(getBusinessData)
     resultPost(getPageInit, getBusinessData).then(json => {
       if (json.code === '0000') {
         this.varietyData = json.data.idTypeVOs     // 初始化证件类型
-        this.variety = this.varietyData[0].name    // 初始化证件类型
-        this.cur_card_id = this.varietyData[0].id  // 初始化证件类型
+        this.variety = this.varietyData[0].name    // 初始化证件类型名称
+        this.cur_card_id = this.varietyData[0].id  // 初始化证件类型id
         this.businessData = json.data.orgVOs       // 初始化预约地点
-        this.subscribe = json.data.orgVOs[0].name
-        this.subscribeId = json.data.orgVOs[0].id
+        this.subscribe = json.data.orgVOs[0].name  // 预约地点名称
+        this.subscribeId = json.data.orgVOs[0].id  // 预约地点id
       } else {
         Toast({message: json.msg, position: 'bottom', className: 'white'})
       }
@@ -368,7 +358,7 @@ export default {
       this.time = ''
       this.surplusData = []
     },
-    date () {
+    date () { // 当时间改变的时候清空预约时间
       this.time = ''
       this.surplusData = []
     }
