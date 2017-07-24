@@ -188,7 +188,7 @@ export default {
           month: m,
           day: t,
           data: `${y}-${m}-${t}`,
-          isCanChoose: Date.parse(`${y}-${m}-${t}`) - (Date.now() + 172800000),
+          isCanChoose: Date.parse(`${y}/${m}/${t}`) - (Date.now() + 172800000),
           isSelectedDate: this.selectedDate.indexOf(`${y}-${m}-${t}`),
           pitchOn: false
         }
