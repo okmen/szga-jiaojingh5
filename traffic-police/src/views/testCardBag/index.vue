@@ -30,7 +30,7 @@
         let requestData = {
           cardId: 'pILMDwI0YyTv1ikElE4IOHDxU00I'
         }
-        resultPost('https://testjava.chudaokeji.com/h5/cardConfig.html', requestData).then(data => {
+        resultPost('http://testjava.chudaokeji.com/h5/cardConfig.html', requestData).then(data => {
           console.log(data)
           this.cardBagData = data
           let cardExt = {

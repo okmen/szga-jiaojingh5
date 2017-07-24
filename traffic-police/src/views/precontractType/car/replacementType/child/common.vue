@@ -123,7 +123,8 @@
             <span>预约日期</span>
           </div>
           <div class="div-select">
-            <span class="btn-select bg-colour" @click.stop="dateType()">{{ date }}</span>
+            <!-- <span class="btn-select bg-colour" @click.stop="dateType()">{{ date }}</span> -->
+            <input class="btn-select bg-colour" placeholder="请选择预约日期" @click.stop="dateType()" v-model="date" type="text" name="" readonly>
             <div class="div-select-ul" v-if="dateShow">
               <ul>
                 <li v-for="item in dateData" @click.stop="dateType(item)">{{item}}</li>
@@ -136,13 +137,14 @@
             <span>预约时间</span>
           </div>
           <div class="div-select">
-            <span class="btn-select bg-colour" @click.stop="timeType()">{{ time }}</span>
+            <!-- <span class="btn-select bg-colour" @click.stop="timeType()">{{ time }}</span> -->
+            <input class="btn-select bg-colour" placeholder="请选择预约时间" @click.stop="timeType()" v-model="time" type="text" name="" readonly>
             <div class="div-select-ul" v-if="timeShow">
               <ul>
-                <li v-for="item in surplusData" @click.stop="timeType(item.time)">
-                  <span>{{item.time}}</span>
-                  <span v-if="item.number != 0">剩余名额<i class="renspan">{{item.number}}</i>位</span>
-                  <span v-if="item.number == 0">已满</span>
+                <li class="time-liOrder" v-for="item in surplusData" @click.stop="timeType(item.time, item.number)">
+                  <span class="time-order">{{item.time}}</span>
+                  <span class="time-one" v-if="item.number != 0">剩余名额<i class="renspan">{{item.number}}</i>位</span>
+                  <span class="time-one" v-if="item.number == 0">已满</span>
                 </li>
               </ul>
             </div>
@@ -175,10 +177,9 @@ export default {
       mobilephone: '',                  // 手机号码
       behindTheFrame4Digits: '',        // 车架号
       variety: '',
-      cur_card_id: '',                 // 证件id
+      cur_card_id: '',                  // 证件id
       varietyShow: false,               // 证件样式
-      varietyData: [
-      ],
+      varietyData: [],
       abbreviationSelectShow: false,    // 省字列表显示与否
       abbreviationSelectMassage: '粤',  // 默认省字
       abbreviationSelectData: [
@@ -188,25 +189,22 @@ export default {
       ],
       employ: '',
       employShow: false,                // 使用性质样式
-      employId: 'A',
-      employData: [
-      ],
+      employId: '',
+      employData: [],
       subscribe: '',                    // 预约地点
       subscribeId: '',                  // 预约地点id
       subscribeShow: false,
-      businessData: [],
+      businessData: [],                 // 预约地点数据
       vehicleShow: false,
       vehicle: '',
-      vehicleId: '',                // 车辆类型ID
-      vehicleData: [
-      ],
+      vehicleId: '',                   // 车辆类型ID
+      vehicleData: [],
       timeShow: false,
       timeData: [],
-      time: '请选择预约时间',
+      time: '',
       dateShow: false,
       dateData: [],
-      date: '请选择预约日期',
-      clickIndex: '',
+      date: '',
       surplusData: '',
       tmentTime: ''   // 预约时间
     }
@@ -249,6 +247,8 @@ export default {
     },
     // 预约地点
     subscribeClick: function (str, id) {
+      this.dateShow = false    // 预约日期
+      this.timeShow = false    // 预约时间
       if (str) {
         this.subscribe = str
         this.subscribeId = id
@@ -273,7 +273,9 @@ export default {
     },
     // 预约日期
     dateType: function (item) {
-      if (!this.date || this.date === '请选择预约日期') {
+      this.subscribeShow = false   // 预约地点
+      this.timeShow = false        // 预约时间
+      if (!this.date && !item) {
         this.getmentDate()
       }
       if (item) {
@@ -286,27 +288,24 @@ export default {
       }
     },
     // 预约时间
-    timeType: function (str) {
-      if (!this.time || this.time === '请选择预约时间') {
+    timeType: function (str, id) {
+      this.subscribeShow = false  // 预约地点
+      this.dateShow = false       // 预约日期
+      if (!this.date) {
+        Toast({message: '请先选择日期', className: 'white'})
+        return
+      }
+      if (!this.time && !str) {
         this.getTimes()
       }
       if (str) {
-        this.time = str
+        id === 0 ? Toast({message: '剩余名额已满', className: 'white'}) : this.time = str
       }
       if (this.timeShow === true) {
         this.timeShow = false
       } else {
         this.timeShow = true
       }
-    },
-    // 选择预约时段
-    renewingClick: function (index) {
-      if (this.surplusData[index].number === 0) {
-        return
-      }
-      this.clickIndex = index
-      this.tmentTime = this.surplusData[index].time
-      console.log(this.tmentTime)
     },
     // 获取验证码
     scanQRCode: function () {
@@ -377,19 +376,19 @@ export default {
     dataFn: function () {
       let name = this.name === window.localStorage.getItem('userName') ? 0 : 1  // 0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
       let renewingData = {
-        'name': this.name,   // 车主姓名
-        'businessTypeId': this.codeId,          // 业务id
-        'idTypeId': this.cur_card_id,                      // 证件种类ID
-        'idNumber': this.identificationNum,                // 证件号码
-        'mobile': window.localStorage.getItem('mobilePhone'),                 // 手机号码
-        'msgNumber': this.identifying,                     // 验证码
+        'name': this.name,                   // 车主姓名
+        'businessTypeId': this.codeId,       // 业务id
+        'idTypeId': this.cur_card_id,        // 证件种类ID
+        'idNumber': this.identificationNum,  // 证件号码
+        'mobile': this.mobilephone,          // 手机号码
+        'msgNumber': this.identifying,       // 验证码
         'platNumber': `${this.abbreviationSelectMassage}${this.numberPlate}`, // 车牌号码
-        'carTypeId': this.vehicleId,                   // 车辆类型Id
-        'useCharater': this.employId,                      // 使用性质
-        'carFrame': this.behindTheFrame4Digits,            // 车架号
-        'orgId': this.subscribeId,                         // 预约地点id
-        'appointmentDate': this.date,          // 预约日期
-        'appointmentTime': this.time,                 // 预约时间
+        'carTypeId': this.vehicleId,         // 车辆类型Id
+        'useCharater': this.employId,        // 使用性质
+        'carFrame': this.behindTheFrame4Digits, // 车架号
+        'orgId': this.subscribeId,           // 预约地点id
+        'appointmentDate': this.date,        // 预约日期
+        'appointmentTime': this.time,        // 预约时间
         'bookerName': window.localStorage.getItem('userName'),                 // 预约人名字
         'bookerIdNumber': window.localStorage.getItem('identityCard'),         // 预约人身份证号
         'bookerType': name,                                // 预约方式 ‘0’本人
@@ -415,17 +414,11 @@ export default {
     },
     // 预约日期获取时间
     getTimes: function () {
-      if (this.date === '请选择预约日期') {
-        this.timeShow = false
-        Toast({message: '请先选择日期', position: 'bottom', className: 'white'})
-        return
-      }
       let getTimesData = {
         businessTypeId: this.codeId,  // 业务类型
-        orgId: this.subscribeId,                 // 预约地点
-        date: this.date,                              // 预约日期
-        carTypeId: this.vehicleId,           // 汽车类型ID
-        optlittleCar: ''                         // 汽车产地
+        orgId: this.subscribeId,      // 预约地点
+        date: this.date,              // 预约日期
+        carTypeId: this.vehicleId     // 汽车类型ID
       }
       console.log('时间', getTimesData)
       resultPost(getAppTimes, getTimesData).then(json => {
@@ -485,17 +478,17 @@ export default {
   },
   watch: {
     vehicleId () { // 当车辆类型改变的时候 清空预约时间
-      this.time = '请选择预约时间'
-      this.dateData = []
-    },
-    subscribeId () { // 当预约地点改变的时候 清空预约日期和预约时间
-      this.date = '请选择预约日期'
-      this.dateData = []
-      this.time = '请选择预约时间'
+      this.time = ''
       this.surplusData = []
     },
-    date () {
-      this.time = '请选择预约时间'
+    subscribeId () { // 当预约地点改变的时候 清空预约日期和预约时间
+      this.date = ''
+      this.dateData = []
+      this.time = ''
+      this.surplusData = []
+    },
+    date () {     // 当时间改变的时候 清空预约时间
+      this.time = ''
       this.surplusData = []
     }
   }

@@ -220,7 +220,7 @@
 <script>
   import {isPhone, specialCharacters, plateNumberDetection} from 'service/regExp.js'
   import {resultPost} from 'service/getData'
-  import {Toast, MessageBox} from 'mint-ui'
+  import {Toast} from 'mint-ui'
   import {
     // getBusinessTypeId,
     getPageInit,
@@ -378,7 +378,7 @@
         credentialsNameOne: '', // 证件名称一项
         certificateTypeId: '', // 证件类型ID
         showTime: true,
-        countDown: 5,
+        countDown: 60,
         timer: '',
         code: '',
         businessName: '',  // 业务类型名
@@ -524,7 +524,10 @@
         resultPost(simpleSendMessage, requestData).then(data => {
           console.log(requestData)
           console.log(data, '验证码')
-          MessageBox('提示', data.msg)
+          Toast({
+            message: '验证码已发送',
+            duration: 2000
+          })
         })
         this.timer = setInterval(() => {
           if (this.countDown === 0) {
@@ -594,7 +597,10 @@
             this.showItemTime = !this.showItemTime
           } else {
             this.surplusData = ''
-            MessageBox('提示', json.msg)
+            Toast({
+              message: '请先选择预约日期',
+              duration: 2000
+            })
           }
         })
       },
@@ -678,7 +684,7 @@
           businessTypeId: this.businessTypeId,
           idTypeId: this.credentialsNameOne, // 证件名称
           idNumber: this.IDcard,
-          mobile: window.localStorage.getItem('mobilePhone'),
+          mobile: this.mobilePhone,
           msgNumber: this.verificationCode,
           platNumber: this.provinceCodeOne + this.plateNum.toUpperCase(),
           carTypeId: this.carSelectDataOne,

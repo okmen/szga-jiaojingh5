@@ -54,7 +54,7 @@
         <div-select :childInfo="useNature" @getSelected="getUseNatureOne"></div-select>
         <div class="form-template-item">
           <span class="form-template-item-left">车身架号</span>
-          <input type="text" placeholder="请输入车架号全号" class="form-template-item-right" v-model="vehicleNum">
+          <input type="text" placeholder="请输入车架号全号" class="form-template-item-right" v-model="vehicleNum" maxlength="18">
         </div>
         <div-select :childInfo="appointmentLocation" @getSelected="getAppointmentLocationOne"></div-select>
         <div class="register-item">
@@ -234,7 +234,7 @@
 <script>
   import {isPhone, specialCharacters} from 'service/regExp.js'
   import {resultPost} from 'service/getData'
-  import {Toast, MessageBox} from 'mint-ui'
+  import {Toast} from 'mint-ui'
   import {
     // getBusinessTypeId,
     getPageInit,
@@ -437,7 +437,7 @@
         credentialsNameOne: '', // 证件名称一项
         certificateTypeId: '', // 证件类型ID
         showTime: true,
-        countDown: 5,
+        countDown: 60,
         timer: '',
         code: '',
         businessName: '',  // 业务类型名
@@ -587,7 +587,10 @@
         resultPost(simpleSendMessage, requestData).then(data => {
           console.log(requestData)
           console.log(data, '验证码')
-          MessageBox('提示', data.msg)
+          Toast({
+            message: '验证码已发送',
+            duration: 2000
+          })
         })
         this.timer = setInterval(() => {
           if (this.countDown === 0) {
@@ -657,7 +660,10 @@
             this.showItemTime = !this.showItemTime
           } else {
             this.surplusData = ''
-            MessageBox('提示', json.msg)
+            Toast({
+              message: '请先选择预约日期',
+              duration: 2000
+            })
           }
         })
       },
@@ -771,7 +777,7 @@
           businessTypeId: this.businessTypeId, // 业务类型ID
           idTypeId: this.credentialsNameOne, // 证件名称
           idNumber: this.IDcard, // 证件号码
-          mobile: window.localStorage.getItem('mobilePhone'), // 手机号码
+          mobile: this.mobilePhone, // 手机号码
           adress: '深圳市' + this.cityDistrictOne + this.detailedAddress, // 居住地址
           appointmentDate: this.yearMonthDay, // 预约日期
           appointmentTime: this.appointmentTime, // 预约时间
