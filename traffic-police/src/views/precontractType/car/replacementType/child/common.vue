@@ -249,6 +249,8 @@ export default {
     },
     // 预约地点
     subscribeClick: function (str, id) {
+      this.dateShow = false    // 预约日期
+      this.timeShow = false    // 预约时间
       if (str) {
         this.subscribe = str
         this.subscribeId = id
@@ -273,6 +275,8 @@ export default {
     },
     // 预约日期
     dateType: function (item) {
+      this.subscribeShow = false   // 预约地点
+      this.timeShow = false        // 预约时间
       if (!this.date || this.date === '请选择预约日期') {
         this.getmentDate()
       }
@@ -287,6 +291,8 @@ export default {
     },
     // 预约时间
     timeType: function (str) {
+      this.subscribeShow = false  // 预约地点
+      this.dateShow = false       // 预约日期
       if (!this.time || this.time === '请选择预约时间') {
         this.getTimes()
       }
