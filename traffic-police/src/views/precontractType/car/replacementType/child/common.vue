@@ -45,15 +45,15 @@
           </div>
         </li>
         <li class="form-line">
-            <div class="form-line-item item-name">
-              <span>验证码</span>
-            </div>
-            <div class="form-line-item width-60">
-              <input class="text-input bg-colour" type="text" v-model="identifying" name="" value="" maxlength="6" placeholder="请输入验证码">
-            </div>
-            <div class="form-line-item right width-35">
-              <button class="btn browse-code" v-bind:class="{ 'show' : isShow}" :disabled="forbidden" @click="scanQRCode()">{{chronoScope}}</button>
-            </div>
+          <div class="form-line-item item-name">
+            <span>验证码</span>
+          </div>
+          <div class="form-line-item width-60">
+            <input class="text-input bg-colour" type="text" v-model="identifying" name="" value="" maxlength="6" placeholder="请输入验证码">
+          </div>
+          <div class="form-line-item right width-35">
+            <button class="btn browse-code" v-bind:class="{ 'show' : isShow}" :disabled="forbidden" @click="scanQRCode()">{{chronoScope}}</button>
+          </div>
         </li>
         <li class="form-line clear">
           <div class="form-line-item item-name">
