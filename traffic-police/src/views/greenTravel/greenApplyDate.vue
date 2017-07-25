@@ -129,7 +129,6 @@ export default {
     },
     // 提交
     submit () {
-      this.handleSkipDate('201709')
       let greenApply = this.$store.state.greenApply
       let requestData = {
         sname: greenApply.name,
