@@ -250,3 +250,6 @@ export const postGreenApply = `${commonUrl}greentravel/downDatedeclareReport.htm
 
 /* -------------  电动车扫码 ------------- */
 export const electrocarFileScancode = `${commonUrl}convenience/getEbikeInfoByFileNo.html` // 获取扫码数据
+
+/* -------------- 电子回单 --------------- */
+export const toQueryElectronicReceiptPage = `${commonUrl}illegalHanding/toQueryElectronicReceiptPage.html` // 电子回单
