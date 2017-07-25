@@ -2,8 +2,9 @@
   <div class="newQueryByCar-outer">
     <div class="newQueryByCar-carArr">
       <ul>
-        <li v-for="item in carArr" @click="getLawlessData(item)">
+        <li v-for="item in carArr" @click="getLawlessData(item, 'click')">
           <span>{{ item.myNumberPlate }}</span>
+          <i>{{ item.lawlessNum }}</i>
           <em class="blue" v-if="item.isMySelf == '0'">本人</em>
           <em class="yellow" v-else>他人</em>
         </li>
@@ -20,21 +21,22 @@
   </div>
 </template>
 <script>
-  // import { resultPost } from '../../../service/getData'
-  // import { queryLawlessByCar, queryPay } from '../../../config/baseUrl'
+  import { resultPost } from '../../../service/getData'
+  import { queryLawlessByCar } from '../../../config/baseUrl'
   // import { verifyCode } from '../../../config/verifyCode'
-  // import { Toast } from 'mint-ui'
+  import { Toast } from 'mint-ui'
   export default {
     name: 'newQueryByCar',
     data () {
       return {
-        carArr: JSON.parse(window.localStorage.cars) || []
+        carArr: []
       }
     },
-    mounted () {
+    created () {
+      this.init() // 初始化页面，查询名下所有车辆的违法
     },
     methods: {
-      getLawlessData (item) {
+      getLawlessData (item, type) {
         let reqData = {
           licensePlateNo: item.myNumberPlate,
           licensePlateType: item.plateType,
@@ -43,6 +45,30 @@
           mobilephone: item.mobilephone
         }
         console.log(reqData)
+        resultPost(queryLawlessByCar, reqData).then(json => {
+          if (json.code === '0000') {
+            item.lawlessNum = json.data.length
+            if (type === 'click') {
+              // this.$router.push('/')
+            }
+          } else {
+            Toast({
+              message: json.msg,
+              position: 'middle',
+              duration: 2000
+            })
+          }
+          this.carArr.includes(item) ? false : this.carArr.push(item)
+        })
+      },
+      init () {
+        let cars = JSON.parse(window.localStorage.cars) || []
+        if (cars.length === 0) {
+          // this.$router.push('/')
+        }
+        cars.forEach((item) => {
+          this.getLawlessData(item, 'init')
+        })
       }
     }
   }
@@ -87,6 +113,18 @@
           font-weight: 600;
           color: #2696dd;
           line-height: 100px;
+        }
+        i{
+          display: block;
+          position: absolute;
+          font-size: 18px;
+          background-color: red;
+          color: #fff;
+          border-radius: 20px;
+          left: 65px;
+          top: 15px;
+          padding: 0 8px;
+          z-index: 10;
         }
         em{
           font-style: normal;
