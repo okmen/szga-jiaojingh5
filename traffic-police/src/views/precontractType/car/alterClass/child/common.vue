@@ -95,7 +95,7 @@
         <li class="alter-hbs-item clear">
             <div class="alter-hbs-name"><span>车身架号</span></div>
             <div class="alter-hbs-text">
-              <input class="text-input bg-white" type="text" v-model="VIN" placeholder="请输入车架号后四位" />
+              <input class="text-input bg-white" maxlength="4" type="text" v-model="VIN" placeholder="请输入车架号后四位" />
             </div>
         </li>
         <li class="alter-hbs-item">
