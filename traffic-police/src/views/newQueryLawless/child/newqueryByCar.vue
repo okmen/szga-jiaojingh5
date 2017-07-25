@@ -52,11 +52,13 @@
               // this.$router.push('/')
             }
           } else {
-            Toast({
-              message: json.msg,
-              position: 'middle',
-              duration: 2000
-            })
+            if (type === 'click') {
+              Toast({
+                message: json.msg,
+                position: 'middle',
+                duration: 2000
+              })
+            }
           }
           this.carArr.includes(item) ? false : this.carArr.push(item)
         })
@@ -123,7 +125,7 @@
           border-radius: 20px;
           left: 65px;
           top: 15px;
-          padding: 0 8px;
+          padding: 0 9px;
           z-index: 10;
         }
         em{
