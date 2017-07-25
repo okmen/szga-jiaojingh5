@@ -408,7 +408,7 @@
       // 选择预约时间
       selectOrderTime: function (time, index, leftNum) {
         if (!this.orderAllDate) {
-          Toast({message: '请先选择预约日期', className: 'white', duration: 1500})
+          Toast({message: '请先选择预约日期', className: 'white', duration: 2000})
           return
         }
         if (leftNum === 0) {
