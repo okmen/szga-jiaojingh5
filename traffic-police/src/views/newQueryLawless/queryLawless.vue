@@ -1,7 +1,7 @@
 <template>
   <div class="queryLawless-outer">
     <div class="query-link">
-      <router-link to="queryLawlessPage">交通违法查询</router-link>
+      <router-link to="newqueryByCar">交通违法查询</router-link>
     </div>
     <div  class="query-link">
       <router-link to="payLawless">交通违法缴款</router-link>

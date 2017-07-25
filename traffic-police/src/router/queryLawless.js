@@ -1,13 +1,5 @@
 let queryLawlessRouter = [
   {
-    name: 'newqueryByCar',
-    path: '/newqueryByCar',
-    meta: {
-      title: '交通违法查询'
-    },
-    component: require('../views/queryLawless/child/newqueryByCar.vue')
-  },
-  {
     name: 'queryLawless',
     path: '/queryLawless',
     meta: {
