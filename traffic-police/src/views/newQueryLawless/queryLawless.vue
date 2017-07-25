@@ -11,7 +11,7 @@
       <div class="li-box">
         <router-link :to="isLogin ? 'confirm' : 'login'">交通违法在线确认</router-link>
         <router-link :to="isLogin ? 'early' : 'login'">交通违法预约处理</router-link>
-        <router-link :to="isLogin ? 'appeal' : 'login'">交通违法申诉</router-link>
+        <router-link :to="isLogin ? 'appealEntry' : 'login'">交通违法申诉</router-link>
       </div>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
