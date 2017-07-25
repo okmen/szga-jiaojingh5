@@ -56,7 +56,7 @@
             <div class="div-select-ul" v-if="orderPlaceShow">
               <ul>
                 <li v-for="item in appointPlaceData" place-id="item.id"
-                    @click.stop="orderPlaceClick(item.name, item.id)">{{item.name}}</li>
+                    @click.stop="orderPlaceClick(item.name, item.id, item.description)">{{item.name}}</li>
               </ul>
             </div>
           </div>
@@ -120,7 +120,8 @@
         validCode: '',                      // * 验证码
         getValidCodeMsg: '获取验证码',
         isdisabled: false,
-        orderPlaceValue: '',                // 预约地点 选中值
+        orderPlaceValue: '',                // * 预约地点 选中值
+        orderPlaceAddress: '',              // * 预约地点 address
         orderPlaceID: '',                   // * 预约地点 选中 id
         orderPlaceShow: false,              // 是否显示 预约地点 ul列表
         appointPlaceData: [],               // 预约地点 li
@@ -189,6 +190,7 @@
               this.appointPlaceData = json.data.orgVOs
               this.orderPlaceValue = this.appointPlaceData[0].name
               this.orderPlaceID = this.appointPlaceData[0].id
+              this.orderPlaceAddress = this.appointPlaceData[0].description
             }
           }
         })
@@ -213,10 +215,11 @@
       },
 
       // 预约地点 选择
-      orderPlaceClick: function (str, placeID) {
+      orderPlaceClick: function (str, placeID, address) {
         if (str) {
           this.orderPlaceValue = str
           this.orderPlaceID = placeID
+          this.orderPlaceAddress = address
           console.log('预约地点id', this.orderPlaceID)
         }
         if (this.orderPlaceShow === true) {
@@ -355,6 +358,8 @@
             mobile: this.userTelphone,              // 手机号
             msgNumber: this.validCode,              // 验证码
             orgId: this.orderPlaceID,               // 预约地点 id
+            orgName: this.orderPlaceValue,          // 预约地点 name
+            orgAddr: this.orderPlaceAddress,        // 预约地点 address
             appointmentDate: this.orderAllDate,     // 预约日期
             appointmentTime: this.selectDetailTime, // 预约具体时间
             bookerName: window.localStorage.getItem('userName'),               // 预约车主姓名
