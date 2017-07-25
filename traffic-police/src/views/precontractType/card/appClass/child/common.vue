@@ -63,7 +63,7 @@
             <span class="btn-select bg-colour" @click.stop="subscribeClick()">{{ subscribe }}</span>
             <div class="div-select-ul" v-if="subscribeShow">
               <ul>
-                <li v-for="item in businessData" @click.stop="subscribeClick(item.name, item.id)">{{item.name}}</li>
+                <li v-for="item in businessData" @click.stop="subscribeClick(item.name, item.id, item.description)">{{item.name}}</li>
               </ul>
             </div>
           </div>
@@ -140,6 +140,7 @@ export default {
       dateData: [],
       date: '',
       surplusData: [],
+      description: '', // 预约地址
       tmentTime: ''   // 预约时间
     }
   },
@@ -157,12 +158,13 @@ export default {
       }
     },
     // 预约地点
-    subscribeClick: function (str, id) {
+    subscribeClick: function (str, id, description) {
       this.dateShow = false    // 预约日期
       this.timeShow = false    // 预约时间
       if (str) {
         this.subscribe = str
         this.subscribeId = id
+        this.description = description
       }
       if (this.subscribeShow === true) {
         this.subscribeShow = false
@@ -283,6 +285,8 @@ export default {
         'bookerName': window.localStorage.getItem('userName'),          // 预约人名字
         'bookerIdNumber': window.localStorage.getItem('identityCard'),  // 预约人身份证号
         'bookerType': name,                                // 预约方式 ‘0’本人
+        'orgName': this.subscribe,                         // 预约单位名称
+        'orgAddr': this.description,                       // 预约单位地址
         'bookerMobile': this.mobilephone                   // 预约手机号码
       }
       this.$emit('submitClick', renewingData, this.subscribe)
@@ -343,6 +347,7 @@ export default {
         this.variety = this.varietyData[0].name    // 初始化证件类型名称
         this.cur_card_id = this.varietyData[0].id  // 初始化证件类型id
         this.businessData = json.data.orgVOs       // 初始化预约地点
+        this.description = json.data.orgVOs[0].description
         this.subscribe = json.data.orgVOs[0].name  // 预约地点名称
         this.subscribeId = json.data.orgVOs[0].id  // 预约地点id
       } else {
