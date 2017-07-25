@@ -1,6 +1,6 @@
 <template>
   <div class="dirver-info">
-    <div class="item" v-for="item in userInfoList">
+    <div class="item" v-for="item in userInfoList" v-if="userInfoList">
       <div class="dirver-info-img">
         <img v-if="item.userImgUrl" :src="item.userImgUrl"/>
         <img v-else src="../../../images/upload.png" height="92" width="134"/>
@@ -15,6 +15,7 @@
         修改密码
       </div>
     </div>
+    <div v-if="!userInfoList" class="item">暂无司机数据</div>
   </div>
 </template>
 <style lang="less" scoped>

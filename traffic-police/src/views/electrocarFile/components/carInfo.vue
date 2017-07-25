@@ -1,15 +1,16 @@
 <template>
   <div class="car-info">
-    <div class="car-info-img">
+    <div class="car-info-img" v-if="ebikeInfo">
       <img v-if="ebikeInfo.ebikeImgUrl" :src="ebikeInfo.ebikeImgUrl"/>
       <img v-else src="../../../images/upload.png" height="92" width="134"/>
     </div>
-    <div class="car-info-text">
+    <div class="car-info-text" v-if="ebikeInfo">
       <div class="car-info-text-item" v-for="(item, key) in ebikeInfo" v-if="key !== 'ebikeImgUrl'">
         <template v-if="key === 'footDevice'">{{ itemType[key] }} : {{ item | footDevice }}</template>
         <template v-else>{{ itemType[key] }} : {{ item }}</template>
       </div>
     </div>
+    <div v-else style="text-algin: center;">暂无车辆数据</div>
   </div>
 </template>
 <style lang="less" scoped>
