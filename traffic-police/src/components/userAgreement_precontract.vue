@@ -146,6 +146,9 @@ export default {
           case 'JD41':  // 转出、注销恢复
             this.$router.push({name: 'rollOutRecover', query: queryJson})
             break
+          case 'JD48':  // 转出、注销恢复
+            this.$router.push({name: 'onlineCarAlter', query: queryJson})
+            break
           default:
             this.$router.push('systemUpdateNoAlert')
         }

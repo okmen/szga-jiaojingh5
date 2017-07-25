@@ -42,7 +42,7 @@
       <div class="item">
         <label>车牌类型</label>
         <div class="box">
-          <el-input :value="typeData[form.type]" disabled placeholder="请输入身份证号码" size="small" />
+          <el-input :value="typeData[form.type]" disabled placeholder="请输入车牌类型" size="small" />
         </div>
       </div>
     </div>

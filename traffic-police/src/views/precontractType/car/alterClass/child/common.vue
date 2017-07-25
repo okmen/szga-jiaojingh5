@@ -95,7 +95,7 @@
         <li class="alter-hbs-item clear">
             <div class="alter-hbs-name"><span>车身架号</span></div>
             <div class="alter-hbs-text">
-              <input class="text-input bg-white" type="text" v-model="VIN" placeholder="请输入车架号后四位" />
+              <input class="text-input bg-white" maxlength="4" type="text" v-model="VIN" placeholder="请输入车架号后四位" />
             </div>
         </li>
         <li class="alter-hbs-item">
@@ -408,7 +408,7 @@
       // 选择预约时间
       selectOrderTime: function (time, index, leftNum) {
         if (!this.orderAllDate) {
-          Toast({message: '请先选择预约日期', className: 'white', duration: 1500})
+          Toast({message: '请先选择预约日期', className: 'white', duration: 2000})
           return
         }
         if (leftNum === 0) {
