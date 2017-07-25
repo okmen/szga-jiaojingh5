@@ -89,6 +89,9 @@
   .province-code {
     width: 140px;
   }
+  .bg-gray{
+    background: #cdcdcd;
+  }
   .register-item {
     display: flex;
     height: 85px;
@@ -609,7 +612,7 @@
       },
       // 选择预约时间
       chooseTime (item) {
-        if (item.num === '0') {
+        if (item.num === 0) {
           return
         }
         this.appointmentTime = item.time
