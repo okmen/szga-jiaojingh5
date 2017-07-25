@@ -125,7 +125,7 @@
           <div class="div-select">
             <!-- <span class="btn-select bg-colour" @click.stop="dateType()">{{ date }}</span> -->
             <input class="btn-select bg-colour" placeholder="请选择预约日期" @click.stop="dateType()" v-model="date" type="text" name="" readonly>
-            <div class="div-select-ul" v-if="dateShow">
+            <div class="div-select-ul date-style" v-if="dateShow">
               <ul>
                 <li v-for="item in dateData" @click.stop="dateType(item)">{{item}}</li>
               </ul>
@@ -139,7 +139,7 @@
           <div class="div-select">
             <!-- <span class="btn-select bg-colour" @click.stop="timeType()">{{ time }}</span> -->
             <input class="btn-select bg-colour" placeholder="请选择预约时间" @click.stop="timeType()" v-model="time" type="text" name="" readonly>
-            <div class="div-select-ul" v-if="timeShow">
+            <div class="div-select-ul date-style" v-if="timeShow">
               <ul>
                 <li class="time-liOrder" v-for="item in surplusData" @click.stop="timeType(item.time, item.number)">
                   <span class="time-order">{{item.time}}</span>
@@ -197,7 +197,7 @@ export default {
       businessData: [],                 // 预约地点数据
       vehicleShow: false,
       vehicle: '',
-      vehicleId: '',                   // 车辆类型ID
+      vehicleId: '',                    // 车辆类型ID
       vehicleData: [],
       timeShow: false,
       timeData: [],
@@ -299,7 +299,7 @@ export default {
         this.getTimes()
       }
       if (str) {
-        id === 0 ? Toast({message: '剩余名额已满', className: 'white'}) : this.time = str
+        id === 0 ? Toast({message: '当前预约日期已满，请选择其它时间', className: 'white'}) : this.time = str
       }
       if (this.timeShow === true) {
         this.timeShow = false
@@ -337,7 +337,6 @@ export default {
     },
     // 验证码倒计时
     timePiece: function () {         //  验证码倒计时
-      clearInterval(this.Timepiece)
       this.forbidden = true
       this.isShow = true
       var str = 60
@@ -402,9 +401,7 @@ export default {
         orgId: this.subscribeId,     // 预约地点
         businessTypeId: this.codeId    // 业务类型
       }
-      console.log('预约地点', getmentData)
       resultPost(getAppointmentDate, getmentData).then(json => {
-        console.log(json)
         if (json.code === '0000') {
           this.dateData = json.data
         } else {
@@ -420,16 +417,13 @@ export default {
         date: this.date,              // 预约日期
         carTypeId: this.vehicleId     // 汽车类型ID
       }
-      console.log('时间', getTimesData)
       resultPost(getAppTimes, getTimesData).then(json => {
-        console.log(json)
         if (json.code === '0000') {
           let timeData = []
           json.data.map(item => {
             timeData.push({'time': item.apptime, 'number': item.maxnumber - item.yetnumber})
           })
           this.surplusData = timeData
-          console.log(this.surplusData)
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
@@ -455,22 +449,20 @@ export default {
     let getBusinessData = {
       businessTypeId: this.$route.query.id
     }
-    console.log(getBusinessData)
     resultPost(getPageInit, getBusinessData).then(json => {
       if (json.code === '0000') {
-        this.varietyData = json.data.idTypeVOs     // 初始化证件类型
-        this.variety = this.varietyData[0].name    // 初始化证件类型
-        this.cur_card_id = this.varietyData[0].id  // 初始化证件类型
-        this.vehicleData = json.data.carTypeVOs     // 初始化车辆类型
+        this.varietyData = json.data.idTypeVOs       // 初始化证件类型
+        this.variety = this.varietyData[0].name      // 初始化证件类型
+        this.cur_card_id = this.varietyData[0].id    // 初始化证件类型
+        this.vehicleData = json.data.carTypeVOs      // 初始化车辆类型
         this.vehicle = json.data.carTypeVOs[0].name
         this.vehicleId = json.data.carTypeVOs[0].id
-        this.employData = json.data.useCharaters    // 初始化使用性质
+        this.employData = json.data.useCharaters      // 初始化使用性质
         this.employ = json.data.useCharaters[0].name
         this.employId = json.data.useCharaters[0].id
-        this.businessData = json.data.orgVOs         // 初始化预约地点
+        this.businessData = json.data.orgVOs          // 初始化预约地点
         this.subscribe = json.data.orgVOs[0].name
         this.subscribeId = json.data.orgVOs[0].id
-        console.log('地点id', this.subscribeId)
       } else {
         Toast({message: json.msg, position: 'bottom', className: 'white'})
       }
@@ -487,7 +479,7 @@ export default {
       this.time = ''
       this.surplusData = []
     },
-    date () {     // 当时间改变的时候 清空预约时间
+    date () {  // 当时间改变的时候 清空预约时间
       this.time = ''
       this.surplusData = []
     }

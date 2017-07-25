@@ -7,7 +7,7 @@
       <div class="alter-select pad-side-50">
         <div class="alter-chose"><span>业务类型</span></div>
         <div class="div-select alter-wd">
-          <input class="text-input bg-white" :value="bussinessName" readonly>
+          <p>{{bussinessName}}</p>
         </div>
       </div>
       <div class="alter-from">
@@ -67,6 +67,7 @@ export default {
 </script>
 <style lang="less">
 #noChangeLicence{
+  width: 100%;
   font-size: 26px;
   color: #000;
   overflow: hidden;
@@ -74,10 +75,11 @@ export default {
     background-color: #FFF;
   }
   .alter-select {
-    height: 100px;
+    height: 164px;
     background-color: #fff;
     position: relative;
     padding-left: 230px;
+    padding-top:22px;
     .alter-chose{
       width: 180px;
       position: absolute;
@@ -86,7 +88,11 @@ export default {
       line-height: 100px;
     }
     .alter-wd{
-      padding-top: 22px;
+      height: 120px;
+      padding:0 15px;
+      border: 1px solid #e2e2e7;
+      border-radius: 10px;
+      line-height: 54px;
     }
   }
   .alter-from{

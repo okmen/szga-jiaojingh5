@@ -64,8 +64,9 @@
         <li class="alter-hbs-item">
           <div class="alter-hbs-name"><span>预约日期</span></div>
           <div class="div-select">
-            <span class="btn-select bg-white" @click.stop="dateClick()">{{ orderAllDate }}</span>
-            <div class="div-select-ul" v-if="dateShow">
+            <input class="btn-select bg-white" type="text" readonly placeholder="请选择预约时间" 
+                   @click.stop="dateClick()" v-model="orderAllDate">
+            <div class="div-select-ul date-style" v-if="dateShow">
               <ul>
                 <li v-for="(item, index) in orderAllDateData" @click.stop="dateClick(item, index)">{{item}}</li>
               </ul>
@@ -75,11 +76,12 @@
         <li class="alter-hbs-item">
           <div class="alter-hbs-name"><span>预约时间</span></div>
           <div class="div-select">
-            <span class="btn-select bg-white" @click="selectOrderTime()">{{selectDetailTime}}</span>
-            <div class="div-select-ul" v-if="detailTimeShow">
+            <input class="btn-select bg-white" type="text" readonly placeholder="请选择预约时间" 
+                   @click.stop="selectOrderTime()" v-model="selectDetailTime">
+            <div class="div-select-ul date-style" v-if="detailTimeShow">
               <ul>
                 <li class="alter-detail-time" v-for="(item, index) in orderDetailsTime" 
-                    @click="selectOrderTime(item.time, index, item.leftNum)"
+                    @click.stop="selectOrderTime(item.time, index, item.leftNum)"
                     :class="{'time-full': item.leftNum === 0, 'active': index === activeIndex && item.leftNum !== 0}">
                   <p>{{item.time}}</p>
                   <p v-if="item.leftNum === 0">已满</p>
@@ -148,8 +150,7 @@
         return {
           businessTypeId: this.currentBusinessId,    // 业务类型
           orgId: this.orderPlaceID,                  // 预约地点
-          date: this.orderAllDate,                   // 预约日期
-          carTypeId: this.carTypeID                  // 车辆类型ID
+          date: this.orderAllDate                    // 预约日期
         }
       }
     },
@@ -253,7 +254,8 @@
         }
         if (this.dateShow === true) {
           this.dateShow = false
-        } else {
+        } else if (this.dateShow === false && this.orderAllDate) {
+          this.dateShow = true
           this.detailTimeShow = false
         }
       },
@@ -278,10 +280,11 @@
       // 选择预约时间
       selectOrderTime: function (time, index, leftNum) {
         if (!this.orderAllDate) {
-          Toast({message: '请先选择预约日期', className: 'white', duration: 1500})
+          Toast({message: '请先选择预约日期', className: 'white', duration: 2000})
           return
         }
-        if (leftNum === '0') {
+        if (leftNum === 0) {
+          Toast({message: '当前预约日期已满，请选择其它时间', className: 'white', duration: 2000})
           return
         }
         if (!time && !this.selectDetailTime) {  // 当有时间的时候再点击选择日期 不调接口
@@ -290,10 +293,12 @@
         if (time) {
           this.activeIndex = index
           this.selectDetailTime = time
+          console.log(this.selectDetailTime)
         }
         if (this.detailTimeShow === true) {
           this.detailTimeShow = false
-        } else {
+        } else if (this.detailTimeShow === false && this.selectDetailTime) {
+          this.detailTimeShow = true
           this.dateShow = false
         }
       },
@@ -371,6 +376,9 @@
           return false
         } else if (!this.cardNum) {
           Toast({ message: '证件号码不能为空', className: 'white', duration: 1500 })
+          return false
+        } else if (!this.userTelphone) {
+          Toast({ message: '手机号码不能为空', className: 'white', duration: 1500 })
           return false
         } else if (!isPhone(this.userTelphone)) {
           Toast({ message: '手机号码格式不正确', className: 'white', duration: 1500 })

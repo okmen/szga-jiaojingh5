@@ -105,7 +105,7 @@ export default {
       } else {
         this.data = (this.m === 12) ? this.getCalendar(parseInt(this.y++), this.m = 1) : this.getCalendar(parseInt(this.y), parseInt(this.m += flag))
       }
-      this.$emit('skipDate', `${this.y}-${this.m}`)
+      this.$emit('skipDate', this.m >= 10 ? `${this.y}/${this.m}` : `${this.y}0${this.m}`)
     },
     pickYear (flag) {
       this.data = this.getCalendar(parseInt(this.y += flag), parseInt(this.m))
@@ -180,7 +180,11 @@ export default {
 
       for (i = 0; i < lastFix; i++) { // 上个月份
         t = lastMaxDate - lastFix + i + 1
-        r1[i] = {}
+        r1[i] = {
+          // month: lastMonth,
+          // day: t,
+          // data: lastDate + t
+        }
       }
       for (i = 0; i < maxDate; i++) { // 当前月份的
         t = i + 1
@@ -188,18 +192,22 @@ export default {
           month: m,
           day: t,
           data: `${y}-${m}-${t}`,
-          isCanChoose: Date.parse(`${y}-${m}-${t}`) - (Date.now() + 172800000),
+          isCanChoose: Date.parse(`${y}/${m}/${t}`) - (Date.now() + 172800000),
           isSelectedDate: this.selectedDate.indexOf(`${y}-${m}-${t}`),
           pitchOn: false
         }
       }
       for (i = 0; i < nextFix; i++) { // 下个月份的
         t = i + 1
-        r3[i] = {}
+        r3[i] = {
+          // month: nextMonth,
+          // day: t,
+          // data: nextDate + t
+        }
       }
       let result = r1.concat(r2, r3)
       let ar = []
-      for (i = 0; i < 5; i++) {
+      for (i = 0; i <= 5; i++) {
         ar.push(result.splice(0, 7))
       }
       return ar
