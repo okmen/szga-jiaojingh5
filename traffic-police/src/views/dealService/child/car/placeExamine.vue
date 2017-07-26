@@ -397,14 +397,6 @@ export default {
     }
   },
   mounted: function () {
-    resultGet(getIssuing).then(json => {        // 查询发证机关列表
-      this.trusteeData = json.data
-    })
-  },
-  created () {
-    if (!window.localStorage.getItem('myNumberPlate')) {
-      MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
-    }
     this.cars = JSON.parse(window.localStorage.getItem('cars'))
     this.vehType = this.cars[0].plateType
     document.addEventListener('click', (e) => {
@@ -414,6 +406,16 @@ export default {
       this.areaSelectShow = false
       this.trusteeShow = false
     })
+    resultGet(getIssuing).then(json => {        // 查询发证机关列表
+      this.trusteeData = json.data
+    })
+  },
+  created () {
+    if (!window.localStorage.getItem('myNumberPlate')) {
+      MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆').then(action => {
+        this.$router.push({name: 'dealService'})
+      })
+    }
   }
 }
 </script>

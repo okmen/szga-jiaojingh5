@@ -304,6 +304,26 @@
         cars: {}
       }
     },
+    created () {
+      if (!window.localStorage.getItem('myNumberPlate')) {
+        MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆').then(action => {
+          this.$router.push({name: 'dealService'})
+        })
+      }
+    },
+    mounted: function () {
+      this.cars = JSON.parse(window.localStorage.getItem('cars'))
+      this.vehType = this.cars[0].plateType
+      this.mobilephone = this.cars[0].mobilephone
+      document.addEventListener('click', (e) => {
+        this.varietyShow = false
+        this.vehicleShow = false
+        this.vehicleTypeShow = false
+        this.areaSelectShow = false
+        this.plateNumberShow = false
+      })
+      this.uploadImg()
+    },
     methods: {
       // 车牌下拉框
       vehiclePlate: function (item) {
@@ -424,24 +444,6 @@
         this.$store.commit('saveMotorVehicleHandling', dataList)
         this.$router.push('/affirmInfo')
       }
-    },
-    mounted () {
-      this.uploadImg()
-    },
-    created () {
-      if (!window.localStorage.getItem('myNumberPlate')) {
-        MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
-      }
-      this.cars = JSON.parse(window.localStorage.getItem('cars'))
-      this.vehType = this.cars[0].plateType
-      this.mobilephone = this.cars[0].mobilephone
-      document.addEventListener('click', (e) => {
-        this.varietyShow = false
-        this.vehicleShow = false
-        this.vehicleTypeShow = false
-        this.areaSelectShow = false
-        this.plateNumberShow = false
-      })
     }
   }
 </script>
