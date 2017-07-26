@@ -111,7 +111,7 @@ let precontractTypeRouter = [
     name: 'onlineCarAlter',
     path: '/onlineCarAlter',
     meta: {
-      title: '网约车使用性质更正'
+      title: '网约车使用性质变更'
     },
     component: require('../views/precontractType/car/alterClass/onlineCarAlter.vue')
   },
