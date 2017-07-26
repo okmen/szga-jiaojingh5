@@ -6,9 +6,7 @@
   <div id="noChangeLicence">
     <div class="alter-select pad-side-50">
       <div class="alter-chose"><span>业务类型</span></div>
-      <div class="div-select alter-wd">
-        <p>{{bussinessName}}</p>
-      </div>
+      <div class="div-select alter-wd"><p>{{bussinessName}}</p></div>
     </div>
     <div class="alter-from">
       <common @appointTaskClick="appointTask"
