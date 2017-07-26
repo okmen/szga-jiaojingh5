@@ -96,7 +96,8 @@ export default {
         color: #2595dd;
         padding-left: 0;
         text-align: center;
-        font: 700 32px/70px '';
+        font-size: 32px;
+        font-weight: bold;
         line-height: 70px;
         border-bottom: 1px solid #a7d9f9;
       }
@@ -105,10 +106,12 @@ export default {
         margin: 40px auto;
         h2{
           color: #8a8a8a;
-          font: 100 26px/32px '';
+          font-size: 26px;
+          line-height: 32px;
         }
         h3{
-          font: 100 26px/40px '';
+          font-size: 26px;
+          line-height: 40px;
           text-indent: 30px;
           color: #8a8a8a;
         }
