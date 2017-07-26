@@ -3,7 +3,7 @@
     <p class="illegal-title">共有<span>{{totalItem}}</span>条违法记录</p>
     <div class="illegal-box">
       <!-- 违法结果查询结果 -->
-      <div v-for="(item, index) in AppealQueryData" class="illegal-list" :class="{ green: item.checkAddBorder }">
+      <div v-for="(item, index) in AppealQueryData" class="illegal-list" :class="{ blue: item.checkAddBorder }">
         <div class="illegal-record">
           <p>通知书号：<span>{{item.billNo}}</span></p>
           <p>违法时间：<span>{{item.illegalTime}}</span></p>
@@ -21,12 +21,13 @@
             <p>罚款金额</p>
           </section>
           <section class="illegal-appeal">
-            <button >{{btnHtml}}</button>
+            <button :id="'illegalSelectRadio'+ index" 
+                    :name="'illegalSelectRadio'+ index" 
+                    v-model:checked="item.checkAddBorder" 
+                    @click="inputClick(index)">
+              {{btnHtml}}
+            </button>
           </section>
-        </div>
-        <div class="illegal-select">
-          <input type="checkbox" :id="'illegalSelectRadio'+ index" :name="'illegalSelectRadio'+ index" v-model:checked="item.checkAddBorder" @click="inputClick(index)">
-          <label :for="'illegalSelectRadio'+ index"></label>
         </div>
       </div>
     </div>
@@ -45,6 +46,7 @@
     created () {
       this.AppealQueryData = this.showAppealQuery
       this.totalItem = this.AppealQueryData.length
+      console.log(this.showAppealQuery)
     },
     methods: {
       inputClick: function (index) {
@@ -90,7 +92,8 @@
       width:100%;
       box-sizing: border-box;
       border-radius:8px;
-      box-shadow:0 0 18px rgba(0,0,0,.3);
+      border: 3px solid #D3D3D3;
+      box-shadow: 0 0 0 0;
       .illegal-record{
         width:100%;
         p{
@@ -141,57 +144,9 @@
           }
         }
       }
-      .illegal-select{
-        float:left;
-        position:absolute;
-        margin:4px 20px 0 0;
-        width:40px;
-        height:40px;
-        top:30px;
-        right:40px;
-        input[type=checkbox]{
-          visibility: hidden;
-        }
-        label{
-          position:absolute;
-          width:40px;
-          height:40px;
-          top:0;
-          left:0;
-          background:#dfdfdf;
-          -webkit-border-radius:20px;
-          -moz-border-radius:20px;
-          border-radius:20px;
-          cursor:pointer;
-        }
-        label:after{
-          opacity:0.2;
-          content:'';
-          position:absolute;
-          width:16px;
-          height:8px;
-          background:transparent;
-          top:10px;
-          left:10px;
-          border:4px solid #FFF;
-          border-top:none;
-          border-right:none;
-          -webkit-transform: rotate(-45deg);
-          -moz-transform: rotate(-45deg);
-          -o-transform: rotate(-45deg);
-          -ms-transform: rotate(-45deg);
-          transform: rotate(-45deg);
-        }
-        label::after{
-          opacity:1;
-        }
-        input[type=checkbox]:checked + label{
-          background:#33c532;
-        }
-      }
     }
-    .green{
-      border:3px solid #33c532;
+    .blue{
+      border:3px solid #2696DD;
     }
   }
 }
