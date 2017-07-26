@@ -185,7 +185,7 @@
 import { mapActions } from 'vuex'
 import { resultPost } from '../../../../service/getData'
 import { sendSMS, verificatioCode, createVehicleInspection, getCarTypeId } from '../../../../config/baseUrl'
-import { Toast } from 'mint-ui'
+import { Toast, MessageBox } from 'mint-ui'
 export default {
   name: 'exemption',
   data () {
@@ -291,6 +291,11 @@ export default {
       cars: {},
       plateType: '',
       carTypeId: ''
+    }
+  },
+  created () {
+    if (!window.localStorage.getItem('myNumberPlate')) {
+      MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
     }
   },
   mounted: function () {
