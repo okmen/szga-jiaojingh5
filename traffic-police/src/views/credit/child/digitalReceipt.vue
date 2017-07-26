@@ -67,9 +67,8 @@ export default {
     }
   },
   mounted () {
-    let receiptData = JSON.parse(window.sessionStorage.answererror)      // 获取缓存数据
-    this.myNumberPlate = this.$route.params.myNumberPlate        // 获取数据第几条数据
-    this.digitData = receiptData[this.myNumberPlate]
+    let answererror = this.$route.query.answererror   // 获取数据
+    this.digitData = answererror
   }
 }
 </script>

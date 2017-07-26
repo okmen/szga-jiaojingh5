@@ -117,9 +117,7 @@ export default {
   },
   methods: {
     clickFn: function (index) {
-      let num = index
-      window.sessionStorage.setItem('answererror', JSON.stringify(this.digitData))   // 缓存数据
-      this.$router.push({name: 'digitalReceipt', params: { myNumberPlate: num }})    // 用于判断获取第几条信息
+      this.$router.push({path: 'digitalReceipt', query: {answererror: this.digitData[index]}})
     }
   }
 }
