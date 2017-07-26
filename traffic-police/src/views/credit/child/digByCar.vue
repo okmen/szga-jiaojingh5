@@ -35,7 +35,7 @@
     }
   }
 </script>
-<style lang="less">
+<style lang="less" scoped>
   #digByCar-outer{
     padding: 30px 30px 0 ;
     .digByCar-carArr{
