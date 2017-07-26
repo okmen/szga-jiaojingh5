@@ -185,7 +185,7 @@
         useNatureData: [],                  // 使用性质 li
         VIN: '',                            // * 车架号
         orderPlaceValue: '',                // * 预约地点 选中值
-        orderPlaceAddress: '',              // * 预约地点 name
+        orderPlaceAddress: '',              // * 预约地点 address
         orderPlaceID: '',                   // * 预约地点 选中 id
         orderPlaceShow: false,              // 是否显示 预约地点 ul列表
         appointPlaceData: [],               // 预约地点 li
