@@ -107,7 +107,7 @@
     },
     created () {
       if (!window.localStorage.getItem('myNumberPlate')) {
-        MessageBox('提示', '当前用户没有车辆信息').then(action => {
+        MessageBox('提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆').then(action => {
           this.$router.push('/')
         })
       }

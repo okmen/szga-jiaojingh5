@@ -49,7 +49,7 @@
             <span>车辆类型</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="" v-model="carSelectData[vehType] ? carSelectData[vehType] : carSelectData[cars[0].plateType]" readonly/>
+            <input class="text-input" type="text" value="" v-model="carSelectData[vehType]" readonly/>
           </div>
         </li>
         <li class="form-line">
@@ -78,7 +78,7 @@
             <span>手机号码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="" v-model="mobilephone ? mobilephone : cars[0].mobilephone" readonly/>
+            <input class="text-input" type="text" value="" v-model="mobilephone" readonly/>
           </div>
         </li>
         <li class="form-line">
@@ -132,7 +132,8 @@
           </div>
         </div>
       </div>
-      <button class="btn btns" @click.stop="submitClick()">确认提交</button>
+      <button class="btn btns" v-if="this.Plate" @click.stop="submitClick()">确认信息</button>
+      <button class="btn btns" style="background: gray" v-if="!this.Plate">确认信息</button>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -304,6 +305,26 @@
         cars: {}
       }
     },
+    created () {
+      this.Plate = window.localStorage.getItem('myNumberPlate')
+      if (!this.Plate) {
+        MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
+      }
+    },
+    mounted: function () {
+      document.addEventListener('click', (e) => {
+        this.varietyShow = false
+        this.vehicleShow = false
+        this.vehicleTypeShow = false
+        this.areaSelectShow = false
+        this.plateNumberShow = false
+      })
+      this.uploadImg()
+      this.cars = JSON.parse(window.localStorage.getItem('cars'))
+      if (this.cars.length === 0) return
+      this.vehType = this.cars[0].plateType
+      this.mobilephone = this.cars[0].mobilephone
+    },
     methods: {
       // 车牌下拉框
       vehiclePlate: function (item) {
@@ -424,29 +445,10 @@
         this.$store.commit('saveMotorVehicleHandling', dataList)
         this.$router.push('/affirmInfo')
       }
-    },
-    mounted () {
-      this.uploadImg()
-    },
-    created () {
-      if (!window.localStorage.getItem('myNumberPlate')) {
-        MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
-      }
-      this.cars = JSON.parse(window.localStorage.getItem('cars'))
-      this.vehType = this.cars[0].plateType
-      this.mobilephone = this.cars[0].mobilephone
-      document.addEventListener('click', (e) => {
-        this.varietyShow = false
-        this.vehicleShow = false
-        this.vehicleTypeShow = false
-        this.areaSelectShow = false
-        this.plateNumberShow = false
-      })
     }
   }
 </script>
 <style lang="less" scoped>
-@import "./../../../../style/base";
 .motorAlteration {
 background-color: #fff;
 position: absolute;
@@ -546,7 +548,7 @@ padding: 20px 40px;
     background-color: #fff;
   }
   .upload-photo{
-    margin-top: 30px; 
+    margin-top: 30px;
     display: block;
     .upload-item-text-one{
       margin-top: 10px;
