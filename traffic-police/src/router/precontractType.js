@@ -111,7 +111,7 @@ let precontractTypeRouter = [
     name: 'onlineCarAlter',
     path: '/onlineCarAlter',
     meta: {
-      title: '网约车使用性质更正'
+      title: '网约车使用性质变更'
     },
     component: require('../views/precontractType/car/alterClass/onlineCarAlter.vue')
   },
@@ -202,6 +202,14 @@ let precontractTypeRouter = [
       title: '机动车委托异地年审现场办理'
     },
     component: require('../views/precontractType/car/sceneManageClass/otherPlaceAudit.vue')
+  },
+  {
+    name: 'querySuccess',
+    path: '/querySuccess',
+    meta: {
+      title: '预约查询及取消'
+    },
+    component: require('../views/precontractType/querySuccess.vue')
   },
   {
     name: 'armyLicence',

@@ -387,6 +387,7 @@
         businessName: '',  // 业务类型名
         businessTypeId: '', // 业务类型编码
         appointmentTime: '', // 预约时间
+        orgAddress: '',
         // businessCarTypeId: '', // 车辆类型编码
         bookerType: 0 // 预约方式，0 本人， 1普通代办 2专业代办
       }
@@ -608,8 +609,8 @@
         })
       },
       // 获取选择的证件类型
-      getCredentialsNameOne (val) {
-        this.credentialsNameOne = val
+      getCredentialsNameOne (str) {
+        this.credentialsNameOne = str
       },
       // 获取选择的车牌省份
       getProvinceCodeOne (val) {
@@ -625,7 +626,13 @@
       },
       // 获取选择的预约地点
       getAppointmentLocationOne (val) {
-        this.appointmentLocationOne = val
+        this.appointmentLocationOne = val // 预约地点
+        for (let i = 0, len = this.appointmentLocation.option.length; i < len; i++) {
+          if (this.appointmentLocation.option[i].name === this.appointmentLocationOne) {
+            this.orgAddress = this.appointmentLocation.option[i].description
+            break
+          }
+        }
       },
       // 提交前的校验规则
       beforeSubmit () {
@@ -694,6 +701,11 @@
           useCharater: this.useNatureOne,
           carFrame: this.vehicleNum,  // 车身架号
           orgId: this.appointmentLocationOne,
+          carTypeName: this.carSelectDataOne, // 车辆类型名称
+          orgName: this.appointmentLocationOne, // 预约地点
+          orgAddr: this.orgAddress, // 预约地址
+          sourceOfCertification: window.localStorage.getItem('sourceOfCertification'), // 请求来源
+          openId: window.localStorage.getItem('openId'), // openID
           appointmentDate: this.yearMonthDay,
           appointmentTime: this.appointmentTime,
           bookerName: window.localStorage.getItem('userName'),

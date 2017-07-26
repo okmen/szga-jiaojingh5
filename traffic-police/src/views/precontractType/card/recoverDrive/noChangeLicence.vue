@@ -3,19 +3,19 @@
 *  #逾期一年以上 * 未换证 * 类
  -->
 <template>
-    <div id="noChangeLicence">
-      <div class="alter-select pad-side-50">
-        <div class="alter-chose"><span>业务类型</span></div>
-        <div class="div-select alter-wd">
-          <p>{{bussinessName}}</p>
-        </div>
+  <div id="noChangeLicence">
+    <div class="alter-select pad-side-50">
+      <div class="alter-chose"><span>业务类型</span></div>
+      <div class="div-select alter-wd">
+        <p>{{bussinessName}}</p>
       </div>
-      <div class="alter-from">
-      <common @appointTaskClick="appointTask"
-              :currentBusinessId="businessId"
-              :currentBusinessCode="bussinessCode"></common>
-      <div v-wechat-title="$route.meta.title"></div>
     </div>
+    <div class="alter-from">
+      <common @appointTaskClick="appointTask"
+            :currentBusinessId="businessId"
+            :currentBusinessCode="bussinessCode"></common>
+    </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>

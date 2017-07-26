@@ -467,7 +467,7 @@
       // 选择车辆 获取对应的车辆类型编码
       getCarSelectDataOne (val, index, str) {
         this.carSelectDataOne = val
-        this.carSelectDataStr = val
+        this.carSelectDataStr = str
       },
       getUseNatureOne (val) {
         this.useNatureOne = val
@@ -527,6 +527,9 @@
         console.log(requestData, '验证码请求参数')
         resultPost(simpleSendMessage, requestData).then(data => {
           console.log(data, '验证码')
+          if (data.code !== '0000') {
+            MessageBox('提示', data.msg)
+          }
         })
         this.timer = setInterval(() => {
           if (this.countDown === 0) {
@@ -645,7 +648,7 @@
           if (data.code === '0000') {
             let dataInfo = {
               type: 2,
-              reserveNo: data.data,
+              reserveNo: data.data.waterNumber,
               numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(),
               mobilephone: this.mobilePhone,
               reserveAddress: this.appointmentLocationStr,

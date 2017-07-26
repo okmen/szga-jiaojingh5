@@ -286,7 +286,8 @@
         carCertificateNumber: '',  // 车主证件号码
         plateToCarNumber: {},  // 车牌号对应车主证件号码
         allOwnersName: {},
-        ownersName: ''
+        ownersName: '',
+        defaultPlateNumber: ''
       }
     },
     components: {
@@ -303,7 +304,7 @@
           option: []
         }
         let storage = window.localStorage.getItem('cars')
-        if (!storage) return plateInfo
+        if (!JSON.parse(storage).length) return plateInfo
         JSON.parse(storage).map(item => {
           if (item.isMySelf === 0) {
             plateInfo.option.push({'str': item.myNumberPlate})
