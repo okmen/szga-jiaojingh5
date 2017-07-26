@@ -8,6 +8,7 @@
       :currentBusinessId="businessId"
       :currentCode="businessCode"
     ></common>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 
@@ -33,7 +34,7 @@ export default {
           let dataInfo = {
             type: 2,
             reserveTime: params.appointmentDate,      // 预约日期
-            reserveNo: json.data,    // 流水号
+            reserveNo: json.data.waterNumber,    // 流水号
             reserveAddress: subscribe,          // 服务点
             mobilephone: params.bookerMobile    // 手机号码
           }

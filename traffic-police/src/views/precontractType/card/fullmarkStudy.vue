@@ -83,9 +83,13 @@ export default {
       left: 50px;
       color: #666;
       line-height: 100px;
+      span{
+        font-size: 28px;
+      }
     }
     .alter-wd{
       padding-top: 22px;
+      font-size: 26px;
     }
   }
   .alter-from{
