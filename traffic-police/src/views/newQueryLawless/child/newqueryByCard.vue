@@ -40,7 +40,7 @@
       </div>
       <button class="btn btn-blue" type="button" name="button" @click.stop="queryLawlessByCard()">查询</button>
     </div>
-	<div v-wechat-title="$route.meta.title"></div>
+  <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
@@ -101,13 +101,14 @@
           return false
         }
         resultPost(queryLawlessByCard, reqData).then(json => {
+          console.log(json)
           if (json.code === '0000') {
             let lawlessData = {
               info: {},
               data: json.data
             }
             this.$store.commit('saveNewLawlessQuery', lawlessData)
-            this.$router.push('newLawlessMsg')
+            // this.$router.push('newLawlessMsg')
           } else {
             Toast({
               message: json.msg,
