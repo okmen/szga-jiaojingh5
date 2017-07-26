@@ -20,6 +20,10 @@
             <p class="newLawlessMsg-item-content-score">{{ item.punishScore }}</p>
             <p class="newLawlessMsg-item-content-unit">{{ item.illegalUnit }}</p>
             <!-- <p class="newLawlessMsg-item-content-fun">{{ item.illegalTime }}</p> -->
+            <div class="newLawlessMsg-item-btn">
+              <button>违法申诉</button>
+              <button>查看违法图片</button>
+            </div>
           </div>
         </li>
       </ul>
@@ -249,6 +253,18 @@
               height: 28px;
               background-image: url('../../../images/fun.png');
               background-size: cover;
+            }
+          }
+          .newLawlessMsg-item-btn{
+            display: flex;
+            justify-content: space-evenly;
+            button{
+              height: 50px;
+              padding: 0 10px;
+              background-color: #2696dd;
+              color: #fff;
+              font-size: 26px;
+              border-radius: 4Px;
             }
           }
         }
