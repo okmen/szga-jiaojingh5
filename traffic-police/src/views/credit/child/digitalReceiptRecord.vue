@@ -1,5 +1,5 @@
 <template>
-  <div class="digRecord">
+  <div id="digRecord">
     <div class="digRecord-top">共有<span>{{this.digitData.length}}</span>条违法记录</div>
     <div class="digRecord-nav" v-for="(item, index) in digitData">
       <div class="digRecord-nav-one digRecord-p">
@@ -20,15 +20,16 @@
   </div>
 </template>
 <script>
-import { resultPost } from '../../../service/getData'
-import { MessageBox } from 'mint-ui'
-import { toQueryElectronicReceiptPage } from '../../../config/baseUrl'
+// import { resultPost } from '../../../service/getData'
+// import { MessageBox } from 'mint-ui'
+// import { toQueryElectronicReceiptPage } from '../../../config/baseUrl'
 export default {
   name: 'digitalReceiptRecord',
   data () {
     return {
       length: '',
-      digitData: [
+      digitData: [],
+      digitData1: [
         {
           amt: 150,
           billNo: '4403071704945445',
@@ -63,6 +64,19 @@ export default {
           writeOffDate: '2017-06-27'
         }
       ],
+      digitData2: [
+        {
+          amt: 150,
+          billNo: '4403071704945445',
+          chargeItem: '交通违法罚款',
+          companyName: '深圳市公安局交通警察局',
+          payWay: 'ALIPAY_APP',
+          paymentor: '粤B47119',
+          projectNo: '103050101101',
+          sdb: 'SDB00000012017062714958614',
+          writeOffDate: '2017-06-27'
+        }
+      ],
       payWayType: {
         'NETBANK': '网银支付',
         'WECHAT': '微信支付',
@@ -73,31 +87,33 @@ export default {
   mounted () {
     this.id = this.$route.query.id
     if (this.id === '1') {
+      this.digitData = this.digitData2
       this.numberPlate = this.$route.query.numberPlate
       this.billNo = this.$route.query.billNo
     } else if (this.id === '2') {
+      this.digitData = this.digitData1
       this.numberPlate = this.$route.query.myNumberPlate
       this.billNo = ''
     }
     // 粤BU8E61
-    let digitalReceiptData = {
-      drivingLicenceNo: '',
-      licensePlateNo: this.numberPlate,
-      billNo: this.billNo
-    }
-    resultPost(toQueryElectronicReceiptPage, digitalReceiptData).then(json => {
-      if (json.code === '0000') {
-        // this.digitData = json.data
-        // this.length = this.digitData.length
-      } else {
-        MessageBox({
-          title: '提示',
-          message: json.msg
-        }).then(action => {
-          this.$router.go(-1)
-        })
-      }
-    })
+    // let digitalReceiptData = {
+    //   drivingLicenceNo: '',
+    //   licensePlateNo: this.numberPlate,
+    //   billNo: this.billNo
+    // }
+    // resultPost(toQueryElectronicReceiptPage, digitalReceiptData).then(json => {
+    //   if (json.code === '0000') {
+    //     this.digitData = json.data
+    //     this.length = this.digitData.length
+    //   } else {
+    //     MessageBox({
+    //       title: '提示',
+    //       message: json.msg
+    //     }).then(action => {
+    //       this.$router.go(-1)
+    //     })
+    //   }
+    // })
   },
   methods: {
     clickFn: function (index) {
@@ -110,7 +126,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.digRecord{
+#digRecord{
   background: #fff;
   .digRecord-top{
     width: 100%;

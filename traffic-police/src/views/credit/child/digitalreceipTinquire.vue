@@ -1,5 +1,5 @@
 <template>
-  <div class="digit">
+  <div id="digit">
     <div class="digit-form">
      <ul>
         <li class="form-line">
@@ -258,6 +258,7 @@ export default {
   },
   methods: {
     abbreviationSelectClick: function (str, id) {
+      this.moldShow = false
       if (str) {
         this.abbreviationSelectMassage = str
       }
@@ -268,6 +269,7 @@ export default {
       }
     },
     moldClick: function (str, id) {
+      this.abbreviationSelectShow = false
       if (str) {
         this.mold = str
       }
@@ -296,12 +298,18 @@ export default {
       let plate = `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`
       this.$router.push({path: 'digitalReceiptRecord', query: { billNo: this.billNo, numberPlate: plate, id: '1' }})
     }
+  },
+  created () {
+    document.addEventListener('click', (e) => {
+      this.moldShow = false
+      this.abbreviationSelectShow = false
+    })
   }
 }
 </script>
 
 <style lang="less" scoped>
-.digit {
+#digit {
 background-color: #fff;
 position: absolute;
 left: 0;
