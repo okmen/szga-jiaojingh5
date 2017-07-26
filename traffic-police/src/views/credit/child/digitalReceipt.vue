@@ -5,7 +5,7 @@
         <li>深圳公安交通管理网上缴款缴费电子回单</li>
         <li>
           <span>缴款编码:</span>
-          <span>{{digitData.billNo}}</span>
+          <span class="dig-red">{{digitData.billNo}}</span>
         </li>
         <li>
           <span>车牌号码:</span>
@@ -83,9 +83,12 @@ export default {
         width: 100%;
         border: 1px solid #a7d9f9;
         li{
-          color: #323232;
+          color: #000000;
           padding-left: 34px;
           font: 100 26px/70px '';
+        }
+        .dig-red{
+          color: red;
         }
       }
       li:first-of-type{
