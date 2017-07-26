@@ -81,6 +81,7 @@
           width: 60px;
           height: 30px;
           font-size: 20px;
+          line-height: 30px;
           color: #fff;
           text-align: center;
           border-radius: 10Px;
