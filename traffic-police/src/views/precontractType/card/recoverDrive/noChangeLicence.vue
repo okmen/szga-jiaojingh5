@@ -6,9 +6,7 @@
   <div id="noChangeLicence">
     <div class="alter-select pad-side-50">
       <div class="alter-chose"><span>业务类型</span></div>
-      <div class="div-select alter-wd">
-        <p>{{bussinessName}}</p>
-      </div>
+      <div class="div-select alter-wd"><p>{{bussinessName}}</p></div>
     </div>
     <div class="alter-from">
       <common @appointTaskClick="appointTask"
@@ -86,12 +84,16 @@ export default {
       left: 50px;
       color: #666;
       line-height: 100px;
+      span{
+        font-size: 28px;
+      }
     }
     .alter-wd{
       height: 120px;
       padding:0 15px;
       border: 1px solid #e2e2e7;
       border-radius: 10px;
+      font-size: 26px;
       line-height: 54px;
     }
   }

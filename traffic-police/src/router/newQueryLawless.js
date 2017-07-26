@@ -16,6 +16,22 @@ let newQueryLawlessRouter = [
     component: require('../views/newQueryLawless/child/newqueryByCar.vue')
   },
   {
+    name: 'newqueryByCar_manual',               // 手动交通违法查询
+    path: '/newqueryByCar_manual',
+    meta: {
+      title: '交通违法查询'
+    },
+    component: require('../views/newQueryLawless/child/newqueryByCar_manual.vue')
+  },
+  {
+    name: 'newqueryByCard',               // 手动交通驾驶证违法查询
+    path: '/newqueryByCard',
+    meta: {
+      title: '交通违法驾驶证查询'
+    },
+    component: require('../views/newQueryLawless/child/newqueryByCard.vue')
+  },
+  {
     name: 'newLawlessMsg',
     path: '/newLawlessMsg',
     meta: {

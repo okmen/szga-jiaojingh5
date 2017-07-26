@@ -44,7 +44,7 @@
         <div class="ip-inform-IDcard">
           <div class="ip-inform-title">身份证号</div>
           <div class="ip-inform-content">
-            <input type="text" class="ip-inform-only" readonly :value="IDcard" style="background: #efeff4">
+            <input type="text" class="ip-inform-only" readonly v-model="IDcard" style="background: #efeff4">
           </div>
         </div>
         <div class="ip-inform-ticket">
@@ -160,7 +160,8 @@
         scenePhoto1: '',    // 大场景
         scenePhoto2: '',   // 前五米无车场景
         scenePhoto3: '',  // 后五米无车场景
-        stopNoticePhoto: ''   // 罚单
+        stopNoticePhoto: '',   // 罚单
+        numberPlateToCard: {}
       }
     },
     components: {
@@ -227,6 +228,7 @@
       },
       selectPlate (item) {
         this.currentPlate = item
+        this.IDcard = this.numberPlateToCard[this.currentPlate]
         this.subTypeSelectShow = !this.subTypeSelectShow
       },
       /* eslint-disable */
@@ -259,13 +261,14 @@
         if (cars.length) {
           cars.map(item => {
             this.myNumberPlate.push(item.myNumberPlate)
+            this.numberPlateToCard[item.myNumberPlate] = item.identityCard
           })
           this.currentPlate = this.myNumberPlate[0]
         } else {
           MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
         }
         this.plateTypes = this.$store.state.licenseSelectData
-        this.IDcard = window.localStorage.getItem('identityCard')
+        this.IDcard = this.numberPlateToCard[this.currentPlate]
       },
       submit () {
         let isSubmit = true
