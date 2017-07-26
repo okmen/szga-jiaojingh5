@@ -1,5 +1,6 @@
 <template>
   <div id="illegalResult">
+    <p class="illegal-title">共有<span>{{totalItem}}</span>条违法记录</p>
     <div class="illegal-box">
       <!-- 违法结果查询结果 -->
       <div v-for="(item, index) in AppealQueryData" class="illegal-list" :class="{ green: item.checkAddBorder }">
@@ -11,13 +12,16 @@
           <p>违法地点：<span>{{item.illegalAddr}}</span></p>
         </div>
         <div class="illegal-query">
-          <section class="illegal-query-score">
+          <section class="illegal-score">
             <p class="illegal-score-num">{{item.punishScore}}</p>
             <p>违法记分</p>
           </section>
-          <section class="illegal-query-score">
+          <section class="illegal-score">
             <p class="illegal-score-num">{{item.punishAmt}}</p>
             <p>罚款金额</p>
+          </section>
+          <section class="illegal-appeal">
+            <button >{{btnHtml}}</button>
           </section>
         </div>
         <div class="illegal-select">
@@ -33,11 +37,14 @@
   export default {
     data () {
       return {
-        AppealQueryData: ''
+        AppealQueryData: '',
+        btnHtml: '申诉',
+        totalItem: ''        // 违法记录数
       }
     },
     created () {
       this.AppealQueryData = this.showAppealQuery
+      this.totalItem = this.AppealQueryData.length
     },
     methods: {
       inputClick: function (index) {
@@ -57,10 +64,24 @@
 <style lang="less">
 #illegalResult{
   width:100%;
-  background:#FFF;
+  background: #EEE;
+  .illegal-title{
+    height: 85px;
+    background:#FFF;
+    color: #333;
+    font-size: 32px;
+    line-height: 85px;
+    margin-bottom: 10px;
+    text-align: center;
+    span{
+      color: #2696DD;
+      font-weight: bold;
+    }
+  }
   .illegal-box{
     padding:38px 50px 80px;
     width:100%;
+    background:#FFF;
     box-sizing: border-box;
     .illegal-list{
       position:relative;
@@ -84,9 +105,10 @@
         }
       }
       .illegal-query{
+        display: block;
         width:100%;
         overflow: hidden;
-        section{
+        .illegal-score{
           float:left;
           margin-top:20px;
           text-align:center;
@@ -99,6 +121,23 @@
             color:#333;
             font-size:24px;
             font-weight:bold;
+          }
+        }
+        .illegal-score:nth-of-type(2) {
+          padding-left: 80px;
+        }
+        .illegal-appeal{
+          float: right;
+          button{
+            margin-top: 10px;
+            width: 192px;
+            height: 72px;
+            background: #2697DD;
+            border-radius: 4px;
+            color: #FFF;
+            font-size: 32px;
+            line-height: 72px;
+            outline: none;
           }
         }
       }
