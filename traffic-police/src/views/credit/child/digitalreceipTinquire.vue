@@ -54,13 +54,12 @@
       </ul>
       <button class="btn btn-blue" type="button" name="button" @click.stop="demandClick()">查询</button>
     </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 
 <script>
-import { resultPost } from '../../../service/getData'
-import { MessageBox } from 'mint-ui'
-import { toQueryElectronicReceiptPage } from '../../../config/baseUrl'
+import { Toast } from 'mint-ui'
 import { verifyCode } from '../../../config/verifyCode'
 export default {
   name: 'digitalreceipTinquire',
@@ -120,26 +119,23 @@ export default {
       }
     },
     demandClick: function () {
-      // 粤BU8E61
-      let digitalReceiptData = {
-        // drivingLicenceNo: window.localStorage.getItem('identityCard'),
-        drivingLicenceNo: '',
-        // licensePlateNo: window.localStorage.getItem('myNumberPlate')
-        licensePlateNo: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`,
-        billNo: this.billNo
+      if (!this.billNo) {
+        Toast({message: '请输入缴款编号', position: 'bottom', className: 'white'})
+      } else if (!this.numberPlate) {
+        Toast({message: '请输入车牌号码', position: 'bottom', className: 'white'})
+      } else if (!this.behindTheFrame4Digits) {
+        Toast({message: '请输入车架号后四位', position: 'bottom', className: 'white'})
+      } else if (!this.verification) {
+        Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
+      } else if (this.verifyCode === false) {
+        Toast({message: '请输入正确的验证码', position: 'bottom', className: 'white'})
+      } else {
+        this.referFn()
       }
-      resultPost(toQueryElectronicReceiptPage, digitalReceiptData).then(json => {
-        if (json.code === '0000') {
-          this.digitData = json.data[0]
-        } else {
-          MessageBox({
-            title: '提示',
-            message: json.msg
-          }).then(action => {
-            this.$router.push('/credit')
-          })
-        }
-      })
+    },
+    referFn: function () {
+      let plate = `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`
+      this.$router.push({path: 'digitalReceiptRecord', query: { billNo: this.billNo, numberPlate: plate, id: '1' }})
     }
   }
 }

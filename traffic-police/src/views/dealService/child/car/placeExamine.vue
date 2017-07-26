@@ -141,7 +141,7 @@
 <script>
 import { resultGet, resultPost } from '../../../../service/getData'
 import { getIssuing, sendSMS, verificatioCode, inspectionDeclaration } from '../../../../config/baseUrl'
-import { Toast } from 'mint-ui'
+import { Toast, MessageBox } from 'mint-ui'
 export default {
   name: 'placeExamine',
   data () {
@@ -402,6 +402,9 @@ export default {
     })
   },
   created () {
+    if (!window.localStorage.getItem('myNumberPlate')) {
+      MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
+    }
     this.cars = JSON.parse(window.localStorage.getItem('cars'))
     this.vehType = this.cars[0].plateType
     document.addEventListener('click', (e) => {

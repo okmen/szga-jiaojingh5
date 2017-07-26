@@ -3,9 +3,45 @@
     <div class="digital">
       <ul class="digitalUl">
         <li>深圳公安交通管理网上缴款缴费电子回单</li>
-        <li v-for="(item, key) in digitData">
-          <span>{{digit[key]}}</span>
-          <span>{{key === 'payWay' ? payWayType[key] : item}}</span>
+        <li>
+          <span>缴款编码:</span>
+          <span>{{digitData.billNo}}</span>
+        </li>
+        <li>
+          <span>车牌号码:</span>
+          <span>{{digitData.paymentor}}</span>
+        </li>
+        <li>
+          <span>时间:</span>
+          <span>{{digitData.writeOffDate}}</span>
+        </li>
+        <li>
+          <span>执收单位名称:</span>
+          <span>{{digitData.companyName}}</span>
+        </li>
+        <li>
+          <span>执收项目编码:</span>
+          <span>{{digitData.projectNo}}</span>
+        </li>
+        <li v-if="digitData.payWay == 'NETBANK'">
+          <span>缴款方式:</span>
+          <span>网银支付</span>
+        </li>
+        <li v-if="digitData.payWay == 'WECHAT'">
+          <span>缴款方式:</span>
+          <span>微信支付</span>
+        </li>
+        <li v-if="digitData.payWay == 'ALIPAY_APP'">
+          <span>缴款方式:</span>
+          <span>支付宝钱包</span>
+        </li>
+        <li>
+          <span>收费金额:</span>
+          <span>{{digitData.amt}}</span>
+        </li>
+        <li>
+          <span>合计:</span>
+          <span>{{digitData.amt}}</span>
         </li>
       </ul>
       <div class="digit">
@@ -23,51 +59,17 @@
 </template>
 
 <script>
-import { resultPost } from '../../../service/getData'
-import { MessageBox } from 'mint-ui'
-import { toQueryElectronicReceiptPage } from '../../../config/baseUrl'
 export default {
   name: 'digitalReceipt',
   data () {
     return {
-      digitData: [],
-      payWayType: {
-        'NETBANK': '网银支付',
-        'WECHAT': '微信支付',
-        'ALIPAY_APP': '支付宝钱包'
-      },
-      digit: {
-        'billNo': '缴款编号 / 罚单编号:',
-        'writeOffDate': '时间:',
-        'companyName': '执收单位名称:',
-        'projectNo': '执收项目编码:',
-        'payWay': '缴款方式:',
-        'paymentor': '缴款人:',
-        'amt': '收费金额:',
-        'sdb': '银行流水号'
-      }
+      digitData: []
     }
   },
   mounted () {
-    let digitalReceiptData = {
-      // drivingLicenceNo: window.localStorage.getItem('identityCard'),
-      drivingLicenceNo: '',
-      // licensePlateNo: window.localStorage.getItem('myNumberPlate')
-      licensePlateNo: '粤BU8E61',
-      billNo: ''
-    }
-    resultPost(toQueryElectronicReceiptPage, digitalReceiptData).then(json => {
-      if (json.code === '0000') {
-        this.digitData = json.data[0]
-      } else {
-        MessageBox({
-          title: '提示',
-          message: json.msg
-        }).then(action => {
-          this.$router.push('/credit')
-        })
-      }
-    })
+    let receiptData = JSON.parse(window.sessionStorage.answererror)      // 获取缓存数据
+    this.myNumberPlate = this.$route.params.myNumberPlate        // 获取数据第几条数据
+    this.digitData = receiptData[this.myNumberPlate]
   }
 }
 </script>
