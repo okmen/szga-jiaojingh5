@@ -18,8 +18,8 @@
           <div class="ip-inform-content">
             <div class="div-select flex">
             <span class="btn-select hidden"
-                  @click.stop="subTypeSelectShow=!subTypeSelectShow">{{currentPlate || '请选择号牌号码'}}</span>
-              <div class="div-select-ul" v-if="subTypeSelectShow">
+                  @click.stop="subTypeSelectShow=!subTypeSelectShow" :class="{gray:!myNumberPlate.length}">{{currentPlate}}</span>
+              <div class="div-select-ul" v-if="subTypeSelectShow&&myNumberPlate.length">
                 <ul>
                   <li class="scroll-y" v-for="item in myNumberPlate" @click.stop="selectPlate(item)">{{item}}</li>
                 </ul>
@@ -118,7 +118,10 @@
           </div>
         </div>
       </div>
-      <div class="submit" @click="submit" v-if="!showMap">
+      <div class="submit" @click="submit" v-if="myNumberPlate.length">
+        提 &nbsp交
+      </div>
+      <div class="submit" style="background: gray" v-if="!myNumberPlate.length">
         提 &nbsp交
       </div>
     </div>
@@ -252,11 +255,15 @@
       },
       /* eslint-enable */
       getUserInfo () {
-        this.currentPlate = window.localStorage.getItem('myNumberPlate')
         let cars = JSON.parse(window.localStorage.getItem('cars')) || []
-        cars.map(item => {
-          this.myNumberPlate.push(item.myNumberPlate)
-        })
+        if (cars.length) {
+          cars.map(item => {
+            this.myNumberPlate.push(item.myNumberPlate)
+          })
+          this.currentPlate = this.myNumberPlate[0]
+        } else {
+          MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
+        }
         this.plateTypes = this.$store.state.licenseSelectData
         this.IDcard = window.localStorage.getItem('identityCard')
       },
@@ -442,8 +449,11 @@
 
   .div-select .btn-select {
     background-color: white;
+    height: 100%;
   }
-
+  .div-select .gray{
+    background-color:rgb(239, 239, 244);
+  }
   .illegalParking {
     background: white;
     .div-select-ul {
@@ -451,7 +461,6 @@
     }
 
   }
-
   .ip-inform-box > div {
     height: 96px;
     display: flex;

@@ -53,7 +53,7 @@ export default {
             reserveNo: json.data.waterNumber,    // 流水号
             mobilephone: params.bookerMobile,    // 手机号码
             reserveAddress: orderPlace,          // 服务点
-            reserveTime: json.data.bidDate       // 预约日期
+            reserveTime: json.data.appointmentDate    // 预约日期
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')

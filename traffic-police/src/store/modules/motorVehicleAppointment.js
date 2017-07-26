@@ -33,6 +33,9 @@ const motorVehicleAppointment = {
     }
   },
   getters: {
+    getAppointmentLocationAll (state) {
+      return state.appointmentLocation
+    },
     getModelOfCar (state) {
       let option = []
       if (!state.modelOfCar) {

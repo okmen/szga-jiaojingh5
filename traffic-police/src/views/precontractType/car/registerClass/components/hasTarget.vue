@@ -330,6 +330,7 @@
         targetNum: '',    // 指标号码
         provinceCodeOne: '',  // 车牌省份简称
         carSelectDataOne: '', // 车辆类型
+        carSelectDataStr: '', // 车辆类型字符
         useNatureOne: '', // 使用性质
         appointmentLocationOne: '',     // 预约地点参数
         appointmentLocationStr: '', // 预约地点的字符串
@@ -478,15 +479,17 @@
         this.provinceCodeOne = val
       },
       // 选择车辆 获取对应的车辆类型编码
-      getCarSelectDataOne (val) {
+      getCarSelectDataOne (val, index, str) {
         this.carSelectDataOne = val
+        this.carSelectDataStr = str
       },
       getUseNatureOne (val) {
         this.useNatureOne = val
       },
       // 切换地点
-      getAppointmentLocationOne (val) {
+      getAppointmentLocationOne (val, index, str) {
         this.appointmentLocationOne = val
+        this.appointmentLocationStr = str
       },
       // 获取车辆产地
       getVehicleOriginOne (val) {
@@ -629,6 +632,14 @@
       },
       registerSubmit () {
         if (!this.beforeSubmit()) return
+        let appointmentLocation = this.$store.getters.getAppointmentLocationAll
+        let orgAddr = ''
+        for (let i = 0, len = appointmentLocation.length; i < len; i++) {
+          if (appointmentLocation[i].id === this.appointmentLocationOne) {
+            orgAddr = appointmentLocation[i].description
+            break
+          }
+        }
         let requestObj = {
           name: this.ownerName,
           businessTypeId: this.businessTypeId,
@@ -650,17 +661,17 @@
           indexNo: this.targetNum,
           modelName: this.modelOfCarOne,
           bookerMobile: this.mobilePhone,
-          optlittleCar: this.vehicleOriginOne
+          optlittleCar: this.vehicleOriginOne,
+          orgName: this.appointmentLocationStr,
+          orgAddr: orgAddr,
+          businessCode: `createVehicleInfo_${this.$route.query.code}`,
+          businessName: this.$route.query.name,
+          carTypeName: this.carSelectDataStr
         }
         console.log(requestObj, '请求的数据')
         resultPost(createVehicleInfo, requestObj).then(data => {
           console.log(data, '预约信息')
           if (data.code === '0000') {
-            this.appointmentLocation.option.map(item => {
-              if (item.id === this.appointmentLocationOne) {
-                this.appointmentLocationStr = item.str
-              }
-            })
             let dataInfo = {
               type: 2,
               reserveNo: data.data,

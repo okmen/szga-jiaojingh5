@@ -43,7 +43,7 @@
           {name: '无车证明', path: 'userAgreement/wczm'},
           {name: '驾驶人信息单', path: 'userAgreement/jsrxxd'},
           {name: '机动车信息单', path: 'userAgreement/jdcxxd'}
-          // {name: '电子回单', path: 'digitalReceipt'}
+          // {name: '电子回单查询', path: 'digitalreceipTinquire'}
         ],
         isLogin: ''
       }

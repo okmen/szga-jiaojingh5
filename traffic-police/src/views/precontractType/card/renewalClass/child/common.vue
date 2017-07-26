@@ -63,7 +63,7 @@
             <span class="btn-select bg-colour" @click.stop="subscribeClick()">{{ subscribe }}</span>
             <div class="div-select-ul" v-if="subscribeShow">
               <ul>
-                <li v-for="item in businessData" @click.stop="subscribeClick(item.name, item.id)">{{item.name}}</li>
+                <li v-for="item in businessData" @click.stop="subscribeClick(item.name, item.id, item.description)">{{item.name}}</li>
               </ul>
             </div>
           </div>
@@ -140,6 +140,7 @@ export default {
       dateData: [],
       date: '',
       surplusData: [],
+      description: '', // 预约地址
       tmentTime: ''   // 预约时间
     }
   },
@@ -157,12 +158,13 @@ export default {
       }
     },
     // 预约地点
-    subscribeClick: function (str, id) {
+    subscribeClick: function (str, id, description) {
       this.dateShow = false    // 预约日期
       this.timeShow = false    // 预约时间
       if (str) {
         this.subscribe = str
         this.subscribeId = id
+        this.description = description
       }
       if (this.subscribeShow === true) {
         this.subscribeShow = false
@@ -222,8 +224,8 @@ export default {
           bookerType: name,                  // 预约方式
           bookerName: this.name,             // 预约人名字
           bookerIdNumber: window.localStorage.getItem('identityCard'),
-          idNumber: this.identificationNum,  // 预约人证件号码
-          codes: this.code                   // 业务类型id
+          idNumber: this.identificationNum,   // 预约人证件号码
+          codes: this.code            // 业务类型id
         }
         resultPost(simpleSendMessage, phonedata).then(json => {
           if (json.code === '0000') {
@@ -235,7 +237,7 @@ export default {
       }
     },
     // 验证码倒计时
-    timePiece: function () {         //  验证码倒计时
+    timePiece: function () {
       clearInterval(this.Timepiece)
       this.forbidden = true
       this.isShow = true
@@ -271,18 +273,20 @@ export default {
     dataFn: function () {
       let name = this.name === window.localStorage.getItem('userName') ? 0 : 1  // 0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
       let renewingData = {
-        'orgId': this.subscribeId,                        // 预约地点id
-        'businessTypeId': this.codeId,                    // 业务id
-        'name': this.name,                                // 车主姓名
-        'idTypeId': this.cur_card_id,                     // 证件种类ID
-        'idNumber': this.identificationNum,               // 证件号码
-        'mobile': this.mobilephone,                       // 手机号码
-        'msgNumber': this.identifying,                    // 验证码
-        'appointmentDate': this.date,                     // 预约日期
-        'appointmentTime': this.time,                     // 预约时间
+        'orgId': this.subscribeId,                       // 预约地点id
+        'businessTypeId': this.codeId,                   // 业务id
+        'name': this.name,                               // 车主姓名
+        'idTypeId': this.cur_card_id,                    // 证件种类ID
+        'idNumber': this.identificationNum,              // 证件号码
+        'mobile': this.mobilephone,                      // 手机号码
+        'msgNumber': this.identifying,                   // 验证码
+        'appointmentDate': this.date,                    // 预约日期
+        'appointmentTime': this.time,                    // 预约时间
         'bookerName': window.localStorage.getItem('userName'),          // 预约人名字
         'bookerIdNumber': window.localStorage.getItem('identityCard'),  // 预约人身份证号
         'bookerType': name,                                // 预约方式 ‘0’本人
+        'orgName': this.subscribe,                         // 预约单位名称
+        'orgAddr': this.description,                       // 预约单位地址
         'bookerMobile': this.mobilephone                   // 预约手机号码
       }
       this.$emit('submitClick', renewingData, this.subscribe)
@@ -307,8 +311,7 @@ export default {
         businessTypeId: this.codeId,  // 业务类型
         orgId: this.subscribeId,      // 预约地点
         date: this.date,              // 预约日期
-        carTypeId: this.vehicleId,    // 汽车类型ID
-        optlittleCar: ''              // 汽车产地
+        carTypeId: this.vehicleId    // 汽车类型ID
       }
       resultPost(getAppTimes, getTimesData).then(json => {
         if (json.code === '0000') {
@@ -325,14 +328,10 @@ export default {
   },
   created () {
     document.addEventListener('click', (e) => {
-      this.varietyShow = false
-      this.vehicleShow = false
-      this.employShow = false
-      this.monthShow = false
-      this.subscribeShow = false
-      this.abbreviationSelectShow = false
-      this.dateShow = false
-      this.timeData = false
+      this.varietyShow = false      // 证件名称
+      this.subscribeShow = false    // 预约地点
+      this.dateShow = false         // 预约日期
+      this.timeData = false         // 预约时间
     })
   },
   mounted () {
@@ -345,11 +344,12 @@ export default {
     resultPost(getPageInit, getBusinessData).then(json => {
       if (json.code === '0000') {
         this.varietyData = json.data.idTypeVOs     // 初始化证件类型
-        this.variety = this.varietyData[0].name    // 初始化证件类型
-        this.cur_card_id = this.varietyData[0].id  // 初始化证件类型
+        this.variety = this.varietyData[0].name    // 初始化证件类型名称
+        this.cur_card_id = this.varietyData[0].id  // 初始化证件类型id
         this.businessData = json.data.orgVOs       // 初始化预约地点
-        this.subscribe = json.data.orgVOs[0].name
-        this.subscribeId = json.data.orgVOs[0].id
+        this.description = json.data.orgVOs[0].description
+        this.subscribe = json.data.orgVOs[0].name  // 预约地点名称
+        this.subscribeId = json.data.orgVOs[0].id  // 预约地点id
       } else {
         Toast({message: json.msg, position: 'bottom', className: 'white'})
       }
@@ -362,7 +362,7 @@ export default {
       this.time = ''
       this.surplusData = []
     },
-    date () { // 当预约日期改变时，清空预约时间
+    date () { // 当时间改变的时候清空预约时间
       this.time = ''
       this.surplusData = []
     }
