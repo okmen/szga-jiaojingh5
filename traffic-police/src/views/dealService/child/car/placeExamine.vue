@@ -20,7 +20,7 @@
               <span>车辆类型</span>
             </div>
             <div class="form-line-item">
-              <input class="text-input" v-model="carSelectData[vehType] ? carSelectData[vehType] : carSelectData[cars[0].plateType]" type="text" value="" readonly/>
+              <input class="text-input" v-model="carSelectData[vehType]" type="text" value="" readonly/>
             </div>
           </li>
           <li class="form-line">

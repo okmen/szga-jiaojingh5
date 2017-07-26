@@ -49,7 +49,7 @@
             <span>车辆类型</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="" v-model="carSelectData[vehType] ? carSelectData[vehType] : carSelectData[cars[0].plateType]" readonly/>
+            <input class="text-input" type="text" value="" v-model="carSelectData[vehType]" readonly/>
           </div>
         </li>
         <li class="form-line">
@@ -78,7 +78,7 @@
             <span>手机号码</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" value="" v-model="mobilephone ? mobilephone : cars[0].mobilephone" readonly/>
+            <input class="text-input" type="text" value="" v-model="mobilephone" readonly/>
           </div>
         </li>
         <li class="form-line">
@@ -312,9 +312,6 @@
       }
     },
     mounted: function () {
-      this.cars = JSON.parse(window.localStorage.getItem('cars'))
-      this.vehType = this.cars[0].plateType
-      this.mobilephone = this.cars[0].mobilephone
       document.addEventListener('click', (e) => {
         this.varietyShow = false
         this.vehicleShow = false
@@ -323,6 +320,10 @@
         this.plateNumberShow = false
       })
       this.uploadImg()
+      this.cars = JSON.parse(window.localStorage.getItem('cars'))
+      if (this.cars.length === 0) return
+      this.vehType = this.cars[0].plateType
+      this.mobilephone = this.cars[0].mobilephone
     },
     methods: {
       // 车牌下拉框
