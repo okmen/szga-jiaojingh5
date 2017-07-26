@@ -142,7 +142,7 @@
         </li>
       </ul>
       <div class="alter-button-box">
-        <button class="btn alterButton" @click="appointTaskClick">预约</button>
+        <button class="btn alterButton" @click="appointTaskClick">预 约</button>
       </div>
     </div>
   </div>
