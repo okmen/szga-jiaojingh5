@@ -432,10 +432,13 @@
         chinaBrand: '', // 中文品牌
         customerNum: '', // 载客人数
         engineNum: '', // 发动机号
-        carSelectDataOne: '', // 车辆类型
+        carSelectDataOne: '', // 车辆类型ID
+        carSelectDataStr: '', // 车辆类型名称
         modelOfCarOne: '', // 车辆型号
         useNatureOne: '', // 使用性质
-        appointmentLocationOne: '',     // 预约地点
+        appointmentLocationOne: '',     // 预约地点ID
+        appointmentLocationStr: '', // 预约地点名称
+        appointmentLocationDes: '', // 预约地点详细地址
         pointerTypeOne: '',
         credentialsNameOne: '', // 证件名称一项
         certificateTypeId: '', // 证件类型ID
@@ -670,17 +673,9 @@
           }
         })
       },
-      // 获取选择的证件类型
-      getCredentialsNameOne (val) {
-        this.credentialsNameOne = val
-      },
       // 获取选择的车牌省份
       getProvinceCodeOne (val) {
         this.provinceCodeOne = val
-      },
-      // 获取选择的车辆类型
-      getCarSelectDataOne (val) {
-        this.carSelectDataOne = val
       },
       // 获取选择的车辆型号
       getModelOfCarOne (val) {
@@ -690,13 +685,23 @@
       getCityDistrict (val) {
         this.cityDistrictOne = val
       },
+      // 获取选择的证件类型
+      getCredentialsNameOne (val, index, str) {
+        this.credentialsNameOne = val
+      },
+      // 获取选择的车辆类型
+      getCarSelectDataOne (val, index, str) {
+        this.carSelectDataOne = val
+        this.carSelectDataStr = str
+      },
       // 获取选择的使用性质
-      getUseNatureOne (val) {
-        this.useNatureOne = val
+      getUseNatureOne (val, index, str) {
+        this.useNatureOne = str
       },
       // 获取选择的预约地点
-      getAppointmentLocationOne (val) {
-        this.appointmentLocationOne = val
+      getAppointmentLocationOne (val, index, str) {
+        this.appointmentLocationOne = val // 预约地点ID
+        this.appointmentLocationStr = str // 预约地点名称
       },
       // 提交前的校验规则
       beforeSubmit () {
@@ -774,6 +779,12 @@
       registerSubmit () {
         console.log(this.appointmentLocation.option)
         // if (!this.beforeSubmit()) return
+        for (let i = 0, len = this.appointmentLocation.option.length; i < len; i++) {
+          if (this.appointmentLocation.option[i].id === this.appointmentLocationOne) {
+            this.appointmentLocationDes = this.appointmentLocation.option[i].description
+            break
+          }
+        }
         let requestObj = {
           orgId: this.appointmentLocationOne, // 预约地点ID
           name: this.ownerName, // 车主姓名
@@ -796,7 +807,11 @@
           bookerIdNumber: window.localStorage.getItem('identityCard'), // 预约人身份证号码
           bookerType: this.bookerType, // 预约方式
           bookerMobile: this.mobilePhone, // 手机号
-          msgNumber: this.verificationCode // 验证码
+          msgNumber: this.verificationCode, // 验证码
+          orgName: this.appointmentLocationStr, // 预约地点
+          orgAddr: this.appointmentLocationDes, // 预约地点详细地址
+          sourceOfCertification: window.localStorage.getItem('sourceOfCertification'), // 请求来源
+          openId: window.localStorage.getItem('openId') // openID
         }
         console.log(requestObj, '请求的数据')
         resultPost(createTemporaryLicenseVehicleInfo, requestObj).then(data => {

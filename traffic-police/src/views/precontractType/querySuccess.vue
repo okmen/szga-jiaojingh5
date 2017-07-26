@@ -58,8 +58,7 @@
       /*eslint-disable*/
       cancelReverse () {
         console.log(this.dataInfo)
-        var r=confirm("确定取消预约？")
-        if (r==true){
+        MessageBox.confirm('确定取消预约?').then(action => {
           let requestData = {
             mobile: this.dataInfo.mobile,
             businessType: this.dataInfo.businessType,
@@ -72,12 +71,10 @@
           }
           resultPost(cancel, requestData).then(data => {
             console.log(data, '预约信息')
-            MessageBox('提示', data.msg)
+            // MessageBox('提示', data.msg)
             this.$router.push('/')
           })
-        } else {
-            return
-        }
+        })
       }
     }
   }

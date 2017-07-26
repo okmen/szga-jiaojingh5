@@ -246,16 +246,16 @@ let precontractTypeRouter = [
   {
     name: 'noPhysicalCheck',
     path: '/noPhysicalCheck',
-    mata: {
-      name: '逾期一年以上未体检类'
+    meta: {
+      title: '逾期一年以上未体检类'
     },
     component: require('../views/precontractType/card/recoverDrive/noPhysicalCheck.vue')
   },
   {
     name: 'noChangeLicence',
     path: '/noChangeLicence',
-    mata: {
-      name: '逾期一年以上未体检类'
+    meta: {
+      title: '逾期一年以上未体检类'
     },
     component: require('../views/precontractType/card/recoverDrive/noChangeLicence.vue')
   },
@@ -263,7 +263,7 @@ let precontractTypeRouter = [
     name: 'fullmarkStudy',
     path: '/fullmarkStudy',
     meta: {
-      name: '满分学习'
+      title: '满分学习'
     },
     component: require('../views/precontractType/card/fullmarkStudy.vue')
   },
@@ -271,7 +271,7 @@ let precontractTypeRouter = [
     name: 'otherBusiness',
     path: '/otherBusiness',
     meta: {
-      name: '其它业务'
+      title: '其它业务'
     },
     component: require('../views/precontractType/card/otherBusiness.vue')
   }
