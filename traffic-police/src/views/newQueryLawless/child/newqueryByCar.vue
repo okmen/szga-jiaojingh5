@@ -48,8 +48,13 @@
         resultPost(queryLawlessByCar, reqData).then(json => {
           if (json.code === '0000') {
             item.lawlessNum = json.data.length
+            let lawlessData = {
+              info: item,
+              data: json.data
+            }
             if (type === 'click') {
-              // this.$router.push('/')
+              this.$store.commit('saveNewLawlessQuery', lawlessData)
+              this.$router.push('newLawlessMsg')
             }
           } else {
             if (type === 'click') {
