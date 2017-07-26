@@ -133,7 +133,8 @@
             </div>
           </li>
         </ul>
-        <button class="btn btns" @click.stop="submitClick()">确认提交</button>
+        <button class="btn btns" v-if="this.Plate" @click.stop="submitClick()">确认信息</button>
+        <button class="btn btns" style="background: gray" v-if="!this.Plate">确认信息</button>
       </div>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
@@ -411,10 +412,9 @@ export default {
     })
   },
   created () {
-    if (!window.localStorage.getItem('myNumberPlate')) {
-      MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆').then(action => {
-        this.$router.push({name: 'dealService'})
-      })
+    this.Plate = window.localStorage.getItem('myNumberPlate')
+    if (!this.Plate) {
+      MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
     }
   }
 }

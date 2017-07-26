@@ -174,7 +174,8 @@
         </li>
         <li class="form-annotation">注:只能申请本人名下车辆</li>
       </ul>
-     <button class="btn btns" @click.stop="submitClick()">确认提交</button>
+      <button class="btn btns" v-if="this.Plate" @click.stop="submitClick()">确认信息</button>
+      <button class="btn btns" style="background: gray" v-if="!this.Plate">确认信息</button>
       <mt-datetime-picker ref="picker" type="date" v-model="informTime" @confirm="handleTime"></mt-datetime-picker>
       <mt-datetime-picker ref="pick" type="date" v-model="informTimes" @confirm="handleTimes"></mt-datetime-picker>
     </div>
@@ -290,11 +291,13 @@ export default {
       bookerType: '0',                            // 预约方式
       cars: {},
       plateType: '',
-      carTypeId: ''
+      carTypeId: '',
+      Plate: ''
     }
   },
   created () {
-    if (!window.localStorage.getItem('myNumberPlate')) {
+    this.Plate = window.localStorage.getItem('myNumberPlate')
+    if (!this.Plate) {
       MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
     }
   },
