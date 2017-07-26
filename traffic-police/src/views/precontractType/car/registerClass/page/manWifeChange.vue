@@ -622,9 +622,11 @@
           idNumber: this.newIDcard,
           codes: this.achieveCode
         }
-        console.log(requestData, '验证码请求参数')
         resultPost(simpleSendMessage, requestData).then(data => {
           console.log(data, '验证码')
+          if (data.code !== '0000') {
+            MessageBox('提示', data.msg)
+          }
         })
         this.timer = setInterval(() => {
           if (this.countDown === 0) {
@@ -769,7 +771,7 @@
           if (data.code === '0000') {
             let dataInfo = {
               type: 2,
-              reserveNo: data.data,
+              reserveNo: data.data.waterNumber,
               numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(),
               mobilephone: this.mobilePhone,
               reserveAddress: this.appointmentLocationStr,

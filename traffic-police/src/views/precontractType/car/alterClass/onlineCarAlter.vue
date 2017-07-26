@@ -3,13 +3,12 @@
 *  #网约车使用性质变更
  -->
 <template>
-    <div class="onlineAlter">
-      <common @appointTaskClick="appointTask"
-              :currentBusinessId="businessId"
-              :currentBusinessCode="bussinessCode"
-              :currentBusinessName="bussinessName"></common>
-      <div v-wechat-title="$route.meta.title"></div>
-    </div>
+  <div class="onlineAlter">
+    <common @appointTaskClick="appointTask"
+            :currentBusinessId="businessId"
+            :currentBusinessCode="bussinessCode"
+            :currentBusinessName="bussinessName"></common>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
@@ -37,18 +36,23 @@ export default {
     this.bussinessName = query.name
   },
   methods: {
-    appointTask: function (params, orderPlace) {
+    appointTask: function (params, code, name) {
+      params.businessCode = code
+      params.businessName = name
       console.log('网约车', params)
       resultPost(createVehicleInfo, params).then(json => {
         console.log(json)
         if (json.code === '0000') {
+          let number = json.data.waterNumber
+          let date = json.data.appointmentDate
+          let place = json.data.orgName
           let dataInfo = {
             type: 2,
-            reserveNo: json.data.waterNumber,    // 流水号
+            reserveNo: number,                   // 流水号
             numberPlate: params.platNumber,      // 车牌号码
             mobilephone: params.bookerMobile,    // 手机号码
-            reserveAddress: orderPlace,          // 服务点
-            reserveTime: params.appointmentDate  // 预约日期
+            reserveAddress: place,               // 服务点
+            reserveTime: date                    // 预约日期
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')

@@ -10,7 +10,8 @@
       </ul>
     </div>
     <div class="digByCar-btn">
-      <a href="#">其他电子回单</a>
+      <!-- <a href="#">其他电子回单</a> -->
+      <router-link to="digitalreceipTinquire">其他电子回单</router-link>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -27,14 +28,9 @@
     },
     methods: {
       getLawlessData (item) {
-        let reqData = {
-          licensePlateNo: item.myNumberPlate,
-          licensePlateType: item.plateType,
-          vehicleIdentifyNoLast4: item.behindTheFrame4Digits,
-          identityCard: item.identityCard,
-          mobilephone: item.mobilephone
-        }
-        console.log(reqData)
+        let num = item.myNumberPlate
+        console.log(num)
+        this.$router.push({path: 'digitalReceiptRecord', query: { myNumberPlate: num, id: '2' }})
       }
     }
   }
