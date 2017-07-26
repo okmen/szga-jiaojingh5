@@ -286,7 +286,8 @@
         outBoard: '',
         residencePermitF: '',  // 居住证正面
         residencePermitB: '',   // 居住证反面
-        showIndex: 0
+        showIndex: 0,
+        defaultPlateNumber: ''
       }
     },
     components: {
@@ -300,7 +301,7 @@
           option: []
         }
         let storage = window.localStorage.getItem('cars')
-        if (!storage) return plateInfo
+        if (!JSON.parse(storage).length) return plateInfo
         JSON.parse(storage).map(item => {
           if (item.isMySelf === 0) {
             plateInfo.option.push({'str': item.myNumberPlate})
