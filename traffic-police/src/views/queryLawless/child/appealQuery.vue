@@ -105,6 +105,13 @@
         vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits') === 'undefined' ? '无' : window.localStorage.getItem('behindTheFrame4Digits')
       }
     },
+    created () {
+      if (!window.localStorage.getItem('myNumberPlate')) {
+        MessageBox('提示', '当前用户没有车辆信息').then(action => {
+          this.$router.push('/')
+        })
+      }
+    },
     methods: {
       bindCarSelect: function (str) {
         if (str) {
