@@ -1,5 +1,5 @@
 <template>
-  <div class="digByCar-outer">
+  <div id="digByCar-outer">
     <div class="digByCar-carArr">
       <ul>
         <li v-for="item in carArr" @click="getLawlessData(item)">
@@ -10,7 +10,8 @@
       </ul>
     </div>
     <div class="digByCar-btn">
-      <a href="#">其他电子回单</a>
+      <!-- <a href="#">其他电子回单</a> -->
+      <router-link to="digitalreceipTinquire">其他电子回单</router-link>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -27,21 +28,15 @@
     },
     methods: {
       getLawlessData (item) {
-        let reqData = {
-          licensePlateNo: item.myNumberPlate,
-          licensePlateType: item.plateType,
-          vehicleIdentifyNoLast4: item.behindTheFrame4Digits,
-          identityCard: item.identityCard,
-          mobilephone: item.mobilephone
-        }
-        console.log(reqData)
+        let num = item.myNumberPlate
+        console.log(num)
+        this.$router.push({path: 'digitalReceiptRecord', query: { myNumberPlate: num, id: '2' }})
       }
     }
   }
 </script>
-<style lang="less">
-  @import "./../../../style/base";
-  .digByCar-outer{
+<style lang="less" scoped>
+  #digByCar-outer{
     padding: 30px 30px 0 ;
     .digByCar-carArr{
       li{
@@ -86,6 +81,7 @@
           width: 60px;
           height: 30px;
           font-size: 20px;
+          line-height: 30px;
           color: #fff;
           text-align: center;
           border-radius: 10Px;

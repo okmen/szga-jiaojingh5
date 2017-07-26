@@ -4,10 +4,11 @@
     <div class="nav">
       <div class="nav-tab" :class="{ 'active': cur_tab == 'car'}" @click="cur_tab = 'car'">机动车业务</div>
       <div class="nav-tab" :class="{ 'active': cur_tab == 'card'}" @click="cur_tab = 'card'">驾驶证业务</div>
-      <div class="nav-tab" :class="{ 'active': cur_tab == 'progress'}" @click="linkToProgress">办理进度查询</div>
+      <div class="nav-tab" :class="{ 'active': cur_tab == 'progress'}" @click="cur_tab = 'progress'">预约查询及取消</div>
     </div>
     <carService v-if="cur_tab == 'car'"></carService>
-    <cardService v-else></cardService>
+    <cardService v-else-if="cur_tab == 'card'"></cardService>
+    <queryAndCancel v-else></queryAndCancel>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
@@ -19,15 +20,16 @@
         cur_tab: 'car'
       }
     },
-    methods: {
-      linkToProgress: function () {
-        this.cur_tab = 'progress'
-        this.$router.push('/queryProgress')
-      }
-    },
+    // methods: {
+    //   linkToProgress: function () {
+    //     this.cur_tab = 'progress'
+    //     this.$router.push('/queryProgress')
+    //   }
+    // },
     components: {
       'carService': require('./carService.vue'),
-      'cardService': require('./cardService.vue')
+      'cardService': require('./cardService.vue'),
+      'queryAndCancel': require('./queryAndCancel.vue')
     }
   }
 </script>

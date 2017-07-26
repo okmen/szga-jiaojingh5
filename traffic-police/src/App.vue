@@ -43,7 +43,7 @@
         </router-link>
       </dl>
       <dl>
-        <router-link to="/queryLawless">
+        <router-link to="/newqueryLawless">
         <dt><img class="top2" src="./images/nav2.png" alt=""></dt>
         <dd>违法处理</dd>
         </router-link>
@@ -112,7 +112,7 @@
         <dd>轻微事故远程<br/>处理中心</dd>
         </a>
       </dl>
-<!--       <dl>
+      <!-- <dl>
         <a :href="'http://szjj.u-road.com/szjjpro/index.php/Business/Member/unlogin/selfbook/'+openId">
         <dt><img class="top6" src="./images/nav12.png" alt=""></dt>
         <dd>自主考试</dd>
@@ -198,7 +198,7 @@ export default {
     if (window.localStorage.getItem('plateType') !== 'undefined') {
       this.plateType = !window.localStorage.getItem('plateType') ? '' : window.localStorage.getItem('plateType')
     }
-    this.isLogin = window.localStorage.getItem('isLogin')
+    this.isLogin = JSON.parse(window.localStorage.getItem('isLogin'))
     this.icpTara = `https://icp-tara.pingan.com.cn:10443/icp-tara/do/page/changePage?cername=${this.userName}&certno=${this.userIdentityCard}&carMark=${this.userNumberPlate}&openid=${this.openId}&mobile=${this.mobilePhone}&userType=1&carType=${this.plateType}`
     let ua = window.navigator.userAgent // 浏览器版本
     if (/MicroMessenger/i.test(ua)) {

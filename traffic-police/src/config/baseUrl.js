@@ -1,6 +1,6 @@
 // 添加URL需注释 哪个模块哪个接口
-const commonUrl = 'http://192.168.1.120:8100/' // 120环境
-// const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
+// const commonUrl = 'http://192.168.1.120:8100/' // 120环境
+const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
 // const commonUrl = 'http://szjj.u-road.com/api/' // 正式环境d
 
 export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
@@ -225,6 +225,13 @@ export const createTemporaryLicenseVehicleInfo = `${commonUrl}bookingbusiness/cr
 export const createVehicleInfoJD27 = `${commonUrl}bookingbusiness/createVehicleInfo_JD27.html` // 核发校车标牌
 
 export const createVehicleInfoJD41 = `${commonUrl}bookingbusiness/createVehicleInfo_JD41.html` // 转出、注销恢复
+
+/* ---------------------------------------------预约类--预约查询及取消-------------------------------- */
+export const getVehicleInfo = `${commonUrl}bookingbusiness/getVehicleInfo.html` // 机动车预约信息查询
+
+export const cancel = `${commonUrl}bookingbusiness/cancel.html` // 取消预约接口
+
+export const getDriveInfo = `${commonUrl}bookingbusiness/getDriveInfo.html` // 驾驶证预约信息查询
 
 /* --------------------------------------------驾驶证预约类-------------------------------------------------------------- */
 export const createDriveInfoZJ11 = `${commonUrl}bookingbusiness/createDriveInfo_ZJ11.html`  // 持军队、武装警察部队机动车驾驶证申领

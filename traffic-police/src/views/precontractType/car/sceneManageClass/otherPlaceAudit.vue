@@ -230,7 +230,7 @@
     getAppointmentDate,
     getAppTimes,
     simpleSendMessage,
-    createVehicleInfoJD41
+    createVehicleInfoJD38
   } from 'config/baseUrl.js'
   export default {
     data () {
@@ -374,9 +374,12 @@
         plateNum: '',
         vehicleNum: '',   // 车身架号
         provinceCodeOne: '',  // 车牌省份简称
-        carSelectDataOne: '', // 车辆类型
+        carSelectDataOne: '', // 车辆类型ID
+        carSelectDataStr: '', // 车辆类型名称
         useNatureOne: '', // 使用性质
-        appointmentLocationOne: '',     // 预约地点
+        appointmentLocationOne: '',     // 预约地点ID
+        appointmentLocationStr: '', // 预约地点名称
+        appointmentLocationDes: '', // 预约地点详细地址
         pointerTypeOne: '',
         credentialsNameOne: '', // 证件名称一项
         certificateTypeId: '', // 证件类型ID
@@ -471,7 +474,7 @@
       //   let requestData = {
       //     type: '1',
       //     part: '0',
-      //     code: 'JD38'
+      //     code: 'JD27'
       //   }
       //   resultPost(getBusinessTypeId, requestData).then(data => {
       //     this.businessTypeId = data.data
@@ -520,9 +523,9 @@
           lx: 2,
           bookerType: this.bookerType,
           bookerName: this.ownerName,
-          bookerIdNumber: this.IDcard,
+          bookerIdNumber: window.localStorage.getItem('identityCard'),
           idNumber: this.IDcard,
-          codes: this.achieveCode
+          codes: this.code
         }
         resultPost(simpleSendMessage, requestData).then(data => {
           console.log(requestData)
@@ -608,7 +611,7 @@
         })
       },
       // 获取选择的证件类型
-      getCredentialsNameOne (val) {
+      getCredentialsNameOne (val, index, str) {
         this.credentialsNameOne = val
       },
       // 获取选择的车牌省份
@@ -616,16 +619,18 @@
         this.provinceCodeOne = val
       },
       // 获取选择的车辆类型
-      getCarSelectDataOne (val) {
+      getCarSelectDataOne (val, index, str) {
         this.carSelectDataOne = val
+        this.carSelectDataStr = str
       },
       // 获取选择的使用性质
-      getUseNatureOne (val) {
-        this.useNatureOne = val
+      getUseNatureOne (val, index, str) {
+        this.useNatureOne = str
       },
       // 获取选择的预约地点
-      getAppointmentLocationOne (val) {
-        this.appointmentLocationOne = val
+      getAppointmentLocationOne (val, index, str) {
+        this.appointmentLocationOne = val // 预约地点ID
+        this.appointmentLocationStr = str // 预约地点名称
       },
       // 提交前的校验规则
       beforeSubmit () {
@@ -682,6 +687,13 @@
       registerSubmit () {
         console.log(this.appointmentLocation.option)
         // if (!this.beforeSubmit()) return
+        // 获取预约地点详细地址
+        for (let i = 0, len = this.appointmentLocation.option.length; i < len; i++) {
+          if (this.appointmentLocation.option[i].id === this.appointmentLocationOne) {
+            this.appointmentLocationDes = this.appointmentLocation.option[i].description
+            break
+          }
+        }
         let requestObj = {
           name: this.ownerName,
           businessTypeId: this.businessTypeId,
@@ -690,10 +702,15 @@
           mobile: this.mobilePhone,
           msgNumber: this.verificationCode,
           platNumber: this.provinceCodeOne + this.plateNum.toUpperCase(),
-          carTypeId: this.carSelectDataOne,
+          carTypeId: this.carSelectDataOne, // 车辆类型ID
           useCharater: this.useNatureOne,
           carFrame: this.vehicleNum,  // 车身架号
-          orgId: this.appointmentLocationOne,
+          orgId: this.appointmentLocationOne, // 预约地点ID
+          carTypeName: this.carSelectDataStr, // 车辆类型名称
+          orgName: this.appointmentLocationStr, // 预约地点
+          orgAddr: this.appointmentLocationDes, // 预约地点详细地址
+          sourceOfCertification: window.localStorage.getItem('sourceOfCertification'), // 请求来源
+          openId: window.localStorage.getItem('openId'), // openID
           appointmentDate: this.yearMonthDay,
           appointmentTime: this.appointmentTime,
           bookerName: window.localStorage.getItem('userName'),
@@ -703,8 +720,8 @@
           bookerMobile: this.mobilePhone
         }
         console.log(requestObj, '请求的数据')
-        resultPost(createVehicleInfoJD41, requestObj).then(data => {
-          console.log(data, '预约信息')
+        resultPost(createVehicleInfoJD38, requestObj).then(data => {
+          console.log(data.data, '预约信息')
           if (data.code === '0000') {
             this.appointmentLocation.option.map(item => {
               if (item.id === this.appointmentLocationOne) {
@@ -712,12 +729,12 @@
               }
             })
             let dataInfo = {
-              type: 2,
-              reserveNo: data.data,
-              numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(),
-              mobilephone: this.mobilePhone,
-              reserveAddress: this.appointmentLocationStr,
-              reserveTime: `${this.yearMonthDay} ${this.appointmentTime}`
+              type: data.data.type,
+              reserveNo: data.data.waterNumber, // 预约编号
+              title: this.businessName, // 预约业务
+              reserveAddress: data.data.orgName,  // 预约地点
+              reserveTime: data.data.appointmentDate, // 预约日期
+              effectiveTime: data.data.appointmentTime // 预约时间段
             }
 //          this.$store.commit('saveResponseData', data)
             this.$store.commit('saveSuccessInfo', dataInfo)

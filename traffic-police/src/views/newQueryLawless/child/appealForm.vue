@@ -4,30 +4,37 @@
 <template>
   <div id="appealForm">
     <!-- 提交申诉表单 -->
-    <div class="illegal-form">
+    <div class="illegal-form clear">
+      <div class="illegal-type">
+        <p>申诉类型</p>
+        <div class="div-select">
+          <span class="btn-select" @click.stop="selectInformType()">{{selectInformTypeMsg}}</span>
+          <div class="div-select-ul" v-if="illegalSelectShow">
+            <ul>
+              <li v-for="item in illegalSelectData" @click.stop="selectInformType(item.str)">{{item.str}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <div class="illegal-address">
         <p>联系地址</p>
-        <input type="text" name="address" placeholder="请输入您的联系地址" v-model="claimantAddress">
+        <div class="address-add">
+          <div-select :childInfo="liveDistrict" @getSelected="getLiveDistrict"></div-select>
+        </div>
+      </div>
+      <div class="illegal-address-input">
+        <input type="text" name="address" placeholder="请输入详细地址" v-model="claimantAddress">
       </div>
       <div class="illegal-address">
         <p>联系电话</p>
         <input type="text" name="address" placeholder="请输入您的联系电话" v-model="claimantPhone">
       </div>
-      <div class="illegal-type">
-        <p>申诉类型</p>
-        <p class="btn-select" @click.stop="selectInformType()">{{selectInformTypeMsg}}</p>
-        <div class="div-select-ul" v-if="illegalSelectShow">
-          <ul>
-            <li v-for="item in illegalSelectData" @click.stop="selectInformType(item.str)">{{item.str}}</li>
-          </ul>
-        </div>
-      </div>
       <div class="illegal-content">
         <p class="illegal-con-color">申诉内容</p>
-        <textarea placeholder="请输入..." v-model="appealContent"></textarea>
+        <textarea placeholder="请输入申诉理由" v-model="appealContent"></textarea>
       </div>
     </div>
-    <div class="illegal-btn" @click="btnSubmitIllegal()">提交</div>
+    <div class="illegal-btn" @click="btnSubmitIllegal()">提 交</div>
   </div>
 </template>
 <script>
@@ -40,26 +47,35 @@
         illegalSelectShow: false,   // 是否显示申诉下拉列表
         selectInformTypeMsg: '记录的机动车号牌信息错误的', // 申诉类型
         illegalSelectData: [
-          {
-            'str': '记录的机动车号牌信息错误的'
-          },
-          {
-            'str': '违法行为系统记录重复的'
-          },
-          {
-            'str': '有证据证明救助危难或紧急避险造成'
-          },
-          {
-            'str': '因交通信号指示不一致造成的'
-          },
-          {
-            'str': '交通技术监控设备收集的违法行为记录材料包括车辆类型、违法时间、违法地点不准确的'
-          }
+          { 'str': '记录的机动车号牌信息错误的' },
+          { 'str': '违法行为系统记录重复的' },
+          { 'str': '有证据证明救助危难或紧急避险造成' },
+          { 'str': '因交通信号指示不一致造成的' },
+          { 'str': '交通技术监控设备收集的违法行为记录材料包括车辆类型、违法时间、违法地点不准确的' }
         ],
-        claimantPhone: '', // 申诉联系电话
-        claimantAddress: '', // 申诉联系地址
-        appealContent: '' // 申诉内容
+        claimantPhone: '',          // 申诉联系电话
+        claimantAddress: '',        // 申诉联系地址
+        appealContent: '',          // 申诉内容
+        selectDistrict: '',
+        liveDistrict: {
+          title: '深圳市',
+          option: [
+            { 'str': '福田区' },
+            { 'str': '罗湖区' },
+            { 'str': '南山区' },
+            { 'str': '宝安区' },
+            { 'str': '龙岗区' },
+            { 'str': '盐田区' },
+            { 'str': '龙华新区' },
+            { 'str': '光明新区' },
+            { 'str': '坪山新区' },
+            { 'str': '大鹏新区' }
+          ]
+        }
       }
+    },
+    components: {
+      divSelect: require('components/divSelect.vue')
     },
     created () {
       this.AppealQueryData = this.showAppealQuery
@@ -74,6 +90,9 @@
         } else {
           this.illegalSelectShow = true
         }
+      },
+      getLiveDistrict (val) {   // 选择居住区
+        this.selectDistrict = val
       },
       btnSubmitIllegal: function () {
         let checkedItem = ''
@@ -114,81 +133,85 @@
 <style lang="less">
 #appealForm{
   width:100%;
+  padding:25px 50px 50px;
   background:#FFF;
   .illegal-form{
     width:100%;
-    p{
-      margin-bottom:18px;
-      color:#232323;
-      font-size:28px;
-    }
-    input{
+    .illegal-address{
       margin-bottom:28px;
-      padding-left:24px;
-      width:100%;
-      height:58px;
-      background:#efeff4;
-      border:1px solid #e2e2e7;
-      border-radius:10px;
-      color:#666;
-      font-size:24px;
-      outline:none;
-    }
-    .illegal-type{
-      position:relative;
-      .btn-select{
-        padding:0 50px 0 24px;
-        margin-bottom:0;
-        width:100%;
+      height: 58px;
+      p{
+        margin-bottom:18px;
+        float: left;
+        width: 24%;
+        color:#232323;
+        line-height: 58px;
+        font-size:28px;
+      }
+      input{
+        float: left;
+        width: 76%;
         height:58px;
         background:#efeff4;
         border:1px solid #e2e2e7;
         border-radius:10px;
         color:#666;
-        line-height:58px;
-        font-size:24px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        font-size:26px;
+        outline:none;
+        text-indent: 24px;
       }
-      ul{
-        position:absolute;
-        padding:10px;
-        width:100%;
-        height:260px;
-        top:104px;
-        left:0;
-        background:#FFF;
+    }
+    .illegal-type{
+      margin-bottom:28px;
+      height: 58px;
+      p{
+        float: left;
+        width: 24%;
+        color:#232323;
+        line-height: 58px;
+        font-size:28px;
+      }
+      .div-select{
+        float: left;
+        width: 76%;
+        font-size: 26px;
+      }
+    }
+    .illegal-address-input{
+      margin-bottom:28px;
+      width: 100%;
+      margin-left: 155px;
+      input{
+        width: 76%;
+        height:58px;
+        background:#efeff4;
         border:1px solid #e2e2e7;
-        li{
-          width:100%;
-          height:50px;
-          color:#666;
-          font-size:24px;
-          line-height:40px;
-          z-index:999;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
+        border-radius:10px;
+        color:#666;
+        font-size:26px;
+        outline:none;
+        text-indent: 24px;
       }
     }
     .illegal-content{
       margin-top:28px;
       width:100%;
       .illegal-con-color{
-        color:#33c532;
+        width: 24%;
+        float: left;
+        font-size: 28px;
       }
       textarea{
+        float: left;
+        width: 76%;
         padding-top:10px;
         padding-left:24px;
-        width:100%;
         height:190px;
         background:#efeff4;
         border:1px solid #e2e2e7;
         border-radius:10px;
         color:#666;
-        font-size:24px;
+        font-size:26px;
         resize:none;
         outline:none;
       }
@@ -206,4 +229,24 @@
     text-align:center;
   }
 }  
+</style>
+<style lang="less">
+#appealForm{
+  .address-add{
+    font-size: 28px;
+    .replace-select{
+      height: 58px;
+      font-size: 26px;
+      line-height: 58px;
+    }
+    .selected-value{
+      height: 58px;
+      background-color: #EFEFF4;
+      background-position: 93.5% center;
+      background-size: 18px;
+      font-size: 26px;
+      line-height: 58px;
+    }
+  }
+}
 </style>

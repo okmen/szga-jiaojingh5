@@ -105,6 +105,13 @@
         vehicleIdentifyNoLast4: window.localStorage.getItem('behindTheFrame4Digits') === 'undefined' ? '无' : window.localStorage.getItem('behindTheFrame4Digits')
       }
     },
+    created () {
+      if (!window.localStorage.getItem('myNumberPlate')) {
+        MessageBox('提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆').then(action => {
+          this.$router.push('/')
+        })
+      }
+    },
     methods: {
       bindCarSelect: function (str) {
         if (str) {

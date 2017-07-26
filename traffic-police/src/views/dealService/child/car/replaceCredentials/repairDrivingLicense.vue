@@ -303,7 +303,7 @@
           option: []
         }
         let storage = window.localStorage.getItem('cars')
-        if (!storage) return plateInfo
+        if (!JSON.parse(storage).length) return plateInfo
         JSON.parse(storage).map(item => {
           if (item.isMySelf === 0) {
             plateInfo.option.push({'str': item.myNumberPlate})

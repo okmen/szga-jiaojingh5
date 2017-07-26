@@ -53,7 +53,7 @@
         lawlessShow: false,
         changeShow: false,
         businesses: [],
-        isLogin: false,
+        isLogin: window.localStorage.getItem('isLogin'),
         isLogins: window.localStorage.getItem('isLogin'),
         routerUrl: ''
       }
@@ -64,7 +64,7 @@
       }
     },
     mounted () {
-      let isLogins = window.localStorage.getItem('isLogin')
+      /* let isLogins = window.localStorage.getItem('isLogin')
       let cars = JSON.parse(window.localStorage.getItem('cars'))
       if (isLogins) {
         this.routerUrl = 'login'
@@ -77,7 +77,7 @@
       } else {
         this.isLogin = false
         this.routerUrl = 'login'
-      }
+      } */
     }
   }
 </script>

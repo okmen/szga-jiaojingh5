@@ -142,7 +142,7 @@
         </li>
       </ul>
       <div class="alter-button-box">
-        <button class="btn alterButton" @click="appointTaskClick">预约</button>
+        <button class="btn alterButton" @click="appointTaskClick">预 约</button>
       </div>
     </div>
   </div>
@@ -175,7 +175,7 @@
         abbreviationSelectData: [           // 车牌号  li
           { 'str': '粤' }
         ],
-        carTypeMassage: '',                 // 车辆类型 选中值
+        carTypeMassage: '',                 // * 车辆类型 选中值
         carTypeID: '',                      // * 车辆类型 选中值 id
         carTypeShow: false,                 // 是否显示 车辆类型 ul列表
         carTypeData: [],                    // 车辆类型 li列表
@@ -185,7 +185,7 @@
         useNatureData: [],                  // 使用性质 li
         VIN: '',                            // * 车架号
         orderPlaceValue: '',                // * 预约地点 选中值
-        orderPlaceAddress: '',              // * 预约地点 name
+        orderPlaceAddress: '',              // * 预约地点 address
         orderPlaceID: '',                   // * 预约地点 选中 id
         orderPlaceShow: false,              // 是否显示 预约地点 ul列表
         appointPlaceData: [],               // 预约地点 li
@@ -485,7 +485,8 @@
             mobile: this.userTelphone,              // 手机号
             msgNumber: this.validCode,              // 验证码
             platNumber: this.abbreSelectValue + this.carCardNum.toUpperCase(), // 车牌号
-            carTypeId: this.carTypeID,              // 车辆类型
+            carTypeId: this.carTypeID,              // 车辆类型 id
+            carTypeName: this.carTypeMassage,       // 车辆类型 name
             useCharater: this.useNatureMassage,     // 使用性质
             carFrame: this.VIN,                     // 车架号
             orgId: this.orderPlaceID,               // 预约地点 id
@@ -498,7 +499,9 @@
             bookerType: this.orderWay,              // 预约方式
             bookerMobile: this.userTelphone         // 获取验证码 手机号
           }
-          this.$emit('appointTaskClick', reqData, this.orderPlaceValue)
+          let code = `createVehicleInfo_${this.currentBusinessCode}`  // 网约车 传参
+          let bussiness = this.currentBusinessName                    // 网约车 传参
+          this.$emit('appointTaskClick', reqData, code, bussiness)
         }
       },
 

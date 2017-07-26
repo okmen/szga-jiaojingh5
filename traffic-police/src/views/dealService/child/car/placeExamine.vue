@@ -20,7 +20,7 @@
               <span>车辆类型</span>
             </div>
             <div class="form-line-item">
-              <input class="text-input" v-model="carSelectData[vehType] ? carSelectData[vehType] : carSelectData[cars[0].plateType]" type="text" value="" readonly/>
+              <input class="text-input" v-model="carSelectData[vehType]" type="text" value="" readonly/>
             </div>
           </li>
           <li class="form-line">
@@ -133,7 +133,8 @@
             </div>
           </li>
         </ul>
-        <button class="btn btns" @click.stop="submitClick()">确认提交</button>
+        <button class="btn btns" v-if="this.Plate" @click.stop="submitClick()">确认信息</button>
+        <button class="btn btns" style="background: gray" v-if="!this.Plate">确认信息</button>
       </div>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
@@ -141,7 +142,7 @@
 <script>
 import { resultGet, resultPost } from '../../../../service/getData'
 import { getIssuing, sendSMS, verificatioCode, inspectionDeclaration } from '../../../../config/baseUrl'
-import { Toast } from 'mint-ui'
+import { Toast, MessageBox } from 'mint-ui'
 export default {
   name: 'placeExamine',
   data () {
@@ -397,11 +398,6 @@ export default {
     }
   },
   mounted: function () {
-    resultGet(getIssuing).then(json => {        // 查询发证机关列表
-      this.trusteeData = json.data
-    })
-  },
-  created () {
     this.cars = JSON.parse(window.localStorage.getItem('cars'))
     this.vehType = this.cars[0].plateType
     document.addEventListener('click', (e) => {
@@ -411,6 +407,15 @@ export default {
       this.areaSelectShow = false
       this.trusteeShow = false
     })
+    resultGet(getIssuing).then(json => {        // 查询发证机关列表
+      this.trusteeData = json.data
+    })
+  },
+  created () {
+    this.Plate = window.localStorage.getItem('myNumberPlate')
+    if (!this.Plate) {
+      MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
+    }
   }
 }
 </script>

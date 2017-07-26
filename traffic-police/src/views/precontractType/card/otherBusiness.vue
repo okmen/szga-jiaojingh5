@@ -1,21 +1,21 @@
 <!-- 
 * 其它业务
  -->
- <template>
-    <div id="otherBusiness">
-      <div class="alter-select pad-side-50">
-        <div class="alter-chose"><span>业务类型</span></div>
-        <div class="alter-wd bg-white">
-          <p>此界面提供：信息更变、延期换证、期满换证、规定年龄换证、
-          损坏换证、遗失换证、注销业务、降驾换证、转入换证的预约</p>
-        </div>
-      </div>
-      <div class="alter-from">
-        <common @appointTaskClick="appointTask"
-                :currentBusinessId="businessId"
-                :currentBusinessCode="bussinessCode"></common>
+<template>
+  <div id="otherBusiness">
+    <div class="alter-select pad-side-50">
+      <div class="alter-chose"><span>业务类型</span></div>
+      <div class="alter-wd bg-white">
+        <p>此界面提供：信息变更、延期换证、期满换证、规定年龄换证、
+        损坏换证、遗失补证、注销业务、降驾换证、转入换证的预约</p>
       </div>
     </div>
+    <div class="alter-from">
+      <common @appointTaskClick="appointTask"
+              :currentBusinessId="businessId"
+              :currentBusinessCode="bussinessCode"></common>
+    </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
@@ -53,7 +53,7 @@ export default {
             reserveNo: json.data.waterNumber,    // 流水号
             mobilephone: params.bookerMobile,    // 手机号码
             reserveAddress: orderPlace,          // 服务点
-            reserveTime: json.data.appointmentDate       // 预约日期
+            reserveTime: json.data.bidDate       // 预约日期
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')
@@ -85,12 +85,16 @@ export default {
       left: 50px;
       color: #666;
       line-height: 100px;
+      span{
+        font-size: 28px;
+      }
     }
     .alter-wd{
       padding:0 15px;
       line-height: 54px;
       border: 1px solid #e2e2e7;
       border-radius: 10px;
+      font-size: 26px;
     }
   }
   .alter-from{

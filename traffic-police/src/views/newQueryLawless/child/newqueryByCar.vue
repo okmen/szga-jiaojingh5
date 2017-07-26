@@ -11,8 +11,8 @@
       </ul>
     </div>
     <div class="newQueryByCar-btn">
-      <a href="#">其他车辆查询</a>
-      <a href="#">驾驶证查询</a>
+      <router-link to="newqueryByCar_manual">其他车辆查询</router-link>
+      <router-link to="newqueryByCard">驾驶证查询</router-link>
       <div class="newQueryByCar-hint">
         <p><span>温馨提示：</span>仅查询车辆在深圳市范围内的交通违法信息</p>
       </div>
@@ -33,6 +33,10 @@
       }
     },
     created () {
+      if (!JSON.parse(window.localStorage.isLogin)) {
+        this.$router.push('newqueryByCar_manual')
+        return false
+      }
       this.init() // 初始化页面，查询名下所有车辆的违法
     },
     methods: {
@@ -48,8 +52,13 @@
         resultPost(queryLawlessByCar, reqData).then(json => {
           if (json.code === '0000') {
             item.lawlessNum = json.data.length
+            let lawlessData = {
+              info: item,
+              data: json.data
+            }
             if (type === 'click') {
-              // this.$router.push('/')
+              this.$store.commit('saveNewLawlessQuery', lawlessData)
+              this.$router.push('newLawlessMsg')
             }
           } else {
             if (type === 'click') {

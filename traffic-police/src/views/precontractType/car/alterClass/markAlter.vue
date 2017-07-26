@@ -3,13 +3,12 @@
 *  #机动车打刻原车辆 #识别代号# 变更备案
  -->
 <template>
-    <div class="markAlter">
-      <common @appointTaskClick="appointTask"
-              :currentBusinessId="businessId"
-              :currentBusinessCode="bussinessCode"
-              :currentBusinessName="bussinessName"></common>
-      <div v-wechat-title="$route.meta.title"></div>
-    </div>
+  <div class="markAlter">
+    <common @appointTaskClick="appointTask"
+            :currentBusinessId="businessId"
+            :currentBusinessCode="bussinessCode"
+            :currentBusinessName="bussinessName"></common>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
@@ -37,18 +36,21 @@ export default {
     this.bussinessName = query.name
   },
   methods: {
-    appointTask: function (params, orderPlace) {
+    appointTask: function (params) {
       console.log('识别代号', params)
       resultPost(markAlter, params).then(json => {
         console.log(json)
         if (json.code === '0000') {
+          let number = json.data.waterNumber
+          let date = json.data.appointmentDate
+          let place = json.data.orgName
           let dataInfo = {
             type: 2,
-            reserveNo: json.data.waterNumber,    // 流水号
+            reserveNo: number,                   // 流水号
             numberPlate: params.platNumber,      // 车牌号码
             mobilephone: params.bookerMobile,    // 手机号码
-            reserveAddress: orderPlace,          // 服务点
-            reserveTime: params.appointmentDate  // 预约日期
+            reserveAddress: place,               // 服务点
+            reserveTime: date                    // 预约日期
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')

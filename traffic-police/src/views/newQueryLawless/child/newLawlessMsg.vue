@@ -1,26 +1,29 @@
 <template>
   <div class="newLawlessMsg-outer">
     <div class="newLawlessMsg-top">
-      <p v-if="type == 1">共有<span>2</span>条违法记录</p>
-      <p v-else>共记 <span>6</span> 分</p>
+      <p>共有<span>{{ lawlessData.data.length }}</span>条违法记录</p>
     </div>
     <div class="newLawlessMsg-list">
       <ul>
-        <li>
+        <li v-for="item in lawlessData.data">
           <div class="newLawlessMsg-item-title">
             <p>违法信息</p>
-            <span>此项可预约处理</span>
+            <span @click.stop="clickJump(item)">{{ claimList[item.isNeedClaim] }}</span>
           </div>
           <div class="newLawlessMsg-item-content">
-            <p class="newLawlessMsg-item-content-No">违法编号：<span>454651321349874213</span></p>
-            <p class="newLawlessMsg-item-content-car">粤B66666</p>
-            <p class="newLawlessMsg-item-content-time">2016年12月12日 12:30:10</p>
-            <p class="newLawlessMsg-item-content-add">厚街镇康乐路段(流动)(执法单位:东莞市公安局交通警察支队厚街大队)</p>
-            <p class="newLawlessMsg-item-content-desc">7027-机动车违反禁止停车标志、禁止长时停车标志或禁止停车线指示的</p>
-            <p class="newLawlessMsg-item-content-amt">200</p>
-            <p class="newLawlessMsg-item-content-score">0</p>
-            <p class="newLawlessMsg-item-content-unit">东莞市公安局交通警察支队厚街大队</p>
-            <p class="newLawlessMsg-item-content-fun">不需要打单</p>
+            <p class="newLawlessMsg-item-content-No">违法编号：<span>{{ item.billNo }}</span></p>
+            <p class="newLawlessMsg-item-content-car">{{ item.licensePlateNo }}</p>
+            <p class="newLawlessMsg-item-content-time">{{ item.illegalTime }}</p>
+            <p class="newLawlessMsg-item-content-add">{{ item.illegalAddr }}</p>
+            <p class="newLawlessMsg-item-content-desc">{{ item.illegalDesc }}</p>
+            <p class="newLawlessMsg-item-content-amt">{{ item.punishAmt }}</p>
+            <p class="newLawlessMsg-item-content-score">{{ item.punishScore }}</p>
+            <p class="newLawlessMsg-item-content-unit">{{ item.illegalUnit }}</p>
+            <!-- <p class="newLawlessMsg-item-content-fun">{{ item.illegalTime }}</p> -->
+            <div class="newLawlessMsg-item-btn">
+              <button>违法申诉</button>
+              <button>查看违法图片</button>
+            </div>
           </div>
         </li>
       </ul>
@@ -29,21 +32,70 @@
   </div>
 </template>
 <script>
-  // import { resultPost } from '../../../service/getData'
-  // import { queryLawlessByCar } from '../../../config/baseUrl'
+  import { resultPost } from '../../../service/getData'
+  import { queryPay, claimConfirm } from '../../../config/baseUrl'
   // import { verifyCode } from '../../../config/verifyCode'
-  // import { Toast } from 'mint-ui'
+  import { MessageBox } from 'mint-ui'
   export default {
     name: 'newLawlessMsg',
     data () {
       return {
-        lawlessArr: []
+        lawlessArr: [],
+        claimList: {
+          '0': '直接缴款',
+          '1': '需要打单',
+          '2': '需要前往窗口办理'
+        }
+      }
+    },
+    computed: {
+      lawlessData: function () {
+        return this.$store.state.newLawlessQuery
       }
     },
     created () {
       // this.init() // 初始化页面，查询名下所有车辆的违法
     },
     methods: {
+      clickJump (item) {
+        if (item.isNeedClaim === '0') { // 直接缴款
+          let reqData = {
+            billNo: item.billNo,
+            licensePlateNo: item.licensePlateNo
+          }
+          resultPost(queryPay, reqData).then(json => {
+            console.log(json)
+            if (json.code === '0000') {
+              window.location.href = json.msg
+            }
+          })
+        } else if (item.isNeedClaim === '1') { // 需要打单
+          MessageBox.confirm('确定打单吗?').then(action => {
+            let reqData = {
+              illegalNo: item.billNo
+            }
+            resultPost(claimConfirm, reqData).then(json => {
+              console.log(json)
+              if (json.code === '0000') {
+                MessageBox('提示', '打单成功')
+              }
+            })
+          })
+        } else if (item.isNeedClaim === '2') { // 需要前往窗口办理，跳转预约
+          if (!JSON.parse(window.localStorage.isLogin)) {
+            MessageBox.confirm('您暂未登录,是否前往登录').then(action => {
+              this.$router.push('/login')
+            })
+            return false
+          }
+          let lawlessDeal = {
+            data: item,
+            info: this.lawlessData.info
+          }
+          this.$store.commit('saveNewLawlessDeal', lawlessDeal)
+          this.$router.push('/illegalTimeSelect')
+        }
+      }
     }
   }
 </script>
@@ -201,6 +253,18 @@
               height: 28px;
               background-image: url('../../../images/fun.png');
               background-size: cover;
+            }
+          }
+          .newLawlessMsg-item-btn{
+            display: flex;
+            justify-content: space-evenly;
+            button{
+              height: 50px;
+              padding: 0 10px;
+              background-color: #2696dd;
+              color: #fff;
+              font-size: 26px;
+              border-radius: 4Px;
             }
           }
         }

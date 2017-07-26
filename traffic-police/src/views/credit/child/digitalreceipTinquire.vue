@@ -1,5 +1,5 @@
 <template>
-  <div class="digit">
+  <div id="digit">
     <div class="digit-form">
      <ul>
         <li class="form-line">
@@ -39,7 +39,7 @@
             <span>车架号</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input stylebackground" type="text" value="" v-model="behindTheFrame4Digits" placeholder="请输入车架号后四位" />
+            <input class="text-input stylebackground" type="text" maxlength="4" value="" v-model="behindTheFrame4Digits" placeholder="请输入车架号后四位" />
           </div>
         </li>
         <li class="form-line clear">
@@ -54,13 +54,12 @@
       </ul>
       <button class="btn btn-blue" type="button" name="button" @click.stop="demandClick()">查询</button>
     </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 
 <script>
-import { resultPost } from '../../../service/getData'
-import { MessageBox } from 'mint-ui'
-import { toQueryElectronicReceiptPage } from '../../../config/baseUrl'
+import { Toast } from 'mint-ui'
 import { verifyCode } from '../../../config/verifyCode'
 export default {
   name: 'digitalreceipTinquire',
@@ -78,7 +77,94 @@ export default {
           'str': '粤'
         },
         {
+          'str': '鄂'
+        },
+        {
+          'str': '豫'
+        },
+        {
+          'str': '皖'
+        },
+        {
+          'str': '赣'
+        },
+        {
+          'str': '冀'
+        },
+        {
+          'str': '鲁'
+        },
+        {
+          'str': '浙'
+        },
+        {
+          'str': '苏'
+        },
+        {
           'str': '湘'
+        },
+        {
+          'str': '闽'
+        },
+        {
+          'str': '蒙'
+        },
+        {
+          'str': '京'
+        },
+        {
+          'str': '辽'
+        },
+        {
+          'str': '渝'
+        },
+        {
+          'str': '沪'
+        },
+        {
+          'str': '陕'
+        },
+        {
+          'str': '川'
+        },
+        {
+          'str': '黑'
+        },
+        {
+          'str': '晋'
+        },
+        {
+          'str': '桂'
+        },
+        {
+          'str': '吉'
+        },
+        {
+          'str': '宁'
+        },
+        {
+          'str': '贵'
+        },
+        {
+          'str': '琼'
+        },
+        {
+          'str': '甘'
+        },
+        {
+          'str': '青'
+        },
+        {
+          'str': '津'
+        },
+        {
+          'str': '云'
+        },
+        {
+          'str': '藏'
+        },
+        {
+          'str': '新'
         }
       ],
       mold: 'B',
@@ -89,6 +175,78 @@ export default {
         },
         {
           'str': 'B'
+        },
+        {
+          'str': 'C'
+        },
+        {
+          'str': 'D'
+        },
+        {
+          'str': 'E'
+        },
+        {
+          'str': 'F'
+        },
+        {
+          'str': 'G'
+        },
+        {
+          'str': 'H'
+        },
+        {
+          'str': 'I'
+        },
+        {
+          'str': 'J'
+        },
+        {
+          'str': 'K'
+        },
+        {
+          'str': 'L'
+        },
+        {
+          'str': 'N'
+        },
+        {
+          'str': 'M'
+        },
+        {
+          'str': 'O'
+        },
+        {
+          'str': 'P'
+        },
+        {
+          'str': 'Q'
+        },
+        {
+          'str': 'R'
+        },
+        {
+          'str': 'S'
+        },
+        {
+          'str': 'T'
+        },
+        {
+          'str': 'U'
+        },
+        {
+          'str': 'V'
+        },
+        {
+          'str': 'W'
+        },
+        {
+          'str': 'X'
+        },
+        {
+          'str': 'Y'
+        },
+        {
+          'str': 'Z'
         }
       ]
     }
@@ -100,6 +258,7 @@ export default {
   },
   methods: {
     abbreviationSelectClick: function (str, id) {
+      this.moldShow = false
       if (str) {
         this.abbreviationSelectMassage = str
       }
@@ -110,6 +269,7 @@ export default {
       }
     },
     moldClick: function (str, id) {
+      this.abbreviationSelectShow = false
       if (str) {
         this.mold = str
       }
@@ -120,33 +280,36 @@ export default {
       }
     },
     demandClick: function () {
-      // 粤BU8E61
-      let digitalReceiptData = {
-        // drivingLicenceNo: window.localStorage.getItem('identityCard'),
-        drivingLicenceNo: '',
-        // licensePlateNo: window.localStorage.getItem('myNumberPlate')
-        licensePlateNo: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`,
-        billNo: this.billNo
+      if (!this.billNo) {
+        Toast({message: '请输入缴款编号', position: 'bottom', className: 'white'})
+      } else if (!this.numberPlate) {
+        Toast({message: '请输入车牌号码', position: 'bottom', className: 'white'})
+      } else if (!this.behindTheFrame4Digits) {
+        Toast({message: '请输入车架号后四位', position: 'bottom', className: 'white'})
+      } else if (!this.verification) {
+        Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
+      } else if (this.verifyCode === false) {
+        Toast({message: '请输入正确的验证码', position: 'bottom', className: 'white'})
+      } else {
+        this.referFn()
       }
-      resultPost(toQueryElectronicReceiptPage, digitalReceiptData).then(json => {
-        if (json.code === '0000') {
-          this.digitData = json.data[0]
-        } else {
-          MessageBox({
-            title: '提示',
-            message: json.msg
-          }).then(action => {
-            this.$router.push('/credit')
-          })
-        }
-      })
+    },
+    referFn: function () {
+      let plate = `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`
+      this.$router.push({path: 'digitalReceiptRecord', query: { billNo: this.billNo, numberPlate: plate, id: '1' }})
     }
+  },
+  created () {
+    document.addEventListener('click', (e) => {
+      this.moldShow = false
+      this.abbreviationSelectShow = false
+    })
   }
 }
 </script>
 
 <style lang="less" scoped>
-.digit {
+#digit {
 background-color: #fff;
 position: absolute;
 left: 0;
