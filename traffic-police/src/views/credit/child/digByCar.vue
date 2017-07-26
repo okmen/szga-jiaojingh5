@@ -1,5 +1,5 @@
 <template>
-  <div class="digByCar-outer">
+  <div id="digByCar-outer">
     <div class="digByCar-carArr">
       <ul>
         <li v-for="item in carArr" @click="getLawlessData(item)">
@@ -36,8 +36,7 @@
   }
 </script>
 <style lang="less">
-  @import "./../../../style/base";
-  .digByCar-outer{
+  #digByCar-outer{
     padding: 30px 30px 0 ;
     .digByCar-carArr{
       li{

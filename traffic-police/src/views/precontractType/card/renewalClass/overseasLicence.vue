@@ -9,6 +9,7 @@
       :currentBusinessId="businessId"
       :currentCode="businessCode"
     ></common>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 
