@@ -204,6 +204,14 @@ let precontractTypeRouter = [
     component: require('../views/precontractType/car/sceneManageClass/otherPlaceAudit.vue')
   },
   {
+    name: 'querySuccess',
+    path: '/querySuccess',
+    meta: {
+      title: '预约查询及取消'
+    },
+    component: require('../views/precontractType/querySuccess.vue')
+  },
+  {
     name: 'armyLicence',
     path: '/armyLicence',
     meta: {
