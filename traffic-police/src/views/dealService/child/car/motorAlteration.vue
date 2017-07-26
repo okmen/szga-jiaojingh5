@@ -446,7 +446,6 @@
   }
 </script>
 <style lang="less" scoped>
-@import "./../../../../style/base";
 .motorAlteration {
 background-color: #fff;
 position: absolute;
@@ -546,7 +545,7 @@ padding: 20px 40px;
     background-color: #fff;
   }
   .upload-photo{
-    margin-top: 30px; 
+    margin-top: 30px;
     display: block;
     .upload-item-text-one{
       margin-top: 10px;
