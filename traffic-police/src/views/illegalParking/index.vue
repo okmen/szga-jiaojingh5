@@ -1,126 +1,131 @@
 <template>
   <div class="illegalParking" @click.stop="subTypeSelectShow=false,typeSelectShow=false">
-    <mymap v-if="showMap" @submit="submitMap"></mymap>
-    <Popup popup-transition="popup-fade" v-model="showImg">
+    <mymap v-if="showMap" @submit="submitMap" style="position: absolute"></mymap>
+    <popup popup-transition="popup-fade" v-model="showImg">
       <img :src="popupImg" alt="">
-    </Popup>
-    <div style="height: 20px"></div>
-    <div class="ip-inform-box" v-if="!showMap">
-      <div class="ip-inform-time">
-        <div class="ip-inform-title">时间</div>
-        <div class="ip-inform-content">
-          <input type="text" class="ip-inform-only" readonly :value="currentDate" style="background: #efeff4">
+    </popup>
+    <div v-show="!showMap">
+      <div style="height: 20px"></div>
+      <div class="ip-inform-box">
+        <div class="ip-inform-time">
+          <div class="ip-inform-title">时间</div>
+          <div class="ip-inform-content">
+            <input type="text" class="ip-inform-only" readonly :value="currentDate" style="background: #efeff4">
+          </div>
         </div>
-      </div>
-      <div class="ip-inform-number">
-        <div class="ip-inform-title">车牌号码</div>
-        <div class="ip-inform-content">
-          <div class="div-select flex">
+        <div class="ip-inform-number">
+          <div class="ip-inform-title">车牌号码</div>
+          <div class="ip-inform-content">
+            <div class="div-select flex">
             <span class="btn-select hidden"
-                  @click.stop="subTypeSelectShow=!subTypeSelectShow">{{currentPlate || '请选择号牌号码'}}</span>
-            <div class="div-select-ul" v-if="subTypeSelectShow">
-              <ul>
-                <li class="scroll-y" v-for="item in myNumberPlate" @click.stop="selectPlate(item)">{{item}}</li>
-              </ul>
+                  @click.stop="subTypeSelectShow=!subTypeSelectShow" :class="{gray:!myNumberPlate.length}">{{currentPlate}}</span>
+              <div class="div-select-ul" v-if="subTypeSelectShow&&myNumberPlate.length">
+                <ul>
+                  <li class="scroll-y" v-for="item in myNumberPlate" @click.stop="selectPlate(item)">{{item}}</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="ip-inform-kind">
-        <div class="ip-inform-title">车牌类型</div>
-        <div class="ip-inform-content">
-          <div class="div-select flex">
+        <div class="ip-inform-kind">
+          <div class="ip-inform-title">车牌类型</div>
+          <div class="ip-inform-content">
+            <div class="div-select flex">
             <span class="btn-select hidden"
                   @click.stop="typeSelectShow=!typeSelectShow">{{plateType || '蓝牌'}}</span>
-            <div class="div-select-ul" v-if="typeSelectShow">
-              <ul>
-                <li class="scroll-y" v-for="item in plateTypes" @click.stop="selectType(item)">{{item.str}}</li>
-              </ul>
+              <div class="div-select-ul" v-if="typeSelectShow">
+                <ul>
+                  <li class="scroll-y" v-for="item in plateTypes" @click.stop="selectType(item)">{{item.str}}</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="ip-inform-IDcard">
-        <div class="ip-inform-title">身份证号</div>
-        <div class="ip-inform-content">
-          <input type="text" class="ip-inform-only" readonly :value="IDcard" style="background: #efeff4">
+        <div class="ip-inform-IDcard">
+          <div class="ip-inform-title">身份证号</div>
+          <div class="ip-inform-content">
+            <input type="text" class="ip-inform-only" readonly :value="IDcard" style="background: #efeff4">
+          </div>
         </div>
-      </div>
-      <div class="ip-inform-ticket">
-        <div class="ip-inform-title">罚单单号</div>
-        <div class="ip-inform-content">
-          <input id="ticket" type="text" placeholder="请输入罚单单号" class="ip-inform-only" v-model="ticket">
+        <div class="ip-inform-ticket">
+          <div class="ip-inform-title">罚单单号</div>
+          <div class="ip-inform-content">
+            <input id="ticket" type="text" placeholder="请输入罚单单号" class="ip-inform-only" v-model="ticket">
+          </div>
         </div>
-      </div>
-      <div class="ip-inform-place">
-        <div class="ip-inform-title">停车地点</div>
-        <div class="ip-inform-content">
-          <input type="text" class="ip-inform-local" :value="mapObj.showAdd" placeholder="点击右侧按钮选择地址" readonly
-                 style="background:rgb(239, 239, 244);padding-left: 18px">
-          <span class="ip-inform-local-img" @click.stop="showMap=!showMap">
+        <div class="ip-inform-place">
+          <div class="ip-inform-title">停车地点</div>
+          <div class="ip-inform-content">
+            <input type="text" class="ip-inform-local" :value="mapObj.showAdd" placeholder="点击右侧按钮选择地址" readonly
+                   style="background:rgb(239, 239, 244);padding-left: 18px">
+            <span class="ip-inform-local-img" @click.stop="showMap=!showMap">
             <img src="../../images/location-1.png"/>
           </span>
+          </div>
+        </div>
+        <div class="ip-inform-reason">
+          <div class="ip-inform-title">停车原因</div>
+          <div class="ip-inform-content">
+            <textarea id="reason" placeholder="请输入停车原因" class="ip-inform-park" v-model="reason"></textarea>
+          </div>
         </div>
       </div>
-      <div class="ip-inform-reason">
-        <div class="ip-inform-title">停车原因</div>
-        <div class="ip-inform-content">
-          <textarea id="reason" placeholder="请输入停车原因" class="ip-inform-park" v-model="reason"></textarea>
+      <div class="ip-photo-box">
+        <div class="ip-photo-header">
+          <span class="ip-photo-title">图片上传</span>
+          <span class="ip-photo-check">点击名称查看图片案例</span>
         </div>
-      </div>
-    </div>
-    <div class="ip-photo-box" v-if="!showMap">
-      <div class="ip-photo-header">
-        <span class="ip-photo-title">图片上传</span>
-        <span class="ip-photo-check">点击名称查看图片案例</span>
-      </div>
-      <div class="ip-photo-content">
-        <div class="ip-photo-top">
-          <div class="ip-photo-item">
-            <label class="ip-photo-img" for="ip-photo-ticket">
-              <img :src="popupImgs[0]"/>
-              <input type="file" id="ip-photo-ticket" accept="image/*">
-            </label>
-            <div class="ip-photo-remake" @click="popupTicket(0)">罚单</div>
+        <div class="ip-photo-content">
+          <div class="ip-photo-top">
+            <div class="ip-photo-item">
+              <label class="ip-photo-img" for="ip-photo-ticket">
+                <img :src="popupImgs[0]"/>
+                <input type="file" id="ip-photo-ticket" accept="image/*">
+              </label>
+              <div class="ip-photo-remake" @click="popupTicket(0)">罚单</div>
+            </div>
+            <div class="ip-photo-item">
+              <label class="ip-photo-img" for="ip-photo-bigscence1">
+                <img :src="popupImgs[1]"/>
+                <input type="file" id="ip-photo-bigscence1" accept="image/*">
+              </label>
+              <div class="ip-photo-remake" @click="popupTicket(1)">大场景1</div>
+            </div>
+            <div class="ip-photo-item">
+              <label class="ip-photo-img" for="ip-photo-headstock">
+                <img :src="popupImgs[2]"/>
+                <input type="file" id="ip-photo-headstock" accept="image/*">
+              </label>
+              <div class="ip-photo-remake" @click="popupTicket(2)">大场景(含车头正面)
+              </div>
+            </div>
           </div>
-          <div class="ip-photo-item">
-            <label class="ip-photo-img" for="ip-photo-bigscence1">
-              <img :src="popupImgs[1]"/>
-              <input type="file" id="ip-photo-bigscence1" accept="image/*">
-            </label>
-            <div class="ip-photo-remake" @click="popupTicket(1)">大场景1</div>
-          </div>
-          <div class="ip-photo-item">
-            <label class="ip-photo-img" for="ip-photo-headstock">
-              <img :src="popupImgs[2]"/>
-              <input type="file" id="ip-photo-headstock" accept="image/*">
-            </label>
-            <div class="ip-photo-remake" @click="popupTicket(2)">大场景(含车头正面)
+          <div class="ip-photo-bottom">
+            <div class="ip-photo-item">
+              <label class="ip-photo-img" for="ip-photo-front5">
+                <img :src="popupImgs[3]"/>
+                <input type="file" id="ip-photo-front5" accept="image/*">
+              </label>
+              <div class="ip-photo-remake" @click="popupTicket(3)">前5米无车辆全景</div>
+            </div>
+            <div class="ip-photo-item">
+              <label class="ip-photo-img" for="ip-photo-back5">
+                <img :src="popupImgs[4]"/>
+                <input type="file" id="ip-photo-back5" accept="image/*">
+              </label>
+              <div class="ip-photo-remake" @click="popupTicket(4)">后5米无车辆全景</div>
             </div>
           </div>
         </div>
-        <div class="ip-photo-bottom">
-          <div class="ip-photo-item">
-            <label class="ip-photo-img" for="ip-photo-front5">
-              <img :src="popupImgs[3]"/>
-              <input type="file" id="ip-photo-front5" accept="image/*">
-            </label>
-            <div class="ip-photo-remake" @click="popupTicket(3)">前5米无车辆全景</div>
-          </div>
-          <div class="ip-photo-item">
-            <label class="ip-photo-img" for="ip-photo-back5">
-              <img :src="popupImgs[4]"/>
-              <input type="file" id="ip-photo-back5" accept="image/*">
-            </label>
-            <div class="ip-photo-remake" @click="popupTicket(4)">后5米无车辆全景</div>
-          </div>
-        </div>
+      </div>
+      <div class="submit" @click="submit" v-if="myNumberPlate.length">
+        提 &nbsp交
+      </div>
+      <div class="submit" style="background: gray" v-if="!myNumberPlate.length">
+        提 &nbsp交
       </div>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
-    <div class="submit" @click="submit" v-if="!showMap">
-      提 &nbsp交
-    </div>
     <div style="height: 40px"></div>
   </div>
 </template>
@@ -250,11 +255,15 @@
       },
       /* eslint-enable */
       getUserInfo () {
-        this.currentPlate = window.localStorage.getItem('myNumberPlate')
         let cars = JSON.parse(window.localStorage.getItem('cars')) || []
-        cars.map(item => {
-          this.myNumberPlate.push(item.myNumberPlate)
-        })
+        if (cars.length) {
+          cars.map(item => {
+            this.myNumberPlate.push(item.myNumberPlate)
+          })
+          this.currentPlate = this.myNumberPlate[0]
+        } else {
+          MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
+        }
         this.plateTypes = this.$store.state.licenseSelectData
         this.IDcard = window.localStorage.getItem('identityCard')
       },
@@ -440,8 +449,11 @@
 
   .div-select .btn-select {
     background-color: white;
+    height: 100%;
   }
-
+  .div-select .gray{
+    background-color:rgb(239, 239, 244);
+  }
   .illegalParking {
     background: white;
     .div-select-ul {
@@ -449,7 +461,6 @@
     }
 
   }
-
   .ip-inform-box > div {
     height: 96px;
     display: flex;

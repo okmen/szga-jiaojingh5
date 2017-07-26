@@ -381,6 +381,7 @@
         vehicleNum: '',   // 车身架号
         provinceCodeOne: '',  // 车牌省份简称
         carSelectDataOne: '', // 车辆类型
+        carSelectDataStr: '',
         useNatureOne: '', // 使用性质
         appointmentLocationOne: '',     // 预约地点参数
         appointmentLocationStr: '', // 预约地点的字符串
@@ -475,7 +476,7 @@
       },
       // 选择预约时间
       chooseTime (item) {
-        if (item.num === '0') {
+        if (item.num === 0) {
           return
         }
         this.appointmentTime = item.time
@@ -546,15 +547,17 @@
         this.provinceCodeOne = val
       },
       // 选择车辆 获取对应的车辆类型编码
-      getCarSelectDataOne (val) {
+      getCarSelectDataOne (val, index, str) {
         this.carSelectDataOne = val
+        this.carSelectDataStr = str
       },
       getUseNatureOne (val) {
         this.useNatureOne = val
       },
       // 切换地点
-      getAppointmentLocationOne (val) {
+      getAppointmentLocationOne (val, index, str) {
         this.appointmentLocationOne = val
+        this.appointmentLocationStr = str
       },
       // 点击获取验证码
       getVerificationCode () {
@@ -727,6 +730,14 @@
       },
       registerSubmit () {
         if (!this.beforeSubmit()) return
+        let appointmentLocation = this.$store.getters.getAppointmentLocationAll
+        let orgAddr = ''
+        for (let i = 0, len = appointmentLocation.length; i < len; i++) {
+          if (appointmentLocation[i].id === this.appointmentLocationOne) {
+            orgAddr = appointmentLocation[i].description
+            break
+          }
+        }
         let requestObj = {
           name: this.newOwnerName,
           businessTypeId: this.businessTypeId,
@@ -745,17 +756,17 @@
           bookerIdNumber: window.localStorage.getItem('identityCard'),
           bookerType: this.bookerType,
           modelName: this.modelOfCarOne,
-          bookerMobile: this.mobilePhone
+          bookerMobile: this.mobilePhone,
+          orgName: this.appointmentLocationStr,
+          orgAddr: orgAddr,
+          businessCode: `createVehicleInfo_${this.$route.query.code}`,
+          businessName: this.$route.query.name,
+          carTypeName: this.carSelectDataStr
         }
         console.log(requestObj, '请求的数据')
         resultPost(createVehicleInfo, requestObj).then(data => {
           console.log(data, '预约信息')
           if (data.code === '0000') {
-            this.appointmentLocation.option.map(item => {
-              if (item.id === this.appointmentLocationOne) {
-                this.appointmentLocationStr = item.str
-              }
-            })
             let dataInfo = {
               type: 2,
               reserveNo: data.data,

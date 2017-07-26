@@ -1,0 +1,174 @@
+<template>
+  <div class="newQueryByCar-outer">
+    <div class="newQueryByCar-carArr">
+      <ul>
+        <li v-for="item in carArr" @click="getLawlessData(item, 'click')">
+          <span>{{ item.myNumberPlate }}</span>
+          <i>{{ item.lawlessNum }}</i>
+          <em class="blue" v-if="item.isMySelf == '0'">本人</em>
+          <em class="yellow" v-else>他人</em>
+        </li>
+      </ul>
+    </div>
+    <div class="newQueryByCar-btn">
+      <a href="#">其他车辆查询</a>
+      <a href="#">驾驶证查询</a>
+      <div class="newQueryByCar-hint">
+        <p><span>温馨提示：</span>仅查询车辆在深圳市范围内的交通违法信息</p>
+      </div>
+    </div>
+    <div v-wechat-title="$route.meta.title"></div>
+  </div>
+</template>
+<script>
+  import { resultPost } from '../../../service/getData'
+  import { queryLawlessByCar } from '../../../config/baseUrl'
+  // import { verifyCode } from '../../../config/verifyCode'
+  import { Toast } from 'mint-ui'
+  export default {
+    name: 'newQueryByCar',
+    data () {
+      return {
+        carArr: []
+      }
+    },
+    created () {
+      this.init() // 初始化页面，查询名下所有车辆的违法
+    },
+    methods: {
+      getLawlessData (item, type) {
+        let reqData = {
+          licensePlateNo: item.myNumberPlate,
+          licensePlateType: item.plateType,
+          vehicleIdentifyNoLast4: item.behindTheFrame4Digits,
+          identityCard: item.identityCard,
+          mobilephone: item.mobilephone
+        }
+        console.log(reqData)
+        resultPost(queryLawlessByCar, reqData).then(json => {
+          if (json.code === '0000') {
+            item.lawlessNum = json.data.length
+            if (type === 'click') {
+              // this.$router.push('/')
+            }
+          } else {
+            if (type === 'click') {
+              Toast({
+                message: json.msg,
+                position: 'middle',
+                duration: 2000
+              })
+            }
+          }
+          this.carArr.includes(item) ? false : this.carArr.push(item)
+        })
+      },
+      init () {
+        let cars = JSON.parse(window.localStorage.cars) || []
+        if (cars.length === 0) {
+          // this.$router.push('/')
+        }
+        cars.forEach((item) => {
+          this.getLawlessData(item, 'init')
+        })
+      }
+    }
+  }
+</script>
+<style lang="less">
+  @import "./../../../style/base";
+  .newQueryByCar-outer{
+    padding: 30px 30px 0 ;
+    .newQueryByCar-carArr{
+      li{
+        border: 2px solid #2696dd;
+        border-radius: 6Px;
+        height: 104px;
+        position: relative;
+        padding-left: 130px;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+        &::after{
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 40px;
+          transform: translateY(-50%);
+          width: 43px;
+          height: 34px;
+          background-image: url('../../../images/car1.png');
+          background-size: cover;
+        }
+        &::before{
+          content: '';
+          position: absolute;
+          top: 50%;
+          right: 40px;
+          transform: translateY(-50%);
+          width: 21px;
+          height: 38px;
+          background-image: url('../../../images/arrow_blue.png');
+          background-size: cover;
+        }
+        span{
+          font-size: 40px;
+          font-weight: 600;
+          color: #2696dd;
+          line-height: 100px;
+        }
+        i{
+          display: block;
+          position: absolute;
+          font-size: 18px;
+          background-color: red;
+          color: #fff;
+          border-radius: 20px;
+          left: 65px;
+          top: 15px;
+          padding: 0 9px;
+          z-index: 10;
+        }
+        em{
+          font-style: normal;
+          display: inline-block;
+          width: 60px;
+          height: 30px;
+          font-size: 20px;
+          color: #fff;
+          text-align: center;
+          border-radius: 10Px;
+        }
+        em.blue{
+          background-color: #2696dd;
+        }
+        em.yellow{
+          background-color: #ffbe00;
+        }
+      }
+    }
+    .newQueryByCar-btn{
+      padding: 20px 30px 20px;
+      a{
+        display: block;
+        height: 80px;
+        line-height: 80px;
+        background-color: #2696dd;
+        color: #fff;
+        font-size: 32px;
+        text-align: center;
+        border-radius: 10Px;
+        margin-bottom: 20px;
+      }
+    }
+    .newQueryByCar-hint{
+      padding-top: 20px;
+      p{
+        font-size: 24px;
+        color: #666;
+        span{
+          color: #2696dd;
+        }
+      }
+    }
+  }
+</style>

@@ -412,7 +412,7 @@
       },
       // 选择预约时间
       chooseTime (item) {
-        if (item.num === '0') {
+        if (item.num === 0) {
           return
         }
         this.appointmentTime = item.time
@@ -491,7 +491,8 @@
         this.useNatureOne = val
       },
       // 切换地点
-      getAppointmentLocationOne (val) {
+      getAppointmentLocationOne (val, index, str) {
+        this.appointmentLocationStr = str
         this.appointmentLocationOne = val
       },
       // 获取车辆产地
@@ -627,7 +628,16 @@
         return true
       },
       registerSubmit () {
+        console.log(this.$store.state)
         if (!this.beforeSubmit()) return
+        let appointmentLocation = this.$store.getters.getAppointmentLocationAll
+        let orgAddr = ''
+        for (let i = 0, len = appointmentLocation.length; i < len; i++) {
+          if (appointmentLocation[i].id === this.appointmentLocationOne) {
+            orgAddr = appointmentLocation[i].description
+            break
+          }
+        }
         let requestObj = {
           name: this.ownerName,
           businessTypeId: this.businessTypeId,
@@ -649,17 +659,17 @@
           indexNo: this.targetNum,
           modelName: this.modelOfCarOne,
           bookerMobile: this.mobilePhone,
-          optlittleCar: this.vehicleOriginOne
+          optlittleCar: this.vehicleOriginOne,
+          orgName: this.appointmentLocationStr,
+          orgAddr: orgAddr,
+          businessCode: `createVehicleInfo_${this.$route.query.code}`,
+          businessName: this.$route.query.name,
+          carTypeName: this.carSelectDataStr
         }
         console.log(requestObj, '请求的数据')
         resultPost(createVehicleInfo, requestObj).then(data => {
           console.log(data, '预约信息')
           if (data.code === '0000') {
-            this.appointmentLocation.option.map(item => {
-              if (item.id === this.appointmentLocationOne) {
-                this.appointmentLocationStr = item.str
-              }
-            })
             let dataInfo = {
               type: 2,
               reserveNo: data.data,

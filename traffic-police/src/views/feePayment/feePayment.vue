@@ -1,6 +1,6 @@
 <template>
   <div class="p-page">
-    <div class="m-tips">请填写缴费信息</div>
+    <div class="m-tips"><img src="~src/images/feePayment-icon-1.png" alt="">请填写缴费信息</div>
     <div class="m-form">
       <div class="item">
         <label>业务类型</label>

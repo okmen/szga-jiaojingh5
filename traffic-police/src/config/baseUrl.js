@@ -238,7 +238,7 @@ export const createDriveInfoZJ11 = `${commonUrl}bookingbusiness/createDriveInfo_
 
 export const createDriveInfoZJ13 = `${commonUrl}bookingbusiness/createDriveInfo_ZJ13.html`  // 香港机动车驾驶证免试换证
 
-export const createDriveInfoZJ16 = `${commonUrl}bookingbusiness/createDriveinfo_ZJ16.html`  // 临时机动车驾驶许可申领
+export const createDriveInfoZJ16 = `${commonUrl}bookingbusiness/createDriveInfo_ZJ16.html`  // 临时机动车驾驶许可申领
 
 export const createDriveInfoZJ17 = `${commonUrl}bookingbusiness/createDriveInfo_ZJ17.html`  // 持境外驾驶证申请换证
 
@@ -257,3 +257,6 @@ export const postGreenApply = `${commonUrl}greentravel/downDatedeclareReport.htm
 
 /* -------------  电动车扫码 ------------- */
 export const electrocarFileScancode = `${commonUrl}convenience/getEbikeInfoByFileNo.html` // 获取扫码数据
+
+/* -------------- 电子回单 --------------- */
+export const toQueryElectronicReceiptPage = `${commonUrl}illegalHanding/toQueryElectronicReceiptPage.html` // 电子回单
