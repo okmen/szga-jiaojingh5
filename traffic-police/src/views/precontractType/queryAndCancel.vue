@@ -14,7 +14,7 @@
 </template>
 <script>
   import { resultPost } from 'service/getData'
-  import { Toast } from 'mint-ui'
+  import { Toast, MessageBox } from 'mint-ui'
   import {
     getVehicleInfo,
     // cancel,
@@ -79,16 +79,52 @@
         if (this.businessTypeOne === 1) {
           // 驾驶证业务查询
           console.log('驾驶证')
-          // this.$router.push('/querySuccess')
           resultPost(getDriveInfo, requestData).then(data => {
             console.log(data, '预约信息')
+            if (data.code === '0000') {
+              let dataInfo = {
+                businessTypeName: data.data.businessTypeName,
+                name: data.data.name,
+                idNumber: data.data.idNumber,
+                mobile: data.data.mobile,
+                organizationName: data.data.organizationName,
+                appointmentDate: data.data.appointmentDate,
+                appointmentTime: data.data.appointmentTime,
+                platNumber: data.data.platNumber,
+                carTypeName: data.data.carTypeName,
+                businessType: this.businessTypeOne,
+                bookerNumber: data.data.bookNumber
+              }
+              this.$store.commit('saveSuccessInfo', dataInfo)
+              this.$router.push('/querySuccess')
+            } else {
+              MessageBox('提示', data.msg)
+            }
           })
         } else {
           // 机动车业务查询
           console.log('机动车')
-          // this.$router.push('/querySuccess')
           resultPost(getVehicleInfo, requestData).then(data => {
             console.log(data, '预约信息')
+            if (data.code === '0000') {
+              let dataInfo = {
+                businessTypeName: data.data.businessTypeName,
+                name: data.data.name,
+                idNumber: data.data.idNumber,
+                mobile: data.data.mobile,
+                organizationName: data.data.organizationName,
+                appointmentDate: data.data.appointmentDate,
+                appointmentTime: data.data.appointmentTime,
+                platNumber: data.data.platNumber,
+                carTypeName: data.data.carTypeName,
+                businessType: this.businessTypeOne,
+                bookerNumber: data.data.bookNumber
+              }
+              this.$store.commit('saveSuccessInfo', dataInfo)
+              this.$router.push('/querySuccess')
+            } else {
+              MessageBox('提示', data.msg)
+            }
           })
         }
       }
