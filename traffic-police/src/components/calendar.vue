@@ -11,7 +11,7 @@
   <div>
     <div class="dp" v-show="show">
       <div class="dp-carNum">
-        <span>{{ carNum }}</span>
+        <span>{{ carInfo.hphm }}</span>
         <em>（当前已申报天数: {{ arrTime.length }}天）</em>
       </div>
       <div class="dp-header">
@@ -30,11 +30,11 @@
         </thead>
         <tbody>
           <tr v-for="cell in data">
-            <td v-for="item in cell" :class="{'dp-last': m!== item.month, 'dp-overdue': item.isCanChoose < 0, 'dp-select': arrTime.indexOf(item.data) >= 0, 'dp-yellow': item.isSelectedDate >=0 }">
-              <div @click="pickConform(item)" class="box-out">
+            <td v-for="item in cell" :class="{'dp-last': m!== item.month, 'dp-overdue': getDateState(item.data).act === 0, 'dp-select': isSelectClass(item.data), 'dp-yellow': isYellow(item.data) }">
+              <div @click="pickDays(getDateState(item.data))" class="box-out">
                 <div class="box-int">
                   <span>{{ item.day }}</span>
-                  <span v-if="arrTime.indexOf(item.data) >= 0">绿色出行</span>
+                  <span v-if="getDateState(item.data).act !== 0" v-html="getDateState(item.data).text"></span>
                 </div>
               </div>
             </td>
@@ -42,13 +42,21 @@
         </tbody>
       </table>
     </div>
+    <ul class="dp-popup" v-if="operation.state">
+      <li>操作人姓名：{{ operation.name }}</li>
+      <li>身份证号码：{{ operation.number }}</li>
+      <li>操作时间：{{ operation.date }}</li>
+    </ul>
   </div>
 </template>
 <script>
 import { Toast } from 'mint-ui'
+import moment from 'moment'
+import { resultPost } from 'src/service/getData'
+// import { getGreenDays } from 'src/config/baseUrl.js'
 export default {
   name: 'vueCalendar',
-  props: ['date', 'carNum', 'selectedDate'],
+  props: ['date', 'carNum', 'selectedDate', 'loadDateArr', 'carInfo'],
   data () {
     let days = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
     let d = ''
@@ -85,61 +93,176 @@ export default {
       m,
       data,
       arrTime,
-      show: true
-    }
-  },
-  watch: {
-    selectedDate: {
-      handler (curDate, oldDate) {
-        console.log('curDate', curDate)
-        console.log('oldDate', oldDate)
-        this.data = this.getCalendar(this.y, this.m)
-      },
-      deep: true
+      arrCancel: [],
+      show: true,
+      operation: {
+        name: '',
+        number: '',
+        date: '',
+        state: false
+      }
     }
   },
   methods: {
+    getDateState (date) {
+      let defaultData = {
+        act: '-1',
+        text: '',
+        state: '9'
+      }
+      if (this.loadDateArr.length === 0) {
+        return defaultData
+      } else if (date) {
+        date = moment(date).format('YYYYMMDD')
+        // 当前最大不可选日期
+        let nDay = moment(new Date()).add(2, 'days').format('YYYYMMDD')
+        // 日期状态
+        let state = this.loadDateArr.find((key) => {
+          return key.cdate === moment(date).format('YYYYMMDD')
+        })
+        // 如果日期不存在，返回一个假数据
+        if (!state) {
+          return defaultData
+        }
+        state.text = {
+          '0': '绿色<br>出行',
+          '1': '绿色</br>出行',
+          '2': '已</br>履诺',
+          '3': '未</br>履诺',
+          '4': '',
+          '5': '',
+          '6': '',
+          '7': '绿色</br>出行',
+          '8': '',
+          '9': ''
+        }[state.state]
+        // 设置日期选择状态
+        if (+moment(date).format('YYYYMMDD') < +moment(new Date()).format('YYYYMMDD')) {
+          state.act = 0
+        } else if (+moment(date).format('YYYYMMDD') >= moment(new Date()).format('YYYYMMDD') && moment(date).format('YYYYMMDD') <= nDay) {
+          state.act = 1
+        } else {
+          state.act = 2
+          // 选择状态
+          let isSelect = this.arrTime.indexOf(moment(date).format('YYYYMMDD'))
+          if (state.state === '0' && isSelect < 0) {
+            state.text = ''
+          }
+          // 取消状态
+          let isCancel = this.arrCancel.indexOf(moment(date).format('YYYYMMDD'))
+          if (state.state === '1' && isCancel >= 0) {
+            state.text = ''
+          }
+        }
+        return state
+      } else {
+        return defaultData
+      }
+    },
+    pickDays (date) {
+      console.log(date)
+      if (date.act === 0) {
+        Toast({
+          message: '该时间段不能选择',
+          position: 'middle',
+          duration: 2000
+        })
+        return false
+      } else if (date.act === 1) {
+        let getGreenDays = 'http://192.168.1.31:8080/web/greentravel/applyrunningQuery.html'
+        resultPost(getGreenDays, {
+          hphm: this.carInfo.hphm,
+          hpzl: this.carInfo.hpzl,
+          sqrq: date.cdate
+        }).then(data => {
+          console.log(data)
+          if (data.code === '0000') {
+            let item = data.date.rec
+            if (isArray(item)) {
+              item = item[0]
+            }
+            this.operation = {
+              name: item.czr,
+              number: item.czrsfzmhm,
+              date: item.czsj,
+              state: true
+            }
+            window.setTimeout(() => {
+              this.operation.state = false
+            }, 2000)
+          }
+          function isArray (o) {
+            return Object.prototype.toString.call(o) === '[object Array]'
+          }
+        })
+        return false
+      } else {
+        // 如果日期是可申请的
+        if (date.state === '0') {
+          // 如果日期已选择则删除日期
+          let arrInd = this.arrTime.indexOf(date.cdate)
+          if (arrInd >= 0) {
+            this.arrTime.splice(arrInd, 1)
+          // 如果日期未选择则添加日期
+          } else {
+            this.arrTime.push(date.cdate)
+          }
+        // 如果日期是已申请
+        } else if (date.state === '1') {
+          // 如果日期已选择则删除日期
+          let arrInd = this.arrCancel.indexOf(date.cdate)
+          if (arrInd >= 0) {
+            this.arrCancel.splice(arrInd, 1)
+          // 如果日期未选择则添加日期
+          } else {
+            this.arrCancel.push(date.cdate)
+          }
+        } else {
+          return false
+        }
+      }
+      this.$emit('arrTime', this.arrTime, this.arrCancel)
+    },
+    isYellow (date) {
+      let item = this.getDateState(date)
+      if (item.act === 1) {
+        return true
+      } else if (item.act === 2 && (item.state === '2' || item.state === '3')) {
+        return true
+      }
+    },
+    isSelectClass (date) {
+      let item = this.getDateState(date)
+      // 如果在选择列表则添加Class
+      if (this.arrTime.indexOf(item.cdate) >= 0) {
+        return true
+      }
+      // 如果在取消列表则删除Class
+      if (this.arrCancel.indexOf(item.cdate) >= 0) {
+        return false
+      }
+      // 如果状态是已申请，则默认添加Class
+      if (item.state === '1' && item.act === 2) {
+        return true
+      }
+      return false
+    },
     pickMonth (flag) {
+      let nowM = moment(new Date())
+      // let maxM = nowM.add(6, 'M')
+      let minM = nowM.subtract(3, 'M')
+      if (flag === -1 && nowM.subtract(1, 'M').millisecond() > minM.millisecond()) {
+        console.log('最小')
+      }
       if (flag === -1) {
         this.data = (this.m === 1) ? this.getCalendar(parseInt(this.y--), this.m = 12) : this.getCalendar(parseInt(this.y), parseInt(this.m += flag))
       } else {
         this.data = (this.m === 12) ? this.getCalendar(parseInt(this.y++), this.m = 1) : this.getCalendar(parseInt(this.y), parseInt(this.m += flag))
       }
-      this.$emit('skipDate', this.m >= 10 ? `${this.y}/${this.m}` : `${this.y}0${this.m}`)
+      this.$emit('skipDate', this.m >= 10 ? `${this.y}${this.m}` : `${this.y}0${this.m}`)
     },
     pickYear (flag) {
       this.data = this.getCalendar(parseInt(this.y += flag), parseInt(this.m))
-    },
-    pickConform (item) {
-      if (JSON.stringify(item) === '{}') { // 点击上个月的日期不做动作
-        return false
-      }
-      if (item.isCanChoose < 0) { // 点击本月过期的日期提示
-        Toast({
-          message: '该时间段不能选择',
-          position: 'middle',
-          duration: 2000
-        })
-        return false
-      }
-      if (item.isSelectedDate >= 0) {
-        Toast({
-          message: '该时间段不能选择',
-          position: 'middle',
-          duration: 2000
-        })
-        return false
-      }
-      let arrInd = this.arrTime.indexOf(item.data)
-      if (arrInd >= 0) { // 点击正确时间 显示并排序
-        this.arrTime.splice(arrInd, 1)
-      } else {
-        this.arrTime.push(item.data)
-      }
-      this.arrTime.sort((a, b) => {
-        return Date.parse(a) - Date.parse(b)
-      })
-      this.$emit('arrTime', this.arrTime)
     },
     getCalendar (y, m) {
       console.log(y, m)
@@ -188,10 +311,12 @@ export default {
       }
       for (i = 0; i < maxDate; i++) { // 当前月份的
         t = i + 1
+        let nm = m < 10 ? '0' + m : m
+        let nt = t < 10 ? '0' + t : t
         r2[i] = {
-          month: m,
-          day: t,
-          data: `${y}-${m}-${t}`,
+          month: nm,
+          day: nt,
+          data: `${y}-${nm}-${nt}`,
           isCanChoose: Date.parse(`${y}/${m}/${t}`) - (Date.now() + 172800000),
           isSelectedDate: this.selectedDate.indexOf(`${y}-${m}-${t}`),
           pitchOn: false
@@ -403,4 +528,10 @@ export default {
   color: #999;
   font-style: normal;
 }
+.dp-popup{
+  position: fixed; bottom: 50%; width: 60%; left: 20%; margin-bottom: -95px; background: rgba(0, 0, 0, .8); color: #fff;
+  padding: 20px; box-sizing: border-box; border-radius: 5px;
+  line-height: 50px;
+}
+.dp-popup li{ color: #fff; }
 </style>
