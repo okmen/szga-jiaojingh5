@@ -35,72 +35,77 @@
       <div class="upload-all-img">
         <div class="upload-item-img">
           <label class="upload-item-img-one" for="file1">
-            <input id="file1" type="file" accept="image/*" >
-            <img :src="imgOne1" />
+            <input id="file1" type="file" accept="image/*">
+            <img :src="imgOne1"/>
           </label>
           <div class="upload-item-text-one">身份证(正面)</div>
         </div>
         <div class="upload-item-img">
           <label class="upload-item-img-one" for="file2">
-            <input id="file2" type="file" accept="image/*" >
-            <img :src="imgOne2" /></label>
+            <input id="file2" type="file" accept="image/*">
+            <img :src="imgOne2"/></label>
           <div class="upload-item-text-one">身份证(反面)</div>
         </div>
         <div class="upload-item-img">
           <label class="upload-item-img-one" for="file3">
-            <input id="file3" type="file" accept="image/*" >
-            <img :src="imgOne3" />
+            <input id="file3" type="file" accept="image/*">
+            <img :src="imgOne3"/>
           </label>
           <div class="upload-item-text-one">机动车登记证书</div>
         </div>
         <div class="upload-item-img" v-show="this.showIndex == '2'">
           <label class="upload-item-img-one" for="file4">
-            <input id="file4" type="file" accept="image/*" >
-            <img :src="imgOne4" />
+            <input id="file4" type="file" accept="image/*">
+            <img :src="imgOne4"/>
           </label>
           <div class="upload-item-text-one">境外人员临住表</div>
         </div>
         <div class="upload-item-img" v-show="this.showIndex == '1'">
           <label class="upload-item-img-one" for="file5">
-            <input id="file5" type="file" accept="image/*" >
-            <img :src="imgOne5" />
+            <input id="file5" type="file" accept="image/*">
+            <img :src="imgOne5"/>
           </label>
           <div class="upload-item-text-one">居住证正面</div>
         </div>
         <div class="upload-item-img" v-show="this.showIndex == '1'">
           <label class="upload-item-img-one" for="file6">
-            <input id="file6" type="file" accept="image/*" >
-            <img :src="imgOne6" />
+            <input id="file6" type="file" accept="image/*">
+            <img :src="imgOne6"/>
           </label>
           <div class="upload-item-text-one">居住证反面</div>
         </div>
       </div>
     </div>
-    <div class="confirm-information" @click="confirmInfo">
+    <div class="confirm-information" @click="confirmInfo" v-if="plateNumber.option.length">
+      确认信息
+    </div>
+    <div class="confirm-information" style="background: gray" v-if="!plateNumber.option.length">
       确认信息
     </div>
   </div>
 </template>
 <style lang="less" scoped>
-  .recipient-address-select input{
+  .recipient-address-select input {
     width: 100%;
     margin-top: 10px;
   }
-  .exchange-license>div{
+
+  .exchange-license > div {
     margin: 0 0 30px;
     display: flex;
     justify-content: space-between;
   }
+
   .exchange-license {
     height: auto;
-    .item-title{
+    .item-title {
       width: 33%;
       line-height: 65px;
     }
-    .item-info{
+    .item-info {
       width: 66%;
     }
-    input{
+    input {
       border: 2px solid #eee;
       border-radius: 6px;
       height: 65px;
@@ -109,34 +114,34 @@
       font-size: 30px;
       outline: none;
     }
-    .exchange-license-line{
+    .exchange-license-line {
       height: 10px;
       background: #eeeeee;
       margin-left: 0;
       margin-right: 0;
     }
-    .upload-all-img{
+    .upload-all-img {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-top: 10px;
       flex-wrap: wrap;
-      .upload-item-img{
+      .upload-item-img {
         display: flex;
         flex-direction: column;
         align-items: center;
       }
     }
-    .upload-photo{
+    .upload-photo {
       margin-top: 30px;
       display: block;
-      .upload-item-text-one{
+      .upload-item-text-one {
         margin-top: 10px;
         margin-bottom: 30px;
         color: #7e7e7e;
         text-align: center;
       }
-      .upload-item-img-one{
+      .upload-item-img-one {
         width: 300px;
         height: 300px;
         border: 2px solid #eee;
@@ -144,16 +149,16 @@
         justify-content: center;
         align-items: center;
         border-radius: 10px;
-        input{
+        input {
           display: none;
         }
-        img{
+        img {
           max-height: 90%;
           max-width: 90%;
         }
       }
     }
-    .confirm-information{
+    .confirm-information {
       background: #09bb07;
       height: 80px;
       border-radius: 8px;
@@ -167,9 +172,9 @@
 </style>
 <script>
   import uploadFile from '../../../../../service/uploadFile.js'
-  import { Toast } from 'mint-ui'
-  import { isPhone, isChinese } from '../../../../../service/regExp.js'
-  import { iocomotiveCarReplace } from '../../../../../config/baseUrl.js'
+  import {Toast} from 'mint-ui'
+  import {isPhone, isChinese} from '../../../../../service/regExp.js'
+  import {iocomotiveCarReplace} from '../../../../../config/baseUrl.js'
   export default {
     data () {
       return {
@@ -283,7 +288,9 @@
           title: '车牌号码',
           option: []
         }
-        JSON.parse(window.localStorage.getItem('cars')).map(item => {
+        let storage = window.localStorage.getItem('cars')
+        if (!storage) return plateInfo
+        JSON.parse(storage).map(item => {
           if (item.isMySelf === 0) {
             plateInfo.option.push({'str': item.myNumberPlate})
             this.allOwnersName[item.myNumberPlate] = item.name

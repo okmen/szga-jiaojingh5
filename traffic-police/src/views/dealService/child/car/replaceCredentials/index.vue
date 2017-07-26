@@ -38,6 +38,7 @@
   }
 </style>
 <script>
+  import { MessageBox } from 'mint-ui'
   export default {
     data () {
       return {
@@ -53,6 +54,9 @@
     },
     created () {
       this.currentBusinessType = this.businessType[this.$route.name]
+      if (!window.localStorage.getItem('myNumberPlate')) {
+        MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
+      }
     },
     watch: {
       '$route' (val) {
