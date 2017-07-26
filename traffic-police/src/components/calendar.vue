@@ -48,7 +48,7 @@
 import { Toast } from 'mint-ui'
 export default {
   name: 'vueCalendar',
-  props: ['date', 'carNum', 'selectedDate', 'loadDateArr'],
+  props: ['date', 'carNum', 'selectedDate'],
   data () {
     let days = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
     let d = ''
@@ -89,7 +89,7 @@ export default {
     }
   },
   watch: {
-    loadDateArr: {
+    selectedDate: {
       handler (curDate, oldDate) {
         console.log('curDate', curDate)
         console.log('oldDate', oldDate)
@@ -186,11 +186,6 @@ export default {
           // data: lastDate + t
         }
       }
-      let newTime = m >= 10 ? `${y}${m}` : `${y}0${m}`
-      console.log(newTime)
-      let newTimeData = this.loadDateArr[newTime]
-      console.log(newTimeData)
-      console.log(this.loadDateArr)
       for (i = 0; i < maxDate; i++) { // 当前月份的
         t = i + 1
         r2[i] = {
@@ -199,8 +194,7 @@ export default {
           data: `${y}-${m}-${t}`,
           isCanChoose: Date.parse(`${y}/${m}/${t}`) - (Date.now() + 172800000),
           isSelectedDate: this.selectedDate.indexOf(`${y}-${m}-${t}`),
-          pitchOn: false,
-          state: newTimeData[i].state
+          pitchOn: false
         }
       }
       for (i = 0; i < nextFix; i++) { // 下个月份的

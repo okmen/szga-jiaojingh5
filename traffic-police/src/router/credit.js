@@ -62,6 +62,14 @@ let creditRouter = [
       title: '电子回单查询违法记录'
     },
     component: require('../views/credit/child/digitalReceiptRecord.vue')
+  },
+  {
+    name: 'digByCar',
+    path: '/digByCar',
+    meta: {
+      title: '电子回单'
+    },
+    component: require('../views/credit/child/digByCar.vue')
   }
 ]
 

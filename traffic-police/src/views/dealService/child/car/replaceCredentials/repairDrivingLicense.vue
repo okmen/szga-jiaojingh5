@@ -84,7 +84,10 @@
         </div>
       </div>
     </div>
-    <div class="confirm-information" @click="confirmInfo">
+    <div class="confirm-information" @click="confirmInfo" v-if="plateNumber.option.length">
+      确认信息
+    </div>
+    <div class="confirm-information" style="background: gray" v-if="!plateNumber.option.length">
       确认信息
     </div>
   </div>
@@ -299,7 +302,9 @@
           title: '车牌号码',
           option: []
         }
-        JSON.parse(window.localStorage.getItem('cars')).map(item => {
+        let storage = window.localStorage.getItem('cars')
+        if (!storage) return plateInfo
+        JSON.parse(storage).map(item => {
           if (item.isMySelf === 0) {
             plateInfo.option.push({'str': item.myNumberPlate})
             this.allOwnersName[item.myNumberPlate] = item.name

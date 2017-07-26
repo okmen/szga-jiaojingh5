@@ -1,42 +1,32 @@
 <template>
-  <div class="newQueryByCar-outer">
-    <div class="newQueryByCar-carArr">
+  <div class="digByCar-outer">
+    <div class="digByCar-carArr">
       <ul>
-        <li v-for="item in carArr" @click="getLawlessData(item, 'click')">
+        <li v-for="item in carArr" @click="getLawlessData(item)">
           <span>{{ item.myNumberPlate }}</span>
-          <i>{{ item.lawlessNum }}</i>
           <em class="blue" v-if="item.isMySelf == '0'">本人</em>
           <em class="yellow" v-else>他人</em>
         </li>
       </ul>
     </div>
-    <div class="newQueryByCar-btn">
-      <a href="#">其他车辆查询</a>
-      <a href="#">驾驶证查询</a>
-      <div class="newQueryByCar-hint">
-        <p><span>温馨提示：</span>仅查询车辆在深圳市范围内的交通违法信息</p>
-      </div>
+    <div class="digByCar-btn">
+      <a href="#">其他电子回单</a>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
-  import { resultPost } from '../../../service/getData'
-  import { queryLawlessByCar } from '../../../config/baseUrl'
-  // import { verifyCode } from '../../../config/verifyCode'
-  import { Toast } from 'mint-ui'
   export default {
-    name: 'newQueryByCar',
+    name: 'digByCar',
     data () {
       return {
-        carArr: []
+        carArr: JSON.parse(window.localStorage.cars) || []
       }
     },
-    created () {
-      this.init() // 初始化页面，查询名下所有车辆的违法
+    mounted () {
     },
     methods: {
-      getLawlessData (item, type) {
+      getLawlessData (item) {
         let reqData = {
           licensePlateNo: item.myNumberPlate,
           licensePlateType: item.plateType,
@@ -45,41 +35,15 @@
           mobilephone: item.mobilephone
         }
         console.log(reqData)
-        resultPost(queryLawlessByCar, reqData).then(json => {
-          if (json.code === '0000') {
-            item.lawlessNum = json.data.length
-            if (type === 'click') {
-              // this.$router.push('/')
-            }
-          } else {
-            if (type === 'click') {
-              Toast({
-                message: json.msg,
-                position: 'middle',
-                duration: 2000
-              })
-            }
-          }
-          this.carArr.includes(item) ? false : this.carArr.push(item)
-        })
-      },
-      init () {
-        let cars = JSON.parse(window.localStorage.cars) || []
-        if (cars.length === 0) {
-          // this.$router.push('/')
-        }
-        cars.forEach((item) => {
-          this.getLawlessData(item, 'init')
-        })
       }
     }
   }
 </script>
 <style lang="less">
   @import "./../../../style/base";
-  .newQueryByCar-outer{
+  .digByCar-outer{
     padding: 30px 30px 0 ;
-    .newQueryByCar-carArr{
+    .digByCar-carArr{
       li{
         border: 2px solid #2696dd;
         border-radius: 6Px;
@@ -116,18 +80,6 @@
           color: #2696dd;
           line-height: 100px;
         }
-        i{
-          display: block;
-          position: absolute;
-          font-size: 18px;
-          background-color: red;
-          color: #fff;
-          border-radius: 20px;
-          left: 65px;
-          top: 15px;
-          padding: 0 9px;
-          z-index: 10;
-        }
         em{
           font-style: normal;
           display: inline-block;
@@ -146,7 +98,7 @@
         }
       }
     }
-    .newQueryByCar-btn{
+    .digByCar-btn{
       padding: 20px 30px 20px;
       a{
         display: block;
@@ -158,16 +110,6 @@
         text-align: center;
         border-radius: 10Px;
         margin-bottom: 20px;
-      }
-    }
-    .newQueryByCar-hint{
-      padding-top: 20px;
-      p{
-        font-size: 24px;
-        color: #666;
-        span{
-          color: #2696dd;
-        }
       }
     }
   }

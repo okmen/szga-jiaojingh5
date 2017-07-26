@@ -54,10 +54,6 @@
       </ul>
       <button class="btn btn-blue" type="button" name="button" @click.stop="demandClick()">查询</button>
     </div>
-    <div class="digit-bottom">
-      <div class="digit-bot"><span>粤B 701NR</span><i>本人</i></div>
-      <button class="btn btn-blue" type="button" name="button" @click.stop="restClick()">其他回单查询</button>
-    </div>
   </div>
 </template>
 
@@ -239,31 +235,6 @@ padding: 20px 40px;
     width: 240px;
     height: 56px;
     text-decoration: underline;
-  }
-  .digit-bottom{
-    .digit-bot{
-      margin-top: 30px;
-      border: 1px solid #2696dd;
-      border-radius: 8px;
-      background: url(../../../images/car1.png) no-repeat;
-      background-position: 30px;
-      span{
-        padding-left: 140px;
-        color: #2696dd;
-        font: 700 38px/106px "";
-      }
-      i{
-        margin-left: 30px;
-        display: inline-block;
-        width: 80px;
-        height: 40px;
-        text-align: center;
-        font: 100 24px/40px "";
-        border-radius: 44%;
-        background: #2696dd;
-        color: #fff;
-      }
-    }
   }
 }
 </style>
