@@ -8,7 +8,7 @@
           <span class="myself" v-if="car.isMySelf == '0'">本人</span>
           <span class="others" v-else>他人</span>
         </div>
-        <div class="item-bottom">您有 <i>{{ car.lawlessNum }}</i> 笔违章需要处理</div>
+        <div class="item-bottom">您有 <i>{{ car.lawlessNum || 0 }}</i> 笔违章需要处理</div>
         <div class="item-arrow"></div>
       </div>
     </div>
@@ -30,28 +30,6 @@
       }
     },
     mounted () {
-      // let reqData = {
-      //   identityCard: window.localStorage.getItem('identityCard'),
-      //   mobilephone: window.localStorage.getItem('mobilePhone')
-      // }
-      // Indicator.open()
-      // resultPost(bindCar, reqData).then(json => {
-      //   Indicator.close()
-      //   if (json.code === '0000') {
-      //     this.carMsg = json.data
-      //     if (json.data.length === 0) {
-      //       MessageBox('提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆').then(action => {
-      //         this.$router.push('/')
-      //       })
-      //     }
-      //   } else {
-      //     Toast({
-      //       message: json.msg,
-      //       position: 'bottom',
-      //       duration: 2000
-      //     })
-      //   }
-      // })
       this.init()
     },
     methods: {

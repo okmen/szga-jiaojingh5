@@ -309,7 +309,7 @@
           }
           .newLawlessMsg-item-btn{
             display: flex;
-            justify-content: space-evenly;
+            justify-content: space-between;
             button{
               height: 50px;
               padding: 0 10px;

@@ -173,10 +173,10 @@
     }
     .illegal-address-input{
       margin-bottom:28px;
-      width: 100%;
       margin-left: 155px;
+      box-sizing: border-box;
       input{
-        width: 76%;
+        width: 100%;
         height:58px;
         background:#efeff4;
         border:1px solid #e2e2e7;
