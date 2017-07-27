@@ -151,7 +151,7 @@
           </div>
         </li>
       </ul>
-      <button class="btn btns" @click="submitClick">预约</button>
+      <button class="btn btns typeCommon" @click="submitClick">预约</button>
     </div>
     </div>
   </div>
