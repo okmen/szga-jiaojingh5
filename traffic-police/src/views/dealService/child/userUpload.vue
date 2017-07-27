@@ -38,7 +38,7 @@
         <span>身体条件申请表</span>
       </label>
     </div>
-    <button class="btn" type="button" name="button" @click="btnSureStar">确认信息</button>
+    <button class="btn" :class="{'gray':buttonIsClick}" type="button" name="button" @click="btnSureStar">确认信息</button>
   </div>
 </template>
 <script>
@@ -56,7 +56,7 @@
         imgBody: require('../../../images/body-table.png')      // 身体条件申请表
       }
     },
-    props: ['idCard1', 'idCard2', 'license', 'eduTable', 'outTable', 'delay', 'bodyTable'],
+    props: ['idCard1', 'idCard2', 'license', 'eduTable', 'outTable', 'delay', 'bodyTable', 'buttonIsClick'],
     mounted: function () {
       this.init()
     },
@@ -123,12 +123,17 @@
         }
       },
       btnSureStar: function () {
-        this.$emit('btnSureStar')
+        if (!this.buttonIsClick) {
+          this.$emit('btnSureStar')
+        }
       }
     }
   }
 </script>
 <style lang="less" scoped>
+  .gray{
+    background: gray;
+  }
   .upload-img {
     margin-top: 40px;
     background-color: #FFF;

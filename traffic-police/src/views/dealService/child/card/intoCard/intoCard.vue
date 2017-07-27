@@ -117,7 +117,7 @@
         </li>
       </ul>
     </div>
-    <userUpload :idCard1="true" :idCard2="true" :license="true" :bodyTable="true" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
+    <userUpload :buttonIsClick="buttonIsClick" :idCard1="true" :idCard2="true" :license="true" :bodyTable="true" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
     <div class="example" v-if="example">
       <div class="example-box" @click.stop="example=true">
         <img src="../../../../../images/example.png">
@@ -131,13 +131,14 @@
   import { resultPost, resultGet } from '../../../../../service/getData'
   import { intoCard, getIssuing, getFileNumber } from '../../../../../config/baseUrl'
   import { isPhotoNum } from '../../../../../service/regExp.js'
-  import { Toast } from 'mint-ui'
+  import { Toast, MessageBox } from 'mint-ui'
   import wx from 'weixin-js-sdk'
   import { mapActions } from 'vuex'
   export default {
     name: 'intoCard',
     data () {
       return {
+        buttonIsClick: false,
         IDcard: window.localStorage.getItem('identityCard'),
         name: window.localStorage.getItem('userName'),
         driverLicense: window.localStorage.getItem('identityCard'),
@@ -342,6 +343,10 @@
       })
     },
     created () {
+      if (!window.localStorage.getItem('myNumberPlate')) {
+        MessageBox('温馨提示', '您还没绑定驾驶证,请先绑定')
+        this.buttonIsClick = true
+      }
       document.addEventListener('click', (e) => {
         this.areaSelectShow = false
         this.placeSelectShow = false
@@ -353,7 +358,6 @@
   }
 </script>
 <style lang="less" scoped>
-  @import "./../../../../../style/base";
   .intoCard-outer {
     background-color: #fff;
     position: absolute;

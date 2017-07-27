@@ -107,7 +107,6 @@ export default {
 }
 </script>
 <style lang="less">
-@import "./../../../style/base";
 .nav-xstudy {
   width: 100%;
   height: 350px;

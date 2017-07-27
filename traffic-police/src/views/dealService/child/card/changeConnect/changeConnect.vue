@@ -86,18 +86,19 @@
         </li>
       </ul>
     </div>
-    <userUpload :idCard1="true" :idCard2="true" :license="true" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
+    <userUpload :buttonIsClick="buttonIsClick" :idCard1="true" :idCard2="true" :license="true" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
   // import { resultPost } from '../../../../../service/getData'
   import { changeConnect } from '../../../../../config/baseUrl'
-  import { Toast } from 'mint-ui'
+  import { Toast, MessageBox } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
     data () {
       return {
+        buttonIsClick: false,
         IDcard: window.localStorage.getItem('identityCard'),
         name: window.localStorage.getItem('userName'),
         sex: '',                                                        // 性别checkbox选择
@@ -285,6 +286,10 @@
       })
     },
     created () {
+      if (!window.localStorage.getItem('myNumberPlate')) {
+        MessageBox('温馨提示', '您还没绑定驾驶证,请先绑定')
+        this.buttonIsClick = true
+      }
       document.addEventListener('click', (e) => {
         this.cardSelectShow = false
         this.areaSelectShow = false
@@ -293,7 +298,6 @@
   }
 </script>
 <style lang="less" scoped>
-  @import "./../../../../../style/base";
   .changeConnect-outer {
     background-color: #fff;
     position: absolute;
