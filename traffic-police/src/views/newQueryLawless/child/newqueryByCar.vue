@@ -75,7 +75,7 @@
       init () {
         let cars = JSON.parse(window.localStorage.cars) || []
         if (cars.length === 0) {
-          // this.$router.push('/')
+          this.$router.push('newqueryByCar_manual')
         }
         cars.forEach((item) => {
           this.getLawlessData(item, 'init')

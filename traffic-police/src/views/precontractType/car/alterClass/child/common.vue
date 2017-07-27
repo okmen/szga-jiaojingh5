@@ -531,6 +531,9 @@
         } else if (!this.VIN) {
           Toast({ message: '请输入车架号后四位', className: 'white', duration: 1500 })
           return false
+        } else if (!this.selectDetailTime) {
+          Toast({ message: '请选择预约时间', className: 'white', duration: 1500 })
+          return false
         }
         return true
       },

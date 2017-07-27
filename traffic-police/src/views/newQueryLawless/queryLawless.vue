@@ -4,13 +4,13 @@
       <router-link to="newqueryByCar">交通违法查询</router-link>
     </div>
     <div  class="query-link">
-      <router-link to="payLawless">交通违法缴款</router-link>
+      <router-link to="newPayLawless">交通违法缴款</router-link>
     </div>
     <div class="query-link" v-bind:class="{ 'show' : isShow}">
       <p @click.stop="clickShow()">交通违法在线处理</p>
       <div class="li-box">
-        <router-link :to="isLogin ? 'confirm' : 'login'">交通违法在线确认</router-link>
-        <router-link :to="isLogin ? 'early' : 'login'">交通违法预约处理</router-link>
+        <router-link :to="isLogin ? 'confirmLawless' : 'login'">交通违法在线确认</router-link>
+        <router-link :to="isLogin ? 'newEarly' : 'login'">交通违法预约处理</router-link>
         <router-link :to="isLogin ? 'appealEntry' : 'login'">交通违法申诉</router-link>
       </div>
     </div>

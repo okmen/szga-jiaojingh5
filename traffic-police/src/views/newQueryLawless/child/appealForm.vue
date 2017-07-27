@@ -74,6 +74,11 @@
         }
       }
     },
+    computed: {
+      lawlessData: function () {
+        return this.$store.state.newLawlessDeal
+      }
+    },
     components: {
       divSelect: require('components/divSelect.vue')
     },
@@ -95,32 +100,21 @@
         this.selectDistrict = val
       },
       btnSubmitIllegal: function () {
-        let checkedItem = ''
-        this.AppealQueryData.forEach((item, index) => {
-          if (item.checkAddBorder) {
-            checkedItem = item
-          }
-        })
-        if (!checkedItem) {
-          MessageBox('提示', '至少选中一个违法进行申诉')
-          return false
-        }
         let reqData = {
-          billNo: checkedItem.billNo, // 违法书单编号
-          illegalTime: checkedItem.illegalTime, // 违法时间
-          illegalAddress: checkedItem.illegalAddr, // 违法地点
-          illegalDesc: checkedItem.illegalDesc, // 违法行为
-          punishAmount: checkedItem.punishAmt, // 罚款金额
-          punishScore: checkedItem.punishScore, // 罚分
-          agency: checkedItem.illegalUnit, // 执法单位
-          claimant: checkedItem.carOwner, // 申诉人姓名
+          billNo: this.lawlessData.data.billNo, // 违法书单编号
+          illegalTime: this.lawlessData.data.illegalTime, // 违法时间
+          illegalAddress: this.lawlessData.data.illegalAddr, // 违法地点
+          illegalDesc: this.lawlessData.data.illegalDesc, // 违法行为
+          punishAmount: this.lawlessData.data.punishAmt, // 罚款金额
+          punishScore: this.lawlessData.data.punishScore, // 罚分
+          agency: this.lawlessData.data.illegalUnit, // 执法单位
+          claimant: window.localStorage.userName, // 申诉人姓名
           claimantAddress: this.claimantAddress, // 申诉联系地址
           claimantPhone: this.claimantPhone, // 申人联系电话
           appealType: '1', // 申诉类型
           appealContent: this.appealContent, // 申诉内容
-          licensePlateNo: checkedItem.licensePlateNo,
+          licensePlateNo: this.lawlessData.data.licensePlateNo,
           identityCard: window.localStorage.getItem('identityCard'),
-          sourceOfCertification: 'C',
           userCode: ''
         }
         resultPost(illegalAppeal, reqData).then(json => {
@@ -179,10 +173,10 @@
     }
     .illegal-address-input{
       margin-bottom:28px;
-      width: 100%;
       margin-left: 155px;
+      box-sizing: border-box;
       input{
-        width: 76%;
+        width: 100%;
         height:58px;
         background:#efeff4;
         border:1px solid #e2e2e7;

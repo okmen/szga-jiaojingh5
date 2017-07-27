@@ -21,21 +21,28 @@
             <p class="newLawlessMsg-item-content-unit">{{ item.illegalUnit }}</p>
             <!-- <p class="newLawlessMsg-item-content-fun">{{ item.illegalTime }}</p> -->
             <div class="newLawlessMsg-item-btn">
-              <button>违法申诉</button>
-              <button>查看违法图片</button>
+              <button v-if="item.description" @click="punishFreeDesc(item.description)">首违免罚</button>
+              <button @click="hrefFn(item)">违法申诉</button>
+              <button v-if="item.imgQueryCode" @click="illegalImgBtn(item.imgQueryCode)">查看违法图片</button>
             </div>
           </div>
         </li>
       </ul>
     </div>
+    <popupImg
+      @cancel="passCancel"
+      v-if="popupImgShow"
+      :data="imgBase">
+    </popupImg>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
   import { resultPost } from '../../../service/getData'
-  import { queryPay, claimConfirm } from '../../../config/baseUrl'
+  import { queryPay, claimConfirm, illegalPictureQuery } from '../../../config/baseUrl'
+  import popupImg from './../../../components/popupImg'
   // import { verifyCode } from '../../../config/verifyCode'
-  import { MessageBox } from 'mint-ui'
+  import { MessageBox, Toast } from 'mint-ui'
   export default {
     name: 'newLawlessMsg',
     data () {
@@ -48,15 +55,54 @@
         }
       }
     },
+    components: {
+      popupImg
+    },
     computed: {
       lawlessData: function () {
         return this.$store.state.newLawlessQuery
+      },
+      lawlessDeal: function () {
+        return this.$store.state.newLawlessDeal
       }
     },
     created () {
       // this.init() // 初始化页面，查询名下所有车辆的违法
     },
     methods: {
+      punishFreeDesc (str) {
+        MessageBox('提示', str)
+      },
+      hrefFn (item) { // 违法申诉
+        if (!JSON.parse(window.localStorage.isLogin)) {
+          MessageBox.confirm('该功能需要登录后才能使用,是否前往登录').then(action => {
+            this.$router.push('/login')
+          })
+          return false
+        }
+        let lawlessDeal = {
+          data: item,
+          info: JSON.stringify(this.lawlessDeal.info) === '{}' ? this.lawlessData.info : this.lawlessDeal.info
+        }
+        this.$store.commit('saveNewLawlessDeal', lawlessDeal)
+        this.$router.push('/newqueryAppeal')
+      },
+      illegalImgBtn: function (imgCode) { // 查看违法图片
+        if (!JSON.parse(window.localStorage.isLogin)) {
+          MessageBox.confirm('该功能需要登录后才能使用,是否前往登录').then(action => {
+            this.$router.push('/login')
+          })
+          return false
+        }
+        if (!imgCode) {
+          Toast('暂无违法图片')
+          return false
+        }
+        resultPost(illegalPictureQuery, {imgQueryCode: imgCode}).then(json => {
+          this.popupImgShow = true
+          this.imgBase = json.data[0]
+        })
+      },
       clickJump (item) {
         if (item.isNeedClaim === '0') { // 直接缴款
           let reqData = {
@@ -70,6 +116,12 @@
             }
           })
         } else if (item.isNeedClaim === '1') { // 需要打单
+          if (!JSON.parse(window.localStorage.isLogin)) {
+            MessageBox.confirm('该功能需要登录后才能使用,是否前往登录').then(action => {
+              this.$router.push('/login')
+            })
+            return false
+          }
           MessageBox.confirm('确定打单吗?').then(action => {
             let reqData = {
               illegalNo: item.billNo
@@ -83,7 +135,7 @@
           })
         } else if (item.isNeedClaim === '2') { // 需要前往窗口办理，跳转预约
           if (!JSON.parse(window.localStorage.isLogin)) {
-            MessageBox.confirm('您暂未登录,是否前往登录').then(action => {
+            MessageBox.confirm('该功能需要登录后才能使用,是否前往登录').then(action => {
               this.$router.push('/login')
             })
             return false
@@ -257,7 +309,7 @@
           }
           .newLawlessMsg-item-btn{
             display: flex;
-            justify-content: space-evenly;
+            justify-content: space-between;
             button{
               height: 50px;
               padding: 0 10px;
@@ -265,6 +317,7 @@
               color: #fff;
               font-size: 26px;
               border-radius: 4Px;
+              outline: none;
             }
           }
         }

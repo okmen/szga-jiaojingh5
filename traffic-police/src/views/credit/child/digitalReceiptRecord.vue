@@ -20,9 +20,9 @@
   </div>
 </template>
 <script>
-import { resultPost } from '../../../service/getData'
-import { MessageBox } from 'mint-ui'
-import { toQueryElectronicReceiptPage } from '../../../config/baseUrl'
+// import { resultPost } from '../../../service/getData'
+// import { MessageBox } from 'mint-ui'
+// import { toQueryElectronicReceiptPage } from '../../../config/baseUrl'
 export default {
   name: 'digitalReceiptRecord',
   data () {
@@ -87,33 +87,33 @@ export default {
   mounted () {
     this.id = this.$route.query.id
     if (this.id === '1') {
-      // this.digitData = this.digitData2
-      this.numberPlate = this.$route.query.numberPlate
-      this.billNo = this.$route.query.billNo
+      this.digitData = this.digitData2
+      // this.numberPlate = this.$route.query.numberPlate
+      // this.billNo = this.$route.query.billNo
     } else if (this.id === '2') {
-      // this.digitData = this.digitData1
-      this.numberPlate = this.$route.query.myNumberPlate
-      this.billNo = ''
+      this.digitData = this.digitData1
+      // this.numberPlate = this.$route.query.myNumberPlate
+      // this.billNo = ''
     }
     // 粤BU8E61
-    let digitalReceiptData = {
-      drivingLicenceNo: '',
-      licensePlateNo: this.numberPlate,
-      billNo: this.billNo
-    }
-    resultPost(toQueryElectronicReceiptPage, digitalReceiptData).then(json => {
-      if (json.code === '0000') {
-        this.digitData = json.data
-        this.length = this.digitData.length
-      } else {
-        MessageBox({
-          title: '提示',
-          message: json.msg
-        }).then(action => {
-          this.$router.go(-1)
-        })
-      }
-    })
+    // let digitalReceiptData = {
+    //   drivingLicenceNo: '',
+    //   licensePlateNo: this.numberPlate,
+    //   billNo: this.billNo
+    // }
+    // resultPost(toQueryElectronicReceiptPage, digitalReceiptData).then(json => {
+    //   if (json.code === '0000') {
+    //     this.digitData = json.data
+    //     this.length = this.digitData.length
+    //   } else {
+    //     MessageBox({
+    //       title: '提示',
+    //       message: json.msg
+    //     }).then(action => {
+    //       this.$router.go(-1)
+    //     })
+    //   }
+    // })
   },
   methods: {
     clickFn: function (index) {
@@ -177,11 +177,11 @@ export default {
       }
       .icon{
         display: inline-block;
-        width: 28px;
-        height: 28px;
+        width: 30px;
+        height: 30px;
         border: 1px solid #40a2e1;
-        font: 300 24px/28px "";
-        line-height: 28px;
+        font-size: 26px;
+        line-height: 30px;
         color: #40a2e1;
         border-radius: 50%;
       }
@@ -193,7 +193,7 @@ export default {
       }
     }
     .digRecord-nav-three{
-      font: 100 24px/82px "";
+      font-size: 26px;
       line-height: 82px;
       color: #349ddf;
       background: url(../../../images/dig.png) no-repeat;

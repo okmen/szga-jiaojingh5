@@ -75,7 +75,7 @@
           <div class="div-select">
             <!-- <span class="btn-select bg-colour" @click.stop="dateType()">{{ date }}</span> -->
             <input class="btn-select bg-colour" placeholder="请选择预约日期" @click.stop="dateType()" v-model="date" type="text" name="" readonly>
-            <div class="div-select-ul" v-if="dateShow">
+            <div class="div-select-ul date-style" v-if="dateShow">
               <ul>
                 <li v-for="item in dateData" @click.stop="dateType(item)">{{item}}</li>
               </ul>
@@ -89,7 +89,7 @@
           <div class="div-select">
             <!-- <span class="btn-select bg-colour" @click.stop="timeType()">{{ time }}</span> -->
              <input class="btn-select bg-colour" placeholder="请选择预约时间" @click.stop="timeType()" v-model="time" type="text" name="" readonly>
-            <div class="div-select-ul" v-if="timeShow">
+            <div class="div-select-ul date-style" v-if="timeShow">
               <ul>
                 <li class="time-liOrder" v-for="item in surplusData" @click.stop="timeType(item.time, item.number)">
                   <span class="time-order">{{item.time}}</span>

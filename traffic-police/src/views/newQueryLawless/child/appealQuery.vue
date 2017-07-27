@@ -7,30 +7,28 @@
       <div class="form-item">
         <div class="item-left">姓名</div>
         <div class="item-right">
-          <input class="text-input" v-model="this.name">
+          <input class="text-input" v-model="carJson.name" readonly>
         </div>
       </div>
       <div class="form-item">
         <div class="item-left">联系方式</div>
         <div class="item-right">
-          <input class="text-input" maxlength="11" v-model="this.mobilePhone">
+          <input class="text-input" maxlength="11" v-model="carJson.mobilephone" readonly>
         </div>
       </div>
       <div class="form-item">
         <div class="item-left">身份证号</div>
         <div class="item-right">
-          <input class="text-input" v-model="this.identityCard">
+          <input class="text-input" v-model="carJson.identityCard" readonly>
         </div>
       </div>
       <div class="form-item">
         <div class="item-left">名下车辆</div>
         <div class="item-right div-select">
-          <span class="btn-select min-btn-select" @click.stop="bindCarSelect()">{{ cur_bindCar }}</span>
+          <span class="btn-select min-btn-select" @click.stop="bindCarSelect()">{{ carJson.myNumberPlate }}</span>
           <div class="div-select-ul" v-if="bindCarListShow">
             <ul>
-              <li>1</li>
-              <li>2</li>
-              <li>3</li>
+              <li v-for="item in bindCarList" @click="itemFn(item)">{{ item.myNumberPlate }}</li>
             </ul>
           </div>
         </div>
@@ -38,13 +36,13 @@
       <div class="form-item">
         <div class="item-left">车牌类型</div>
         <div class="item-right">
-          <input class="text-input" v-model="plateTypeList[plateType]">
+          <input class="text-input" v-model="plateTypeList[plateType]" readonly>
         </div>
       </div>
       <div class="form-item">
         <div class="item-left">车架号</div>
         <div class="item-right">
-          <input class="text-input" maxlength="4" v-model="this.vehicleIdentifyNoLast4">
+          <input class="text-input" maxlength="4" v-model="carJson.behindTheFrame4Digits" readonly>
         </div>
       </div>
     </div>
@@ -92,7 +90,7 @@
 <script>
   import { resultPost } from '../../../service/getData'
   import { queryLawlessByCar } from '../../../config/baseUrl'
-  import { MessageBox } from 'mint-ui'
+  import { MessageBox, Toast } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
     name: 'appealQuery',
@@ -103,6 +101,7 @@
         identityCard: window.localStorage.getItem('identityCard'),
         cur_bindCar: window.localStorage.getItem('myNumberPlate') === 'undefined' ? '无' : window.localStorage.getItem('myNumberPlate'),
         bindCarList: [],
+        carJson: {},
         bindCarListShow: false,
         plateType: window.localStorage.getItem('plateType') === 'undefined' ? '99' : window.localStorage.getItem('plateType'),
         plateTypeList: {
@@ -115,16 +114,15 @@
       }
     },
     methods: {
-      bindCarSelect: function (str) {
-        if (str) {
-          this.curCar = str
-        }
-        if (this.licenseSelectShow === true) {
-          this.licenseSelectShow = false
+      itemFn (item) {
+        this.carJson = item
+        this.bindCarListShow = false
+      },
+      bindCarSelect: function () {
+        if (this.bindCarListShow === true) {
+          this.bindCarListShow = false
         } else {
-          this.licenseSelectShow = true
-          this.typeSelectShow = false
-          this.abbreviationSelectShow = false
+          this.bindCarListShow = true
         }
       },
       btnClick: function () {
@@ -133,7 +131,6 @@
           licensePlateType: this.plateType,
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
           identityCard: this.identityCard,
-          sourceOfCertification: 'C',
           mobilephone: this.mobilePhone
         }
         if (window.localStorage.getItem('myNumberPlate') === 'undefined') {
@@ -142,37 +139,40 @@
         }
 
         resultPost(queryLawlessByCar, reqData).then(json => {
-          console.log(json)
           if (json.code === '0000') {
-            if (json.data.length !== '0') {
-              json.data.forEach((item, index) => { // 循环dataList 给每个item上面添加 check关联属性
-                item.checkAddBorder = false
-              })
-              this.postAppealQuery(json.data)
-              this.$router.push('/illegalResult')
-            } else {
-              MessageBox('提示', json.msg)
+            let lawlessData = {
+              info: {
+                behindTheFrame4Digits: reqData.vehicleIdentifyNoLast4,
+                plateType: reqData.licensePlateType,
+                myNumberPlate: reqData.licensePlateNo,
+                mobilephone: reqData.mobilephone,
+                identityCard: reqData.drivingLicenceNo
+              },
+              data: json.data
             }
+            this.$store.commit('saveNewLawlessQuery', lawlessData)
+            this.$router.push('newLawlessMsg')
           } else {
-            MessageBox('提示', json.msg)
+            Toast({
+              message: json.msg,
+              position: 'middle',
+              duration: 2000
+            })
           }
         })
       },
       ...mapActions({
         postAppealQuery: 'postAppealQuery'
       })
+    },
+    created () {
+      let cars = JSON.parse(window.localStorage.cars)
+      if (cars.length === 0) {
+        MessageBox('提示', '当前用户没有车辆信息')
+        return false
+      }
+      this.bindCarList = cars
+      this.carJson = cars[0]
     }
-//    created () {
-//      var userCar = window.localStorage.getItem('myNumberPlate')
-//      if (!userCar) {
-//        Toast({
-//          message: '您还未绑定车辆',
-//          position: 'middle',
-//          className: 'white',
-//          duration: 3000
-//        })
-//        window.location.href = 'personalCenter'
-//      }
-//    }
   }
 </script>
