@@ -262,6 +262,10 @@ export default {
         Toast({message: '请输入手机号码', position: 'bottom', className: 'white'})
       } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobilephone))) {
         Toast({message: '请输入正确手机号码', position: 'bottom', className: 'white'})
+      } else if (!this.date) {
+        Toast({message: '请选择预约日期', position: 'bottom', className: 'white'})
+      } else if (!this.time) {
+        Toast({message: '请选择预约时间', position: 'bottom', className: 'white'})
       } else if (!this.identifying) {
         Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
       } else if (this.identifying.length !== 6) {
