@@ -93,8 +93,10 @@
                 // platNumber: data.data.platNumber,
                 // carTypeName: data.data.carTypeName,
                 businessType: this.businessTypeOne,
-                bookerNumber: data.data.bookNumber
+                bookerNumber: data.data.bookNumber,
+                bookStates: data.data.bookState
               }
+              console.log(dataInfo, '提交信息')
               this.$store.commit('saveSuccessInfo', dataInfo)
               this.$router.push('/querySuccess')
             } else {
@@ -118,7 +120,8 @@
                 platNumber: data.data.platNumber,
                 carTypeName: data.data.carTypeName,
                 businessType: this.businessTypeOne,
-                bookerNumber: data.data.bookNumber
+                bookerNumber: data.data.bookNumber,
+                bookStates: data.data.bookState
               }
               this.$store.commit('saveSuccessInfo', dataInfo)
               this.$router.push('/querySuccess')

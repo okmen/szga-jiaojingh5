@@ -64,7 +64,7 @@
         <li class="alter-hbs-item">
           <div class="alter-hbs-name"><span>预约日期</span></div>
           <div class="div-select">
-            <input class="btn-select bg-white" type="text" readonly placeholder="请选择预约时间" 
+            <input class="btn-select bg-white" type="text" readonly placeholder="请选择预约日期" 
                    @click.stop="dateClick()" v-model="orderAllDate">
             <div class="div-select-ul date-style" v-if="dateShow">
               <ul>
@@ -207,10 +207,9 @@
           this.cardSelectShow = false
         } else {
           this.cardSelectShow = true
-          this.abbreviationSelectShow = false  // 如果其它的下拉框是显示的，关闭
-          this.useNatureShow = false
-          this.orderPlaceShow = false
-          this.carTypeShow = false
+          this.orderPlaceShow = false       // 如果其它的下拉框是显示的，关闭
+          this.dateShow = false
+          this.detailTimeShow = false
         }
       },
 
@@ -227,9 +226,8 @@
         } else {
           this.orderPlaceShow = true
           this.cardSelectShow = false
-          this.abbreviationSelectShow = false
-          this.useNatureShow = false
-          this.carTypeShow = false
+          this.dateShow = false
+          this.detailTimeShow = false
         }
       },
 
@@ -260,6 +258,8 @@
         } else if (this.dateShow === false && this.orderAllDate) {
           this.dateShow = true
           this.detailTimeShow = false
+          this.orderPlaceShow = false
+          this.cardSelectShow = false
         }
       },
 
@@ -303,6 +303,8 @@
         } else if (this.detailTimeShow === false && this.selectDetailTime) {
           this.detailTimeShow = true
           this.dateShow = false
+          this.orderPlaceShow = false
+          this.cardSelectShow = false
         }
       },
 
@@ -390,6 +392,9 @@
           return false
         } else if (!this.validCode) {
           Toast({ message: '请输入验证码', className: 'white', duration: 1500 })
+          return false
+        } else if (!this.selectDetailTime) {
+          Toast({ message: '请选择预约时间', className: 'white', duration: 1500 })
           return false
         }
         return true
