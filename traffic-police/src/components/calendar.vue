@@ -30,11 +30,11 @@
         </thead>
         <tbody>
           <tr v-for="cell in data">
-            <td v-for="item in cell" :class="{'dp-last': m!== item.month, 'dp-overdue': getDateState(item.data).act === 0, 'dp-select': isSelectClass(item.data), 'dp-yellow': isYellow(item.data) }">
-              <div @click="pickDays(getDateState(item.data))" class="box-out">
+            <td v-for="item in cell" :class="{'dp-last': m!== item.month, 'dp-overdue': item.state.act === 0, 'dp-select': isSelectClass(getDateState(item.data)), 'dp-yellow': isYellow(item.state) }">
+              <div @click="pickDays(item.state)" class="box-out">
                 <div class="box-int">
                   <span>{{ item.day }}</span>
-                  <span v-if="getDateState(item.data).act !== 0" v-html="getDateState(item.data).text"></span>
+                  <span v-show="item.state.act !== 0" v-html="item.state.text"></span>
                 </div>
               </div>
             </td>
@@ -79,20 +79,18 @@ export default {
     if (!this.date) {
       sel = ''
     }
-    let curTime = new Date()
-    let cur = `${curTime.getFullYear()}-${curTime.getMonth() + 1}-${curTime.getDate()}` // 当前日期
     let y = d.getFullYear()
     let m = d.getMonth() + 1
-    let data = this.getCalendar(d.getFullYear(), d.getMonth() + 1)
-    let arrTime = []
+    let data = []
     return {
       days,
-      cur,
+      cur: moment(new Date()).format('YYYYMMDD'), // 当前日期
+      nDay: moment(new Date()).add(2, 'days').format('YYYYMMDD'), // 当前最大不可选日期
       sel,
       y,
       m,
       data,
-      arrTime,
+      arrTime: [],
       arrCancel: [],
       show: true,
       operation: {
@@ -100,25 +98,36 @@ export default {
         number: '',
         date: '',
         state: false
+      },
+      defaultData: {
+        act: '-1',
+        text: '',
+        state: '9',
+        isSelect: false,
+        isYellow: false,
+        cdate: ''
       }
+    }
+  },
+  created () {
+    this.data = this.getCalendar(this.y, this.m)
+  },
+  watch: {
+    loadDateArr: function () {
+      this.data = this.getCalendar(this.y, this.m)
     }
   },
   methods: {
     getDateState (date) {
-      let defaultData = {
-        act: '-1',
-        text: '',
-        state: '9'
-      }
+      // 默认返回数据
+      let defaultData = this.defaultData
       if (this.loadDateArr.length === 0) {
         return defaultData
       } else if (date) {
-        date = moment(date).format('YYYYMMDD')
-        // 当前最大不可选日期
-        let nDay = moment(new Date()).add(2, 'days').format('YYYYMMDD')
+        let theDate = moment(date).format('YYYYMMDD') // 格式化当前的日期
         // 日期状态
         let state = this.loadDateArr.find((key) => {
-          return key.cdate === moment(date).format('YYYYMMDD')
+          return key.cdate === theDate
         })
         // 如果日期不存在，返回一个假数据
         if (!state) {
@@ -137,19 +146,19 @@ export default {
           '9': ''
         }[state.state]
         // 设置日期选择状态
-        if (+moment(date).format('YYYYMMDD') < +moment(new Date()).format('YYYYMMDD')) {
+        if (+theDate < +this.cur) {
           state.act = 0
-        } else if (+moment(date).format('YYYYMMDD') >= moment(new Date()).format('YYYYMMDD') && moment(date).format('YYYYMMDD') <= nDay) {
+        } else if (+theDate >= this.cur && theDate <= this.nDay) {
           state.act = 1
         } else {
           state.act = 2
           // 选择状态
-          let isSelect = this.arrTime.indexOf(moment(date).format('YYYYMMDD'))
+          let isSelect = this.arrTime.indexOf(theDate)
           if (state.state === '0' && isSelect < 0) {
             state.text = ''
           }
           // 取消状态
-          let isCancel = this.arrCancel.indexOf(moment(date).format('YYYYMMDD'))
+          let isCancel = this.arrCancel.indexOf(theDate)
           if (state.state === '1' && isCancel >= 0) {
             state.text = ''
           }
@@ -223,7 +232,7 @@ export default {
       this.$emit('arrTime', this.arrTime, this.arrCancel)
     },
     isYellow (date) {
-      let item = this.getDateState(date)
+      let item = date
       if (item.act === 1) {
         return true
       } else if (item.act === 2 && (item.state === '2' || item.state === '3')) {
@@ -231,7 +240,7 @@ export default {
       }
     },
     isSelectClass (date) {
-      let item = this.getDateState(date)
+      let item = date
       // 如果在选择列表则添加Class
       if (this.arrTime.indexOf(item.cdate) >= 0) {
         return true
@@ -303,6 +312,7 @@ export default {
       for (i = 0; i < lastFix; i++) { // 上个月份
         t = lastMaxDate - lastFix + i + 1
         r1[i] = {
+          state: this.defaultData
           // month: lastMonth,
           // day: t,
           // data: lastDate + t
@@ -312,18 +322,18 @@ export default {
         t = i + 1
         let nm = m < 10 ? '0' + m : m
         let nt = t < 10 ? '0' + t : t
+        let state = this.getDateState(`${y}-${nm}-${nt}`)
         r2[i] = {
           month: nm,
           day: nt,
           data: `${y}-${nm}-${nt}`,
-          isCanChoose: Date.parse(`${y}/${m}/${t}`) - (Date.now() + 172800000),
-          isSelectedDate: this.selectedDate.indexOf(`${y}-${m}-${t}`),
-          pitchOn: false
+          state: state
         }
       }
       for (i = 0; i < nextFix; i++) { // 下个月份的
         t = i + 1
         r3[i] = {
+          state: this.defaultData
           // month: nextMonth,
           // day: t,
           // data: nextDate + t
