@@ -53,7 +53,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import { Input, Select, Option, Button } from 'element-ui'
 import { Toast } from 'mint-ui'
 export default {
@@ -108,10 +107,6 @@ export default {
       this.registerModule()
       this.$router.push({ name: 'greenApplyDate' })
     }
-  },
-  created () {
-    window.moment = moment
-    console.log(moment('201707'))
   }
 }
 </script>

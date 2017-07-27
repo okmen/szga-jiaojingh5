@@ -53,7 +53,7 @@
 import { Toast } from 'mint-ui'
 import moment from 'moment'
 import { resultPost } from 'src/service/getData'
-// import { getGreenDays } from 'src/config/baseUrl.js'
+import { getGreenDays } from 'src/config/baseUrl.js'
 export default {
   name: 'vueCalendar',
   props: ['date', 'carNum', 'selectedDate', 'loadDateArr', 'carInfo'],
@@ -169,7 +169,6 @@ export default {
         })
         return false
       } else if (date.act === 1) {
-        let getGreenDays = 'http://192.168.1.31:8080/web/greentravel/applyrunningQuery.html'
         resultPost(getGreenDays, {
           hphm: this.carInfo.hphm,
           hpzl: this.carInfo.hpzl,
