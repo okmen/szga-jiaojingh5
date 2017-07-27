@@ -62,6 +62,30 @@ let newQueryLawlessRouter = [
       title: '违法申诉提交表单'
     },
     component: require('../views/newQueryLawless/child/appealForm.vue')
+  },
+  {
+    name: 'confirmLawless',
+    path: '/confirmLawless',
+    meta: {
+      title: '违法在线确认'
+    },
+    component: require('../views/newQueryLawless/child/confirmLawless.vue')
+  },
+  {
+    name: 'newEarly',
+    path: '/newEarly',
+    meta: {
+      title: '交通违法预约'
+    },
+    component: require('../views/newQueryLawless/child/early.vue')
+  },
+  {
+    name: 'newPayLawless',
+    path: '/newPayLawless',
+    meta: {
+      title: '交通违法缴款'
+    },
+    component: require('../views/newQueryLawless/child/newPayLawless.vue')
   }
 ]
 
