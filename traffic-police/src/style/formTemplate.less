@@ -1,4 +1,7 @@
 /* 表单模板样式 */
+html,body,#app{
+  height: auto !important;
+}
 .form-template{
   height: auto;
   background: white;
@@ -30,6 +33,7 @@
 .form-template-item-left{
   width: 31%;
 }
+// 省份样式
 .form-template-item-right{
   width: 68%;
   .form-proveice-select{
@@ -50,6 +54,7 @@
   color: white;
   border-radius: 8px;
   margin-top: 80px;
+  width: 100%;
 }
 .send-code {    // 验证码样式
   display: flex;
@@ -117,4 +122,40 @@
   border-radius: 50%;
   background: #9c9ca1;
 }
-
+// 上传照片样式
+.form-picture-box{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  .form-picture-box-item{
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  .picture-box-remake{
+    font-size: 28px;
+    color: #666666;
+    text-align: center;
+    text-decoration: underline;
+    margin-top: 18px;
+  }
+  .form-picture-box-img{
+    width: 300px;
+    height: 300px;
+    border: 2px solid #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    input {
+      display: none;
+    }
+    img {
+      max-height: 90%;
+      max-width: 90%;
+    }
+  }
+}

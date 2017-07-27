@@ -10,7 +10,6 @@
       </ul>
     </div>
     <div class="digByCar-btn">
-      <!-- <a href="#">其他电子回单</a> -->
       <router-link to="digitalreceipTinquire">其他电子回单</router-link>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
@@ -81,7 +80,7 @@
           width: 60px;
           height: 30px;
           font-size: 20px;
-          line-height: 30px;
+          line-height: 36px;
           color: #fff;
           text-align: center;
           border-radius: 10Px;
@@ -110,3 +109,5 @@
     }
   }
 </style>
+
+
