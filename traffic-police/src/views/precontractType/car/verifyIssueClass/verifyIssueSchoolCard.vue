@@ -689,7 +689,7 @@
       },
       registerSubmit () {
         console.log(this.appointmentLocation.option)
-        // if (!this.beforeSubmit()) return
+        if (!this.beforeSubmit()) return
         // 获取预约地点详细地址
         for (let i = 0, len = this.appointmentLocation.option.length; i < len; i++) {
           if (this.appointmentLocation.option[i].id === this.appointmentLocationOne) {
@@ -733,11 +733,12 @@
             })
             let dataInfo = {
               type: data.data.type,
+              businessType: this.$route.query.name, // 预约业务名称
               reserveNo: data.data.waterNumber, // 预约编号
-              title: this.businessName, // 预约业务
+              numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(), // 车牌号
+              mobilephone: this.mobilePhone, // 手机号
               reserveAddress: data.data.orgName,  // 预约地点
-              reserveTime: data.data.appointmentDate, // 预约日期
-              effectiveTime: data.data.appointmentTime // 预约时间段
+              reserveTime: `${data.data.appointmentDate} ${data.data.appointmentTime}` // 预约日期
             }
 //          this.$store.commit('saveResponseData', data)
             this.$store.commit('saveSuccessInfo', dataInfo)

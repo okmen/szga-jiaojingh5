@@ -3,15 +3,20 @@
     <div class="query-success-content">
       <div class="item" v-for="(value, key) in dataInfo" v-if="keyListObj[key]">
         <span class="bid-item-key">{{ keyListObj[key] }}</span>
-        ：<span >{{ value }}</span>
+        ：<span >{{ valListObj[key] ? valListObj[key][value] : value }}</span>
       </div>
     </div>
-    <div class="form-template-submit" @click="cancelReverse">取消预约</div>
+    <div class="form-template-submit" @click="cancelReverse" v-if="this.dataInfo.bookStates==='1'">取消预约</div>
+    <div class="form-template-submit cancel-btn" v-else>取消预约</div>
   </div>
 </template>
 <style lang="less">
   .query-success{
     height: 100%!important;
+  }
+  .cancel-btn{
+    background: #10ccff!important;
+    color: #eee!important;
   }
   .query-success-content{
     border:2px solid #ccc;
@@ -49,7 +54,16 @@
           appointmentDate: '预约日期',
           appointmentTime: '预约时间',
           platNumber: '号牌号码',
-          carTypeName: '车辆类型'
+          carTypeName: '车辆类型',
+          bookStates: '预约状态'
+        },
+        valListObj: {
+          bookStates: {
+            '1': '预约中',
+            '2': '预约完成',
+            '3': '失约',
+            '4': '取消预约'
+          }
         }
       }
     },
@@ -71,8 +85,9 @@
           }
           resultPost(cancel, requestData).then(data => {
             console.log(data, '预约信息')
-            // MessageBox('提示', data.msg)
-            this.$router.push('/')
+            MessageBox.alert(data.data).then(action => {
+              this.$router.push('/')
+            });
           })
         })
       }

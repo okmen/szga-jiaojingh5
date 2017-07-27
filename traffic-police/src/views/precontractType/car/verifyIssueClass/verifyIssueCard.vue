@@ -778,7 +778,7 @@
       },
       registerSubmit () {
         console.log(this.appointmentLocation.option)
-        // if (!this.beforeSubmit()) return
+        if (!this.beforeSubmit()) return
         for (let i = 0, len = this.appointmentLocation.option.length; i < len; i++) {
           if (this.appointmentLocation.option[i].id === this.appointmentLocationOne) {
             this.appointmentLocationDes = this.appointmentLocation.option[i].description
@@ -823,12 +823,13 @@
               }
             })
             let dataInfo = {
-              type: 2,
-              reserveNo: data.data,
-              numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(),
-              mobilephone: this.mobilePhone,
-              reserveAddress: this.appointmentLocationStr,
-              reserveTime: `${this.yearMonthDay} ${this.appointmentTime}`
+              type: data.data.type,
+              businessType: this.$route.query.name, // 预约业务名称
+              reserveNo: data.data.waterNumber, // 预约编号
+              numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(), // 车牌号
+              mobilephone: this.mobilePhone, // 手机号
+              reserveAddress: data.data.orgName,  // 预约地点
+              reserveTime: `${data.data.appointmentDate} ${data.data.appointmentTime}` // 预约日期
             }
 //          this.$store.commit('saveResponseData', data)
             this.$store.commit('saveSuccessInfo', dataInfo)
