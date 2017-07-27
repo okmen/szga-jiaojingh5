@@ -15,7 +15,7 @@
         v-on:arrTime="handleArrTime"
         v-on:skipDate="handleSkipDate"
         :selectedDate="selectedDate"
-        v-if="loadDateArr.length > 0"
+        v-if="showCalendar"
       ></vue-calendar>
     </div>
     <ul class="list">
@@ -47,7 +47,7 @@ import calendar from 'components/calendar.vue'
 import { resultGet, resultPost } from 'src/service/getData'
 import moment from 'moment'
 import { Toast } from 'mint-ui'
-// import { getGreenApply, postGreenApply } from 'src/config/baseUrl.js'
+import { getGreenApply, postGreenApply } from 'src/config/baseUrl.js'
 export default {
   components: {
     'el-button': Button,
@@ -63,9 +63,12 @@ export default {
       time: new Date().getTime(),
       carNum: '粤A12345',
       selectedDate: [],
-      loadDateArr: {},
+      loadDateArr: [],
+      loadDateMonthArr: [],
       selectArrTime: [],
-      confirmState: false
+      selectArrTimeType: [],
+      confirmState: false,
+      showCalendar: false
     }
   },
   created () {
@@ -81,15 +84,25 @@ export default {
   },
   methods: {
     // 选择申报日期
-    handleArrTime (data) {
-      this.selectArrTime = data.map((item) => {
+    handleArrTime (data, data2) {
+      let Arr = data.concat(data2)
+      this.selectArrTime = Arr.map((item) => {
         return moment(item).format('YYYYMMDD')
       })
+      let typeArr = []
+      data.forEach(key => {
+        typeArr.push('1')
+      })
+      data2.forEach(key => {
+        typeArr.push('0')
+      })
+      this.selectArrTimeType = typeArr
     },
     // 切换月份
     handleSkipDate (date) {
+      console.log(date, '切换月份')
       // 如果当前月份没有数据，则拉取数据
-      if (!this.loadDateArr[date]) {
+      if (this.loadDateMonthArr.indexOf(date) < 0) {
         this.getDate(date)
       }
     },
@@ -102,18 +115,16 @@ export default {
         sfzmhm: greenApply.IdCard,
         month: month
       }
-      let getGreenApply = 'http://192.168.1.34:8080/web/greentravel/applyDownDateReport.html'
       resultGet(`${getGreenApply}?hphm=${requestData.hphm}&hpzl=${requestData.hpzl}&sfzmhm=${requestData.sfzmhm}&month=${requestData.month}`).then(data => {
-        let Arr = []
-        data.date.ret.forEach((item, index, array) => {
-          if (item.state === '7' || item.state === '1') {
-            Arr.push(moment(item.cdate).format('YYYY-M-D'))
-          }
-        })
-        this.selectedDate.push(...Arr)
-        this.loadDateArr[month] = data.date.ret
+        this.loadDateArr.push(...data.date.ret)
+        this.loadDateMonthArr.push(month)
+        this.showCalendar = true
       }).catch(error => {
         console.log(error)
+        Toast({
+          message: '日期不可用',
+          position: 'middle'
+        })
       })
     },
     // 提交
@@ -121,7 +132,7 @@ export default {
       if (this.selectArrTime.length === 0) {
         Toast({
           message: '没有选择日期',
-          position: 'bottom'
+          position: 'middle'
         })
         return false
       }
@@ -139,16 +150,16 @@ export default {
         sfbr: greenApply.isMySelf,
         lrly: 'WX',
         cdate: this.selectArrTime.join(),
-        type: '1'
+        type: this.selectArrTimeType.join()
       }
-      let postGreenApply = 'http://192.168.1.34:8080/web/greentravel/downDatedeclareReport.html'
       resultPost(postGreenApply, requestData).then(data => {
         console.log(data)
         if (data.code === '0000') {
           this.$store.commit('saveSuccessInfo', {
-            type: 1,
+            type: 3,
             businessType: '绿色出行业务',
-            subscribeNo: '-'
+            numberPlate: data.date.numberPlate,
+            reserveNumber: data.date.reserveNumber
           })
           this.$router.push('/submitSuccess')
         } else {

@@ -8,6 +8,7 @@
     dataInfo.type
       1 : 申办成功 // 办理类
       2 : 预约成功 // 预约类
+      3 : 申报日期 
     接口返回的数据存至 dataInfo
 
     dataInfo = {
@@ -22,7 +23,8 @@
       numberPlate: '车牌号码',
       mobilephone: '手机号码',
       reserveAddress: '服务点',
-      reserveTime: '预约时间'
+      reserveTime: '预约时间',
+      reserveNumber: '申办天数'
     }
 -->
 
@@ -31,7 +33,7 @@
     <section class="appoint-img">
       <dl>
         <dd></dd>
-        <dt>{{JsonDataInfo.type == 1 ? '申办成功' : '预约成功'}}</dt>
+        <dt>{{typeTitle[JsonDataInfo.type]}}成功</dt>
       </dl>
     </section>
     <!-- 申办成功的内容  -->
@@ -46,13 +48,24 @@
       </ul>
     </section>
     <!-- 预约成功的内容 -->
-    <section class="appoint-box" v-if="JsonDataInfo.type != 1">
+    <section class="appoint-box" v-if="JsonDataInfo.type == 2">
       <h3>预约结果</h3>
       <p>{{ tip }}</p>
       <ul class="submitSuccess-ul">
         <li v-for="(value, key) in JsonDataInfo" class="submitSuccess-item"  v-if="keyListObj[key]">
           <span class="submitSuccess-item-key">{{ keyListObj[key] }}</span>
           ：<span class="submitSuccess-item-value">{{ valListObj[key] ? valListObj[key][value] : value }}</span>
+        </li>
+      </ul>
+    </section>
+    <!-- 申报停驶 -->
+    <section class="bid-box appoint-box" v-if="JsonDataInfo.type == 3">
+      <h3>{{typeTitle[JsonDataInfo.type]}}结果</h3>
+      <p>感谢您的参与，提交成功！<br>您在绿色出行行动中，累计申报停驶了{{ JsonDataInfo.reserveNumber }}天。</p>
+      <ul class="bid-ul appoint-margin">
+        <li class="bid-item" v-for="(value, key) in JsonDataInfo" v-if="keyListObj[key]">
+          <span class="bid-item-key">{{ keyListObj[key] }}</span>
+          ：<span :class="{red: key === 'subscribeNo' || key === 'waterNumber'}">{{ valListObj[key] ? valListObj[key][value] : value }}</span>
         </li>
       </ul>
     </section>
@@ -73,6 +86,11 @@ export default {
       JsonDataInfo: '',
       urlJsonData: this.urlToJson(window.location.href),
       tip: '您的信息已成功提交，我们将会在3个工作日内通过短信告知您的审核结果，您还可以凭身份证信息在深圳交警微信号中查询审核。',
+      typeTitle: {
+        '1': '申办',
+        '2': '预约',
+        '3': '申报'
+      },
       keyListObj: {
         businessType: '业务类型',
         subscribeNo: '流水号码',
@@ -84,7 +102,8 @@ export default {
         reserveTime: '预约时间',
         effectiveTime: '有效时间',
         plateType: '车牌类型',
-        title: '业务类型'
+        title: '业务类型',
+        reserveNumber: '申办天数'
       },
       valListObj: {
         cartype: {
