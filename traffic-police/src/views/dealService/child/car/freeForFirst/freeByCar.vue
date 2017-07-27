@@ -7,7 +7,23 @@
             <div class="freeByCar-hbs-name">
               <span>车牌号码</span>
             </div>
-            <div class="freeByCar-hbs-text">
+            <div class="div-select left">
+              <span class="btn-select width-45" @click.stop="abbreviationSelectClick()"">{{ abbreviationSelectMassage }}</span>
+              <div class="div-select-ul" v-if="abbreviationSelectShow">
+                <ul>
+                  <li v-for="item in abbreviationSelectData" @click.stop="abbreviationSelectClick(item.str, item.id)">{{item.str}}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="div-select left abbreviationLeft">
+              <span class="btn-select width-45" @click.stop="moldClick()">{{mold}}</span>
+              <div class="div-select-ul" v-if="moldShow">
+                <ul>
+                  <li v-for="item in moldData" @click.stop="moldClick(item.str, item.id)">{{item.str}}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="width-53 right">
               <input class="text-input" type="text" v-model="numberPlate" name="" value="" placeholder="请输入车牌号码" >
             </div>
           </li>
@@ -61,6 +77,185 @@
         vehicleIdentifyNoLast4: '',           // 请求-车架号后4位
         verifyCode: false,
         licenseSelectShow: false,             // 车牌列表显示与否// 验证码验证
+        abbreviationSelectShow: false,
+        abbreviationSelectMassage: '粤',
+        abbreviationSelectData: [
+          {
+            'str': '粤'
+          },
+          {
+            'str': '鄂'
+          },
+          {
+            'str': '豫'
+          },
+          {
+            'str': '皖'
+          },
+          {
+            'str': '赣'
+          },
+          {
+            'str': '冀'
+          },
+          {
+            'str': '鲁'
+          },
+          {
+            'str': '浙'
+          },
+          {
+            'str': '苏'
+          },
+          {
+            'str': '湘'
+          },
+          {
+            'str': '闽'
+          },
+          {
+            'str': '蒙'
+          },
+          {
+            'str': '京'
+          },
+          {
+            'str': '辽'
+          },
+          {
+            'str': '渝'
+          },
+          {
+            'str': '沪'
+          },
+          {
+            'str': '陕'
+          },
+          {
+            'str': '川'
+          },
+          {
+            'str': '黑'
+          },
+          {
+            'str': '晋'
+          },
+          {
+            'str': '桂'
+          },
+          {
+            'str': '吉'
+          },
+          {
+            'str': '宁'
+          },
+          {
+            'str': '贵'
+          },
+          {
+            'str': '琼'
+          },
+          {
+            'str': '甘'
+          },
+          {
+            'str': '青'
+          },
+          {
+            'str': '津'
+          },
+          {
+            'str': '云'
+          },
+          {
+            'str': '藏'
+          },
+          {
+            'str': '新'
+          }
+        ],
+        mold: 'B',
+        moldShow: false,
+        moldData: [
+          {
+            'str': 'A'
+          },
+          {
+            'str': 'B'
+          },
+          {
+            'str': 'C'
+          },
+          {
+            'str': 'D'
+          },
+          {
+            'str': 'E'
+          },
+          {
+            'str': 'F'
+          },
+          {
+            'str': 'G'
+          },
+          {
+            'str': 'H'
+          },
+          {
+            'str': 'I'
+          },
+          {
+            'str': 'J'
+          },
+          {
+            'str': 'K'
+          },
+          {
+            'str': 'L'
+          },
+          {
+            'str': 'N'
+          },
+          {
+            'str': 'M'
+          },
+          {
+            'str': 'O'
+          },
+          {
+            'str': 'P'
+          },
+          {
+            'str': 'Q'
+          },
+          {
+            'str': 'R'
+          },
+          {
+            'str': 'S'
+          },
+          {
+            'str': 'T'
+          },
+          {
+            'str': 'U'
+          },
+          {
+            'str': 'V'
+          },
+          {
+            'str': 'W'
+          },
+          {
+            'str': 'X'
+          },
+          {
+            'str': 'Y'
+          },
+          {
+            'str': 'Z'
+          }
+        ],
         licenseSelectMassage: '蓝牌',         // 默认车牌类型
         licenseSelectDataList: {
           '02': '蓝牌',
@@ -133,12 +328,26 @@
           this.abbreviationSelectShow = false
         }
       },
-      abbreviationSelectClick: function (str) {
+      abbreviationSelectClick: function (str, id) {
+        this.moldShow = false
         if (str) {
           this.abbreviationSelectMassage = str
         }
         if (this.abbreviationSelectShow === true) {
           this.abbreviationSelectShow = false
+        } else {
+          this.abbreviationSelectShow = true
+        }
+      },
+      moldClick: function (str, id) {
+        this.abbreviationSelectShow = false
+        if (str) {
+          this.mold = str
+        }
+        if (this.moldShow === true) {
+          this.moldShow = false
+        } else {
+          this.moldShow = true
         }
       },
       demandClick: function () {
@@ -157,7 +366,7 @@
         let freeByCarData = {
           queryType: '1',
           illegalNumber: '',
-          numberPlate: this.numberPlate,   // 车牌号码
+          numberPlate: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`,   // 车牌号码
           plateType: this.cur_type_id      // 车牌种类
         }
         resultPost(getResultOfFirstIllegalImpunity, freeByCarData).then(json => {
@@ -169,6 +378,13 @@
           }
         })
       }
+    },
+    created () {
+      document.addEventListener('click', (e) => {
+        this.licenseSelectShow = false
+        this.moldShow = false
+        this.abbreviationSelectShow = false
+      })
     }
   }
 </script>
@@ -238,6 +454,15 @@
       .freeByCarLi:last-of-type{
         border-bottom: none;
       }
+    }
+    .width-25 {
+      width: 25% !important;
+    }
+    .width-53 {
+      width: 53% !important;
+    }
+    .abbreviationLeft{
+      margin-left: 2%;
     }
   }
 </style>
