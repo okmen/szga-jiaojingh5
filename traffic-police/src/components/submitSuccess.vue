@@ -298,12 +298,12 @@ export default {
       }
     }
     .submitSuccess-ul{
+      width: 100%;
       font-size: 22px;
       padding-left: 28px;
       font-weight: bold;
       .submitSuccess-item{
         line-height: 50px;
-        white-space: nowrap;
         .submitSuccess-item-key{
           display: inline-block;
           width: 96px;
