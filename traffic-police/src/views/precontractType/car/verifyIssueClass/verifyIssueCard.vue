@@ -841,7 +841,7 @@
               type: data.data.type,
               businessType: this.$route.query.name, // 预约业务名称
               reserveNo: data.data.waterNumber, // 预约编号
-              numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(), // 车牌号
+              // numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(), // 车牌号
               mobilephone: this.mobilePhone, // 手机号
               reserveAddress: data.data.orgName,  // 预约地点
               reserveTime: `${data.data.appointmentDate} ${data.data.appointmentTime}` // 预约日期
