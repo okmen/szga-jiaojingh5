@@ -85,7 +85,7 @@
           }
           resultPost(cancel, requestData).then(data => {
             console.log(data, '预约信息')
-            MessageBox.alert(data.data).then(action => {
+            MessageBox.alert(data.msg).then(action => {
               this.$router.push('/')
             });
           })

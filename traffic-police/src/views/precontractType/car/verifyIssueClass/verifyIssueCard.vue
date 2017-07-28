@@ -80,7 +80,7 @@
             </ul>
           </div>
         </div>
-        <div class="form-template-submit" @click="registerSubmit">预  约</div>
+        <div class="register-submit" @click="registerSubmit">预  约</div>
       </div>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
@@ -128,7 +128,7 @@
         width: 100%;
         z-index: 3;
         background: white;
-        max-height: 400px;
+        max-height: 240px;
         overflow: auto;
         .register-item-li{
           font-size: 30px;
@@ -162,6 +162,15 @@
         border-radius: 8px;
       }
     }
+  }
+  .register-submit {
+    height: 80px;
+    background: #10aeff;
+    text-align: center;
+    line-height: 80px;
+    color: white;
+    border-radius: 8px;
+    margin-top: 130px;
   }
   .form-template-item-type {
     border: 2px solid #e5e5e5;
@@ -237,7 +246,7 @@
 <script>
   import {isPhone, specialCharacters} from 'service/regExp.js'
   import {resultPost} from 'service/getData'
-  import {Toast} from 'mint-ui'
+  import {Toast, MessageBox} from 'mint-ui'
   import {
     // getBusinessTypeId,
     getPageInit,
@@ -623,6 +632,7 @@
       },
       // 判断是否已经显示日期，如果有就不重新获取日期
       toggleData () {
+        this.showItemTime = false
         if (!this.allYearMonthDay) {
           this.getAllYearMonthDay()
         } else {
@@ -631,6 +641,7 @@
       },
       // 判断是否已经显示时间段，如果有就不重新获取时间段配额
       toggleTime () {
+        this.showItemData = false
         if (!this.surplusData) {
           this.getQuotaInformation()
         } else {
@@ -646,13 +657,20 @@
             this.showItemData = !this.showItemData
           } else {
             this.allYearMonthDay = ''
-            // MessageBox('提示', json.data)
+            MessageBox('提示', json.msg)
           }
         })
       },
       // 获取配额信息
       getQuotaInformation () {
         console.log(this.quotaRequest)
+        if (!this.yearMonthDay) {
+          Toast({
+            message: '请先选择预约日期',
+            duration: 2000
+          })
+          return
+        }
         resultPost(getAppTimes, this.quotaRequest).then(json => {
           console.log(json, '配额信息')
           this.activeIndex = ''
@@ -660,16 +678,13 @@
           if (json.code === '0000') {
             let arrData = []
             json.data.map(item => {
-              arrData.push({'time': item.apptime, 'num': item.maxnumber - item.yetnumber})
+              arrData.push({'time': item.apptime, 'num': ((item.maxnumber - item.yetnumber <= 0) ? 0 : (item.maxnumber - item.yetnumber))})
             })
             this.surplusData = arrData
             this.showItemTime = !this.showItemTime
           } else {
             this.surplusData = ''
-            Toast({
-              message: '请先选择预约日期',
-              duration: 2000
-            })
+            MessageBox('提示', json.msg)
           }
         })
       },
@@ -778,7 +793,7 @@
       },
       registerSubmit () {
         console.log(this.appointmentLocation.option)
-        if (!this.beforeSubmit()) return
+        // if (!this.beforeSubmit()) return
         for (let i = 0, len = this.appointmentLocation.option.length; i < len; i++) {
           if (this.appointmentLocation.option[i].id === this.appointmentLocationOne) {
             this.appointmentLocationDes = this.appointmentLocation.option[i].description
@@ -826,7 +841,7 @@
               type: data.data.type,
               businessType: this.$route.query.name, // 预约业务名称
               reserveNo: data.data.waterNumber, // 预约编号
-              numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(), // 车牌号
+              // numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(), // 车牌号
               mobilephone: this.mobilePhone, // 手机号
               reserveAddress: data.data.orgName,  // 预约地点
               reserveTime: `${data.data.appointmentDate} ${data.data.appointmentTime}` // 预约日期

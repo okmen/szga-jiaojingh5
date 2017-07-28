@@ -66,7 +66,7 @@
             </ul>
           </div>
         </div>
-        <div class="form-template-submit" @click="registerSubmit">预  约</div>
+        <div class="register-submit" @click="registerSubmit">预  约</div>
       </div>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
@@ -114,7 +114,7 @@
         width: 100%;
         z-index: 3;
         background: white;
-        max-height: 400px;
+        max-height: 240px;
         overflow: auto;
         .register-item-li{
           font-size: 30px;
@@ -148,6 +148,15 @@
         border-radius: 8px;
       }
     }
+  }
+  .register-submit {
+    height: 80px;
+    background: #10aeff;
+    text-align: center;
+    line-height: 80px;
+    color: white;
+    border-radius: 8px;
+    margin-top: 130px;
   }
   .form-template-item-type {
     border: 2px solid #e5e5e5;
@@ -223,7 +232,7 @@
 <script>
   import {isPhone, specialCharacters, plateNumberDetection} from 'service/regExp.js'
   import {resultPost} from 'service/getData'
-  import {Toast} from 'mint-ui'
+  import {Toast, MessageBox} from 'mint-ui'
   import {
     // getBusinessTypeId,
     getPageInit,
@@ -560,6 +569,7 @@
       },
       // 判断是否已经显示日期，如果有就不重新获取日期
       toggleData () {
+        this.showItemTime = false
         if (!this.allYearMonthDay) {
           this.getAllYearMonthDay()
         } else {
@@ -568,6 +578,7 @@
       },
       // 判断是否已经显示时间段，如果有就不重新获取时间段配额
       toggleTime () {
+        this.showItemData = false
         if (!this.surplusData) {
           this.getQuotaInformation()
         } else {
@@ -583,13 +594,20 @@
             this.showItemData = !this.showItemData
           } else {
             this.allYearMonthDay = ''
-            // MessageBox('提示', json.data)
+            MessageBox('提示', json.msg)
           }
         })
       },
       // 获取配额信息
       getQuotaInformation () {
         console.log(this.quotaRequest)
+        if (!this.yearMonthDay) {
+          Toast({
+            message: '请先选择预约日期',
+            duration: 2000
+          })
+          return
+        }
         resultPost(getAppTimes, this.quotaRequest).then(json => {
           console.log(json, '配额信息')
           this.activeIndex = ''
@@ -603,10 +621,7 @@
             this.showItemTime = !this.showItemTime
           } else {
             this.surplusData = ''
-            Toast({
-              message: '请先选择预约日期',
-              duration: 2000
-            })
+            MessageBox('提示', json.msg)
           }
         })
       },
