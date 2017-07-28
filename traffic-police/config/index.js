@@ -8,7 +8,8 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     // assetsPublicPath: '//szjj.u-road.com/h5',
-    assetsPublicPath: '//testh5.chudaokeji.com/h5',
+    // assetsPublicPath: '//testh5.chudaokeji.com/h5',
+    assetsPublicPath: '/h5/',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.

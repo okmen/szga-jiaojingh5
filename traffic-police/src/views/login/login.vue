@@ -53,7 +53,7 @@ export default {
       }
       if (!this.openId) {
         // 交警u-load环境
-        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.openIdURL}#wechat_redirect`
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http%3A%2F%2Fgzh.stc.gov.cn%2Fapi%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.openIdURL}#wechat_redirect`
       }
       let reqData = {
         loginName: this.loginName,
@@ -82,7 +82,8 @@ export default {
           window.localStorage.setItem('userName', decodeURIComponent(userData.trueName)) // 用户名字
           window.localStorage.setItem('cars', userCars)   // 名下车牌信息
           window.localStorage.setItem('isLogin', true) // 是否登录
-          window.location.href = `http://szjj.u-road.com/szjjpro/member/loginfornew?username=${reqData.loginName}&password=${reqData.password}&openID=${reqData.openId}`
+          // window.location.href = `http://gzh.stc.gov.cn/szjjpro/member/loginfornew?username=${reqData.loginName}&password=${reqData.password}&openID=${reqData.openId}`
+          this.$router.push('/')
         } else {
           Toast({
             message: data.msg,
@@ -98,13 +99,13 @@ export default {
     let ua = window.navigator.userAgent // 浏览器版本
     this.openId = window.localStorage.getItem('openId')
     let data = {
-      url: 'http://szjj.u-road.com/h5/#/login'
+      url: 'http://gzh.stc.gov.cn/h5/#/login'
     }
     if (!this.openId) {
       if (/MicroMessenger/i.test(ua)) { // 微信跳转获取openId
         window.localStorage.setItem('sourceOfCertification', 'C')
         // 交警u-load环境
-        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http%3A%2F%2Fgzh.stc.gov.cn%2Fapi%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.url}#wechat_redirect`
       } else if (/AlipayClient/i.test(ua)) { // 支付宝
         window.localStorage.setItem('sourceOfCertification', 'Z')
         window.location.href = `https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=2016082201786470&scope=auth_user&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2FoauthAlipay%2Fcallback.html&state=${data.url}`
