@@ -48,12 +48,15 @@ export default {
       resultPost(createDriveInfoZJ20, params).then(json => {
         if (json.code === '0000') {
           console.log(json)
+          let time = json.data.appointmentTime
+          let date = json.data.appointmentDate
           let dataInfo = {
             type: 2,
+            businessType: this.bussinessName,     // 预约业务名称
             reserveNo: json.data.waterNumber,    // 流水号
             mobilephone: params.bookerMobile,    // 手机号码
             reserveAddress: orderPlace,          // 服务点
-            reserveTime: json.data.appointmentDate       // 预约日期
+            reserveTime: `${date} ${time}`       // 预约日期
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')

@@ -17,7 +17,7 @@
           <img src="./../../images/wfyy_77227689.png"><br>违法预约
         </div>
       </router-link>
-      <a :href="'http://szjj.u-road.com/szjjpro/cheguan/xwsq/'+openId">
+      <a :href="'http://gzh.stc.gov.cn/szjjpro/cheguan/xwsq/'+openId">
         <div class="business4 xwsq">
           <img src="./../../images/txz_70246e3c.png"><br>通行证办理
         </div>
@@ -39,7 +39,7 @@
           <img src="./../../images/mf_12d603d5.png"><br>消分学习
         </div>
       </router-link>
-      <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/feePayment/'+openId">
+      <a :href="'http://gzh.stc.gov.cn/szjjpro/Business/HomePage/feePayment/'+openId">
         <div class="business8 cggfjn">
           <img src="./../../images/jn_273b136c.png"><br>规费缴纳
         </div>

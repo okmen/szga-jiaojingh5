@@ -73,7 +73,7 @@
       resultPost(getClaimConfirm, reqData).then(json => {
         console.log(json)
         Indicator.close()
-        if (!json.data) {
+        if (!json.data || json.code !== '0000') {
           MessageBox({
             title: '',
             message: '该车辆暂无违章处理信息'

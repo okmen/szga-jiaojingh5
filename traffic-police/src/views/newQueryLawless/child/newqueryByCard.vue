@@ -103,12 +103,20 @@
         resultPost(queryLawlessByCard, reqData).then(json => {
           console.log(json)
           if (json.code === '0000') {
+            if (!json.data) {
+              Toast({
+                message: json.msg,
+                position: 'middle',
+                duration: 2000
+              })
+              return false
+            }
             let lawlessData = {
               info: {},
               data: json.data
             }
             this.$store.commit('saveNewLawlessQuery', lawlessData)
-            // this.$router.push('newLawlessMsg')
+            this.$router.push('newLawlessMsg')
           } else {
             Toast({
               message: json.msg,
