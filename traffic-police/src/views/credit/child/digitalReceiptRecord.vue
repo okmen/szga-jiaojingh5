@@ -32,6 +32,7 @@ export default {
   },
   mounted () {
     this.id = this.$route.query.id
+    // 1:表示缴款编号和车牌号查询 2:表示本人车辆查询或者他人车辆查询
     if (this.id === '1') {
       this.numberPlate = this.$route.query.numberPlate
       this.billNo = this.$route.query.billNo
