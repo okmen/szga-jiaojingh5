@@ -27,8 +27,8 @@
     }
   }
 </script>
-<style lang="less" >
-  @import "./../../../../../style/base";
+<style lang="less" scoped>
+  /*@import "./../../../../../style/base";*/
   .freeForFirst-outer {
     position: absolute;
     left: 0;
@@ -54,8 +54,7 @@
     }
     .tp-look-tips{
       width:100%;
-      height:26px;
-      margin:40px;
+      padding: 40px 0 40px 40px;
       a{
         font-size:26px;
         color:#24a6f8;

@@ -139,6 +139,9 @@ export default {
     getDate: function () {
       this.selectData = this.newData[this.year][this.month][this.date].yydate_sjd.sditem
       return this.date
+    },
+    lawlessData: function () {
+      return this.$store.state.newLawlessDeal
     }
   },
   methods: {
@@ -298,8 +301,8 @@ export default {
     console.log(this.lawlessData)
     this.custName = window.localStorage.getItem('userName') // 姓名
     this.certificateNo = window.localStorage.getItem('identityCard') // 身份证
-    this.licensePlateNo = window.localStorage.getItem('myNumberPlate') // 车牌号码
-    this.licensePlateType = window.localStorage.getItem('plateType') // 车牌类型
+    this.licensePlateNo = this.lawlessData.data.licensePlateNo // 车牌号码
+    this.licensePlateType = this.lawlessData.data.licensePlateType // 车牌类型
     this.mobileNo = window.localStorage.getItem('mobilePhone') // 手机号码
 
     let ua = window.navigator.userAgent // 浏览器版本

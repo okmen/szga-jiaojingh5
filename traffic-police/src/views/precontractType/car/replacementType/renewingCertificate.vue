@@ -19,24 +19,29 @@ export default {
   props: ['businessId'],    // 拿到当前业务的id  然后传给 common组件
   data () {
     return {
+      nametypes: ''
     }
   },
   components: {
     common
   },
+  mounted () {
+    this.nametypes = this.$route.query.name
+  },
   methods: {
-    subFn: function (params, subscribe) {
+    subFn: function (params) {
       console.log('renewingCertificate', params)
       resultPost(createVehicleInfo, params).then(json => {
         console.log(json)
         if (json.code === '0000') {
           let dataInfo = {
             type: 2,
+            businessType: this.nametypes,         // 业务类型
             reserveNo: json.data.waterNumber,    // 流水号
-            numberPlate: params.platNumber,      // 车牌号码
+            numberPlate: json.data.platNumber,      // 车牌号码
             mobilephone: params.bookerMobile,    // 手机号码
-            reserveAddress: subscribe,          // 服务点
-            reserveTime: params.appointmentDate  // 预约日期
+            reserveAddress: json.data.orgName,          // 服务点
+            reserveTime: `${json.data.appointmentDate} ${json.data.appointmentTime}`  // 预约日期
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')

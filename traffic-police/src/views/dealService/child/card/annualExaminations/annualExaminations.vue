@@ -82,12 +82,11 @@
         </li>
       </ul>
     </div>
-    <userUpload :idCard1="true" :idCard2="true" :eduTable="true" :outTable="outTable" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
+    <userUpload :buttonIsClick="buttonIsClick" :idCard1="true" :idCard2="true" :eduTable="true" :outTable="outTable" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <style lang="less" scoped>
-  @import "./../../../../../style/base";
   .annualExaminations-outer {
     background-color: #fff;
     position: absolute;
@@ -146,12 +145,13 @@
 </style>
 <script>
   import { annualExaminations } from '../../../../../config/baseUrl'
-  import { Toast } from 'mint-ui'
+  import { Toast, MessageBox } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
     name: 'annualExaminations',
     data () {
       return {
+        buttonIsClick: false,
         name: window.localStorage.getItem('userName'),
         IDcard: window.localStorage.getItem('identityCard'),
         mobilephone: window.localStorage.getItem('mobilePhone'),
@@ -317,6 +317,10 @@
       })
     },
     created () {
+      if (!window.localStorage.getItem('myNumberPlate')) {
+        MessageBox('温馨提示', '您还没绑定驾驶证,请到星级用户中心绑定!')
+        this.buttonIsClick = true
+      }
       document.addEventListener('click', (e) => {
         this.placeSelectShow = false
         this.areaSelectShow = false

@@ -294,7 +294,7 @@ export default {
       this.subscribeShow = false  // 预约地点
       this.dateShow = false       // 预约日期
       if (!this.date) {
-        Toast({message: '请先选择日期', className: 'white'})
+        Toast({message: '请先选择预约日期', className: 'white'})
         return
       }
       if (!this.time && !str) {
@@ -404,7 +404,7 @@ export default {
         'carTypeName': this.vehicle,                       // 车辆类型名称
         'bookerMobile': this.mobilephone                   // 预约手机号码
       }
-      this.$emit('submitClick', renewingData, this.subscribe)
+      this.$emit('submitClick', renewingData)
     },
     // 获取预约日期
     getmentDate: function () {

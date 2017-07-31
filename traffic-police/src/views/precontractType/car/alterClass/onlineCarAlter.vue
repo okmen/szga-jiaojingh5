@@ -46,13 +46,15 @@ export default {
           let number = json.data.waterNumber
           let date = json.data.appointmentDate
           let place = json.data.orgName
+          let time = json.data.appointmentTime
           let dataInfo = {
             type: 2,
-            reserveNo: number,                   // 流水号
-            numberPlate: params.platNumber,      // 车牌号码
-            mobilephone: params.bookerMobile,    // 手机号码
-            reserveAddress: place,               // 服务点
-            reserveTime: date                    // 预约日期
+            businessType: this.bussinessName,     // 预约业务名称
+            reserveNo: number,                    // 流水号
+            numberPlate: params.platNumber,       // 车牌号码
+            mobilephone: params.bookerMobile,     // 手机号码
+            reserveAddress: place,                // 服务点
+            reserveTime: `${date} ${time}`        // 预约日期
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')

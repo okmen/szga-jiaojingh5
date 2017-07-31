@@ -36,7 +36,7 @@
       <div class="form-item">
         <div class="item-left">车牌类型</div>
         <div class="item-right">
-          <input class="text-input" v-model="plateTypeList[plateType]" readonly>
+          <input class="text-input" v-model="plateTypeList[carJson.plateType]" readonly>
         </div>
       </div>
       <div class="form-item">
@@ -127,11 +127,11 @@
       },
       btnClick: function () {
         let reqData = {
-          licensePlateNo: this.cur_bindCar,
-          licensePlateType: this.plateType,
-          vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
-          identityCard: this.identityCard,
-          mobilephone: this.mobilePhone
+          licensePlateNo: this.carJson.myNumberPlate,
+          licensePlateType: this.carJson.plateType,
+          vehicleIdentifyNoLast4: this.carJson.behindTheFrame4Digits,
+          identityCard: this.carJson.identityCard,
+          mobilephone: this.carJson.mobilePhone
         }
         if (window.localStorage.getItem('myNumberPlate') === 'undefined') {
           MessageBox('提示', '当前用户没有车辆信息')
@@ -144,9 +144,9 @@
               info: {
                 behindTheFrame4Digits: reqData.vehicleIdentifyNoLast4,
                 plateType: reqData.licensePlateType,
-                myNumberPlate: reqData.licensePlateNo,
+                myNumberPlate: reqData.myNumberPlate,
                 mobilephone: reqData.mobilephone,
-                identityCard: reqData.drivingLicenceNo
+                identityCard: reqData.identityCard
               },
               data: json.data
             }

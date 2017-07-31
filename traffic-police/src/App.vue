@@ -48,6 +48,12 @@
         <dd>违法处理</dd>
         </router-link>
       </dl>
+      <!-- <dl>
+        <router-link to="/queryLawless">
+        <dt><img class="top2" src="./images/nav2.png" alt=""></dt>
+        <dd>违法处理</dd>
+        </router-link>
+      </dl> -->
       <dl>
         <router-link to="/takePicturesTips">
         <dt><img class="top3" src="./images/nav3.png" alt=""></dt>
@@ -55,7 +61,7 @@
         </router-link>
       </dl>
       <dl>
-        <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/feePayment/'+openId">
+        <a :href="'http://gzh.stc.gov.cn/szjjpro/Business/HomePage/feePayment/'+openId">
           <dt><img class="top4" src="./images/nav4.png" alt=""></dt>
           <dd>车管规费缴纳</dd>
         </a>
@@ -63,7 +69,7 @@
     </div>
     <div class="home-nav-bottom">
       <dl>
-        <!-- <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/appointList/'+openId">
+        <!-- <a :href="'http://gzh.stc.gov.cn/szjjpro/Business/HomePage/appointList/'+openId">
         <dt><img class="top5" src="./images/nav5.png" alt=""></dt>
         <dd>预约类服务</dd>
         </a> -->
@@ -77,7 +83,7 @@
         <dt><img class="top6" src="./images/nav6.png" alt=""></dt>
         <dd>办理类服务</dd>
         </router-link>
-        <!-- <a :href="'http://szjj.u-road.com/szjjpro/Business/HomePage/businessList/'+openId">
+        <!-- <a :href="'http://gzh.stc.gov.cn/szjjpro/Business/HomePage/businessList/'+openId">
         <dt><img class="top6" src="./images/nav6.png" alt=""></dt>
         <dd>办理类服务</dd>
         </a> -->
@@ -113,7 +119,7 @@
         </a>
       </dl>
       <!-- <dl>
-        <a :href="'http://szjj.u-road.com/szjjpro/index.php/Business/Member/unlogin/selfbook/'+openId">
+        <a :href="'http://gzh.stc.gov.cn/szjjpro/index.php/Business/Member/unlogin/selfbook/'+openId">
         <dt><img class="top6" src="./images/nav12.png" alt=""></dt>
         <dd>自主考试</dd>
         </a>

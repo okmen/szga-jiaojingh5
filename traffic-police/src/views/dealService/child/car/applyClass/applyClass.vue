@@ -8,12 +8,7 @@
               <span>业务类型</span>
             </div>
             <div class="div-select">
-              <span class="btn-select" @click.stop="licenseSelectClick()">{{ licenseSelectMassage }}</span>
-              <div class="div-select-ul" v-if="licenseSelectShow">
-                <ul>
-                  <li v-for="item in licenseSelectData" @click.stop="licenseSelectClick(item.str, item.id)">{{item.str}}</li>
-                </ul>
-              </div>
+              <span class="btn-select" style="background-image: none">{{ licenseSelectMassage }}</span>
             </div>
           </li>
         </ul>
