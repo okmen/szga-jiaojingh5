@@ -12,7 +12,7 @@
     <div class="dp" v-show="show">
       <div class="dp-carNum">
         <span>{{ carInfo.hphm }}</span>
-        <em>（当前已申报天数: {{ arrTime.length }}天）</em>
+        <em>（当前已申报天数: {{ showZts }}天）</em>
       </div>
       <div class="dp-header">
         <!--<a class="dp-h-1" @click="pickYear(-1)">«</a>-->
@@ -30,7 +30,7 @@
         </thead>
         <tbody>
           <tr v-for="cell in data">
-            <td v-for="item in cell" :class="{'dp-last': m!== item.month, 'dp-overdue': item.state.act === 0, 'dp-select': isSelectClass(getDateState(item.data)), 'dp-yellow': isYellow(item.state) }">
+            <td v-for="item in cell" :class="{'dp-last': m!== item.month, 'dp-overdue': item.state.act === 0, 'dp-select': isSelectClass(getDateState(item.data)), 'dp-yellow': isYellow(item.state), 'dp-red': item.state.state === '3' }">
               <div @click="pickDays(item.state)" class="box-out">
                 <div class="box-int">
                   <span>{{ item.day }}</span>
@@ -42,11 +42,14 @@
         </tbody>
       </table>
     </div>
-    <ul class="dp-popup" v-if="operation.state">
-      <li>操作人姓名：{{ operation.name }}</li>
-      <li>身份证号码：{{ operation.number }}</li>
-      <li>操作时间：{{ operation.date }}</li>
-    </ul>
+    <div class="dp-popupBox" v-if="operation.state">
+      <ul class="dp-popup">
+        <template v-for="item in operation.data">
+          <li>操作人姓名：{{ item.czr }}</li>
+          <li>操作时间：{{ item.czsj }}</li>
+        </template>
+      </ul>
+    </div>
   </div>
 </template>
 <script>
@@ -56,7 +59,7 @@ import { resultPost } from 'src/service/getData'
 import { getGreenDays } from 'src/config/baseUrl.js'
 export default {
   name: 'vueCalendar',
-  props: ['date', 'carNum', 'selectedDate', 'loadDateArr', 'carInfo'],
+  props: ['date', 'carNum', 'selectedDate', 'loadDateArr', 'carInfo', 'zts'],
   data () {
     let days = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
     let d = ''
@@ -94,9 +97,7 @@ export default {
       arrCancel: [],
       show: true,
       operation: {
-        name: '',
-        number: '',
-        date: '',
+        data: [],
         state: false
       },
       defaultData: {
@@ -107,6 +108,11 @@ export default {
         isYellow: false,
         cdate: ''
       }
+    }
+  },
+  computed: {
+    showZts () {
+      return +this.zts + +this.arrTime.length - +this.arrCancel.length
     }
   },
   created () {
@@ -186,13 +192,11 @@ export default {
           console.log(data)
           if (data.code === '0000') {
             let item = data.date.rec
-            if (isArray(item)) {
-              item = item[0]
+            if (!isArray(item)) {
+              item = [item]
             }
             this.operation = {
-              name: item.czr,
-              number: item.czrsfzmhm,
-              date: item.czsj,
+              data: item,
               state: true
             }
             window.setTimeout(() => {
@@ -423,12 +427,6 @@ export default {
   color: #2db7f5;
 }
 
-.dp-table .dp-overdue .box-out {
-  background: #d7d7d7;
-  color: #333;
-  border: 1px solid transparent;
-}
-
 .dp-table .dp-select .box-out {
   background: #00be00;
   color: #fff !important;
@@ -440,10 +438,21 @@ export default {
   color: #fff !important;
   border: 1px solid transparent;
 }
+.dp-table .dp-red .box-out {
+  background: #900;
+  color: #fff !important;
+  border: 1px solid transparent;
+}
+.dp-table .dp-red .box-out span{ color: #fff; }
 .dp-table .dp-select .box-out span{
   color: #fff !important;
 }
-
+.dp-table .dp-overdue .box-out {
+  background: #d7d7d7;
+  color: #333;
+  border: 1px solid transparent;
+}
+.dp-table .dp-overdue .box-out span{ color: #333; }
 .dp-header {
   position: relative;
   text-align: center;
@@ -537,8 +546,11 @@ export default {
   color: #999;
   font-style: normal;
 }
+.dp-popupBox{
+  position: fixed; top: 0; bottom: 0; left: 0; right: 0; display: flex; justify-content: center; align-items: center;
+}
 .dp-popup{
-  position: fixed; bottom: 50%; width: 60%; left: 20%; margin-bottom: -95px; background: rgba(0, 0, 0, .8); color: #fff;
+  width: 60%; background: rgba(0, 0, 0, .8); color: #fff;
   padding: 20px; box-sizing: border-box; border-radius: 5px;
   line-height: 50px;
 }

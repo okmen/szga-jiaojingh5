@@ -61,7 +61,7 @@
     <!-- 申报停驶 -->
     <section class="bid-box appoint-box" v-if="JsonDataInfo.type == 3">
       <h3>{{typeTitle[JsonDataInfo.type]}}结果</h3>
-      <p>感谢您的参与，提交成功！<br>您在绿色出行行动中，本次申报停驶了{{ JsonDataInfo.reserveNumber }}天。</p>
+      <p>感谢您的参与，提交成功！<br>您在绿色出行行动中，累计申报停驶了{{ JsonDataInfo.reserveNumber }}天。</p>
       <ul class="bid-ul appoint-margin">
         <li class="bid-item" v-for="(value, key) in JsonDataInfo" v-if="keyListObj[key]">
           <span class="bid-item-key">{{ keyListObj[key] }}</span>
@@ -103,7 +103,7 @@ export default {
         effectiveTime: '有效时间',
         plateType: '车牌类型',
         title: '业务类型',
-        reserveNumber: '申办天数'
+        reserveNumber: '累计天数'
       },
       valListObj: {
         cartype: {
