@@ -63,7 +63,7 @@ export default {
       zts: 0,
       cardBagData: '',
       time: new Date().getTime(),
-      carNum: '粤A12345',
+      carNum: null,
       selectedDate: [],
       loadDateArr: [],
       loadDateMonthArr: [],
