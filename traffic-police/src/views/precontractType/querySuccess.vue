@@ -15,8 +15,8 @@
     height: 100%!important;
   }
   .cancel-btn{
-    background: #10ccff!important;
-    color: #eee!important;
+    background: #ccc!important;
+    color: #fff!important;
   }
   .query-success-content{
     border:2px solid #ccc;
@@ -62,7 +62,7 @@
             '1': '预约中',
             '2': '预约完成',
             '3': '失约',
-            '4': '取消预约'
+            '4': '预约取消'
           }
         }
       }
@@ -85,7 +85,7 @@
           }
           resultPost(cancel, requestData).then(data => {
             console.log(data, '预约信息')
-            MessageBox.alert(data.msg).then(action => {
+            MessageBox.alert('您已成功取消本次预约').then(action => {
               this.$router.push('/')
             });
           })
