@@ -27,15 +27,19 @@ export default {
   components: {
     common
   },
+  mounted () {
+    this.nametypes = this.$route.query.name
+  },
   methods: {
-    subFn: function (params, subscribe) {
+    subFn: function (params) {
       resultPost(createDriveInfoZJ16, params).then(json => {
         if (json.code === '0000') {
           let dataInfo = {
             type: 2,
-            reserveTime: params.appointmentDate,      // 预约日期
+            businessType: this.nametypes,         // 业务类型
+            reserveTime: `${json.data.appointmentDate} ${json.data.appointmentTime}`,      // 预约日期
             reserveNo: json.data.waterNumber,    // 流水号
-            reserveAddress: subscribe,          // 服务点
+            reserveAddress: json.data.orgName,          // 服务点
             mobilephone: params.bookerMobile    // 手机号码
           }
           this.$store.commit('saveSuccessInfo', dataInfo)

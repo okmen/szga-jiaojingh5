@@ -12,6 +12,7 @@
         :carNum="carNum"
         :loadDateArr="loadDateArr"
         :carInfo="carInfo"
+        :zts="zts"
         v-on:arrTime="handleArrTime"
         v-on:skipDate="handleSkipDate"
         :selectedDate="selectedDate"
@@ -22,10 +23,11 @@
       <li><span class="green"></span>绿色表示申报停驶日期</li>
       <li><span class="gray"></span>灰色表示节假日或已过期日期，不可进行申报驾驶</li>
       <li><span class="yellow"></span>黄色表示申报停驶日期已过期</li>
+      <li><span class="red"></span>红色表示申报停驶日期未履诺</li>
     </ul>
     <div class="info">
       <p>温馨提示：</p>
-      <p>可自主选择当日起2天后的日期为停驶日，天数不限，遇特殊情况需要恢复出行，需要提前2天申报恢复出行。</p>
+      <p>可自主选择当日起2天后的日期为停驶日，天数不限。遇特殊情况需要恢复出行，需要提前2天选择已申报绿色出行日期，申报提交恢复出行。</p>
     </div>
     <el-button type="primary" @click.native="handleConfirm">提交</el-button>
     <div class="m-confirm" :class="{ open: confirmState }">
@@ -59,9 +61,10 @@ export default {
         hphm: this.$store.state.greenApply.car,
         hpzl: this.$store.state.greenApply.type
       },
+      zts: 0,
       cardBagData: '',
       time: new Date().getTime(),
-      carNum: '粤A12345',
+      carNum: null,
       selectedDate: [],
       loadDateArr: [],
       loadDateMonthArr: [],
@@ -118,6 +121,7 @@ export default {
       resultGet(`${getGreenApply}?hphm=${requestData.hphm}&hpzl=${requestData.hpzl}&sfzmhm=${requestData.sfzmhm}&month=${requestData.month}`).then(data => {
         this.loadDateArr.push(...data.date.ret)
         this.loadDateMonthArr.push(month)
+        this.zts = +data.zts
         this.showCalendar = true
       }).catch(error => {
         console.log(error)
@@ -150,14 +154,15 @@ export default {
         sfbr: greenApply.isMySelf,
         lrly: 'WX',
         cdate: this.selectArrTime.join(),
-        type: this.selectArrTimeType.join()
+        type: this.selectArrTimeType.join(),
+        zts: this.zts
       }
       resultPost(postGreenApply, requestData).then(data => {
         console.log(data)
         if (data.code === '0000') {
           this.$store.commit('saveSuccessInfo', {
             type: 3,
-            businessType: '绿色出行业务',
+            businessType: '绿色出行',
             numberPlate: data.date.numberPlate,
             reserveNumber: data.date.reserveNumber
           })

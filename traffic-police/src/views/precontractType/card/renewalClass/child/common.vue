@@ -293,7 +293,7 @@ export default {
         'orgAddr': this.description,                       // 预约单位地址
         'bookerMobile': this.mobilephone                   // 预约手机号码
       }
-      this.$emit('submitClick', renewingData, this.subscribe)
+      this.$emit('submitClick', renewingData)
     },
     // 获取预约日期
     getmentDate: function () {

@@ -22,8 +22,8 @@
             <!-- <p class="newLawlessMsg-item-content-fun">{{ item.illegalTime }}</p> -->
             <div class="newLawlessMsg-item-btn">
               <button v-if="item.description" @click="punishFreeDesc(item.description)">首违免罚</button>
-              <button @click="hrefFn(item)">违法申诉</button>
-              <button v-if="item.imgQueryCode" @click="illegalImgBtn(item.imgQueryCode)">查看违法图片</button>
+              <button v-if="isBoolean(item.licensePlateNo)" @click="hrefFn(item)">违法申诉</button>
+              <button v-if="item.imgQueryCode && isBoolean(item.licensePlateNo)" @click="illegalImgBtn(item.imgQueryCode)">查看违法图片</button>
             </div>
           </div>
         </li>
@@ -52,7 +52,8 @@
           '0': '直接缴款',
           '1': '需要打单',
           '2': '需要前往窗口办理'
-        }
+        },
+        isLogin: false
       }
     },
     components: {
@@ -70,6 +71,16 @@
       // this.init() // 初始化页面，查询名下所有车辆的违法
     },
     methods: {
+      isBoolean (itemNum) {
+        console.log(itemNum)
+        if (window.localStorage.isLogin === undefined) {
+          return false
+        } else {
+          return JSON.parse(window.localStorage.cars).some(item => {
+            return item.myNumberPlate === itemNum
+          })
+        }
+      },
       punishFreeDesc (str) {
         MessageBox('提示', str)
       },
@@ -138,6 +149,10 @@
             MessageBox.confirm('该功能需要登录后才能使用,是否前往登录').then(action => {
               this.$router.push('/login')
             })
+            return false
+          }
+          if (JSON.parse(window.localStorage.cars).length === 0) {
+            MessageBox('提示', '此功能只能预约本人绑定车辆')
             return false
           }
           let lawlessDeal = {

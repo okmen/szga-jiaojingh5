@@ -32,9 +32,9 @@
         carArr: []
       }
     },
-    created () {
-      if (!JSON.parse(window.localStorage.isLogin)) {
-        this.$router.push('newqueryByCar_manual')
+    mounted () {
+      if (window.localStorage.isLogin === undefined) {
+        this.$router.replace('newqueryByCar_manual')
         return false
       }
       this.init() // 初始化页面，查询名下所有车辆的违法
@@ -73,9 +73,10 @@
         })
       },
       init () {
-        let cars = JSON.parse(window.localStorage.cars) || []
+        let cars = window.localStorage.cars === undefined ? [] : JSON.parse(window.localStorage.cars)
         if (cars.length === 0) {
-          this.$router.push('newqueryByCar_manual')
+          this.$router.replace('newqueryByCar_manual')
+          return
         }
         cars.forEach((item) => {
           this.getLawlessData(item, 'init')

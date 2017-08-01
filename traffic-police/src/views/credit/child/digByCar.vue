@@ -24,6 +24,11 @@
       }
     },
     mounted () {
+      this.isLogin = window.localStorage.getItem('isLogin')
+      // 判断是否登录！没有登录直接跳转其他电子回单页面
+      if (!this.isLogin) {
+        this.$router.push('digitalreceipTinquire')
+      }
     },
     methods: {
       getLawlessData (item) {
