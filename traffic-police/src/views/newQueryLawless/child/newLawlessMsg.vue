@@ -23,7 +23,7 @@
             <div class="newLawlessMsg-item-btn">
               <button v-if="item.description" @click="punishFreeDesc(item.description)">首违免罚</button>
               <button v-if="isBoolean(item.licensePlateNo)" @click="hrefFn(item)">违法申诉</button>
-              <button v-if="item.imgQueryCode && isBoolean(item.licensePlateNo)" @click="illegalImgBtn(item.imgQueryCode)">查看违法图片</button>
+              <button v-if="item.imgQueryCode && isLogin()" @click="illegalImgBtn(item.imgQueryCode)">查看违法图片</button>
             </div>
           </div>
         </li>
@@ -53,7 +53,7 @@
           '1': '需要打单',
           '2': '需要前往窗口办理'
         },
-        isLogin: false
+        popupImgShow: false
       }
     },
     components: {
@@ -71,6 +71,16 @@
       // this.init() // 初始化页面，查询名下所有车辆的违法
     },
     methods: {
+      passCancel: function () { // 点击通过弹窗的取消按钮
+        this.popupImgShow = false // 隐藏通过弹窗
+      },
+      isLogin () {
+        if (window.localStorage.isLogin === undefined) {
+          return false
+        } else {
+          return true
+        }
+      },
       isBoolean (itemNum) {
         console.log(itemNum)
         if (window.localStorage.isLogin === undefined) {
