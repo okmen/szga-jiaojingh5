@@ -117,7 +117,7 @@
                 organizationName: data.data.organizationName,
                 appointmentDate: data.data.appointmentDate,
                 appointmentTime: data.data.appointmentTime,
-                // platNumber: data.data.platNumber,
+                platNumber: data.data.platNumber,
                 carTypeName: data.data.carTypeName,
                 businessType: this.businessTypeOne,
                 bookerNumber: data.data.bookNumber,
