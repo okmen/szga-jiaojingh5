@@ -676,7 +676,6 @@
             let dataInfo = {
               type: 2,
               reserveNo: data.data.waterNumber,
-              numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(),
               mobilephone: this.mobilePhone,
               reserveAddress: this.appointmentLocationStr,
               reserveTime: `${this.yearMonthDay} ${this.appointmentTime}`

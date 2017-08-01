@@ -19,9 +19,9 @@ var openId = getQueryString('openId') ? getQueryString('openId') : localStorage.
 var headImgUrl = getQueryString('headimgurl') ? getQueryString('headimgurl') : localStorage.getItem('headImgUrl');
 var nickname = getQueryString('nickname') ? getQueryString('nickname') : localStorage.getItem('nickname');
 
-var openId = 'zhanshancheng';
-var headImgUrl = 'zhanshancheng';
-var nickname = 'zhanshancheng';
+// var openId = 'zhanshancheng';
+// var headImgUrl = 'zhanshancheng';
+// var nickname = 'zhanshancheng';
 
 let url = window.location.href;
 let data = {
@@ -38,7 +38,7 @@ if (!!openId && openId !== 'undefined') {
   if (/MicroMessenger/i.test(ua)) { // 微信跳转获取openId
   window.localStorage.setItem('sourceOfCertification', 'C')
   // 交警u-load环境
-  window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.openIdURL}#wechat_redirect`
+    window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http%3A%2F%2Fgzh.stc.gov.cn%2fapi%2foauth%2fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.openIdURL}#wechat_redirect`
 
   } else if (/AlipayClient/i.test(ua)) { // 支付宝
     window.localStorage.setItem('sourceOfCertification', 'Z')
@@ -47,7 +47,7 @@ if (!!openId && openId !== 'undefined') {
   } else {
     window.localStorage.setItem('sourceOfCertification', 'C')
     // 交警u-load环境
-    window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http%3A%2F%2Fszjj.u-road.com%2Fapi%2Foauth%2Fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.openIdURL}#wechat_redirect`
+    window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http%3A%2F%2Fgzh.stc.gov.cn%2fapi%2foauth%2fcallback.html&response_type=code&scope=snsapi_userinfo&state=${data.openIdURL}#wechat_redirect`
 
   }
 }
