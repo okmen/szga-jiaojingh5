@@ -330,6 +330,7 @@
         if (str) {
           this.useNatureMassage = str
           this.useNatureID = id
+          console.log(id, '使用性质')
         }
         if (this.useNatureShow === true) {
           this.useNatureShow = false
@@ -487,7 +488,7 @@
             platNumber: this.abbreSelectValue + this.carCardNum.toUpperCase(), // 车牌号
             carTypeId: this.carTypeID,              // 车辆类型 id
             carTypeName: this.carTypeMassage,       // 车辆类型 name
-            useCharater: this.useNatureMassage,     // 使用性质
+            useCharater: this.useNatureID,          // 使用性质
             carFrame: this.VIN,                     // 车架号
             orgId: this.orderPlaceID,               // 预约地点 id
             orgName: this.orderPlaceValue,          // 预约地点 name
