@@ -35,7 +35,7 @@ export default {
           chargeItem: '交通违法罚款',
           companyName: '深圳市公安局交通警察局',
           payWay: 'ALIPAY_APP',
-          paymentor: '粤B47119',
+          paymentor: '粤B11111',
           projectNo: '103050101101',
           sdb: 'SDB00000012017062714958614',
           writeOffDate: '2017-06-27'
@@ -48,29 +48,29 @@ export default {
           chargeItem: '交通违法罚款',
           companyName: '深圳市公安局交通警察局',
           payWay: 'ALIPAY_APP',
-          paymentor: '粤B47119',
+          paymentor: '粤B11111',
           projectNo: '103050101101',
           sdb: 'SDB00000012017062714958614',
           writeOffDate: '2017-06-27'
         },
         {
-          amt: '150',
+          amt: '200',
           billNo: '44071704945445',
           chargeItem: '交通违法罚款',
           companyName: '深圳市公安局交通警察局',
           payWay: 'ALIPAY_APP',
-          paymentor: '粤B47119',
+          paymentor: '粤B11111',
           projectNo: '103050101101',
           sdb: 'SDB00000012017062714958614',
           writeOffDate: '2017-06-27'
         },
         {
-          amt: '150',
+          amt: '250',
           billNo: '44071704945445',
           chargeItem: '交通违法罚款',
           companyName: '深圳市公安局交通警察局',
           payWay: 'ALIPAY_APP',
-          paymentor: '粤B47119',
+          paymentor: '粤B11111',
           projectNo: '103050101101',
           sdb: 'SDB00000012017062714958614',
           writeOffDate: '2017-06-27'

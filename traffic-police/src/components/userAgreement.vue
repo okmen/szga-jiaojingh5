@@ -100,7 +100,7 @@ export default {
             this.$router.push('/replaceCredentials/repairDrivingLicense')
             break
           case 'szjj_hander_cvi':  // 六年免检预约
-            this.$router.push('/exemption')
+            this.$router.push('/esemptionCar')
             break
           case 'szjj_hander_rim':  // 补换检验合格标志
             this.$router.push('/replaceCredentials/replaceQualifiedMark')

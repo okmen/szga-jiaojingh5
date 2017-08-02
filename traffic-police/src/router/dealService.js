@@ -112,12 +112,36 @@ let dealServiceRouter = [
     ]
   },
   {
+    name: 'esemptionCar',
+    path: '/esemptionCar',
+    meta: {
+      title: '六年免检申请'
+    },
+    component: require('../views/dealService/child/car/exemption/esemptionCar.vue')
+  },
+  {
     name: 'exemption',
     path: '/exemption',
     meta: {
       title: '六年免检申请'
     },
-    component: require('../views/dealService/child/car/exemption.vue')
+    component: require('../views/dealService/child/car/exemption/exemption.vue')
+  },
+  {
+    name: 'exemptionDemand',
+    path: '/exemptionDemand',
+    meta: {
+      title: '六年免检查询取消'
+    },
+    component: require('../views/dealService/child/car/exemption/exemptionDemand.vue')
+  },
+  {
+    name: 'exemptionAbolish',
+    path: '/exemptionAbolish',
+    meta: {
+      title: '六年免检查询取消'
+    },
+    component: require('../views/dealService/child/car/exemption/exemptionAbolish.vue')
   },
   {
     name: 'placeExamine',
