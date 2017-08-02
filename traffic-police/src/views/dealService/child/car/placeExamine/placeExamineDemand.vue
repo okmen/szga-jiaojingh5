@@ -7,8 +7,6 @@
         ：<span >{{ valListObj[key] ? valListObj[key][value] : value }}</span>
       </div>
     </div>
-  <!--   <div class="form-template-submit exempTu " @click="cancelReverse" v-if="this.dataInfo.bookState == 1 ">取消预约</div>
-    <div class="form-template-submit exempTu cancel-btn" v-else>取消预约</div> -->
   </div>
 </template>
 
@@ -64,6 +62,11 @@
           FKFS: {
             '0': '到付',
             '1': '已付款'
+          },
+          HPZL: {
+            '02': '蓝牌',
+            '01': '黄牌',
+            '06': '黑牌'
           }
         }
       }
