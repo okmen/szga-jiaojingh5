@@ -149,7 +149,23 @@ let dealServiceRouter = [
     meta: {
       title: '机动车委托异地定期检验申报'
     },
-    component: require('../views/dealService/child/car/placeExamine.vue')
+    component: require('../views/dealService/child/car/placeExamine/placeExamine.vue')
+  },
+  {
+    name: 'placeExamineCar',
+    path: '/placeExamineCar',
+    meta: {
+      title: '机动车委托异地定期检验申报'
+    },
+    component: require('../views/dealService/child/car/placeExamine/placeExamineCar.vue')
+  },
+  {
+    name: 'placeExamineDemand',
+    path: '/placeExamineDemand',
+    meta: {
+      title: '机动车委托异地定期检验申报查询'
+    },
+    component: require('../views/dealService/child/car/placeExamine/placeExamineDemand.vue')
   },
   {
     name: 'motorAlteration',

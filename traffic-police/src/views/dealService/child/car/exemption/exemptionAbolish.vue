@@ -6,8 +6,8 @@
         ：<span >{{ valListObj[key] ? valListObj[key][value] : key === 'createDate' ? createDates : value }}</span>
       </div>
     </div>
-    <div class="form-template-submit" @click="cancelReverse" v-if="this.dataInfo.bookState == 1 ">取消预约</div>
-    <div class="form-template-submit cancel-btn" v-else>取消预约</div>
+    <div class="form-template-submit exempTu " @click="cancelReverse" v-if="this.dataInfo.bookState == 1 ">取消预约</div>
+    <div class="form-template-submit exempTu cancel-btn" v-else>取消预约</div>
   </div>
 </template>
 
@@ -75,9 +75,9 @@
             bookNumber: this.dataInfo.bookNumber,
             numberPlate: this.dataInfo.platNumber
           }
-          resultPost(cancelVehicleInspection, requestData).then(data => {
-            console.log(data, '预约信息')
-            MessageBox.alert(data).then(action => {
+          resultPost(cancelVehicleInspection, requestData).then(json => {
+            console.log(json, '预约信息')
+            MessageBox.alert(json.msg).then(action => {
               this.$router.push('/')
             });
           })
@@ -86,7 +86,7 @@
     },
     mounted () {
       let myNumberPlate = this.$route.query.myNumberPlate   // 获取数据
-      this.createDates = myNumberPlate.createDate.content
+      this.createDates = myNumberPlate.createDate.content.slice(0, 10)
       console.log(this.createDates)
       this.dataInfo = myNumberPlate
     }
@@ -94,9 +94,9 @@
 </script>
 
 <style lang="less">
-  .exemptionAbolish-success{
+/*  .exemptionAbolish-success{
     height: 100%!important;
-  }
+  }*/
   .cancel-btn{
     background: #ccc!important;
     color: #fff!important;
@@ -110,5 +110,8 @@
       line-height: 80px;
       padding-left: 20px;
     }
+  }
+  .exempTu{
+    margin-top:60px !important;
   }
 </style>

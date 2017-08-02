@@ -74,7 +74,7 @@ export default {
         resultPost(getVehicleInspection, exemptdata).then(json => {
           console.log(json)
           if (json.code === '0000') {
-            let num = json.data
+            let num = json.data.VehicleInspectionVO
             this.$router.push({path: 'exemptionAbolish', query: { myNumberPlate: num }})
           } else {
             Toast({message: json.msg, position: 'bottom', className: 'white'})

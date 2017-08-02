@@ -176,6 +176,8 @@ export const iocomotiveCarChangeContact = `${commonUrl}handleservice/iocomotiveC
 
 export const inspectionDeclaration = `${commonUrl}handleservice/inspectionDeclaration.html` // 机动车委托异地定期检验申报
 
+export const inspectionDeclarationQuery = `${commonUrl}handleservice/inspectionDeclarationQuery.html` // 机动车委托异地定期检验申报查询
+
 export const getCarTypeId = `${commonUrl}handleservice/getCarTypeId.html` // 获取车辆类型Id
 
 export const applyGatePass = `${commonUrl}handleservice/applyGatePass.html` // 申请通行证
