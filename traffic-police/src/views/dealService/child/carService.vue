@@ -7,13 +7,16 @@
       <router-link :to="isLogin ? 'applyClass/02' : routerUrl">申请机动车临牌</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogins ? 'confirm' : 'login'">违法在线处理</router-link>
+      <router-link :to="isLogin ? 'confirmLawless' : 'login'">交通违法在线确认</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogins ? 'payLawless' : 'login'">违法缴款</router-link>
+      <router-link :to="isLogin ? 'newEarly' : 'login'">交通违法预约处理</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogins ? 'appeal' : 'login'">违法申诉</router-link>
+      <router-link to="newPayLawless">交通违法缴款</router-link>
+    </div>
+    <div class="query-link">
+      <router-link :to="isLogin ? 'appealEntry' : 'login'">交通违法申诉</router-link>
     </div>
     <div class="query-link">
       <router-link :to="isLogin ? '/userAgreement/szjj_hander_ctmvdl' : routerUrl">补领行驶证</router-link>
