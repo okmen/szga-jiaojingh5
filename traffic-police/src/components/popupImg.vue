@@ -29,16 +29,16 @@ export default{
   top: 0;
   background-color: rgba(0, 0, 0, .5);
   .popup-box-inner{
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    width: 80%;
-    height: 95%;
+    width: 100%;
+    height: 100%;
     img{
       display: block;
-      width: 100%;
-      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
     }
   }
 }
