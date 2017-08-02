@@ -48,7 +48,8 @@
             <span>延期日期</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input" type="text" name="" v-model="mtDateTimeMsg"  @click="datetimePick('picker')">
+            <span class="btn-select" @click="datetimePick('picker')">{{ mtDateTimeMsg }}</span>
+            <!-- <input class="text-input" type="text" name="" v-model=""  > -->
           </div>
         </li>
 
@@ -340,7 +341,6 @@
   }
 </script>
 <style lang="less" scoped>
-  @import "./../../../../../style/base";
   .changeDelay-outer {
     background-color: #fff;
     position: absolute;
@@ -364,6 +364,23 @@
           }
           &.city {
             margin: 0 18px;
+          }
+          .btn-select {
+            background: url('../../../../../images/select1.png') no-repeat scroll;
+            background-position: 96% center;
+            background-size: 18px;
+            display: inline-block;
+            width: 100%;
+            text-indent: 18px;
+            line-height: 54px;
+            border: 1px solid #e2e2e7;
+            background-color: #efeff4;
+            border-radius: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            padding-right: 45px;
+            box-sizing: border-box;
           }
         }
         .item-name {

@@ -83,7 +83,7 @@ export default {
           window.localStorage.setItem('cars', userCars)   // 名下车牌信息
           window.localStorage.setItem('isLogin', true) // 是否登录
           // window.location.href = `http://gzh.stc.gov.cn/szjjpro/member/loginfornew?username=${reqData.loginName}&password=${reqData.password}&openID=${reqData.openId}`
-          this.$router.push('/')
+          this.$router.go(-1)
         } else {
           Toast({
             message: data.msg,
