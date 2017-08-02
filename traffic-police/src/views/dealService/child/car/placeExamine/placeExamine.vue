@@ -140,8 +140,8 @@
     </div>
 </template>
 <script>
-import { resultGet, resultPost } from '../../../../service/getData'
-import { getIssuing, sendSMS, verificatioCode, inspectionDeclaration } from '../../../../config/baseUrl'
+import { resultGet, resultPost } from '../../../../../service/getData'
+import { getIssuing, sendSMS, verificatioCode, inspectionDeclaration } from '../../../../../config/baseUrl'
 import { Toast, MessageBox } from 'mint-ui'
 export default {
   name: 'placeExamine',

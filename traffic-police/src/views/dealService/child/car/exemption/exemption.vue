@@ -184,8 +184,8 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import { resultPost } from '../../../../service/getData'
-import { sendSMS, verificatioCode, createVehicleInspection, getCarTypeId } from '../../../../config/baseUrl'
+import { resultPost } from '../../../../../service/getData'
+import { sendSMS, verificatioCode, createVehicleInspection, getCarTypeId } from '../../../../../config/baseUrl'
 import { Toast, MessageBox } from 'mint-ui'
 export default {
   name: 'exemption',
@@ -457,7 +457,7 @@ export default {
           if (json.code === '0000') {
             this.timePiece()
           } else {
-            Toast({message: json.msg, position: 'bottom', className: 'white'})
+            Toast({message: json.data, position: 'bottom', className: 'white'})
           }
         })
       }
@@ -662,7 +662,7 @@ padding: 20px 40px;
     background-color: #fff;
   }
   .subscript{
-    background: url(../../../../images/select1.png) no-repeat;
+    background: url(../../../../../images/select1.png) no-repeat;
     background-size: 18px;
     background-position: 96% center;
   }

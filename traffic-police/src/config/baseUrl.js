@@ -168,9 +168,15 @@ export const reauthentication = `${commonUrl}user/reauthentication.html` // 重�
 
 export const createVehicleInspection = `${commonUrl}handleservice/createVehicleInspection.html` // 六年免检
 
+export const getVehicleInspection = `${commonUrl}handleservice/getVehicleInspection.html` // 六年免检查询
+
+export const cancelVehicleInspection = `${commonUrl}handleservice/cancelVehicleInspection.html` // 六年免检取消
+
 export const iocomotiveCarChangeContact = `${commonUrl}handleservice/iocomotiveCarChangeContact.html` // 机动车变更联系方式
 
 export const inspectionDeclaration = `${commonUrl}handleservice/inspectionDeclaration.html` // 机动车委托异地定期检验申报
+
+export const inspectionDeclarationQuery = `${commonUrl}handleservice/inspectionDeclarationQuery.html` // 机动车委托异地定期检验申报查询
 
 export const getCarTypeId = `${commonUrl}handleservice/getCarTypeId.html` // 获取车辆类型Id
 
@@ -263,3 +269,4 @@ export const electrocarFileScancode = `${commonUrl}convenience/getEbikeInfoByFil
 
 /* -------------- 电子回单 --------------- */
 export const toQueryElectronicReceiptPage = `${commonUrl}illegalHanding/toQueryElectronicReceiptPage.html` // 电子回单
+
