@@ -3,7 +3,7 @@
     <div class="exemptionAbolish-success-content">
       <div class="item" v-for="(value, key) in dataInfo" v-if="keyListObj[key]">
         <span class="bid-item-key">{{ keyListObj[key] }}</span>
-        ：<span >{{ valListObj[key] ? valListObj[key][value] : key === 'createDate' ? createDates : value }}</span>
+        ：<span >{{ valListObj[key] ? valListObj[key][value] : value }}</span>
       </div>
     </div>
     <div class="form-template-submit exempTu " @click="cancelReverse" v-if="this.dataInfo.bookState == 1 ">取消预约</div>
@@ -20,7 +20,6 @@
     // 获取数据
     data () {
       return {
-        createDates: '',
         dataInfo: {},
         keyListObj: {
           bookNumber: '预约编号',
@@ -86,8 +85,6 @@
     },
     mounted () {
       let myNumberPlate = this.$route.query.myNumberPlate   // 获取数据
-      this.createDates = myNumberPlate.createDate.content.slice(0, 10)
-      console.log(this.createDates)
       this.dataInfo = myNumberPlate
     }
   }
