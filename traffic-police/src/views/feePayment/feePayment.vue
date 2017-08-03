@@ -75,7 +75,7 @@ export default {
       ],
       verifyCode: false,
       form: {
-        type: '02',
+        type: '01',
         number: '',
         tel: ''
       }
@@ -161,6 +161,11 @@ export default {
       resultPost(toQueryFeePage, reqData).then(json => {
         if (json.code === '0000') {
           window.location.href = json.msg
+        } else {
+          Toast({
+            message: json.msg,
+            position: 'middle'
+          })
         }
       })
     }

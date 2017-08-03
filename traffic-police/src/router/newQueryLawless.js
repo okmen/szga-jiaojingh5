@@ -86,6 +86,14 @@ let newQueryLawlessRouter = [
       title: '交通违法缴款'
     },
     component: require('../views/newQueryLawless/child/newPayLawless.vue')
+  },
+  {
+    name: 'newTimeSelect',
+    path: '/newTimeSelect',
+    meta: {
+      title: '交通违法预约'
+    },
+    component: require('../views/newQueryLawless/child/illegalTimeSelect.vue')
   }
 ]
 

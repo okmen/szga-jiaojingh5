@@ -168,13 +168,21 @@
           if (JSON.parse(window.localStorage.cars).length === 0) {
             MessageBox('提示', '此功能只能预约本人绑定车辆')
             return false
+          } else {
+            let ifBind = JSON.parse(window.localStorage.cars).some(arr => {
+              return arr.myNumberPlate === item.licensePlateNo
+            })
+            if (!ifBind) {
+              MessageBox('提示', '此功能只能预约本人绑定车辆')
+              return false
+            }
           }
           let lawlessDeal = {
             data: item,
             info: this.lawlessData.info
           }
           this.$store.commit('saveNewLawlessDeal', lawlessDeal)
-          this.$router.push('/illegalTimeSelect')
+          this.$router.push('/newTimeSelect')
         }
       }
     }

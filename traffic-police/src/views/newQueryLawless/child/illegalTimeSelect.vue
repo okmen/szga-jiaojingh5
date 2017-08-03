@@ -289,7 +289,7 @@ export default {
       postAppoin: 'postAppoin'
     })
   },
-  created () {
+  mounted () {
     Indicator.open('正在加载...')
     document.addEventListener('click', (e) => {
       this.processingPointShow = false
@@ -298,6 +298,7 @@ export default {
       this.dateShow = false
     })
     this.init()
+    console.log('222222222222222222222222222222222222222')
     console.log(this.lawlessData)
     this.custName = window.localStorage.getItem('userName') // 姓名
     this.certificateNo = window.localStorage.getItem('identityCard') // 身份证
