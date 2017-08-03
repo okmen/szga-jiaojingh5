@@ -772,10 +772,14 @@
             let dataInfo = {
               type: 2,
               reserveNo: data.data.waterNumber,
-              numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(),
+              businessType: this.$route.query.name,
+              numberPlate: data.data.platNumber,
+              vehicleType: data.data.carTypeName,
+              reserveAddress: data.data.orgName,
+              appointmentAddress: data.data.orgAddr,
+              reserveTime: `${this.yearMonthDay} ${this.appointmentTime}`,
               mobilephone: this.mobilePhone,
-              reserveAddress: this.appointmentLocationStr,
-              reserveTime: `${this.yearMonthDay} ${this.appointmentTime}`
+              appointmentPerson: data.data.name
             }
 //          this.$store.commit('saveResponseData', data)
             this.$store.commit('saveSuccessInfo', dataInfo)

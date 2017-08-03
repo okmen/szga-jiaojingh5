@@ -676,9 +676,13 @@
             let dataInfo = {
               type: 2,
               reserveNo: data.data.waterNumber,
+              businessType: this.$route.query.name,
+              vehicleType: data.data.carTypeName,
+              reserveAddress: data.data.orgName,
+              appointmentAddress: data.data.orgAddr,
+              reserveTime: `${this.yearMonthDay} ${this.appointmentTime}`,
               mobilephone: this.mobilePhone,
-              reserveAddress: this.appointmentLocationStr,
-              reserveTime: `${this.yearMonthDay} ${this.appointmentTime}`
+              appointmentPerson: data.data.name
             }
 //          this.$store.commit('saveResponseData', data)
             this.$store.commit('saveSuccessInfo', dataInfo)
