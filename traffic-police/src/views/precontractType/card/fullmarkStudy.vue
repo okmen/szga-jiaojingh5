@@ -42,7 +42,7 @@ export default {
     this.bussinessName = query.name
   },
   methods: {
-    appointTask: function (params, orderPlace) {
+    appointTask: function (params) {
       console.log('满分学习', params)
       resultPost(createDriveInfoZJ10, params).then(json => {
         if (json.code === '0000') {
@@ -51,11 +51,13 @@ export default {
           let date = json.data.appointmentDate
           let dataInfo = {
             type: 2,
-            businessType: this.bussinessName,     // 预约业务名称
-            reserveNo: json.data.waterNumber,    // 流水号
-            mobilephone: params.bookerMobile,    // 手机号码
-            reserveAddress: orderPlace,          // 服务点
-            reserveTime: `${date} ${time}`       // 预约日期
+            businessType: this.bussinessName,      // 预约业务名称
+            reserveNo: json.data.waterNumber,      // 流水号
+            reserveAddress: json.data.orgName,     // 服务点
+            appointmentAddress: json.data.orgAddr, // 具体地址
+            reserveTime: `${date} ${time}`,        // 预约日期
+            mobilephone: params.bookerMobile,      // 手机号码
+            appointmentPerson: json.data.name      // 预约人姓名
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')
