@@ -38,12 +38,15 @@ export default {
           this.certificate = json.data
           let dataInfo = {
             type: 2,
-            businessType: this.nametypes,         // 业务类型
             reserveNo: json.data.waterNumber,    // 流水号
-            numberPlate: json.data.platNumber,      // 车牌号码
-            mobilephone: params.bookerMobile,    // 手机号码
-            reserveAddress: json.data.orgName,          // 服务点
-            reserveTime: `${json.data.appointmentDate} ${json.data.appointmentTime}`  // 预约日期
+            businessType: this.nametypes,         // 业务类型
+            numberPlate: json.data.platNumber,    // 车牌号码
+            vehicleType: json.data.carTypeName,   // 车辆类型
+            reserveAddress: json.data.orgName,     // 服务点
+            appointmentAddress: json.data.orgAddr,  // 预约地址
+            reserveTime: `${json.data.appointmentDate} ${json.data.appointmentTime}`,  // 预约日期
+            mobilephone: params.bookerMobile,   // 手机号码
+            appointmentPerson: json.data.name   // 预约人
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')

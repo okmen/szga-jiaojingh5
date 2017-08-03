@@ -40,11 +40,13 @@ export default {
           console.log(json.data.waterNumber)
           let dataInfo = {
             type: 2,
-            businessType: this.nametypes,         // 业务类型
-            reserveTime: `${json.data.appointmentDate} ${json.data.appointmentTime}`,      // 预约日期
             reserveNo: json.data.waterNumber,    // 流水号
-            reserveAddress: json.data.orgName,          // 服务点
-            mobilephone: params.bookerMobile    // 手机号码
+            businessType: this.nametypes,        // 业务类型
+            reserveAddress: json.data.orgName,   // 服务点
+            appointmentAddress: json.data.orgAddr,          // 预约地址
+            reserveTime: `${json.data.appointmentDate} ${json.data.appointmentTime}`,      // 预约日期
+            mobilephone: params.bookerMobile,   // 手机号码
+            appointmentPerson: json.data.name
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')
