@@ -745,12 +745,15 @@
             })
             let dataInfo = {
               type: data.data.type,
-              businessType: this.$route.query.name, // 预约业务名称
               reserveNo: data.data.waterNumber, // 预约编号
+              businessType: this.$route.query.name, // 预约业务名称
               numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(), // 车牌号
-              mobilephone: this.mobilePhone, // 手机号
+              vehicleType: this.carSelectDataStr, // 车辆类型
               reserveAddress: data.data.orgName,  // 预约地点
-              reserveTime: `${data.data.appointmentDate} ${data.data.appointmentTime}` // 预约日期
+              appointmentAddress: this.appointmentLocationDes, // 预约详细地址
+              reserveTime: `${data.data.appointmentDate} ${data.data.appointmentTime}`, // 预约日期
+              mobilephone: this.mobilePhone, // 手机号
+              appointmentPerson: this.ownerName // 预约人
             }
 //          this.$store.commit('saveResponseData', data)
             this.$store.commit('saveSuccessInfo', dataInfo)
