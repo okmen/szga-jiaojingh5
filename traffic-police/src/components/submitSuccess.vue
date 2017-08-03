@@ -41,7 +41,7 @@
       <h3>申办结果</h3>
       <p>{{ tip }}</p>
       <ul class="bid-ul appoint-margin">
-        <li class="bid-item" v-for="(value, key) in JsonDataInfo" v-if="keyListObj[key]">
+        <li class="bid-item" v-for="(value, key) in JsonDataInfo" v-if="keyListObj[key] && value">
           <span class="bid-item-key">{{ keyListObj[key] }}</span>
           ：<span :class="{red: key === 'subscribeNo' || key === 'waterNumber'}">{{ valListObj[key] ? valListObj[key][value] : value }}</span>
         </li>
@@ -105,6 +105,7 @@ export default {
         effectiveTime: '有效时间',
         plateType: '车牌类型',
         appointmentPerson: '预约人',
+        bidDate: '申办时间',
         title: '业务类型',
         reserveNumber: '累计天数'
       },
