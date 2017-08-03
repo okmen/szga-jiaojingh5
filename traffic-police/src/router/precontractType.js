@@ -4,7 +4,7 @@ let precontractTypeRouter = [
     name: 'precontractType',
     path: '/precontractType',
     meta: {
-      title: '预约类业务'
+      title: '机动车业务'
     },
     component: require('../views/precontractType/precontract.vue')
   },

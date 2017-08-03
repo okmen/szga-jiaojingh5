@@ -15,8 +15,18 @@
 <script>
   export default {
     name: 'serviceTab',
+    watch: {
+      cur_tab (val) {
+        this.$route.meta.title = this.currentTab[val]
+      }
+    },
     data () {
       return {
+        currentTab: {
+          car: '机动车业务',
+          card: '驾驶证业务',
+          progress: '预约查询及取消'
+        },
         cur_tab: 'car'
       }
     },

@@ -354,12 +354,13 @@ export default {
           'name': this.name,                                 // 车主名字
           'associatedAgencyMsg': this.trusteeTimeMsg,        // 受托机构全称
           'receiverName': this.addresseeName,                // 收件人名字
-          'receiverNumber': this.mobile,                        // 联系电话
+          'receiverNumber': this.mobile,                     // 联系电话
           'postCode': this.postalcode,                       // 邮政编码
           'receiverAddress': `深圳市,${this.areaSelectMassage},${this.mailingAddress}`    // 收件人地址
         },
         invisibleObj: {
-          'associatedAgency': this.cur_place_id             // 受托机构
+          'associatedAgency': this.cur_place_id,            // 受托机构
+          'identityCard': window.localStorage.getItem('identityCard')  //  登录用户的身份证号码
         }
       }
       this.$store.commit('saveMotorVehicleHandling', dataList)
@@ -393,8 +394,8 @@ export default {
       } else if (this.identifying.length !== 6) {
         Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
       } else {
-        // this.verificationFn()
-        this.dataFn()
+        this.verificationFn()
+        // this.dataFn()
       }
     }
   },
