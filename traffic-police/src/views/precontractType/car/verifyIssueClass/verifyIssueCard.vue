@@ -517,8 +517,6 @@
           businessTypeId: this.businessTypeId
         }
         resultPost(getPageInit, requestData).then(data => {
-          console.log(requestData)
-          console.log(data.data, '所有数据获取成功')
           // 证件名称
           data.data.idTypeVOs.map(item => {
             this.credentialsName.option.push({'code': item.code, 'description': item.description, 'id': item.id, 'str': item.name})
@@ -541,19 +539,6 @@
           })
         })
       },
-      // 获取业务类型ID
-      // getBusinessTypeId (val) {
-      //   let requestData = {
-      //     type: '1',
-      //     part: '0',
-      //     code: this.code
-      //   }
-      //   resultPost(getBusinessTypeId, requestData).then(data => {
-      //     this.businessTypeId = data.data
-      //     console.log(data, '业务类型编码获取成功')
-      //     this.getAllData()
-      //   })
-      // },
       // 点击获取验证码
       getVerificationCode () {
         // 获取验证码的简单表单验证
@@ -600,8 +585,6 @@
           codes: this.code
         }
         resultPost(simpleSendMessage, requestData).then(data => {
-          console.log(requestData)
-          console.log(data, '验证码')
           Toast({
             message: '验证码已发送',
             duration: 2000
@@ -651,7 +634,6 @@
       // 获取时间
       getAllYearMonthDay () {
         resultPost(getAppointmentDate, this.timeRequest).then(json => {
-          console.log(json, '时间获取成功')
           if (json.code === '0000') {
             this.allYearMonthDay = json.data
             this.showItemData = !this.showItemData
@@ -663,7 +645,6 @@
       },
       // 获取配额信息
       getQuotaInformation () {
-        console.log(this.quotaRequest)
         if (!this.yearMonthDay) {
           Toast({
             message: '请先选择预约日期',
@@ -672,7 +653,6 @@
           return
         }
         resultPost(getAppTimes, this.quotaRequest).then(json => {
-          console.log(json, '配额信息')
           this.activeIndex = ''
           this.appointmentTime = ''
           if (json.code === '0000') {
@@ -792,8 +772,7 @@
         return true
       },
       registerSubmit () {
-        console.log(this.appointmentLocation.option)
-        // if (!this.beforeSubmit()) return
+        if (!this.beforeSubmit()) return
         for (let i = 0, len = this.appointmentLocation.option.length; i < len; i++) {
           if (this.appointmentLocation.option[i].id === this.appointmentLocationOne) {
             this.appointmentLocationDes = this.appointmentLocation.option[i].description
@@ -828,9 +807,7 @@
           sourceOfCertification: window.localStorage.getItem('sourceOfCertification'), // 请求来源
           openId: window.localStorage.getItem('openId') // openID
         }
-        console.log(requestObj, '请求的数据')
         resultPost(createTemporaryLicenseVehicleInfo, requestObj).then(data => {
-          console.log(data, '预约信息')
           if (data.code === '0000') {
             this.appointmentLocation.option.map(item => {
               if (item.id === this.appointmentLocationOne) {
@@ -841,14 +818,12 @@
               type: data.data.type,
               reserveNo: data.data.waterNumber, // 预约编号
               businessType: this.$route.query.name, // 预约业务名称
-              // numberPlate: this.provinceCodeOne + this.plateNum.toUpperCase(), // 车牌号
               vehicleType: this.carSelectDataStr, // 车辆类型
               reserveAddress: data.data.orgName,  // 预约地点
               appointmentAddress: this.appointmentLocationDes, // 预约详细地址
               reserveTime: `${data.data.appointmentDate} ${data.data.appointmentTime}`, // 预约日期
               appointmentPerson: this.ownerName // 预约人
             }
-//          this.$store.commit('saveResponseData', data)
             this.$store.commit('saveSuccessInfo', dataInfo)
             this.$router.push('/submitSuccess')
           }

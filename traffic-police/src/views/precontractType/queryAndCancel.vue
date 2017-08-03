@@ -17,9 +17,7 @@
   import { Toast, MessageBox } from 'mint-ui'
   import {
     getVehicleInfo,
-    // cancel,
     getDriveInfo
-    // cancelDriveInfo
   } from 'config/baseUrl'
   export default {
     data () {
@@ -75,12 +73,9 @@
           bookerNumber: this.reserveNum,
           idNumber: this.IDCardNum
         }
-        console.log(requestData)
         if (this.businessTypeOne === 1) {
           // 驾驶证业务查询
-          console.log('驾驶证')
           resultPost(getDriveInfo, requestData).then(data => {
-            console.log(data, '预约信息')
             if (data.code === '0000') {
               let dataInfo = {
                 businessTypeName: data.data.businessTypeName,
@@ -90,13 +85,10 @@
                 organizationName: data.data.organizationName,
                 appointmentDate: data.data.appointmentDate,
                 appointmentTime: data.data.appointmentTime,
-                // platNumber: data.data.platNumber,
-                // carTypeName: data.data.carTypeName,
                 businessType: this.businessTypeOne,
                 bookerNumber: data.data.bookNumber,
                 bookStates: data.data.bookState
               }
-              console.log(dataInfo, '提交信息')
               this.$store.commit('saveSuccessInfo', dataInfo)
               this.$router.push('/querySuccess')
             } else {
@@ -105,9 +97,7 @@
           })
         } else {
           // 机动车业务查询
-          console.log('机动车')
           resultPost(getVehicleInfo, requestData).then(data => {
-            console.log(data, '预约信息')
             if (data.code === '0000') {
               let dataInfo = {
                 businessTypeName: data.data.businessTypeName,
