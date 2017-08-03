@@ -270,3 +270,5 @@ export const electrocarFileScancode = `${commonUrl}convenience/getEbikeInfoByFil
 /* -------------- 电子回单 --------------- */
 export const toQueryElectronicReceiptPage = `${commonUrl}illegalHanding/toQueryElectronicReceiptPage.html` // 电子回单
 
+/* -------------- 规费缴纳 --------------- */
+export const toQueryFeePage = `${commonUrl}illegalHanding/toQueryFeePage.html` // 规费缴纳

@@ -106,7 +106,9 @@ export default {
         plateType: '车牌类型',
         appointmentPerson: '预约人',
         title: '业务类型',
-        reserveNumber: '累计天数'
+        reserveNumber: '累计天数',
+        appTime: '预约时间',
+        orgName: '服务点'
       },
       valListObj: {
         cartype: {
@@ -212,7 +214,30 @@ export default {
           driverLicenseVoluntaryDemotion: '驾驶证自愿降级',
           repairDriverLicense: '驾驶证补证',
           replaceDriverLicense: '驾驶证换证',
-          driverChangeContact: '驾驶人联系方式变更'
+          driverChangeContact: '驾驶人联系方式变更',
+          createDriveInfo_ZJ16: '临时机动车驾驶许可申领',
+          createTemporaryLicenseVehicleInfo: '核发临牌',
+          createVehicleInfo_JD27: '核发校车标牌',
+          createVehicleInfo_JD37: '抵押/解押登记现场办理',
+          createVehicleInfo_JD38: ' 机动车委托异地年审现场办理',
+          createVehicleInfo_JD41: '转出、注销恢复',
+          createDriveInfo_ZJ10: '满分学习考试',
+          createDriveInfo_ZJ11: '持军队、武装警察部队机动车驾驶证申领',
+          createDriveInfo_ZJ13: '香港机动车驾驶证免试换证',
+          createDriveInfo_ZJ17: '持境外驾驶证申请换证',
+          createDriveInfo_ZJ20: '其他业务(驾驶证)',
+          createDriveInfo_ZJ21: '恢复驾驶资格（逾期一年以上未换证类）',
+          createDriveInfo_ZJ22: '恢复驾驶资格（逾期一年以上未体检类）',
+          createVehicleInfo_JD06: '换领机动车登记证书',
+          createVehicleInfo_JD02: '补换机动车号牌',
+          createVehicleInfo_JD36: '机动车变更登记（套牌车换证）',
+          createVehicleInfo_JD13: ' 申领/补领机动车登记证书',
+          createVehicleInfo_JD15: '转移登记（市内过户）',
+          createVehicleInfo_JD18: '机动车注销登记',
+          createVehicleInfo_JD17: '机动车注册登记',
+          createVehicleInfo_JD35: '机动车变更登记（夫妻变更）',
+          createVehicleInfo_JD19: '机动车转移登记（转入）',
+          createVehicleInfo_JD24: '机动车变更登记（普通变更）'
         }
       }
     }

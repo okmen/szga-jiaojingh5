@@ -47,6 +47,8 @@
 <script>
 import { Select, Option, Input } from 'element-ui'
 import { verifyCode } from '../../config/verifyCode.js'
+import { resultPost } from '../../service/getData'
+import { toQueryFeePage } from '../../config/baseUrl'
 import { Toast } from 'mint-ui'
 import wx from 'weixin-js-sdk'
 export default {
@@ -59,21 +61,21 @@ export default {
     return {
       typeData: [
         {
-          value: '1',
+          value: '01',
           label: '机动车业务'
         },
         {
-          value: '2',
+          value: '02',
           label: '驾驶证业务'
         },
         {
-          value: '3',
+          value: '',
           label: '“9”开头缴费流水业务'
         }
       ],
       verifyCode: false,
       form: {
-        type: '2',
+        type: '02',
         number: '',
         tel: ''
       }
@@ -130,18 +132,16 @@ export default {
     },
     // 提交查询
     submit () {
-      for (let key in this.form) {
-        if (!this.form[key]) {
-          Toast({
-            message: '信息填写不完整',
-            position: 'bottom'
-          })
-          return false
-        }
-      }
       if (!/^1\d{10}$/.test(this.form.tel)) {
         Toast({
           message: '手机号码格式错误',
+          position: 'bottom'
+        })
+        return false
+      }
+      if (!this.form.number) {
+        Toast({
+          message: '请输入缴费编号',
           position: 'bottom'
         })
         return false
@@ -153,6 +153,16 @@ export default {
         })
         return false
       }
+      let reqData = {
+        billNo: this.form.type + this.form.number,
+        mobilephone: this.form.tel
+      }
+      console.log(reqData)
+      resultPost(toQueryFeePage, reqData).then(json => {
+        if (json.code === '0000') {
+          window.location.href = json.msg
+        }
+      })
     }
   },
   mounted () {
