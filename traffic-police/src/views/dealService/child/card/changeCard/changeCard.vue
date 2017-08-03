@@ -9,7 +9,7 @@
               <span>业务类型</span>
             </div>
             <div class="div-select">
-              <span class="btn-select" @click.stop="serviceSelectClick()">{{ serviceSelectMassage }}</span>
+              <span class="btn-select" >{{ serviceSelectMassage }}</span>
               <div class="div-select-ul" v-if="serviceSelectShow">
                 <ul>
                   <li v-for="item in serviceSelectData" @click.stop="serviceSelectClick(item.str, item.id)">{{item.str}}</li>
@@ -112,6 +112,9 @@
               height: 60px;
               .div-select-ul {
                 top:60px;
+              }
+              .btn-select{
+                background-image: none;
               }
             }
           }

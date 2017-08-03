@@ -112,12 +112,36 @@ let dealServiceRouter = [
     ]
   },
   {
+    name: 'esemptionCar',
+    path: '/esemptionCar',
+    meta: {
+      title: '六年免检申请'
+    },
+    component: require('../views/dealService/child/car/exemption/esemptionCar.vue')
+  },
+  {
     name: 'exemption',
     path: '/exemption',
     meta: {
       title: '六年免检申请'
     },
-    component: require('../views/dealService/child/car/exemption.vue')
+    component: require('../views/dealService/child/car/exemption/exemption.vue')
+  },
+  {
+    name: 'exemptionDemand',
+    path: '/exemptionDemand',
+    meta: {
+      title: '六年免检查询取消'
+    },
+    component: require('../views/dealService/child/car/exemption/exemptionDemand.vue')
+  },
+  {
+    name: 'exemptionAbolish',
+    path: '/exemptionAbolish',
+    meta: {
+      title: '六年免检查询取消'
+    },
+    component: require('../views/dealService/child/car/exemption/exemptionAbolish.vue')
   },
   {
     name: 'placeExamine',
@@ -125,7 +149,23 @@ let dealServiceRouter = [
     meta: {
       title: '机动车委托异地定期检验申报'
     },
-    component: require('../views/dealService/child/car/placeExamine.vue')
+    component: require('../views/dealService/child/car/placeExamine/placeExamine.vue')
+  },
+  {
+    name: 'placeExamineCar',
+    path: '/placeExamineCar',
+    meta: {
+      title: '机动车委托异地定期检验申报'
+    },
+    component: require('../views/dealService/child/car/placeExamine/placeExamineCar.vue')
+  },
+  {
+    name: 'placeExamineDemand',
+    path: '/placeExamineDemand',
+    meta: {
+      title: '机动车委托异地定期检验申报查询'
+    },
+    component: require('../views/dealService/child/car/placeExamine/placeExamineDemand.vue')
   },
   {
     name: 'motorAlteration',

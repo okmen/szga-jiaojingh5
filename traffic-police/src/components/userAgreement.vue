@@ -100,13 +100,13 @@ export default {
             this.$router.push('/replaceCredentials/repairDrivingLicense')
             break
           case 'szjj_hander_cvi':  // 六年免检预约
-            this.$router.push('/exemption')
+            this.$router.push('/esemptionCar')
             break
           case 'szjj_hander_rim':  // 补换检验合格标志
             this.$router.push('/replaceCredentials/replaceQualifiedMark')
             break
           case 'szjj_hander_id':  // 机动车异地定期检验申报
-            this.$router.push('/placeExamine')
+            this.$router.push('/placeExamineCar')
             break
           case 'szjj_hander_rmvp':  // 补领机动车号牌
             this.$router.push('/replaceCredentials/replaceLicencePlate')
