@@ -9,6 +9,7 @@
     <div class="content" id="content" ref="content">
       <queryResult class="queryResult" v-for="item in dataList" :data="item"></queryResult>
     </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 

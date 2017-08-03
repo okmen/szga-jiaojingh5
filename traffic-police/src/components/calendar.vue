@@ -30,7 +30,7 @@
         </thead>
         <tbody>
           <tr v-for="cell in data">
-            <td v-for="item in cell" :class="{'dp-last': m!== item.month, 'dp-overdue': item.state.act === 0, 'dp-select': isSelectClass(getDateState(item.data)), 'dp-yellow': isYellow(item.state), 'dp-red': item.state.state === '3' }">
+            <td v-for="item in cell" :class="{'dp-last': m!== item.month, 'dp-overdue': item.state.act === 0 || (item.state.act === 1 && item.state.state === '8' ), 'dp-select': isSelectClass(getDateState(item.data)), 'dp-yellow': isYellow(item.state), 'dp-red': item.state.state === '3' }">
               <div @click="pickDays(item.state)" class="box-out">
                 <div class="box-int">
                   <span>{{ item.day }}</span>
@@ -148,7 +148,7 @@ export default {
           '5': '',
           '6': '',
           '7': '绿色</br>出行',
-          '8': '绿色</br>出行',
+          '8': '',
           '9': ''
         }[state.state]
         // 设置日期选择状态
@@ -176,14 +176,14 @@ export default {
     },
     pickDays (date) {
       console.log(date)
-      if (date.act === 0) {
+      if (date.act === 0 || date.state === '8') {
         Toast({
           message: '该时间段不能选择',
           position: 'middle',
           duration: 2000
         })
         return false
-      } else if (date.act === 1) {
+      } else if (date.act === 1 && date.state !== '8') {
         resultPost(getGreenDays, {
           hphm: this.carInfo.hphm,
           hpzl: this.carInfo.hpzl,
@@ -237,7 +237,7 @@ export default {
     },
     isYellow (date) {
       let item = date
-      if (item.act === 1) {
+      if (item.act === 1 && item.state !== '8') {
         return true
       } else if (item.act === 2 && (item.state === '2' || item.state === '3')) {
         return true
