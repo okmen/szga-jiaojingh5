@@ -8,7 +8,7 @@
     dataInfo.type
       1 : 申办成功 // 办理类
       2 : 预约成功 // 预约类
-      3 : 申报日期 
+      3 : 申报日期
     接口返回的数据存至 dataInfo
 
     dataInfo = {
@@ -97,11 +97,14 @@ export default {
         waterNumber: '流水号码',
         reserveNo: '预约编号',
         numberPlate: '车牌号码',
+        vehicleType: '车辆类型',
         mobilephone: '手机号码',
         reserveAddress: '服务点',
+        appointmentAddress: '预约地址',
         reserveTime: '预约时间',
         effectiveTime: '有效时间',
         plateType: '车牌类型',
+        appointmentPerson: '预约人',
         title: '业务类型',
         reserveNumber: '累计天数'
       },
