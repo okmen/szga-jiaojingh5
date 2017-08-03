@@ -1,12 +1,12 @@
 
 <template>
-  <div class="form-template placeExamineDemand-success">
-    <div class="placeExamineDemand-success-content">
-      <div class="item" v-for="(value, key) in dataInfo" v-if="keyListObj[key]">
+  <div class="form-temp placeExamineDemand-success" >
+    <div class="placeExamineDemand-success-content" v-for="(value, index) in dataInfo">
+      <div class="item" v-for="(val, key) in value" v-if="keyListObj[key]">
         <span class="bid-item-key">{{ keyListObj[key] }}</span>
-        ：<span >{{ valListObj[key] ? valListObj[key][value] : value }}</span>
+          ：<span >{{ valListObj[key] ? valListObj[key][val] : val }}</span>
       </div>
-    </div>
+    </div>  
   </div>
 </template>
 
@@ -19,7 +19,7 @@
     // 获取数据
     data () {
       return {
-        dataInfo: {},
+        dataInfo: '',
         keyListObj: {
           HPHM: '车牌号码',
           HPZL: '车牌类型',
@@ -27,7 +27,7 @@
           SYR: '使用人',
           SFZMHM: '车主身份证',
           STJG: '受托机构',
-          LSH: '流水号',
+          // LSH: '流水号',
           LRZHLX: '申报方式',
           YJ_SJRXM: '收件人名字',
           YJ_LXDH: '收件人联系电话',
@@ -79,7 +79,8 @@
         }
         resultPost(inspectionDeclarationQuery, requestData).then(json => {
           if (json.code === '0000') {
-            this.dataInfo = JSON.parse(json.data).ROW
+            // this.dataInfo = JSON.parse(json.data).ROW
+            this.dataInfo = JSON.parse(json.data)
             console.log(this.dataInfo)
           } else {
             Toast({message: json.msg, position: 'bottom', className: 'white'})
@@ -97,6 +98,10 @@
 /*  .placeExamineDemand-success{
     height: 100%!important;
   }*/
+  .form-temp{
+    width: 94%;
+    margin: 30px auto;
+  }
   .cancel-btn{
     background: #ccc!important;
     color: #fff!important;
@@ -104,11 +109,17 @@
   .placeExamineDemand-success-content{
     border:2px solid #ccc;
     border-radius: 8px;
+    margin-top: 30px;
     .item{
       height:80px;
       font-size: 32px;
       line-height: 80px;
       padding-left: 20px;
+    }
+    .item:nth-of-type(6){
+      span:nth-of-type(2){
+        color: red;
+      }
     }
   }
   .exempTu{

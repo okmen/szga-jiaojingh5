@@ -261,8 +261,8 @@ export default {
       } else {
         this.vehType = item.plateType
         this.vehicle = item.myNumberPlate
-        this.identityCard = item.identityCard
-        this.name = item.name
+        // this.identityCard = item.identityCard
+        // this.name = item.name
         this.carriageNumber = item.behindTheFrame4Digits
         this.vehicleShow = false
       }
@@ -393,7 +393,8 @@ export default {
       } else if (this.identifying.length !== 6) {
         Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
       } else {
-        this.verificationFn()
+        // this.verificationFn()
+        this.dataFn()
       }
     }
   },
