@@ -4,7 +4,7 @@
     <div class="placeExamineDemand-success-content" v-for="(value, index) in dataInfo">
       <div class="item" v-for="(val, key) in value" v-if="keyListObj[key]">
         <span class="bid-item-key">{{ keyListObj[key] }}</span>
-          ：<span >{{ valListObj[key] ? valListObj[key][val] : val }}</span>
+          ：<span :class="{red: key === 'SBZT'}" >{{ valListObj[key] ? valListObj[key][val] : val }}</span>
       </div>
     </div>  
   </div>
@@ -95,9 +95,6 @@
 </script>
 
 <style lang="less">
-/*  .placeExamineDemand-success{
-    height: 100%!important;
-  }*/
   .form-temp{
     width: 94%;
     margin: 30px auto;
@@ -115,9 +112,7 @@
       font-size: 32px;
       line-height: 80px;
       padding-left: 20px;
-    }
-    .item:nth-of-type(6){
-      span:nth-of-type(2){
+      .red{
         color: red;
       }
     }
