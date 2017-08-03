@@ -711,7 +711,7 @@
       },
       // 获取选择的使用性质
       getUseNatureOne (val, index, str) {
-        this.useNatureOne = str
+        this.useNatureOne = val
       },
       // 获取选择的预约地点
       getAppointmentLocationOne (val, index, str) {
