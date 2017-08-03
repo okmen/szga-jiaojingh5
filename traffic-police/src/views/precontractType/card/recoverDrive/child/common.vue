@@ -369,7 +369,7 @@
             bookerType: this.orderWay,              // 预约方式
             bookerMobile: this.userTelphone         // 获取验证码 手机号
           }
-          this.$emit('appointTaskClick', reqData, this.orderPlaceValue)
+          this.$emit('appointTaskClick', reqData)
         }
       },
 

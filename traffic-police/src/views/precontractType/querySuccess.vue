@@ -2,8 +2,8 @@
   <div class="form-template query-success">
     <div class="query-success-content">
       <div class="item" v-for="(value, key) in dataInfo" v-if="keyListObj[key]">
-        <span class="bid-item-key">{{ keyListObj[key] }}</span>
-        ：<span >{{ valListObj[key] ? valListObj[key][value] : value }}</span>
+        <span>{{ keyListObj[key] }}</span>
+        ：<span  >{{ valListObj[key] ? valListObj[key][value] : value }}</span>
       </div>
     </div>
     <div class="form-template-submit" @click="cancelReverse" v-if="this.dataInfo.bookStates==='1'">取消预约</div>
@@ -22,7 +22,6 @@
     border:2px solid #ccc;
     border-radius: 8px;
     .item{
-      height:80px;
       font-size: 32px;
       line-height: 80px;
       padding-left: 20px;
@@ -71,7 +70,6 @@
       // 取消预约
       /*eslint-disable*/
       cancelReverse () {
-        console.log(this.dataInfo)
         MessageBox.confirm('确定取消预约?').then(action => {
           let requestData = {
             mobile: this.dataInfo.mobile,
@@ -84,7 +82,6 @@
             businessTypeName: this.dataInfo.businessTypeName
           }
           resultPost(cancel, requestData).then(data => {
-            console.log(data, '预约信息')
             MessageBox.alert('您已成功取消本次预约').then(action => {
               this.$router.push('/')
             });

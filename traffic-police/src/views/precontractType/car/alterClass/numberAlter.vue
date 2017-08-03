@@ -45,14 +45,21 @@ export default {
           let date = json.data.appointmentDate
           let place = json.data.orgName
           let time = json.data.appointmentTime
+          let carType = json.data.carTypeName
+          let name = json.data.name
+          let address = json.data.orgAddr
+          let carNumber = json.data.platNumber
           let dataInfo = {
             type: 2,
             businessType: this.bussinessName,    // 预约业务名称
             reserveNo: number,                   // 流水号
-            numberPlate: params.platNumber,      // 车牌号码
-            mobilephone: params.bookerMobile,    // 手机号码
+            numberPlate: carNumber,              // 车牌号码
+            vehicleType: carType,                // 车牌类型
             reserveAddress: place,               // 服务点
-            reserveTime: `${date} ${time}`       // 预约日期
+            appointmentAddress: address,         // 地址
+            reserveTime: `${date} ${time}`,      // 预约日期
+            mobilephone: params.bookerMobile,    // 手机号码
+            appointmentPerson: name              // 预约人姓名
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')
