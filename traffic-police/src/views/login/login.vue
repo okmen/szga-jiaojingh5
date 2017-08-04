@@ -95,6 +95,7 @@ export default {
     }
   },
   mounted () {
+    // this.$toast('Hello Wold!!!!', 'middle')
     Indicator.close()
     let ua = window.navigator.userAgent // 浏览器版本
     this.openId = window.localStorage.getItem('openId')

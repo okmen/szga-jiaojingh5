@@ -12,7 +12,9 @@ import 'element-ui/lib/theme-default/index.css'
 import 'mint-ui/lib/style.css'
 import store from './store/index'
 import { Indicator, DatetimePicker, MessageBox, Toast, Swipe, SwipeItem, Popup, Loadmore } from 'mint-ui'
+// import Toasts from './service/toast'
 
+// Vue.use(Toasts)
 Vue.use(require('vue-wechat-title'))
 Vue.component(TimeSelect.name, TimeSelect)
 // Vue.component(DatePicker.name, DatePicker)
