@@ -107,12 +107,17 @@
           if (json.code === '0000') {
             let userData = json.data.authenticationBasicInformation
             let userCars = JSON.stringify(json.data.cars)
-            window.localStorage.setItem('identityCard', decodeURIComponent(userData.identityCard)) // 身份证照
+            console.log(userData)
+            json.data.cars.forEach(item => {
+              if (item.isMySelf === 0) {
+                window.localStorage.setItem('myNumberPlate', decodeURIComponent(item.myNumberPlate)) // 车牌号码
+                window.localStorage.setItem('behindTheFrame4Digits', decodeURIComponent(item.behindTheFrame4Digits)) // 车架号后4位
+                window.localStorage.setItem('plateType', decodeURIComponent(item.plateType)) // 车牌类型
+              }
+            })
+            window.localStorage.setItem('identityCard', decodeURIComponent(userData.identityCard)) // 身份证
             window.localStorage.setItem('mobilePhone', decodeURIComponent(userData.mobilephone)) // 手机号码
-            window.localStorage.setItem('myNumberPlate', decodeURIComponent(userData.myNumberPlate)) // 车牌号码
             window.localStorage.setItem('userName', decodeURIComponent(userData.trueName)) // 用户名字
-            window.localStorage.setItem('behindTheFrame4Digits', decodeURIComponent(userData.behindTheFrame4Digits)) // 车架号后4位
-            window.localStorage.setItem('plateType', decodeURIComponent(userData.plateType)) // 车牌类型
             window.localStorage.setItem('cars', userCars)   // 名下车牌信息
             window.localStorage.setItem('isLogin', true) // 是否登录
           }
