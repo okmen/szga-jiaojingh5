@@ -51,8 +51,8 @@ export default {
           let carNumber = json.data.platNumber
           let dataInfo = {
             type: 2,
-            businessType: this.bussinessName,    // 预约业务名称
             reserveNo: number,                   // 流水号
+            businessType: this.bussinessName,    // 预约业务名称
             numberPlate: carNumber,              // 车牌号码
             vehicleType: carType,                // 车牌类型
             reserveAddress: place,               // 服务点

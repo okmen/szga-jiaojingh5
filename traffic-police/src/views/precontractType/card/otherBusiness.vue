@@ -52,8 +52,8 @@ export default {
           let date = json.data.appointmentDate
           let dataInfo = {
             type: 2,
-            businessType: this.bussinessName,      // 预约业务名称
             reserveNo: json.data.waterNumber,      // 流水号
+            businessType: this.bussinessName,      // 预约业务名称
             reserveAddress: json.data.orgName,     // 服务点
             appointmentAddress: json.data.orgAddr, // 具体地址
             reserveTime: `${date} ${time}`,        // 预约日期
