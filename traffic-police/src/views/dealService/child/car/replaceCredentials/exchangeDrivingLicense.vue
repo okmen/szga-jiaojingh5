@@ -297,8 +297,10 @@
             this.allCertificateNumber[item.myNumberPlate] = item.identityCard
           }
         })
-        this.defaultPlateNumber = plateInfo.option[0].str
-        this.plateNumberOne = plateInfo.option[0].str
+        if (plateInfo.option[0]) {
+          this.defaultPlateNumber = plateInfo.option[0].str
+          this.plateNumberOne = plateInfo.option[0].str
+        }
         return plateInfo
       }
     },
