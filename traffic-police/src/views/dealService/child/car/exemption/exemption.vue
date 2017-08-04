@@ -191,7 +191,7 @@ export default {
   name: 'exemption',
   data () {
     return {
-      name: '',     // 所有人名字
+      name: window.localStorage.getItem('userName'),     // 所有人名字
       addresseeName: window.localStorage.getItem('userName'),  // 收件人名字
       addresseeMobile: window.localStorage.getItem('mobilePhone'),  // 收件人手机号码
       isShow: false,
@@ -221,7 +221,7 @@ export default {
         }
       ],                                           // 发证机关列表 数据从接口查出
       vehicleShow: false,
-      vehicle: window.localStorage.getItem('myNumberPlate'),                         // 车牌下拉
+      vehicle: '',                         // 车牌下拉
       applyShow: false,                            // 申请人类型样式
       applyMassage: '机动车所有人',
       applyData: [
@@ -304,7 +304,6 @@ export default {
   mounted: function () {
     this.cars = JSON.parse(window.localStorage.getItem('cars'))
     this.plateType = this.cars[0].plateType  // 车辆类型
-    this.name = this.cars[0].name            // 所有人
     let getTime = this.currentTime()
     let getTimes = this.currentTime('take')
     this.mtDateTimeMsg = getTime
