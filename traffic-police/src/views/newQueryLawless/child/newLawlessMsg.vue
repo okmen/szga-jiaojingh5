@@ -52,8 +52,8 @@
           '0': '直接缴款',
           '1': '需要打单',
           '2': '需要前往窗口办理',
-          '3': '可好易处理',
-          '4': '必须好易处理',
+          '3': '可好易处理(需持有广东驾驶证)',
+          '4': '必须好易处理(需持有广东驾驶证)',
           '5': '违法地处理',
           '6': '强制措施窗口处理'
         },
@@ -183,6 +183,14 @@
           }
           this.$store.commit('saveNewLawlessDeal', lawlessDeal)
           this.$router.push('/newTimeSelect')
+        } else if (item.isNeedClaim === '3') {
+          return false
+        } else if (item.isNeedClaim === '4') {
+          return false
+        } else if (item.isNeedClaim === '5') {
+          return false
+        } else if (item.isNeedClaim === '6') {
+          return false
         }
       }
     }

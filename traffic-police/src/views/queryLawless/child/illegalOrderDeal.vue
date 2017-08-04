@@ -8,6 +8,7 @@
           <p>执法单位：<span>{{item.illegalUnit}}</span></p>
           <p>违法行为：<span>{{item.illegalDesc}}</span></p>
           <p>违法地点：<span>{{item.illegalAddr}}</span></p>
+          <p>处理方式：<span>{{claimList[item.isNeedClaim]}}</span></p>
         </div>
         <div class="illegal-query">
           <section class="illegal-query-score">
@@ -25,7 +26,7 @@
             <img :src="'data:image/png;base64,' + imgList" alt="">
           </div>
         </div> -->
-        <div class="illegal-select">
+        <div class="illegal-select" v-if="item.isNeedClaim == 2">
           <input type="checkbox" :id="'illegalSelectRadio'+ index" :name="'illegalSelectRadio'+ index" v-model:checked="item.checkAddBorder" @click="inputClick(index)">
           <label :for="'illegalSelectRadio'+ index"></label>
         </div>
@@ -75,7 +76,16 @@
         claimantAddress: '', // 申诉联系地址
         appealContent: '', // 申诉内容
         imgBase: '',
-        popupImgShow: false
+        popupImgShow: false,
+        claimList: {
+          '0': '直接缴款',
+          '1': '需要打单',
+          '2': '需要前往窗口办理',
+          '3': '可好易处理(需持有广东驾驶证)',
+          '4': '必须好易处理(需持有广东驾驶证)',
+          '5': '违法地处理',
+          '6': '强制措施窗口处理'
+        }       // 返回-是否需要打单（编号转换）
       }
     },
     components: {

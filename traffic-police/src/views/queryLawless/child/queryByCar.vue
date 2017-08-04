@@ -162,7 +162,11 @@
         claimList: {
           '0': '直接缴款',
           '1': '需要打单',
-          '2': '需要前往窗口办理'
+          '2': '需要前往窗口办理',
+          '3': '可好易处理(需持有广东驾驶证)',
+          '4': '必须好易处理(需持有广东驾驶证)',
+          '5': '违法地处理',
+          '6': '强制措施窗口处理'
         },       // 返回-是否需要打单（编号转换）
         myIllegalData: [],                    // 返回-查询我的违章
         licenseSelectShow: false,             // 车牌列表显示与否
@@ -490,6 +494,8 @@
           this.$router.push('/confirm')
         } else if (num === '2') {
           this.$router.push('/early')
+        } else {
+          return false
         }
       }
     },
