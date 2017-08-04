@@ -132,8 +132,8 @@
           </div>
         </div>
       </div>
-      <button class="btn btns" v-if="this.Plate" @click.stop="submitClick()">确认信息</button>
-      <button class="btn btns" style="background: gray" v-if="!this.Plate">确认信息</button>
+      <button class="btn btns" v-if="this.Plate.length !== 0" @click.stop="submitClick()">确认信息</button>
+      <button class="btn btns" style="background: gray" v-if="this.Plate.length === 0">确认信息</button>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -151,7 +151,7 @@
         imgOne3: require('../../../../images/drivinglicense.png'),
         vehType: '',
         name: window.localStorage.getItem('userName'),
-        vehicleFlapper: window.localStorage.getItem('behindTheFrame4Digits'),
+        vehicleFlapper: '',
         IDcardFront: '',                             // 身份证正面
         IDcarfBack: '',                              // 身份证反面
         registerCredential: '',                      // 机动车登记证书
@@ -212,7 +212,7 @@
           }
         ],
         vehicleShow: false,
-        vehicle: window.localStorage.getItem('myNumberPlate'),                         // 车牌下拉
+        vehicle: '',                         // 车牌下拉
         carSelectData: {
           '01': '大型汽车',
           '02': '小型汽车',
@@ -306,8 +306,8 @@
       }
     },
     created () {
-      this.Plate = window.localStorage.getItem('myNumberPlate')
-      if (!this.Plate) {
+      this.Plate = JSON.parse(window.localStorage.getItem('cars'))
+      if (this.Plate.length === 0) {
         MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
       }
     },
@@ -323,7 +323,9 @@
       this.cars = JSON.parse(window.localStorage.getItem('cars'))
       if (this.cars.length === 0) return
       this.vehType = this.cars[0].plateType
+      this.vehicle = this.cars[0].myNumberPlate
       this.mobilephone = this.cars[0].mobilephone
+      this.vehicleFlapper = this.cars[0].behindTheFrame4Digits
     },
     methods: {
       // 车牌下拉框
