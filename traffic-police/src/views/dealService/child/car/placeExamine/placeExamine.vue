@@ -150,7 +150,7 @@ export default {
       vehType: '',
       isShow: false,                           //  验证码
       vehicleShow: false,                      // 车牌下拉框
-      vehicle: window.localStorage.getItem('myNumberPlate'),
+      vehicle: '',
       vehicleTypeShow: false,
       ownerShow: false,
       ownerid: '0',
@@ -236,7 +236,7 @@ export default {
           'str': '大鹏新区'
         }
       ],
-      carriageNumber: window.localStorage.getItem('behindTheFrame4Digits'),   // 车架号
+      carriageNumber: '',   // 车架号
       addresseeName: window.localStorage.getItem('userName'),                //  收件人名字
       mailingAddress: '',                     // 详细地址
       mobile: window.localStorage.getItem('mobilePhone'),                  // 手机号码
@@ -402,6 +402,8 @@ export default {
   mounted: function () {
     this.cars = JSON.parse(window.localStorage.getItem('cars'))
     this.vehType = this.cars[0].plateType
+    this.vehicle = this.cars[0].myNumberPlate
+    this.carriageNumber = this.cars[0].behindTheFrame4Digits
     document.addEventListener('click', (e) => {
       this.ownerShow = false
       this.vehicleShow = false
