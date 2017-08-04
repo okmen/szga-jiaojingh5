@@ -312,8 +312,10 @@
             this.allOwnersName[item.myNumberPlate] = item.name
           }
         })
-        this.plateNumberOne = plateInfo.option[0].str
-        this.defaultPlateNumber = plateInfo.option[0].str
+        if (plateInfo.option[0]) {
+          this.defaultPlateNumber = plateInfo.option[0].str
+          this.plateNumberOne = plateInfo.option[0].str
+        }
         return plateInfo
       }
     },
