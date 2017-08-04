@@ -54,7 +54,6 @@
     },
     created () {
       this.currentBusinessType = this.businessType[this.$route.name]
-      window.alert(JSON.stringify(window.localStorage))
       if (!window.localStorage.getItem('myNumberPlate')) {
         MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
       }
