@@ -533,6 +533,9 @@ padding: 20px 40px;
     margin-top:30px;
     display: inline-block;
   }
+  .btn-select{
+    height: 56px;
+  }
   .btns{
     margin: 60px 0 30px 0;
     width: 100%;
