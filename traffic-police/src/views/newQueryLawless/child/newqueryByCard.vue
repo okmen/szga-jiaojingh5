@@ -71,8 +71,14 @@
       verifyCode(document.getElementById('inp'), document.getElementById('code'), (result, code) => {
         this.verifyCode = result
       })
+      this.init()
     },
     methods: {
+      init () {
+        this.drivingLicenceNo = window.localStorage.identityCard || ''
+        this.recordNo = window.localStorage.fileNumber || ''
+        this.mobilephone = window.localStorage.mobilePhone || ''
+      },
       queryLawlessByCard: function () {
         let reqData = {
           drivingLicenceNo: this.drivingLicenceNo,

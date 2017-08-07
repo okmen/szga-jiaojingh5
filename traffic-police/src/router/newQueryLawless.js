@@ -40,6 +40,14 @@ let newQueryLawlessRouter = [
     component: require('../views/newQueryLawless/child/newLawlessMsg.vue')
   },
   {
+    name: 'newLawlessMsg_noBtn',
+    path: '/newLawlessMsg_noBtn',
+    meta: {
+      title: '违法查询结果'
+    },
+    component: require('../views/newQueryLawless/child/newLawlessMsg_noBtn.vue')
+  },
+  {
     name: 'appeal',
     path: '/appealEntry',
     meta: {

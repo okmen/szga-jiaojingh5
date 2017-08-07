@@ -85,6 +85,7 @@ export default{
         window.localStorage.removeItem('myNumberPlate')
         window.localStorage.removeItem('plateType')
         window.localStorage.removeItem('userName')
+        window.localStorage.removeItem('fileNumber')
         if (json.code === '0000') {
           console.log(json)
           console.log('退出登录状态，返回首页')

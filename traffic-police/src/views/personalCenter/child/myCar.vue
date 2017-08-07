@@ -166,7 +166,7 @@
 </style>
 <script>
   import { bindCar, queryLawlessByCar, unbindTheOtherDriverUseMyCar, unbindVehicle } from '../../../config/baseUrl'
-  import { resultPost, resultPostNoLoading } from '../../../service/getData'
+  import { resultPost } from '../../../service/getData'
   import { Indicator, MessageBox, Toast } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
@@ -204,25 +204,47 @@
         }
         console.log(reqData)
         Indicator.open()
-        resultPostNoLoading(queryLawlessByCar, reqData).then(json => {
-          console.log(json)
+        // resultPostNoLoading(queryLawlessByCar, reqData).then(json => {
+        //   console.log(json)
+        //   if (json.code === '0000') {
+        //     this.reserveList = json.data
+        //     console.log(json.data.length === 0)
+        //     if (json.data.length === 0) {
+        //       Indicator.close()
+        //       MessageBox('提示', '该车辆暂无违法信息')
+        //     } else {
+        //       json.data.forEach((item, index) => { // 循环dataList 给每个item上面添加 check关联属性
+        //         item.checkAddBorder = false
+        //       })
+        //       that.postAppealQuery(json.data)
+        //       Indicator.close()
+        //       that.$router.push('/illegalOrderDeal')
+        //     }
+        //   } else {
+        //     Indicator.close()
+        //     MessageBox('提示', json.msg)
+        //   }
+        // })
+        resultPost(queryLawlessByCar, reqData).then(json => {
           if (json.code === '0000') {
-            this.reserveList = json.data
-            console.log(json.data.length === 0)
-            if (json.data.length === 0) {
-              Indicator.close()
-              MessageBox('提示', '该车辆暂无违法信息')
-            } else {
-              json.data.forEach((item, index) => { // 循环dataList 给每个item上面添加 check关联属性
-                item.checkAddBorder = false
-              })
-              that.postAppealQuery(json.data)
-              Indicator.close()
-              that.$router.push('/illegalOrderDeal')
+            let lawlessData = {
+              info: {
+                behindTheFrame4Digits: reqData.vehicleIdentifyNoLast4,
+                plateType: reqData.licensePlateType,
+                myNumberPlate: reqData.licensePlateNo,
+                mobilephone: reqData.mobilephone,
+                identityCard: reqData.drivingLicenceNo
+              },
+              data: json.data
             }
+            this.$store.commit('saveNewLawlessQuery', lawlessData)
+            this.$router.push('newLawlessMsg_noBtn')
           } else {
-            Indicator.close()
-            MessageBox('提示', json.msg)
+            Toast({
+              message: json.msg,
+              position: 'middle',
+              duration: 2000
+            })
           }
         })
       },

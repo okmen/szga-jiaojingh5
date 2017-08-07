@@ -14,7 +14,7 @@
       <router-link to="newqueryByCar_manual">其他车辆查询</router-link>
       <router-link to="newqueryByCard">驾驶证查询</router-link>
       <div class="newQueryByCar-hint">
-        <p><span>温馨提示：</span>仅查询车辆在深圳市范围内的交通违法信息</p>
+        <p>温馨提示：可查粤B牌车全国的违法及外地车深圳的违法</p>
       </div>
     </div>
     <div v-wechat-title="$route.meta.title"></div>

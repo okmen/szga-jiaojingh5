@@ -60,6 +60,12 @@
     mounted: function () {
       this.init()
     },
+    watch: {
+      outTable: function () {
+        console.log('222222222')
+        // this.init()
+      }
+    },
     methods: {
       init: function () {
         console.log(this.eduTable)

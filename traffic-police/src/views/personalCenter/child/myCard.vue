@@ -115,6 +115,7 @@
                 window.localStorage.setItem('plateType', decodeURIComponent(item.plateType)) // 车牌类型
               }
             })
+            window.localStorage.setItem('fileNumber', decodeURIComponent(json.data.fileNumber))
             window.localStorage.setItem('identityCard', decodeURIComponent(userData.identityCard)) // 身份证
             window.localStorage.setItem('mobilePhone', decodeURIComponent(userData.mobilephone)) // 手机号码
             window.localStorage.setItem('userName', decodeURIComponent(userData.trueName)) // 用户名字
