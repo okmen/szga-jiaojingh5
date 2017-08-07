@@ -335,7 +335,7 @@ export default {
         line-height: 50px;
         .submitSuccess-item-key{
           display: inline-block;
-          width: 96px;
+          width: 114px;
         }
         .submitSuccess-item-value{
           font-weight: normal;
@@ -363,6 +363,7 @@ export default {
   }
   .mt-60{
     margin-top: 60px;
+    margin-bottom: 60px;
   }
 }
 </style>

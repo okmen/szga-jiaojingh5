@@ -10,7 +10,7 @@
               <span class="btn-select stylebackground" @click.stop="vehiclePlate()">{{ vehicle }}</span>
               <div class="div-select-ul" v-if="vehicleShow">
                 <ul>
-                  <li v-for="(item, index) in cars" @click.stop="vehiclePlate(item)">{{item.myNumberPlate}}</li>
+                  <li v-for="(item, index) in cars" @click.stop="vehiclePlate(item)" v-if="item.isMySelf == 0">{{item.myNumberPlate}}</li>
                 </ul>
               </div>
             </div>
@@ -150,7 +150,7 @@ export default {
       vehType: '',
       isShow: false,                           //  验证码
       vehicleShow: false,                      // 车牌下拉框
-      vehicle: '',
+      vehicle: window.localStorage.getItem('myNumberPlate'),
       vehicleTypeShow: false,
       ownerShow: false,
       ownerid: '0',
@@ -236,7 +236,7 @@ export default {
           'str': '大鹏新区'
         }
       ],
-      carriageNumber: '',   // 车架号
+      carriageNumber: window.localStorage.getItem('behindTheFrame4Digits'),   // 车架号
       addresseeName: window.localStorage.getItem('userName'),                //  收件人名字
       mailingAddress: '',                     // 详细地址
       mobile: window.localStorage.getItem('mobilePhone'),                  // 手机号码
@@ -402,8 +402,8 @@ export default {
   mounted: function () {
     this.cars = JSON.parse(window.localStorage.getItem('cars'))
     this.vehType = this.cars[0].plateType
-    this.vehicle = this.cars[0].myNumberPlate
-    this.carriageNumber = this.cars[0].behindTheFrame4Digits
+    // this.vehicle = this.cars[0].myNumberPlate
+    // this.carriageNumber = this.cars[0].behindTheFrame4Digits
     document.addEventListener('click', (e) => {
       this.ownerShow = false
       this.vehicleShow = false
@@ -502,6 +502,9 @@ padding: 20px 40px;
     width: 280px;
     margin-top:30px;
     display: inline-block;
+  }
+  .btn-select{
+    height: 56px;
   }
   .btns{
     margin: 100px 0 30px 0;

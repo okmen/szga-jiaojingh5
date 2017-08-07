@@ -221,7 +221,7 @@ export default {
         }
       ],                                           // 发证机关列表 数据从接口查出
       vehicleShow: false,
-      vehicle: '',                         // 车牌下拉
+      vehicle: window.localStorage.getItem('myNumberPlate'),                         // 车牌下拉
       applyShow: false,                            // 申请人类型样式
       applyMassage: '机动车所有人',
       applyData: [
@@ -650,6 +650,9 @@ padding: 20px 40px;
   .btns{
     margin: 60px 0 30px 0;
     width: 100%;
+  }
+  .btn-select{
+    height: 56px;
   }
   .div-select-ul{
     font-size: 26px;
