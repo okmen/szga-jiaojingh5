@@ -2,37 +2,37 @@
   <div class="upload-img">
     <p>请按示例图上传以下证件照片</p>
     <div class="container">
-      <label class="img-box style-one" for="file1" v-if="idCard1">
+      <label class="img-box style-one" for="file1" v-show="idCard1">
         <input id="file1" type="file" accept="image/*">
         <img :src="imgIDcard1">
         <span>身份证（正面）</span>
       </label>
-      <label class="img-box style-two" for="file2" v-if="idCard2">
+      <label class="img-box style-two" for="file2" v-show="idCard2">
         <input id="file2" type="file" accept="image/*">
         <img :src="imgIDcard2">
         <span>身份证（反面）</span>
       </label>
-      <label class="img-box style-three" for="file3" v-if="license">
+      <label class="img-box style-three" for="file3" v-show="license">
         <input id="file3" type="file" accept="image/*">
         <img :src="imgLicense">
         <span>驾驶证照片</span>
       </label>
-      <label class="img-box style-four" for="file4" v-if="eduTable">
+      <label class="img-box style-four" for="file4" v-show="eduTable">
         <input id="file4" type="file" accept="image/*">
         <img :src="imgEducate">
         <span>审核教育绘制表</span>
       </label>
-      <label class="img-box style-five" for="file5" v-if="outTable">
+      <label class="img-box style-five" for="file5" v-show="outTable">
         <input id="file5" type="file" accept="image/*">
         <img :src="imgOut">
         <span>境外人员临住表</span>
       </label>
-      <label class="img-box style-six" for="file6" v-if="delay">
+      <label class="img-box style-six" for="file6" v-show="delay">
         <input id="file6" type="file" accept="image/*">
         <img :src="imgDelay">
         <span>延期说明照片</span>
       </label>
-      <label class="img-box style-seven" for="file7" v-if="bodyTable">
+      <label class="img-box style-seven" for="file7" v-show="bodyTable">
         <input id="file7" type="file" accept="image/*">
         <img :src="imgBody">
         <span>身体条件申请表</span>
@@ -58,17 +58,17 @@
     },
     props: ['idCard1', 'idCard2', 'license', 'eduTable', 'outTable', 'delay', 'bodyTable', 'buttonIsClick'],
     mounted: function () {
+      console.log(this.outTable)
       this.init()
     },
     watch: {
       outTable: function () {
         console.log('222222222')
-        // this.init()
+        this.init()
       }
     },
     methods: {
       init: function () {
-        console.log(this.eduTable)
         UploadFile.upload({
           id: 'file1',
           callback: (res) => {
@@ -146,10 +146,12 @@
     padding-bottom: 50px;
     position: relative;
     .container {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
       .img-box {
-        margin: 0 44px 90px 0;
+        margin-bottom: 90px;
         display: inline-block;
-        float: left;
         position: relative;
         width: 304px;
         height: 304px;
