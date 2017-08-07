@@ -317,8 +317,8 @@
       })
     },
     created () {
-      if (!window.localStorage.getItem('myNumberPlate')) {
-        MessageBox('温馨提示', '您还没绑定驾驶证,请到星级用户中心绑定!')
+      if (!window.localStorage.getItem('fileNumber')) {
+        MessageBox('温馨提示', '您还没绑定驾驶证,请到星级用户中心绑定！')
         this.buttonIsClick = true
       }
       document.addEventListener('click', (e) => {

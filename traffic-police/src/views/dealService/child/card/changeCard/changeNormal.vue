@@ -129,7 +129,7 @@
   // import { resultPost } from '../../../../../service/getData'
   import { cardRepair, cardReplace } from '../../../../../config/baseUrl'
   import { isPhone, isPhotoNum } from '../../../../../service/regExp.js'
-  import { Toast } from 'mint-ui'
+  import { Toast, MessageBox } from 'mint-ui'
   import { mapActions } from 'vuex'
   import wx from 'weixin-js-sdk'
   export default {
@@ -418,6 +418,9 @@
       })
     },
     created () {
+      if (!window.localStorage.getItem('fileNumber')) {
+        MessageBox('温馨提示', '您还没绑定驾驶证,请到星级用户中心绑定！')
+      }
       document.addEventListener('click', (e) => {
         this.placeSelectShow = false
         this.areaSelectShow = false

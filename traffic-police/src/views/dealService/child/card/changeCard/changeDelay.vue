@@ -116,7 +116,7 @@
 <script>
   import { resultPost } from '../../../../../service/getData'
   import { changeDelay, getFileNumber } from '../../../../../config/baseUrl'
-  import { Toast } from 'mint-ui'
+  import { Toast, MessageBox } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
     data () {
@@ -333,6 +333,9 @@
       })
     },
     created () {
+      if (!window.localStorage.getItem('fileNumber')) {
+        MessageBox('温馨提示', '您还没绑定驾驶证,请到星级用户中心绑定！')
+      }
       document.addEventListener('click', (e) => {
         this.reasonSelectShow = false
         this.areaSelectShow = false

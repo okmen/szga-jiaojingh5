@@ -12,7 +12,7 @@
               <span class="btn-select" >{{ serviceSelectMassage }}</span>
               <div class="div-select-ul" v-if="serviceSelectShow">
                 <ul>
-                  <li v-for="item in serviceSelectData" @click.stop="serviceSelectClick(item.str, item.id)">{{item.str}}</li>
+                  <li v-for="item in serviceSelectData">{{item.str}}</li>
                 </ul>
               </div>
             </div>
@@ -49,7 +49,7 @@
       'changeNormal': require('./changeNormal.vue'),
       'changeDelay': require('./changeDelay.vue')
     },
-    mounted: function () {
+    created: function () {
       if (this.$route.params.id === '1') {    // 地址参数为1，载入补换证组件
         this.cur_type_id = '01'
         this.serviceSelectMassage = this.serviceSelectData[0].str
