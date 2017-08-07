@@ -303,11 +303,11 @@ export default {
   },
   mounted: function () {
     this.cars = JSON.parse(window.localStorage.getItem('cars'))
-    this.plateType = this.cars[0].plateType  // 车辆类型
     let getTime = this.currentTime()
     let getTimes = this.currentTime('take')
     this.mtDateTimeMsg = getTime
     this.DateTimeMsg = getTimes
+    this.plateType = this.cars[0].plateType  // 车辆类型
     document.addEventListener('click', (e) => {
       this.vehicleShow = false
       this.applyShow = false
