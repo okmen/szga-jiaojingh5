@@ -255,7 +255,7 @@ let precontractTypeRouter = [
     name: 'noChangeLicence',
     path: '/noChangeLicence',
     meta: {
-      title: '逾期一年以上未体检类'
+      title: '逾期一年以上未换证类'
     },
     component: require('../views/precontractType/card/recoverDrive/noChangeLicence.vue')
   },
