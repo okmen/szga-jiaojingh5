@@ -68,10 +68,10 @@
         this.currentVal = item.str
         if (item.id) {
           this.currentId = item.id
-          this.$emit('getSelected', this.currentId, index)
+          this.$emit('getSelected', this.currentId, index, this.currentVal)
         } else {
           this.currentId = item.str
-          this.$emit('getSelected', this.currentId, index)
+          this.$emit('getSelected', this.currentId, index, this.currentVal)
         }
         this.showUl = false
       },

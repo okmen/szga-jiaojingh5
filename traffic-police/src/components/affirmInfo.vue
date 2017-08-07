@@ -32,6 +32,7 @@ export default {
     return {
       keyListObj: {
         plateType: '车牌类型',
+        plateTypeStr: '车牌类型',
         cartype: '车辆类型',
         abbreviation: '车牌简称',
         numberPlate: '车牌号码',
@@ -193,6 +194,9 @@ export default {
     if (this.dataList.textObj.hasOwnProperty('showIndex')) {
       delete this.keyListObj.placeOfDomicile
       delete this.valListObj.placeOfDomicile
+    }
+    if (this.dataList.textObj.hasOwnProperty('plateTypeStr')) {
+      delete this.keyListObj.plateType
     }
   },
   mounted () {

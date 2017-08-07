@@ -289,6 +289,7 @@
         allCertificateNumber: {}, // 所有身份证号
         ownersName: '',  // 车主姓名
         showIndex: 0,
+        plateTypeStr: '蓝牌',
         certificateNumber: '' // 证件号码
       }
     },
@@ -385,8 +386,9 @@
       getRecipientAddress (val) {
         this.recipientAddressRegion = val
       },
-      getPlateType (val) {
+      getPlateType (val, index, str) {
         this.plateTypeOne = val
+        this.plateTypeStr = str
       },
       // 获取户籍所在地
       getCensusRegister (val, index) {
@@ -465,6 +467,7 @@
             'identificationNum': this.certificateNumber,
             'numberPlate': this.plateNumberOne, //
             'plateType': this.plateTypeOne,
+            'plateTypeStr': this.plateTypeStr,
             'placeOfDomicile': this.censusRegisterOne,    // 户籍所在地
             'showIndex': this.showIndex,
             'receiverName': this.recipientName,  // 收件人姓名

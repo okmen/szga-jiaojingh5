@@ -287,6 +287,7 @@
         plateToCarNumber: {},  // 车牌号对应车主证件号码
         allOwnersName: {},
         ownersName: '',
+        plateTypeStr: '蓝牌',
         defaultPlateNumber: ''
       }
     },
@@ -382,8 +383,9 @@
         this.carCertificateNumber = this.plateToCarNumber[val]
         this.ownersName = this.allOwnersName[val]
       },
-      getPlateType (val) {
+      getPlateType (val, index, str) {
         this.plateTypeOne = val
+        this.plateTypeStr = str
       },
       confirmInfo () {
         console.log(this.censusRegisterOne)
@@ -465,6 +467,7 @@
             'carOwnerIdentityCard': this.carCertificateNumber,
             'numberPlate': this.plateNumberOne,
             'plateType': this.plateTypeOne,
+            'plateTypeStr': this.plateTypeStr,
             'placeOfDomicile': this.censusRegisterOne,
             'showIndex': this.showIndex,
             'receiverName': this.recipientName,
