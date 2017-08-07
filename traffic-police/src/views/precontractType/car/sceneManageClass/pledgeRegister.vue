@@ -239,7 +239,7 @@
     getAppointmentDate,
     getAppTimes,
     simpleSendMessage,
-    createVehicleInfoJD41
+    createVehicleInfoJD37
   } from 'config/baseUrl.js'
   export default {
     data () {
@@ -712,7 +712,7 @@
           bookerType: this.bookerType,
           bookerMobile: this.mobilePhone
         }
-        resultPost(createVehicleInfoJD41, requestObj).then(data => {
+        resultPost(createVehicleInfoJD37, requestObj).then(data => {
           if (data.code === '0000') {
             this.appointmentLocation.option.map(item => {
               if (item.id === this.appointmentLocationOne) {
