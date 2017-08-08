@@ -288,6 +288,7 @@ export default {
   display: inline-block;
   width: 56px;
   height: 52px;
+  line-height: 52px;
   background-color: #4c9ff4;
   text-align: center;
   border-radius: 8px;
