@@ -10,7 +10,7 @@
       </ul>
     </div>
     <div class="digByCar-btn">
-      <router-link to="digitalreceipTinquire">其他电子回单</router-link>
+      <router-link to="digitalreceipTinquire">其他电子回执</router-link>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>

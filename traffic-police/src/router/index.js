@@ -240,7 +240,7 @@ const routes = [
     name: 'digitalReceipt',
     path: '/digitalReceipt',
     meta: {
-      title: '电子回单'
+      title: '电子回执'
     },
     component: require('../views/credit/child/digitalReceipt.vue')
   },
