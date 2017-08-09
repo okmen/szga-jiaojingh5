@@ -17,6 +17,7 @@
       <p>查询密码：<span>{{password}}</span></p>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
+    <page-bottom></page-bottom>
   </div>
 </template>
 <script>
@@ -32,11 +33,17 @@ export default{
     let URLparameter = window.location.href.split('?')[1]
     this.reportSerialNumber = URLparameter.split('&')[0].split('=')[1]
     this.password = URLparameter.split('&')[1].split('=')[1]
+  },
+  components: {
+    'pageBottom': require('../../../components/pageBottom.vue')
   }
 }
 </script>
 <style lang="less" scoped>
 #takePhotosSuccess{
+  .tp-bottom{
+    margin-top: 28px;
+  }
 }
 .tp-success{
   padding-left:25px;
@@ -73,7 +80,6 @@ export default{
 .tp-success-record{
   padding-left:25px;
   width:100%;
-  height:64px;
   p{
     font-size:24px;
     color:#999;
