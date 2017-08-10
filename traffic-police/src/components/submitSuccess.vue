@@ -71,6 +71,7 @@
     </section>
     <div class="btn-appoint-backword" @click="btnBackword" v-if="JsonDataInfo.type == 1">返回</div>
     <div class="btn-appoint-backword mt-60" @click="btnBackword"  v-if="JsonDataInfo.type != 1">好的</div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <script>
@@ -79,7 +80,13 @@ export default {
   computed: {
     dataInfo: function () {
       return this.$store.state.successInfo
+    },
+    isWeChat: function () {
+      return /_WeChat/g.test(this.$route.name)
     }
+  },
+  components: {
+    'pageBottom': require('./pageBottom.vue')
   },
   data () {
     return {
@@ -276,6 +283,9 @@ export default {
   width:100%;
   background:#FFF url('../images/appointBack.png') bottom no-repeat;
   background-size:100% 32%;
+  .tp-bottom{
+    margin-top: 28px;
+  }
   .appoint-img{
     width:100%;
     height:250px;

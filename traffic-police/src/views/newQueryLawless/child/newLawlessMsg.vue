@@ -190,7 +190,7 @@
             info: this.lawlessData.info
           }
           this.$store.commit('saveNewLawlessDeal', lawlessDeal)
-          this.$router.push('/newTimeSelect')
+          this.$router.push(/_WeChat/g.test(this.$route.name) ? '/newTimeSelect_WeChat' : '/newTimeSelect')
         } else if (item.isNeedClaim === '3') {
           return false
         } else if (item.isNeedClaim === '4') {

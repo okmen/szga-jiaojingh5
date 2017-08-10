@@ -19,11 +19,17 @@
       <applyInterimCard v-else></applyInterimCard>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <script>
   export default {
     name: 'applyClass',
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
     data () {
       return {
         cur_type_id: '01',
@@ -43,7 +49,8 @@
     },
     components: {
       'applyEveryMonth': require('./applyEveryMonth.vue'),
-      'applyInterimCard': require('./applyInterimCard.vue')
+      'applyInterimCard': require('./applyInterimCard.vue'),
+      'pageBottom': require('../../../../../components/pageBottom.vue')
     },
     mounted () {
       this.cur_type_id = this.$route.params.id
@@ -119,6 +126,9 @@
     .appleyClass-from-child{
       background: #FFF;
       padding:24px 40px 50px;
+    }
+    .tp-bottom{
+      margin-top: 28px;
     }
   }
 </style>

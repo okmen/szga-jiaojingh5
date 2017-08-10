@@ -1,4 +1,4 @@
-<!-- 
+<!--
 * 违法申诉  查询入口
  -->
 <template>
@@ -51,6 +51,7 @@
       <h4>温馨提示：</h4>
       <p>对交通安全违法行为记录有异议的（如已作出处罚决定，应该申请行政复议和提起行政诉讼），请详细填写申诉内容，我们会安排专人与您联系办理</p>
     </div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <style lang="less">
@@ -58,6 +59,9 @@
 .appealQuery-outer {
   background-color: #FFF;
   padding:25px 50px 50px;
+  .tp-bottom{
+    margin-top: 28px;
+  }
   .appealForm {
     .form-item {
       height: 58px;
@@ -94,6 +98,14 @@
   import { mapActions } from 'vuex'
   export default {
     name: 'appealQuery',
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
+    components: {
+      'pageBottom': require('../../../components/pageBottom.vue')
+    },
     data () {
       return {
         name: window.localStorage.getItem('userName'),
@@ -151,7 +163,7 @@
               data: json.data
             }
             this.$store.commit('saveNewLawlessQuery', lawlessData)
-            this.$router.push('newLawlessMsg')
+            this.$router.push(/_WeChat/g.test(this.$route.name) ? 'newLawlessMsg_WeChat' : 'newLawlessMsg')
           } else {
             Toast({
               message: json.msg,

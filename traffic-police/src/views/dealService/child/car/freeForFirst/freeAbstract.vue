@@ -33,6 +33,7 @@
        <button @click="btnReturn">返回</button>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <script>
@@ -43,6 +44,14 @@ export default {
     return {
       checked: ''
     }
+  },
+  computed: {
+    isWeChat: function () {
+      return /_WeChat/g.test(this.$route.name)
+    }
+  },
+  components: {
+    'pageBottom': require('../../../../../components/pageBottom.vue')
   },
   methods: {
     btnReturn: function () {

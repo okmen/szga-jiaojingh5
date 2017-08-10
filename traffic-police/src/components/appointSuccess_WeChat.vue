@@ -16,6 +16,7 @@
       <p v-if="showAppoin.appoinNum">流水号码：<span class="running-number">{{showAppoin.appoinNum}}</span></p>
     </section>
     <div class="btn-appoint-backword" @click="btnBackword">返回</div>
+    <page-bottom></page-bottom>
   </div>
 </template>
 <script>
@@ -25,6 +26,9 @@ export default {
     ...mapGetters([
       'showAppoin'
     ])
+  },
+  components: {
+    'pageBottom': require('./pageBottom.vue')
   },
   methods: {
     btnBackword: function () {
@@ -39,6 +43,9 @@ export default {
   width:100%;
   background:#FFF url('../images/appointBack.png') bottom no-repeat;
   background-size:100% 32%;
+  .tp-bottom{
+    margin-top: 28px;
+  }
   .appoint-img{
     width:100%;
     height:250px;

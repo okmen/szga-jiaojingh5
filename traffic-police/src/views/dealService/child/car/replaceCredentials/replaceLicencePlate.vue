@@ -486,7 +486,7 @@
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)
         console.log(dataList)
-        this.$router.push('/affirmInfo')
+        this.$router.push(/_WeChat/g.test(this.$route.path) ? '/affirmInfo_WeChat' : '/affirmInfo')
       }
     },
     mounted () {

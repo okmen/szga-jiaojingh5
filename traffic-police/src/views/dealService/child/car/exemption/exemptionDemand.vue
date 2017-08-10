@@ -76,7 +76,8 @@ export default {
           console.log(json)
           if (json.code === '0000') {
             let num = json.data
-            this.$router.push({path: 'exemptionAbolish', query: { myNumberPlate: num }})
+            let path = /_WeChat/g.test(this.$route.name) ? '/exemptionAbolish_WeChat' : '/exemptionAbolish'
+            this.$router.push({path, query: { myNumberPlate: num }})
           } else {
             Toast({message: json.msg, position: 'bottom', className: 'white'})
           }
@@ -89,9 +90,6 @@ export default {
 <style lang="less" scoped>
 .exemptionDemand {
 background-color: #fff;
-position: absolute;
-left: 0;
-right: 0;
 padding: 20px 40px;
   .exemptionDemand-form {
     background-color: #fff;
