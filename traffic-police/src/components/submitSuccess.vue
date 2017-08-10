@@ -109,7 +109,13 @@ export default {
         title: '业务类型',
         reserveNumber: '累计天数',
         appTime: '预约时间',
-        orgName: '服务点'
+        orgName: '服务点',
+        platNumber: '车牌号码',
+        carTypeName: '车辆类型',
+        orgAddr: '预约地址',
+        appointmentDate: '预约日期',
+        appointmentTime: '预约时间',
+        name: '预约人'
       },
       valListObj: {
         cartype: {
