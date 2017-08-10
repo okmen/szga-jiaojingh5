@@ -84,6 +84,7 @@
     </div>
     <userUpload :buttonIsClick="buttonIsClick" :idCard1="true" :idCard2="true" :eduTable="true" :outTable="outTable" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
     <div v-wechat-title="$route.meta.title"></div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <style lang="less" scoped>
@@ -149,6 +150,11 @@
   import { mapActions } from 'vuex'
   export default {
     name: 'annualExaminations',
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
     data () {
       return {
         buttonIsClick: false,
@@ -228,7 +234,8 @@
       }
     },
     components: {
-      'userUpload': require('../../userUpload.vue')
+      'userUpload': require('../../userUpload.vue'),
+      'pageBottom': require('../../../../../components/pageBottom.vue')
     },
     methods: {
       placeSelectClick: function (str, id) {
@@ -310,7 +317,7 @@
           }
           console.log(reqData)
           this.$store.commit('saveMotorVehicleHandling', reqData)
-          this.$router.push('/affirmInfo')
+          this.$router.push(this.isWeChat ? '/affirmInfo_WeChat' : '/affirmInfo')
         }
       },
       beforeDestory () {
@@ -332,4 +339,3 @@
     }
   }
 </script>
-

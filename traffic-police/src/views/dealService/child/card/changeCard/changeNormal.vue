@@ -372,7 +372,7 @@
           }
           console.log(reqData)
           this.$store.commit('saveMotorVehicleHandling', reqData)
-          this.$router.push('/affirmInfo')
+          this.$router.push(/_WeChat/g.test(this.$route.name) ? '/affirmInfo_WeChat' : '/affirmInfo')
         //   if (this.cur_service_id === '4') {                  // 补证服务
         //     resultPost(cardRepair, reqData).then(json => {
         //       console.log(json)
@@ -439,9 +439,6 @@
   @import "./../../../../../style/base";
   .changeNormal-outer {
     background-color: #fff;
-    position: absolute;
-    left: 0;
-    right: 0;
     padding: 0 40px;
     .changeNormal-form {
       background-color: #fff;
@@ -535,5 +532,3 @@
   }
 
 </style>
-
-

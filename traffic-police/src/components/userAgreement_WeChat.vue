@@ -29,6 +29,11 @@ import { userAgreement } from '../config/baseUrl'
 import { Toast } from 'mint-ui'
 export default {
   name: 'userAgreement',
+  computed: {
+    isWeChat: function () {
+      return /_WeChat/.test(this.$route.name)
+    }
+  },
   data () {
     return {
       userAgreementCon: '',
@@ -75,19 +80,19 @@ export default {
             this.$router.push(this.getHash('/takePicturesInform'))
             break
           case 'xfNotice': // 消分学习须知
-            this.$router.push(this.getHash('/motorstudy#1'))
+            this.$router.push(this.isWeChat ? '/motorstudy_WeChat#1' : '/motorstudy#1')
             break
           case 'mfNotice': // 满分学习须知
-            this.$router.push(this.getHash('/motorstudy#2'))
+            this.$router.push(this.isWeChat ? '/motorstudy_WeChat#2' : '/motorstudy#2')
             break
           case 'abNotice': // ab类学习须知
-            this.$router.push(this.getHash('/motorstudy#3'))
+            this.$router.push(this.isWeChat ? '/motorstudy_WeChat#3' : '/motorstudy#3')
             break
           case 'ddcNotice': // 电动车学习须知
-            this.$router.push(this.getHash('/motorstudy#4'))
+            this.$router.push(this.isWeChat ? '/motorstudy_WeChat#4' : '/motorstudy#4')
             break
           case 'xrNotice': // 行人学习须知
-            this.$router.push(this.getHash('/motorstudy#5'))
+            this.$router.push(this.isWeChat ? '/motorstudy_WeChat#5' : '/motorstudy#5')
             break
           case 'xjyhrz': // 星级用户认证须知
             this.$router.push(this.getHash('/starUser_WeChat'))
@@ -105,10 +110,10 @@ export default {
             this.$router.push(this.getHash('/motorVehicle'))
             break
           case 'jszbzhz':  // 驾驶证补证换证
-            this.$router.push(this.getHash('/changeCard/id/1'))
+            this.$router.push(this.isWeChat ? '/changeCard_WeChat/id/1' : '/changeCard/id/1')
             break
           case 'jszyqhz':  // 驾驶证延期换证
-            this.$router.push(this.getHash('/changeCard/id/2'))
+            this.$router.push(this.isWeChat ? '/changeCard_WeChat/id/2' : '/changeCard/id/2')
             break
           case 'jszns':  // 驾驶证年审
             this.$router.push(this.getHash('/annualExaminations'))

@@ -8,6 +8,7 @@
     </div>
     <div class="content" id="content" ref="content">
       <queryResult class="queryResult" v-for="item in dataList" :data="item"></queryResult>
+      <page-bottom v-if="isWeChat"></page-bottom>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -20,6 +21,11 @@ import { bindBusiness, getIdentificationOfAuditResults } from '../../../../confi
 import { Toast } from 'mint-ui'
 
 export default {
+  computed: {
+    isWeChat: function () {
+      return /_WeChat/g.test(this.$route.name)
+    }
+  },
   data () {
     return {
       cur_tab: 'car',
@@ -102,7 +108,8 @@ export default {
     this.query('car')
   },
   components: {
-    queryResult
+    queryResult,
+    'pageBottom': require('../../../../components/pageBottom.vue')
   }
 }
 </script>
@@ -138,6 +145,9 @@ export default {
     padding-top: 106px;
     overflow-y: auto;
     -webkit-overflow-scrolling:touch;
+    .tp-bottom{
+      margin-top: 28px;
+    }
     .queryResult{
       margin: 20px 0;
     }

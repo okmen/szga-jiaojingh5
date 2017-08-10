@@ -88,6 +88,7 @@
     </div>
     <userUpload :buttonIsClick="buttonIsClick" :idCard1="true" :idCard2="true" :license="true" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
     <div v-wechat-title="$route.meta.title"></div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <script>
@@ -96,6 +97,11 @@
   import { Toast, MessageBox } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
     data () {
       return {
         buttonIsClick: false,
@@ -206,7 +212,8 @@
       }
     },
     components: {
-      'userUpload': require('../../userUpload.vue')
+      'userUpload': require('../../userUpload.vue'),
+      'pageBottom': require('../../../../../components/pageBottom.vue')
     },
     methods: {
       cardSelectClick: function (str, id) {
@@ -279,7 +286,7 @@
           }
           console.log(reqData)
           this.$store.commit('saveMotorVehicleHandling', reqData)
-          this.$router.push('/affirmInfo')
+          this.$router.push(this.isWeChat ? '/affirmInfo_WeChat' : '/affirmInfo')
         }
       },
       beforeDestory () {
@@ -349,4 +356,3 @@
     }
   }
 </style>
-

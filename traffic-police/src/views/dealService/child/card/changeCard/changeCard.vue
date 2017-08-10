@@ -23,11 +23,17 @@
     <changeNormal v-if="cur_type_id == '01'"></changeNormal>
     <changeDelay v-else></changeDelay>
     <div v-wechat-title="$route.meta.title"></div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <script>
   export default {
     name: 'changeCard',
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
     data () {
       return {
         cur_type_id: '',            // 当前业务类型 01为补换证  02为延期换证
@@ -47,7 +53,8 @@
     },
     components: {
       'changeNormal': require('./changeNormal.vue'),
-      'changeDelay': require('./changeDelay.vue')
+      'changeDelay': require('./changeDelay.vue'),
+      'pageBottom': require('../../../../../components/pageBottom.vue')
     },
     created: function () {
       if (this.$route.params.id === '1') {    // 地址参数为1，载入补换证组件
@@ -75,7 +82,7 @@
 </script>
 <style lang="less" scoped>
   .changeCard-outer {
-    padding: 120px 40px 0;
+    padding: 120px 0 0;
     font-size: 28px;
     color: #000;
     position: relative;

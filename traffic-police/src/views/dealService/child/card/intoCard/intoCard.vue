@@ -118,6 +118,7 @@
       </ul>
     </div>
     <userUpload :buttonIsClick="buttonIsClick" :idCard1="true" :idCard2="true" :license="true" :bodyTable="true" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
+    <page-bottom v-if="isWeChat"></page-bottom>
     <div class="example" v-if="example">
       <div class="example-box" @click.stop="example=true">
         <img src="../../../../../images/example.png">
@@ -136,6 +137,11 @@
   import { mapActions } from 'vuex'
   export default {
     name: 'intoCard',
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
     data () {
       return {
         buttonIsClick: false,
@@ -200,7 +206,8 @@
       }
     },
     components: {
-      'userUpload': require('../../userUpload.vue')
+      'userUpload': require('../../userUpload.vue'),
+      'pageBottom': require('../../../../../components/pageBottom.vue')
     },
     mounted: function () {
       resultGet(getIssuing).then(json => {        // 查询发证机关列表
@@ -337,7 +344,7 @@
           }
           console.log(reqData)
           this.$store.commit('saveMotorVehicleHandling', reqData)
-          this.$router.push('/affirmInfo')
+          this.$router.push(this.isWeChat ? '/affirmInfo_WeChat' : '/affirmInfo')
         }
       },
       beforeDestory () {
@@ -456,4 +463,3 @@
     }
   }
 </style>
-

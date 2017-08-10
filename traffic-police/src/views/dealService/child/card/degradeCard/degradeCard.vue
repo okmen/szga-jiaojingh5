@@ -118,6 +118,7 @@
       </ul>
     </div>
     <userUpload :idCard1="true" :idCard2="true" :license="true" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
+    <page-bottom v-if="isWeChat"></page-bottom>
     <div class="example" v-if="example">
       <div class="example-box" @click.stop="example=true">
         <img src="../../../../../images/example.png">
@@ -136,6 +137,11 @@
   import { mapActions } from 'vuex'
   export default {
     name: 'degradeCard',
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
     data () {
       return {
         loginUser: window.localStorage.getItem('identityCard'),
@@ -212,7 +218,8 @@
       }
     },
     components: {
-      'userUpload': require('../../userUpload.vue')
+      'userUpload': require('../../userUpload.vue'),
+      'pageBottom': require('../../../../../components/pageBottom.vue')
     },
     methods: {
       areaSelectClick: function (str, id) {
@@ -330,7 +337,7 @@
           }
           console.log(reqData)
           this.$store.commit('saveMotorVehicleHandling', reqData)
-          this.$router.push('/affirmInfo')
+          this.$router.push(this.isWeChat ? '/affirmInfo_WeChat' : '/affirmInfo')
         }
       },
       beforeDestory () {

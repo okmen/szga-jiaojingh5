@@ -327,7 +327,7 @@
           }
           console.log(reqData)
           this.$store.commit('saveMotorVehicleHandling', reqData)
-          this.$router.push('/affirmInfo')
+          this.$router.push(/_WeChat/g.test(this.$route.name) ? '/affirmInfo_WeChat' : '/affirmInfo')
         }
       },
       beforeDestory () {
@@ -351,9 +351,6 @@
 <style lang="less" scoped>
   .changeDelay-outer {
     background-color: #fff;
-    position: absolute;
-    left: 0;
-    right: 0;
     padding: 0 40px;
     .changeDelay-form {
       background-color: #fff;
@@ -416,4 +413,3 @@
   }
 
 </style>
-
