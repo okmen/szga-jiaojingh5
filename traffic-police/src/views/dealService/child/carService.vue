@@ -1,49 +1,49 @@
 <template>
   <div class="carService-outer">
     <div class="query-link">
-      <router-link :to="isLogin ? 'applyClass/01' : routerUrl">申请通行证（外地车）</router-link>
+      <router-link :to="isLogin ? getHash('/applyClass/01') : routerUrl">申请通行证（外地车）</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? 'applyClass/02' : routerUrl">申请机动车临牌</router-link>
+      <router-link :to="isLogin ? getHash('/applyClass/02') : routerUrl">申请机动车临牌</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? 'confirmLawless' : 'login'">交通违法在线确认</router-link>
+      <router-link :to="isLogin ? getHash('/confirmLawless') : 'login'">交通违法在线确认</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? 'newEarly' : 'login'">交通违法预约处理</router-link>
+      <router-link :to="isLogin ? getHash('/newEarly') : 'login'">交通违法预约处理</router-link>
     </div>
     <div class="query-link">
-      <router-link to="newPayLawless">交通违法缴款</router-link>
+      <router-link :to="getHash('/newPayLawless')">交通违法缴款</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? 'appealEntry' : 'login'">交通违法申诉</router-link>
+      <router-link :to="isLogin ? getHash('/appealEntry') : 'login'">交通违法申诉</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/szjj_hander_ctmvdl' : routerUrl">补领行驶证</router-link>
+      <router-link :to="isLogin ? getHash('/userAgreement/szjj_hander_ctmvdl') : routerUrl">补领行驶证</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/szjj_hander_icr' : routerUrl">换领行驶证</router-link>
+      <router-link :to="isLogin ? getHash('/userAgreement/szjj_hander_icr') : routerUrl">换领行驶证</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/szjj_hander_rim' : routerUrl">补换检验合格标志</router-link>
+      <router-link :to="isLogin ? getHash('/userAgreement/szjj_hander_rim') : routerUrl">补换检验合格标志</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/szjj_hander_rmvp' : routerUrl">补换机动车号牌</router-link>
+      <router-link :to="isLogin ? getHash('/userAgreement/szjj_hander_rmvp') : routerUrl">补换机动车号牌</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/szjj_hander_cvi' : routerUrl">六年免检</router-link>
+      <router-link :to="isLogin ? getHash('/userAgreement/szjj_hander_cvi') : routerUrl">六年免检</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/szjj_hander_iccc' : routerUrl">机动车联系方式变更</router-link>
+      <router-link :to="isLogin ? getHash('/userAgreement/szjj_hander_iccc') : routerUrl">机动车联系方式变更</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/szjj_hander_id' : routerUrl">机动车委托异地定期检验申报</router-link>
+      <router-link :to="isLogin ? getHash('/userAgreement/szjj_hander_id') : routerUrl">机动车委托异地定期检验申报</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogins ? 'freeForFirst' : 'login'">首违免罚查询</router-link>
+      <router-link :to="isLogins ? getHash('/freeForFirst') : 'login'">首违免罚查询</router-link>
     </div>
     <div class="query-link">
-      <router-link to="/moveCar">一键挪车</router-link>
+      <router-link :to="getHash('/moveCar')">一键挪车</router-link>
     </div>
   </div>
 </template>
@@ -64,6 +64,13 @@
     methods: {
       clickShow: function () {
         this.isShow = !this.isShow
+      },
+      getHash: function (hash) {
+        if (/_WeChat/.test(this.$route.name)) {
+          var hashArr = hash.split('/')
+          return `/${hashArr[1]}_WeChat/${hashArr[2] || ''}`
+        }
+        return hash
       }
     },
     mounted () {

@@ -276,7 +276,7 @@ export default {
             appoinNum: json.msg,
             appoinType: '违法预约处理'
           })
-          this.$router.push('/appointSuccess')
+          this.$router.push(/_WeChat/g.test(this.$route.name) ? '/appointSuccess_WeChat' : '/appointSuccess')
         } else {
           MessageBox({
             title: '',

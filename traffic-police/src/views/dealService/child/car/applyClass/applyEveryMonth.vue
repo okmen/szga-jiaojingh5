@@ -402,7 +402,7 @@
         }
         console.log(dataList)
         this.$store.commit('saveMotorVehicleHandling', dataList)
-        this.$router.push('/affirmInfo')
+        this.$router.push(/_WeChat/g.test(this.$route.name) ? '/affirmInfo_WeChat' : '/affirmInfo')
       }
     },
     created () {
@@ -418,10 +418,6 @@
 <style lang="less" scoped>
   .applyEveryMonth-outer {
     background-color: #fff;
-    position: absolute;
-    left: 0;
-    right: 0;
-    padding: 20px 40px;
     .width-25 {
       width: 25% !important;
     }
