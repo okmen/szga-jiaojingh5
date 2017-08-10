@@ -292,15 +292,20 @@
         let idImgTwo = this.$refs.getImgUrl.imgIDcard2
         let idImgThree = this.$refs.getImgUrl.imgLicense
         let idImgFour = this.$refs.getImgUrl.imgBody
+
+        let idImgOneIf = idImgOne.substr(0, 4) === 'data' || false
+        let idImgTwoIf = idImgTwo.substr(0, 4) === 'data' || false
+        let idImgThreeIf = idImgThree.substr(0, 4) === 'data' || false
+        let idImgFourIf = idImgFour.substr(0, 4) === 'data' || false
         if (!isPhotoNum(this.photoReturnNumberString)) {
           Toast({message: '请输入正确照片回执号', position: 'bottom', className: 'white'})
         } else if (!this.mailingAddress) {
           Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
-        } else if (!idImgOne || !idImgTwo) {
+        } else if (!idImgOneIf || !idImgTwoIf) {
           Toast({message: '请上传身份证照片', position: 'bottom', className: 'white'})
-        } else if (!idImgThree) {
+        } else if (!idImgThreeIf) {
           Toast({message: '请上传驾驶证照片', position: 'bottom', className: 'white'})
-        } else if (!idImgFour) {
+        } else if (!idImgFourIf) {
           Toast({message: '请上传身体条件申请表', position: 'bottom', className: 'white'})
         } else {
           let reqData = {
@@ -343,8 +348,8 @@
       })
     },
     created () {
-      if (!window.localStorage.getItem('myNumberPlate')) {
-        MessageBox('温馨提示', '您还没绑定驾驶证,请先绑定')
+      if (!window.localStorage.getItem('fileNumber')) {
+        MessageBox('温馨提示', '您还没绑定驾驶证,请到星级用户中心绑定！')
         this.buttonIsClick = true
       }
       document.addEventListener('click', (e) => {

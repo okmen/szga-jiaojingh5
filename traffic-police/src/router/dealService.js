@@ -8,6 +8,14 @@ let dealServiceRouter = [
     component: require('../views/dealService/dealService.vue')
   },
   {
+    name: 'IDQuery',
+    path: '/IDQuery',
+    meta: {
+      title: '办理类业务'
+    },
+    component: require('../views/dealService/child/queryProgress/IDQuery.vue')
+  },
+  {
     name: 'queryProgress',
     path: '/queryProgress',
     meta: {
