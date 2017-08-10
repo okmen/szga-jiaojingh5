@@ -72,7 +72,6 @@ export default{
 .tp-success-record{
   padding-left:25px;
   width:100%;
-  height:64px;
   p{
     font-size:24px;
     color:#999;

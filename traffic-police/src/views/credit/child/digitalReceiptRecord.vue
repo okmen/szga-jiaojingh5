@@ -17,97 +17,63 @@
       </div>
       <div class="digRecord-nav-three digRecord-p" @click="clickFn(index)">查看详情</div>
     </div>
+    <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
-// import { resultPost } from '../../../service/getData'
-// import { MessageBox } from 'mint-ui'
-// import { toQueryElectronicReceiptPage } from '../../../config/baseUrl'
+import { resultPost } from '../../../service/getData'
+import { MessageBox } from 'mint-ui'
+import { toQueryElectronicReceiptPage } from '../../../config/baseUrl'
 export default {
   name: 'digitalReceiptRecord',
   data () {
     return {
-      digitData: [],
-      digitData1: [
-        {
-          amt: '150',
-          billNo: '44071704945445',
-          chargeItem: '交通违法罚款',
-          companyName: '深圳市公安局交通警察局',
-          payWay: 'ALIPAY_APP',
-          paymentor: '粤B11111',
-          projectNo: '103050101101',
-          sdb: 'SDB00000012017062714958614',
-          writeOffDate: '2017-06-27'
-        }
-      ],
-      digitData2: [
-        {
-          amt: '150',
-          billNo: '44071704945445',
-          chargeItem: '交通违法罚款',
-          companyName: '深圳市公安局交通警察局',
-          payWay: 'ALIPAY_APP',
-          paymentor: '粤B11111',
-          projectNo: '103050101101',
-          sdb: 'SDB00000012017062714958614',
-          writeOffDate: '2017-06-27'
-        },
-        {
-          amt: '200',
-          billNo: '44071704945445',
-          chargeItem: '交通违法罚款',
-          companyName: '深圳市公安局交通警察局',
-          payWay: 'ALIPAY_APP',
-          paymentor: '粤B11111',
-          projectNo: '103050101101',
-          sdb: 'SDB00000012017062714958614',
-          writeOffDate: '2017-06-27'
-        },
-        {
-          amt: '250',
-          billNo: '44071704945445',
-          chargeItem: '交通违法罚款',
-          companyName: '深圳市公安局交通警察局',
-          payWay: 'ALIPAY_APP',
-          paymentor: '粤B11111',
-          projectNo: '103050101101',
-          sdb: 'SDB00000012017062714958614',
-          writeOffDate: '2017-06-27'
-        }
-      ]
+      digitData: []
+      // digitData1: [
+      //   {
+      //     amt: '150',
+      //     billNo: '44071704945445',
+      //     chargeItem: '交通违法罚款',
+      //     companyName: '深圳市公安局交通警察局',
+      //     payWay: 'ALIPAY_APP',
+      //     paymentor: '粤B11111',
+      //     projectNo: '103050101101',
+      //     sdb: 'SDB00000012017062714958614',
+      //     writeOffDate: '2017-06-27'
+      //   }
+      // ]
     }
   },
   mounted () {
     this.id = this.$route.query.id
     // 1:表示缴款编号和车牌号查询 2:表示本人车辆查询或者他人车辆查询
     if (this.id === '1') {
-      this.digitData = this.digitData1
-      // this.numberPlate = this.$route.query.numberPlate
-      // this.billNo = this.$route.query.billNo
+      // this.digitData = this.digitData1
+      this.numberPlate = this.$route.query.numberPlate
+      this.billNo = this.$route.query.billNo
     } else if (this.id === '2') {
-      this.digitData = this.digitData2
-      // this.numberPlate = this.$route.query.myNumberPlate
-      // this.billNo = ''
+      // this.digitData = this.digitData2
+      this.numberPlate = this.$route.query.myNumberPlate
+      this.billNo = ''
     }
     // 粤BU8E61
-    // let digitalReceiptData = {
-    //   drivingLicenceNo: '',
-    //   licensePlateNo: this.numberPlate,
-    //   billNo: this.billNo
-    // }
-    // resultPost(toQueryElectronicReceiptPage, digitalReceiptData).then(json => {
-    //   if (json.code === '0000') {
-    //     this.digitData = json.data
-    //   } else {
-    //     MessageBox({
-    //       title: '提示',
-    //       message: json.msg
-    //     }).then(action => {
-    //       this.$router.go(-1)
-    //     })
-    //   }
-    // })
+    let digitalReceiptData = {
+      drivingLicenceNo: '',
+      licensePlateNo: this.numberPlate,
+      billNo: this.billNo
+    }
+    resultPost(toQueryElectronicReceiptPage, digitalReceiptData).then(json => {
+      if (json.code === '0000') {
+        this.digitData = json.data
+      } else {
+        MessageBox({
+          title: '提示',
+          message: json.msg
+        }).then(action => {
+          this.$router.go(-1)
+        })
+      }
+    })
   },
   methods: {
     clickFn: function (index) {
