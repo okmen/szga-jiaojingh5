@@ -320,6 +320,10 @@
         let idImgOne = this.$refs.getImgUrl.imgIDcard1
         let idImgTwo = this.$refs.getImgUrl.imgIDcard2
         let idImgThree = this.$refs.getImgUrl.imgOut
+
+        let idImgOneIf = idImgOne.substr(0, 4) === 'data' || false
+        let idImgTwoIf = idImgTwo.substr(0, 4) === 'data' || false
+        let idImgThreeIf = idImgThree.substr(0, 4) === 'data' || false
         if (!this.name) {
           Toast({message: '请输入姓名', position: 'bottom', className: 'white'})
         } else if (!this.IDcard) {
@@ -334,9 +338,9 @@
           Toast({message: '请输入正确收件人号码', position: 'bottom', className: 'white'})
         } else if (!this.mailingAddress) {
           Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
-        } else if (!idImgOne || !idImgTwo) {
+        } else if (!idImgOneIf || !idImgTwoIf) {
           Toast({message: '请上传身份证照片', position: 'bottom', className: 'white'})
-        } else if (!idImgThree && this.cur_place_id === '3') {
+        } else if (!idImgThreeIf && this.cur_place_id === '3') {
           Toast({message: '请上传境外人员临住表', position: 'bottom', className: 'white'})
         } else {
           // Indicator.open('提交中...') // 图片转换为base64后提交会需要时间

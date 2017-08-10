@@ -97,8 +97,8 @@ export default {
       })
     }
   },
-  created () {
-    this.identityCard = window.localStorage.getItem('identityCard') || ''
+  mounted () {
+    this.identityCard = window.localStorage.getItem('identityCard') || this.$router.currentRoute.query.identityCard || ''
     this.query('car')
   },
   components: {

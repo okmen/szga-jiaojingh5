@@ -285,13 +285,18 @@
         let idImgTwo = this.$refs.getImgUrl.imgIDcard2
         let idImgThree = this.$refs.getImgUrl.imgLicense
         let idImgFour = this.$refs.getImgUrl.imgDelay
+
+        let idImgOneIf = idImgOne.substr(0, 4) === 'data' || false
+        let idImgTwoIf = idImgTwo.substr(0, 4) === 'data' || false
+        let idImgThreeIf = idImgThree.substr(0, 4) === 'data' || false
+        let idImgFourIf = idImgFour.substr(0, 4) === 'data' || false
         if (!this.mailingAddress) {
           Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
-        } else if (!idImgOne || !idImgTwo) {
+        } else if (!idImgOneIf || !idImgTwoIf) {
           Toast({message: '请上传身份证照片', position: 'bottom', className: 'white'})
-        } else if (!idImgThree) {
+        } else if (!idImgThreeIf) {
           Toast({message: '请上传驾驶证照片', position: 'bottom', className: 'white'})
-        } else if (!idImgFour) {
+        } else if (!idImgFourIf) {
           Toast({message: '请上传延期说明图片', position: 'bottom', className: 'white'})
         } else {
           let reqData = {

@@ -288,15 +288,19 @@
         let idImgOne = this.$refs.getImgUrl.imgIDcard1
         let idImgTwo = this.$refs.getImgUrl.imgIDcard2
         let idImgThree = this.$refs.getImgUrl.imgLicense
+
+        let idImgOneIf = idImgOne.substr(0, 4) === 'data' || false
+        let idImgTwoIf = idImgTwo.substr(0, 4) === 'data' || false
+        let idImgThreeIf = idImgThree.substr(0, 4) === 'data' || false
         if (!isPhotoNum(this.photoReturnNumberString)) {
           Toast({message: '请输入正确照片回执号', position: 'bottom', className: 'white'})
         } else if (!this.receiverName) {
           Toast({message: '请输入收件人姓名', position: 'bottom', className: 'white'})
         } else if (!this.mailingAddress) {
           Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
-        } else if (!idImgOne || !idImgTwo) {
+        } else if (!idImgOneIf || !idImgTwoIf) {
           Toast({message: '请上传身份证照片', position: 'bottom', className: 'white'})
-        } else if (!idImgThree) {
+        } else if (!idImgThreeIf) {
           Toast({message: '请上传驾驶证照片', position: 'bottom', className: 'white'})
         } else {
           let reqData = {
