@@ -39,7 +39,7 @@
         let reqData = {
           numberPlatenumber: item.myNumberPlate,
           plateType: item.plateType,
-          mobileNumber: item.mobilephone
+          mobileNumber: window.localStorage.mobilePhone
         }
         Indicator.open()
         console.log('请求前===' + index)

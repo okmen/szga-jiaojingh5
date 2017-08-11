@@ -624,7 +624,9 @@
         }
         resultPost(simpleSendMessage, requestData).then(data => {
           console.log(data, '验证码')
-          if (data.code !== '0000') {
+          if (data.code === '0000') {
+            MessageBox('提示', '验证码已发送')
+          } else {
             MessageBox('提示', data.msg)
           }
         })
