@@ -178,12 +178,12 @@ export default {
       this.loadingData()
       this.judgeTrue = ''
       this.answerShow = false
-      if (this.answerCorrect === 10) {
-        window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
-        window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
-        window.sessionStorage.setItem('surplusAnswe', this.surplusAnswe)  // 答题数
-        this.$router.push('result#1')
-      }
+      // if (this.answerCorrect === 10) {
+      //   window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
+      //   window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
+      //   window.sessionStorage.setItem('surplusAnswe', this.surplusAnswe)  // 答题数
+      //   this.$router.push('result#1')
+      // }
     },
     loadingData: function () {     //  页面接口数据
       this.isBtnShow = false  // 初始化下一题选项样式
@@ -243,16 +243,16 @@ export default {
       })
     }
   },
-  // watch: {
-  //   code () {
-  //     if (this.code === '0001') {
-  //       window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
-  //       window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
-  //       window.sessionStorage.setItem('surplusAnswe', this.surplusAnswe)  // 答题数
-  //       this.$router.push('result#1')
-  //     }
-  //   }
-  // },
+  watch: {
+    code () {
+      if (this.code === '0001') {
+        window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
+        window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
+        window.sessionStorage.setItem('surplusAnswe', this.surplusAnswe)  // 答题数
+        this.$router.push('result#1')
+      }
+    }
+  },
   created () {
     this.loadingData()
     this.timePiece()
