@@ -44,6 +44,12 @@
           <span>{{digitData.amt}}</span>
         </li>
       </ul>
+      <!-- <ul class="digital-time">
+        <li>处理进度</li>
+        <li v-for="item in scheduleData">
+          <span>{{item.schedule}}</span><span>{{item.time}}</span>
+        </li>
+      </ul> -->
       <div class="digit">
         <h2>注:</h2>
         <h3>
@@ -63,7 +69,29 @@ export default {
   name: 'digitalReceipt',
   data () {
     return {
-      digitData: []
+      digitData: [],
+      scheduleData: [
+        {
+          schedule: '付款成功',
+          time: '08-02 18:20'
+        },
+        {
+          schedule: '银行处理中',
+          time: '08-02 18:20'
+        },
+        {
+          schedule: '到账成功',
+          time: '08-02 18:20'
+        },
+        {
+          schedule: '违法核销中',
+          time: '08-02 18:20'
+        },
+        {
+          schedule: '核销成功',
+          time: '08-02 18:20'
+        }
+      ]
     }
   },
   mounted () {
@@ -84,11 +112,36 @@ export default {
         li{
           color: #000000;
           padding-left: 34px;
-          font: 100 26px/70px '';
-          line-height: 70px;
+          font: 100 26px/56px '';
+          line-height: 56px;
         }
         .dig-red{
           color: red;
+        }
+      }
+      li:first-of-type{
+        color: #2595dd;
+        padding-left: 0;
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        line-height: 70px;
+        border-bottom: 1px solid #a7d9f9;
+      }
+      .digital-time{
+        width: 100%;
+        border: 1px solid #a7d9f9;
+        margin-top: 20px;
+        li{
+          color: #000000;
+          padding-left: 34px;
+          font: 100 26px/56px '';
+          line-height: 56px;
+          overflow: hidden;
+          span:nth-of-type(2){
+            float: right;
+            padding-right: 28px;
+          }
         }
       }
       li:first-of-type{
