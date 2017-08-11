@@ -29,6 +29,11 @@ import { userAgreement } from '../config/baseUrl'
 import { Toast } from 'mint-ui'
 export default {
   name: 'userAgreement',
+  computed: {
+    isWeChat: function () {
+      return /_WeChat/.test(this.$route.name)
+    }
+  },
   data () {
     return {
       userAgreementCon: '',
@@ -57,84 +62,91 @@ export default {
     })
   },
   methods: {
+    getHash: function (hash) {
+      if (/_WeChat/.test(this.$route.name)) {
+        var hashArr = hash.split('/')
+        return `/${hashArr[1]}_WeChat/${hashArr[2] || ''}`
+      }
+      return hash
+    },
     btnAgreeRequest: function () {
       if (this.checked === true) {
         console.log(this.entryHash)
         switch (this.entryHash) {
           case 'wfsspjbzy':  // 随手拍举报范围说明
-            this.$router.push('/takePicturesInform')
+            this.$router.push(this.getHash('/takePicturesInform'))
             break
           case 'sspjbzysx': // 随手拍举报注意事项
-            this.$router.push('/takePicturesInform')
+            this.$router.push(this.getHash('/takePicturesInform'))
             break
           case 'xfNotice': // 消分学习须知
-            this.$router.push('/motorstudy#1')
+            this.$router.push(this.isWeChat ? '/motorstudy_WeChat#1' : '/motorstudy#1')
             break
           case 'mfNotice': // 满分学习须知
-            this.$router.push('/motorstudy#2')
+            this.$router.push(this.isWeChat ? '/motorstudy_WeChat#2' : '/motorstudy#2')
             break
           case 'abNotice': // ab类学习须知
-            this.$router.push('/motorstudy#3')
+            this.$router.push(this.isWeChat ? '/motorstudy_WeChat#3' : '/motorstudy#3')
             break
           case 'ddcNotice': // 电动车学习须知
-            this.$router.push('/motorstudy#4')
+            this.$router.push(this.isWeChat ? '/motorstudy_WeChat#4' : '/motorstudy#4')
             break
           case 'xrNotice': // 行人学习须知
-            this.$router.push('/motorstudy#5')
+            this.$router.push(this.isWeChat ? '/motorstudy_WeChat#5' : '/motorstudy#5')
             break
           case 'xjyhrz': // 星级用户认证须知
-            this.$router.push('/starUser_WeChat')
+            this.$router.push(this.getHash('/starUser_WeChat'))
             break
           case 'aqsgxyb':  // 驾驶人安全事故信用表须知
-            this.$router.push('/driverCredit')
+            this.$router.push(this.getHash('/driverCredit'))
             break
           case 'wczm':  // 无车证明须知
-            this.$router.push('/carFree')
+            this.$router.push(this.getHash('/carFree'))
             break
           case 'jsrxxd':  // 驾驶人信息单
-            this.$router.push('/driversInformation')
+            this.$router.push(this.getHash('/driversInformation'))
             break
           case 'jdcxxd':  // 机动车信息单
-            this.$router.push('/motorVehicle')
+            this.$router.push(this.getHash('/motorVehicle'))
             break
           case 'jszbzhz':  // 驾驶证补证换证
-            this.$router.push('/changeCard/id/1')
+            this.$router.push(this.isWeChat ? '/changeCard_WeChat/id/1' : '/changeCard/id/1')
             break
           case 'jszyqhz':  // 驾驶证延期换证
-            this.$router.push('/changeCard/id/2')
+            this.$router.push(this.isWeChat ? '/changeCard_WeChat/id/2' : '/changeCard/id/2')
             break
           case 'jszns':  // 驾驶证年审
-            this.$router.push('/annualExaminations')
+            this.$router.push(this.getHash('/annualExaminations'))
             break
           case 'jszzr':  // 驾驶证转入
-            this.$router.push('/intoCard')
+            this.$router.push(this.getHash('/intoCard'))
             break
           case 'jszzyjj':  // 驾驶证自愿降级
-            this.$router.push('/degradeCard')
+            this.$router.push(this.getHash('/degradeCard'))
             break
           case 'jsrlxfsbg':  // 驾驶人联系方式变更
-            this.$router.push('/changeConnect')
+            this.$router.push(this.getHash('/changeConnect'))
             break
           case 'szjj_hander_ctmvdl':  // 补领行驶证
-            this.$router.push('/replaceCredentials/repairDrivingLicense')
+            this.$router.push(this.getHash('/replaceCredentials/repairDrivingLicense'))
             break
           case 'szjj_hander_cvi':  // 六年免检预约
-            this.$router.push('/exemption')
+            this.$router.push(this.getHash('/esemptionCar'))
             break
           case 'szjj_hander_rim':  // 补换检验合格标志
-            this.$router.push('/replaceCredentials/replaceQualifiedMark')
+            this.$router.push(this.getHash('/replaceCredentials/replaceQualifiedMark'))
             break
           case 'szjj_hander_id':  // 机动车异地定期检验申报
-            this.$router.push('/placeExamine')
+            this.$router.push(this.getHash('/placeExamine'))
             break
           case 'szjj_hander_rmvp':  // 补领机动车号牌
-            this.$router.push('/replaceCredentials/replaceLicencePlate')
+            this.$router.push(this.getHash('/replaceCredentials/replaceLicencePlate'))
             break
           case 'szjj_hander_icr':  // 换领机动车行驶证
-            this.$router.push('/replaceCredentials/exchangeDrivingLicense')
+            this.$router.push(this.getHash('/replaceCredentials/exchangeDrivingLicense'))
             break
           case 'szjj_hander_iccc':  // 机动车变更联系方式
-            this.$router.push('/motorAlteration')
+            this.$router.push(this.getHash('/motorAlteration'))
             break
         }
       } else {

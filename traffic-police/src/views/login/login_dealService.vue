@@ -8,6 +8,7 @@
         <div class="login-link">
           <router-link to="/findPassword" class="login-link-forget">忘记密码</router-link>
           <router-link to="/starUser" class="login-link-register">注册</router-link>
+          <router-link to="/IDQuery" class="login-link-register">按身份证号查询进度</router-link>
         </div>
       </div>
     </div>

@@ -21,8 +21,14 @@
     },
     methods: {
       linkToProgress: function () {
-        this.cur_tab = 'progress'
-        this.$router.push('/queryProgress')
+        if (window.localStorage.getItem('isLogin')) {
+          this.cur_tab = 'progress'
+          this.$router.push(/_WeChat/g.test(this.$route.name) ? '/queryProgress_WeChat' : '/queryProgress')
+          return
+        } else {
+          this.$router.push('/login_dealService')
+          return
+        }
       }
     },
     components: {

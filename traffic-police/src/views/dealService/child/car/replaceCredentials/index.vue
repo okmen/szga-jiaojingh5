@@ -7,6 +7,7 @@
       <div class="exchange-license-line"></div>
       <router-view></router-view>
       <div v-wechat-title="$route.meta.title"></div>
+      <page-bottom v-if="isWeChat"></page-bottom>
     </div>
 </template>
 <style lang="less" scoped>
@@ -40,6 +41,12 @@
 <script>
   import { MessageBox } from 'mint-ui'
   export default {
+    computed: {
+      isWeChat: function () {
+        console.log(this.$route)
+        return /_WeChat/g.test(this.$route.path)
+      }
+    },
     data () {
       return {
         defaultVal: '',
@@ -64,7 +71,8 @@
       }
     },
     components: {
-      divSelect: require('./components/divSelect.vue')
+      divSelect: require('./components/divSelect.vue'),
+      'pageBottom': require('../../../../../components/pageBottom.vue')
     }
   }
 </script>

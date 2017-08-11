@@ -52,7 +52,7 @@
           '0': '直接缴款',
           '1': '需要打单',
           '2': '需要前往窗口办理',
-          '3': '可好易机处理(需持有广东驾驶证)',
+          '3': '可使用好易机处理(需持有广东驾驶证)',
           '4': '使用好易机处理(需持有广东驾驶证)',
           '5': '违法地处理',
           '6': '强制措施窗口处理'
@@ -190,7 +190,7 @@
             info: this.lawlessData.info
           }
           this.$store.commit('saveNewLawlessDeal', lawlessDeal)
-          this.$router.push('/newTimeSelect')
+          this.$router.push(/_WeChat/g.test(this.$route.name) ? '/newTimeSelect_WeChat' : '/newTimeSelect')
         } else if (item.isNeedClaim === '3') {
           return false
         } else if (item.isNeedClaim === '4') {

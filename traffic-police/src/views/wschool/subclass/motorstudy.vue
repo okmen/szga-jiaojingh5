@@ -34,6 +34,7 @@
     </ul>
     <div class="nav-xstudy-button" @click="pageDown()">开始学习</div>
     <div v-wechat-title="$route.meta.title"></div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <script>
@@ -42,6 +43,14 @@ import { xstudy } from '../../../config/baseUrl'
 import { Toast, MessageBox } from 'mint-ui'
 
 export default {
+  computed: {
+    isWeChat: function () {
+      return this.$route.name
+    }
+  },
+  components: {
+    'pageBottom': require('../../../components/pageBottom.vue')
+  },
   data () {
     return {
       isShow: false, // 控制学习记录样式

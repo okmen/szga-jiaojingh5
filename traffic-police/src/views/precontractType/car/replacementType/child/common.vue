@@ -102,7 +102,7 @@
             <span>车架号</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input bg-colour" type="text" value="" maxlength="4" placeholder="请输入车架号" v-model="behindTheFrame4Digits"/>
+            <input class="text-input bg-colour" type="text" value="" maxlength="4" placeholder="请输入车架号后四位" v-model="behindTheFrame4Digits"/>
           </div>
         </li>
         <li class="form-line">
@@ -159,6 +159,7 @@
 
 <script>
 import { resultPost } from '../../../../../service/getData'
+import { plateNumberDetection } from '../../../../../service/regExp.js'
 import { simpleSendMessage, getAppointmentDate, getAppTimes, getPageInit } from '../../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
 export default {
@@ -364,6 +365,8 @@ export default {
         Toast({message: '请输入正确手机号码', position: 'bottom', className: 'white'})
       } else if (!this.numberPlate) {
         Toast({message: '请输入车牌号码', position: 'bottom', className: 'white'})
+      } else if (!plateNumberDetection(`${this.abbreviationSelectMassage}${this.numberPlate}`)) {
+        Toast({message: '请输入正确的车牌号码', position: 'bottom', className: 'white'})
       } else if (!this.behindTheFrame4Digits) {
         Toast({message: '请输入车架号', position: 'bottom', className: 'white'})
       } else if (!this.date) {

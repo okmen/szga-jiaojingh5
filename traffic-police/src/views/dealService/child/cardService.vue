@@ -2,25 +2,25 @@
   <!-- 办理类-驾驶证业务导航页 -->
   <div class="cardService-outer">
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/jszbzhz' : 'login'">驾驶证补换证</router-link>
+      <router-link :to="isLogin ? getHash('/userAgreement/jszbzhz') : 'login'">驾驶证补换证</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/jszyqhz' : 'login'">驾驶证延期换证</router-link>
+      <router-link :to="isLogin ? getHash('/userAgreement/jszyqhz') : 'login'">驾驶证延期换证</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/jszns' : 'login'">驾驶证年审</router-link>
+      <router-link :to="isLogin ? getHash('/userAgreement/jszns') : 'login'">驾驶证年审</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/xfNotice' : 'login'">消分学习</router-link>
+      <router-link :to="isLogin ? getHash('/userAgreement/xfNotice') : 'login'">消分学习</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/jszzr' : 'login'">驾驶证转入</router-link>
+      <router-link :to="isLogin ? getHash('/userAgreement/jszzr') : 'login'">驾驶证转入</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/jsrlxfsbg' : 'login'">驾驶人联系方式变更</router-link>
+      <router-link :to="isLogin ? getHash('/userAgreement/jsrlxfsbg') : 'login'">驾驶人联系方式变更</router-link>
     </div>
     <div class="query-link">
-      <router-link :to="isLogin ? '/userAgreement/jszzyjj' : 'login'">驾驶证自愿降级</router-link>
+      <router-link :to="isLogin ? getHash('/userAgreement/jszzyjj') : 'login'">驾驶证自愿降级</router-link>
     </div>
   </div>
 </template>
@@ -37,6 +37,13 @@
     methods: {
       clickShow: function () {
         this.isShow = !this.isShow
+      },
+      getHash: function (hash) {
+        if (/_WeChat/.test(this.$route.name)) {
+          var hashArr = hash.split('/')
+          return `/${hashArr[1]}_WeChat/${hashArr[2] || ''}`
+        }
+        return hash
       }
     }
   }

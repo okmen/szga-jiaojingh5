@@ -66,6 +66,14 @@ const routes = [
     component: require('../views/handyService/child/moveCar.vue')
   },
   {
+    name: 'moveCar_WeChat',                                                    // 微信版本
+    path: '/moveCar_WeChat',
+    meta: {
+      title: '一键挪车'
+    },
+    component: require('../views/handyService/child/moveCar.vue')
+  },
+  {
     name: 'bindCar',
     path: '/bindCar',
     meta: {
@@ -221,8 +229,24 @@ const routes = [
     component: require('../components/affirmInfo.vue')
   },
   {
+    name: 'affirmInfo_WeChat',                                                 // 微信版本
+    path: '/affirmInfo_WeChat',
+    meta: {
+      title: '信息确认'
+    },
+    component: require('../components/affirmInfo.vue')
+  },
+  {
     name: 'submitSuccess',
     path: '/submitSuccess',
+    meta: {
+      title: '提交成功'
+    },
+    component: require('../components/submitSuccess.vue')
+  },
+  {
+    name: 'submitSuccess_WeChat',                                              // 微信版本
+    path: '/submitSuccess_WeChat',
     meta: {
       title: '提交成功'
     },
@@ -237,10 +261,18 @@ const routes = [
     component: require('../views/dealService/child/car/freeForFirst/freeAbstract.vue')
   },
   {
+    name: 'freeAbstract_WeChat',                                               // 微信版本
+    path: '/freeAbstract_WeChat',
+    meta: {
+      title: '首违免罚介绍'
+    },
+    component: require('../views/dealService/child/car/freeForFirst/freeAbstract.vue')
+  },
+  {
     name: 'digitalReceipt',
     path: '/digitalReceipt',
     meta: {
-      title: '电子回单'
+      title: '电子回执'
     },
     component: require('../views/credit/child/digitalReceipt.vue')
   },

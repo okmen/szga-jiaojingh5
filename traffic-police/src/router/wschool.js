@@ -24,6 +24,14 @@ let wschoolRouter = [
     component: require('../views/wschool/subclass/motorstudy.vue')
   },
   {
+    name: 'motorstudy_WeChat',                                                 // 微信版本
+    path: '/motorstudy_WeChat',
+    meta: {
+      title: '微学堂学习'
+    },
+    component: require('../views/wschool/subclass/motorstudy.vue')
+  },
+  {
     name: 'answer',
     path: '/answer',
     meta: {

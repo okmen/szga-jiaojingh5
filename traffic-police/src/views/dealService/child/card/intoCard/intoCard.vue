@@ -118,6 +118,7 @@
       </ul>
     </div>
     <userUpload :buttonIsClick="buttonIsClick" :idCard1="true" :idCard2="true" :license="true" :bodyTable="true" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
+    <page-bottom v-if="isWeChat"></page-bottom>
     <div class="example" v-if="example">
       <div class="example-box" @click.stop="example=true">
         <img src="../../../../../images/example.png">
@@ -136,6 +137,11 @@
   import { mapActions } from 'vuex'
   export default {
     name: 'intoCard',
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
     data () {
       return {
         buttonIsClick: false,
@@ -200,7 +206,8 @@
       }
     },
     components: {
-      'userUpload': require('../../userUpload.vue')
+      'userUpload': require('../../userUpload.vue'),
+      'pageBottom': require('../../../../../components/pageBottom.vue')
     },
     mounted: function () {
       resultGet(getIssuing).then(json => {        // 查询发证机关列表
@@ -292,15 +299,20 @@
         let idImgTwo = this.$refs.getImgUrl.imgIDcard2
         let idImgThree = this.$refs.getImgUrl.imgLicense
         let idImgFour = this.$refs.getImgUrl.imgBody
+
+        let idImgOneIf = idImgOne.substr(0, 4) === 'data' || false
+        let idImgTwoIf = idImgTwo.substr(0, 4) === 'data' || false
+        let idImgThreeIf = idImgThree.substr(0, 4) === 'data' || false
+        let idImgFourIf = idImgFour.substr(0, 4) === 'data' || false
         if (!isPhotoNum(this.photoReturnNumberString)) {
           Toast({message: '请输入正确照片回执号', position: 'bottom', className: 'white'})
         } else if (!this.mailingAddress) {
           Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
-        } else if (!idImgOne || !idImgTwo) {
+        } else if (!idImgOneIf || !idImgTwoIf) {
           Toast({message: '请上传身份证照片', position: 'bottom', className: 'white'})
-        } else if (!idImgThree) {
+        } else if (!idImgThreeIf) {
           Toast({message: '请上传驾驶证照片', position: 'bottom', className: 'white'})
-        } else if (!idImgFour) {
+        } else if (!idImgFourIf) {
           Toast({message: '请上传身体条件申请表', position: 'bottom', className: 'white'})
         } else {
           let reqData = {
@@ -332,7 +344,7 @@
           }
           console.log(reqData)
           this.$store.commit('saveMotorVehicleHandling', reqData)
-          this.$router.push('/affirmInfo')
+          this.$router.push(this.isWeChat ? '/affirmInfo_WeChat' : '/affirmInfo')
         }
       },
       beforeDestory () {
@@ -343,8 +355,8 @@
       })
     },
     created () {
-      if (!window.localStorage.getItem('myNumberPlate')) {
-        MessageBox('温馨提示', '您还没绑定驾驶证,请先绑定')
+      if (!window.localStorage.getItem('fileNumber')) {
+        MessageBox('温馨提示', '您还没绑定驾驶证,请到星级用户中心绑定！')
         this.buttonIsClick = true
       }
       document.addEventListener('click', (e) => {
@@ -451,4 +463,3 @@
     }
   }
 </style>
-

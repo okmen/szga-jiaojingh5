@@ -53,9 +53,6 @@
 </template>
 <style lang="less">
   .payLawless-outer {
-    position: absolute;
-    top:0;
-    bottom:0;
     background-color: white;
     font-size: 26px;
     color: #000;

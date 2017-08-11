@@ -43,7 +43,7 @@ let creditRouter = [
     name: 'digitalReceipt',
     path: '/digitalReceipt',
     meta: {
-      title: '电子回单'
+      title: '电子回执'
     },
     component: require('../views/credit/child/digitalReceipt.vue')
   },
@@ -51,7 +51,7 @@ let creditRouter = [
     name: 'digitalreceipTinquire',
     path: '/digitalreceipTinquire',
     meta: {
-      title: '电子回单查询'
+      title: '电子回执'
     },
     component: require('../views/credit/child/digitalreceipTinquire.vue')
   },
@@ -59,7 +59,7 @@ let creditRouter = [
     name: 'digitalReceiptRecord',
     path: '/digitalReceiptRecord',
     meta: {
-      title: '电子回单查询违法记录'
+      title: '电子回执'
     },
     component: require('../views/credit/child/digitalReceiptRecord.vue')
   },
@@ -67,7 +67,7 @@ let creditRouter = [
     name: 'digByCar',
     path: '/digByCar',
     meta: {
-      title: '电子回单'
+      title: '电子回执'
     },
     component: require('../views/credit/child/digByCar.vue')
   }

@@ -137,6 +137,7 @@
         <button class="btn btns" style="background: gray" v-if="!this.Plate">确认信息</button>
       </div>
       <div v-wechat-title="$route.meta.title"></div>
+      <page-bottom v-if="isWeChat"></page-bottom>
     </div>
 </template>
 <script>
@@ -145,6 +146,14 @@ import { getIssuing, sendSMS, verificatioCode, inspectionDeclaration } from '../
 import { Toast, MessageBox } from 'mint-ui'
 export default {
   name: 'placeExamine',
+  computed: {
+    isWeChat: function () {
+      return /_WeChat/g.test(this.$route.name)
+    }
+  },
+  components: {
+    'pageBottom': require('../../../../../components/pageBottom.vue')
+  },
   data () {
     return {
       vehType: '',
@@ -364,7 +373,7 @@ export default {
         }
       }
       this.$store.commit('saveMotorVehicleHandling', dataList)
-      this.$router.push('/affirmInfo')
+      this.$router.push(this.isWeChat ? '/affirmInfo_WeChat' : '/affirmInfo')
     },
     verificationFn: function () {
       let verificationData = {
@@ -521,4 +530,3 @@ padding: 20px 40px;
   }
 }
 </style>
-

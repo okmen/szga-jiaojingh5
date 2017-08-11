@@ -175,15 +175,15 @@ export default {
       })
     },
     countClick: function () {      // 获取下一题数据
+      this.loadingData()
       this.judgeTrue = ''
       this.answerShow = false
-      this.loadingData()
-      if (this.answerCorrect === 10) {
-        window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
-        window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
-        window.sessionStorage.setItem('surplusAnswe', this.surplusAnswe)  // 答题数
-        this.$router.push('result#1')
-      }
+      // if (this.code === '0001') {
+      //   window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
+      //   window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
+      //   window.sessionStorage.setItem('surplusAnswe', this.surplusAnswe)  // 答题数
+      //   this.$router.push('result#1')
+      // }
     },
     loadingData: function () {     //  页面接口数据
       this.isBtnShow = false  // 初始化下一题选项样式
@@ -241,6 +241,16 @@ export default {
       MessageBox.confirm('是否退出学习').then(action => {
         this.$router.push('wschool')
       })
+    }
+  },
+  watch: {
+    code () {
+      if (this.code === '0001') {
+        window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
+        window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
+        window.sessionStorage.setItem('surplusAnswe', this.surplusAnswe)  // 答题数
+        this.$router.push('result#1')
+      }
     }
   },
   created () {

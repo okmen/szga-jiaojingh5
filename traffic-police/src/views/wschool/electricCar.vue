@@ -7,12 +7,12 @@
         </router-link>
       </li>
       <li class="nav-outer-center">
-        <!-- <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http://gzh.stc.gov.cn/szjjpro/index.php/electricVehicle/businessType&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect">
+        <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc2b699cf2f919b58&redirect_uri=http://gzh.stc.gov.cn/szjjpro/index.php/electricVehicle/businessType&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect">
           <p>电动车扫码</p>
-        </a> -->
-         <router-link :to="isLogin? '/electrocarFile/scancode': '/login'">
+        </a>
+         <!-- <router-link :to="isLogin? '/electrocarFile/scancode': '/login'">
           <p>电动车扫码</p>
-        </router-link> 
+        </router-link>  -->
       </li>
     </ul>
     <div v-wechat-title="$route.meta.title"></div>
