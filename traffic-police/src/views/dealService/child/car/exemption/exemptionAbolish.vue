@@ -8,6 +8,7 @@
     </div>
     <div class="form-template-submit exempTu " @click="cancelReverse" v-if="this.dataInfo.bookState == 1 ">取消预约</div>
     <div class="form-template-submit exempTu cancel-btn" v-else>取消预约</div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 
@@ -17,6 +18,14 @@
   import { cancelVehicleInspection } from 'config/baseUrl'
   export default {
     name: 'exemptionAbolish',
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
+    components: {
+      'pageBottom': require('../../../../../components/pageBottom.vue')
+    },
     // 获取数据
     data () {
       return {
@@ -91,9 +100,11 @@
 </script>
 
 <style lang="less">
-/*  .exemptionAbolish-success{
-    height: 100%!important;
-  }*/
+  .exemptionAbolish-success{
+    .tp-bottom{
+      margin-top: 28px;
+    }
+  }
   .cancel-btn{
     background: #ccc!important;
     color: #fff!important;

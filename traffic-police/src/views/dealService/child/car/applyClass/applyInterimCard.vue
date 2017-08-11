@@ -1,4 +1,4 @@
-<!-- 
+<!--
 * 申请机动车临牌
  -->
 <template>
@@ -15,7 +15,7 @@
       <span class="item-title">手机号码</span>
       <input type="text" class="text-input" maxlength="11" v-model="mobilephone" placeholder="请输入手机号码">
     </div>
-    
+
     <div class="owner-certificate">
       <span class="item-title">车辆型号</span>
       <input type="text" class="text-input" v-model="cartModels" placeholder="请输入车辆型号">
@@ -498,7 +498,7 @@
         }
         this.$store.commit('saveMotorVehicleHandling', dataList)
         console.log(dataList)
-        this.$router.push('/affirmInfo')
+        this.$router.push(/_WeChat/g.test(this.$route.name) ? '/affirmInfo_WeChat' : '/affirmInfo')
       }
     },
     mounted () {
@@ -612,6 +612,5 @@
     }
   }
 }
-  
-</style>
 
+</style>

@@ -84,6 +84,7 @@
     </div>
     <userUpload :buttonIsClick="buttonIsClick" :idCard1="true" :idCard2="true" :eduTable="true" :outTable="outTable" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
     <div v-wechat-title="$route.meta.title"></div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <style lang="less" scoped>
@@ -149,6 +150,11 @@
   import { mapActions } from 'vuex'
   export default {
     name: 'annualExaminations',
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
     data () {
       return {
         buttonIsClick: false,
@@ -228,7 +234,8 @@
       }
     },
     components: {
-      'userUpload': require('../../userUpload.vue')
+      'userUpload': require('../../userUpload.vue'),
+      'pageBottom': require('../../../../../components/pageBottom.vue')
     },
     methods: {
       placeSelectClick: function (str, id) {
@@ -260,9 +267,13 @@
       },
       btnSureStar: function () {   // 确认提交按钮
         let idImgOne = this.$refs.getImgUrl.imgIDcard1
+        let idImgOneIf = idImgOne.substr(0, 4) === 'data' || false
         let idImgTwo = this.$refs.getImgUrl.imgIDcard2
+        let idImgTwoIf = idImgTwo.substr(0, 4) === 'data' || false
         let idImgThree = this.$refs.getImgUrl.imgEducate
+        let idImgThreeIf = idImgThree.substr(0, 4) === 'data' || false
         let idImgFour = this.$refs.getImgUrl.imgOut
+        let idImgFourIf = idImgFour.substr(0, 4) === 'data' || false
         if (!this.IDcard) {
           Toast({message: '请输入证件号码', position: 'bottom', className: 'white'})
         } else if (!this.name) {
@@ -271,11 +282,11 @@
           Toast({message: '请输入手机号', position: 'bottom', className: 'white'})
         } else if (!this.mailingAddress) {
           Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
-        } else if (!idImgOne || !idImgTwo) {
+        } else if (!idImgOneIf || !idImgTwoIf) {
           Toast({message: '请上传身份证照片', position: 'bottom', className: 'white'})
-        } else if (!idImgThree) {
+        } else if (!idImgThreeIf) {
           Toast({message: '请上传审核教育绘制表', position: 'bottom', className: 'white'})
-        } else if (!idImgFour && this.cur_place_id === '3') {
+        } else if (!idImgFourIf && this.cur_place_id === '3') {
           Toast({message: '请上传境外人员临住表', position: 'bottom', className: 'white'})
         } else {
           let reqData = {
@@ -306,7 +317,7 @@
           }
           console.log(reqData)
           this.$store.commit('saveMotorVehicleHandling', reqData)
-          this.$router.push('/affirmInfo')
+          this.$router.push(this.isWeChat ? '/affirmInfo_WeChat' : '/affirmInfo')
         }
       },
       beforeDestory () {
@@ -328,4 +339,3 @@
     }
   }
 </script>
-

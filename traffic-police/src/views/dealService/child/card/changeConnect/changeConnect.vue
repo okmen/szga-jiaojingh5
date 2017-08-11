@@ -88,6 +88,7 @@
     </div>
     <userUpload :buttonIsClick="buttonIsClick" :idCard1="true" :idCard2="true" :license="true" @btnSureStar="btnSureStar()" ref="getImgUrl"></userUpload>
     <div v-wechat-title="$route.meta.title"></div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <script>
@@ -96,6 +97,11 @@
   import { Toast, MessageBox } from 'mint-ui'
   import { mapActions } from 'vuex'
   export default {
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
     data () {
       return {
         buttonIsClick: false,
@@ -206,7 +212,8 @@
       }
     },
     components: {
-      'userUpload': require('../../userUpload.vue')
+      'userUpload': require('../../userUpload.vue'),
+      'pageBottom': require('../../../../../components/pageBottom.vue')
     },
     methods: {
       cardSelectClick: function (str, id) {
@@ -238,17 +245,21 @@
       },
       btnSureStar: function () {   // 确认提交按钮
         let idImgOne = this.$refs.getImgUrl.imgIDcard1
+        let idImgOneIf = idImgOne.substr(0, 4) === 'data' || false
         let idImgTwo = this.$refs.getImgUrl.imgIDcard2
+        let idImgTwoIf = idImgTwo.substr(0, 4) === 'data' || false
         let idImgThree = this.$refs.getImgUrl.imgLicense
+        let idImgThreeIf = idImgThree.substr(0, 4) === 'data' || false
+        console.log(idImgOneIf, idImgTwoIf, idImgThreeIf)
         if (!this.IDcard) {
           Toast({message: '请输入证件号码', position: 'bottom', className: 'white'})
         } else if (!this.sex) {
           Toast({message: '请选择性别', position: 'bottom', className: 'white'})
         } else if (!this.mailingAddress) {
           Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
-        } else if (!idImgOne || !idImgTwo) {
+        } else if (!idImgOneIf || !idImgTwoIf) {
           Toast({message: '请上传身份证照片', position: 'bottom', className: 'white'})
-        } else if (!idImgThree) {
+        } else if (!idImgThreeIf) {
           Toast({message: '请上传驾驶证照片', position: 'bottom', className: 'white'})
         } else {
           let reqData = {
@@ -275,7 +286,7 @@
           }
           console.log(reqData)
           this.$store.commit('saveMotorVehicleHandling', reqData)
-          this.$router.push('/affirmInfo')
+          this.$router.push(this.isWeChat ? '/affirmInfo_WeChat' : '/affirmInfo')
         }
       },
       beforeDestory () {
@@ -286,8 +297,8 @@
       })
     },
     created () {
-      if (!window.localStorage.getItem('myNumberPlate')) {
-        MessageBox('温馨提示', '您还没绑定驾驶证,请先绑定')
+      if (!window.localStorage.getItem('fileNumber')) {
+        MessageBox('温馨提示', '您还没绑定驾驶证,请到星级用户中心绑定！')
         this.buttonIsClick = true
       }
       document.addEventListener('click', (e) => {
@@ -345,4 +356,3 @@
     }
   }
 </style>
-

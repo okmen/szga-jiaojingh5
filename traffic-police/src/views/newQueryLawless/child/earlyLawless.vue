@@ -371,7 +371,7 @@
               data: json.data
             }
             this.$store.commit('saveNewLawlessQuery', lawlessData)
-            this.$router.push('newLawlessMsg')
+            this.$router.push(/_WeChat/g.test(this.$route.name) ? '/newLawlessMsg_WeChat' : '/newLawlessMsg')
           } else {
             Toast({
               message: json.msg,

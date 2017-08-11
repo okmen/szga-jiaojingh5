@@ -56,6 +56,14 @@ let newQueryLawlessRouter = [
     component: require('../views/newQueryLawless/child/appealQuery.vue')
   },
   {
+    name: 'appeal_WeChat',                                                           // 微信版本
+    path: '/appealEntry_WeChat',
+    meta: {
+      title: '违法申诉入口'
+    },
+    component: require('../views/newQueryLawless/child/appealQuery.vue')
+  },
+  {
     name: 'illegalAppealResult',
     path: '/illegalResult',
     meta: {

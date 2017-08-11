@@ -8,9 +8,10 @@
     <freeByCar v-if="cur_tab == 'car'"></freeByCar>
     <freeByCode v-else></freeByCode>
     <div class="tp-look-tips">
-      <router-link to="freeAbstract">首违免罚介绍</router-link>
+      <router-link :to="getHash('/freeAbstract')">首违免罚介绍</router-link>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <script>
@@ -21,9 +22,24 @@
         cur_tab: 'car'
       }
     },
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
     components: {
       'freeByCar': require('./freeByCar.vue'),
-      'freeByCode': require('./freeByCode.vue')
+      'freeByCode': require('./freeByCode.vue'),
+      'pageBottom': require('../../../../../components/pageBottom.vue')
+    },
+    methods: {
+      getHash: function (hash) {
+        if (/_WeChat/.test(this.$route.name)) {
+          var hashArr = hash.split('/')
+          return `/${hashArr[1]}_WeChat/${hashArr[2] || ''}`
+        }
+        return hash
+      }
     }
   }
 </script>

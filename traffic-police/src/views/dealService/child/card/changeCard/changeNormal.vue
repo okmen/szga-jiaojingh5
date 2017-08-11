@@ -320,6 +320,10 @@
         let idImgOne = this.$refs.getImgUrl.imgIDcard1
         let idImgTwo = this.$refs.getImgUrl.imgIDcard2
         let idImgThree = this.$refs.getImgUrl.imgOut
+
+        let idImgOneIf = idImgOne.substr(0, 4) === 'data' || false
+        let idImgTwoIf = idImgTwo.substr(0, 4) === 'data' || false
+        let idImgThreeIf = idImgThree.substr(0, 4) === 'data' || false
         if (!this.name) {
           Toast({message: '请输入姓名', position: 'bottom', className: 'white'})
         } else if (!this.IDcard) {
@@ -334,9 +338,9 @@
           Toast({message: '请输入正确收件人号码', position: 'bottom', className: 'white'})
         } else if (!this.mailingAddress) {
           Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
-        } else if (!idImgOne || !idImgTwo) {
+        } else if (!idImgOneIf || !idImgTwoIf) {
           Toast({message: '请上传身份证照片', position: 'bottom', className: 'white'})
-        } else if (!idImgThree && this.cur_place_id === '3') {
+        } else if (!idImgThreeIf && this.cur_place_id === '3') {
           Toast({message: '请上传境外人员临住表', position: 'bottom', className: 'white'})
         } else {
           // Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
@@ -368,7 +372,7 @@
           }
           console.log(reqData)
           this.$store.commit('saveMotorVehicleHandling', reqData)
-          this.$router.push('/affirmInfo')
+          this.$router.push(/_WeChat/g.test(this.$route.name) ? '/affirmInfo_WeChat' : '/affirmInfo')
         //   if (this.cur_service_id === '4') {                  // 补证服务
         //     resultPost(cardRepair, reqData).then(json => {
         //       console.log(json)
@@ -435,9 +439,6 @@
   @import "./../../../../../style/base";
   .changeNormal-outer {
     background-color: #fff;
-    position: absolute;
-    left: 0;
-    right: 0;
     padding: 0 40px;
     .changeNormal-form {
       background-color: #fff;
@@ -531,5 +532,3 @@
   }
 
 </style>
-
-

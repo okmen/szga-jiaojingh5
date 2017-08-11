@@ -20,6 +20,7 @@
   <div class="affirmInfo-btn">
     <button id="affirmInfo-btn" @click="affirmInfoBtn">提 交</button>
   </div>
+  <page-bottom v-if="isWeChat"></page-bottom>
 </div>
 </template>
 <script>
@@ -185,9 +186,15 @@ export default {
       }
     }
   },
+  components: {
+    'pageBottom': require('../components/pageBottom.vue')
+  },
   computed: {
     dataList: function () {
       return this.$store.state.motorVehicleHandling
+    },
+    isWeChat: function () {
+      return /_WeChat/g.test(this.$route.name)
     }
   },
   created () {
@@ -240,7 +247,7 @@ export default {
           //   }
           // }
           this.$store.commit('saveSuccessInfo', json.data)
-          this.$router.push('/submitSuccess')
+          this.$router.push(/_WeChat/g.test(this.$route.name) ? '/submitSuccess_WeChat' : '/submitSuccess')
         } else {
           MessageBox('提示', json.msg).then(action => {
             // this.$router.push('/')

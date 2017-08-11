@@ -48,6 +48,7 @@
       <p class="moveCar-tip-content">深圳交警全新推出电话挪车服务，星级用户如遇见正常停车后被其他车辆堵住，可拨打专线电话，交警将联系对方车主移车；或者提交表单发起挪车需求，交警将发起挪车需求，交警将发送提示短信通知对方车主移车。对方拒绝移车且违法停放的，交警将依法处罚。</p>
       <button class="btn btn-blue" type="button" name="button"><a href="tel:83333333">拨打专线</a></button>
     </div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <script>
@@ -57,6 +58,11 @@ import { MessageBox, Toast, Indicator } from 'mint-ui'
 import mymap from '../../map/map.vue'
 export default{
   name: 'moveCar',
+  computed: {
+    isWeChat: function () {
+      return /_WeChat/g.test(this.$route.name)
+    }
+  },
   data () {
     return {
       mapShow: false,
@@ -274,7 +280,8 @@ export default{
     }
   },
   components: {
-    mymap
+    mymap,
+    'pageBottom': require('../../../components/pageBottom.vue')
   },
   methods: {
     submitMap: function (obj) {
@@ -355,6 +362,9 @@ export default{
 .moveCar-outer{
   padding-top: 28px;
   line-height: 58px;
+  .tp-bottom{
+    margin-top: 28px;
+  }
   .width-90{
     width: 90%;
   }

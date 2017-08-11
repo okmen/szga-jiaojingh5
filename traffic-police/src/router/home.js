@@ -7,6 +7,14 @@ let homeRouter = [
     },
     component: require('../views/login/login.vue')
   },
+  {
+    name: 'login_dealService',
+    path: '/login_dealService',
+    meta: {
+      title: '登录'
+    },
+    component: require('../views/login/login_dealService.vue')
+  },
   // {
   //   name: 'loginIcp',
   //   path: '/loginIcp',

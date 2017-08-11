@@ -180,6 +180,7 @@
       <mt-datetime-picker ref="pick" type="date" v-model="informTimes" @confirm="handleTimes"></mt-datetime-picker>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <script>
@@ -189,6 +190,14 @@ import { sendSMS, verificatioCode, createVehicleInspection, getCarTypeId } from 
 import { Toast, MessageBox } from 'mint-ui'
 export default {
   name: 'exemption',
+  computed: {
+    isWeChat: function () {
+      return /_WeChat/g.test(this.$route.name)
+    }
+  },
+  components: {
+    'pageBottom': require('../../../../../components/pageBottom.vue')
+  },
   data () {
     return {
       name: window.localStorage.getItem('userName'),     // 所有人名字
@@ -505,7 +514,7 @@ export default {
         }
       }
       this.$store.commit('saveMotorVehicleHandling', dataList)
-      this.$router.push('/affirmInfo')
+      this.$router.push(/_WeChat/g.test(this.$route.name) ? '/affirmInfo_WeChat' : '/affirmInfo')
     },
     // 验证码验证接口
     verificationFn: function () {

@@ -8,11 +8,17 @@
     <carService v-if="cur_tab == 'car'"></carService>
     <cardService v-else></cardService>
     <div v-wechat-title="$route.meta.title"></div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <script>
   export default {
     name: 'esemptionCar',
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
     data () {
       return {
         cur_tab: 'car'
@@ -26,7 +32,8 @@
     },
     components: {
       'carService': require('./exemption.vue'),
-      'cardService': require('./exemptionDemand.vue')
+      'cardService': require('./exemptionDemand.vue'),
+      'pageBottom': require('../../../../../components/pageBottom.vue')
     }
   }
 </script>
