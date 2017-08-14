@@ -16,9 +16,9 @@
    <div class="tp-btn-sure" v-if="isShow">
      <button @click="btnAgreeRequest">确认</button>
    </div>
-   <div class="tp-btn-sure" v-else>
+   <!-- <div class="tp-btn-sure" v-else>
      <button @click="btnReturn">返回</button>
-   </div>
+   </div> -->
    <pageBottom></pageBottom>
    <div v-wechat-title="$route.meta.title"></div>
  </div>
