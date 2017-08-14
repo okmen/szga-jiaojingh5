@@ -4,7 +4,7 @@
       {{getNoticeTitle}}
     </div>
    <div class="tp-tips-intro" v-html="userAgreementCon"></div>
-   <div class="tp-read">
+   <div class="tp-read" v-if="isShow">
      <div class="tp-read-checkbox">
        <input type="checkbox" id="informReadCheckbox" name="informReadCheckbox" v-model="checked">
        <label for="informReadCheckbox"></label>
