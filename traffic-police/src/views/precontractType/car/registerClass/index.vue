@@ -93,7 +93,7 @@
         this.businessTypeId = ''
         this.currentBusinessType = this.businessType[this.$route.name]
         this.achieveCode = this.businessTypeToCode[this.$route.name]
-        resultPost(getPageInit, {businessTypeId: this.businessTypeId}).then(json => {
+        resultPost(getPageInit, {businessTypeId: this.businessTypeId, type: 1}).then(json => {
           console.log(json, '页面初始化的数据')
           if (json.code === '0000') {
             this.$store.commit('saveModelOfCar', json.data.carModelArray) // 车辆型号

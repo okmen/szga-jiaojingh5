@@ -45,7 +45,7 @@ import { Toast, MessageBox } from 'mint-ui'
 export default {
   computed: {
     isWeChat: function () {
-      return this.$route.name
+      return /_WeChat/g.test(this.$route.name)
     }
   },
   components: {
