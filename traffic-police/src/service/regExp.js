@@ -35,7 +35,7 @@ const plateNumberDetection = function (str) {
 
 // 检测照片回执码
 const isPhotoNum = function (str) {
-  var reg = /^[a-zA-Z]{1}[0-9]{9}$/
+  var reg = /^[a-zA-Z]{1}[0-9]{10}$/
   if (reg.test(str)) {
     return true;
   } else {
