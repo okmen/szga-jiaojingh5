@@ -585,10 +585,7 @@
           codes: this.code
         }
         resultPost(simpleSendMessage, requestData).then(data => {
-          Toast({
-            message: '验证码已发送',
-            duration: 2000
-          })
+          MessageBox('提示', '验证码已发送')
         })
         this.timer = setInterval(() => {
           if (this.countDown === 0) {
