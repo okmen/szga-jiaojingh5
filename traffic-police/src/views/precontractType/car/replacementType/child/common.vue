@@ -159,9 +159,9 @@
 
 <script>
 import { resultPost } from '../../../../../service/getData'
-import { plateNumberDetection } from '../../../../../service/regExp.js'
+import { plateNumberDetection, specialCharacters } from '../../../../../service/regExp.js'
 import { simpleSendMessage, getAppointmentDate, getAppTimes, getPageInit } from '../../../../../config/baseUrl.js'
-import { Toast } from 'mint-ui'
+import { Toast, MessageBox } from 'mint-ui'
 export default {
   name: 'renewingCollarCredential',
   data () {
@@ -331,6 +331,8 @@ export default {
         }
         resultPost(simpleSendMessage, phonedata).then(json => {
           if (json.code === '0000') {
+            MessageBox('温馨提示', '验证码已发出').then(() => {
+            })
             this.timePiece()
           } else {
             Toast({message: json.msg, position: 'bottom', className: 'white'})
@@ -356,27 +358,29 @@ export default {
     },
     submitClick: function () {
       if (!this.name) {
-        Toast({message: '请输入车主姓名', position: 'bottom', className: 'white'})
+        Toast({message: '请输入车主姓名', className: 'white', duration: 1500})
+      } else if (specialCharacters(this.name)) {
+        Toast({message: '车主姓名不能含有特殊字符', className: 'white', duration: 1500})
       } else if (!this.identificationNum) {
-        Toast({message: '请输入证件号码', position: 'bottom', className: 'white'})
+        Toast({message: '请输入证件号码', className: 'white', duration: 1500})
       } else if (!this.mobilephone) {
-        Toast({message: '请输入手机号码', position: 'bottom', className: 'white'})
+        Toast({message: '请输入手机号码', className: 'white', duration: 1500})
       } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobilephone))) {
-        Toast({message: '请输入正确手机号码', position: 'bottom', className: 'white'})
+        Toast({message: '请输入正确手机号码', className: 'white', duration: 1500})
       } else if (!this.numberPlate) {
-        Toast({message: '请输入车牌号码', position: 'bottom', className: 'white'})
+        Toast({message: '请输入车牌号码', className: 'white', duration: 1500})
       } else if (!plateNumberDetection(`${this.abbreviationSelectMassage}${this.numberPlate}`)) {
-        Toast({message: '请输入正确的车牌号码', position: 'bottom', className: 'white'})
+        Toast({message: '请输入正确的车牌号码', className: 'white', duration: 1500})
       } else if (!this.behindTheFrame4Digits) {
-        Toast({message: '请输入车架号', position: 'bottom', className: 'white'})
+        Toast({message: '请输入车架号', className: 'white', duration: 1500})
       } else if (!this.date) {
-        Toast({message: '请选择预约日期', position: 'bottom', className: 'white'})
+        Toast({message: '请选择预约日期', className: 'white', duration: 1500})
       } else if (!this.time) {
-        Toast({message: '请选择预约时间', position: 'bottom', className: 'white'})
+        Toast({message: '请选择预约时间', className: 'white', duration: 1500})
       } else if (!this.identifying) {
-        Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
+        Toast({message: '请输入验证码', className: 'white', duration: 1500})
       } else if (this.identifying.length !== 6) {
-        Toast({message: '请输入正确验证码', position: 'bottom', className: 'white'})
+        Toast({message: '请输入正确验证码', className: 'white', duration: 1500})
       } else {
         this.dataFn()
       }

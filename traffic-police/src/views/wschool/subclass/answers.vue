@@ -178,7 +178,7 @@ export default {
       this.loadingData()
       this.judgeTrue = ''
       this.answerShow = false
-      // if (this.code === '0001') {
+      // if (this.answerCorrect === 10) {
       //   window.sessionStorage.setItem('answererror', this.answererror)      // 答错题数
       //   window.sessionStorage.setItem('answerCorrect', this.answerCorrect)  // 答对题数
       //   window.sessionStorage.setItem('surplusAnswe', this.surplusAnswe)  // 答题数

@@ -37,7 +37,7 @@
     <div-select :childInfo="useNature" @getSelected="getUseNatureOne"></div-select>
     <div class="register-item" v-if="carSelectDataStr != '小型汽车(蓝色)'|| $router.currentRoute.name != 'enteringRegister'">
       <span class="register-item-title">车身架号</span>
-      <input type="text" placeholder="请输入车架号后四位" class="register-item-input" v-model="vehicleNum" maxlength="4">
+      <input type="text" placeholder="请输入车架号后四位" class="register-item-input" v-model="vehicleNum>
     </div>
     <div class="register-item" v-else-if="carSelectDataStr == '小型汽车(蓝色)'&&$router.currentRoute.name == 'enteringRegister'">
       <span class="register-item-title">车身架号</span>
@@ -551,7 +551,9 @@
         console.log(requestData, '验证码请求参数')
         resultPost(simpleSendMessage, requestData).then(data => {
           console.log(data, '验证码')
-          if (data.code !== '0000') {
+          if (data.code === '0000') {
+            MessageBox('提示', '验证码已发送')
+          } else {
             MessageBox('提示', data.msg)
           }
         })
