@@ -585,7 +585,7 @@
           codes: this.code
         }
         resultPost(simpleSendMessage, requestData).then(data => {
-          MessageBox('提示', '验证码已发送')
+          MessageBox('提示', data.msg)
         })
         this.timer = setInterval(() => {
           if (this.countDown === 0) {
