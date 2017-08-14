@@ -177,7 +177,11 @@
     methods: {
       // 初始化页面 证件，车辆类型，使用性质
       initData () {
-        resultPost(getPageInit, { businessTypeId: this.currentBusinessId }).then(json => {
+        let init = {
+          businessTypeId: this.currentBusinessId,
+          type: '0'
+        }
+        resultPost(getPageInit, init).then(json => {
           console.log(json)
           if (json.code === '0000') {
             if (json.data) {

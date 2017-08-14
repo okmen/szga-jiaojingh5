@@ -455,7 +455,8 @@
       // 获取业务类型ID
       getAllData () {
         let requestData = {
-          businessTypeId: this.businessTypeId
+          businessTypeId: this.businessTypeId,
+          type: '1'
         }
         resultPost(getPageInit, requestData).then(data => {
           // 证件名称

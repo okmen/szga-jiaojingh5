@@ -348,7 +348,8 @@ export default {
     this.codeId = this.$route.query.id
     this.nametype = this.$route.query.name
     let getBusinessData = {
-      businessTypeId: this.$route.query.id
+      businessTypeId: this.$route.query.id,
+      type: 0
     }
     resultPost(getPageInit, getBusinessData).then(json => {
       if (json.code === '0000') {
