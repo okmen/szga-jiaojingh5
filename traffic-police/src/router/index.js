@@ -170,7 +170,7 @@ const routes = [
     meta: {
       title: '电动车档案-扫一扫'
     },
-    component: require('../views/electrocarFile/scancode.vue')
+    component: require('../views/electrocarFile/scanCode.vue')
   },
   {
     name: 'roadMsgList',

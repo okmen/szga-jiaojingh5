@@ -290,11 +290,30 @@
       }
     },
     mounted () {
+      if (window.location.href.split('?')[1]) {
+        this.abbreviationSelectMassage = this.getQueryString('numberPlate').substring(0, 1)
+        this.car_number = this.getQueryString('numberPlate').substring(1)
+        this.cur_type_id = this.getQueryString('plateType')
+        this.licenseSelectData.forEach(item => {
+          if (item.id === this.cur_type_id) {
+            console.log(item)
+            this.licenseSelectMassage = item.str
+          }
+        })
+        this.vehicleIdentifyNoLast4 = this.getQueryString('digits')
+      }
       verifyCode(document.getElementById('inp'), document.getElementById('code'), (result, code) => {
         this.verifyCode = result
       })
     },
     methods: {
+      getQueryString: function (name) {
+        let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+        let href = window.location.href
+        let r = href.substr(href.indexOf('?') + 1).match(reg)
+        if (r !== null) return decodeURI(r[2])
+        return false
+      },
       licenseSelectClick: function (str, id) {
         if (str) {
           this.licenseSelectMassage = str
