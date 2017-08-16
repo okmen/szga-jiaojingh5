@@ -609,8 +609,8 @@
           return false
         }
         this.showTime = false
-        if (window.localStorage.getItem('userName') !== this.ownerName || this.IDcard === window.localStorage.getItem('identityCard')) {
-          this.bookerType = 1
+        if (window.localStorage.getItem('userName')) {
+          this.bookerType = this.ownerName === window.localStorage.getItem('userName') ? 0 : 1
         }
         let requestData = {
           mobile: this.mobilePhone,
@@ -618,7 +618,7 @@
           lx: 2,
           bookerType: this.bookerType,
           bookerName: this.newOwnerName,
-          bookerIdNumber: window.localStorage.getItem('identityCard'),
+          bookerIdNumber: window.localStorage.getItem('identityCard') || this.IDcard,
           idNumber: this.newIDcard,
           codes: this.achieveCode
         }
@@ -756,8 +756,8 @@
           orgId: this.appointmentLocationOne,
           appointmentDate: this.yearMonthDay,
           appointmentTime: this.appointmentTime,
-          bookerName: window.localStorage.getItem('userName'),
-          bookerIdNumber: window.localStorage.getItem('identityCard'),
+          bookerName: window.localStorage.getItem('userName') || this.ownerName,
+          bookerIdNumber: window.localStorage.getItem('identityCard') || this.IDcard,
           bookerType: this.bookerType,
           modelName: this.modelOfCarOne,
           bookerMobile: this.mobilePhone,
