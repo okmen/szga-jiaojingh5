@@ -572,8 +572,8 @@
         }
         this.showTime = false
         // 判断是否是本人办理，不是就设置为代办
-        if (window.localStorage.getItem('userName') !== this.ownerName || this.IDcard === window.localStorage.getItem('identityCard')) {
-          this.bookerType = 1
+        if (window.localStorage.getItem('userName')) {
+          this.bookerType = this.ownerName === window.localStorage.getItem('userName') ? 0 : 1
         }
         let requestData = {
           mobile: this.mobilePhone,
@@ -581,7 +581,7 @@
           lx: 2,
           bookerType: this.bookerType,
           bookerName: this.ownerName,
-          bookerIdNumber: this.IDcard,
+          bookerIdNumber: window.localStorage.getItem('identityCard') || this.IDcard,
           idNumber: this.IDcard,
           codes: this.code
         }
@@ -795,8 +795,8 @@
           vehicleType: this.modelOfCarOne, // 车辆型号
           passengerNumber: this.customerNum, // 载客人数
           engineNumber: this.engineNum, // 发动机号
-          bookerName: window.localStorage.getItem('userName'), // 预约人
-          bookerIdNumber: window.localStorage.getItem('identityCard'), // 预约人身份证号码
+          bookerName: window.localStorage.getItem('userName') || this.ownerName, // 预约人
+          bookerIdNumber: window.localStorage.getItem('identityCard') || this.IDcard, // 预约人身份证号码
           bookerType: this.bookerType, // 预约方式
           bookerMobile: this.mobilePhone, // 手机号
           msgNumber: this.verificationCode, // 验证码

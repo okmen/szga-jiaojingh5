@@ -400,7 +400,7 @@
         businessTypeId: '', // 业务类型编码
         appointmentTime: '', // 预约时间
         // businessCarTypeId: '', // 车辆类型编码
-        bookerType: 0 // 预约方式，0 本人， 1普通代办 2专业代办
+        bookerType: 0 // 预约方式，0 本人， 1代办
       }
     },
     components: {
@@ -509,8 +509,8 @@
         }
         this.showTime = false
         // 判断是否是本人办理，不是就设置为代办
-        if (window.localStorage.getItem('userName') !== this.ownerName || this.IDcard === window.localStorage.getItem('identityCard')) {
-          this.bookerType = 1
+        if (window.localStorage.getItem('userName')) {
+          this.bookerType = this.ownerName === window.localStorage.getItem('userName') ? 0 : 1
         }
         let requestData = {
           mobile: this.mobilePhone,
@@ -518,7 +518,7 @@
           lx: 2,
           bookerType: this.bookerType,
           bookerName: this.ownerName,
-          bookerIdNumber: window.localStorage.getItem('identityCard'),
+          bookerIdNumber: window.localStorage.getItem('identityCard') || this.IDcard,
           idNumber: this.IDcard,
           codes: this.code
         }
@@ -705,8 +705,8 @@
           openId: window.localStorage.getItem('openId'), // openID
           appointmentDate: this.yearMonthDay,
           appointmentTime: this.appointmentTime,
-          bookerName: window.localStorage.getItem('userName'),
-          bookerIdNumber: window.localStorage.getItem('identityCard'),
+          bookerName: window.localStorage.getItem('userName') || this.ownerName,
+          bookerIdNumber: window.localStorage.getItem('identityCard') || this.IDcard,
           bookerType: this.bookerType,
           bookerMobile: this.mobilePhone
         }
