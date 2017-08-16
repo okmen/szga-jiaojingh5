@@ -6,7 +6,7 @@
     <p class="scan-code-reminder">
       扫描电动车或者驾驶人证件上的二维码进行查询
     </p>
-    <div class="scan-code-button" @click="scanCode">扫描二维码</div>
+    <div class="scan-code-button" @click="scanCode()">扫描二维码</div>
     <!-- <div class="scan-code-button">使用账号密码登录</div> -->
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -37,7 +37,7 @@
   }
 </style>
 <script>
-  // import wx from 'weixin-js-sdk'
+  import wx from 'weixin-js-sdk'
   export default {
     data () {
       return {
@@ -46,13 +46,13 @@
     },
     methods: {
       /* eslint-disable */
-      scanCode () {
-        this.$router.push({path: '/electrocarFile', query: { billNo: '1234567890'}})
+      scanCode: function () {
+        // this.$router.push({path: '/electrocarFile', query: { billNo: '1234567890'}})
         wx.scanQRCode({
           needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-          scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+          scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有
           success: function (res) {
-            var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+            var result = res.resultStr // 当needResult 为 1 时，扫码返回的结果
             this.$router.push({path: '/electrocarFile', query: { billNo: result.split(',')[1]}})
           }
         })
