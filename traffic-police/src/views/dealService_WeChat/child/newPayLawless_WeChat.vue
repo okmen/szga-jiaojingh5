@@ -16,6 +16,7 @@ export default {
 
 <style lang="less">
 .newPayLawless-WeChat{
+  background-color: #fff;
   .tp-bottom{
     margin-top: 28px;
   }
