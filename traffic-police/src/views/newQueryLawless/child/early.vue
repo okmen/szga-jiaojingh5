@@ -16,7 +16,7 @@
     name: 'early',
     data () {
       return {
-        cur_tab: this.$route.params.id || 'reserve'
+        cur_tab: this.$route.params.id === 'query' ? 'query' : 'reserve'
       }
     },
     components: {
