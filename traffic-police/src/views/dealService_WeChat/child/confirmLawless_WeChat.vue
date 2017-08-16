@@ -10,6 +10,12 @@ export default {
   components: {
     'confirmLawless': require('../../newQueryLawless/child/confirmLawless.vue'),
     'pageBottom': require('../../../components/pageBottom.vue')
+  },
+  mounted () {
+    let isLogin = JSON.parse(window.localStorage.getItem('isLogin'))
+    if (!isLogin) {
+      this.$router.push('/login')
+    }
   }
 }
 </script>

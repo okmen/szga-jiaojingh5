@@ -217,14 +217,19 @@ export default {
       } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobilephone))) {
         Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
       } else {
-        let name = this.name === window.localStorage.getItem('userName') ? 0 : 1  // 0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
+        let name
+        if (window.localStorage.getItem('userName')) {
+          name = this.name === window.localStorage.getItem('userName') ? 0 : 1  // 0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
+        } else {
+          name = 0
+        }
         let phonedata = {
           mobile: mobilephone,               // 手机号码
           idType: this.cur_card_id,          // 证件id
           lx: '1',                           // 业务类型
           bookerType: name,                  // 预约方式
           bookerName: this.name,             // 预约人名字
-          bookerIdNumber: window.localStorage.getItem('identityCard'),
+          bookerIdNumber: window.localStorage.getItem('identityCard') || this.identificationNum,
           idNumber: this.identificationNum,   // 预约人证件号码
           codes: this.code            // 业务类型id
         }
@@ -280,7 +285,12 @@ export default {
       }
     },
     dataFn: function () {
-      let name = this.name === window.localStorage.getItem('userName') ? 0 : 1  // 0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
+      let name
+      if (window.localStorage.getItem('userName')) {
+        name = this.name === window.localStorage.getItem('userName') ? 0 : 1  // 0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
+      } else {
+        name = 0
+      }
       let renewingData = {
         'orgId': this.subscribeId,                       // 预约地点id
         'businessTypeId': this.codeId,                   // 业务id
@@ -291,8 +301,8 @@ export default {
         'msgNumber': this.identifying,                   // 验证码
         'appointmentDate': this.date,                    // 预约日期
         'appointmentTime': this.time,                    // 预约时间
-        'bookerName': window.localStorage.getItem('userName'),          // 预约人名字
-        'bookerIdNumber': window.localStorage.getItem('identityCard'),  // 预约人身份证号
+        'bookerName': window.localStorage.getItem('userName') || this.name,          // 预约人名字
+        'bookerIdNumber': window.localStorage.getItem('identityCard') || this.identificationNum,  // 预约人身份证号
         'bookerType': name,                                // 预约方式 ‘0’本人
         'orgName': this.subscribe,                         // 预约单位名称
         'orgAddr': this.description,                       // 预约单位地址
@@ -348,7 +358,8 @@ export default {
     this.codeId = this.$route.query.id
     this.nametype = this.$route.query.name
     let getBusinessData = {
-      businessTypeId: this.$route.query.id
+      businessTypeId: this.$route.query.id,
+      type: 0
     }
     resultPost(getPageInit, getBusinessData).then(json => {
       if (json.code === '0000') {

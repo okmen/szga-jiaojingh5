@@ -25,6 +25,7 @@
   import dirverInfo from './components/dirverInfo.vue'
   import { resultPost } from 'src/service/getData'
   import { electrocarFileScancode } from 'src/config/baseUrl.js'
+  import { Toast } from 'mint-ui'
   export default {
     data () {
       return {
@@ -37,11 +38,17 @@
     },
     mounted () {
       resultPost(electrocarFileScancode, {
-        fileNo: 440300000001
+        fileNo: this.$route.query.billNo
       }).then(data => {
         if (data.code === '0000') {
           this.ebikeInfo = data.data.ebikeInfo
           this.userInfoList = data.data.userInfoList
+        } else {
+          Toast({
+            message: data.msg,
+            position: 'middle',
+            duration: 2000
+          })
         }
       })
     }

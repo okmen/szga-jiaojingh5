@@ -9,6 +9,14 @@ let precontractTypeRouter = [
     component: require('../views/precontractType/precontract.vue')
   },
   {
+    name: 'precontractType_WeChat',
+    path: '/precontractType_WeChat/:id?',
+    meta: {
+      title: '机动车业务'
+    },
+    component: require('../views/precontractType/precontract.vue')
+  },
+  {
     name: 'registerClass',
     path: '/registerClass',
     meta: {
@@ -206,6 +214,14 @@ let precontractTypeRouter = [
   {
     name: 'querySuccess',
     path: '/querySuccess',
+    meta: {
+      title: '预约查询及取消'
+    },
+    component: require('../views/precontractType/querySuccess.vue')
+  },
+  {
+    name: 'querySuccess_WeChat',
+    path: '/querySuccess_WeChat',
     meta: {
       title: '预约查询及取消'
     },

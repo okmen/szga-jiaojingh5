@@ -10,6 +10,7 @@
     <cardService v-else-if="cur_tab == 'card'"></cardService>
     <queryAndCancel v-else></queryAndCancel>
     <div v-wechat-title="$route.meta.title"></div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <script>
@@ -20,6 +21,11 @@
         this.$route.meta.title = this.currentTab[val]
       }
     },
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
     data () {
       return {
         currentTab: {
@@ -27,7 +33,7 @@
           card: '驾驶证业务',
           progress: '预约查询及取消'
         },
-        cur_tab: 'car'
+        cur_tab: this.$route.params.id === 'progress' ? 'progress' : 'car'
       }
     },
     // methods: {
@@ -39,7 +45,8 @@
     components: {
       'carService': require('./carService.vue'),
       'cardService': require('./cardService.vue'),
-      'queryAndCancel': require('./queryAndCancel.vue')
+      'queryAndCancel': require('./queryAndCancel.vue'),
+      'pageBottom': require('../../components/pageBottom.vue')
     }
   }
 </script>
@@ -66,6 +73,9 @@
           border-bottom: 6px solid #2696dd;
         }
       }
+    }
+    .tp-bottom{
+      margin-top: 28px;
     }
   }
 </style>

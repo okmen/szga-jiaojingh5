@@ -4,7 +4,7 @@
       {{getNoticeTitle}}
     </div>
    <div class="tp-tips-intro" v-html="userAgreementCon"></div>
-   <div class="tp-read">
+   <div class="tp-read" v-if="isShow">
      <div class="tp-read-checkbox">
        <input type="checkbox" id="informReadCheckbox" name="informReadCheckbox" v-model="checked">
        <label for="informReadCheckbox"></label>
@@ -16,9 +16,9 @@
    <div class="tp-btn-sure" v-if="isShow">
      <button @click="btnAgreeRequest">确认</button>
    </div>
-   <div class="tp-btn-sure" v-else>
+   <!-- <div class="tp-btn-sure" v-else>
      <button @click="btnReturn">返回</button>
-   </div>
+   </div> -->
    <pageBottom></pageBottom>
    <div v-wechat-title="$route.meta.title"></div>
  </div>
@@ -40,7 +40,8 @@ export default {
       getNoticeTitle: '',
       checked: '',
       entryHash: '',
-      isShow: true
+      isShow: true,
+      isLogin: false
     }
   },
   mounted: function () {
@@ -55,6 +56,18 @@ export default {
     }
     console.log()
 //    let userAgreement = 'http://192.168.1.243:8080/web/user/getDocumentationORMByNoticeKey.html'
+    this.isLogin = JSON.parse(window.localStorage.getItem('isLogin'))
+    console.log('isLogin', this.isLogin)
+    if (!this.isLogin) { // 未登录
+      console.log(this.entryHash)
+      switch (this.entryHash) {
+        case 'xfNotice':
+        case 'jszbzhz':
+        case 'jszns':
+          this.$router.push('/login')
+          break
+      }
+    }
     resultPost(userAgreement, userAgreementData).then(json => { // 调取随手拍举报接口
       console.log(json)
       this.getNoticeTitle = json.data.title
@@ -95,7 +108,7 @@ export default {
             this.$router.push(this.isWeChat ? '/motorstudy_WeChat#5' : '/motorstudy#5')
             break
           case 'xjyhrz': // 星级用户认证须知
-            this.$router.push(this.getHash('/starUser_WeChat'))
+            this.$router.push(this.getHash('/starUser'))
             break
           case 'aqsgxyb':  // 驾驶人安全事故信用表须知
             this.$router.push(this.getHash('/driverCredit'))
