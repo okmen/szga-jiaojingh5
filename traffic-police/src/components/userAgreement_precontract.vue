@@ -20,6 +20,7 @@
      <button @click="btnReturn">返回</button>
    </div>
    <div v-wechat-title="$route.meta.title"></div>
+   <page-bottom v-if="isWeChat"></page-bottom>
  </div>
 </template>
 <script>
@@ -28,6 +29,14 @@
 import { Toast } from 'mint-ui'
 export default {
   name: 'userAgreement',
+  computed: {
+    isWeChat: function () {
+      return /_WeChat/g.test(this.$route.name)
+    }
+  },
+  components: {
+    'pageBottom': require('./pageBottom.vue')
+  },
   data () {
     return {
       userAgreementCon: '',

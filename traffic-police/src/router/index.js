@@ -123,6 +123,14 @@ const routes = [
     },
     component: require('../components/userAgreement_precontract.vue')
   },
+  {                                                                                          // 预约类
+    name: 'userAgreement_precontract_WeChat',
+    path: '/userAgreement_precontract_WeChat',
+    meta: {
+      title: '用户须知'
+    },
+    component: require('../components/userAgreement_precontract.vue')
+  },
   {                                                                                          // 微信版本
     name: 'userAgreement_WeChat',
     path: '/userAgreement_WeChat/:id',

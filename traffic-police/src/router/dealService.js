@@ -25,7 +25,7 @@ let dealServiceRouter = [
   },
   {
     name: 'newEarly_WeChat',                                                                 // 微信版本
-    path: '/newEarly_WeChat',
+    path: '/newEarly_WeChat/:id?',
     meta: {
       title: '交通违法预约'
     },

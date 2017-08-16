@@ -40,7 +40,8 @@ export default {
       getNoticeTitle: '',
       checked: '',
       entryHash: '',
-      isShow: true
+      isShow: true,
+      isLogin: false
     }
   },
   mounted: function () {
@@ -55,6 +56,18 @@ export default {
     }
     console.log()
 //    let userAgreement = 'http://192.168.1.243:8080/web/user/getDocumentationORMByNoticeKey.html'
+    this.isLogin = JSON.parse(window.localStorage.getItem('isLogin'))
+    console.log('isLogin', this.isLogin)
+    if (!this.isLogin) { // 未登录
+      console.log(this.entryHash)
+      switch (this.entryHash) {
+        case 'xfNotice':
+        case 'jszbzhz':
+        case 'jszns':
+          this.$router.push('/login')
+          break
+      }
+    }
     resultPost(userAgreement, userAgreementData).then(json => { // 调取随手拍举报接口
       console.log(json)
       this.getNoticeTitle = json.data.title
