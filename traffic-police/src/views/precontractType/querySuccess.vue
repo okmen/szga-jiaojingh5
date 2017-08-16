@@ -8,6 +8,7 @@
     </div>
     <div class="form-template-submit" @click="cancelReverse" v-if="this.dataInfo.bookStates==='1'">取消预约</div>
     <div class="form-template-submit cancel-btn" v-else>取消预约</div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <style lang="less">
@@ -40,7 +41,13 @@
     computed: {
       dataInfo: function () {
         return this.$store.state.successInfo
+      },
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
       }
+    },
+    components: {
+      'pageBottom': require('../../components/pageBottom')
     },
     data () {
       return {

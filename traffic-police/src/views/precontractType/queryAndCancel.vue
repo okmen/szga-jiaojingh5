@@ -90,7 +90,7 @@
                 bookStates: data.data.bookState
               }
               this.$store.commit('saveSuccessInfo', dataInfo)
-              this.$router.push('/querySuccess')
+              this.$router.push(this.isWeChat ? '/querySuccess_WeChat' : '/querySuccess')
             } else {
               MessageBox('提示', data.msg)
             }
