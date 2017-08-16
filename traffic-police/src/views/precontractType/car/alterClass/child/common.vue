@@ -196,8 +196,7 @@
         detailTimeShow: false,
         activeIndex: '',                    // 当前点击时间的li
         selectDetailTime: '',               // * 选择的具体时间
-        // * 预约方式  0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
-        orderWay: this.carOwnerName === window.localStorage.getItem('userName') ? 0 : 1
+        orderWay: ''                        // * 预约方式
       }
     },
     mounted () {
@@ -440,6 +439,7 @@
 
       // 获取验证码
       getVerification: function () {
+        this.orderType()
         let time = 60
         let phonedata = {
           mobile: this.userTelphone,         // 手机号码
@@ -447,7 +447,7 @@
           lx: '2',                           // 业务类型 (机动车业务)
           bookerType: this.orderWay,         // 预约方式
           bookerName: this.name,             // 预约人名字
-          bookerIdNumber: window.localStorage.getItem('identityCard'),  // 预约人身份证号码
+          bookerIdNumber: window.localStorage.getItem('identityCard') || this.cardID,  // 预约人身份证号码
           idNumber: this.cardNum,            // 本次预约业务填写的证件号码
           codes: this.currentBusinessCode    // 业务类型 code
         }
@@ -482,6 +482,8 @@
       // 预约 点击事件
       appointTaskClick () {
         if (this.judgeInput()) {
+          this.orderType()
+          console.log(this.orderWay)
           let reqData = {
             businessTypeId: this.currentBusinessId, // 预约类型 id
             name: this.carOwnerName,                // 车主姓名
@@ -499,14 +501,24 @@
             orgAddr: this.orderPlaceAddress,        // 预约地点 address
             appointmentDate: this.orderAllDate,     // 预约日期
             appointmentTime: this.selectDetailTime, // 预约具体时间
-            bookerName: window.localStorage.getItem('userName'),               // 预约车主姓名
-            bookerIdNumber: window.localStorage.getItem('identityCard'),       // 预约人身份证号码
+            bookerName: window.localStorage.getItem('userName') || this.carOwnerName,    // 预约车主姓名
+            bookerIdNumber: window.localStorage.getItem('identityCard') || this.cardID,  // 预约人身份证号码
             bookerType: this.orderWay,              // 预约方式
             bookerMobile: this.userTelphone         // 获取验证码 手机号
           }
           let code = `createVehicleInfo_${this.currentBusinessCode}`  // 网约车 传参
           let bussiness = this.currentBusinessName                    // 网约车 传参
           this.$emit('appointTaskClick', reqData, code, bussiness)
+        }
+      },
+
+      // 预约方式
+      orderType () {
+        // 预约方式  0非代办（或本人） 1普通代办  2专业代办（企业代办）
+        if (window.localStorage.getItem('userName')) {
+          this.orderWay = this.carOwnerName === window.localStorage.getItem('userName') ? 0 : 1
+        } else {
+          this.orderWay = 0
         }
       },
 
