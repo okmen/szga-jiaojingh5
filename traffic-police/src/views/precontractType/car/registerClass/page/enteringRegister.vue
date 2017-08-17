@@ -37,11 +37,11 @@
     <div-select :childInfo="useNature" @getSelected="getUseNatureOne"></div-select>
     <div class="register-item" v-if="carSelectDataStr != '小型汽车(蓝色)'|| $router.currentRoute.name != 'enteringRegister'">
       <span class="register-item-title">车身架号</span>
-      <input type="text" placeholder="请输入车架号后四位" class="register-item-input" v-model="vehicleNum">
+      <input type="text" placeholder="请输入车架号全号" class="register-item-input" v-model="vehicleNum">
     </div>
     <div class="register-item" v-else-if="carSelectDataStr == '小型汽车(蓝色)'&&$router.currentRoute.name == 'enteringRegister'">
       <span class="register-item-title">车身架号</span>
-      <input type="text" placeholder="请输入车架号" class="register-item-input" v-model="vehicleNum">
+      <input type="text" placeholder="请输入车架号全号" class="register-item-input" v-model="vehicleNum">
     </div>
     <div-select :childInfo="appointmentLocation" @getSelected="getAppointmentLocationOne"></div-select>
     <div class="register-item">
