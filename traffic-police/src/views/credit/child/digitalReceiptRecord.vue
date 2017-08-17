@@ -1,6 +1,6 @@
 <template>
   <div id="digRecord">
-    <div class="digRecord-top">共有<span>{{this.digitData.length}}</span>条违法记录</div>
+    <div class="digRecord-top">共有<span>{{this.digitData.length}}</span>条缴款记录</div>
     <div class="digRecord-nav" v-for="(item, index) in digitData">
       <div class="digRecord-nav-one digRecord-p">
         <p>缴款成功</p>
@@ -8,12 +8,12 @@
         <p>{{item.amt}}元</p>
       </div>
       <div class="digRecord-nav-two digRecord-p">
-        <p>缴款编号 / 违法编号:<span>{{item.billNo}}</span></p>
+        <p>缴款编号:<span>{{item.billNo}}</span></p>
         <!-- <p><span class="icon">缴</span><i>{{key === 'payWay' ? payWayType[key] : item}}</i></p> -->
-        <p v-if="item.payWay == 'NETBANK'"><span class="icon">缴</span><i>网银支付</i></p>
-        <p v-if="item.payWay == 'WECHAT'"><span class="icon">缴</span><i>微信支付</i></p>
-        <p v-if="item.payWay == 'ALIPAY_APP'"><span class="icon">缴</span><i>支付宝钱包</i></p>
-        <p><span class="icon">执</span><i>{{item.companyName}}</i></p>
+        <p v-if="item.payWay == 'NETBANK'">缴款方式:<i>网银支付</i></p>
+        <p v-if="item.payWay == 'WECHAT'">缴款方式:<i>微信支付</i></p>
+        <p v-if="item.payWay == 'ALIPAY_APP'">缴款方式:<i>支付宝钱包</i></p>
+        <p>执收单位名称:<i>{{item.companyName}}</i></p>
       </div>
       <div class="digRecord-nav-three digRecord-p" @click="clickFn(index)">查看详情</div>
     </div>
@@ -21,9 +21,9 @@
   </div>
 </template>
 <script>
-// import { resultPost } from '../../../service/getData'
-// import { MessageBox } from 'mint-ui'
-// import { toQueryElectronicReceiptPage } from '../../../config/baseUrl'
+import { resultPost } from '../../../service/getData'
+import { MessageBox } from 'mint-ui'
+import { toQueryElectronicReceiptPage } from '../../../config/baseUrl'
 export default {
   name: 'digitalReceiptRecord',
   data () {
@@ -41,74 +41,29 @@ export default {
           sdb: 'SDB00000012017062714958614',
           writeOffDate: '2017-06-27'
         }
-      ],
-      digitData2: [
-        {
-          amt: '150',
-          billNo: '44071704945445',
-          chargeItem: '交通违法罚款',
-          companyName: '深圳市公安局交通警察局',
-          payWay: 'ALIPAY_APP',
-          paymentor: '粤B11111',
-          projectNo: '103050101101',
-          sdb: 'SDB00000012017062714958614',
-          writeOffDate: '2017-06-27'
-        },
-        {
-          amt: '250',
-          billNo: '44071704945445',
-          chargeItem: '交通违法罚款',
-          companyName: '深圳市公安局交通警察局',
-          payWay: 'ALIPAY_APP',
-          paymentor: '粤B11111',
-          projectNo: '103050101101',
-          sdb: 'SDB00000012017062714958614',
-          writeOffDate: '2017-06-27'
-        },
-        {
-          amt: '350',
-          billNo: '44071704945445',
-          chargeItem: '交通违法罚款',
-          companyName: '深圳市公安局交通警察局',
-          payWay: 'ALIPAY_APP',
-          paymentor: '粤B11111',
-          projectNo: '103050101101',
-          sdb: 'SDB00000012017062714958614',
-          writeOffDate: '2017-06-27'
-        }
       ]
     }
   },
   mounted () {
-    this.id = this.$route.query.id
-    // 1:表示缴款编号和车牌号查询 2:表示本人车辆查询或者他人车辆查询
-    if (this.id === '1') {
-      this.digitData = this.digitData1
-      // this.numberPlate = this.$route.query.numberPlate
-      // this.billNo = this.$route.query.billNo
-    } else if (this.id === '2') {
-      this.digitData = this.digitData2
-      // this.numberPlate = this.$route.query.myNumberPlate
-      // this.billNo = ''
-    }
+    this.arr = this.$route.query.answererror
     // 粤BU8E61
-    // let digitalReceiptData = {
-    //   drivingLicenceNo: '',
-    //   licensePlateNo: this.numberPlate,
-    //   billNo: this.billNo
-    // }
-    // resultPost(toQueryElectronicReceiptPage, digitalReceiptData).then(json => {
-    //   if (json.code === '0000') {
-    //     this.digitData = json.data
-    //   } else {
-    //     MessageBox({
-    //       title: '提示',
-    //       message: json.msg
-    //     }).then(action => {
-    //       this.$router.go(-1)
-    //     })
-    //   }
-    // })
+    let digitalReceiptData = {
+      drivingLicenceNo: this.arr.identityCard || '',
+      licensePlateNo: this.arr.myNumberPlate,
+      billNo: ''
+    }
+    resultPost(toQueryElectronicReceiptPage, digitalReceiptData).then(json => {
+      if (json.code === '0000') {
+        this.digitData = json.data
+      } else {
+        MessageBox({
+          title: '提示',
+          message: json.msg
+        }).then(action => {
+          this.$router.go(-1)
+        })
+      }
+    })
   },
   methods: {
     clickFn: function (index) {
@@ -161,6 +116,11 @@ export default {
     }
     .digRecord-nav-two{
       border-bottom: 1px solid #a7d9f9;
+      p{
+        font: 100 25px/50px "";
+        line-height: 50px;
+        color: #666666;
+      }
       p:first-of-type{
         font: 100 25px/50px "";
         line-height: 50px;
@@ -170,7 +130,7 @@ export default {
           color: #ff0000;
         }
       }
-      .icon{
+/*      .icon{
         display: inline-block;
         width: 30px;
         height: 30px;
@@ -179,7 +139,7 @@ export default {
         line-height: 30px;
         color: #40a2e1;
         border-radius: 50%;
-      }
+      }*/
       i{
         padding-left: 30px;
         font: 100 25px/50px "";

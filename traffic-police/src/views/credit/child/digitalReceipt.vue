@@ -51,13 +51,13 @@
         </li>
       </ul> -->
       <div class="digit">
-        <h2>注:</h2>
-        <h3>
-           1、本回执不作为报销凭证。若您需打印缴款收据，可持本回执到深圳市平安银行、建设银行任一网点以及好易自助终端机进行打印。
-        </h3>
-        <h3>
-          2、缴款交易提示成功的，违法记录将于24小时内完成核销，请您在交易成功24小时以后查询违法处理结果，请勿急于重复缴款。若违法记录仍未核销，款项将在15日内退回。若违法记录已成功核销，您可持本回执前往平安银行任一网点打印交通违法缴款收据。
-        </h3>
+        <h2>温馨提示:</h2>
+        <p>
+           1、本回执不作为报销凭证。若您需打印缴款收据，可持本回执到深圳市平安银行任一网点进行打印。
+        </p>
+        <p>
+          2、深圳市平安银行网点查询<a class="dig-a" href="http://bank.pingan.com/geren/fuwuwangdian/map.shtml">http://bank.pingan.com/geren/fuwuwangdian/map.shtml</a>
+        </p>
       </div>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
@@ -161,11 +161,13 @@ export default {
           font-size: 26px;
           line-height: 32px;
         }
-        h3{
+        p{
           font-size: 26px;
           line-height: 40px;
-          text-indent: 30px;
           color: #8a8a8a;
+/*          .dig-a{
+            display: inline-block;
+          }*/
         }
       }
     }
