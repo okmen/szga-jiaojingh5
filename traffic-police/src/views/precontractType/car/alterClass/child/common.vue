@@ -447,20 +447,21 @@
           lx: '2',                           // 业务类型 (机动车业务)
           bookerType: this.orderWay,         // 预约方式
           bookerName: this.name,             // 预约人名字
-          bookerIdNumber: window.localStorage.getItem('identityCard') || this.cardID,  // 预约人身份证号码
+          bookerIdNumber: window.localStorage.getItem('identityCard') || this.cardNum,  // 预约人身份证号码
           idNumber: this.cardNum,            // 本次预约业务填写的证件号码
           codes: this.currentBusinessCode    // 业务类型 code
         }
         if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.userTelphone))) {
           Toast({message: '请输入正确的手机号码', className: 'white'})
         } else {
-          this.getValidCodeMsg = `${time}s`
-          this.isdisabled = true
-          countDown(this)
           resultPost(simpleSendMessage, phonedata).then(json => {
             if (json.code === '0000') {
+              this.getValidCodeMsg = `${time}s`
+              this.isdisabled = true
+              countDown(this)
               Toast({ message: '验证码已发送', className: 'white', duration: 1500 })
             } else {
+              this.getValidCodeMsg = '发送验证码'
               Toast({ message: json.msg, className: 'white', duration: 1500 })
             }
           })
@@ -502,7 +503,7 @@
             appointmentDate: this.orderAllDate,     // 预约日期
             appointmentTime: this.selectDetailTime, // 预约具体时间
             bookerName: window.localStorage.getItem('userName') || this.carOwnerName,    // 预约车主姓名
-            bookerIdNumber: window.localStorage.getItem('identityCard') || this.cardID,  // 预约人身份证号码
+            bookerIdNumber: window.localStorage.getItem('identityCard') || this.cardNum,  // 预约人身份证号码
             bookerType: this.orderWay,              // 预约方式
             bookerMobile: this.userTelphone         // 获取验证码 手机号
           }
