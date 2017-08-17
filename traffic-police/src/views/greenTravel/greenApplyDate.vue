@@ -21,7 +21,7 @@
     </div>
     <ul class="list">
       <li><span class="green"></span>绿色表示申报停驶日期</li>
-      <li><span class="gray"></span>灰色表示节假日或已过期日期，不可进行申报驾驶</li>
+      <li><span class="gray"></span>灰色表示节假日或已过期日期，不可进行申报停驶</li>
       <li><span class="yellow"></span>黄色表示申报停驶日期已过期</li>
       <li><span class="red"></span>红色表示申报停驶日期未履诺</li>
     </ul>
@@ -163,8 +163,7 @@ export default {
           this.$store.commit('saveSuccessInfo', {
             type: 3,
             businessType: '绿色出行',
-            numberPlate: data.date.numberPlate,
-            reserveNumber: data.date.reserveNumber
+            numberPlate: data.date.numberPlate
           })
           this.$router.push('/submitSuccess')
         } else {

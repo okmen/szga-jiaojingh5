@@ -15,18 +15,6 @@
         </div>
       </div>
       <div class="item">
-        <label>联系方式</label>
-        <div class="box">
-          <el-input v-model="form.tel" disabled placeholder="请输入手机号码" size="small" />
-        </div>
-      </div>
-      <div class="item">
-        <label>身份证号</label>
-        <div class="box">
-          <el-input v-model="form.IdCard" disabled placeholder="请输入身份证号码" size="small" />
-        </div>
-      </div>
-      <div class="item">
         <label>名下车辆</label>
         <div class="box">
           <el-select v-model="selectCars" class="zly-select" size="small" @change="handleCarChange">
@@ -47,23 +35,31 @@
       </div>
     </div>
     <div class="footer">
-      <el-button type="primary" @click.native="submit">下一步</el-button>
+      <p class="info">
+        <el-checkbox v-model="reading"></el-checkbox>&nbsp;
+        <span @click="reading = !reading">我已认真阅读并同意</span>
+        <router-link to="/greenTravel">《申请加入“爱我深圳，停用少用，绿色出行”自愿停驶行动协议》</router-link>
+      </p>
+      <el-button type="primary" @click.native="submit" :disabled="!reading">下一步</el-button>
     </div>
   </div>
 </template>
 
 <script>
-import { Input, Select, Option, Button } from 'element-ui'
+import { Input, Select, Option, Button, Checkbox } from 'element-ui'
 import { Toast } from 'mint-ui'
 export default {
   components: {
     'el-input': Input,
     'el-select': Select,
     'el-option': Option,
-    'el-button': Button
+    'el-button': Button,
+    'el-checkbox': Checkbox
   },
   data () {
     return {
+      isLogin: true,
+      reading: false,
       typeData: {
         '02': '蓝牌',
         '06': '黑牌',
@@ -106,6 +102,15 @@ export default {
       // 验证完成，提交状态并跳转路由
       this.registerModule()
       this.$router.push({ name: 'greenApplyDate' })
+    }
+  },
+  created () {
+    this.isLogin = window.localStorage.getItem('isLogin')
+    // 未登录状态跳转
+    if (!this.isLogin) {
+      this.$router.push({
+        name: 'login'
+      })
     }
   }
 }
