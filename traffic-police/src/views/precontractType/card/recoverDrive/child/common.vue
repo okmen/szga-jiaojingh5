@@ -333,7 +333,7 @@
           countDown(this)
           resultPost(simpleSendMessage, phonedata).then(json => {
             if (json.code === '0000') {
-              Toast({ message: '验证码已发送，请查收', className: 'white', duration: 1500 })
+              Toast({ message: '验证码已发送', className: 'white', duration: 1500 })
             } else {
               Toast({ message: json.msg, className: 'white', duration: 1500 })
             }
