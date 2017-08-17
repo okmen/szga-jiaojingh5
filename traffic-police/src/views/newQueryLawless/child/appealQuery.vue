@@ -7,19 +7,19 @@
       <div class="form-item">
         <div class="item-left">姓名</div>
         <div class="item-right">
-          <input class="text-input" v-model="carJson.name" readonly>
+          <input class="text-input" v-model="name" readonly>
         </div>
       </div>
       <div class="form-item">
         <div class="item-left">联系方式</div>
         <div class="item-right">
-          <input class="text-input" maxlength="11" v-model="carJson.mobilephone" readonly>
+          <input class="text-input" maxlength="11" v-model="mobilePhone" readonly>
         </div>
       </div>
       <div class="form-item">
         <div class="item-left">身份证号</div>
         <div class="item-right">
-          <input class="text-input" v-model="carJson.identityCard" readonly>
+          <input class="text-input" v-model="identityCard" readonly>
         </div>
       </div>
       <div class="form-item">
@@ -143,7 +143,7 @@
           licensePlateType: this.carJson.plateType,
           vehicleIdentifyNoLast4: this.carJson.behindTheFrame4Digits,
           identityCard: this.carJson.identityCard,
-          mobilephone: this.carJson.mobilePhone
+          mobilephone: this.carJson.mobilephone
         }
         if (window.localStorage.getItem('myNumberPlate') === 'undefined') {
           MessageBox('提示', '当前用户没有车辆信息')
