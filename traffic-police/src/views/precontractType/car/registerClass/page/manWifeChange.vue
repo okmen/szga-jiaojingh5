@@ -608,7 +608,6 @@
           })
           return false
         }
-        this.showTime = false
         if (window.localStorage.getItem('userName')) {
           this.bookerType = this.ownerName === window.localStorage.getItem('userName') ? 0 : 1
         }
@@ -626,6 +625,16 @@
           console.log(data, '验证码')
           if (data.code === '0000') {
             MessageBox('提示', '验证码已发送')
+            this.showTime = false
+            this.timer = setInterval(() => {
+              if (this.countDown === 0) {
+                clearInterval(this.timer)
+                this.showTime = true
+                this.countDown = 60
+                return
+              }
+              this.countDown--
+            }, 1000)
           } else {
             MessageBox('提示', data.msg)
           }
