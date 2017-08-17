@@ -618,7 +618,7 @@
           lx: 2,
           bookerType: this.bookerType,
           bookerName: this.newOwnerName,
-          bookerIdNumber: window.localStorage.getItem('identityCard') || this.IDcard,
+          bookerIdNumber: window.localStorage.getItem('identityCard') || this.newIDcard,
           idNumber: this.newIDcard,
           codes: this.achieveCode
         }
@@ -756,8 +756,8 @@
           orgId: this.appointmentLocationOne,
           appointmentDate: this.yearMonthDay,
           appointmentTime: this.appointmentTime,
-          bookerName: window.localStorage.getItem('userName') || this.ownerName,
-          bookerIdNumber: window.localStorage.getItem('identityCard') || this.IDcard,
+          bookerName: window.localStorage.getItem('userName') || this.newOwnerName,
+          bookerIdNumber: window.localStorage.getItem('identityCard') || this.newIDcard,
           bookerType: this.bookerType,
           modelName: this.modelOfCarOne,
           bookerMobile: this.mobilePhone,
