@@ -93,6 +93,7 @@
         mobilephone: '',                      // 请求-手机号码
         illegalData: [],                      // 返回-全部数据存入数组
         verifyCode: false,                    // 验证码验证
+        codeIfShow: true,
         isMineCar: window.localStorage.myNumberPlate === 'undefined' ? false : window.localStorage.myNumberPlate,
         claimList: {
           '0': '直接缴款',
@@ -291,6 +292,8 @@
     },
     mounted () {
       if (window.location.href.split('?')[1]) {
+        this.codeIfShow = false
+        this.verifyCode = true
         this.abbreviationSelectMassage = this.getQueryString('numberPlate').substring(0, 1)
         this.car_number = this.getQueryString('numberPlate').substring(1)
         this.cur_type_id = this.getQueryString('plateType')

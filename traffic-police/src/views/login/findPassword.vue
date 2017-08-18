@@ -14,10 +14,10 @@
           <router-link to="/starUser" class="login-link-forget">注册</router-link>
           <router-link to="/login" class="login-link-register">登录</router-link>
         </div>
-        <!-- <div class="login-hint">
+        <div class="login-hint">
           <p>温馨提示:</p>
           <p>若您的手机号码已不再使用,或者不能正常接收到短信验证码,您可以通过 “<router-link to="/initAuthentication" class="login-hint-register">其他方式</router-link>” 变更手机号码！</p>
-        </div> -->
+        </div>
       </div>
       <div v-wechat-title="$route.meta.title"></div>
     </div>
