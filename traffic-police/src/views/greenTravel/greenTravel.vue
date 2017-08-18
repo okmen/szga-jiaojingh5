@@ -43,11 +43,6 @@
       <p>第十二条 本协议是由车主与绿联办共同签订的，适用于车主在绿色出行申报系统内的全部活动。</p>
       <p>第十三条 绿联办对本协议拥有最终的解释权。</p>
     </div>
-    <div class="footer">
-      <!-- <p><el-button type="primary" @click.native="toComplaint">如需申诉，请点击这里</el-button></p> -->
-      <p class="info"><el-checkbox v-model="reading"></el-checkbox><span @click="reading = !reading">我已认真阅读以上内容，并愿意承担相关法律责任</span></p>
-      <p><el-button type="success" :disabled="!reading" @click.native="toStarLever">我接受</el-button></p>
-    </div>
   </div>
 </template>
 

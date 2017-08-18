@@ -124,8 +124,8 @@
         <dd>自主考试</dd>
         </a>
       </dl>
-     <!--  <dl>
-        <router-link :to="!isLogin ? '/login' : '/greenTravel'">
+      <!-- <dl>
+        <router-link :to="!isLogin ? '/login' : '/greenTravel/greenApply'">
         <dt><img class="top11" src="./images/green-logo.png" alt=""></dt>
         <dd>绿色出行</dd>
         </router-link>

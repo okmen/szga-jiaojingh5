@@ -12,17 +12,17 @@
           <span>{{digitData.paymentor}}</span>
         </li>
         <li>
-          <span>时间:</span>
+          <span>缴款时间:</span>
           <span>{{digitData.writeOffDate}}</span>
         </li>
         <li>
           <span>执收单位名称:</span>
           <span>{{digitData.companyName}}</span>
         </li>
-        <li>
+    <!--     <li>
           <span>执收项目编码:</span>
           <span>{{digitData.projectNo}}</span>
-        </li>
+        </li> -->
         <li v-if="digitData.payWay == 'NETBANK'">
           <span>缴款方式:</span>
           <span>网银支付</span>
@@ -36,12 +36,12 @@
           <span>支付宝钱包</span>
         </li>
         <li>
-          <span>收费金额:</span>
-          <span>{{digitData.amt}}</span>
+          <span>罚款金额:</span>
+          <span>{{digitData.amt}} 元</span>
         </li>
         <li>
           <span>合计:</span>
-          <span>{{digitData.amt}}</span>
+          <span>{{digitData.amt}} 元</span>
         </li>
       </ul>
       <!-- <ul class="digital-time">
@@ -51,13 +51,13 @@
         </li>
       </ul> -->
       <div class="digit">
-        <h2>注:</h2>
-        <h3>
-           1、本回执不作为报销凭证。若您需打印缴款收据，可持本回执到深圳市平安银行、建设银行任一网点以及好易自助终端机进行打印。
-        </h3>
-        <h3>
-          2、缴款交易提示成功的，违法记录将于24小时内完成核销，请您在交易成功24小时以后查询违法处理结果，请勿急于重复缴款。若违法记录仍未核销，款项将在15日内退回。若违法记录已成功核销，您可持本回执前往平安银行任一网点打印交通违法缴款收据。
-        </h3>
+        <h2>温馨提示:</h2>
+        <p>
+           1、本回执不作为报销凭证。若您需打印缴款收据，可持本回执到深圳市平安银行任一网点进行打印。
+        </p>
+        <p>
+          2、深圳市平安银行网点查询：<a href="http://bank.pingan.com/geren/fuwuwangdian/map.shtml">http://bank.pingan.com/geren/fuwuwangdian/map.shtml</a>
+        </p>
       </div>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
@@ -95,7 +95,7 @@ export default {
     }
   },
   mounted () {
-    let answererror = this.$route.query.answererror   // 获取数据
+    let answererror = JSON.parse(this.$route.query.answererror)  // 获取数据
     this.digitData = answererror
   }
 }
@@ -161,11 +161,18 @@ export default {
           font-size: 26px;
           line-height: 32px;
         }
-        h3{
+        p{
           font-size: 26px;
           line-height: 40px;
-          text-indent: 30px;
           color: #8a8a8a;
+          word-wrap:break-word;
+          white-space: normal;
+          word-break: break-all;
+          a{
+            color: #a7d9f9;
+            word-wrap:break-word;
+            white-space: normal;
+          }
         }
       }
     }
