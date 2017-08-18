@@ -163,7 +163,8 @@ export default {
           this.$store.commit('saveSuccessInfo', {
             type: 3,
             businessType: '绿色出行',
-            numberPlate: data.date.numberPlate
+            numberPlate: data.date.numberPlate,
+            reserveNumber: data.date.reserveNumber
           })
           this.$router.push('/submitSuccess')
         } else {

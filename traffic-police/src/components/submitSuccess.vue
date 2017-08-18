@@ -63,7 +63,7 @@
       <h3>{{typeTitle[JsonDataInfo.type]}}结果</h3>
       <p>感谢您的参与，提交成功！<br>您在绿色出行行动中，累计申报停驶了{{ JsonDataInfo.reserveNumber }}天。</p>
       <ul class="bid-ul appoint-margin">
-        <li class="bid-item" v-for="(value, key) in JsonDataInfo" v-if="keyListObj[key]">
+        <li class="bid-item" v-for="(value, key) in JsonDataInfo" v-if="keyListObj[key] && key !== 'reserveNumber'">
           <span class="bid-item-key">{{ keyListObj[key] }}</span>
           ：<span :class="{red: key === 'subscribeNo' || key === 'waterNumber'}">{{ valListObj[key] ? valListObj[key][value] : value }}</span>
         </li>
