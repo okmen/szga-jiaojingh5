@@ -221,7 +221,7 @@ export default {
           inspectionDeclarationQuery: '机动车委托异地定期检验申报查询',
           replaceMotorVehicleLicensePlate: '补领机动车号牌',
           iocomotiveCarReplace: '换领机动车行驶证',
-          iocomotiveCarChangeContact: ' 机动车变更联系方式',
+          iocomotiveCarChangeContact: '机动车变更联系方式',
           driverLicenseAnnualVerification: '驾驶证年审',
           renewalDriverLicense: '驾驶证延期换证',
           driverLicenseInto: '驾驶证转入',
@@ -233,7 +233,7 @@ export default {
           createTemporaryLicenseVehicleInfo: '核发临牌',
           createVehicleInfo_JD27: '核发校车标牌',
           createVehicleInfo_JD37: '抵押/解押登记现场办理',
-          createVehicleInfo_JD38: ' 机动车委托异地年审现场办理',
+          createVehicleInfo_JD38: '机动车委托异地年审现场办理',
           createVehicleInfo_JD41: '转出、注销恢复',
           createDriveInfo_ZJ10: '满分学习考试',
           createDriveInfo_ZJ11: '持军队、武装警察部队机动车驾驶证申领',
@@ -245,13 +245,19 @@ export default {
           createVehicleInfo_JD06: '换领机动车登记证书',
           createVehicleInfo_JD02: '补换机动车号牌',
           createVehicleInfo_JD36: '机动车变更登记（套牌车换证）',
-          createVehicleInfo_JD13: ' 申领/补领机动车登记证书',
+          createVehicleInfo_JD13: '申领/补领机动车登记证书',
           createVehicleInfo_JD15: '转移登记（市内过户）',
           createVehicleInfo_JD18: '机动车注销登记',
           createVehicleInfo_JD17: '机动车注册登记',
           createVehicleInfo_JD35: '机动车变更登记（夫妻变更）',
           createVehicleInfo_JD19: '机动车转移登记（转入）',
-          createVehicleInfo_JD24: '机动车变更登记（普通变更）'
+          createVehicleInfo_JD24: '机动车变更登记（普通变更）',
+          createVehicleInfo_JD01: '补换机动车行驶证',
+          createVehicleInfo_JD29: '机动车打刻原车辆识别代号变更备案',
+          createVehicleInfo_JD28: '机动车打刻原车发动机号码变更备案',
+          createVehicleInfo_JD33: '档案更正',
+          createVehicleInfo_JD48: '网约车使用性质变更',
+          createVehicleInfo_JD30: '补换检验合格标志'
         }
       }
     }

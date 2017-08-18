@@ -62,6 +62,7 @@ if (/MicroMessenger/i.test(ua)) {
 }
 
 function wxConfig() {
+  // resultGetNoLoading(`http://testjava.chudaokeji.com/h5/sdkConfig.html?url=${data.hostUrl}`).then((r) => { // 测试环境
   resultGetNoLoading(`http://gzh.stc.gov.cn/api/h5/sdkConfig.html?url=${data.hostUrl}`).then((r) => { // 交警环境
     if (r.code == '0000') {
       var res = r.data;

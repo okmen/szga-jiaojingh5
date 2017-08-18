@@ -21,9 +21,6 @@
   </div>
 </template>
 <script>
-import { resultPost } from '../../../service/getData'
-import { MessageBox } from 'mint-ui'
-import { toQueryElectronicReceiptPage } from '../../../config/baseUrl'
 export default {
   name: 'digitalReceiptRecord',
   data () {
@@ -45,29 +42,12 @@ export default {
     }
   },
   mounted () {
-    this.arr = this.$route.query.answererror
-    // 粤BU8E61
-    let digitalReceiptData = {
-      drivingLicenceNo: this.arr.identityCard || '',
-      licensePlateNo: this.arr.myNumberPlate,
-      billNo: ''
-    }
-    resultPost(toQueryElectronicReceiptPage, digitalReceiptData).then(json => {
-      if (json.code === '0000') {
-        this.digitData = json.data
-      } else {
-        MessageBox({
-          title: '提示',
-          message: json.msg
-        }).then(action => {
-          this.$router.go(-1)
-        })
-      }
-    })
+    this.digitData = JSON.parse(this.$route.query.answererror)
   },
   methods: {
     clickFn: function (index) {
-      this.$router.push({path: 'digitalReceipt', query: {answererror: this.digitData[index]}})
+      console.log(this.digitData)
+      this.$router.push({path: 'digitalReceipt', query: {answererror: JSON.stringify(this.digitData[index])}})
     }
   }
 }
@@ -76,6 +56,7 @@ export default {
 <style lang="less" scoped>
 #digRecord{
   background: #fff;
+  overflow: hidden;
   .digRecord-top{
     width: 100%;
     line-height: 86px;

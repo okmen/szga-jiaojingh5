@@ -12,17 +12,17 @@
           <span>{{digitData.paymentor}}</span>
         </li>
         <li>
-          <span>时间:</span>
+          <span>缴款时间:</span>
           <span>{{digitData.writeOffDate}}</span>
         </li>
         <li>
           <span>执收单位名称:</span>
           <span>{{digitData.companyName}}</span>
         </li>
-        <li>
+    <!--     <li>
           <span>执收项目编码:</span>
           <span>{{digitData.projectNo}}</span>
-        </li>
+        </li> -->
         <li v-if="digitData.payWay == 'NETBANK'">
           <span>缴款方式:</span>
           <span>网银支付</span>
@@ -36,12 +36,12 @@
           <span>支付宝钱包</span>
         </li>
         <li>
-          <span>收费金额:</span>
-          <span>{{digitData.amt}}</span>
+          <span>罚款金额:</span>
+          <span>{{digitData.amt}} 元</span>
         </li>
         <li>
           <span>合计:</span>
-          <span>{{digitData.amt}}</span>
+          <span>{{digitData.amt}} 元</span>
         </li>
       </ul>
       <!-- <ul class="digital-time">
@@ -56,7 +56,7 @@
            1、本回执不作为报销凭证。若您需打印缴款收据，可持本回执到深圳市平安银行任一网点进行打印。
         </p>
         <p>
-          2、深圳市平安银行网点查询<a class="dig-a" href="http://bank.pingan.com/geren/fuwuwangdian/map.shtml">http://bank.pingan.com/geren/fuwuwangdian/map.shtml</a>
+          2、深圳市平安银行网点查询：<a href="http://bank.pingan.com/geren/fuwuwangdian/map.shtml">http://bank.pingan.com/geren/fuwuwangdian/map.shtml</a>
         </p>
       </div>
     </div>
@@ -95,7 +95,7 @@ export default {
     }
   },
   mounted () {
-    let answererror = this.$route.query.answererror   // 获取数据
+    let answererror = JSON.parse(this.$route.query.answererror)  // 获取数据
     this.digitData = answererror
   }
 }
@@ -165,9 +165,14 @@ export default {
           font-size: 26px;
           line-height: 40px;
           color: #8a8a8a;
-/*          .dig-a{
-            display: inline-block;
-          }*/
+          word-wrap:break-word;
+          white-space: normal;
+          word-break: break-all;
+          a{
+            color: #a7d9f9;
+            word-wrap:break-word;
+            white-space: normal;
+          }
         }
       }
     }
