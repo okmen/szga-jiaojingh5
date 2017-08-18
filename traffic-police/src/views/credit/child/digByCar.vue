@@ -1,94 +1,126 @@
 <template>
-  <div id="digByCar-outer">
-    <div class="digByCar-carArr">
-      <div v-for="item in cars">
-        <div class="digByCar-self" v-if="item.isMySelf == '0'" @click="getLawlessData(item)">{{ item.myNumberPlate }} <span>本人</span></div>
-        <div class="digByCar-others" v-else  @click="getLawlessData(item)">{{ item.myNumberPlate }} <span>他人</span></div>
+  <div class="confirmLawless-outer">
+    <div class="confirm-item" v-for="car in cars">
+      <div @click="getLawlessData(car)">
+        <div class="car-number">
+          <i class="car-icon"></i>
+          {{ car.myNumberPlate }}
+          <span class="myself" v-if="car.isMySelf == '0'">本人</span>
+          <span class="others" v-else>他人</span>
+        </div>
+        <div class="item-arrow"></div>
       </div>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
-import { MessageBox } from 'mint-ui'
-export default {
-  name: 'digByCar',
-  data () {
-    return {
-      cars: []
-    }
-  },
-  mounted () {
-    this.cars = JSON.parse(window.localStorage.getItem('cars'))
-    this.isLogin = window.localStorage.getItem('isLogin')
-    // 判断是否登录！没有登录直接跳转其他电子回单页面
-    if (!this.isLogin) {
-      this.$router.push('/login')
-    } else if (this.cars.length === 0) {
-      MessageBox({
-        title: '提示',
-        message: '未查到绑定车辆！请绑定车辆'
-      }).then(action => {
-        this.$router.push('/personalCenter')
-      })
-    }
-  },
-  methods: {
-    getLawlessData: function (item) {
-      console.log(item)
-      this.$router.push({path: 'digitalReceiptRecord', query: {answererror: item}})
+  import { resultPost } from '../../../service/getData'
+  import { MessageBox } from 'mint-ui'
+  import { toQueryElectronicReceiptPage } from '../../../config/baseUrl'
+  export default {
+    name: 'confirm',
+    data () {
+      return {
+        cars: []
+      }
+    },
+    mounted () {
+      this.cars = JSON.parse(window.localStorage.getItem('cars'))
+      this.isLogin = window.localStorage.getItem('isLogin')
+      // 判断是否登录和绑定车辆！没有登录直接跳转登录,没有绑定车辆直接跳转绑定车辆
+      if (!this.isLogin) {
+        this.$router.push('/login')
+      } else if (this.cars.length === 0) {
+        MessageBox({
+          title: '提示',
+          message: '未查到绑定车辆！请绑定车辆'
+        }).then(action => {
+          this.$router.push('/personalCenter')
+        })
+      }
+    },
+    methods: {
+      getLawlessData: function (obj) {
+        console.log(obj)
+        let digitalReceiptData = {
+          drivingLicenceNo: obj.identityCard || '',
+          licensePlateNo: obj.myNumberPlate,
+          billNo: ''
+        }
+        resultPost(toQueryElectronicReceiptPage, digitalReceiptData).then(json => {
+          if (json.code === '0000') {
+            this.digitData = json.data
+            this.$router.push({path: 'digitalReceiptRecord', query: {answererror: JSON.stringify(this.digitData)}})
+          } else {
+            MessageBox({
+              title: '提示',
+              message: json.msg
+            })
+          }
+        })
+      }
     }
   }
-}
 </script>
-<style lang="less" scoped>
-  #digByCar-outer{
-    padding: 30px 30px 0 ;
-    .digByCar-carArr{
-      .digByCar-self{
-        border: 2px solid #2696dd;
-        border-radius: 6Px;
-        height: 104px;
+<style lang="less">
+  .confirmLawless-outer {
+    padding: 40px 40px;
+    .confirm-item {
+      display: block;
+      position: relative;
+      padding-left: 40px;
+      width: 100%;
+      border: 2px solid #2696dd;
+      border-radius: 16px;
+      margin-bottom: 40px;
+      .car-number {
+        height: 100px;
+        line-height: 100px;
         color: #2696dd;
-        font-size: 40px;
-        text-align: center;
-        margin-bottom: 20px;
-        span{
-          font-size: 40px;
-          color: #2696dd;
-          line-height: 100px;
+        font-weight: bold;
+        .car-icon {
+          background-image: url("../../../images/car1.png");
+          background-size: cover;
+          display: inline-block;
+          width: 52px;
+          height: 40px;
+          vertical-align: -8px;
+        }
+        span {
+          vertical-align: 4px;
+          padding: 0 10px;
+          height: 20px;
+          color: #fff;
+          font-size: 0.7rem;
+          border-radius: 20px;
+          &.myself {
+            background-color: #2696dd;
+          }
+          &.others {
+            background-color: #ffbe00;
+          }
         }
       }
-      .digByCar-others{
-        border: 2px solid green;
-        border-radius: 6Px;
-        height: 104px;
-        color: green;
-        font-size: 40px;
-        text-align: center;
-        margin-bottom: 20px;
-        span{
-          font-size: 40px;
-          color: green;
-          line-height: 100px;
+      .item-bottom {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 28px;
+        i {
+          color: red;
         }
       }
-    }
-    .digByCar-btn{
-      padding: 20px 30px 20px;
-      a{
-        display: block;
-        height: 80px;
-        line-height: 80px;
-        background-color: #2696dd;
-        color: #fff;
-        font-size: 32px;
-        text-align: center;
-        border-radius: 10Px;
-        margin-bottom: 20px;
+      .item-arrow {
+        background-image: url("../../../images/arrow_blue.png");
+        background-repeat:no-repeat;
+        background-size: contain;
+        width: 28px;
+        height: 52px;
+        position: absolute;
+        right:20px;
+        top:50%;
+        margin-top: -26px;
       }
     }
   }
 </style>
-
-
