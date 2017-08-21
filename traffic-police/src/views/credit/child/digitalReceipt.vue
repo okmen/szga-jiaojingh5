@@ -44,16 +44,10 @@
           <span>{{digitData.amt}} 元</span>
         </li>
       </ul>
-      <!-- <ul class="digital-time">
-        <li>处理进度</li>
-        <li v-for="item in scheduleData">
-          <span>{{item.schedule}}</span><span>{{item.time}}</span>
-        </li>
-      </ul> -->
       <div class="digit">
         <h2>温馨提示:</h2>
         <p>
-           1、本回执不作为报销凭证。若您需打印缴款收据，可持本回执到深圳市平安银行任一网点进行打印。
+           1、本回执不作为报销凭证。若您需打印缴款收据,可持本回执到深圳市平安银行任一网点进行打印。
         </p>
         <p>
           2、深圳市平安银行网点查询：<a href="http://bank.pingan.com/geren/fuwuwangdian/map.shtml">http://bank.pingan.com/geren/fuwuwangdian/map.shtml</a>
@@ -69,29 +63,7 @@ export default {
   name: 'digitalReceipt',
   data () {
     return {
-      digitData: [],
-      scheduleData: [
-        {
-          schedule: '付款成功',
-          time: '08-02 18:20'
-        },
-        {
-          schedule: '银行处理中',
-          time: '08-02 18:20'
-        },
-        {
-          schedule: '到账成功',
-          time: '08-02 18:20'
-        },
-        {
-          schedule: '违法核销中',
-          time: '08-02 18:20'
-        },
-        {
-          schedule: '核销成功',
-          time: '08-02 18:20'
-        }
-      ]
+      digitData: []
     }
   },
   mounted () {
@@ -112,7 +84,7 @@ export default {
         li{
           color: #000000;
           padding-left: 34px;
-          font: 100 26px/56px '';
+          font-size: 30px;
           line-height: 56px;
         }
         .dig-red{
@@ -120,31 +92,7 @@ export default {
         }
       }
       li:first-of-type{
-        color: #2595dd;
-        padding-left: 0;
-        text-align: center;
-        font-size: 32px;
-        font-weight: bold;
-        line-height: 70px;
-        border-bottom: 1px solid #a7d9f9;
-      }
-      .digital-time{
-        width: 100%;
-        border: 1px solid #a7d9f9;
-        margin-top: 20px;
-        li{
-          color: #000000;
-          padding-left: 34px;
-          font: 100 26px/56px '';
-          line-height: 56px;
-          overflow: hidden;
-          span:nth-of-type(2){
-            float: right;
-            padding-right: 28px;
-          }
-        }
-      }
-      li:first-of-type{
+        margin-top: 10px;
         color: #2595dd;
         padding-left: 0;
         text-align: center;
@@ -157,14 +105,14 @@ export default {
         width: 96%;
         margin: 40px auto;
         h2{
-          color: #8a8a8a;
-          font-size: 26px;
+          color: #444;
+          font-size: 28px;
           line-height: 32px;
         }
         p{
-          font-size: 26px;
-          line-height: 40px;
-          color: #8a8a8a;
+          font-size: 28px;
+          line-height: 46px;
+          color: #444;
           word-wrap:break-word;
           white-space: normal;
           word-break: break-all;
