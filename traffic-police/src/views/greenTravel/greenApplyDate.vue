@@ -20,6 +20,7 @@
       ></vue-calendar>
     </div>
     <ul class="list">
+      <li><span class="white"></span>白色表示可申报停驶日期</li>
       <li><span class="green"></span>绿色表示申报停驶日期</li>
       <li><span class="gray"></span>灰色表示节假日或已过期日期，不可进行申报停驶</li>
       <li><span class="yellow"></span>黄色表示申报停驶日期已过期</li>

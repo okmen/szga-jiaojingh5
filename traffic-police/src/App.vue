@@ -54,29 +54,29 @@
         <dd>随手拍举报</dd>
         </router-link>
       </dl>
-      <!-- <dl>
+      <dl>
         <router-link to="/feePayment">
         <dt><img class="top4" src="./images/nav4.png" alt=""></dt>
           <dd>车管规费缴纳</dd>
         </router-link>
-      </dl> -->
-      <dl>
+      </dl>
+      <!-- <dl>
         <a :href="'http://gzh.stc.gov.cn/szjjpro/Business/HomePage/feePayment/'+openId">
           <dt><img class="top4" src="./images/nav4.png" alt=""></dt>
           <dd>车管规费缴纳</dd>
         </a>
-      </dl>
+      </dl> -->
     </div>
     <div class="home-nav-bottom">
       <dl>
-        <a :href="'http://gzh.stc.gov.cn/szjjpro/Business/HomePage/appointList/'+openId">
+        <!-- <a :href="'http://gzh.stc.gov.cn/szjjpro/Business/HomePage/appointList/'+openId">
         <dt><img class="top5" src="./images/nav5.png" alt=""></dt>
         <dd>预约类服务</dd>
-        </a>
-        <!-- <router-link to="/precontractType">
+        </a> -->
+        <router-link to="/precontractType">
         <dt><img class="top5" src="./images/nav5.png" alt=""></dt>
         <dd>预约类服务</dd>
-        </router-link> -->
+        </router-link>
       </dl>
       <dl>
         <router-link to="/dealService">
@@ -118,18 +118,30 @@
         <dd>轻微事故远程<br/>处理中心</dd>
         </a>
       </dl>
-      <dl>
+      <!-- <dl>
         <a :href="'http://gzh.stc.gov.cn/szjjpro/index.php/Business/Member/unlogin/selfbook/'+openId">
         <dt><img class="top6" src="./images/nav12.png" alt=""></dt>
         <dd>自主考试</dd>
         </a>
-      </dl>
-      <!-- <dl>
+      </dl> -->
+      <dl>
         <router-link :to="!isLogin ? '/login' : '/greenTravel/greenApply'">
         <dt><img class="top11" src="./images/green-logo.png" alt=""></dt>
         <dd>绿色出行</dd>
         </router-link>
-      </dl> -->
+      </dl>
+      <dl>
+        <router-link :to="!isLogin ? '/login' : '/digByCar'">
+        <dt><img class="top5" src="./images/nav13.png" alt=""></dt>
+        <dd>电子回执</dd>
+        </router-link>
+      </dl>
+      <dl>
+        <router-link :to="!isLogin ? '/login' : '/illegalParking'">
+        <dt><img class="top5" src="./images/nav14.png" alt=""></dt>
+        <dd>违停免罚 </dd>
+        </router-link>
+      </dl>
     </div>
   </div>
   <mt-swipe :show-indicators="false" id="advertisement-box" :auto="4500" :speed="1500">
@@ -473,10 +485,9 @@ export default {
   }
 }
 #advertisement-box{
-  position: fixed;
-  bottom: 0;
   width: 100%;
   height: 117px;
+  margin-top: 30px;
   a{
     width: 100%;
     height: 100%;

@@ -83,16 +83,17 @@ export default {
           window.localStorage.setItem('userName', decodeURIComponent(userData.trueName)) // 用户名字
           window.localStorage.setItem('cars', userCars)   // 名下车牌信息
           window.localStorage.setItem('isLogin', true) // 是否登录
-          let data1 = reqData.password
-          let key = window.CryptoJS.enc.Latin1.parse('1234567812345678')
-          let iv = window.CryptoJS.enc.Latin1.parse('1234567812345678')
+          // let data1 = reqData.password
+          // let key = window.CryptoJS.enc.Latin1.parse('1234567812345678')
+          // let iv = window.CryptoJS.enc.Latin1.parse('1234567812345678')
 
           // 加密
-          let encrypted = window.CryptoJS.AES.encrypt(data1, key, {iv: iv, mode: window.CryptoJS.mode.CBC, padding: window.CryptoJS.pad.ZeroPadding})
-          console.log(encrypted.toString())
+          // let encrypted = window.CryptoJS.AES.encrypt(data1, key, {iv: iv, mode: window.CryptoJS.mode.CBC, padding: window.CryptoJS.pad.ZeroPadding})
+          // console.log(encrypted.toString())
           // 正式
-          window.location.href = `http://gzh.stc.gov.cn/szjjpro/member/loginfornew?username=${reqData.loginName}&password=${encodeURIComponent(encrypted.toString())}&openID=${reqData.openId}`
+          // window.location.href = `http://gzh.stc.gov.cn/szjjpro/member/loginfornew?username=${reqData.loginName}&password=${encodeURIComponent(encrypted.toString())}&openID=${reqData.openId}`
           // this.$router.go(-1)
+          window.history.go(-1)
         } else {
           Toast({
             message: data.msg,
@@ -104,6 +105,7 @@ export default {
     }
   },
   mounted () {
+    console.log(this.$router)
     // this.$toast('Hello Wold!!!!', 'middle')
     Indicator.close()
     let ua = window.navigator.userAgent // 浏览器版本
