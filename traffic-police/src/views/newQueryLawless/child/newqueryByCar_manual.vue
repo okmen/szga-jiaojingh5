@@ -56,7 +56,7 @@
               <input v-model="mobilephone" class="text-input" type="text" name="" value="" placeholder="请输入手机号码">
             </div>
           </li> -->
-          <li class="queryByCar-hbs-item clear">
+          <li class="queryByCar-hbs-item clear" v-if="codeIfShow">
             <div class="queryByCar-hbs-name">
               <span>验证码</span>
             </div>
@@ -68,7 +68,7 @@
         </ul>
       </div>
       <button class="btn" type="button" name="button" @click.stop="queryLawlessByCar()">查询</button>
-      <router-link class="btn btn-light-green" to="newqueryByCard">驾驶证查询</router-link>
+      <router-link class="btn btn-light-green" to="newqueryByCard" v-if="codeIfShow">驾驶证查询</router-link>
       <div class="hint">
         <p>温馨提示：可查粤B牌车全国的违法及外地车深圳的违法</p>
       </div>
