@@ -182,6 +182,14 @@ export default {
         return false
       }
 
+      if (!(/^[a-z0-9]{1,40}$/gi.test(this.ticketNo))) {
+        Toast({
+          message: '违停告知书号格式错误',
+          duration: 2000
+        })
+        return false
+      }
+
       if (!this.checked) {
         Toast({
           message: '请确认阅读并同意违停免罚须知',
