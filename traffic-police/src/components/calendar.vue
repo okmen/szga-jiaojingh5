@@ -34,7 +34,7 @@
               <div @click="pickDays(item.state)" class="box-out">
                 <div class="box-int">
                   <span>{{ item.day }}</span>
-                  <span v-show="item.state.act !== 0" v-html="item.state.text"></span>
+                  <span v-show="item.state.act !== 0 || item.state.state === '2' || item.state.state === '3'" v-html="item.state.text"></span>
                 </div>
               </div>
             </td>
@@ -176,14 +176,14 @@ export default {
     },
     pickDays (date) {
       console.log(date)
-      if (date.act === 0 || date.state === '8') {
+      if (date.act === 0 && date.state !== '2' && date.state !== '3' || date.state === '8') {
         Toast({
           message: '该时间段不能选择',
           position: 'middle',
           duration: 2000
         })
         return false
-      } else if (date.act === 1 && date.state !== '8') {
+      } else if (date.state === '2' || date.state === '3') {
         resultPost(getGreenDays, {
           hphm: this.carInfo.hphm,
           hpzl: this.carInfo.hpzl,
@@ -208,7 +208,7 @@ export default {
           }
         })
         return false
-      } else {
+      } else if (date.act === 2) {
         // 如果日期是可申请的
         if (date.state === '0') {
           // 如果日期已选择则删除日期
@@ -237,6 +237,9 @@ export default {
     },
     isYellow (date) {
       let item = date
+      if (item.act === 0 && (item.state === '2' || item.state === '3')) {
+        return true
+      }
       if (item.act === 1 && item.state !== '8') {
         return true
       } else if (item.act === 2 && (item.state === '2' || item.state === '3')) {
@@ -434,12 +437,12 @@ export default {
 }
 
 .dp-table .dp-yellow .box-out {
-  background: #f1dd33;
+  background: #f1dd33 !important;
   color: #fff !important;
   border: 1px solid transparent;
 }
 .dp-table .dp-red .box-out {
-  background: #900;
+  background: #900 !important;
   color: #fff !important;
   border: 1px solid transparent;
 }
@@ -452,7 +455,7 @@ export default {
   color: #333;
   border: 1px solid transparent;
 }
-.dp-table .dp-overdue .box-out span{ color: #333; }
+.dp-table .box-out span{ color: #333; }
 .dp-header {
   position: relative;
   text-align: center;
