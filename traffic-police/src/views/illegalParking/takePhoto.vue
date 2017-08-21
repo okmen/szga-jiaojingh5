@@ -114,11 +114,11 @@ export default {
         IDcard: window.localStorage.getItem('identityCard') || '', // 星级用户身份证
         parkingSpot: this.illegalData.parkingAddr, // 停车地点
         parkingReason: '', // 停车原因
-        scenePhoto: this.imgs[1], // 车身45度
-        scenePhoto1: this.imgs[2], // 车头正面
-        scenePhoto2: this.imgs[3], // 驾离后照片
+        scenePhoto: this.imgs[1].split(',')[1], // 车身45度
+        scenePhoto1: this.imgs[2].split(',')[1], // 车头正面
+        scenePhoto2: this.imgs[3].split(',')[1], // 驾离后照片
         scenePhoto3: '',
-        stopNoticePhoto: this.imgs[0], // 停车告知单
+        stopNoticePhoto: this.imgs[0].split(',')[1], // 停车告知单
         stopNoticeNumber: this.illegalData.ticketNo // 违停告知书号
       }
       for (let key in reqData) {

@@ -50,7 +50,7 @@
           <span>驾驶人</span>
         </div>
         <div class="illegalParking-input">
-          <input type="text" class="text-input" v-model="driver" placeholder="请输入驾驶人姓名">
+          <input type="text" class="text-input" readonly v-model="driver" placeholder="请输入驾驶人姓名">
         </div>
       </li>
       <li class="illegalParking-item pad-left-210">
@@ -249,6 +249,7 @@ export default {
       this.$router.push('/login')
       return false
     }
+    this.driver = window.localStorage.getItem('userName')
     this.getFormatTime()
     this.getUserInfo()
   },
