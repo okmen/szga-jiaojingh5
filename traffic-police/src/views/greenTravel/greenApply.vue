@@ -47,7 +47,7 @@
 
 <script>
 import { Input, Select, Option, Button, Checkbox } from 'element-ui'
-import { Toast } from 'mint-ui'
+import { Toast, MessageBox } from 'mint-ui'
 export default {
   components: {
     'el-input': Input,
@@ -92,6 +92,14 @@ export default {
     },
     // 提交表单
     submit () {
+      let cars = JSON.parse(window.localStorage.cars) || []
+      if (cars.length === 0) {
+        Toast({
+          message: '暂无车辆,你可以通过深圳交警微信号的“个人中心”绑定车辆',
+          position: 'bottom'
+        })
+        return false
+      }
       if (!this.form.car.includes('粤B')) {
         Toast({
           message: '只允许粤B小型汽车申请',
@@ -111,6 +119,11 @@ export default {
       this.$router.push({
         name: 'login'
       })
+    }
+    // 没有车辆跳转
+    let cars = JSON.parse(window.localStorage.cars) || []
+    if (cars.length === 0) {
+      MessageBox('提示', '暂无车辆,你可以通过深圳交警微信号的“个人中心”绑定车辆')
     }
   }
 }
