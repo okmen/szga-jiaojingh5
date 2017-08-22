@@ -92,8 +92,9 @@ export default {
           // console.log(encrypted.toString())
           // 正式
           // window.location.href = `http://gzh.stc.gov.cn/szjjpro/member/loginfornew?username=${reqData.loginName}&password=${encodeURIComponent(encrypted.toString())}&openID=${reqData.openId}`
-          // this.$router.go(-1)
-          window.history.go(-1)
+          let {path, query, params} = Object.assign({}, this.$router.from)
+          this.$router.replace({path, query, params})
+          // window.history.go(-1)
         } else {
           Toast({
             message: data.msg,
