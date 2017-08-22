@@ -18,7 +18,11 @@ let homeRouter = [
     meta: {
       title: '登录'
     },
-    component: require('../views/login/login_dealService.vue')
+    component: require('../views/login/login_dealService.vue'),
+    beforeEnter: (to, from, next) => {
+      router.from = from
+      next()
+    }
   },
   // {
   //   name: 'loginIcp',
