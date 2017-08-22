@@ -372,10 +372,8 @@
           if (data.code === '0000') {
             let dataInfo = {
               type: 1,
-              textObj: {
-                businessType: '违停免罚',
-                subscribeNo: data.data
-              }
+              businessType: '违停免罚',
+              subscribeNo: data.data
             }
             this.$store.commit('saveSuccessInfo', dataInfo)
             this.$router.push('/submitSuccess')
