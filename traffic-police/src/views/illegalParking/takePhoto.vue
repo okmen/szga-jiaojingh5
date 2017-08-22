@@ -187,10 +187,8 @@ export default {
         if (obj.code === '0000') {
           let dataInfo = {
             type: 1,
-            textObj: {
-              businessType: '违停免罚',
-              subscribeNo: obj.data
-            }
+            businessType: '违停免罚',
+            subscribeNo: obj.data
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccess')

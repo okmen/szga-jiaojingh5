@@ -24,8 +24,8 @@
  </div>
 </template>
 <script>
-// import { resultPost } from '../service/getData'
-// import { userAgreement } from '../config/baseUrl'
+import { resultPost } from '../service/getData'
+import { getBusinessTypes } from '../config/baseUrl'
 import { Toast } from 'mint-ui'
 export default {
   name: 'userAgreement',
@@ -52,16 +52,37 @@ export default {
     console.log(this.$route.query)
     if (JSON.stringify(this.$route.query) !== '{}') {
       this.routerQuery = this.$route.query
-      if (this.$route.query.type === 'card') {
-        this.menuJson = JSON.parse(window.sessionStorage.card)[this.routerQuery.index]
-      } else {
-        this.menuJson = JSON.parse(window.sessionStorage.car)[this.routerQuery.index]
-      }
-      this.userAgreementCon = this.menuJson.description
-      this.getNoticeTitle = this.menuJson.name
+      this.routerQuery.type === 'card' ? this.getData(0) : this.getData(1)
     }
   },
   methods: {
+    getData: function (type) {
+      if (type === 0 && window.sessionStorage.card) {
+        this.menuJson = JSON.parse(window.sessionStorage.card)[this.routerQuery.index]
+        this.userAgreementCon = this.menuJson.description
+        this.getNoticeTitle = this.menuJson.name
+        return this.getNoticeTitle
+      } else if (type === 1 && window.sessionStorage.car) {
+        this.menuJson = JSON.parse(window.sessionStorage.car)[this.routerQuery.index]
+        this.userAgreementCon = this.menuJson.description
+        this.getNoticeTitle = this.menuJson.name
+        return this.getNoticeTitle
+      }
+      resultPost(getBusinessTypes, {type}).then(obj => {
+        if (obj.code === '0000') {
+          if (type === 0) {
+            window.sessionStorage.setItem('card', JSON.stringify(obj.data))
+          } else {
+            window.sessionStorage.setItem('car', JSON.stringify(obj.data))
+          }
+          this.menuJson = obj.data[this.routerQuery.index]
+          this.userAgreementCon = this.menuJson.description
+          this.getNoticeTitle = this.menuJson.name
+        } else {
+          Toast(obj.msg)
+        }
+      })
+    },
     btnAgreeRequest: function () {
       if (this.checked === true) {
         let queryJson = { code: this.menuJson.code, id: this.menuJson.id, name: this.menuJson.name }
