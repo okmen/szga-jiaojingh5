@@ -88,7 +88,8 @@ export default {
         color: #666666;
       }
       p:nth-of-type(3){
-        padding-left: 204px;
+        /*padding-left: 204px;*/
+        text-align: center;
         font-size: 34px;
         font-weight: bold;
         line-height: 90px;

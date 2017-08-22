@@ -22,6 +22,9 @@
     <div class="query-link">
       <router-link :to="isLogin ? getHash('/userAgreement/jszzyjj') : 'login'">驾驶证自愿降级</router-link>
     </div>
+    <div class="query-link">
+      <a :href="'http://gzh.stc.gov.cn/szjjpro/index.php/Business/Member/unlogin/selfbook/'+openId">自主考试</a>
+    </div>
   </div>
 </template>
 <script>
