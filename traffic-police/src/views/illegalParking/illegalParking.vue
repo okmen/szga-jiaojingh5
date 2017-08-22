@@ -28,12 +28,13 @@
           <span>车牌类型</span>
         </div>
         <div class="div-select">
-          <span class="btn-select" @click.stop="licensePlateTypeSelectClick()">{{ licensePlateTypeStr }}</span>
+          <!-- <span class="btn-select" @click.stop="licensePlateTypeSelectClick()">{{ licensePlateTypeStr }}</span>
           <div class="div-select-ul" v-if="licensePlateTypeSelectShow">
             <ul>
               <li v-for="item in licensePlateTypes" @click.stop = "licensePlateTypeSelectClick(item)">{{item.str}}</li>
             </ul>
-          </div>
+          </div> -->
+          <input type="text" class="text-input" readonly v-model="licensePlateTypeStr">
         </div>
       </li>
       <li class="illegalParking-item">
