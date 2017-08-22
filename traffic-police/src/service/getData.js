@@ -52,6 +52,11 @@ export const resultGet = (url) => {
     return res.json()
   })
 }
+export const resultTextGet = (url) => {
+  return fetch(url).then((res) => {
+    return res.text()
+  })
+}
 
 export const resultGetNoLoading = (url) => {
   return fetch(url).then((res) => {
