@@ -50,7 +50,7 @@
            1、本回执不作为报销凭证。若您需打印缴款收据,可持本回执到深圳市平安银行任一网点进行打印。
         </p>
         <p>
-          2、深圳市平安银行网点查询：<a href="http://bank.pingan.com/geren/fuwuwangdian/map.shtml">http://bank.pingan.com/geren/fuwuwangdian/map.shtml</a>
+          2、深圳市平安银行网点查询：<a href="https://bank.pingan.com.cn/ibp/WAPEBank/thirdParty/outlets/index.html?WT.mc_id=bankwap">https://bank.pingan.com.cn/ibp/WAPEBank/thirdParty/outlets/index.html?WT.mc_id=bankwap</a>
         </p>
       </div>
     </div>
