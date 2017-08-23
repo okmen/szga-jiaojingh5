@@ -11,9 +11,9 @@
           <template v-else>{{itemType[key] + ' :  ' +el}}</template>
         </div>
       </div>
-      <div class="dirver-info-change">
+      <!-- <div class="dirver-info-change">
         修改密码
-      </div>
+      </div> -->
     </div>
     <div v-if="!userInfoList" class="item">暂无司机数据</div>
   </div>

@@ -17,13 +17,29 @@ import newQueryLawlessRouter from 'src/router/newQueryLawless.js' // 违法处�
 
 Vue.use(VueRouter)
 const routes = [
+  // {
+  //   name: 'illegalParking',
+  //   path: '/illegalParking',
+  //   meta: {
+  //     title: '违停免罚'
+  //   },
+  //   component: require('../views/illegalParking/index.vue')
+  // },
   {
     name: 'illegalParking',
     path: '/illegalParking',
     meta: {
       title: '违停免罚'
     },
-    component: require('../views/illegalParking/index.vue')
+    component: require('../views/illegalParking/illegalParking.vue')
+  },
+  {
+    name: 'illegalParking_takePhoto',
+    path: '/illegalParking_takePhoto',
+    meta: {
+      title: '违停免罚'
+    },
+    component: require('../views/illegalParking/takePhoto.vue')
   },
   {
     name: 'Home',

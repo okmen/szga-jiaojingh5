@@ -125,6 +125,11 @@ export default {
     if (cars.length === 0) {
       MessageBox('提示', '暂无车辆,你可以通过深圳交警微信号的“个人中心”绑定车辆')
     }
+    // 名下没有车辆，但是车库里有车
+    if (this.form.car === null && cars.length > 0) {
+      this.selectCars = this.cars[0]
+      this.handleCarChange(this.cars[0])
+    }
   }
 }
 </script>

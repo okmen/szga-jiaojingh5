@@ -421,6 +421,7 @@
       #queryByCar-hbs {
         padding-bottom: 20px;
         .queryByCar-hbs-list {
+          overflow: hidden;
           .queryByCar-hbs-item {
             margin-top: 24px;
             padding-left: 180px;

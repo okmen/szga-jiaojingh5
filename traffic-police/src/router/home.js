@@ -1,3 +1,4 @@
+import router from './index'
 let homeRouter = [
   {
     name: 'login',
@@ -5,7 +6,11 @@ let homeRouter = [
     meta: {
       title: '登录'
     },
-    component: require('../views/login/login.vue')
+    component: require('../views/login/login.vue'),
+    beforeEnter: (to, from, next) => {
+      router.from = from
+      next()
+    }
   },
   {
     name: 'login_dealService',
@@ -13,7 +18,11 @@ let homeRouter = [
     meta: {
       title: '登录'
     },
-    component: require('../views/login/login_dealService.vue')
+    component: require('../views/login/login_dealService.vue'),
+    beforeEnter: (to, from, next) => {
+      router.from = from
+      next()
+    }
   },
   // {
   //   name: 'loginIcp',

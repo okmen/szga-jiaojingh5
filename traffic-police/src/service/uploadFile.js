@@ -35,16 +35,67 @@ const UploadFile = {
 			        imgObj.dateTime = EXIF.getTag(this,'DateTime') || '';
 			        imgObj.GPSLongitude = EXIF.getTag(this,'GPSLongitude') ? transLongAndLat(EXIF.getTag(this,'GPSLongitude')) : '';
 			        imgObj.GPSLatitude = EXIF.getTag(this,'GPSLatitude') ? transLongAndLat(EXIF.getTag(this,'GPSLatitude')) : '' ;
+							imgObj.Orientation = EXIF.getTag(this, 'Orientation') || 1;
 			    });
 				if (window.FileReader) {
-					var fr = new FileReader();  
-		            fr.onload = function(e) {  
+					var fr = new FileReader();
+		            fr.onload = function(e) {
 		                var src = e.target.result;
-		                self.compressImg(src,size,maxHeight,quality,callback);
-		            }  
-		            fr.readAsDataURL(f); 
-			    } 
+										self.rotateImg(src,size,maxHeight,quality,callback);
+		            }
+		            fr.readAsDataURL(f);
+			    }
 			}
+		}
+	},
+	/**
+	 * [description]
+	 * @author {[shirunpei]}
+	 * @date   {[2017-08-22]}
+	 * @param  {[base64]} src [图片base64]
+	 * @return {[base64]}     [旋转后的图片]
+	 */
+	rotateImg: function (src,size,maxHeight,quality,callback) {
+		let self = this
+		if (/iPhone/i.test(window.navigator.userAgent)) {
+			if (!src) return
+			let img = new Image()
+			img.src = src
+			let degree = 0
+			img.onload = function () {
+				let canvas = document.createElement('canvas')
+				let ctx = canvas.getContext('2d')
+				let width = img.width
+				let height = img.height
+				canvas.width = width
+				canvas.height = height
+				switch (imgObj.Orientation) {
+					case 6: // 需要顺时针旋转 90 度
+						canvas.width = height
+					  canvas.height = width
+					  ctx.translate(height, 0)
+						ctx.rotate(1 * 90 * Math.PI / 180)
+						break;
+					case 3: // 需要顺时针旋转 180 度
+						canvas.width = width
+			      canvas.height = height
+			      ctx.translate(width, height)
+						ctx.rotate(2 * 90 * Math.PI / 180)
+						break;
+					case 8: // 需要顺时针旋转 270 度
+						canvas.width = height
+			      canvas.height = width
+			      ctx.translate(0, width)
+						ctx.rotate(3 * 90 * Math.PI / 180)
+						break;
+				}
+				ctx.clearRect(0, 0, canvas.width, canvas.height)
+				ctx.drawImage(img, 0, 0)
+				let newSrc = canvas.toDataURL('image/jpeg', quality)
+				self.compressImg(newSrc,size,maxHeight,quality,callback)
+			}
+		} else {
+			self.compressImg(src,size,maxHeight,quality,callback)
 		}
 	},
 	/**
@@ -79,8 +130,8 @@ const UploadFile = {
 		    }
 
 		    if(img.height > maxHeight) {//按最大高度等比缩放
-				img.width *= maxHeight / img.height; 
-				img.height = maxHeight; 
+				img.width *= maxHeight / img.height;
+				img.height = maxHeight;
 			}
 		    // canvas drawImage 参数
 		    var sx = 0;
