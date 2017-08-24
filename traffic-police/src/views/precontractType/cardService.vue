@@ -44,7 +44,8 @@
         })
       },
       routerLink: function (index) {
-        this.$router.push({name: 'userAgreement_precontract', query: { type: 'card', index: index }})
+        let isWeChat = /_WeChat/g.test(this.$route.name)
+        this.$router.push({name: isWeChat ? 'userAgreement_precontract_WeChat' : 'userAgreement_precontract', query: { type: 'card', index: index }})
       }
     },
     mounted () {
