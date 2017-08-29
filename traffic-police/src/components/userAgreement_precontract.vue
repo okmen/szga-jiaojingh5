@@ -88,7 +88,7 @@ export default {
           }
           for (let i = 0; i < obj.data.length; i++) {
             if (obj.data[i].code === code) {
-              this.menuJson = obj.data[this.routerQuery.index]
+              this.menuJson = obj.data[i]
               this.userAgreementCon = this.menuJson.description
               this.getNoticeTitle = this.menuJson.name
               return this.menuJson.name
