@@ -57,16 +57,27 @@ export default {
   },
   methods: {
     getData: function (type) {
+      let code = this.routerQuery.code
       if (type === 0 && window.sessionStorage.card) {
-        this.menuJson = JSON.parse(window.sessionStorage.card)[this.routerQuery.index]
-        this.userAgreementCon = this.menuJson.description
-        this.getNoticeTitle = this.menuJson.name
-        return this.getNoticeTitle
+        let cards = JSON.parse(window.sessionStorage.card)
+        for (let i = 0; i < cards.length; i++) {
+          if (cards[i].code === code) {
+            this.menuJson = cards[i]
+            this.userAgreementCon = this.menuJson.description
+            this.getNoticeTitle = this.menuJson.name
+            return this.getNoticeTitle
+          }
+        }
       } else if (type === 1 && window.sessionStorage.car) {
-        this.menuJson = JSON.parse(window.sessionStorage.car)[this.routerQuery.index]
-        this.userAgreementCon = this.menuJson.description
-        this.getNoticeTitle = this.menuJson.name
-        return this.getNoticeTitle
+        let cars = JSON.parse(window.sessionStorage.car)
+        for (let i = 0; i < cars.length; i++) {
+          if (cars[i].code === code) {
+            this.menuJson = cars[i]
+            this.userAgreementCon = this.menuJson.description
+            this.getNoticeTitle = this.menuJson.name
+            return this.getNoticeTitle
+          }
+        }
       }
       resultPost(getBusinessTypes, {type}).then(obj => {
         if (obj.code === '0000') {
@@ -75,9 +86,14 @@ export default {
           } else {
             window.sessionStorage.setItem('car', JSON.stringify(obj.data))
           }
-          this.menuJson = obj.data[this.routerQuery.index]
-          this.userAgreementCon = this.menuJson.description
-          this.getNoticeTitle = this.menuJson.name
+          for (let i = 0; i < obj.data.length; i++) {
+            if (obj.data[i].code === code) {
+              this.menuJson = obj.data[this.routerQuery.index]
+              this.userAgreementCon = this.menuJson.description
+              this.getNoticeTitle = this.menuJson.name
+              return this.menuJson.name
+            }
+          }
         } else {
           Toast(obj.msg)
         }
