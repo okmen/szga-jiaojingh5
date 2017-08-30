@@ -1,4 +1,6 @@
 import router from './index'
+
+let loginTo = {}
 let homeRouter = [
   {
     name: 'login',
@@ -8,7 +10,10 @@ let homeRouter = [
     },
     component: require('../views/login/login.vue'),
     beforeEnter: (to, from, next) => {
-      router.from = from
+      if (from.name !== 'findPassword' && from.name !== 'initAuthentication') {
+        loginTo = Object.assign({}, from)
+      }
+      router.from = loginTo
       next()
     }
   },
