@@ -255,7 +255,7 @@ let precontractTypeRouter = [
     name: 'HkLicence',
     path: '/HkLicence',
     meta: {
-      title: '香港机动车驾驶证面试换证'
+      title: '香港机动车驾驶证免试换证'
     },
     component: require('../views/precontractType/card/renewalClass/HkLicence.vue')
   },
