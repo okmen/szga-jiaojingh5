@@ -58,7 +58,7 @@
             }
             if (type === 'click') {
               this.$store.commit('saveNewLawlessQuery', lawlessData)
-              this.$router.push('newLawlessMsg')
+              this.$router.push('newLawlessMsg?type=query')
             }
           } else {
             if (type === 'click') {

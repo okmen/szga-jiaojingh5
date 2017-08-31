@@ -11,7 +11,7 @@
             <!-- <span @click.stop="clickJump(item)">{{ claimList[item.isNeedClaim] }}</span> -->
           </div>
           <div class="newLawlessMsg-item-content">
-            <p class="newLawlessMsg-item-content-No">违法编号：<span>{{ item.billNo }}</span></p>
+            <p class="newLawlessMsg-item-content-No">{{ item.isNeedClaim === '0' ? '缴款编号' : '违法编号' }}：<span>{{ item.billNo }}</span></p>
             <p class="newLawlessMsg-item-content-car">{{ item.licensePlateNo }}</p>
             <p class="newLawlessMsg-item-content-time">{{ item.illegalTime }}</p>
             <p class="newLawlessMsg-item-content-add">{{ item.illegalAddr }}</p>
@@ -19,11 +19,11 @@
             <p class="newLawlessMsg-item-content-amt">{{ item.punishAmt }}</p>
             <p class="newLawlessMsg-item-content-score">{{ item.punishScore }}</p>
             <p class="newLawlessMsg-item-content-unit">{{ item.illegalUnit }}</p>
-            <p class="newLawlessMsg-item-content-text"><span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2}" @click.stop="clickJump(item)">{{ claimList[item.isNeedClaim] }}</span></p>
+            <p class="newLawlessMsg-item-content-text"><span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2, isQuery: $route.query.type === 'query'}" @click.stop="clickJump(item)">{{ claimList[item.isNeedClaim] }}</span></p>
             <div class="newLawlessMsg-item-btn">
-              <button v-if="isBoolean2(item.description)" @click="punishFreeDesc(item.description)">首违免罚</button>
+              <button v-if="item.description && isBoolean2(item.description)" @click="punishFreeDesc(item.description)">首违免罚</button>
               <button v-if="isBoolean(item.licensePlateNo, item.illegalUnit)" @click="hrefFn(item)">违法申诉</button>
-              <button v-if="item.imgQueryCode && isLogin()" @click="illegalImgBtn(item.imgQueryCode)">查看违法图片</button>
+              <!-- <button v-if="item.imgQueryCode && isLogin()" @click="illegalImgBtn(item.imgQueryCode)">查看违法图片</button> -->
             </div>
           </div>
         </li>
@@ -48,15 +48,6 @@
     data () {
       return {
         lawlessArr: [],
-        claimList: {
-          '0': '直接缴款',
-          '1': '需要打单',
-          '2': '需要前往窗口办理',
-          '3': '可使用好易机处理(需持有广东驾驶证)',
-          '4': '使用好易机处理(需持有广东驾驶证)',
-          '5': '违法地处理',
-          '6': '强制措施窗口处理'
-        },
         popupImgShow: false
       }
     },
@@ -64,6 +55,17 @@
       popupImg
     },
     computed: {
+      claimList () {
+        return {
+          '0': '直接缴款',
+          '1': this.$route.query.type === 'query' ? '请去《交通违法在线处理》确认打单' : '需要打单',
+          '2': '需要前往窗口办理',
+          '3': '可使用好易机处理(需持有广东驾驶证)',
+          '4': '使用好易机处理(需持有广东驾驶证)',
+          '5': '违法地处理',
+          '6': '强制措施窗口处理'
+        }
+      },
       lawlessData: function () {
         return this.$store.state.newLawlessQuery
       },
@@ -149,6 +151,10 @@
             }
           })
         } else if (item.isNeedClaim === '1') { // 需要打单
+          if (this.$route.query.type === 'query') {
+            console.log('违法查询页面阻止打单')
+            return false
+          }
           if (!JSON.parse(window.localStorage.isLogin)) {
             MessageBox.confirm('该功能需要登录后才能使用,是否前往登录').then(action => {
               this.$router.push('/login')
@@ -256,6 +262,12 @@
               font-weight: 600;
               text-decoration: underline;
               color: #2696dd;
+            }
+            span.isQuery{
+              text-decoration: none;
+              color: #000;
+              font-weight: normal;
+              font-size: 26px;
             }
           }
           .newLawlessMsg-item-content-No{

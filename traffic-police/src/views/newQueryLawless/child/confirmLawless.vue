@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-  import { queryLawlessByCar } from '../../../config/baseUrl'
+  import { getClaimConfirm } from '../../../config/baseUrl'
   import { resultPost } from '../../../service/getData'
   import { Toast, MessageBox } from 'mint-ui'
   export default {
@@ -39,19 +39,26 @@
           licensePlateType: item.plateType,
           vehicleIdentifyNoLast4: item.behindTheFrame4Digits,
           identityCard: item.identityCard,
-          mobilephone: item.mobilephone
+          sourceOfCertification: 'C',
+          mobilephone: window.localStorage.getItem('mobilePhone')
         }
         console.log(reqData)
-        resultPost(queryLawlessByCar, reqData).then(json => {
+        resultPost(getClaimConfirm, reqData).then(json => {
           if (json.code === '0000') {
             item.lawlessNum = json.data.length
             let lawlessData = {
               info: item,
-              data: json.data
+              // 兼容新接口
+              data: json.data.map(el => {
+                el.billNo = el.billNo || el.illegalNo || ''
+                el.isNeedClaim = el.isNeedClaim || el.dealType || ''
+                el.illegalUnit = el.illegalUnit || el.agency || ''
+                return el
+              })
             }
             if (type === 'click') {
               this.$store.commit('saveNewLawlessQuery', lawlessData)
-              this.$router.push(/_WeChat/g.test(this.$route.name) ? '/newLawlessMsg_WeChat' : '/newLawlessMsg')
+              this.$router.push(/_WeChat/g.test(this.$route.name) ? '/newLawlessMsg_WeChat' : '/newLawlessMsg?type=confirm')
             }
           } else {
             if (type === 'click') {
