@@ -2,15 +2,15 @@
   <div class="dealService-outer">
     <!--Tab切换栏-->
     <div class="nav">
-      <div class="nav-tab" :class="{ 'active': cur_tab == 'car'}" @click="cur_tab = 'car'">机动车业务</div>
-      <div class="nav-tab" :class="{ 'active': cur_tab == 'card'}" @click="cur_tab = 'card'">驾驶证业务</div>
-      <div class="nav-tab" :class="{ 'active': cur_tab == 'progress'}" @click="cur_tab = 'progress'">预约查询及取消</div>
+      <div class="nav-tab" :class="{ 'active': cur_tab == 'car'}" @click="changeTab('car')">机动车业务</div>
+      <div class="nav-tab" :class="{ 'active': cur_tab == 'card'}" @click="changeTab('card')">驾驶证业务</div>
+      <div class="nav-tab" :class="{ 'active': cur_tab == 'progress'}" @click="changeTab('progress')">预约查询及取消</div>
     </div>
     <carService v-if="cur_tab == 'car'"></carService>
     <cardService v-else-if="cur_tab == 'card'"></cardService>
     <queryAndCancel v-else></queryAndCancel>
     <div v-wechat-title="$route.meta.title"></div>
-    <page-bottom v-if="isWeChat"></page-bottom>
+    <page-bottom v-if="isWeChat" :class="{positionBottom: positionBottom}"></page-bottom>
   </div>
 </template>
 <script>
@@ -33,8 +33,23 @@
           card: '驾驶证业务',
           progress: '预约查询及取消'
         },
-        cur_tab: this.$route.params.id === 'progress' ? 'progress' : 'car'
+        cur_tab: 'progress',
+        positionBottom: false
       }
+    },
+    methods: {
+      changeTab: function (str) {
+        this.cur_tab = str
+        this.$nextTick(function () {
+          this.positionBottom = (document.getElementById('app').offsetHeight - document.getElementsByClassName('dealService-outer')[0].offsetHeight) > document.getElementsByClassName('tp-bottom')[0].offsetHeight
+        })
+      }
+    },
+    mounted () {
+      this.cur_tab = this.$route.params.id === 'progress' ? 'progress' : 'car'
+      this.$nextTick(function () {
+        this.positionBottom = (document.getElementById('app').offsetHeight - document.getElementsByClassName('dealService-outer')[0].offsetHeight) > document.getElementsByClassName('tp-bottom')[0].offsetHeight
+      })
     },
     // methods: {
     //   linkToProgress: function () {
@@ -76,6 +91,13 @@
     }
     .tp-bottom{
       margin-top: 28px;
+    }
+    .positionBottom{
+      margin-top: 0;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
     }
   }
 </style>
