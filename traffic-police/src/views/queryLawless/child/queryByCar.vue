@@ -527,8 +527,10 @@
     .queryByCar-from {
       background-color: #fff;
       #queryByCar-hbs {
+        padding-top: 20px;
         padding-bottom: 20px;
         .queryByCar-hbs-list {
+          overflow: inherit !important;
           .queryByCar-hbs-item {
             margin-top: 24px;
             padding-left: 180px;
