@@ -11,7 +11,7 @@
       </ul>
     </div>
     <div class="newQueryByCar-btn">
-      <router-link to="newqueryByCar_manual">其他车辆查询</router-link>
+      <!-- <router-link to="newqueryByCar_manual">其他车辆查询</router-link> -->
       <router-link to="newqueryByCard">驾驶证查询</router-link>
       <div class="newQueryByCar-hint">
         <p>温馨提示：可查粤B牌车全国的违法及外地车深圳的违法</p>
