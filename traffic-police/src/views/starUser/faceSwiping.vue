@@ -185,15 +185,15 @@
       this.sig = this.getHashSig()
       // 如果有返回的token，就尝试拉去实名认证信息
       if (this.$route.query.token && this.$route.query.uid) {
-        window.alert('我进来了')
+        window.alert('刷脸认证成功')
         resultPost(faceautonym, {
           token: this.$route.query.token,
           appid: this.appid
         }).then(data => {
           if (data.code === '0000') {
-            window.localStorage.setItem('isLogin', true) // 是否登录
-            window.localStorage.setItem('identityCard', data.data.ID) // 身份证
-            window.localStorage.setItem('userName', data.data.name) // 用户名字
+            window.localStorage.setItem('isLogin', false) // 是否登录
+           /* window.localStorage.setItem('identityCard', data.data.ID) // 身份证
+            window.localStorage.setItem('userName', data.data.name) // 用户名字 */
             this.$router.push('/')
           }
         })
