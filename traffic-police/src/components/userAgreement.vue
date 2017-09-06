@@ -1,6 +1,6 @@
 <template>
  <div id="takePhotoTipsCom">
-   <pop-up-g v-if="showPopUpG" :title="{name:'请选择认证的方式'}" :buttons="[{title: '微信扫脸快速认证',class:'btn1',methods(){$router.push('/faceSwiping')}},{title: '上传文字资料认证',class:'btn2',methods(){$router.push('/starUser')}}]"></pop-up-g>
+   <!--<pop-up-g v-if="showPopUpG" :title="{name:'请选择认证的方式'}" :buttons="[{title: '微信扫脸快速认证',class:'btn1',methods(){$router.push('/faceSwiping')}},{title: '上传文字资料认证',class:'btn2',methods(){$router.push('/starUser')}}]"></pop-up-g>-->
     <div class="tp-title">
       {{getNoticeTitle}}
     </div>
@@ -95,7 +95,8 @@ export default {
             this.$router.push('/motorstudy#5')
             break
           case 'xjyhrz': // 星级用户认证须知
-            this.showPopUpG = true
+//            this.showPopUpG = true
+            this.$router.push('/starUser')
             break
           case 'aqsgxyb':  // 驾驶人安全事故信用表须知
             this.$router.push('/driverCredit')

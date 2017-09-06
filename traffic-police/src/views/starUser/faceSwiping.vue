@@ -39,6 +39,7 @@
   import { resultPost } from '../../service/getData'
   import {Toast, MessageBox} from 'mint-ui'
   import {isPhone} from 'service/regExp.js'
+  import {faceautonym} from 'config/baseUrl.js'
   import crypto from 'crypto'
   export default {
     name: 'hello',
@@ -52,7 +53,7 @@
         appid: '4435',
         secretkey: '9828577231bdc6d01754e292023cdbb8',
         aeskey: '26cb3f325891d42bec10efdeec9a4f95',
-        redirect: 'http://shualian.rxshc.com/#/',
+        redirect: 'http%3A%2F%2Fgzh.stc.gov.cn%2fapi%2foauth%2fcallback.html',
         signature: null,
         sig: null,
         infoSignature: null,
@@ -159,7 +160,7 @@
       this.sig = this.getHashSig()
       // 如果有返回的token，就尝试拉去实名认证信息
       if (this.$route.query.token && this.$route.query.uid) {
-        resultPost.post('https://iauth-sandbox.wecity.qq.com/new/cgi-bin/getdetectinfo.php', {
+        resultPost.post(faceautonym, {
           token: this.$route.query.token,
           appid: this.appid
         }).then(data => {
