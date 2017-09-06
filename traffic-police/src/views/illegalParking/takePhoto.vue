@@ -176,7 +176,7 @@ export default {
             subscribeNo: obj.data
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
-          this.$router.push('/submitSuccess?tips=wfmt')
+          this.$router.push('/submitSuccess')
         } else {
           MessageBox('提示', obj.msg)
         }

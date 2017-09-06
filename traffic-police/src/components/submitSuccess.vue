@@ -39,7 +39,7 @@
     <!-- 申办成功的内容  -->
     <section class="bid-box appoint-box" v-if="JsonDataInfo.type == 1">
       <h3>申办结果</h3>
-      <p>{{ $route.query.tips ? '您的信息已成功提交，我们将在3个工作日内通过‘深圳交警’告知您审核结果，您也可以通过在星级用户个人中心‘我的业务’查询进度' : tip }}</p>
+      <p>{{ tip }}</p>
       <ul class="bid-ul appoint-margin">
         <li class="bid-item" v-for="(value, key) in JsonDataInfo" v-if="keyListObj[key] && value">
           <span class="bid-item-key">{{ keyListObj[key] }}</span>
