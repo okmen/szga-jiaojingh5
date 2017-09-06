@@ -4,10 +4,10 @@
     <ul class="illegalParking-from">
       <li class="illegalParking-item">
         <div class="illegalParking-hbs-name">
-          <span>时间</span>
+          <span>驾驶人</span>
         </div>
         <div class="illegalParking-input">
-          <input type="text" class="text-input" readonly v-model="formatDate">
+          <input type="text" class="text-input" readonly v-model="driver" placeholder="请输入驾驶人姓名">
         </div>
       </li>
       <li class="illegalParking-item">
@@ -45,22 +45,6 @@
           <input type="text" class="text-input" readonly v-model="parkingAddr" placeholder="点击右侧按钮选择地址">
         </div>
         <div class="illegalParking-location right" @click.stop='getLocation()'></div>
-      </li>
-      <li class="illegalParking-item">
-        <div class="illegalParking-hbs-name">
-          <span>驾驶人</span>
-        </div>
-        <div class="illegalParking-input">
-          <input type="text" class="text-input" readonly v-model="driver" placeholder="请输入驾驶人姓名">
-        </div>
-      </li>
-      <li class="illegalParking-item pad-left-210">
-        <div class="illegalParking-hbs-name">
-          <span>违停告知书号</span>
-        </div>
-        <div class="illegalParking-input">
-          <input type="text" class="text-input" v-model="ticketNo" placeholder="请输入违停告知书号">
-        </div>
       </li>
     </ul>
     <div class="tp-read illegalParking-read">
@@ -170,22 +154,6 @@ export default {
       if (!this.driver) {
         Toast({
           message: '请输入驾驶人姓名',
-          duration: 2000
-        })
-        return false
-      }
-
-      if (!this.ticketNo) {
-        Toast({
-          message: '请输入违停告知书号',
-          duration: 2000
-        })
-        return false
-      }
-
-      if (!(/^[a-z0-9]{1,40}$/gi.test(this.ticketNo))) {
-        Toast({
-          message: '违停告知书号格式错误',
           duration: 2000
         })
         return false
