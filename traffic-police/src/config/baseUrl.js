@@ -12,7 +12,7 @@ export const answer = `${commonUrl}Classroom/Studys.html` // 取题接口
 
 export const grade = `${commonUrl}Classroom/anserEnds.html` // 成绩接口
 
-export const answers = `${commonUrl}Classroom/ Answers.html` // 答题接口
+export const answers = `${commonUrl}Classroom/Answers.html` // 答题接口
 
 export const facility = `${commonUrl}convenience/equipmentDamageReport.html` // 设备损坏通报接口
 

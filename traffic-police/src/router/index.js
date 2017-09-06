@@ -309,6 +309,14 @@ const routes = [
     component: require('../components/formTemplate/index.vue')
   }, */
   {
+    name: 'faceSwiping',
+    path: '/faceSwiping',
+    meta: {
+      name: '星级用户认证'
+    },
+    component: require('../views/starUser/faceSwiping')
+  },
+  {
     name: 'testCardBag',
     path: '/testCardBag',
     meta: {

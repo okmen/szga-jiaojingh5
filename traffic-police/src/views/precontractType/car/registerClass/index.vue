@@ -13,7 +13,6 @@
   .register-class > div {
     margin: 0 40px 30px;
   }
-
   .form-template-item-type {
     border: 2px solid #e5e5e5;
     border-radius: 8px;

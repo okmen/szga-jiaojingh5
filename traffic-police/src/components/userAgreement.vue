@@ -1,5 +1,6 @@
 <template>
  <div id="takePhotoTipsCom">
+   <pop-up-g v-if="showPopUpG" :title="{name:'请选择认证的方式'}" :buttons="[{title: '微信扫脸快速认证',class:'btn1',methods(){$router.push('/faceSwiping')}},{title: '上传文字资料认证',class:'btn2',methods(){$router.push('/starUser')}}]"></pop-up-g>
     <div class="tp-title">
       {{getNoticeTitle}}
     </div>
@@ -24,6 +25,7 @@
  </div>
 </template>
 <script>
+import PopUpG from './popUp_G/popUp_G.vue'
 import { resultPost } from '../service/getData'
 import { userAgreement } from '../config/baseUrl'
 import { Toast } from 'mint-ui'
@@ -35,10 +37,12 @@ export default {
     }
   },
   components: {
-    'pageBottom': require('../components/pageBottom.vue')
+    'pageBottom': require('../components/pageBottom.vue'),
+    PopUpG
   },
   data () {
     return {
+      showPopUpG: false,
       userAgreementCon: '',
       getNoticeTitle: '',
       checked: '',
@@ -91,7 +95,7 @@ export default {
             this.$router.push('/motorstudy#5')
             break
           case 'xjyhrz': // 星级用户认证须知
-            this.$router.push('/starUser')
+            this.showPopUpG = true
             break
           case 'aqsgxyb':  // 驾驶人安全事故信用表须知
             this.$router.push('/driverCredit')
