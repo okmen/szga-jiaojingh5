@@ -1,7 +1,7 @@
 <template>
   <div class="face-swiping ">
     <!-- 认证必须使用 表单 发起认证 -->
-    <form action="https://iauth-sandbox.wecity.qq.com/new/cgi-bin/auth.php" method="post" class="form-template">
+    <form ref="formFace" action="https://iauth-sandbox.wecity.qq.com/new/cgi-bin/auth.php" method="post" class="form-template">
       <div class="self-input form-template-item">
         <span class="form-template-item-left">姓名</span>
         <input type="text" placeholder="请输入姓名"  name="name"  class="form-template-item-right" v-model="userName">
@@ -30,7 +30,7 @@
       <!--<input type="hidden" name="ID" value="362429199112305319">-->
       <!--<input type="hidden" name="name" value="朱乐义">-->
       <input type="hidden" name="sig" :value="sig">
-      <button type="submit" class="btn">进去扫脸</button>
+      <div  class="btn" @click="sweepInto">进入扫脸</div>
     </form>
   </div>
 </template>
@@ -39,12 +39,13 @@
   import { resultPost } from '../../service/getData'
   import {Toast, MessageBox} from 'mint-ui'
   import {isPhone} from 'service/regExp.js'
-  import {faceautonym} from 'config/baseUrl.js'
+  import {faceautonym, sendSMS, verificatioCode} from 'config/baseUrl.js'
   import crypto from 'crypto'
   export default {
     name: 'hello',
     data () {
       return {
+        countDown: 60,
         verificationCode: '',
         mobilePhone: '',
         userName: '',
@@ -53,7 +54,7 @@
         appid: '4435',
         secretkey: '9828577231bdc6d01754e292023cdbb8',
         aeskey: '26cb3f325891d42bec10efdeec9a4f95',
-        redirect: 'http%3A%2F%2Fgzh.stc.gov.cn%2fapi%2foauth%2fcallback.html',
+        redirect: '',
         signature: null,
         sig: null,
         infoSignature: null,
@@ -75,7 +76,6 @@
             message: '身份证号码不能为空',
             duration: 2000
           })
-          MessageBox()
           return false
         }
         if (!isPhone(this.mobilePhone)) {
@@ -85,21 +85,7 @@
           })
           return false
         }
-        if (window.localStorage.getItem('userName')) {
-          this.bookerType = this.ownerName === window.localStorage.getItem('userName') ? 0 : 1
-        }
-        let requestData = {
-          mobile: this.mobilePhone,
-          idType: this.credentialsNameOne,
-          lx: 2,
-          bookerType: this.bookerType,
-          bookerName: this.ownerName,
-          bookerIdNumber: window.localStorage.getItem('identityCard') || this.IDcard,
-          idNumber: this.IDcard,
-          codes: this.achieveCode
-        }
-        console.log(requestData, '验证码请求参数')
-       /* resultPost(simpleSendMessage, requestData).then(data => {
+        resultPost(sendSMS, {mobilephone: this.mobilePhone, businessType: 'szjj'}).then(data => {
           console.log(data, '验证码')
           if (data.code === '0000') {
             MessageBox('提示', '验证码已发送')
@@ -116,7 +102,45 @@
           } else {
             MessageBox('提示', data.msg)
           }
-        }) */
+        })
+      },
+      sweepInto () {
+        if (!this.userName) {
+          Toast({
+            message: '请输入姓名',
+            duration: 2000
+          })
+          return false
+        }
+        if (!this.IDcard) {
+          Toast({
+            message: '身份证号码不能为空',
+            duration: 2000
+          })
+          return false
+        }
+        if (!isPhone(this.mobilePhone)) {
+          Toast({
+            message: '手机号码格式不正确',
+            duration: 2000
+          })
+          return false
+        }
+        if (!this.verificationCode) {
+          Toast({
+            message: '验证码不能为空',
+            duration: 2000
+          })
+          return false
+        }
+        resultPost(verificatioCode, {mobilephone: this.mobilePhone, validateCode: this.verificationCode}).then(data => {
+          if (data.code === '0000') {
+            window.localStorage.setItem('mobilePhone', this.mobilePhone) // 手机号码
+            this.$refs.formFace.submit()
+          } else {
+            MessageBox('提示', data.data)
+          }
+        })
       },
       // 获取认证签名
       getAppSign () {
@@ -130,7 +154,7 @@
         let wordArray = crypto.createHmac('sha1', secretkey).update(orignal).digest()
         let buf = Buffer.concat([wordArray, orignal])
         let signature = buf.toString('base64')
-        console.log(signature)
+//        console.log(signature)
         return signature
       },
       // 获取认证签名校验
@@ -156,15 +180,22 @@
       }
     },
     created () {
+      this.redirect = window.location.href
       this.signature = this.getAppSign()
       this.sig = this.getHashSig()
       // 如果有返回的token，就尝试拉去实名认证信息
       if (this.$route.query.token && this.$route.query.uid) {
-        resultPost.post(faceautonym, {
+        window.alert('我进来了')
+        resultPost(faceautonym, {
           token: this.$route.query.token,
           appid: this.appid
         }).then(data => {
-          console.log('获取用户信息', data)
+          if (data.code === '0000') {
+            window.localStorage.setItem('isLogin', true) // 是否登录
+            window.localStorage.setItem('identityCard', data.data.ID) // 身份证
+            window.localStorage.setItem('userName', data.data.name) // 用户名字
+            this.$router.push('/')
+          }
         })
       }
     }
@@ -193,6 +224,9 @@
   .btn{
     width: 90%;
     margin: 45px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
 </style>
