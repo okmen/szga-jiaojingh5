@@ -4,6 +4,8 @@
 const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
 // const commonUrl = 'http://gzh.stc.gov.cn/api/' // 正式环境d
 
+export const accessAuthorization = `${commonUrl}user/accessAuthorization.html` // 获取授权码
+
 export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
 
 export const wschool = `${commonUrl}Classroom/homepages.html` // 列表接口
