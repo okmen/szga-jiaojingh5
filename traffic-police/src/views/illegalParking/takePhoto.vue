@@ -117,7 +117,7 @@ export default {
         plateType: this.illegalData.licensePlateType, // 车牌种类
         IDcard: window.localStorage.getItem('identityCard') || '', // 星级用户身份证
         parkingSpot: this.illegalData.parkingAddr, // 停车地点
-        scenePhoto: this.imgs // 驾离后照片
+        scenePhoto: this.imgs.split(',')[1] // 驾离后照片
       }
       for (let key in reqData) {
         if (!reqData[key] && key !== 'parkingReason' && key !== 'scenePhoto3') {
