@@ -212,6 +212,7 @@ export default {
           'M': '临时居民身份证'
         },
         title: {
+          illegalAppointment: '违法预约处理',
           applyGatePass: '申请通行证',
           applyCarTemporaryLicence: '申请机动车临牌',
           complementTheMotorVehicleDrivingLicense: '补领机动车行驶证',
