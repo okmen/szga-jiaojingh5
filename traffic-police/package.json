@@ -10,18 +10,19 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "crypto": "^1.0.1",
     "css-loader": "^0.28.0",
     "element-ui": "^1.2.8",
     "less": "^2.7.2",
     "less-loader": "^4.0.2",
     "mint-ui": "^2.2.3",
+    "moment": "^2.18.1",
     "vue": "^2.1.0",
     "vue-router": "^2.1.1",
     "vue-wechat-title": "^2.0.0",
     "vuex": "^2.3.1",
     "weixin-js-sdk": "^1.2.0",
-    "whatwg-fetch": "^2.0.3",
-    "moment": "^2.18.1"
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",

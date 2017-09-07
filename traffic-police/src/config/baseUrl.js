@@ -4,6 +4,8 @@
 const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
 // const commonUrl = 'http://gzh.stc.gov.cn/api/' // 正式环境d
 
+export const accessAuthorization = `${commonUrl}user/accessAuthorization.html` // 获取授权码
+
 export const xstudy = `${commonUrl}Classroom/StudyHomepages.html` // 学习页面接口
 
 export const wschool = `${commonUrl}Classroom/homepages.html` // 列表接口
@@ -12,7 +14,7 @@ export const answer = `${commonUrl}Classroom/Studys.html` // 取题接口
 
 export const grade = `${commonUrl}Classroom/anserEnds.html` // 成绩接口
 
-export const answers = `${commonUrl}Classroom/ Answers.html` // 答题接口
+export const answers = `${commonUrl}Classroom/Answers.html` // 答题接口
 
 export const facility = `${commonUrl}convenience/equipmentDamageReport.html` // 设备损坏通报接口
 
@@ -272,3 +274,6 @@ export const toQueryElectronicReceiptPage = `${commonUrl}illegalHanding/toQueryE
 
 /* -------------- 规费缴纳 --------------- */
 export const toQueryFeePage = `${commonUrl}illegalHanding/toQueryFeePage.html` // 规费缴纳
+
+/* -------------扫脸注册----------------- */
+export const faceautonym = `${commonUrl}/faceautonym/getdetectinfo.html ` // 扫脸获取用户信息接口
