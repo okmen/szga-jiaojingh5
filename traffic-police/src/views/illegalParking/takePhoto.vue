@@ -16,7 +16,7 @@
         <div class="takePhoto-btns">
           <label for="takePhoto-button">
             <div class="btn btn-blue takePhoto-btn">拍照</div>
-            <input type="file" id="takePhoto-button" accept="image/*" ref="takePhotoBtn">
+            <input type="file" id="takePhoto-button" accept="image/*" ref="takePhotoBtn" capture="camera">
           </label>
           <button class="btn" :disabled="!canSubmit" @click.stop="submit">提交</button>
         </div>
