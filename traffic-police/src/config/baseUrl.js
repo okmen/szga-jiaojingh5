@@ -278,4 +278,6 @@ export const toQueryElectronicReceiptPage = `${commonUrl}illegalHanding/toQueryE
 export const toQueryFeePage = `${commonUrl}illegalHanding/toQueryFeePage.html` // 规费缴纳
 
 /* -------------扫脸注册----------------- */
-export const faceautonym = `${commonUrl}/faceautonym/getdetectinfo.html ` // 扫脸获取用户信息接口
+export const faceautonym = `${commonUrl}faceautonym/getdetectinfo.html` // 扫脸获取用户信息接口
+
+export const weChatBrushFaceAuthentication = `${commonUrl}/user/weChatBrushFaceAuthentication.html`
