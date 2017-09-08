@@ -39,7 +39,7 @@
   import { resultPost } from '../../service/getData'
   import {Toast, MessageBox} from 'mint-ui'
   import {isPhone} from 'service/regExp.js'
-  import {faceautonym, sendSMS, verificatioCode} from 'config/baseUrl.js'
+  import {faceautonym, sendSMS, verificatioCode, weChatBrushFaceAuthentication} from 'config/baseUrl.js'
   import crypto from 'crypto'
   export default {
     name: 'hello',
@@ -163,10 +163,10 @@
           appid: this.appid,
           signature: this.signature,
           redirect: this.redirect,
-          uid: '1',
+          uid: window.localStorage.getItem('openId'),
           type: 0,
-          ID: '362429199112305319',
-          name: '朱乐义',
+          ID: this.IDcard,
+          name: this.userName,
           sig: this.aeskey
         }
         let srcData = ''
@@ -194,7 +194,27 @@
             window.localStorage.setItem('isLogin', false) // 是否登录
            /* window.localStorage.setItem('identityCard', data.data.ID) // 身份证
             window.localStorage.setItem('userName', data.data.name) // 用户名字 */
-            this.$router.push('/')
+//            this.$router.push('/')
+            let requestData = {
+              name: data.data.name,
+              identityCard: data.data.ID,
+              mobilephone: window.localStorage.getItem('mobilePhone'),
+              userSource: 'C',
+              certificationType: 4,
+              photo6: data.data.videopic1,
+              openId: window.localStorage.getItem('openId')
+            }
+            resultPost(weChatBrushFaceAuthentication, requestData).then(json => {
+              if (json.code === '0000') {
+                MessageBox.alert('恭喜你已经成为星级用户,请前往登录').then(action => {
+                  this.$router.push('/login')
+                })
+              } else {
+                MessageBox('提示', json.msg)
+              }
+            })
+          } else {
+            MessageBox('提示', data.msg)
           }
         })
       }
