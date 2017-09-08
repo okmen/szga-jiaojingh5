@@ -1,7 +1,7 @@
 <template>
   <div class="face-swiping ">
     <!-- 认证必须使用 表单 发起认证 -->
-    <form ref="formFace" action="https://iauth-sandbox.wecity.qq.com/new/cgi-bin/auth.php" method="post" class="form-template">
+    <form ref="formFace" action="https://iauth.wecity.qq.com/new/cgi-bin/auth.php" method="post" class="form-template">
       <div class="self-input form-template-item">
         <span class="form-template-item-left">姓名</span>
         <input type="text" placeholder="请输入姓名"  name="name"  class="form-template-item-right" v-model="userName">
@@ -25,7 +25,7 @@
       <input type="hidden" name="appid" :value="appid">
       <input type="hidden" name="signature" :value="signature">
       <input type="hidden" name="redirect" :value="redirect">
-      <input type="hidden" name="uid" value="1">
+      <input type="hidden" name="uid" :value="uid">
       <input type="hidden" name="type" value="0">
       <!--<input type="hidden" name="ID" value="362429199112305319">-->
       <!--<input type="hidden" name="name" value="朱乐义">-->
@@ -45,6 +45,7 @@
     name: 'hello',
     data () {
       return {
+        uid: window.localStorage.getItem('openId'),
         countDown: 60,
         verificationCode: '',
         mobilePhone: '',
@@ -194,7 +195,6 @@
             window.localStorage.setItem('isLogin', false) // 是否登录
            /* window.localStorage.setItem('identityCard', data.data.ID) // 身份证
             window.localStorage.setItem('userName', data.data.name) // 用户名字 */
-//            this.$router.push('/')
             let requestData = {
               name: data.data.name,
               identityCard: data.data.ID,
