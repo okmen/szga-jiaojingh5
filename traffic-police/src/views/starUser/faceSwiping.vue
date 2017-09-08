@@ -25,7 +25,7 @@
       <input type="hidden" name="appid" :value="appid">
       <input type="hidden" name="signature" :value="signature">
       <input type="hidden" name="redirect" :value="redirect">
-      <input type="hidden" name="uid" value="1">
+      <input type="hidden" name="uid" :value="uid">
       <input type="hidden" name="type" value="0">
       <!--<input type="hidden" name="ID" value="362429199112305319">-->
       <!--<input type="hidden" name="name" value="朱乐义">-->
@@ -45,6 +45,7 @@
     name: 'hello',
     data () {
       return {
+        uid: window.localStorage.getItem('openId'),
         countDown: 60,
         verificationCode: '',
         mobilePhone: '',
