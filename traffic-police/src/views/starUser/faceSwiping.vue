@@ -181,6 +181,7 @@
       }
     },
     created () {
+      let _this = this
       this.redirect = window.location.href
       this.signature = this.getAppSign()
       this.sig = this.getHashSig()
@@ -207,7 +208,7 @@
             resultPost(weChatBrushFaceAuthentication, requestData).then(json => {
               if (json.code === '0000') {
                 MessageBox.alert('恭喜你已经成为星级用户,请前往登录').then(action => {
-                  this.$router.push('/login')
+                  _this.$router.push('/login')
                 })
               } else {
                 MessageBox('提示', json.msg)
