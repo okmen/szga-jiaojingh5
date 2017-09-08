@@ -5,7 +5,8 @@
       <dd>姓名：{{ username }}</dd>
       <dd>车辆号码：{{ item.numberPlateNumber }}</dd>
       <dd>申请时间：{{ item.reportTime }}</dd>
-      <dd v-if="item.state !== '0'">不通过原因：{{ item.parkingReason === 'null' ? '暂无' : item.parkingReason }}</dd>
+      <dd v-if="item.state === '2'">不通过原因：{{ item.parkingReason === 'null' ? '暂无' : item.parkingReason }}</dd>
+      <div v-if="item.state === '1'">温馨提示：请您遵守相关交通法规</div>
       <dd :class="`status status${item.state}`">{{ stateText[item.state] }}</dd>
     </dl>
     <div v-if="listData.length === 0" class="wtmf-noData">没有查询到记录</div>
