@@ -4,10 +4,10 @@
     <ul class="illegalParking-from">
       <li class="illegalParking-item">
         <div class="illegalParking-hbs-name">
-          <span>时间</span>
+          <span>驾驶人</span>
         </div>
         <div class="illegalParking-input">
-          <input type="text" class="text-input" readonly v-model="formatDate">
+          <input type="text" class="text-input" readonly v-model="driver" placeholder="请输入驾驶人姓名">
         </div>
       </li>
       <li class="illegalParking-item">
@@ -46,24 +46,9 @@
         </div>
         <div class="illegalParking-location right" @click.stop='getLocation()'></div>
       </li>
-      <li class="illegalParking-item">
-        <div class="illegalParking-hbs-name">
-          <span>驾驶人</span>
-        </div>
-        <div class="illegalParking-input">
-          <input type="text" class="text-input" readonly v-model="driver" placeholder="请输入驾驶人姓名">
-        </div>
-      </li>
-      <li class="illegalParking-item pad-left-210">
-        <div class="illegalParking-hbs-name">
-          <span>违停告知书号</span>
-        </div>
-        <div class="illegalParking-input">
-          <input type="text" class="text-input" v-model="ticketNo" placeholder="请输入违停告知书号">
-        </div>
-      </li>
     </ul>
     <div class="tp-read illegalParking-read">
+      <button class="btn" @click="queryList">查询违停免罚记录，请点击这里</button>
       <div class="tp-read-checkbox illegalParking-read-checkbox">
         <input type="checkbox" id="illegalParkingChecked" v-model="checked">
         <label for="illegalParkingChecked"></label>
@@ -135,6 +120,24 @@ export default {
       this.licensePlateTypeSelectShow = !this.licensePlateTypeSelectShow
       this.licenseNoSelectShow = false
     },
+    queryList () {
+      if (!this.licensePlateNo) {
+        Toast({
+          message: '请选择车牌号码',
+          duration: 2000
+        })
+        return false
+      }
+
+      if (!this.licensePlateType) {
+        Toast({
+          message: '请选择车牌类型',
+          duration: 2000
+        })
+        return false
+      }
+      this.$router.push(`/queryIllegalParking?number=${this.licensePlateNo}&type=${this.licensePlateType}`)
+    },
     nextStep: function () { // 点击下一步
       let deltaT = Date.now() - this.entryTime
       if (deltaT >= 10 * 60 * 1000) { // 超过十分钟
@@ -170,22 +173,6 @@ export default {
       if (!this.driver) {
         Toast({
           message: '请输入驾驶人姓名',
-          duration: 2000
-        })
-        return false
-      }
-
-      if (!this.ticketNo) {
-        Toast({
-          message: '请输入违停告知书号',
-          duration: 2000
-        })
-        return false
-      }
-
-      if (!(/^[a-z0-9]{1,40}$/gi.test(this.ticketNo))) {
-        Toast({
-          message: '违停告知书号格式错误',
           duration: 2000
         })
         return false
@@ -261,6 +248,10 @@ export default {
 </script>
 
 <style lang="less">
+.tp-read .btn{
+  width: 100%; line-height: 2.5rem; height: 2.5rem; background: #09bb07; color: #fff; font-size: 1.125rem; text-align: center;
+  outline: none; margin-bottom: 2rem;
+}
 .illegalParking-outer{
   background: #fff;
   font-size: 30px;
@@ -305,6 +296,7 @@ export default {
   }
   .tp-btn-sure button{
     margin-left: 0;
+    margin-top: 20px;
   }
   .illegalParking-notice{
     text-decoration: underline;

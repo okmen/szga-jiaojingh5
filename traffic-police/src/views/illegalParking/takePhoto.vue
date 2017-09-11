@@ -1,11 +1,5 @@
 <template lang="html">
   <div class="takePhoto-outer">
-    <ul class="takePhoto-nav">
-      <li class="nav-item" :class="{active: activeIndex === TIICKET}" @click.stop="activeIndex = TIICKET">违停告知单</li>
-      <li class="nav-item" :class="{active: activeIndex === DREGREE45}" @click.stop="activeIndex = DREGREE45">车身45度</li>
-      <li class="nav-item" :class="{active: activeIndex === DREGREE0}" @click.stop="activeIndex = DREGREE0">车头正面</li>
-      <li class="nav-item" :class="{active: activeIndex === DRIVE_AWAY}" @click.stop="activeIndex = DRIVE_AWAY">驾离后照片</li>
-    </ul>
     <div class="takePhoto-content">
       <p class="takePhoto-hint">温馨提示：请在确保安全的情况下拍照</p>
       <div class="takePhoto-example">
@@ -14,15 +8,15 @@
       <p class="example-hint">{{exampleHint}}</p>
       <div class="takePhoto-main pad-side-50">
         <ul class="takePhoto-preview">
-          <li class="takePhoto-preview-item" v-for="(src, index) in imgs">
-            <img :src="src" v-if="src" @click.stop="popupTicket(src)">
-            <p v-if="!src">照片预览</p>
+          <li class="takePhoto-preview-item">
+            <img :src="imgs" v-if="imgs" @click.stop="popupTicket(imgs)">
+            <p v-if="!imgs">照片预览</p>
           </li>
         </ul>
         <div class="takePhoto-btns">
           <label for="takePhoto-button">
             <div class="btn btn-blue takePhoto-btn">拍照</div>
-            <input type="file" id="takePhoto-button" accept="image/*" ref="takePhotoBtn">
+            <input type="file" id="takePhoto-button" accept="image/*" ref="takePhotoBtn" capture="camera">
           </label>
           <button class="btn" :disabled="!canSubmit" @click.stop="submit">提交</button>
         </div>
@@ -32,6 +26,16 @@
       <img :src="popupImg">
     </popup>
     <div v-wechat-title="$route.meta.title"></div>
+    <div class="m-confirm" :class="{ open: confirmStatus }">
+      <div class="box">
+        <div class="title">温馨提示</div>
+        <div class="text">您同意提交？即表示您违停车辆已驶离，并承诺遵守相关交通安全管理法则的承诺。</div>
+        <div class="footer">
+          <div class="cancel" @click="confirmCancel">取消</div>
+          <div class="ok" @click="confirmSubmit">确定</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -64,10 +68,8 @@ export default {
       return exampleHint
     },
     canSubmit: function () {
-      for (let i = 0; i < this.imgs.length; i++) {
-        if (!this.imgs[i]) {
-          return false
-        }
+      if (!this.imgs) {
+        return false
       }
       return true
     }
@@ -77,13 +79,15 @@ export default {
   },
   data () {
     return {
+      confirmStatus: false,
+      reqData: null,
       TIICKET: '1', // 违停告知单
       DREGREE45: '2', // 车身45度
       DREGREE0: '3', // 车头正面
       DRIVE_AWAY: '4', // 驾离
-      activeIndex: '1', // 当前选中的tab页
+      activeIndex: '4', // 当前选中的tab页
       exampleImgs: [require('../../images/ticket_2.png'), require('../../images/degree_45.png'), require('../../images/degree_0.png'), require('../../images/drive_away.png')], // 示例图
-      imgs: ['', '', '', ''], // 四张预览图 [违停告知单, 车身45度, 车头正面图, 驾离后照片]
+      imgs: null, // [驾离后照片]
       showImg: false,
       popupImg: '' // 预览大图
     }
@@ -93,7 +97,7 @@ export default {
       UploadFile.upload({
         id: 'takePhoto-button',
         callback: (res) => {
-          this.$set(this.imgs, this.activeIndex - 1, res.imgUrl)
+          this.imgs = res.imgUrl
           if (this.activeIndex !== '4') {
             this.activeIndex = `${+this.activeIndex + 1}`
           }
@@ -113,13 +117,7 @@ export default {
         plateType: this.illegalData.licensePlateType, // 车牌种类
         IDcard: window.localStorage.getItem('identityCard') || '', // 星级用户身份证
         parkingSpot: this.illegalData.parkingAddr, // 停车地点
-        parkingReason: '', // 停车原因
-        scenePhoto: this.imgs[1].split(',')[1], // 车身45度
-        scenePhoto1: this.imgs[2].split(',')[1], // 车头正面
-        scenePhoto2: this.imgs[3].split(',')[1], // 驾离后照片
-        scenePhoto3: '',
-        stopNoticePhoto: this.imgs[0].split(',')[1], // 停车告知单
-        stopNoticeNumber: this.illegalData.ticketNo // 违停告知书号
+        scenePhoto: this.imgs.split(',')[1] // 驾离后照片
       }
       for (let key in reqData) {
         if (!reqData[key] && key !== 'parkingReason' && key !== 'scenePhoto3') {
@@ -151,31 +149,7 @@ export default {
               break
             case 'scenePhoto':
               Toast({
-                message: '车身45度照片不能为空',
-                duration: 2000
-              })
-              break
-            case 'scenePhoto1':
-              Toast({
-                message: '车头证明照片不能为空',
-                duration: 2000
-              })
-              break
-            case 'scenePhoto2':
-              Toast({
                 message: '驾离后照片不能为空',
-                duration: 2000
-              })
-              break
-            case 'stopNoticePhoto':
-              Toast({
-                message: '违停告知单照片不能为空',
-                duration: 2000
-              })
-              break
-            case 'stopNoticeNumber':
-              Toast({
-                message: '违停告知书号不能为空',
                 duration: 2000
               })
               break
@@ -183,7 +157,18 @@ export default {
           return false
         }
       }
-      resultPost(reportingNoParking, reqData).then(obj => {
+      this.confirmStatus = true
+      this.reqData = reqData
+      console.log('提交数据', this.reqData, this.confirmStatus)
+    },
+    // 确认取消
+    confirmCancel () {
+      console.log('取消提交')
+      this.confirmStatus = false
+    },
+    // 确认提交
+    confirmSubmit () {
+      resultPost(reportingNoParking, this.reqData).then(obj => {
         if (obj.code === '0000') {
           let dataInfo = {
             type: 1,
