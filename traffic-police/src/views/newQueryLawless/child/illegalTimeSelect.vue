@@ -254,7 +254,12 @@ export default {
         drivingLicenceNo: this.certificateNo, // 驾驶证号码
         licensePlateNo: this.licensePlateNo, // 车牌号码
         licensePlateType: this.licensePlateType, // 车牌类型
-        mobileNo: this.mobileNo // 手机号码
+        mobileNo: this.mobileNo, // 手机号码
+        yydate: this.getYydate, // 预约日期
+        ccsjd: this.tab, // 预约时间段
+        cldbmmc: this.processingPoint.cldbmmc, // 服务点
+        cldaddress: this.processingPoint.cldaddress, // 服务点地址
+        cldlxdh: this.processingPoint.cldlxdh // 服务点电话
       }
       console.log(reqData)
       for (let key in reqData) {
