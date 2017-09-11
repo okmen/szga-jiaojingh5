@@ -2,14 +2,14 @@
   <div class="face-swiping ">
     <!-- 认证必须使用 表单 发起认证 -->
     <form ref="formFace" action="https://iauth.wecity.qq.com/new/cgi-bin/auth.php" method="post" class="form-template">
-      <div class="self-input form-template-item">
+      <!--<div class="self-input form-template-item">
         <span class="form-template-item-left">姓名</span>
         <input type="text" placeholder="请输入姓名"  name="name"  class="form-template-item-right" v-model="userName">
       </div>
       <div class="self-input form-template-item">
         <span class="form-template-item-left">身份证号</span>
         <input type="text" name="ID" placeholder="请输入身份证号码"    class="form-template-item-right" v-model="IDcard">
-      </div>
+      </div>-->
       <div class="self-input form-template-item">
         <span class="form-template-item-left">手机号码</span>
         <input type="text" placeholder="请输入手机号码"  class="form-template-item-right" v-model="mobilePhone">
@@ -65,20 +65,6 @@
     methods: {
       // 获取验证码
       getVerificationCode () {
-        if (!this.userName) {
-          Toast({
-            message: '请输入姓名',
-            duration: 2000
-          })
-          return false
-        }
-        if (!this.IDcard) {
-          Toast({
-            message: '身份证号码不能为空',
-            duration: 2000
-          })
-          return false
-        }
         if (!isPhone(this.mobilePhone)) {
           Toast({
             message: '手机号码格式不正确',
@@ -106,20 +92,6 @@
         })
       },
       sweepInto () {
-        if (!this.userName) {
-          Toast({
-            message: '请输入姓名',
-            duration: 2000
-          })
-          return false
-        }
-        if (!this.IDcard) {
-          Toast({
-            message: '身份证号码不能为空',
-            duration: 2000
-          })
-          return false
-        }
         if (!isPhone(this.mobilePhone)) {
           Toast({
             message: '手机号码格式不正确',
@@ -166,8 +138,8 @@
           redirect: this.redirect,
           uid: window.localStorage.getItem('openId'),
           type: 0,
-          ID: this.IDcard,
-          name: this.userName,
+          /* ID: this.IDcard,
+          name: this.userName, */
           sig: this.aeskey
         }
         let srcData = ''
