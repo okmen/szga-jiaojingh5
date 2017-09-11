@@ -54,7 +54,7 @@
       <button class="btn btn-blue" type="button" name="button" @click.stop="earlyQuery()">查询</button>
     </div>
     <!--结果块(循环)-->
-    <div v-for="reserve in reserveList" class="queryResults pad-side-50">
+    <div v-for="(reserve, index) in reserveList" class="queryResults pad-side-50">
       <div class="results-box">
         <div class="box-header">
           <div class="header-item">预约结果</div>
@@ -81,7 +81,7 @@
               <p>{{ reserve.yydate }} {{ reserve.yydate_sjd }}</p>
             </div>
             <div class="left-line" v-if="reserve.zt == '正常'">
-              <div class="cancel" @click.stop="CancelConfirm(reserve.yylsh)">
+              <div class="cancel" @click.stop="CancelConfirm(reserve.yylsh, index)">
                 取消预约
               </div>
             </div>
@@ -370,19 +370,27 @@
           console.log(json)
         })
       },
-      CancelConfirm: function (subscribeNo) {
+      CancelConfirm: function (subscribeNo, index) {
         MessageBox({
           title: '',
           message: '确定要取消预约吗？',
           showCancelButton: true,
           confirmButtonText: '是的'
         }).then(action => {
-          action === 'confirm' && this.earlyCancel(subscribeNo)
+          action === 'confirm' && this.earlyCancel(subscribeNo, index)
         })
       },
-      earlyCancel: function (subscribeNo) {
+      earlyCancel: function (subscribeNo, index) {
+        let data = this.reserveList[index]
+        let yydate = data.yydate // 预约日期
+        let ccsjd = data.yydate_sjd // 预约时间段
+        let cldbmmc = data.cldbmmc // 预约处理点
         let reqData = {
-          subscribeNo: subscribeNo
+          subscribeNo: subscribeNo, // 预约编号
+          businessName: '违法处理预约', // 业务名称
+          yydate, // 预约日期
+          ccsjd, // 预约时间段
+          cldbmmc // 处理点
         }
         resultPost(earlyCancel, reqData).then(json => {
           if (json.code === '0') {
