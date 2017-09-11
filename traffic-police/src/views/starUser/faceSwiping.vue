@@ -159,7 +159,6 @@
       this.sig = this.getHashSig()
       // 如果有返回的token，就尝试拉去实名认证信息
       if (this.$route.query.token && this.$route.query.uid) {
-        window.alert('刷脸认证成功')
         resultPost(faceautonym, {
           token: this.$route.query.token,
           appid: this.appid
@@ -180,10 +179,10 @@
             resultPost(weChatBrushFaceAuthentication, requestData).then(json => {
               if (json.code === '0000') {
                 MessageBox.alert('恭喜你已经成为星级用户,请前往登录').then(action => {
-                  _this.$router.push('/login')
+                  _this.$router.push('/')
                 })
               } else {
-                MessageBox('提示', json.msg)
+                MessageBox('验证失败,请重试', json.msg)
               }
             })
           } else {
