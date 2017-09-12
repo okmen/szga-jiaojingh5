@@ -213,6 +213,7 @@ export default {
         },
         title: {
           illegalAppointment: '违法预约处理',
+          starUserAuth: '星级用户认证',
           addVehicle: '添加车辆',
           applyGatePass: '申请通行证',
           applyCarTemporaryLicence: '申请机动车临牌',
