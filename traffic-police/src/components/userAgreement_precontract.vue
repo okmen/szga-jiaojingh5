@@ -97,6 +97,9 @@ export default {
               this.menuJson = obj.data[i]
               this.userAgreementCon = this.menuJson.description
               this.getNoticeTitle = this.menuJson.name
+              this.$nextTick(function () {
+                this.positionBottom = document.getElementById('app').offsetHeight >= document.getElementById('takePhotoTipsCom').offsetHeight
+              })
               return this.menuJson.name
             }
           }

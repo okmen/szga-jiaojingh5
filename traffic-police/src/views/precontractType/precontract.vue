@@ -47,6 +47,7 @@
     },
     mounted () {
       this.cur_tab = this.$route.params.id === 'progress' ? 'progress' : 'car'
+      this.$route.meta.title = this.currentTab[this.cur_tab]
       this.$nextTick(function () {
         this.positionBottom = (document.getElementById('app').offsetHeight - document.getElementsByClassName('dealService-outer')[0].offsetHeight) > document.getElementsByClassName('tp-bottom')[0].offsetHeight
       })
