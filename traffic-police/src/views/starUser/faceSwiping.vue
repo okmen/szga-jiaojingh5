@@ -106,6 +106,9 @@
           })
           return false
         }
+        // 更新签名和校验
+        this.signature = this.getAppSign()
+        this.sig = this.getHashSig()
         resultPost(verificatioCode, {mobilephone: this.mobilePhone, validateCode: this.verificationCode}).then(data => {
           if (data.code === '0000') {
             window.localStorage.setItem('mobilePhone', this.mobilePhone) // 手机号码
@@ -127,7 +130,7 @@
         let wordArray = crypto.createHmac('sha1', secretkey).update(orignal).digest()
         let buf = Buffer.concat([wordArray, orignal])
         let signature = buf.toString('base64')
-//        console.log(signature)
+        // console.log(signature)
         return signature
       },
       // 获取认证签名校验
