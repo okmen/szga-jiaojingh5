@@ -710,19 +710,6 @@
         this.showItemTime = false
         this.showItemData = false
       },
-      /**
-       * 用于判断机动车转移是否市内
-       */
-      shiftCity(){
-        const TITLE_STRING = '机动车转移登记（转入）';
-        let currentTitle = this.$route.query.name;
-        currentTitle === TITLE_STRING && this.provinceCode.option.splice(0,1);
-      }
-    },
-    beforeMount () {
-
-      this.shiftCity();
-      
     },
     mounted () {
       document.getElementById('app').addEventListener('click', this.disappearSelectUl)
