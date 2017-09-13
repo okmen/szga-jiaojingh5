@@ -49,6 +49,7 @@
       }
     },
     mounted () {
+      this.$root.$router.isWeChat = this.isWeChat
       this.cur_tab = this.$route.params.id === 'progress' ? 'progress' : 'car'
       this.$route.meta.title = this.currentTab[this.cur_tab]
       this.$nextTick(function () {
