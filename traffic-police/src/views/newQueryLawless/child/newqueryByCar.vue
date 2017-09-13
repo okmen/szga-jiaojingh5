@@ -33,7 +33,7 @@
       }
     },
     mounted () {
-      if (window.localStorage.isLogin === undefined) {
+      if (window.localStorage.isLogin === undefined || this.$route.query.type === 'nologin') {
         this.$router.replace('newqueryByCar_manual')
         return false
       }
