@@ -1,7 +1,7 @@
 // 添加URL需注释 哪个模块哪个接口
 
-// const commonUrl = 'http://192.168.1.120:8100/' // 120环境
-const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
+const commonUrl = 'http://192.168.1.120:8100/' // 120环境
+// const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
 // const commonUrl = 'http://gzh.stc.gov.cn/api/' // 正式环境d
 
 export const accessAuthorization = `${commonUrl}user/accessAuthorization.html` // 获取授权码

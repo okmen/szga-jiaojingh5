@@ -49,7 +49,9 @@
           inform: '受理告知方式',
           createDate: '创建日期',
           bookState: '预约状态',
-          approveState: '审核状态'
+          approveState: '审核状态',
+          approveInfo: '受理意见内容',
+          approveFlag: '审核结果'
         },
         valListObj: {
           bookState: {
@@ -60,8 +62,7 @@
           },
           approveState: {
             '0': '待审核',
-            '1': '初审合格',
-            '2': '初审不合格'
+            '2': '已审核'
           },
           personType: {
             '1': '机动车所有人',
@@ -69,6 +70,10 @@
           },
           inform: {
             '1': '互联网查询'
+          },
+          approveFlag: {
+            '1': '同意',
+            '0': '不同意'
           }
         }
       }
