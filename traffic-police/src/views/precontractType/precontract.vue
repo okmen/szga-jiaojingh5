@@ -6,7 +6,7 @@
       <div class="nav-tab" :class="{ 'active': cur_tab == 'card'}" @click="changeTab('card')">驾驶证业务</div>
       <div class="nav-tab" :class="{ 'active': cur_tab == 'progress'}" @click="changeTab('progress')">预约查询及取消</div>
     </div>
-    <carService v-if="cur_tab == 'car'"></carService>
+    <carService v-if="cur_tab == 'car'" @initSuccess="renderSuccess"></carService>
     <cardService v-else-if="cur_tab == 'card'"></cardService>
     <queryAndCancel v-else></queryAndCancel>
     <div v-wechat-title="$route.meta.title"></div>
@@ -38,6 +38,9 @@
       }
     },
     methods: {
+      renderSuccess: function () {
+        this.positionBottom = (document.getElementById('app').offsetHeight - document.getElementsByClassName('dealService-outer')[0].offsetHeight) > document.getElementsByClassName('tp-bottom')[0].offsetHeight
+      },
       changeTab: function (str) {
         this.cur_tab = str
         this.$nextTick(function () {

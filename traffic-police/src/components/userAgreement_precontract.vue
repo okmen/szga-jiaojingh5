@@ -53,6 +53,7 @@ export default {
     }
   },
   mounted: function () {
+    this.$root.$router.isWeChat = this.isWeChat
     if (JSON.stringify(this.$route.query) !== '{}') {
       this.routerQuery = this.$route.query
       this.routerQuery.type === 'card' ? this.getData(0) : this.getData(1)

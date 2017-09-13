@@ -32,7 +32,7 @@
 
 <script>
   import { resultPost } from 'service/getData'
-  import { MessageBox } from 'mint-ui'
+  import { MessageBox, Toast } from 'mint-ui'
   import {
     cancel
   } from 'config/baseUrl'
@@ -89,9 +89,16 @@
             businessTypeName: this.dataInfo.businessTypeName
           }
           resultPost(cancel, requestData).then(data => {
-            MessageBox.alert('您已成功取消本次预约').then(action => {
-              this.$router.push('/')
-            });
+            if (data.code === '0000') {
+              MessageBox.alert('您已成功取消本次预约').then(action => {
+                this.$root.$router.isWeChat ? window.location.href = data.msg : this.$router.push('/')
+              })
+            } else {
+              Toast({
+                message: data.data + data.msg,
+                duration: 2000
+              })
+            }
           })
         })
       }
