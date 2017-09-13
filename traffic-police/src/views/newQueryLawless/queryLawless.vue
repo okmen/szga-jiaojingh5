@@ -6,7 +6,10 @@
     <div  class="query-link">
       <router-link to="newPayLawless">交通违法缴款</router-link>
     </div>
-    <div class="query-link" v-bind:class="{ 'show' : isShow}">
+    <div  class="query-link" v-if="nologin">
+      <router-link to="newEarly">交通违法预约处理</router-link>
+    </div>
+    <div class="query-link" v-bind:class="{ 'show' : isShow}" v-else="nologin">
       <p @click.stop="clickShow()">交通违法在线处理</p>
       <div class="li-box">
         <router-link :to="isLogin ? 'confirmLawless' : 'login'">交通违法在线确认</router-link>
@@ -26,8 +29,12 @@ export default {
     return {
       isShow: false,
       businesses: [],
-      isLogin: window.localStorage.getItem('isLogin')
+      isLogin: window.localStorage.getItem('isLogin'),
+      nologin: false
     }
+  },
+  created () {
+    this.nologin = this.$route.query.type === 'nologin'
   },
   methods: {
     clickShow: function () {

@@ -34,6 +34,14 @@ const routes = [
     component: require('../views/illegalParking/illegalParking.vue')
   },
   {
+    name: 'queryIllegalParking',
+    path: '/queryIllegalParking',
+    meta: {
+      title: '查询违停免罚'
+    },
+    component: require('../views/illegalParking/list.vue')
+  },
+  {
     name: 'illegalParking_takePhoto',
     path: '/illegalParking_takePhoto',
     meta: {

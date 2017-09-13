@@ -9,6 +9,7 @@ const state = {
   motorVehicleHandling: {},  // 机动车办理类业务传值
   successInfo: {}, // 提交成功页面数据 type 为 1 申办成功, 为 2 预约成功
   illegalPark: {}, // 违停免罚信息
+  earlyLawless: {}, // 交通违法预约数据
   appoinSuccess: {
     appoinNum: '',
     appoinType: ''
@@ -85,6 +86,9 @@ const mutations = {
   },
   saveSuccessInfo (state, value) {
     state.successInfo = value
+  },
+  saveEarlyLawLess (state, value) {
+    state.earlyLawless = value
   },
   saveIllegalPark (state, value) {
     state.illegalPark = value

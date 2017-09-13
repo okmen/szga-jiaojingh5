@@ -85,6 +85,11 @@
   import { mapActions } from 'vuex'
   export default {
     name: 'earlyLawless',
+    computed: {
+      earlyLawlessData: function () {
+        return this.$store.state.earlyLawless
+      }
+    },
     data () {
       return {
         licensePlateType: '',       // 请求-车牌类型（编号转换）
@@ -289,19 +294,29 @@
     },
     methods: {
       init () {
-        let arr = JSON.parse(window.localStorage.cars)
-        if (arr.length > 0) {
-          this.licensePlateType = arr[0].plateType
-          this.licenseSelectData.forEach(item => {
-            if (item.id === arr[0].plateType) {
-              this.licenseSelectMassage = item.str
-            }
-          })
-          this.mobilephone = window.localStorage.mobilePhone
-          this.drivingLicenceNo = arr[0].identityCard
-          this.vehicleIdentifyNoLast4 = arr[0].behindTheFrame4Digits
-          this.car_number = arr[0].myNumberPlate.slice(1)
-          this.abbreviationSelectMassage = arr[0].myNumberPlate.slice(0, 1)
+        if (this.earlyLawlessData.drivingLicenceNo) {
+          this.mobilephone = this.earlyLawlessData.mobilephone
+          this.drivingLicenceNo = this.earlyLawlessData.drivingLicenceNo
+          this.licenseSelectMassage = this.earlyLawlessData.licenseSelectMassage
+          this.licensePlateType = this.earlyLawlessData.licensePlateType
+          this.vehicleIdentifyNoLast4 = this.earlyLawlessData.vehicleIdentifyNoLast4
+          this.car_number = this.earlyLawlessData.licensePlateNo.slice(1)
+          this.abbreviationSelectMassage = this.earlyLawlessData.licensePlateNo.slice(0, 1)
+        } else {
+          let arr = JSON.parse(window.localStorage.cars)
+          if (arr.length > 0) {
+            this.licensePlateType = arr[0].plateType
+            this.licenseSelectData.forEach(item => {
+              if (item.id === arr[0].plateType) {
+                this.licenseSelectMassage = item.str
+              }
+            })
+            this.mobilephone = window.localStorage.mobilePhone
+            this.drivingLicenceNo = arr[0].identityCard
+            this.vehicleIdentifyNoLast4 = arr[0].behindTheFrame4Digits
+            this.car_number = arr[0].myNumberPlate.slice(1)
+            this.abbreviationSelectMassage = arr[0].myNumberPlate.slice(0, 1)
+          }
         }
       },
       licenseSelectClick: function (str, id) {
@@ -357,6 +372,7 @@
           })
           return false
         }
+        this.$store.commit('saveEarlyLawLess', Object.assign({licenseSelectMassage: this.licenseSelectMassage}, reqData))
         Indicator.open()
         resultPost(queryLawlessByCar, reqData).then(json => {
           if (json.code === '0000') {

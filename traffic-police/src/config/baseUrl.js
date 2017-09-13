@@ -106,6 +106,8 @@ export const DriverCardVerify = `${commonUrl}user/bindDriverLicense.html` // 驾
 
 export const reportingNoParking = `${commonUrl}illegalHanding/reportingNoParking.html` // 违停免罚接口
 
+export const queryReportingNoParking = `${commonUrl}illegalHanding/recordOfReportingNoParking.html` // 查询违停免罚列表
+
 export const addSafeAccidentCredit = `${commonUrl}user/addSafeAccidentCredit.html` // 驾驶人安全事故信用表
 
 export const submitApplicationForDriverInformation = `${commonUrl}user/proofOfInformationDocuments/submitApplicationForDriverInformation.html` // 驾驶人信用单
