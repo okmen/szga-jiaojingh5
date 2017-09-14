@@ -7,7 +7,7 @@
         <div class="div-select-ul" v-if='typeSelectShow'>
           <ul>
             <li v-for="(item, index) in typeSelectData" @click.stop = "typeSelectClick(index+1)">
-              <router-link class="link" :to="item.path + query">{{ item.str }}</router-link>
+              <router-link class="link" :to="item.path">{{ item.str }}</router-link>
             </li>
           </ul>
         </div>
@@ -28,7 +28,6 @@ export default {
       curTab: 'carOwner',
       typeSelectShow: false,
       typeSelectMassage: '',
-      query: '',
       typeSelectData: [
         {
           'name': 'carOwner',
@@ -70,7 +69,7 @@ export default {
     }
   },
   created () {
-    this.query = this.$route.query.type ? `?type=${this.$route.query.type}` : ''
+    this.$root.$router.bussinessType = this.$root.$router.bussinessType || this.$route.query.bussinessType
     document.addEventListener('click', (e) => {
       this.typeSelectShow = false
     })

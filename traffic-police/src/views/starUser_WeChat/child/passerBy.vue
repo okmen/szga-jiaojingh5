@@ -119,7 +119,7 @@
             idCardImgNegative: idImgTwo.split(',')[1],
             idCardImgHandHeld: idImgThree.split(',')[1],
             openId: window.localStorage.openId,
-            businessType: this.$route.query.type
+            businessType: this.$root.$router.bussinessType || '1'
           }
           resultPost(passerBy, passerData).then(json => {
             let jsonMsg = json.msg
@@ -136,7 +136,8 @@
                 appoinType: '星级用户认证',
                 appoinMsg: '审核通过后，可根据短信中告知的账号和密码进行登录'
               })
-              this.$router.push('/appointSuccess_WeChat')
+              // this.$router.push('/appointSuccess_WeChat')
+              window.location.href = json.data
             } else {
               Indicator.close()
               Toast({
@@ -208,4 +209,3 @@
 }
 
 </style>
-

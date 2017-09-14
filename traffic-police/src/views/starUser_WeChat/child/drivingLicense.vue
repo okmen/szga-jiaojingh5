@@ -150,7 +150,7 @@
             idCardImgNegative: idImgTwo.split(',')[1],
             idCardImgHandHeld: idImgThree.split(',')[1],
             openId: window.localStorage.openId,
-            businessType: this.$route.query.type
+            businessType: this.$root.$router.bussinessType || '1'
           }
           console.log(driverLicenseData)
           resultPost(drivingLicense, driverLicenseData).then(json => {
@@ -168,7 +168,8 @@
                 appoinNum: json.msg.split(':')[1],
                 appoinType: '星级用户认证'
               })
-              this.$router.push('/appointSuccess_WeChat')
+              // this.$router.push('/appointSuccess_WeChat')
+              window.location.href = json.data
             } else {
               Indicator.close()
               Toast({
@@ -235,4 +236,3 @@
 }
 
 </style>
-

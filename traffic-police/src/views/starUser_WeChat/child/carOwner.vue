@@ -319,7 +319,7 @@ export default{
           idCardImgHandHeld: idImgThree.split(',')[1],
           provinceAbbreviation: this.abbreviationSelectMassage,
           openId: window.localStorage.openId,
-          businessType: this.$route.query.type
+          businessType: this.$root.$router.bussinessType || '1'
         }
         console.log(carOwnerData)
         resultPost(carOwner, carOwnerData).then(json => {
@@ -336,7 +336,8 @@ export default{
               appoinNum: json.msg.split(':')[1],
               appoinType: '星级用户认证'
             })
-            this.$router.push('/appointSuccess_WeChat')
+            // this.$router.push('/appointSuccess_WeChat')
+            window.location.href = json.data
           } else {
             Indicator.close()
             Toast({

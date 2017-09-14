@@ -212,6 +212,7 @@ export default {
           'M': '临时居民身份证'
         },
         title: {
+          reauthentication: '星级用户重新认证',
           illegalAppointment: '违法预约处理',
           starUserAuth: '星级用户认证',
           addVehicle: '添加车辆',

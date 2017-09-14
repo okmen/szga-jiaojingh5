@@ -44,6 +44,10 @@ export default{
       Indicator.close()
       this.$router.push('/login')
     }
+  },
+  created () {
+    this.$root.$router.isWeChat = this.$route.query.from === 'wechat'
+    this.$root.$router.bussinessType = this.$route.query.bussinessType || '1'
   }
 }
 </script>
