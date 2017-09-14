@@ -7,7 +7,7 @@
         <div class="div-select-ul" v-if='typeSelectShow'>
           <ul>
             <li v-for="(item, index) in typeSelectData" @click.stop = "typeSelectClick(index+1)">
-              <router-link class="link" :to="item.path">{{ item.str }}</router-link>
+              <router-link class="link" :to="item.path + query">{{ item.str }}</router-link>
             </li>
           </ul>
         </div>
@@ -28,6 +28,7 @@ export default {
       curTab: 'carOwner',
       typeSelectShow: false,
       typeSelectMassage: '',
+      query: '',
       typeSelectData: [
         {
           'name': 'carOwner',
@@ -69,20 +70,21 @@ export default {
     }
   },
   created () {
+    this.query = this.$route.query.type ? `?type=${this.$route.query.type}` : ''
     document.addEventListener('click', (e) => {
       this.typeSelectShow = false
     })
-    switch (window.location.hash) {
-      case '#/starUser_WeChat/carOwner':
+    switch (this.$route.name) {
+      case 'carOwner_WeChat':
         this.typeSelectMassage = this.typeSelectData[0]
         break
-      case '#/starUser_WeChat/carUser':
+      case 'carUser_WeChat':
         this.typeSelectMassage = this.typeSelectData[1]
         break
-      case '#/starUser_WeChat/drivingLicense':
+      case 'drivingLicense_WeChat':
         this.typeSelectMassage = this.typeSelectData[2]
         break
-      case '#/starUser_WeChat/passerBy':
+      case 'passerBy_WeChat':
         this.typeSelectMassage = this.typeSelectData[3]
         break
     }
