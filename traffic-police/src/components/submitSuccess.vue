@@ -39,7 +39,7 @@
     <!-- 申办成功的内容  -->
     <section class="bid-box appoint-box" v-if="JsonDataInfo.type == 1">
       <h3>申办结果</h3>
-      <p>{{ tip }}</p>
+      <p v-if="!JsonDataInfo.noTip">{{ tip }}</p>
       <ul class="bid-ul appoint-margin">
         <li class="bid-item" v-for="(value, key) in JsonDataInfo" v-if="keyListObj[key] && value">
           <span class="bid-item-key">{{ keyListObj[key] }}</span>
