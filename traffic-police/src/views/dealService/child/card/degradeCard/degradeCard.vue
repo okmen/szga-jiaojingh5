@@ -61,7 +61,7 @@
             <span>照片回执码</span>
           </div>
           <div class="form-line-item width-60">
-            <input v-model="photoReturnNumberString" maxlength="11" class="text-input" type="text" placeholder="请输入照片回执码">
+            <input v-model="photoReturnNumberString" maxlength="18" class="text-input" type="text" placeholder="请输入照片回执码">
           </div>
           <div class="form-line-item right width-35">
             <span class="btn browse-code" @click="scanQRCode()">扫一扫</span>
