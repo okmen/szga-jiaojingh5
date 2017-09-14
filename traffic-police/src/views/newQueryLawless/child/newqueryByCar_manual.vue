@@ -290,6 +290,15 @@
         //        illegalTime: '',                 // 违法时间
       }
     },
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        if (from.name === 'newLawlessMsg') {
+          vm.car_number = vm.$store.state.newLawlessQuery.info.myNumberPlate.slice(1)
+          vm.cur_type_id = vm.$store.state.newLawlessQuery.info.plateType
+          vm.vehicleIdentifyNoLast4 = vm.$store.state.newLawlessQuery.info.behindTheFrame4Digits
+        }
+      })
+    },
     mounted () {
       if (window.location.href.split('?')[1]) {
         this.codeIfShow = false
