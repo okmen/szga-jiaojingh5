@@ -304,6 +304,11 @@
         this.verifyCode = result
       })
     },
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
     methods: {
       licenseSelectClick: function (str, id) {
         if (str) {
@@ -394,6 +399,7 @@
         }
         resultPost(earlyCancel, reqData).then(json => {
           if (json.code === '0') {
+            // this.isWeChat ? window.location.href = json.data : this.earlyQuery() // 城市服务取消预约 跳转消息通路结果页
             this.earlyQuery() // 重新查询
             Toast({
               message: json.msg,

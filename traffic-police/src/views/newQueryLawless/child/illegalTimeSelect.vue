@@ -143,6 +143,9 @@ export default {
     },
     lawlessData: function () {
       return this.$store.state.newLawlessDeal
+    },
+    isWeChat: function () {
+      return /_WeChat/g.test(this.$route.name)
     }
   },
   methods: {
@@ -282,7 +285,8 @@ export default {
             appoinNum: json.msg,
             appoinType: '违法预约处理'
           })
-          this.$router.push(/_WeChat/g.test(this.$route.name) ? '/appointSuccess_WeChat' : '/appointSuccess')
+          this.isWeChat ? window.location.href = json.data : this.$router.push('/appointSuccess')
+          // this.$router.push(/_WeChat/g.test(this.$route.name) ? '/appointSuccess_WeChat' : '/appointSuccess')
         } else {
           MessageBox({
             title: '',
