@@ -254,7 +254,7 @@ export default {
       if (str) {
         this.subscribe = str
         this.subscribeId = id
-        this.description = description
+        this.description = description.replace(/<(?!\/?img.+?>)[^<>]*>/gi, '')
       }
       if (this.subscribeShow === true) {
         this.subscribeShow = false

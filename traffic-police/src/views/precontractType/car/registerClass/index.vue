@@ -96,6 +96,9 @@
         resultPost(getPageInit, {businessTypeId: this.businessTypeId, type: 1}).then(json => {
           console.log(json, '页面初始化的数据')
           if (json.code === '0000') {
+            for (let i in json.data.orgVOs) {
+              json.data.orgVOs[i].description = json.data.orgVOs[i].description.replace(/<(?!\/?img.+?>)[^<>]*>/gi, '')
+            }
             this.$store.commit('saveModelOfCar', json.data.carModelArray) // 车辆型号
             this.$store.commit('saveCarSelectData', json.data.carTypeVOs) // 车辆类型
             this.$store.commit('saveCredentialsName', json.data.idTypeVOs) // 证件名称
