@@ -385,6 +385,7 @@
         }
         let dataList = {
           type: '申请通行证',
+          noTip: true,
           url: applyGatePass,
           textObj: {
             'plateType': this.cur_plate_id,   // 车牌类型
