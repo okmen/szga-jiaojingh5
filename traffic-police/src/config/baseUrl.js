@@ -211,7 +211,7 @@ export const getCarModelArray = `${commonUrl}bookingbusiness/getCarModelArray.ht
 
 export const simpleSendMessage = `${commonUrl}bookingbusiness/simpleSendMessage.html`  // 验证码接口
 
-export const getPageInit = `${commonUrl}/bookingbusiness/getPageInit.html` // 进去页面初始化获取的数据
+export const getPageInit = `${commonUrl}bookingbusiness/getPageInit.html` // 进去页面初始化获取的数据
 
 /* --------------机动车预约 变更类--------------- */
 export const numberAlter = `${commonUrl}bookingbusiness/createVehicleInfo_JD28.html` // 机动车打刻原车发动机号码变更备案

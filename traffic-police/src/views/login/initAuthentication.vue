@@ -114,7 +114,8 @@ export default {
         userName: this.userName,
         authenticationType: '5',
         photo6: this.imgOne2.split(',')[1] || '',
-        photo9: this.imgOne1.split(',')[1] || ''
+        photo9: this.imgOne1.split(',')[1] || '',
+        businessType: this.$root.$router.businessType || ''
       }
       console.log(reqData)
       resultPost(verificatioCode, {mobilephone: this.mobilephone, validateCode: this.validateCode}).then(json => {
@@ -126,7 +127,7 @@ export default {
                 appoinNum: data.data,
                 appoinType: '星级用户重新认证'
               })
-              this.$router.push('/appointSuccess')
+              this.$root.$router.isWeChat ? window.location.href = data.msg : this.$router.push('/appointSuccess')
             } else {
               MessageBox.alert(data.msg).then(action => {
                 this.$router.push('/findPassword')

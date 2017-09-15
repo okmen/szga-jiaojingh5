@@ -119,7 +119,7 @@
             idCardImgNegative: idImgTwo.split(',')[1],
             idCardImgHandHeld: idImgThree.split(',')[1],
             openId: window.localStorage.openId,
-            businessType: this.$root.$router.bussinessType || '1'
+            businessType: this.$root.$router.businessType || '1'
           }
           resultPost(passerBy, passerData).then(json => {
             let jsonMsg = json.msg

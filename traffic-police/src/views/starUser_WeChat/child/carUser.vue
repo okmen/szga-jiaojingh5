@@ -324,7 +324,7 @@
             ownerIdCardImgPositive: ownerIdImgOne.split(',')[1],                // 车主身份证照片
             ownerIdCardImgHandHeld: ownerIdImgTwo.split(',')[1],
             openId: window.localStorage.openId,
-            businessType: this.$root.$router.bussinessType || '1'
+            businessType: this.$root.$router.businessType || '1'
           }
           resultPost(carUser, usrData).then(json => {
             let jsonMsg = json.msg

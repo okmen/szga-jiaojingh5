@@ -47,7 +47,7 @@ export default{
   },
   created () {
     this.$root.$router.isWeChat = this.$route.query.from === 'wechat'
-    this.$root.$router.bussinessType = this.$route.query.bussinessType || '1'
+    this.$root.$router.businessType = this.$route.query.businessType || ''
   }
 }
 </script>

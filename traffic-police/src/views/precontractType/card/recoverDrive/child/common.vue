@@ -1,4 +1,4 @@
-<!-- 
+<!--
 * 公共部分
 * 标星(*) 注释 为 接口所需参数
  -->
@@ -34,7 +34,7 @@
         <li class="alter-hbs-item">
           <div class="alter-hbs-name"><span>手机号码</span></div>
           <div class="alter-hbs-text">
-            <input class="text-input bg-white" v-model="userTelphone" type="tel" maxlength="11" 
+            <input class="text-input bg-white" v-model="userTelphone" type="tel" maxlength="11"
                    placeholder="请输入您的手机号码">
           </div>
         </li>
@@ -64,7 +64,7 @@
         <li class="alter-hbs-item">
           <div class="alter-hbs-name"><span>预约日期</span></div>
           <div class="div-select">
-            <input class="btn-select bg-white" type="text" readonly placeholder="请选择预约日期" 
+            <input class="btn-select bg-white" type="text" readonly placeholder="请选择预约日期"
                    @click.stop="dateClick()" v-model="orderAllDate">
             <div class="div-select-ul date-style" v-if="dateShow">
               <ul>
@@ -76,11 +76,11 @@
         <li class="alter-hbs-item">
           <div class="alter-hbs-name"><span>预约时间</span></div>
           <div class="div-select">
-            <input class="btn-select bg-white" type="text" readonly placeholder="请选择预约时间" 
+            <input class="btn-select bg-white" type="text" readonly placeholder="请选择预约时间"
                    @click.stop="selectOrderTime()" v-model="selectDetailTime">
             <div class="div-select-ul date-style" v-if="detailTimeShow">
               <ul>
-                <li class="alter-detail-time" v-for="(item, index) in orderDetailsTime" 
+                <li class="alter-detail-time" v-for="(item, index) in orderDetailsTime"
                     @click.stop="selectOrderTime(item.time, index, item.leftNum)"
                     :class="{'time-full': item.leftNum === 0, 'active': index === activeIndex && item.leftNum !== 0}">
                   <p>{{item.time}}</p>
@@ -184,6 +184,9 @@
           console.log(json)
           if (json.code === '0000') {
             if (json.data) {
+              for (let i in json.data.orgVOs) {
+                json.data.orgVOs[i].description = json.data.orgVOs[i].description.replace(/<(?!\/?img.+?>)[^<>]*>/gi, '')
+              }
               // 证件 id name
               this.cardSelectData = json.data.idTypeVOs
               this.cardMassage = this.cardSelectData[0].name

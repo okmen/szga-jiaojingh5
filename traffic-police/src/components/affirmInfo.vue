@@ -247,7 +247,9 @@ export default {
           //   }
           // }
           this.$store.commit('saveSuccessInfo', json.data)
-          this.$router.push(/_WeChat/g.test(this.$route.name) ? '/submitSuccess_WeChat' : '/submitSuccess')
+          let isWeChat = /_WeChat/g.test(this.$route.name)
+          isWeChat ? window.location.href = json.msg : this.$router.push('/submitSuccess')
+          // this.$router.push(/_WeChat/g.test(this.$route.name) ? '/submitSuccess_WeChat' : '/submitSuccess')
         } else {
           MessageBox('提示', json.msg).then(action => {
             // this.$router.push('/')

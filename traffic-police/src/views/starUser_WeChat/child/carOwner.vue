@@ -319,7 +319,7 @@ export default{
           idCardImgHandHeld: idImgThree.split(',')[1],
           provinceAbbreviation: this.abbreviationSelectMassage,
           openId: window.localStorage.openId,
-          businessType: this.$root.$router.bussinessType || '1'
+          businessType: this.$root.$router.businessType || '1'
         }
         console.log(carOwnerData)
         resultPost(carOwner, carOwnerData).then(json => {

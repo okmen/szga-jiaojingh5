@@ -452,11 +452,16 @@ export default{
           return false
         }
       }
+      reqData.businessType = this.$root.$router.businessType || '' // 城市服务区分业务
       console.log(reqData)
       resultPost(addVehicle, reqData).then(json => {
         console.log(json)
         Indicator.close()
         if (json.code === '0000') {
+          if (this.$root.$router.isWeChat) {
+            window.location.href = json.msg
+            return true
+          }
           console.log(json)
           console.log('跳转预约申办成功页')
           this.$router.push('/appointSuccess')

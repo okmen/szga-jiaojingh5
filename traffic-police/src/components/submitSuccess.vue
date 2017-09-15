@@ -69,8 +69,8 @@
         </li>
       </ul>
     </section>
-    <div class="btn-appoint-backword" @click="btnBackword" v-if="!urlToJson && JsonDataInfo.type == 1">返回</div>
-    <div class="btn-appoint-backword mt-60" @click="btnBackword"  v-if="!urlToJson && JsonDataInfo.type != 1">好的</div>
+    <div class="btn-appoint-backword" @click="btnBackword" v-if="!urlJsonData && JsonDataInfo.type == 1">返回</div>
+    <div class="btn-appoint-backword mt-60" @click="btnBackword"  v-if="!urlJsonData && JsonDataInfo.type != 1">好的</div>
     <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
