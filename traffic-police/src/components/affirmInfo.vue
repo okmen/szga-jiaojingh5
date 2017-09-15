@@ -246,7 +246,11 @@ export default {
           //     }
           //   }
           // }
-          this.$store.commit('saveSuccessInfo', json.data)
+          let sendData = json.data
+          if (this.dataList.noTip) {
+            sendData.noTip = true
+          }
+          this.$store.commit('saveSuccessInfo', sendData)
           this.$router.push(/_WeChat/g.test(this.$route.name) ? '/submitSuccess_WeChat' : '/submitSuccess')
         } else {
           MessageBox('提示', json.msg).then(action => {
