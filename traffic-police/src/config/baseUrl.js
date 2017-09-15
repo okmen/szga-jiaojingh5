@@ -281,3 +281,7 @@ export const toQueryFeePage = `${commonUrl}illegalHanding/toQueryFeePage.html` /
 export const faceautonym = `${commonUrl}faceautonym/getdetectinfo.html` // 扫脸获取用户信息接口
 
 export const weChatBrushFaceAuthentication = `${commonUrl}/user/weChatBrushFaceAuthentication.html`
+
+/* -------------- 问题反馈 --------------- */
+// export const issueFeedback = `${commonUrl}/user/problemFeedback.html` // 星级用户问题反馈
+export const issueFeedback = `http://192.168.1.247:8080/web/user/problemFeedback.html` // 星级用户问题反馈

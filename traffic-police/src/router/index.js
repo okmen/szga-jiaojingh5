@@ -332,6 +332,15 @@ const routes = [
     },
     component: require('../views/testCardBag')
   },
+  // 星级用户验证问题反馈
+  {
+    name: 'issueFeedback',
+    path: '/issueFeedback',
+    meta: {
+      name: '星级用户验证问题反馈'
+    },
+    component: require('../views/issueFeedback/issueFeedback')
+  },
   // 个人中心、登录、星级用户认证
   ...homeRouter,
 
