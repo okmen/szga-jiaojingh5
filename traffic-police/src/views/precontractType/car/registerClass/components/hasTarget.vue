@@ -709,7 +709,7 @@
       disappearSelectUl () {
         this.showItemTime = false
         this.showItemData = false
-      },
+      }
     },
     mounted () {
       document.getElementById('app').addEventListener('click', this.disappearSelectUl)
