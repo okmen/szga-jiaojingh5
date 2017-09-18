@@ -1,10 +1,10 @@
-<!-- 
-  持境外驾驶证申请换证 
+<!--
+  持境外驾驶证申请换证
 -->
 
 <template>
   <div class="overseasLicence">
-    <common 
+    <common
       @submitClick="subFn"
       :currentBusinessId="businessId"
       :currentCode="businessCode"
@@ -36,6 +36,10 @@ export default {
       console.log('overseasLicence', params)
       resultPost(createDriveInfoZJ17, params).then(json => {
         if (json.code === '0000') {
+          if (this.$root.$router.isWeChat) {
+            window.location.href = json.msg
+            return true
+          }
           let dataInfo = {
             type: 2,
             reserveNo: json.data.waterNumber,    // 流水号

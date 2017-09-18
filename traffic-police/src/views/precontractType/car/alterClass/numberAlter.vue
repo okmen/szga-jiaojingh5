@@ -62,7 +62,7 @@ export default {
             appointmentPerson: name              // 预约人姓名
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
-          this.$router.push('/submitSuccess')
+          this.$root.$router.isWeChat ? window.location.href = json.msg : this.$router.push('/submitSuccess')
         } else {
           Toast({ message: json.msg, className: 'white', duration: 1500 })
         }

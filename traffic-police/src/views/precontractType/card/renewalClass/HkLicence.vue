@@ -1,10 +1,10 @@
 <!--
-  香港机动车驾驶证免试换证 
+  香港机动车驾驶证免试换证
 -->
 
 <template>
   <div class="HkLicence">
-    <common 
+    <common
       @submitClick="subFn"
       :currentBusinessId="businessId"
       :currentCode="businessCode"
@@ -36,8 +36,10 @@ export default {
       console.log('HkLicence', params)
       resultPost(createDriveInfoZJ13, params).then(json => {
         if (json.code === '0000') {
-          console.log(json.data.bidDate)
-          console.log(json.data.waterNumber)
+          if (this.$root.$router.isWeChat) {
+            window.location.href = json.msg
+            return true
+          }
           let dataInfo = {
             type: 2,
             reserveNo: json.data.waterNumber,    // 流水号

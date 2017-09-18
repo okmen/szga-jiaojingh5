@@ -42,6 +42,9 @@
           if (json.code === '0000') {
             this.menuArr = json.data
             window.sessionStorage.setItem('car', JSON.stringify(json.data))
+            this.$nextTick(() => {
+              this.$emit('initSuccess')
+            })
           } else {
             Toast(json.msg)
           }

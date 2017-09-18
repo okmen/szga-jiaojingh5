@@ -110,7 +110,8 @@ export default {
       cczb_id: '',
       years: [],
       months: [],
-      dates: []
+      dates: [],
+      mobileNo: ''
     }
   },
   computed: {
@@ -251,7 +252,12 @@ export default {
         drivingLicenceNo: this.certificateNo, // 驾驶证号码
         licensePlateNo: this.licensePlateNo, // 车牌号码
         licensePlateType: this.licensePlateType, // 车牌类型
-        mobileNo: this.mobileNo // 手机号码
+        mobileNo: this.mobileNo, // 手机号码
+        yydate: this.getYydate, // 预约日期
+        ccsjd: this.tab, // 预约时间段
+        cldbmmc: this.processingPoint.cldbmmc, // 服务点
+        cldaddress: this.processingPoint.cldaddress, // 服务点地址
+        cldlxdh: this.processingPoint.cldlxdh // 服务点电话
       }
       console.log(reqData)
       for (let key in reqData) {
@@ -298,9 +304,9 @@ export default {
     console.log(this.lawlessData)
     this.custName = window.localStorage.getItem('userName') // 姓名
     this.certificateNo = window.localStorage.getItem('identityCard') // 身份证
+    this.mobileNo = window.localStorage.getItem('mobilePhone') // 手机号码
     this.licensePlateNo = window.localStorage.getItem('myNumberPlate') // 车牌号码
     this.licensePlateType = window.localStorage.getItem('plateType') // 车牌类型
-    this.mobileNo = window.localStorage.getItem('mobilePhone') // 手机号码
 
     let ua = window.navigator.userAgent // 浏览器版本
     if (/MicroMessenger/i.test(ua)) {

@@ -1,9 +1,9 @@
-<!-- 
-  临时机动车驾驶证许可证申领 
+<!--
+  临时机动车驾驶证许可证申领
 -->
 <template>
   <div class="temporaryLicence">
-    <common 
+    <common
       @submitClick="subFn"
       :currentBusinessId="businessId"
       :currentCode="businessCode"
@@ -34,6 +34,10 @@ export default {
     subFn: function (params) {
       resultPost(createDriveInfoZJ16, params).then(json => {
         if (json.code === '0000') {
+          if (this.$root.$router.isWeChat) {
+            window.location.href = json.msg
+            return true
+          }
           let dataInfo = {
             type: 2,
             reserveNo: json.data.waterNumber,    // 流水号

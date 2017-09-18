@@ -1,9 +1,9 @@
-<!-- 
-  持军队、武警警察部队机动车驾驶证驾驶 
+<!--
+  持军队、武警警察部队机动车驾驶证驾驶
 -->
 <template>
   <div class="armyLicence">
-    <common 
+    <common
       @submitClick="subFn"
       :currentBusinessId="businessId"
       :currentCode="businessCode"
@@ -28,6 +28,7 @@ export default {
     common
   },
   mounted () {
+    console.log(this.$root.$router.isWeChat)
     this.nametypes = this.$route.query.name
   },
   methods: {
@@ -35,6 +36,10 @@ export default {
       console.log('armyLicence', params)
       resultPost(createDriveInfoZJ11, params).then(json => {
         if (json.code === '0000') {
+          if (this.$root.$router.isWeChat) {
+            window.location.href = json.msg
+            return true
+          }
           let dataInfo = {
             type: 2,
             reserveNo: json.data.waterNumber,    // 流水号

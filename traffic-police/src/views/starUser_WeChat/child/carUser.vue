@@ -323,7 +323,8 @@
             idCardImgHandHeld: userIdImgFour.split(',')[1],
             ownerIdCardImgPositive: ownerIdImgOne.split(',')[1],                // 车主身份证照片
             ownerIdCardImgHandHeld: ownerIdImgTwo.split(',')[1],
-            openId: window.localStorage.openId
+            openId: window.localStorage.openId,
+            businessType: this.$root.$router.businessType || '1'
           }
           resultPost(carUser, usrData).then(json => {
             let jsonMsg = json.msg
@@ -339,7 +340,8 @@
                 appoinNum: json.msg.split(':')[1],
                 appoinType: '星级用户认证'
               })
-              this.$router.push('/appointSuccess_WeChat')
+              // this.$router.push('/appointSuccess_WeChat')
+              window.location.href = json.data
             } else {
               Indicator.close()
               Toast({

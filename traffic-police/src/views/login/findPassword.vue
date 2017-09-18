@@ -11,7 +11,7 @@
         </div>
         <button id="login-btn" @click.stop="loginClick()"> 找 回 密 码</button>
         <div class="login-link">
-          <router-link to="/starUser" class="login-link-forget">注册</router-link>
+          <router-link :to="isWeChat ? '/starUser_WeChat' : '/starUser'" class="login-link-forget">注册</router-link>
           <router-link to="/login" class="login-link-register">登录</router-link>
         </div>
         <div class="login-hint">
@@ -30,6 +30,11 @@ import { Toast, Indicator } from 'mint-ui'
 
 export default {
   name: 'login',
+  computed: {
+    isWeChat: function () {
+      return this.$root.$router.isWeChat
+    }
+  },
   data () {
     return {
       userName: '',

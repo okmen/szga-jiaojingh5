@@ -1,4 +1,4 @@
-<!-- 
+<!--
 * 满分学习
  -->
 <template>
@@ -36,6 +36,7 @@ export default {
   },
   mounted () {
     var query = this.$route.query
+    console.log(this.$root.$router.isWeChat)
     // console.log(query)
     this.businessId = query.id
     this.bussinessCode = query.code
@@ -46,6 +47,10 @@ export default {
       console.log('满分学习', params)
       resultPost(createDriveInfoZJ10, params).then(json => {
         if (json.code === '0000') {
+          if (this.$root.$router.isWeChat) {
+            window.location.href = json.msg
+            return true
+          }
           console.log(json)
           let time = json.data.appointmentTime
           let date = json.data.appointmentDate
@@ -103,4 +108,3 @@ export default {
   }
 }
 </style>
-

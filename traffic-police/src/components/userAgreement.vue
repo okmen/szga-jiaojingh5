@@ -53,6 +53,7 @@ export default {
   mounted: function () {
     // let locationHref = decodeURIComponent(window.location.href)
     // this.entryHash = locationHref.split('?')[0].split('#')[2]  // 截取#后的值
+    this.$root.$router.isWeChat = this.isWeChat
     this.entryHash = this.$route.params.id
     if (this.entryHash === 'wfsspjbzy' || this.entryHash === 'sspjbzysx' || this.entryHash === 'wtmf') {
       this.isShow = false

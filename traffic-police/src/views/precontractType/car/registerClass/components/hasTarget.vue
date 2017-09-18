@@ -700,7 +700,7 @@
             }
 //          this.$store.commit('saveResponseData', data)
             this.$store.commit('saveSuccessInfo', dataInfo)
-            this.$router.push('/submitSuccess')
+            this.$root.$router.isWeChat ? window.location.href = data.msg : this.$router.push('/submitSuccess')
           } else {
             MessageBox('提示', data.msg)
           }

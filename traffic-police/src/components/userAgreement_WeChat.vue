@@ -45,6 +45,7 @@ export default {
     }
   },
   mounted: function () {
+    this.$root.$router.isWeChat = this.isWeChat
     // let locationHref = decodeURIComponent(window.location.href)
     // this.entryHash = locationHref.split('?')[0].split('#')[2]  // 截取#后的值
     this.entryHash = this.$route.params.id

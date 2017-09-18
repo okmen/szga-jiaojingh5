@@ -251,7 +251,8 @@ export default {
             sendData.noTip = true
           }
           this.$store.commit('saveSuccessInfo', sendData)
-          this.$router.push(/_WeChat/g.test(this.$route.name) ? '/submitSuccess_WeChat' : '/submitSuccess')
+          // this.$router.push(/_WeChat/g.test(this.$route.name) ? '/submitSuccess_WeChat' : '/submitSuccess')
+          this.isWeChat ? window.location.href = json.msg : this.$router.push('/submitSuccess')
         } else {
           MessageBox('提示', json.msg).then(action => {
             // this.$router.push('/')
