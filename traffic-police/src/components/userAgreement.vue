@@ -97,6 +97,7 @@ export default {
             break
           case 'xjyhrz': // 星级用户认证须知
 //            this.showPopUpG = true
+            this.$root.$router.businessType = ''
             this.$router.push('/starUser')
             break
           case 'aqsgxyb':  // 驾驶人安全事故信用表须知

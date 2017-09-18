@@ -109,6 +109,7 @@ export default {
             this.$router.push(this.isWeChat ? '/motorstudy_WeChat#5' : '/motorstudy#5')
             break
           case 'xjyhrz': // 星级用户认证须知
+            this.$root.$router.businessType = this.$route.query.businessType
             this.$router.push(this.getHash('/starUser'))
             break
           case 'aqsgxyb':  // 驾驶人安全事故信用表须知

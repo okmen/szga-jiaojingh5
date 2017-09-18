@@ -69,7 +69,6 @@ export default {
     }
   },
   created () {
-    this.$root.$router.businessType = this.$root.$router.businessType || this.$route.query.businessType
     document.addEventListener('click', (e) => {
       this.typeSelectShow = false
     })
