@@ -15,7 +15,7 @@
         <dd class="result-center-colo">答错次数</dd>
       </dl>
     </div>
-    <router-link class="result-bottom" to="wschool">返回</router-link>
+    <router-link class="result-bottom" :to="getReturnPath">返回</router-link>
   </div>
 </template>
 <script>
@@ -23,6 +23,11 @@ import { resultPost } from '../../../../service/getData'
 import { xstudy } from '../../../../config/baseUrl'
 export default {
   name: 'result',
+  computed: {
+    getReturnPath () {
+      return this.$root.$router.isWeChat ? 'motorstudy_WeChat#1' : 'wschool'
+    }
+  },
   data () {
     return {
       surplusAnswe: 0,    // 答题数
