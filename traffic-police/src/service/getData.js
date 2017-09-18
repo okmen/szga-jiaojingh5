@@ -3,18 +3,21 @@ import { Indicator } from 'mint-ui'
 /* eslint-disable */
 
 var dataFun = (obj) => {
-  obj.version = '1.4.6'
+  obj.version = '1.4.7'
   obj.sourceOfCertification = window.localStorage.getItem('sourceOfCertification') ? window.localStorage.getItem('sourceOfCertification') : 'C'
 	obj.openId = window.localStorage.getItem('openId') ? window.localStorage.getItem('openId') : ''
   var length = obj && obj.length,
-         idx = 0,
-         url = '&';
-     for (var key in obj) {
-         if (key != 'url' && obj[key] !== null) {
-             url += (key + '=' + encodeURIComponent(obj[key]) + '&');
-         }
-     }
-     return url.substring(0, url.lastIndexOf('&'));
+      idx = 0,
+      url = '&';
+  for (var key in obj) {
+    if (obj[key] === null || obj[key] === undefined) {
+      obj[key] = ''
+    }
+    if (key != 'url' && obj[key] !== null) {
+      url += (key + '=' + encodeURIComponent(obj[key]) + '&');
+    }
+  }
+  return url.substring(0, url.lastIndexOf('&'));
 }
 
 export const resultPost = (url, bodyData) => {

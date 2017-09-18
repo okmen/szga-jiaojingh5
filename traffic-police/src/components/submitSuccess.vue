@@ -69,8 +69,8 @@
         </li>
       </ul>
     </section>
-    <div class="btn-appoint-backword" @click="btnBackword" v-if="JsonDataInfo.type == 1">返回</div>
-    <div class="btn-appoint-backword mt-60" @click="btnBackword"  v-if="JsonDataInfo.type != 1">好的</div>
+    <div class="btn-appoint-backword" @click="btnBackword" v-if="!urlJsonData && JsonDataInfo.type == 1">返回</div>
+    <div class="btn-appoint-backword mt-60" @click="btnBackword"  v-if="!urlJsonData && JsonDataInfo.type != 1">好的</div>
     <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
@@ -212,6 +212,10 @@ export default {
           'M': '临时居民身份证'
         },
         title: {
+          reauthentication: '星级用户重新认证',
+          illegalAppointment: '违法预约处理',
+          starUserAuth: '星级用户认证',
+          addVehicle: '添加车辆',
           applyGatePass: '申请通行证',
           applyCarTemporaryLicence: '申请机动车临牌',
           complementTheMotorVehicleDrivingLicense: '补领机动车行驶证',

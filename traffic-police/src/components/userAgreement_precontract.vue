@@ -3,7 +3,7 @@
     <div class="tp-title">
       {{getNoticeTitle}}
     </div>
-   <div class="tp-tips-intro" v-html="userAgreementCon"></div>
+   <div class="tp-tips-intro" v-html="getUserAgreementCon"></div>
    <div class="tp-read">
      <div class="tp-read-checkbox">
        <input type="checkbox" id="informReadCheckbox" name="informReadCheckbox" v-model="checked">
@@ -20,7 +20,7 @@
      <button @click="btnReturn">返回</button>
    </div>
    <div v-wechat-title="$route.meta.title"></div>
-   <page-bottom v-if="isWeChat"></page-bottom>
+   <page-bottom v-if="isWeChat" :class="{positionBottom: positionBottom}"></page-bottom>
  </div>
 </template>
 <script>
@@ -32,6 +32,9 @@ export default {
   computed: {
     isWeChat: function () {
       return /_WeChat/g.test(this.$route.name)
+    },
+    getUserAgreementCon: function () {
+      return this.userAgreementCon.replace(/href=".*?"/gi, '')
     }
   },
   components: {
@@ -45,15 +48,19 @@ export default {
       entryHash: '',
       isShow: true,
       menuJson: {},
-      routerQuery: ''
+      routerQuery: '',
+      positionBottom: false
     }
   },
   mounted: function () {
-    console.log(this.$route.query)
+    this.$root.$router.isWeChat = this.isWeChat
     if (JSON.stringify(this.$route.query) !== '{}') {
       this.routerQuery = this.$route.query
       this.routerQuery.type === 'card' ? this.getData(0) : this.getData(1)
     }
+    this.$nextTick(function () {
+      this.positionBottom = document.getElementById('app').offsetHeight >= document.getElementById('takePhotoTipsCom').offsetHeight
+    })
   },
   methods: {
     getData: function (type) {
@@ -91,6 +98,9 @@ export default {
               this.menuJson = obj.data[i]
               this.userAgreementCon = this.menuJson.description
               this.getNoticeTitle = this.menuJson.name
+              this.$nextTick(function () {
+                this.positionBottom = document.getElementById('app').offsetHeight >= document.getElementById('takePhotoTipsCom').offsetHeight
+              })
               return this.menuJson.name
             }
           }
@@ -222,4 +232,10 @@ export default {
 </script>
 <style lang="less">
   @import '../style/userAgreement';
+  .positionBottom{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 </style>

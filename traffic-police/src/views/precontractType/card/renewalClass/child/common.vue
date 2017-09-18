@@ -363,6 +363,9 @@ export default {
     }
     resultPost(getPageInit, getBusinessData).then(json => {
       if (json.code === '0000') {
+        for (let i in json.data.orgVOs) {
+          json.data.orgVOs[i].description = json.data.orgVOs[i].description.replace(/<(?!\/?img.+?>)[^<>]*>/gi, '')
+        }
         this.varietyData = json.data.idTypeVOs     // 初始化证件类型
         this.variety = this.varietyData[0].name    // 初始化证件类型名称
         this.cur_card_id = this.varietyData[0].id  // 初始化证件类型id
@@ -392,4 +395,3 @@ export default {
 <style lang="less" scoped>
 @import "./../../../../../style/replacementType";
 </style>
-

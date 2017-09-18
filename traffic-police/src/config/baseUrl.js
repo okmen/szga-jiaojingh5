@@ -215,7 +215,7 @@ export const getCarModelArray = `${commonUrl}bookingbusiness/getCarModelArray.ht
 
 export const simpleSendMessage = `${commonUrl}bookingbusiness/simpleSendMessage.html`  // 验证码接口
 
-export const getPageInit = `${commonUrl}/bookingbusiness/getPageInit.html` // 进去页面初始化获取的数据
+export const getPageInit = `${commonUrl}bookingbusiness/getPageInit.html` // 进去页面初始化获取的数据
 
 /* --------------机动车预约 变更类--------------- */
 export const numberAlter = `${commonUrl}bookingbusiness/createVehicleInfo_JD28.html` // 机动车打刻原车发动机号码变更备案
@@ -281,3 +281,7 @@ export const toQueryFeePage = `${commonUrl}illegalHanding/toQueryFeePage.html` /
 export const faceautonym = `${commonUrl}faceautonym/getdetectinfo.html` // 扫脸获取用户信息接口
 
 export const weChatBrushFaceAuthentication = `${commonUrl}/user/weChatBrushFaceAuthentication.html`
+
+/* -------------- 问题反馈 --------------- */
+// export const issueFeedback = `${commonUrl}/user/problemFeedback.html` // 星级用户问题反馈
+export const issueFeedback = `http://192.168.1.247:8080/web/user/problemFeedback.html` // 星级用户问题反馈

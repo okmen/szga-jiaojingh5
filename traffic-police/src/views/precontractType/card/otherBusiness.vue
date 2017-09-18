@@ -1,4 +1,4 @@
-<!-- 
+<!--
 * 其它业务
  -->
 <template>
@@ -47,6 +47,10 @@ export default {
       console.log('其它业务', params)
       resultPost(createDriveInfoZJ20, params).then(json => {
         if (json.code === '0000') {
+          if (this.$root.$router.isWeChat) {
+            window.location.href = json.msg
+            return true
+          }
           console.log(json)
           let time = json.data.appointmentTime
           let date = json.data.appointmentDate

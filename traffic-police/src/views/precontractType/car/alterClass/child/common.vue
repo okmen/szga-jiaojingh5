@@ -1,4 +1,4 @@
-<!-- 
+<!--
 * 公共部分
 * 标星(*) 注释 为 接口所需参数
  -->
@@ -38,7 +38,7 @@
         <li class="alter-hbs-item">
           <div class="alter-hbs-name"><span>手机号码</span></div>
           <div class="alter-hbs-text">
-            <input class="text-input bg-white" v-model="userTelphone" type="tel" maxlength="11" 
+            <input class="text-input bg-white" v-model="userTelphone" type="tel" maxlength="11"
                    placeholder="请输入您的手机号码">
           </div>
         </li>
@@ -56,7 +56,7 @@
         <li class="alter-hbs-item clear">
           <div class="alter-hbs-name"><span>车牌号码</span></div>
           <div class="div-select bg-white width-120 left">
-            <span class="btn-select bg-white min-btn-select" 
+            <span class="btn-select bg-white min-btn-select"
                   @click.stop="abbreviationSelectClick()">{{ abbreSelectValue }}</span>
             <div class="div-select-ul" v-if="abbreviationSelectShow">
               <ul>
@@ -125,11 +125,11 @@
         <li class="alter-hbs-item">
           <div class="alter-hbs-name"><span>预约时间</span></div>
           <div class="div-select">
-            <input class="btn-select bg-white" type="text" readonly placeholder="请选择预约时间" 
+            <input class="btn-select bg-white" type="text" readonly placeholder="请选择预约时间"
                   @click.stop="selectOrderTime()" v-model="selectDetailTime">
             <div class="div-select-ul date-style" v-if="detailTimeShow">
               <ul>
-                <li class="alter-detail-time" v-for="(item, index) in orderDetailsTime" 
+                <li class="alter-detail-time" v-for="(item, index) in orderDetailsTime"
                     @click="selectOrderTime(item.time, index, item.leftNum)"
                     :class="{'time-full': item.leftNum === 0, 'active': index === activeIndex && item.leftNum !== 0}">
                   <p>{{item.time}}</p>
@@ -351,7 +351,7 @@
         if (str) {
           this.orderPlaceValue = str
           this.orderPlaceID = placeID
-          this.orderPlaceAddress = address
+          this.orderPlaceAddress = address.replace(/<(?!\/?img.+?>)[^<>]*>/gi, '')
           console.log('预约地点id', this.orderPlaceID)
         }
         if (this.orderPlaceShow === true) {

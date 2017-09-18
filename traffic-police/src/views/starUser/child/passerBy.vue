@@ -118,7 +118,8 @@
             idCardImgPositive: idImgOne.split(',')[1],
             idCardImgNegative: idImgTwo.split(',')[1],
             idCardImgHandHeld: idImgThree.split(',')[1],
-            openId: window.localStorage.openId
+            openId: window.localStorage.openId,
+            businessType: ''
           }
           resultPost(passerBy, passerData).then(json => {
             let jsonMsg = json.msg

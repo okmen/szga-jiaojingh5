@@ -235,7 +235,7 @@ let dealServiceRouter = [
     name: 'replaceCredentials_WeChat',                                                // 微信版本
     path: '/replaceCredentials_WeChat',
     component: require('../views/dealService/child/car/replaceCredentials/index.vue'),
-    redirect: '/replaceCredentials/repairDrivingLicense',
+    redirect: '/replaceCredentials_WeChat/repairDrivingLicense',
     children: [
       {
         name: 'repairDrivingLicense',

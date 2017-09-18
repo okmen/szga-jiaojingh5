@@ -69,20 +69,21 @@ export default {
     }
   },
   created () {
+    this.$root.$router.businessType = this.$root.$router.businessType || this.$route.query.businessType
     document.addEventListener('click', (e) => {
       this.typeSelectShow = false
     })
-    switch (window.location.hash) {
-      case '#/starUser_WeChat/carOwner':
+    switch (this.$route.name) {
+      case 'carOwner_WeChat':
         this.typeSelectMassage = this.typeSelectData[0]
         break
-      case '#/starUser_WeChat/carUser':
+      case 'carUser_WeChat':
         this.typeSelectMassage = this.typeSelectData[1]
         break
-      case '#/starUser_WeChat/drivingLicense':
+      case 'drivingLicense_WeChat':
         this.typeSelectMassage = this.typeSelectData[2]
         break
-      case '#/starUser_WeChat/passerBy':
+      case 'passerBy_WeChat':
         this.typeSelectMassage = this.typeSelectData[3]
         break
     }
