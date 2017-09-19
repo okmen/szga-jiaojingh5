@@ -213,7 +213,7 @@ export default {
         } else {
           clearInterval(this.Timepiece)
           MessageBox('提示', this.msg).then(() => {
-            this.$router.push('wschool')
+            this.$router.push(this.$root.$router.isWeChat ? 'motorstudy_WeChat#1' : 'wschool')
           })
         }
       })
