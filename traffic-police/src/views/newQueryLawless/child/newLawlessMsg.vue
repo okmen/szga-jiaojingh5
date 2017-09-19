@@ -19,7 +19,7 @@
             <p class="newLawlessMsg-item-content-amt">{{ item.punishAmt }}</p>
             <p class="newLawlessMsg-item-content-score">{{ item.punishScore }}</p>
             <p class="newLawlessMsg-item-content-unit">{{ item.illegalUnit }}</p>
-            <p class="newLawlessMsg-item-content-text"><span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2, isQuery: $route.query.type === 'query'}" @click.stop="clickJump(item)">{{ claimList[item.isNeedClaim] }}</span></p>
+            <p class="newLawlessMsg-item-content-text"><span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2, isQuery: $route.query.type === 'query', isLink: item.isNeedClaim == 0 }" @click.stop="clickJump(item)">{{ claimList[item.isNeedClaim] }}</span></p>
             <div class="newLawlessMsg-item-btn">
               <button v-if="item.description && isBoolean2(item.description)" @click="punishFreeDesc(item.description)">首违免罚</button>
               <button v-if="isBoolean(item.licensePlateNo, item.illegalUnit)" @click="hrefFn(item)">违法申诉</button>
@@ -257,7 +257,7 @@
           }
           .newLawlessMsg-item-content-text{
             padding-left: 0;
-            .isBtn{
+            .isBtn, span.isLink.isQuery{
               font-size: 30px;
               font-weight: 600;
               text-decoration: underline;
