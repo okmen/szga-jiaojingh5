@@ -316,13 +316,29 @@ const routes = [
     },
     component: require('../components/formTemplate/index.vue')
   }, */
-  {
+  /* {
     name: 'faceSwiping',
     path: '/faceSwiping',
     meta: {
       name: '星级用户认证'
     },
     component: require('../views/starUser/faceSwiping')
+  }, */
+  {
+    name: 'getFaceInfo',
+    path: '/getFaceInfo',
+    meta: {
+      name: '星级用户认证'
+    },
+    component: require('../views/starUser/child/getFaceInfo')
+  },
+  {
+    name: 'registerChoose',
+    path: '/registerChoose',
+    meta: {
+      name: '注册选择'
+    },
+    component: require('../views/starUser/registerChoose')
   },
   {
     name: 'testCardBag',

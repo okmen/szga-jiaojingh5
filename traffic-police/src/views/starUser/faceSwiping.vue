@@ -1,5 +1,17 @@
 <template>
-  <div class="face-swiping ">
+  <div class="face-swiping form-template">
+    <div class="self-input form-template-item">
+      <span class="form-template-item-left">手机号码</span>
+      <input type="text" placeholder="请输入手机号码"  class="form-template-item-right" v-model="mobilePhone">
+    </div>
+    <div class="form-template-item">
+      <span class="form-template-item-left">验证码</span>
+      <div class="form-template-item-right send-code">
+        <input type="text" placeholder="请输入验证码" class="send-code-input" v-model="verificationCode" maxlength="6">
+        <span class="send-code-btn" @click="getVerificationCode" v-if="showTime">获取验证码</span>
+        <span class="send-code-btn" style="background: gray" v-if="!showTime">{{countDown}} s</span>
+      </div>
+    </div>
     <!-- 认证必须使用 表单 发起认证 -->
     <form ref="formFace" action="https://iauth.wecity.qq.com/new/cgi-bin/auth.php" method="post" class="form-template">
       <!--<div class="self-input form-template-item">
@@ -10,18 +22,6 @@
         <span class="form-template-item-left">身份证号</span>
         <input type="text" name="ID" placeholder="请输入身份证号码"    class="form-template-item-right" v-model="IDcard">
       </div>-->
-      <div class="self-input form-template-item">
-        <span class="form-template-item-left">手机号码</span>
-        <input type="text" placeholder="请输入手机号码"  class="form-template-item-right" v-model="mobilePhone">
-      </div>
-      <div class="form-template-item">
-        <span class="form-template-item-left">验证码</span>
-        <div class="form-template-item-right send-code">
-          <input type="text" placeholder="请输入验证码" class="send-code-input" v-model="verificationCode" maxlength="6">
-          <span class="send-code-btn" @click="getVerificationCode" v-if="showTime">获取验证码</span>
-          <span class="send-code-btn" style="background: gray" v-if="!showTime">{{countDown}} s</span>
-        </div>
-      </div>
       <input type="hidden" name="appid" :value="appid">
       <input type="hidden" name="signature" :value="signature">
       <input type="hidden" name="redirect" :value="redirect">
