@@ -125,7 +125,7 @@
                   }
                   resultPost(weChatBrushFaceAuthentication, requestData).then(json => {
                     if (json.code === '0000') {
-                      MessageBox.alert('恭喜你已经成为星级用户,请前往登录').then(action => {
+                      MessageBox.alert('你的信息已成功提交,我们将在3工作日内发送短信告知您审核结果').then(action => {
                         _this.$router.push('/')
                       })
                     } else {
