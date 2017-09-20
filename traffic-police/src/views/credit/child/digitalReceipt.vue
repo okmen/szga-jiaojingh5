@@ -126,7 +126,7 @@ export default {
 <template>
   <div class="digital-receipt"
     :style="boxStyle">
-    <span @click="saveImg" style="display: inline-block;position: absolute;background: rgb(14,199,12);height: 40px;width: 90px;text-align: center;line-height: 40px;z-index: 999;color:white" :style="{left: wHeight-95 + 'px', top:'4px'}">保存单据</span>
+   <!--  <span @click="saveImg" style="display: inline-block;position: absolute;background: rgb(14,199,12);height: 40px;width: 90px;text-align: center;line-height: 40px;z-index: 999;color:white" :style="{left: wHeight-95 + 'px', top:'4px'}">保存单据</span> -->
     <div id="x-table" class="x-tableBox">
       <table class="x-table">
         <thead>
