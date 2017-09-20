@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import motorVehicleAppointment from './modules/motorVehicleAppointment'
+import pageRecord from './modules/pageRecord'
 Vue.use(Vuex)
 
 const state = {
@@ -122,6 +123,7 @@ export default new Vuex.Store({
   mutations,
   actions,
   modules: {
-    motorVehicleAppointment
+    motorVehicleAppointment,
+    pageRecord
   }
 })

@@ -56,6 +56,14 @@ export default {
     'el-button': Button,
     'el-checkbox': Checkbox
   },
+  // 判断是否是从下级或者协议页面返回并使用历史数据
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if (from.name === 'greenTravel' || from.name === 'greenApplyDate') {
+        vm.reading = vm.$store.state.pageRecord.data.reading || false
+      }
+    })
+  },
   data () {
     return {
       isLogin: true,
@@ -75,6 +83,13 @@ export default {
         type: window.localStorage.getItem('plateType'),
         isMySelf: 0
       }
+    }
+  },
+  watch: {
+    reading () {
+      this.$store.commit('savePageRecord', {
+        reading: this.reading
+      })
     }
   },
   methods: {
