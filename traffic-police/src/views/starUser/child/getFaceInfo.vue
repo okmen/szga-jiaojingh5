@@ -125,7 +125,7 @@
                   }
                   resultPost(weChatBrushFaceAuthentication, requestData).then(json => {
                     if (json.code === '0000') {
-                      MessageBox.alert('你的信息已成功提交,我们将在3工作日内发送短信告知您审核结果').then(action => {
+                      MessageBox.alert('您的信息已成功提交,我们将在3工作日内发送短信告知您审核结果').then(action => {
                         _this.$router.push('/')
                       })
                     } else {
