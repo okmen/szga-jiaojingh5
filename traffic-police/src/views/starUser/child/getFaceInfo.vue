@@ -40,6 +40,7 @@
   import {Toast, MessageBox} from 'mint-ui'
   import {isPhone} from 'service/regExp.js'
   import {faceautonym, sendSMS, verificatioCode, weChatBrushFaceAuthentication} from 'config/baseUrl.js'
+//  import 'vconsole'
   export default {
     data () {
       return {
@@ -59,6 +60,16 @@
         infoSignature: null,
         infoSig: null
       }
+    },
+    created () {
+      resultPost(faceautonym, {
+        token: this.$route.query.token,
+        appid: this.appid
+      }).then(data => {
+        if (data.code !== '0000') {
+          this.$router.push('/registerChoose')
+        }
+      })
     },
     methods: {
       getVerificationCode () {
@@ -112,6 +123,7 @@
                 token: this.$route.query.token,
                 appid: this.appid
               }).then(data => {
+                console.log(data, 1111)
                 if (data.code === '0000') {
                   window.localStorage.setItem('isLogin', false) // 是否登录
                   let requestData = {
@@ -124,6 +136,7 @@
                     openId: window.localStorage.getItem('openId')
                   }
                   resultPost(weChatBrushFaceAuthentication, requestData).then(json => {
+                    console.log(json, 2222)
                     if (json.code === '0000') {
                       MessageBox.alert('您的信息已成功提交,我们将在3工作日内发送短信告知您审核结果').then(action => {
                         _this.$router.push('/')
