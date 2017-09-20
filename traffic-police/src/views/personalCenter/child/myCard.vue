@@ -88,7 +88,6 @@
       DriverCardNone: require('./DriverCardNone.vue')
     },
     mounted () {
-      Indicator.open()
       let reqData = {
         identityCard: window.localStorage.getItem('identityCard')
       }
@@ -124,6 +123,7 @@
           }
         })
       }
+      Indicator.open()
       resultPost(bindCard, reqData).then(json => {
         Indicator.close()
         if (json.code === '0000') {
@@ -141,6 +141,9 @@
           })
         }
       })
+    },
+    beforeDestory () {
+      Indicator.close()
     }
   }
 </script>
