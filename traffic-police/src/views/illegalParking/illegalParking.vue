@@ -54,7 +54,7 @@
         <label for="illegalParkingChecked"></label>
       </div>
       <span class="read-and-agree">
-        我已认真阅读并同意<router-link :to="{path: '/userAgreement/wtmf?type=nohandle'}" class="illegalParking-notice">《违停免罚须知》</router-link>
+        我已认真阅读并同意<router-link :to="{path: '/userAgreement/wtmf?type=nohandle'}" class="illegalParking-notice">《十分钟违停免罚须知》</router-link>
       </span>
     </div>
     <div class="tp-btn-sure">
@@ -104,7 +104,30 @@ export default {
       checked: false // 勾选已阅读须知
     }
   },
+  // 判断是否是从下级或者协议页面返回并使用历史数据
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if (from.name === 'userAgreement' || from.name === 'queryIllegalParking' || from.name === 'illegalParking_takePhoto') {
+        vm.checked = vm.$store.state.pageRecord.data.reading || false
+        vm.parkingAddr = vm.$store.state.pageRecord.data.parkingAddr
+      }
+    })
+  },
+  watch: {
+    checked () {
+      return this.savePageRecord()
+    },
+    parkingAddr () {
+      return this.savePageRecord()
+    }
+  },
   methods: {
+    savePageRecord () {
+      this.$store.commit('savePageRecord', {
+        reading: this.checked,
+        parkingAddr: this.parkingAddr
+      })
+    },
     licenseNoSelectClick: function (obj) { // 选择车牌号码
       if (obj) {
         this.licensePlateNo = obj.myNumberPlate
