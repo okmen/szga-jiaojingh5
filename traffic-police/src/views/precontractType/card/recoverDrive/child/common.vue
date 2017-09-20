@@ -323,7 +323,7 @@
           idType: this.cardID,               // 证件id
           lx: '1',                           // 业务类型 (驾驶证业务)
           bookerType: this.orderWay,         // 预约方式
-          bookerName: this.name,             // 预约人名字
+          bookerName: this.carOwnerName,             // 预约人名字
           bookerIdNumber: window.localStorage.getItem('identityCard') || this.cardNum,  // 预约人身份证号码
           idNumber: this.cardNum,            // 本次预约业务填写的证件号码
           codes: this.currentBusinessCode    // 业务类型 code
