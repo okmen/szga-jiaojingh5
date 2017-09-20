@@ -142,7 +142,7 @@
         <dl>
           <router-link :to="!isLogin ? '/login' : '/digByCar'">
             <dt><img class="top5" src="./images/nav13.png" alt=""></dt>
-            <dd>电子回执</dd>
+            <dd>电子回单</dd>
           </router-link>
         </dl>
         <dl>
