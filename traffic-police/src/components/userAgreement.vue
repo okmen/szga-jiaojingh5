@@ -5,21 +5,23 @@
       {{getNoticeTitle}}
     </div>
    <div class="tp-tips-intro" v-html="userAgreementCon"></div>
-   <div class="tp-read">
-     <div class="tp-read-checkbox">
-       <input type="checkbox" id="informReadCheckbox" name="informReadCheckbox" v-model="checked">
-       <label for="informReadCheckbox"></label>
-     </div>
-     <span class="read-and-agree">
-       我已认真阅读以上内容，并愿意承担相关法律责任。
-     </span>
-   </div>
-   <div class="tp-btn-sure" v-if="isShow">
-     <button @click="btnAgreeRequest">确认</button>
-   </div>
-   <div class="tp-btn-sure" v-else>
-     <button @click="btnReturn">返回</button>
-   </div>
+   <template v-if="$route.query.type !== 'nohandle'">
+    <div class="tp-read">
+      <div class="tp-read-checkbox">
+        <input type="checkbox" id="informReadCheckbox" name="informReadCheckbox" v-model="checked">
+        <label for="informReadCheckbox"></label>
+      </div>
+      <span class="read-and-agree">
+        我已认真阅读以上内容，并愿意承担相关法律责任。
+      </span>
+    </div>
+    <div class="tp-btn-sure" v-if="isShow">
+      <button @click="btnAgreeRequest">确认</button>
+    </div>
+    <div class="tp-btn-sure" v-else>
+      <button @click="btnReturn">返回</button>
+    </div>
+  </template>
    <div v-wechat-title="$route.meta.title"></div>
    <page-bottom v-if="isWeChat"></page-bottom>
  </div>

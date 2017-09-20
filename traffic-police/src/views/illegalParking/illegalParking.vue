@@ -54,7 +54,7 @@
         <label for="illegalParkingChecked"></label>
       </div>
       <span class="read-and-agree">
-        我已认真阅读并同意<router-link :to="{path: '/userAgreement/wtmf'}" class="illegalParking-notice">《违停免罚须知》</router-link>
+        我已认真阅读并同意<router-link :to="{path: '/userAgreement/wtmf?type=nohandle'}" class="illegalParking-notice">《违停免罚须知》</router-link>
       </span>
     </div>
     <div class="tp-btn-sure">
