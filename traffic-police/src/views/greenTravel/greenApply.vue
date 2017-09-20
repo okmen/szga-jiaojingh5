@@ -41,6 +41,10 @@
         <router-link to="/greenTravel">《申请加入“爱我深圳，停用少用，绿色出行”自愿停驶行动协议》</router-link>
       </p>
       <el-button type="primary" @click.native="submit" :disabled="!reading">下一步</el-button>
+      <router-link class="greenApply-prize" to="/prize">
+        <img src="../../images/prize.png">
+        <p>奖励说明</p>
+      </router-link>
     </div>
   </div>
 </template>

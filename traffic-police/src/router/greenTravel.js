@@ -16,6 +16,14 @@ let routerConfig = [
     component: require('../views/greenTravel/starLevel.vue')
   },
   {
+    name: 'prize',
+    path: '/prize',
+    meta: {
+      title: '奖励说明'
+    },
+    component: require('../views/greenTravel/prize.vue')
+  },
+  {
     name: 'greenApply',
     path: '/greenTravel/greenApply',
     meta: {
