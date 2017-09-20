@@ -90,7 +90,7 @@ export default{
           console.log(json)
           console.log('退出登录状态，返回首页')
           // 退出登录
-          this.$router.push('/')
+          this.$root.$router.isWeChat ? this.$router.push(`/personalCenter?from=wechat&businessType=${this.$root.$router.businessType}`) : this.$router.push('/')
         } else {
           MessageBox({
             title: '',
