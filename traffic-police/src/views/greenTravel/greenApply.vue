@@ -63,7 +63,7 @@ export default {
   // 判断是否是从下级或者协议页面返回并使用历史数据
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      if (from.name === 'greenTravel' || from.name === 'greenApplyDate') {
+      if (from.name === 'greenTravel' || from.name === 'greenApplyDate' || from.name === 'prize') {
         vm.reading = vm.$store.state.pageRecord.data.reading || false
       }
     })
