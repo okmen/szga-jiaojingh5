@@ -29,7 +29,7 @@ const routes = [
     name: 'illegalParking',
     path: '/illegalParking',
     meta: {
-      title: '违停免罚'
+      title: '十分钟违停免罚'
     },
     component: require('../views/illegalParking/illegalParking.vue')
   },

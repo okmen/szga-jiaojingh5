@@ -43,7 +43,7 @@ let creditRouter = [
     name: 'digitalReceipt',
     path: '/digitalReceipt',
     meta: {
-      title: '电子回执'
+      title: '电子回单'
     },
     component: require('../views/credit/child/digitalReceipt.vue')
   },
