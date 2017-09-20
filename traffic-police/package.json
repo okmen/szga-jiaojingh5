@@ -12,6 +12,7 @@
   "dependencies": {
     "crypto": "^1.0.1",
     "css-loader": "^0.28.0",
+    "dom-to-image": "^2.5.2",
     "element-ui": "^1.2.8",
     "less": "^2.7.2",
     "less-loader": "^4.0.2",
