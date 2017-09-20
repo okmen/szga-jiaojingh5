@@ -39,7 +39,7 @@
 </template>
 <script>
   import { resultPost } from '../../../service/getData'
-  import { queryPay, claimConfirm, illegalPictureQuery } from '../../../config/baseUrl'
+  import { queryPay, claimConfirm } from '../../../config/baseUrl'
   import popupImg from './../../../components/popupImg'
   // import { verifyCode } from '../../../config/verifyCode'
   import { MessageBox, Toast } from 'mint-ui'
@@ -131,10 +131,11 @@
           Toast('暂无违法图片')
           return false
         }
-        resultPost(illegalPictureQuery, {imgQueryCode: imgCode}).then(json => {
-          this.popupImgShow = true
-          this.imgBase = json.data[0]
-        })
+        this.$router.push(`/illegalImage?imgQueryCode=${imgCode}`)
+        // resultPost(illegalPictureQuery, {imgQueryCode: imgCode}).then(json => {
+        //   this.popupImgShow = true
+        //   this.imgBase = json.data[0]
+        // })
       },
       clickJump (item) {
         if (item.isNeedClaim === '0') { // 直接缴款
