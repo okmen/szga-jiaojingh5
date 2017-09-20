@@ -165,7 +165,8 @@ export default {
             type: 3,
             businessType: '绿色出行',
             numberPlate: data.date.numberPlate,
-            reserveNumber: data.date.reserveNumber
+            reserveNumber: data.date.reserveNumber + '天',
+            cryearNo: data.cryearNo
           })
           this.$router.push('/submitSuccess')
         } else {

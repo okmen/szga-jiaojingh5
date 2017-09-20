@@ -61,9 +61,9 @@
     <!-- 申报停驶 -->
     <section class="bid-box appoint-box" v-if="JsonDataInfo.type == 3">
       <h3>{{typeTitle[JsonDataInfo.type]}}结果</h3>
-      <p>感谢您的参与，提交成功！<br>您在绿色出行行动中，累计申报停驶了{{ JsonDataInfo.reserveNumber }}天。</p>
+      <p>感谢您的参与，提交成功！<br>您在{{ (new Date()).getFullYear() }}年度申报绿色出行行动中，累计申报停驶了{{ JsonDataInfo.cryearNo }}天。</p>
       <ul class="bid-ul appoint-margin">
-        <li class="bid-item" v-for="(value, key) in JsonDataInfo" v-if="keyListObj[key] && key !== 'reserveNumber'">
+        <li class="bid-item" v-for="(value, key) in JsonDataInfo" v-if="keyListObj[key] && key !== 'cryearNo'">
           <span class="bid-item-key">{{ keyListObj[key] }}</span>
           ：<span :class="{red: key === 'subscribeNo' || key === 'waterNumber'}">{{ valListObj[key] ? valListObj[key][value] : value }}</span>
         </li>
@@ -114,7 +114,7 @@ export default {
         appointmentPerson: '预约人',
         bidDate: '申办时间',
         title: '业务类型',
-        reserveNumber: '累计天数',
+        reserveNumber: '本次申报',
         appTime: '预约时间',
         orgName: '服务点',
         platNumber: '车牌号码',
