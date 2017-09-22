@@ -127,28 +127,28 @@
             <dd>轻微事故远程<br/>处理中心</dd>
           </a>
         </dl>
-        <!-- <dl>
+        <dl>
           <a :href="'http://gzh.stc.gov.cn/szjjpro/index.php/Business/Member/unlogin/selfbook/'+openId">
           <dt><img class="top6" src="./images/nav12.png" alt=""></dt>
           <dd>自主考试</dd>
           </a>
-        </dl> -->
-        <dl>
+        </dl>
+        <!-- <dl>
           <router-link :to="!isLogin ? '/login' : '/greenTravel/greenApply'">
             <dt><img class="top11" src="./images/green-logo.png" alt=""></dt>
             <dd>绿色出行</dd>
           </router-link>
-        </dl>
-        <dl>
+        </dl> -->
+        <dl class="new">
           <router-link :to="!isLogin ? '/login' : '/digByCar'">
             <dt><img class="top5" src="./images/nav13.png" alt=""></dt>
             <dd>电子回单</dd>
           </router-link>
         </dl>
-        <dl>
+        <dl class="new">
           <router-link :to="!isLogin ? '/login' : '/illegalParking'">
             <dt><img class="top5" src="./images/nav14.png" alt=""></dt>
-            <dd>违停免罚 </dd>
+            <dd>十分钟<br>违停免罚</dd>
           </router-link>
         </dl>
       </div>
@@ -444,7 +444,20 @@
       margin-top: 20px;
       box-shadow: 0 5px 5px rgba(0, 0, 0, .2);
       border-radius: 6px;
+      dl.new:before{
+        position: absolute;
+        font-size: 20px;
+        content: 'NEW';
+        right: 10px;
+        top: 10px;
+        background: #f00;
+        color: #fff;
+        line-height: 1.2;
+        padding: 5px 10px 8px 10px;
+        border-radius: 20px;
+      }
       dl {
+        position: relative;
         width: 50%;
         height: 138px;
         float: left;

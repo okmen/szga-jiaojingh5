@@ -45,7 +45,7 @@ const routes = [
     name: 'illegalParking_takePhoto',
     path: '/illegalParking_takePhoto',
     meta: {
-      title: '违停免罚'
+      title: '十分钟违停免罚'
     },
     component: require('../views/illegalParking/takePhoto.vue')
   },
@@ -304,7 +304,7 @@ const routes = [
     name: 'digitalReceipt',
     path: '/digitalReceipt',
     meta: {
-      title: '电子回执'
+      title: '电子回单'
     },
     component: require('../views/credit/child/digitalReceipt.vue')
   },
