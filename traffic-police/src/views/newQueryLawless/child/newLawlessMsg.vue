@@ -23,7 +23,7 @@
             <div class="newLawlessMsg-item-btn">
               <button v-if="item.description && isBoolean2(item.description)" @click="punishFreeDesc(item.description)">首违免罚</button>
               <button v-if="isBoolean(item.licensePlateNo, item.illegalUnit)" @click="hrefFn(item)">违法申诉</button>
-              <!-- <button v-if="item.imgQueryCode && isLogin()" @click="illegalImgBtn(item.imgQueryCode)">查看违法图片</button> -->
+              <button v-if="item.imgQueryCode && isLogin()" @click="illegalImgBtn(item.imgQueryCode)">查看违法图片</button>
             </div>
           </div>
         </li>
@@ -39,7 +39,7 @@
 </template>
 <script>
   import { resultPost } from '../../../service/getData'
-  import { queryPay, claimConfirm, illegalPictureQuery } from '../../../config/baseUrl'
+  import { queryPay, claimConfirm } from '../../../config/baseUrl'
   import popupImg from './../../../components/popupImg'
   // import { verifyCode } from '../../../config/verifyCode'
   import { MessageBox, Toast } from 'mint-ui'
@@ -133,10 +133,11 @@
           Toast('暂无违法图片')
           return false
         }
-        resultPost(illegalPictureQuery, {imgQueryCode: imgCode}).then(json => {
-          this.popupImgShow = true
-          this.imgBase = json.data[0]
-        })
+        this.$router.push(`/illegalImage?imgQueryCode=${imgCode}`)
+        // resultPos, {imgQueryCode: imgCode}).then(json => {
+        //   this.popupImgShow = true
+        //   this.imgBase = json.data[0]
+        // })
       },
       clickJump (item) {
         if (item.isNeedClaim === '0') { // 直接缴款
