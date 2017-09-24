@@ -127,18 +127,18 @@
             <dd>轻微事故远程<br/>处理中心</dd>
           </a>
         </dl>
-        <dl>
+        <!-- <dl>
           <a :href="'http://gzh.stc.gov.cn/szjjpro/index.php/Business/Member/unlogin/selfbook/'+openId">
           <dt><img class="top6" src="./images/nav12.png" alt=""></dt>
           <dd>自主考试</dd>
           </a>
-        </dl>
-        <!-- <dl>
+        </dl> -->
+        <dl class="new">
           <router-link :to="!isLogin ? '/login' : '/greenTravel/greenApply'">
             <dt><img class="top11" src="./images/green-logo.png" alt=""></dt>
             <dd>绿色出行</dd>
           </router-link>
-        </dl> -->
+        </dl>
         <dl class="new">
           <router-link :to="!isLogin ? '/login' : '/digByCar'">
             <dt><img class="top5" src="./images/nav13.png" alt=""></dt>
