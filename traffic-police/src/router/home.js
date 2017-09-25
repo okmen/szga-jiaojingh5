@@ -10,7 +10,7 @@ let homeRouter = [
     },
     component: require('../views/login/login.vue'),
     beforeEnter: (to, from, next) => {
-      if (from.name !== 'findPassword' && from.name !== 'initAuthentication') {
+      if (from.name !== 'findPassword' && from.name !== 'initAuthentication' && from.name !== 'carOwner') {
         loginTo = Object.assign({}, from)
       }
       router.from = loginTo
