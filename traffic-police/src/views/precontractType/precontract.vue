@@ -1,7 +1,7 @@
 <template>
   <div class="dealService-outer">
     <!--Tab切换栏-->
-    <div class="nav">
+    <div class="nav" v-if="!isWeChat">
       <div class="nav-tab" :class="{ 'active': cur_tab == 'car'}" @click="changeTab('car')">机动车业务</div>
       <div class="nav-tab" :class="{ 'active': cur_tab == 'card'}" @click="changeTab('card')">驾驶证业务</div>
       <div class="nav-tab" :class="{ 'active': cur_tab == 'progress'}" @click="changeTab('progress')">预约查询及取消</div>
@@ -39,12 +39,16 @@
     },
     methods: {
       renderSuccess: function () {
-        this.positionBottom = (document.getElementById('app').offsetHeight - document.getElementsByClassName('dealService-outer')[0].offsetHeight) > document.getElementsByClassName('tp-bottom')[0].offsetHeight
+        if (this.isWeChat) {
+          this.positionBottom = (document.getElementById('app').offsetHeight - document.getElementsByClassName('dealService-outer')[0].offsetHeight) > document.getElementsByClassName('tp-bottom')[0].offsetHeight
+        }
       },
       changeTab: function (str) {
         this.cur_tab = str
         this.$nextTick(function () {
-          this.positionBottom = (document.getElementById('app').offsetHeight - document.getElementsByClassName('dealService-outer')[0].offsetHeight) > document.getElementsByClassName('tp-bottom')[0].offsetHeight
+          if (this.isWeChat) {
+            this.positionBottom = (document.getElementById('app').offsetHeight - document.getElementsByClassName('dealService-outer')[0].offsetHeight) > document.getElementsByClassName('tp-bottom')[0].offsetHeight
+          }
         })
       }
     },
@@ -53,7 +57,9 @@
       this.cur_tab = this.$route.params.id === 'progress' ? 'progress' : 'car'
       this.$route.meta.title = this.currentTab[this.cur_tab]
       this.$nextTick(function () {
-        this.positionBottom = (document.getElementById('app').offsetHeight - document.getElementsByClassName('dealService-outer')[0].offsetHeight) > document.getElementsByClassName('tp-bottom')[0].offsetHeight
+        if (this.isWeChat) {
+          this.positionBottom = (document.getElementById('app').offsetHeight - document.getElementsByClassName('dealService-outer')[0].offsetHeight) > document.getElementsByClassName('tp-bottom')[0].offsetHeight
+        }
       })
     },
     // methods: {
