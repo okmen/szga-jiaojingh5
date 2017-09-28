@@ -357,6 +357,22 @@ const routes = [
     },
     component: require('../views/issueFeedback/issueFeedback')
   },
+  {
+    name: 'paymentSucceed',
+    path: '/paymentSucceed',
+    meta: {
+      name: '缴费成功'
+    },
+    component: require('../components/paymentSucceed.vue')
+  },
+  {
+    name: 'twiceFaceSwiping',
+    path: '/twiceFaceSwiping',
+    meta: {
+      name: '二次刷脸认证'
+    },
+    component: require('../views/twiceFaceSwiping')
+  },
   // 个人中心、登录、星级用户认证
   ...homeRouter,
 
