@@ -14,6 +14,7 @@ import takePicturesTipsRouter from 'src/router/takePicturesTips.js' // 随手拍
 import creditRouter from 'src/router/credit.js' // 信息单据证明
 import wschoolRouter from 'src/router/wschool.js' // 微课堂
 import newQueryLawlessRouter from 'src/router/newQueryLawless.js' // 违法处理类优化版
+import dieselEngineTrucks from 'src/router/dieselEngineTrucks.js'
 
 Vue.use(VueRouter)
 const routes = [
@@ -385,7 +386,9 @@ const routes = [
   ...wschoolRouter,
 
   // 违法处理类 新版
-  ...newQueryLawlessRouter
+  ...newQueryLawlessRouter,
+  // 柴油轻型自卸货车
+  ...dieselEngineTrucks
 ]
 /* eslint-disable no-new */
 const router = new VueRouter({
