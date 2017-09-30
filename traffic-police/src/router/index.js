@@ -30,7 +30,7 @@ const routes = [
     name: 'illegalParking',
     path: '/illegalParking',
     meta: {
-      title: '违停免罚'
+      title: '十分钟违停免罚'
     },
     component: require('../views/illegalParking/illegalParking.vue')
   },
@@ -46,7 +46,7 @@ const routes = [
     name: 'illegalParking_takePhoto',
     path: '/illegalParking_takePhoto',
     meta: {
-      title: '违停免罚'
+      title: '十分钟违停免罚'
     },
     component: require('../views/illegalParking/takePhoto.vue')
   },
@@ -305,7 +305,7 @@ const routes = [
     name: 'digitalReceipt',
     path: '/digitalReceipt',
     meta: {
-      title: '电子回执'
+      title: '电子回单'
     },
     component: require('../views/credit/child/digitalReceipt.vue')
   },
@@ -357,6 +357,22 @@ const routes = [
       name: '星级用户验证问题反馈'
     },
     component: require('../views/issueFeedback/issueFeedback')
+  },
+  {
+    name: 'paymentSucceed',
+    path: '/paymentSucceed',
+    meta: {
+      name: '缴费成功'
+    },
+    component: require('../components/paymentSucceed.vue')
+  },
+  {
+    name: 'twiceFaceSwiping',
+    path: '/twiceFaceSwiping',
+    meta: {
+      name: '二次刷脸认证'
+    },
+    component: require('../views/twiceFaceSwiping')
   },
   // 个人中心、登录、星级用户认证
   ...homeRouter,

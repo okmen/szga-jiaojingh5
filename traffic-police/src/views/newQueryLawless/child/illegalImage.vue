@@ -17,7 +17,8 @@ export default {
     return {
       imgBase: '',
       touchDistance: 0,
-      scale: 1
+      scale: 1,
+      viewer: ''
     }
   },
   mounted () {
@@ -28,7 +29,7 @@ export default {
         this.imgBase = json.data[0]
         this.$nextTick(() => {
           /* eslint-disable */
-          new Viewer(document.getElementById('image'), {
+          this.viewer = new Viewer(document.getElementById('image'), {
             navbar: false,
             title: false,
             toolbar: false,
@@ -45,6 +46,9 @@ export default {
         })
       }
     })
+  },
+  beforeDestroy () {
+    this.viewer.destroy()
   }
 }
 </script>

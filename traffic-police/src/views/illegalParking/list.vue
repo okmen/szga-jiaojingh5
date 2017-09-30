@@ -1,7 +1,7 @@
 <template>
   <div>
     <dl class="wtmf-item" v-for="item in listData" v-if="listData.length > 0">
-      <dt>违停免罚申请</dt>
+      <dt>十分钟违停免罚申请</dt>
       <dd>姓名：{{ username }}</dd>
       <dd>车辆号码：{{ item.numberPlateNumber }}</dd>
       <dd>申请时间：{{ item.reportTime }}</dd>

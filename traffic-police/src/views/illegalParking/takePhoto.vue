@@ -29,7 +29,7 @@
     <div class="m-confirm" :class="{ open: confirmStatus }">
       <div class="box">
         <div class="title">温馨提示</div>
-        <div class="text">您同意提交？即表示您违停车辆已驶离，并承诺遵守相关交通安全管理法则的承诺。</div>
+        <div class="text">如您同意提交，即表示您违停车辆已驶离，并承诺遵守相关交通法规。</div>
         <div class="footer">
           <div class="cancel" @click="confirmCancel">取消</div>
           <div class="ok" @click="confirmSubmit">确定</div>
