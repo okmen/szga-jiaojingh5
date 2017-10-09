@@ -95,12 +95,14 @@ const UploadFile = {
 		    // canvas清屏
 		    context.clearRect(0, 0, canvas.width, canvas.height);
 		    context.drawImage(img, sx, sy, sWidth, sHeight);
-		    context.font="14px microsoft yahei";
-		    context.fillStyle = "rgba(255,255,255,1)";
-		    context.fillText(dateTimeStr === ' undefined' ? '' : dateTimeStr, sWidth - 150, sHeight - 100, 150); // 给图片添加水印
+				context.font="14px microsoft yahei";
+				context.strokeStyle = "#000";
+		    context.strokeText(dateTimeStr === ' undefined' ? '' : dateTimeStr, sWidth - 150, sHeight - 100, 150); // 给图片添加水印
+				context.fillStyle = "rgba(255,255,255,1)";
+				context.fillText(dateTimeStr === ' undefined' ? '' : dateTimeStr, sWidth - 150, sHeight - 100, 150); // 给图片添加水印
 
 		    var dataUrl = canvas.toDataURL('image/jpeg',quality);
-		    imgObj.imgUrl = dataUrl;
+				imgObj.imgUrl = dataUrl;
 		    callback && callback(imgObj);
 		    Indicator.close();
 		}

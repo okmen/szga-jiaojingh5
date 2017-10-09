@@ -52,6 +52,7 @@
 <script>
 import { Input, Select, Option, Button, Checkbox } from 'element-ui'
 import { Toast, MessageBox } from 'mint-ui'
+import numberType from 'src/config/numberType'
 export default {
   components: {
     'el-input': Input,
@@ -72,11 +73,7 @@ export default {
     return {
       isLogin: true,
       reading: false,
-      typeData: {
-        '02': '蓝牌',
-        '06': '黑牌',
-        '01': '黄牌'
-      },
+      typeData: numberType,
       cars: JSON.parse(window.localStorage.getItem('cars')),
       selectCars: window.localStorage.getItem('myNumberPlate') === 'undefined' ? '' : window.localStorage.getItem('myNumberPlate'),
       form: {
@@ -122,6 +119,20 @@ export default {
       if (!this.form.car.includes('粤B')) {
         Toast({
           message: '只允许粤B小型汽车申请',
+          position: 'bottom'
+        })
+        return false
+      }
+      if (this.form.type !== '02' && this.form.type !== '06' && this.form.type !== '52') {
+        Toast({
+          message: '只允许小型汽车申请',
+          position: 'bottom'
+        })
+        return false
+      }
+      if (this.form.name.length > 4) {
+        Toast({
+          message: '只允许个人绑定的车',
           position: 'bottom'
         })
         return false
