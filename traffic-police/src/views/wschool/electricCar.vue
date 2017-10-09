@@ -12,7 +12,7 @@
         </a> -->
          <router-link :to="isLogin? '/electrocarFile/scancode': '/login'">
           <p>电动车扫码</p>
-        </router-link> 
+        </router-link>
       </li>
     </ul>
     <div v-wechat-title="$route.meta.title"></div>
@@ -32,7 +32,6 @@ export default {
 }
 </script>
 <style lang="less">
-@import "./../../style/base";
 .nav-outer {
   width: 100%;
 }
