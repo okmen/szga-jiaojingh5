@@ -8,10 +8,10 @@
               <span>业务类型</span>
             </div>
             <div class="div-select">
-              <span class="btn-select" @click.stop="licenseSelectClick()">{{ licenseSelectMassage }}</span>
-              <div class="div-select-ul" v-if="licenseSelectShow">
+              <span class="btn-select" @click.stop="typeClick()">{{ typeMassage }}</span>
+              <div class="div-select-ul" v-if="typeShow">
                 <ul>
-                  <li v-for="item in licenseSelectData" @click.stop="licenseSelectClick(item.str, item.id)">{{item.str}}</li>
+                  <li v-for="item in typelicenseSelectData" @click.stop="typeClick(item.str, item.id)">{{item.str}}</li>
                 </ul>
               </div>
             </div>
@@ -21,7 +21,7 @@
               <span>车牌号码</span>
             </div>
             <div class="div-select left">
-              <span class="btn-select width-45" @click.stop="abbreviationSelectClick()"">{{ abbreviationSelectMassage }}</span>
+              <span class="btn-select width-45" @click.stop="abbreviationSelectClick()">{{ abbreviationSelectMassage }}</span>
               <div class="div-select-ul" v-if="abbreviationSelectShow">
                 <ul>
                   <li v-for="item in abbreviationSelectData" @click.stop="abbreviationSelectClick(item.str, item.id)">{{item.str}}</li>
@@ -38,6 +38,19 @@
             </div>
             <div class="width-53 right">
               <input class="text-input" type="text" v-model="numberPlate" name="" value="" placeholder="请输入车牌号码" >
+            </div>
+          </li>
+          <li class="freeByCar-hbs-item">
+            <div class="freeByCar-hbs-name">
+              <span>车牌类型</span>
+            </div>
+            <div class="div-select">
+              <span class="btn-select" @click.stop="licenseSelectClick()">{{ licenseSelectMassage }}</span>
+              <div class="div-select-ul" v-if="licenseSelectShow">
+                <ul>
+                  <li v-for="item in licenseSelectData" @click.stop="licenseSelectClick(item.str, item.id)">{{item.str}}</li>
+                </ul>
+              </div>
             </div>
           </li>
           <li class="freeByCar-hbs-item clear">
@@ -58,12 +71,40 @@
 <script>
   import { verifyCode } from '../../config/verifyCode'
   import { resultPost } from '../../service/getData'
-  import { getResultOfFirstIllegalImpunity } from '../../config/baseUrl'
+  import { queryInformationCollection } from '../../config/baseUrl'
   import { Toast } from 'mint-ui'
   export default {
     name: 'dieseDemand',
     data () {
       return {
+        curid: '02',
+        licenseSelectMassage: '蓝牌',
+        licenseSelectData: [
+          {
+            'str': '蓝牌',
+            'id': '02'
+          },
+          {
+            'str': '黄牌',
+            'id': '01'
+          },
+          {
+            'str': '黑牌',
+            'id': '06'
+          },
+          {
+            'str': '个性牌',
+            'id': '02'
+          },
+          {
+            'str': '小型新能源车号牌',
+            'id': '52'
+          },
+          {
+            'str': '大型新能源车号牌',
+            'id': '51'
+          }
+        ],
         freeUlShow: false,
         verification: '',                     // 验证码
         numberPlate: '',                      // 车牌号码
@@ -250,8 +291,8 @@
             'str': 'Z'
           }
         ],
-        licenseSelectMassage: '单位车辆',         // 默认车牌类型
-        licenseSelectData: [
+        typeMassage: '单位车辆',         // 默认车牌类型
+        typelicenseSelectData: [
           {
             'id': '0',
             'str': '单位车辆'
@@ -262,33 +303,34 @@
           }
         ],            // 车牌类型列表（编号转换）
         freeData: {},
-        keyListObj: {
-          'id': '记录ID',
-          'numberPlate': '车牌号码',
-          'plateType': '车牌类型',
-          'illegalTime': '违法时间',
-          'illegalAddress': '违法地址',
-          'illegalSite': '违法地点',
-          'sectionsCode': '路段代码',
-          'illegalAction': '违法行为',
-          'illegalContent': '违法内容',
-          'illegalMoney': '罚款金额',
-          'illegalCore': '违法记分数',
-          'inputTime': '录入时间',
-          'foundAuthority': '发现机关',
-          'foundAuthorityName': '发现机关名称',
-          'illegalNumber': '违法序号',
-          'productiveTime': '运算时间',
-          'updateTime': '更新时间'
-        }
+        typeShow: false
+
       }
     },
     mounted () {
+      document.addEventListener('click', (e) => {
+        this.freeUlShow = false
+        this.verifyCode = false
+        this.licenseSelectShow = false
+        this.moldShow = false
+      })
       verifyCode(document.getElementById('inp'), document.getElementById('code'), (result, code) => {
         this.verifyCode = result
       })
     },
     methods: {
+      TypeClick: function (str, id) {
+        if (str) {
+          this.typeMassage = str
+          this.curid = id
+        }
+        if (this.typeShow === true) {
+          this.typeShow = false
+        } else {
+          this.typeShow = true
+          this.abbreviationSelectShow = false
+        }
+      },
       licenseSelectClick: function (str, id) {
         if (str) {
           this.licenseSelectMassage = str
@@ -337,11 +379,14 @@
       // 接口查询
       referFn: function () {
         let freeByCarData = {
+          licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`,      // 车牌号码
+          loginUser: window.localStorage.getItem('identityCard'),       // 星级用户身份证
+          numberPlate: this.curid                      // 车牌种类
         }
-        resultPost(getResultOfFirstIllegalImpunity, freeByCarData).then(json => {
+        resultPost(queryInformationCollection, freeByCarData).then(json => {
           if (json.code === '0000') {
-            this.freeData = json.data[0]
-            this.freeUlShow = true
+            let num = json.data
+            this.$router.push({path: 'dieseInquire', query: { myNumberPlate: JSON.stringify(num) }})
           } else {
             Toast({message: json.msg, position: 'bottom', className: 'white'})
           }
