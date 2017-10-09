@@ -21,16 +21,24 @@
 <script>
   export default {
     data () {
-      return {}
+      return {
+        queryValue: ''
+      }
+    },
+    created () {
+      this.queryValue = this.$route.query
+      if (this.queryValue.openId === window.localStorage.getItem('openId')) {
+        console.log()
+      }
     },
     computed: {
       list () {
         return {
-          '订单号码': 11111,
-          '支付时间': 33333,
-          '订单金额': 23434,
-          '订单状态': 23434,
-          '订单款项': 23434
+          '订单号码': this.queryValue.orderNumber,
+          '支付时间': this.queryValue.payTime,
+          '订单金额': this.queryValue.orderAmount,
+          '订单状态': this.queryValue.orderStatus,
+          '订单款项': this.queryValue.orderFund
         }
       }
     }

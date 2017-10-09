@@ -53,7 +53,6 @@ export default {
 }
 </script>
 <style lang="less">
-@import "./../../style/base";
 .nav-outer {
   width: 100%;
 }
