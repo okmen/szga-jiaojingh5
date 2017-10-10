@@ -145,11 +145,11 @@ export default{
         },
         {
           'str': '小型新能源车号牌',
-          'type': '02'
+          'type': '52'
         },
         {
           'str': '大型新能源车号牌',
-          'type': '02'
+          'type': '51'
         }
       ],
       abbreviationSelectShow: false,
