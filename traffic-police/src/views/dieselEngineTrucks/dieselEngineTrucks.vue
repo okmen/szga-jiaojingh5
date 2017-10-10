@@ -165,7 +165,7 @@
           <span v-if ="this.ownerid === '2'">单位申请人联系地址</span>
           <span v-if ="this.ownerid === '1'">车主联系地址</span>
         </li>
-        <v-distpicker class="distp" @selected="onSelected"></v-distpicker>
+        <v-distpicker class="distp" @selected="onSelected" province="广东省" city="深圳市" area="福田区"></v-distpicker>
         <div class="form-line-item">
           <input class="text-input bg-colour" type="text" value="" v-model="distpSite" placeholder="请输入单位申请人联系地址"/>
         </div>
@@ -716,9 +716,6 @@ export default {
         } else if (!this.monadmobile) {
           Toast({message: '请输入单位申请人联系电话', position: 'bottom', className: 'white'})
           return
-        } else if (!this.selectedData) {
-          Toast({message: '请选择省市区地址', position: 'bottom', className: 'white'})
-          return
         } else if (!this.distpSite) {
           Toast({message: '请输入单位申请人联系地址', position: 'bottom', className: 'white'})
           return
@@ -752,9 +749,6 @@ export default {
         } else if (!this.ownerMobile) {
           Toast({message: '请输入车主联系电话', position: 'bottom', className: 'white'})
           return
-        } else if (!this.selectedData) {
-          Toast({message: '请选择省市区地址', position: 'bottom', className: 'white'})
-          return
         } else if (!this.distpSite) {
           Toast({message: '请输入车主联系地址', position: 'bottom', className: 'white'})
           return
@@ -787,10 +781,10 @@ export default {
           validityOfAnnualAudit: this.mtDateTimeMsg, // 年审有效期
           ownerIdentityCard: this.monadPersonIdentityCard, // 单位法人身份证号或车主身份证号码
           ownerMobilephone: this.monadmobile, // 单位申请人联系电话或者车主联系电话
-          ownerAddress: `${this.selectedData}${this.distpSite}`, // 车主地址
+          ownerAddress: `${this.selectedData || '广东省深圳市福田区'}${this.distpSite}`, // 车主地址
           identityCard: this.monadPersonIdentityCard, // 身份证
           mobilephone: this.monadmobile, // 联系电话
-          address: `${this.selectedData}${this.distpSite}`, // 地址
+          address: `${this.selectedData || '广东省深圳市福田区'}${this.distpSite}`, // 地址
           copyOfOwnerIdentityCard: this.IDcarfBack.split(',')[1], // 车辆所有人身份证复印件
           copyOfDriverLicense: this.organizationCodeCertificate.split(',')[1], // 车辆驾驶人驾驶证复印件
           copyOfVehicleTravelLicense: this.registerCredential.split(',')[1], // 车辆行驶证复印件
@@ -810,10 +804,10 @@ export default {
           validityOfAnnualAudit: this.mtDateTimeMsg, // 年审有效期
           ownerIdentityCard: this.ownerItyCard, // 车主身份证号码
           ownerMobilephone: this.ownerMobile, // 车主联系电话
-          ownerAddress: `${this.selectedData}${this.distpSite}`, // 车主地址
+          ownerAddress: `${this.selectedData || '广东省深圳市福田区'}${this.distpSite}`, // 车主地址
           identityCard: this.ownerItyCard, // 身份证
           mobilephone: this.ownerMobile, // 联系电话
-          address: `${this.selectedData}${this.distpSite}`, // 地址
+          address: `${this.selectedData || '广东省深圳市福田区'}${this.distpSite}`, // 地址
           copyOfOwnerIdentityCard: this.ownerIDcardFront.split(',')[1], // 车辆所有人身份证复印件
           copyOfDriverLicense: this.ownerRegisterCredential.split(',')[1], // 车辆驾驶人驾驶证复印件
           copyOfVehicleTravelLicense: this.handOwnerIDcardFront.split(',')[1], // 车辆行驶证复印件
@@ -823,6 +817,7 @@ export default {
           userMobilepbone: window.localStorage.getItem('mobilePhone') // 申请星级用户手机号码
         }
       }
+      console.log(dieselData)
       resultPost(informationCollection, dieselData).then(json => {
         if (json.code === '0000') {
           let typeName = {

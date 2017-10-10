@@ -53,7 +53,7 @@
               </div>
             </div>
           </li> -->
-          <li class="freeByCar-hbs-item clear">
+<!--           <li class="freeByCar-hbs-item clear">
             <div class="freeByCar-hbs-name">
               <span>验证码</span>
             </div>
@@ -61,7 +61,7 @@
               <input class="text-input" type="text" name="" maxlength="4" value="" v-model="verification" placeholder="请输入验证码" id="inp">
             </div>
             <div class="left freeByCar-hbs-code" id="code"></div>
-          </li>
+          </li> -->
         </ul>
       </div>
       <button class="btn btn-blue" type="button" name="button" @click.stop="demandClick()">查询</button>
@@ -69,7 +69,7 @@
   </div>
 </template>
 <script>
-  import { verifyCode } from '../../config/verifyCode'
+  // import { verifyCode } from '../../config/verifyCode'
   import { resultPost } from '../../service/getData'
   import { queryInformationCollection } from '../../config/baseUrl'
   import { Toast } from 'mint-ui'
@@ -314,9 +314,9 @@
         this.licenseSelectShow = false
         this.moldShow = false
       })
-      verifyCode(document.getElementById('inp'), document.getElementById('code'), (result, code) => {
-        this.verifyCode = result
-      })
+      // verifyCode(document.getElementById('inp'), document.getElementById('code'), (result, code) => {
+      //   this.verifyCode = result
+      // })
     },
     methods: {
       typeClick: function (str, id) {
@@ -368,10 +368,6 @@
       demandClick: function () {
         if (!this.numberPlate) {
           Toast({message: '请输入车牌号码', position: 'bottom', className: 'white'})
-        } else if (!this.verification) {
-          Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
-        } else if (this.verifyCode === false) {
-          Toast({message: '请输入正确的验证码', position: 'bottom', className: 'white'})
         } else {
           this.referFn()
         }
@@ -410,6 +406,7 @@
     color: #000;
     position: relative;
     background-color: white;
+    margin-bottom: 20px;
     .width-40 {
       width: 40% !important;
     }
