@@ -8,7 +8,7 @@
               <span>车牌号码</span>
             </div>
             <div class="div-select left">
-              <span class="btn-select width-45" @click.stop="abbreviationSelectClick()"">{{ abbreviationSelectMassage }}</span>
+              <span class="btn-select width-45" @click.stop="abbreviationSelectClick()">{{ abbreviationSelectMassage }}</span>
               <div class="div-select-ul" v-if="abbreviationSelectShow">
                 <ul>
                   <li v-for="item in abbreviationSelectData" @click.stop="abbreviationSelectClick(item.str, item.id)">{{item.str}}</li>

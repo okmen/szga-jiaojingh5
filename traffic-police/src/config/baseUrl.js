@@ -1,7 +1,7 @@
 // 添加URL需注释 哪个模块哪个接口
 
-const commonUrl = 'http://192.168.1.120:8100/' // 120环境
-// const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
+// const commonUrl = 'http://192.168.1.120:8100/' // 120环境
+const commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
 // const commonUrl = 'http://gzh.stc.gov.cn/api/' // 正式环境d
 
 export const accessAuthorization = `${commonUrl}user/accessAuthorization.html` // 获取授权码
@@ -285,3 +285,8 @@ export const weChatBrushFaceAuthentication = `${commonUrl}/user/weChatBrushFaceA
 /* -------------- 问题反馈 --------------- */
 // export const issueFeedback = `${commonUrl}/user/problemFeedback.html` // 星级用户问题反馈
 export const issueFeedback = `http://192.168.1.247:8080/web/user/problemFeedback.html` // 星级用户问题反馈
+
+/* -------------- 柴油轻型自卸货车电子通行证业务接口 --------------- */
+export const informationCollection = `${commonUrl}user/informationCollection.html` // 提交接口
+
+export const queryInformationCollection = `${commonUrl}user/queryInformationCollection.html` // 查询接口
