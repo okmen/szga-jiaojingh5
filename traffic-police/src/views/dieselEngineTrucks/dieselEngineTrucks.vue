@@ -105,11 +105,11 @@
             </div>
           </li>
           <li class="form-li">
-            <span>单位申请人身份证</span>
+            <span>单位申请人身份证号</span>
           </li>
           <li class="form-li">
             <div class="form-line-item">
-              <input class="text-input bg-colour" type="text" value="" v-model="monadIdentityCard" placeholder="请输入单位申请人身份证"/>
+              <input class="text-input bg-colour" type="text" value="" v-model="monadIdentityCard" placeholder="请输入单位申请人身份证号"/>
             </div>
           </li>
           <li class="form-li">
@@ -200,14 +200,14 @@
                 <input id="file4" type="file" accept="image/*" >
                 <img :src="imgOne4" />
               </label>
-              <div class="upload-item-text-one">组织机构代码证</div>
+              <div class="upload-item-text-one">申请人驾驶证</div>
             </div>
             <div class="upload-item-img">
               <label class="upload-item-img-one" for="file5">
                 <input id="file5" type="file" accept="image/*" >
                 <img :src="imgOne5" />
               </label>
-              <div class="upload-item-text-one">     申请人手持身份证组织机构代码证照片</div>
+              <div class="upload-item-text-one two">申请人手持身份证及组织机构代码证照片</div>
             </div>
           </div>
         </div>
@@ -243,7 +243,7 @@
         </div>
       </div>
     </div>
-    <button class="btn btns" @click.stop="subFn()">确认信息</button>
+    <button class="btn btns" @click.stop="subFn()">提交</button>
     <mt-datetime-picker ref="picker" type="date" v-model="informTime" @confirm="handleTime"></mt-datetime-picker>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -266,7 +266,7 @@ export default {
       imgOne2: require('../../images/IDcard-front.png'),
       imgOne3: require('../../images/drivinglicense.png'),
       imgOne4: require('../../images/drivinglicense.png'),
-      imgOne5: require('../../images/drivinglicense.png'),
+      imgOne5: require('../../images/ID-organization.png'),
       imgOne6: require('../../images/IDcard-front.png'),
       imgOne7: require('../../images/license-card.png'),
       imgOne8: require('../../images/drivinglicense.png'),
@@ -683,6 +683,7 @@ export default {
         }
       })
     },
+    // 或者省市区地址值
     onSelected (data) {
       this.selectedData = data.province.value + data.city.value + data.area.value
       console.log(this.selectedData)
@@ -710,10 +711,13 @@ export default {
           Toast({message: '请输入单位申请人姓名', position: 'bottom', className: 'white'})
           return
         } else if (!this.monadIdentityCard) {
-          Toast({message: '请输入单位申请人身份证', position: 'bottom', className: 'white'})
+          Toast({message: '请输入单位申请人身份证号', position: 'bottom', className: 'white'})
           return
         } else if (!this.monadmobile) {
           Toast({message: '请输入单位申请人联系电话', position: 'bottom', className: 'white'})
+          return
+        } else if (!this.selectedData) {
+          Toast({message: '请选择省市区地址', position: 'bottom', className: 'white'})
           return
         } else if (!this.distpSite) {
           Toast({message: '请输入单位申请人联系地址', position: 'bottom', className: 'white'})
@@ -728,13 +732,15 @@ export default {
           Toast({message: '请上传车辆行驶证', position: 'bottom', className: 'white'})
           return
         } else if (!this.organizationCodeCertificate) {
-          Toast({message: '请上传组织机构代码证', position: 'bottom', className: 'white'})
+          Toast({message: '申请人驾驶证', position: 'bottom', className: 'white'})
           return
         } else if (!this.handOrganization) {
           Toast({message: '请上传申请人手持身份证组织机构代码证照片', position: 'bottom', className: 'white'})
           return
         } else {
-          this.subFnData()
+          MessageBox.confirm('您是否确认提交').then(action => {
+            this.subFnData()
+          })
         }
       } else if (this.ownerid === '1') {
         if (!this.ownerName) {
@@ -745,6 +751,9 @@ export default {
           return
         } else if (!this.ownerMobile) {
           Toast({message: '请输入车主联系电话', position: 'bottom', className: 'white'})
+          return
+        } else if (!this.selectedData) {
+          Toast({message: '请选择省市区地址', position: 'bottom', className: 'white'})
           return
         } else if (!this.distpSite) {
           Toast({message: '请输入车主联系地址', position: 'bottom', className: 'white'})
@@ -758,6 +767,10 @@ export default {
         } else if (!this.handOwnerIDcardFront) {
           Toast({message: '请上传车主行驶证', position: 'bottom', className: 'white'})
           return
+        } else {
+          MessageBox.confirm('您是否确认提交').then(action => {
+            this.subFnData()
+          })
         }
       }
     },
@@ -767,7 +780,7 @@ export default {
         dieselData = {
           certificationType: this.ownerid,   // 申请类型
           licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`, // 车牌号码
-          numberPlate: '02', // 车牌种类
+          numberPlate: '01', // 车牌种类
           carType: 'H37', // 车辆类型
           engineNumber: this.behindTheFrame4Digits, // 发动机号
           vehicleIdentificationNumber: this.vehicleIdentificationNumber, // 车架号
@@ -775,14 +788,14 @@ export default {
           ownerIdentityCard: this.monadPersonIdentityCard, // 单位法人身份证号或车主身份证号码
           ownerMobilephone: this.monadmobile, // 单位申请人联系电话或者车主联系电话
           ownerAddress: `${this.selectedData}${this.distpSite}`, // 车主地址
-          identityCard: this.monadPersonIdentityCard || window.localStorage.getItem('identityCard'), // 身份证
-          mobilephone: this.applicantPhone || window.localStorage.getItem('mobilePhone'), // 联系电话
+          identityCard: this.monadPersonIdentityCard, // 身份证
+          mobilephone: this.monadmobile, // 联系电话
           address: `${this.selectedData}${this.distpSite}`, // 地址
           copyOfOwnerIdentityCard: this.IDcarfBack.split(',')[1], // 车辆所有人身份证复印件
-          copyOfDriverLicense: this.registerCredential.split(',')[1], // 车辆驾驶人驾驶证复印件
+          copyOfDriverLicense: this.organizationCodeCertificate.split(',')[1], // 车辆驾驶人驾驶证复印件
           copyOfVehicleTravelLicense: this.registerCredential.split(',')[1], // 车辆行驶证复印件
-          copyOfLegalEntity: this.IDcardFront.split(',')[1] || '', // 单位法人复印件
-          copyOfApplicant: this.handOrganization.split(',')[1] || '', // 申请人手持身份证+组织代码证复印件
+          copyOfLegalEntity: this.IDcardFront.split(',')[1], // 单位法人复印件
+          copyOfApplicant: this.handOrganization.split(',')[1], // 申请人手持身份证+组织代码证复印件
           loginUser: window.localStorage.getItem('identityCard'), // 申请星级用户身份证明号码
           userMobilepbone: window.localStorage.getItem('mobilePhone') // 申请星级用户手机号码
         }
@@ -790,7 +803,7 @@ export default {
         dieselData = {
           certificationType: this.ownerid,
           licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`, // 车牌号码
-          numberPlate: '02', // 车牌种类
+          numberPlate: '01', // 车牌种类
           carType: 'H37', // 车辆类型
           engineNumber: this.behindTheFrame4Digits, // 发动机号
           vehicleIdentificationNumber: this.vehicleIdentificationNumber, // 车架号
@@ -798,21 +811,26 @@ export default {
           ownerIdentityCard: this.ownerItyCard, // 车主身份证号码
           ownerMobilephone: this.ownerMobile, // 车主联系电话
           ownerAddress: `${this.selectedData}${this.distpSite}`, // 车主地址
-          identityCard: this.ownerItyCard || window.localStorage.getItem('identityCard'), // 身份证
-          mobilephone: this.ownerMobile || window.localStorage.getItem('mobilePhone'), // 联系电话
+          identityCard: this.ownerItyCard, // 身份证
+          mobilephone: this.ownerMobile, // 联系电话
           address: `${this.selectedData}${this.distpSite}`, // 地址
           copyOfOwnerIdentityCard: this.ownerIDcardFront.split(',')[1], // 车辆所有人身份证复印件
           copyOfDriverLicense: this.ownerRegisterCredential.split(',')[1], // 车辆驾驶人驾驶证复印件
           copyOfVehicleTravelLicense: this.handOwnerIDcardFront.split(',')[1], // 车辆行驶证复印件
-          // copyOfLegalEntity: this.imgUrl1.split(',')[1] || '', // 单位法人复印件
-          // copyOfApplicant: this.imgUrl5.split(',')[1] || '', // 申请人手持身份证+组织代码证复印件
+          copyOfLegalEntity: '', // 单位法人复印件
+          copyOfApplicant: '', // 申请人手持身份证+组织代码证复印件
           loginUser: window.localStorage.getItem('identityCard'), // 申请星级用户身份证明号码
           userMobilepbone: window.localStorage.getItem('mobilePhone') // 申请星级用户手机号码
         }
       }
       resultPost(informationCollection, dieselData).then(json => {
         if (json.code === '0000') {
-          console.log(json)
+          let typeName = {
+            type: this.ownerid,
+            licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`
+          }
+          let numData = json.data
+          this.$router.push({path: 'dieseSucceed', query: { myNumber: JSON.stringify(numData), typeName: JSON.stringify(typeName) }})
         } else {
           MessageBox({
             title: '提示',
@@ -975,6 +993,9 @@ padding: 20px 40px;
         max-width: 90%;
       }
     }
+    .two{
+      width: 300px;
+    }
   }
 }
 </style>
@@ -986,7 +1007,7 @@ padding: 20px 40px;
       width: 32%;
       padding: .3rem .75rem !important;
       height: 1.8rem !important;
-      font-size: 0.3rem !important;
+      font-size: 26px !important;
     }
   }
 </style>

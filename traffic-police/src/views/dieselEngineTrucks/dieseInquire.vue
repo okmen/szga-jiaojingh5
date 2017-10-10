@@ -20,6 +20,10 @@
           licenseNumber: '车牌号码',
           numberPlate: '车牌类型',
           status: '审核状态',
+          auditDescription: '审核情况说明',
+          rfDescription: 'RFID系统制证描述',
+          rfId: 'RFID卡号',
+          rfTime: 'RFID系统处理时间',
           rfStatus: 'RFID系统状态'
         },
         valListObj: {

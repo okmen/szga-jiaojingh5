@@ -40,7 +40,7 @@
               <input class="text-input" type="text" v-model="numberPlate" name="" value="" placeholder="请输入车牌号码" >
             </div>
           </li>
-          <li class="freeByCar-hbs-item">
+<!--           <li class="freeByCar-hbs-item">
             <div class="freeByCar-hbs-name">
               <span>车牌类型</span>
             </div>
@@ -52,7 +52,7 @@
                 </ul>
               </div>
             </div>
-          </li>
+          </li> -->
           <li class="freeByCar-hbs-item clear">
             <div class="freeByCar-hbs-name">
               <span>验证码</span>
@@ -319,7 +319,7 @@
       })
     },
     methods: {
-      TypeClick: function (str, id) {
+      typeClick: function (str, id) {
         if (str) {
           this.typeMassage = str
           this.curid = id
@@ -331,18 +331,18 @@
           this.abbreviationSelectShow = false
         }
       },
-      licenseSelectClick: function (str, id) {
-        if (str) {
-          this.licenseSelectMassage = str
-          this.cur_type_id = id
-        }
-        if (this.licenseSelectShow === true) {
-          this.licenseSelectShow = false
-        } else {
-          this.licenseSelectShow = true
-          this.abbreviationSelectShow = false
-        }
-      },
+      // licenseSelectClick: function (str, id) {
+      //   if (str) {
+      //     this.licenseSelectMassage = str
+      //     this.cur_type_id = id
+      //   }
+      //   if (this.licenseSelectShow === true) {
+      //     this.licenseSelectShow = false
+      //   } else {
+      //     this.licenseSelectShow = true
+      //     this.abbreviationSelectShow = false
+      //   }
+      // },
       abbreviationSelectClick: function (str, id) {
         this.moldShow = false
         if (str) {
@@ -381,7 +381,7 @@
         let freeByCarData = {
           licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`,      // 车牌号码
           loginUser: window.localStorage.getItem('identityCard'),       // 星级用户身份证
-          numberPlate: this.curid                      // 车牌种类
+          numberPlate: '01'                      // 车牌种类
         }
         resultPost(queryInformationCollection, freeByCarData).then(json => {
           if (json.code === '0000') {
