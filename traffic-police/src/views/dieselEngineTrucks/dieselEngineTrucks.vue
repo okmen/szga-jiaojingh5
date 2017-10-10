@@ -197,7 +197,7 @@
       </ul>
       <div class="upload-photo">
         <div v-show="ownerid == '2'">
-          <div>上传单位营业执照证件照片</div>
+          <div>上传证件照片</div>
           <div class="upload-all-img">
             <div class="upload-item-img">
               <label class="upload-item-img-one" for="file1">
@@ -264,6 +264,13 @@
                 <div class="upload-item-text-one">车主行驶证</div>
               </div>
             </div>
+            <div class="upload-item-img" v-show="handid == '1'">
+              <label class="upload-item-img-one" for="file9">
+                <input id="file9" type="file" accept="image/*" >
+                <img :src="imgOne9" />
+              </label>
+              <div class="upload-item-text-one two">申请人手持身份证及组织机构代码证照片</div>
+            </div>
           </div>
         </div>
       </div>
@@ -295,6 +302,7 @@ export default {
       imgOne6: require('../../images/IDcard-front.png'),
       imgOne7: require('../../images/license-card.png'),
       imgOne8: require('../../images/drivinglicense.png'),
+      imgOne9: require('../../images/ID-organization.png'),
       ownerShow: false,
       ownerTimeMsg: '单位车辆',
       ownerid: '2',   // 申请id
@@ -309,7 +317,7 @@ export default {
         }
       ],
       handShow: false,
-      handCarName: '是',
+      handCarName: '否',
       handid: '2',   // 申请id
       handData: [
         {
@@ -764,6 +772,14 @@ export default {
           this.handOwnerIDcardFront = res.imgUrl
         }
       })
+      // 申请人手持身份证组织机构代码证照片
+      UploadFile.upload({
+        id: 'file9',
+        callback: (res) => {
+          this.imgOne9 = res.imgUrl
+          this.handOwnerNine = res.imgUrl
+        }
+      })
     },
     // 或者省市区地址值
     // onSelected (data) {
@@ -843,6 +859,9 @@ export default {
         } else if (!this.handOwnerIDcardFront) {
           Toast({message: '请上传车主行驶证', position: 'bottom', className: 'white'})
           return
+        } else if (!this.handOwnerNine && this.handid === '1') {
+          Toast({message: '请上传申请人手持身份证组织机构代码证照片', position: 'bottom', className: 'white'})
+          return
         } else {
           MessageBox.confirm('您是否确认提交').then(action => {
             this.subFnData()
@@ -856,7 +875,7 @@ export default {
         dieselData = {
           certificationType: this.ownerid,   // 申请类型
           licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`, // 车牌号码
-          numberPlate: '01', // 车牌种类
+          numberPlate: '02', // 车牌种类
           carType: 'H37', // 车辆类型
           engineNumber: this.behindTheFrame4Digits, // 发动机号
           vehicleIdentificationNumber: this.vehicleIdentificationNumber, // 车架号
@@ -879,7 +898,7 @@ export default {
         dieselData = {
           certificationType: this.ownerid,
           licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`, // 车牌号码
-          numberPlate: '01', // 车牌种类
+          numberPlate: '02', // 车牌种类
           carType: 'H37', // 车辆类型
           engineNumber: this.behindTheFrame4Digits, // 发动机号
           vehicleIdentificationNumber: this.vehicleIdentificationNumber, // 车架号
@@ -894,7 +913,7 @@ export default {
           copyOfDriverLicense: this.ownerRegisterCredential.split(',')[1], // 车辆驾驶人驾驶证复印件
           copyOfVehicleTravelLicense: this.handOwnerIDcardFront.split(',')[1], // 车辆行驶证复印件
           copyOfLegalEntity: '', // 单位法人复印件
-          copyOfApplicant: '', // 申请人手持身份证+组织代码证复印件
+          copyOfApplicant: this.handOwnerNine.split(',')[1] || '', // 申请人手持身份证+组织代码证复印件
           loginUser: window.localStorage.getItem('identityCard'), // 申请星级用户身份证明号码
           userMobilepbone: window.localStorage.getItem('mobilePhone') // 申请星级用户手机号码
         }
@@ -904,6 +923,7 @@ export default {
         if (json.code === '0000') {
           let typeName = {
             type: this.ownerid,
+            areaSelectMassage: this.areaSelectMassage,
             licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`
           }
           let numData = json.data
