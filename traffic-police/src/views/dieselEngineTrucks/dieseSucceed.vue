@@ -11,7 +11,7 @@
       <h3>申办结果</h3>
       <p>{{ tip }}</p>
       <p>业务类型：柴油轻型自卸货车</p>
-      <p v-if="this.JsonDataInfo.type === '1'">申请类型：个人车辆(含挂车)</p>
+      <p v-if="this.JsonDataInfo.type === '1'">申请类型：个人车辆(含挂靠)</p>
       <p v-if="this.JsonDataInfo.type === '2'">申请类型：单位车辆</p>
       <p>车牌号码：{{JsonDataInfo.licenseNumber}}</p>
       <p>流水号：{{JsonData}}</p>

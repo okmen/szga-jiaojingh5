@@ -161,14 +161,39 @@
             </div>
           </li>
         </template>
-        <li class="form-li">
-          <span v-if ="this.ownerid === '2'">单位申请人联系地址</span>
+   <!--      <li class="form-li" v-if ="this.ownerid === '2'">
+          <span>单位申请人联系地址</span>
           <span v-if ="this.ownerid === '1'">车主联系地址</span>
-        </li>
-        <v-distpicker class="distp" @selected="onSelected" province="广东省" city="深圳市" area="福田区"></v-distpicker>
+        </li> -->
+      <!--   <v-distpicker class="distp" @selected="onSelected" province="广东省" city="深圳市" area="福田区"></v-distpicker>
         <div class="form-line-item">
           <input class="text-input bg-colour" type="text" value="" v-model="distpSite" placeholder="请输入单位申请人联系地址"/>
-        </div>
+        </div> -->
+        <li class="form-line">
+          <div class="form-line-item item-name">
+            <span v-if ="this.ownerid === '2'">单位申请人联系地址</span>
+            <span v-if ="this.ownerid === '1'">车主联系地址</span>
+          </div>
+          <div class="form-line-item width-40 city">
+            <span>深圳市</span>
+          </div>
+          <div class="div-select form-line-item width-50">
+            <span class="btn-select stylebackground" @click.stop="areaSelectClick()">{{ areaSelectMassage }}</span>
+            <div class="div-select-ul" v-if="areaSelectShow">
+              <ul>
+                <li v-for="item in areaSelectData" @click.stop="areaSelectClick(item.str, item.id)">{{item.str}}</li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="form-line">
+          <div class="form-line-item item-name">
+            <span></span>
+          </div>
+          <div class="form-line-item">
+            <input class="text-input bg-colour" v-model="distpSite" type="text" name="" value="" placeholder="请输入详细地址">
+          </div>
+        </li>
       </ul>
       <div class="upload-photo">
         <div v-show="ownerid == '2'">
@@ -280,7 +305,7 @@ export default {
         },
         {
           'id': '1',
-          'longName': '个人车辆(含挂车)'
+          'longName': '个人车辆(含挂靠)'
         }
       ],
       handShow: false,
@@ -476,6 +501,50 @@ export default {
         }
       ],
       name: '柴油轻型自卸货车',
+      areaSelectShow: false,
+      areaSelectMassage: '福田区',
+      areaSelectData: [
+        {
+          'id': '01',
+          'str': '福田区'
+        },
+        {
+          'id': '02',
+          'str': '罗湖区'
+        },
+        {
+          'id': '03',
+          'str': '南山区'
+        },
+        {
+          'id': '04',
+          'str': '宝安区'
+        },
+        {
+          'id': '05',
+          'str': '龙岗区'
+        },
+        {
+          'id': '06',
+          'str': '盐田区'
+        },
+        {
+          'id': '07',
+          'str': '龙华新区'
+        },
+        {
+          'id': '08',
+          'str': '光明新区'
+        },
+        {
+          'id': '09',
+          'str': '坪山新区'
+        },
+        {
+          'id': '10',
+          'str': '大鹏新区'
+        }
+      ],
       distpSite: '',                   // 申请人单位联系地址
       informTime: this.currentTime(),  // 保险生效时间当前时间
       mtDateTimeMsg: '',           // 年审时间
@@ -502,6 +571,7 @@ export default {
       this.licenseSelectShow = false
       this.abbreviationSelectShow = false
       this.moldShow = false
+      this.areaSelectShow = false
     })
     let getTime = this.currentTime()
     this.mtDateTimeMsg = getTime
@@ -617,6 +687,18 @@ export default {
         this.moldShow = true
       }
     },
+    // 收件人地址
+    areaSelectClick: function (str, id) {
+      if (str) {
+        this.areaSelectMassage = str
+        this.cur_area_id = id
+      }
+      if (this.areaSelectShow === true) {
+        this.areaSelectShow = false
+      } else {
+        this.areaSelectShow = true
+      }
+    },
     uploadImg () {
       // 单位法人身份证(正面)
       UploadFile.upload({
@@ -684,10 +766,10 @@ export default {
       })
     },
     // 或者省市区地址值
-    onSelected (data) {
-      this.selectedData = data.province.value + data.city.value + data.area.value
-      console.log(this.selectedData)
-    },
+    // onSelected (data) {
+    //   this.selectedData = data.province.value + data.city.value + data.area.value
+    //   console.log(this.selectedData)
+    // },
     subFn: function () {
       if (!this.numberPlate) {
         Toast({message: '请输入车牌号码', position: 'bottom', className: 'white'})
@@ -781,10 +863,10 @@ export default {
           validityOfAnnualAudit: this.mtDateTimeMsg, // 年审有效期
           ownerIdentityCard: this.monadPersonIdentityCard, // 单位法人身份证号或车主身份证号码
           ownerMobilephone: this.monadmobile, // 单位申请人联系电话或者车主联系电话
-          ownerAddress: `${this.selectedData || '广东省深圳市福田区'}${this.distpSite}`, // 车主地址
+          ownerAddress: `深圳市${this.areaSelectMassage}${this.distpSite}`, // 车主地址
           identityCard: this.monadPersonIdentityCard, // 身份证
           mobilephone: this.monadmobile, // 联系电话
-          address: `${this.selectedData || '广东省深圳市福田区'}${this.distpSite}`, // 地址
+          address: `深圳市${this.areaSelectMassage}${this.distpSite}`, // 地址
           copyOfOwnerIdentityCard: this.IDcarfBack.split(',')[1], // 车辆所有人身份证复印件
           copyOfDriverLicense: this.organizationCodeCertificate.split(',')[1], // 车辆驾驶人驾驶证复印件
           copyOfVehicleTravelLicense: this.registerCredential.split(',')[1], // 车辆行驶证复印件
@@ -804,10 +886,10 @@ export default {
           validityOfAnnualAudit: this.mtDateTimeMsg, // 年审有效期
           ownerIdentityCard: this.ownerItyCard, // 车主身份证号码
           ownerMobilephone: this.ownerMobile, // 车主联系电话
-          ownerAddress: `${this.selectedData || '广东省深圳市福田区'}${this.distpSite}`, // 车主地址
+          ownerAddress: `深圳市${this.areaSelectMassage}${this.distpSite}`, // 车主地址
           identityCard: this.ownerItyCard, // 身份证
           mobilephone: this.ownerMobile, // 联系电话
-          address: `${this.selectedData || '广东省深圳市福田区'}${this.distpSite}`, // 地址
+          address: `深圳市${this.areaSelectMassage}${this.distpSite}`, // 地址
           copyOfOwnerIdentityCard: this.ownerIDcardFront.split(',')[1], // 车辆所有人身份证复印件
           copyOfDriverLicense: this.ownerRegisterCredential.split(',')[1], // 车辆驾驶人驾驶证复印件
           copyOfVehicleTravelLicense: this.handOwnerIDcardFront.split(',')[1], // 车辆行驶证复印件
