@@ -427,7 +427,7 @@ export default {
   created () {
     this.Plate = window.localStorage.getItem('myNumberPlate')
     if (!this.Plate) {
-      MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
+      MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警微信号的“个人中心”绑定车辆')
     }
   }
 }

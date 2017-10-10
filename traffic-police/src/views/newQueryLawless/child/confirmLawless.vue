@@ -75,7 +75,7 @@
       init () {
         let cars = JSON.parse(window.localStorage.cars) || []
         if (cars.length === 0) {
-          MessageBox('提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆').then(action => {
+          MessageBox('提示', '暂无车辆,你可以通过深圳交警微信号的“个人中心”绑定车辆').then(action => {
             this.$router.push('/')
           })
         }
