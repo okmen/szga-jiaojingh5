@@ -4,7 +4,7 @@
     <section class="appoint-img">
       <dl>
         <dd></dd>
-        <dt>申办成功</dt>
+        <dt>提交成功</dt>
       </dl>
     </section>
     <section class="bid-box appoint-box">
