@@ -4,14 +4,14 @@
     <section class="appoint-img">
       <dl>
         <dd></dd>
-        <dt>申办成功</dt>
+        <dt>提交成功</dt>
       </dl>
     </section>
     <section class="bid-box appoint-box">
       <h3>申办结果</h3>
-      <p>{{ tip }}</p>
+      <p>您的信息已提交成功。请留意办证进度，审核通过5个工作日后可前往联系地址{{JsonDataInfo.areaSelectMassage}}交警大队领取安装电子行驶证（RFID).</p>
       <p>业务类型：柴油轻型自卸货车</p>
-      <p v-if="this.JsonDataInfo.type === '1'">申请类型：个人车辆(含挂车)</p>
+      <p v-if="this.JsonDataInfo.type === '1'">申请类型：个人车辆(含挂靠)</p>
       <p v-if="this.JsonDataInfo.type === '2'">申请类型：单位车辆</p>
       <p>车牌号码：{{JsonDataInfo.licenseNumber}}</p>
       <p>流水号：{{JsonData}}</p>
@@ -23,7 +23,6 @@
 export default {
   data () {
     return {
-      tip: '您的信息已成功提交，请留意办证进度，审核完毕后5个工作日可前往联系地址所在地辖区交警大队领取安装电子行驶证（RFID）',
       JsonData: '',
       JsonDataInfo: ''
     }

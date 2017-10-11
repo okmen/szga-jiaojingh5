@@ -299,15 +299,15 @@
           },
           {
             'id': '1',
-            'str': '个人车辆(含挂车)'
+            'str': '个人车辆(含挂靠)'
           }
         ],            // 车牌类型列表（编号转换）
         freeData: {},
         typeShow: false
-
       }
     },
     mounted () {
+      this.subFnOne = this.$route.query.subFnOne   // 获取数据
       document.addEventListener('click', (e) => {
         this.freeUlShow = false
         this.verifyCode = false
@@ -377,12 +377,16 @@
         let freeByCarData = {
           licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`,      // 车牌号码
           loginUser: window.localStorage.getItem('identityCard'),       // 星级用户身份证
-          numberPlate: '01'                      // 车牌种类
+          numberPlate: '02'                      // 车牌种类
         }
         resultPost(queryInformationCollection, freeByCarData).then(json => {
           if (json.code === '0000') {
+            let typeMassage = {
+              typeMassage: this.typeMassage,
+              subFnOne: this.subFnOne
+            }
             let num = json.data
-            this.$router.push({path: 'dieseInquire', query: { myNumberPlate: JSON.stringify(num) }})
+            this.$router.push({path: 'dieseInquire', query: { myNumberPlate: JSON.stringify(num), typeMassage: JSON.stringify(typeMassage) }})
           } else {
             Toast({message: json.msg, position: 'bottom', className: 'white'})
           }
@@ -401,17 +405,15 @@
 <style lang="less" scoped>
   .dieseDemand-outer {
     width: 100%;
-    /*height: 600px;*/
     font-size: 28px;
     color: #000;
     position: relative;
     background-color: white;
-    margin-bottom: 20px;
+    padding-bottom: 20px;
     .width-40 {
       width: 40% !important;
     }
     .freeByCar-from {
-      /*background-color: #fff;*/
       #freeByCar-hbs {
         padding-bottom: 20px;
         .freeByCar-hbs-list {
@@ -447,7 +449,6 @@
       margin: 30px auto;
       border: 1px solid #ccc;
       border-radius: 8px;
-
       .freeByCarLi{
         display: flex;
         line-height: 60px;
@@ -475,6 +476,9 @@
     }
     .abbreviationLeft{
       margin-left: 2%;
+    }
+    .btn-blue{
+      margin-top:20px;
     }
   }
 </style>
