@@ -170,12 +170,12 @@
           <input class="text-input bg-colour" type="text" value="" v-model="distpSite" placeholder="请输入单位申请人联系地址"/>
         </div> -->
         <li class="form-line">
-          <div class="form-line-item item-name">
+          <div class="form-line-item item-name width-40">
             <span v-if ="this.ownerid === '2'">单位申请人联系地址</span>
             <span v-if ="this.ownerid === '1'">车主联系地址</span>
           </div>
-          <div class="form-line-item width-40 city">
-            <span>深圳市</span>
+          <div class="form-line-item width-40 city form-coloe">
+            <span class="form-coloe">深圳市</span>
           </div>
           <div class="div-select form-line-item width-50">
             <span class="btn-select stylebackground" @click.stop="areaSelectClick()">{{ areaSelectMassage }}</span>
@@ -873,6 +873,7 @@ export default {
       let dieselData
       if (this.ownerid === '2') {
         dieselData = {
+          issuingBrigade: `深圳市${this.areaSelectMassage}`,    // 发卡大队
           certificationType: this.ownerid,   // 申请类型
           licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`, // 车牌号码
           numberPlate: '02', // 车牌种类
@@ -897,6 +898,7 @@ export default {
       } else if (this.ownerid === '1') {
         let handOwnerNine = this.handOwnerNine === undefined ? '' : this.handOwnerNine
         dieselData = {
+          issuingBrigade: `深圳市${this.areaSelectMassage}`,    // 发卡大队
           certificationType: this.ownerid,
           licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`, // 车牌号码
           numberPlate: '02', // 车牌种类
@@ -981,6 +983,9 @@ padding: 20px 40px;
         &.city {
           margin: 0 18px;
         }
+        &.form-coloe {
+          text-align: center;
+        }
       }
       .item-name {
         width: 180px;
@@ -1005,6 +1010,9 @@ padding: 20px 40px;
       color: red;
       font-size: 26px !important;
     }
+  }
+  .width-25 {
+    width: 25% !important;
   }
   .width-40 {
     width: 40% !important;
