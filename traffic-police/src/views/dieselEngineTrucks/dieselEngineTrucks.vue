@@ -895,6 +895,7 @@ export default {
           userMobilepbone: window.localStorage.getItem('mobilePhone') // 申请星级用户手机号码
         }
       } else if (this.ownerid === '1') {
+        let handOwnerNine = this.handOwnerNine === undefined ? '' : this.handOwnerNine
         dieselData = {
           certificationType: this.ownerid,
           licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`, // 车牌号码
@@ -913,7 +914,7 @@ export default {
           copyOfDriverLicense: this.ownerRegisterCredential.split(',')[1], // 车辆驾驶人驾驶证复印件
           copyOfVehicleTravelLicense: this.handOwnerIDcardFront.split(',')[1], // 车辆行驶证复印件
           copyOfLegalEntity: '', // 单位法人复印件
-          copyOfApplicant: this.handOwnerNine.split(',')[1] || '', // 申请人手持身份证+组织代码证复印件
+          copyOfApplicant: handOwnerNine.split(',')[1], // 申请人手持身份证+组织代码证复印件
           loginUser: window.localStorage.getItem('identityCard'), // 申请星级用户身份证明号码
           userMobilepbone: window.localStorage.getItem('mobilePhone') // 申请星级用户手机号码
         }
