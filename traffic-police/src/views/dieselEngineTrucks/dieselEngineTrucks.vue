@@ -35,24 +35,14 @@
           <div class="form-line-item item-name">
             <span>车牌号码</span>
           </div>
-           <div class="div-select left" >
-            <span class="btn-select width-45" @click.stop="abbreviationSelectClick()">{{ abbreviationSelectMassage }}</span>
-            <div class="div-select-ul" v-if="abbreviationSelectShow">
-              <ul>
-                <li v-for="item in abbreviationSelectData" @click.stop="abbreviationSelectClick(item.str, item.id)">{{item.str}}</li>
-              </ul>
-            </div>
+           <div class="div-select left dirs-color " >
+            {{ abbreviationSelectMassage }}
           </div>
-          <div class="div-select left abbreviationLeft" >
-            <span class="btn-select width-45" @click.stop="moldClick()">{{ mold }}</span>
-            <div class="div-select-ul" v-if="moldShow">
-              <ul>
-                 <li v-for="item in moldData" @click.stop="moldClick(item.str, item.id)">{{item.str}}</li>
-              </ul>
-            </div>
+          <div class="div-select left abbreviationLeft dirs-color" >
+            {{ mold }}
           </div>
-          <div class="width-53 right">
-            <input class="text-input bg-colour" type="text" v-model="numberPlate" name="" value="" placeholder="请输入车牌号码" >
+          <div class="width-92 right">
+            <input class="text-input bg-colour" type="text" v-model="numberPlate" name="" value="" maxlength="5" placeholder="请输入车牌号码" >
           </div>
         </li>
         <li class="form-line">
@@ -161,14 +151,6 @@
             </div>
           </li>
         </template>
-   <!--      <li class="form-li" v-if ="this.ownerid === '2'">
-          <span>单位申请人联系地址</span>
-          <span v-if ="this.ownerid === '1'">车主联系地址</span>
-        </li> -->
-      <!--   <v-distpicker class="distp" @selected="onSelected" province="广东省" city="深圳市" area="福田区"></v-distpicker>
-        <div class="form-line-item">
-          <input class="text-input bg-colour" type="text" value="" v-model="distpSite" placeholder="请输入单位申请人联系地址"/>
-        </div> -->
         <li class="form-line">
           <div class="form-line-item item-name width-40">
             <span v-if ="this.ownerid === '2'">单位申请人联系地址</span>
@@ -329,185 +311,8 @@ export default {
           'longName': '是'
         }
       ],
-      abbreviationSelectShow: false,
       abbreviationSelectMassage: '粤',
-      abbreviationSelectData: [
-        {
-          'str': '粤'
-        },
-        {
-          'str': '鄂'
-        },
-        {
-          'str': '豫'
-        },
-        {
-          'str': '皖'
-        },
-        {
-          'str': '赣'
-        },
-        {
-          'str': '冀'
-        },
-        {
-          'str': '鲁'
-        },
-        {
-          'str': '浙'
-        },
-        {
-          'str': '苏'
-        },
-        {
-          'str': '湘'
-        },
-        {
-          'str': '闽'
-        },
-        {
-          'str': '蒙'
-        },
-        {
-          'str': '京'
-        },
-        {
-          'str': '辽'
-        },
-        {
-          'str': '渝'
-        },
-        {
-          'str': '沪'
-        },
-        {
-          'str': '陕'
-        },
-        {
-          'str': '川'
-        },
-        {
-          'str': '黑'
-        },
-        {
-          'str': '晋'
-        },
-        {
-          'str': '桂'
-        },
-        {
-          'str': '吉'
-        },
-        {
-          'str': '宁'
-        },
-        {
-          'str': '贵'
-        },
-        {
-          'str': '琼'
-        },
-        {
-          'str': '甘'
-        },
-        {
-          'str': '青'
-        },
-        {
-          'str': '津'
-        },
-        {
-          'str': '云'
-        },
-        {
-          'str': '藏'
-        },
-        {
-          'str': '新'
-        }
-      ],
       mold: 'B',
-      moldShow: false,
-      moldData: [
-        {
-          'str': 'A'
-        },
-        {
-          'str': 'B'
-        },
-        {
-          'str': 'C'
-        },
-        {
-          'str': 'D'
-        },
-        {
-          'str': 'E'
-        },
-        {
-          'str': 'F'
-        },
-        {
-          'str': 'G'
-        },
-        {
-          'str': 'H'
-        },
-        {
-          'str': 'I'
-        },
-        {
-          'str': 'J'
-        },
-        {
-          'str': 'K'
-        },
-        {
-          'str': 'L'
-        },
-        {
-          'str': 'N'
-        },
-        {
-          'str': 'M'
-        },
-        {
-          'str': 'O'
-        },
-        {
-          'str': 'P'
-        },
-        {
-          'str': 'Q'
-        },
-        {
-          'str': 'R'
-        },
-        {
-          'str': 'S'
-        },
-        {
-          'str': 'T'
-        },
-        {
-          'str': 'U'
-        },
-        {
-          'str': 'V'
-        },
-        {
-          'str': 'W'
-        },
-        {
-          'str': 'X'
-        },
-        {
-          'str': 'Y'
-        },
-        {
-          'str': 'Z'
-        }
-      ],
       name: '柴油轻型自卸货车',
       areaSelectShow: false,
       areaSelectMassage: '福田区',
@@ -577,8 +382,6 @@ export default {
       this.ownerShow = false
       this.verifyCode = false
       this.licenseSelectShow = false
-      this.abbreviationSelectShow = false
-      this.moldShow = false
       this.areaSelectShow = false
     })
     let getTime = this.currentTime()
@@ -671,30 +474,6 @@ export default {
         }
       })
     },
-    // 车牌省份简称
-    abbreviationSelectClick: function (str, id) {
-      this.moldShow = false
-      if (str) {
-        this.abbreviationSelectMassage = str
-      }
-      if (this.abbreviationSelectShow === true) {
-        this.abbreviationSelectShow = false
-      } else {
-        this.abbreviationSelectShow = true
-      }
-    },
-    // 车牌A-Z
-    moldClick: function (str, id) {
-      this.abbreviationSelectShow = false
-      if (str) {
-        this.mold = str
-      }
-      if (this.moldShow === true) {
-        this.moldShow = false
-      } else {
-        this.moldShow = true
-      }
-    },
     // 收件人地址
     areaSelectClick: function (str, id) {
       if (str) {
@@ -781,11 +560,6 @@ export default {
         }
       })
     },
-    // 或者省市区地址值
-    // onSelected (data) {
-    //   this.selectedData = data.province.value + data.city.value + data.area.value
-    //   console.log(this.selectedData)
-    // },
     subFn: function () {
       if (!this.numberPlate) {
         Toast({message: '请输入车牌号码', position: 'bottom', className: 'white'})
@@ -1026,6 +800,9 @@ padding: 20px 40px;
   .width-60 {
     width: 60% !important;
   }
+   .width-92 {
+    width: 80% !important;
+  }
   .width-100 {
     width: 100% !important;
   }
@@ -1101,6 +878,9 @@ padding: 20px 40px;
     }
     .two{
       width: 300px;
+    }
+    .dirs-color{
+      line-height: 30px;
     }
   }
 }
