@@ -21,47 +21,15 @@
               <span>车牌号码</span>
             </div>
             <div class="div-select left">
-              <span class="btn-select width-45" @click.stop="abbreviationSelectClick()">{{ abbreviationSelectMassage }}</span>
-              <div class="div-select-ul" v-if="abbreviationSelectShow">
-                <ul>
-                  <li v-for="item in abbreviationSelectData" @click.stop="abbreviationSelectClick(item.str, item.id)">{{item.str}}</li>
-                </ul>
-              </div>
+              {{abbreviationSelectMassage}}
             </div>
             <div class="div-select left abbreviationLeft">
-              <span class="btn-select width-45" @click.stop="moldClick()">{{mold}}</span>
-              <div class="div-select-ul" v-if="moldShow">
-                <ul>
-                  <li v-for="item in moldData" @click.stop="moldClick(item.str, item.id)">{{item.str}}</li>
-                </ul>
-              </div>
+              {{mold}}
             </div>
-            <div class="width-53 right">
-              <input class="text-input" type="text" v-model="numberPlate" name="" value="" placeholder="请输入车牌号码" >
+            <div class="width-80 right">
+              <input class="text-input bg-colour" type="text" v-model="numberPlate" name="" maxlength="5" value="" placeholder="请输入车牌号码" >
             </div>
           </li>
-<!--           <li class="freeByCar-hbs-item">
-            <div class="freeByCar-hbs-name">
-              <span>车牌类型</span>
-            </div>
-            <div class="div-select">
-              <span class="btn-select" @click.stop="licenseSelectClick()">{{ licenseSelectMassage }}</span>
-              <div class="div-select-ul" v-if="licenseSelectShow">
-                <ul>
-                  <li v-for="item in licenseSelectData" @click.stop="licenseSelectClick(item.str, item.id)">{{item.str}}</li>
-                </ul>
-              </div>
-            </div>
-          </li> -->
-<!--           <li class="freeByCar-hbs-item clear">
-            <div class="freeByCar-hbs-name">
-              <span>验证码</span>
-            </div>
-            <div class="freeByCar-hbs-text width-40 left">
-              <input class="text-input" type="text" name="" maxlength="4" value="" v-model="verification" placeholder="请输入验证码" id="inp">
-            </div>
-            <div class="left freeByCar-hbs-code" id="code"></div>
-          </li> -->
         </ul>
       </div>
       <button class="btn btn-blue" type="button" name="button" @click.stop="demandClick()">查询</button>
@@ -69,7 +37,6 @@
   </div>
 </template>
 <script>
-  // import { verifyCode } from '../../config/verifyCode'
   import { resultPost } from '../../service/getData'
   import { queryInformationCollection } from '../../config/baseUrl'
   import { Toast } from 'mint-ui'
@@ -112,20 +79,8 @@
         vehicleIdentifyNoLast4: '',           // 请求-车架号后4位
         verifyCode: false,
         licenseSelectShow: false,             // 车牌列表显示与否// 验证码验证
-        abbreviationSelectShow: false,
         abbreviationSelectMassage: '粤',
-        abbreviationSelectData: [
-          {
-            'str': '粤'
-          }
-        ],
         mold: 'B',
-        moldShow: false,
-        moldData: [
-          {
-            'str': 'B'
-          }
-        ],
         typeMassage: '单位车辆',         // 默认车牌类型
         typelicenseSelectData: [
           {
@@ -149,9 +104,6 @@
         this.licenseSelectShow = false
         this.moldShow = false
       })
-      // verifyCode(document.getElementById('inp'), document.getElementById('code'), (result, code) => {
-      //   this.verifyCode = result
-      // })
     },
     methods: {
       typeClick: function (str, id) {
@@ -164,40 +116,6 @@
         } else {
           this.typeShow = true
           this.abbreviationSelectShow = false
-        }
-      },
-      // licenseSelectClick: function (str, id) {
-      //   if (str) {
-      //     this.licenseSelectMassage = str
-      //     this.cur_type_id = id
-      //   }
-      //   if (this.licenseSelectShow === true) {
-      //     this.licenseSelectShow = false
-      //   } else {
-      //     this.licenseSelectShow = true
-      //     this.abbreviationSelectShow = false
-      //   }
-      // },
-      abbreviationSelectClick: function (str, id) {
-        this.moldShow = false
-        if (str) {
-          this.abbreviationSelectMassage = str
-        }
-        if (this.abbreviationSelectShow === true) {
-          this.abbreviationSelectShow = false
-        } else {
-          this.abbreviationSelectShow = true
-        }
-      },
-      moldClick: function (str, id) {
-        this.abbreviationSelectShow = false
-        if (str) {
-          this.mold = str
-        }
-        if (this.moldShow === true) {
-          this.moldShow = false
-        } else {
-          this.moldShow = true
         }
       },
       demandClick: function () {
@@ -309,12 +227,18 @@
     .width-53 {
       width: 53% !important;
     }
+    .width-80 {
+      width: 80% !important;
+    }
     .abbreviationLeft{
       margin-left: 2%;
     }
     .btn-blue{
       margin-top:20px;
       background-color: #09bb07;
+    }
+    .bg-colour{
+      background-color: #fff;
     }
   }
 </style>
