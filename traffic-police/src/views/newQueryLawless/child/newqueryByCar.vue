@@ -34,7 +34,7 @@
     },
     mounted () {
       if (window.localStorage.isLogin === undefined || this.$route.query.type === 'nologin') {
-        this.$router.replace('newqueryByCar_manual')
+        this.$router.replace('newqueryByCar_manual?type=nologin')
         return false
       }
       this.init() // 初始化页面，查询名下所有车辆的违法
