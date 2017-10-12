@@ -389,7 +389,8 @@
               data: json.data
             }
             this.$store.commit('saveNewLawlessQuery', lawlessData)
-            this.$router.push('newLawlessMsg?type=query')
+            let login = this.$route.query.type === 'nologin'
+            this.$router.push(`newLawlessMsg?type=query&login=${login}`)
           } else {
             Toast({
               message: json.msg,
