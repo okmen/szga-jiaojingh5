@@ -5,7 +5,7 @@
         <ul class="freeByCar-hbs-list">
           <li class="freeByCar-hbs-item">
             <div class="freeByCar-hbs-name">
-              <span>业务类型</span>
+              <span>申请类型</span>
             </div>
             <div class="div-select">
               <span class="btn-select" @click.stop="typeClick()">{{ typeMassage }}</span>
