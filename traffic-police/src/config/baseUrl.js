@@ -290,3 +290,5 @@ export const issueFeedback = `http://192.168.1.247:8080/web/user/problemFeedback
 export const informationCollection = `${commonUrl}user/informationCollection.html` // 提交接口
 
 export const queryInformationCollection = `${commonUrl}user/queryInformationCollection.html` // 查询接口
+
+export const szTrafficPoliceElecBillQry = `${commonUrl}illegalHanding/szTrafficPoliceElecBillQry.html` // 电子回单图片
