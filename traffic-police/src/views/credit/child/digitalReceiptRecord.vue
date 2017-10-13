@@ -42,8 +42,9 @@ export default {
       }
       resultPost(szTrafficPoliceElecBillQry, digData).then(json => {
         if (json.code === '0000') {
-          console.log(json)
-          window.location.href = json.data
+          // console.log(json)
+          // window.location.href = json.data
+          this.$router.push({path: 'digitalReceipt', query: {answererror: JSON.stringify(json.data)}})
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
