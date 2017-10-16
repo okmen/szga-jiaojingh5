@@ -19,9 +19,9 @@ var openId = getQueryString('openId') ? getQueryString('openId') : localStorage.
 var headImgUrl = getQueryString('headimgurl') ? getQueryString('headimgurl') : localStorage.getItem('headImgUrl');
 var nickname = getQueryString('nickname') ? getQueryString('nickname') : localStorage.getItem('nickname');
 
-// var openId = 'zhanshancheng';
-// var headImgUrl = 'zhanshancheng';
-// var nickname = 'zhanshancheng';
+var openId = 'zhanshancheng';
+var headImgUrl = 'zhanshancheng';
+var nickname = 'zhanshancheng';
 
 let url = window.location.href;
 let data = {

@@ -45,30 +45,30 @@
             <input class="text-input bg-colour" type="text" v-model="numberPlate" name="" value="" maxlength="5" placeholder="请输入车牌号码" >
           </div>
         </li>
-        <li class="form-line">
+        <!-- <li class="form-line">
           <div class="form-line-item item-name">
             <span>发动机号</span>
           </div>
           <div class="form-line-item">
             <input class="text-input bg-colour" type="text" value="" v-model="behindTheFrame4Digits" placeholder="请输入发动机号"/>
           </div>
-        </li>
+        </li> -->
         <li class="form-line">
           <div class="form-line-item item-name">
             <span>车架号</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input bg-colour" type="text" value="" v-model="vehicleIdentificationNumber" placeholder="请输入车架号"/>
+            <input class="text-input bg-colour" type="text" value="" maxlength="4" v-model="vehicleIdentificationNumber" placeholder="请输入车架号后4位"/>
           </div>
         </li>
-        <li class="form-li">
+        <!-- <li class="form-li">
           <span>年审有效期</span>
         </li>
         <li class="form-li">
           <div class="form-line-item text-input stylebackground subscript" @click="datetimePick('picker')">
             <span>{{mtDateTimeMsg}}</span>
           </div>
-        </li>
+        </li> -->
         <template v-if ="this.ownerid === '2'">
           <li class="form-line">
             <div class="form-line-item item-name">
@@ -86,7 +86,7 @@
               <input class="text-input bg-colour" type="text" value="" v-model="monadPersonIdentityCard" placeholder="请输入单位法人身份证号"/>
             </div>
           </li>
-          <li class="form-li">
+          <!-- <li class="form-li">
             <span>单位申请人姓名</span>
           </li>
           <li class="form-li">
@@ -109,7 +109,7 @@
             <div class="form-line-item">
               <input class="text-input bg-colour" type="text" value="" v-model="monadmobile" placeholder="请输入单位申请人联系电话"/>
             </div>
-          </li>
+          </li> -->
         </template>
         <template v-if ="this.ownerid === '1'">
           <li class="form-line">
@@ -189,6 +189,13 @@
               <div class="upload-item-text-one">单位法人身份证(正面)</div>
             </div>
             <div class="upload-item-img">
+              <label class="upload-item-img-one" for="file11">
+                <input id="file11" type="file" accept="image/*" >
+                <img :src="imgOne11" />
+              </label>
+              <div class="upload-item-text-one">单位法人身份证(反面)</div>
+            </div>
+            <div class="upload-item-img">
               <label class="upload-item-img-one" for="file2">
                 <input id="file2" type="file" accept="image/*" >
                 <img :src="imgOne2" />
@@ -258,7 +265,7 @@
       </div>
     </div>
     <button class="btn btns" @click.stop="subFn()">提交</button>
-    <mt-datetime-picker ref="picker" type="date" v-model="informTime" @confirm="handleTime"></mt-datetime-picker>
+    <!-- <mt-datetime-picker ref="picker" type="date" v-model="informTime" @confirm=""></mt-datetime-picker> -->
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
@@ -277,6 +284,7 @@ export default {
   data () {
     return {
       imgOne1: require('../../images/IDcard-front.png'),
+      imgOne11: require('../../images/IDcard-back.png'),
       imgOne2: require('../../images/IDcard-front.png'),
       imgOne3: require('../../images/drivinglicense.png'),
       imgOne4: require('../../images/drivinglicense.png'),
@@ -359,16 +367,16 @@ export default {
         }
       ],
       distpSite: '',                   // 申请人单位联系地址
-      informTime: this.currentTime(),  // 保险生效时间当前时间
-      mtDateTimeMsg: '',           // 年审时间
+      // informTime: this.currentTime(),  // 保险生效时间当前时间
+      // mtDateTimeMsg: '',           // 年审时间
       monadName: '',               // 单位名称
       numberPlate: '',             // 车牌号码
-      behindTheFrame4Digits: '',   // 发动机号
+      // behindTheFrame4Digits: '',   // 发动机号
       vehicleIdentificationNumber: '',  // 车架号
       monadPersonIdentityCard: '',  // 单位法人身份证号
-      monadPersonProposerName: '',  // 单位法人申请人姓名
-      monadIdentityCard: '',        // 单位申请人身份证
-      monadmobile: '',             // 单位申请人联系电话
+      // monadPersonProposerName: '',  // 单位法人申请人姓名
+      // monadIdentityCard: '',        // 单位申请人身份证
+      // monadmobile: '',             // 单位申请人联系电话
       monadPersonName: '',         // 单位法人名字
       ownerName: '',               // 车主姓名
       ownerItyCard: '',            // 车主身份证号
@@ -384,8 +392,8 @@ export default {
       this.licenseSelectShow = false
       this.areaSelectShow = false
     })
-    let getTime = this.currentTime()
-    this.mtDateTimeMsg = getTime
+    // let getTime = this.currentTime()
+    // this.mtDateTimeMsg = getTime
     this.uploadImg()
   },
   methods: {
@@ -413,67 +421,67 @@ export default {
         this.handShow = true
       }
     },
-    // 保险生效日期
-    handleTime: function (informTime) {
-      this.formatTime = this.format(this.informTime.toString(), 'yyyy-MM-dd')
-      this.mtDateTimeMsg = this.formatTime
-    },
-     // 年审时间
-    datetimePick: function (picker) {
-      this.$refs.picker.open()
-    },
+    // // 保险生效日期
+    // : function (informTime) {
+    //   this.formatTime = this.format(this.informTime.toString(), 'yyyy-MM-dd')
+    //   this.mtDateTimeMsg = this.formatTime
+    // },
+    //  // 年审时间
+    // datetimePick: function (picker) {
+    //   this.$refs.picker.open()
+    // },
     ...mapActions({
       postAppoin: 'postAppoin'
     }),
-    currentTime: function (str) {  // 获取时间
-      let now = new Date()
-      let year = now.getFullYear()       // 年
-      let month = now.getMonth() + 1     // 月
-      let day = now.getDate()            // 日
-      if (str === 'take') {
-        let clock = year + 1 + '-'
-        if (month < 10) {
-          clock += '0'
-        }
-        clock += month + '-'
-        if (day < 10) {
-          clock += '0'
-        }
-        clock += day
-        return (clock)
-      } else {
-        let clock = year + '-'
-        if (month < 10) {
-          clock += '0'
-        }
-        clock += month + '-'
-        if (day < 10) {
-          clock += '0'
-        }
-        clock += day
-        return (clock)
-      }
-    },
-    format: function (time, format) {   // 中国标准时间转换为datetime格式
-      var t = new Date(time)
-      var tf = function (i) { return (i < 10 ? '0' : '') + i }
-      return format.replace(/yyyy|MM|dd|HH|mm|ss/g, function (a) {
-        switch (a) {
-          case 'yyyy':
-            return tf(t.getFullYear())
-          case 'MM':
-            return tf(t.getMonth() + 1)
-          case 'mm':
-            return tf(t.getMinutes())
-          case 'dd':
-            return tf(t.getDate())
-          case 'HH':
-            return tf(t.getHours())
-          case 'ss':
-            return tf(t.getSeconds())
-        }
-      })
-    },
+    // currentTime: function (str) {  // 获取时间
+    //   let now = new Date()
+    //   let year = now.getFullYear()       // 年
+    //   let month = now.getMonth() + 1     // 月
+    //   let day = now.getDate()            // 日
+    //   if (str === 'take') {
+    //     let clock = year + 1 + '-'
+    //     if (month < 10) {
+    //       clock += '0'
+    //     }
+    //     clock += month + '-'
+    //     if (day < 10) {
+    //       clock += '0'
+    //     }
+    //     clock += day
+    //     return (clock)
+    //   } else {
+    //     let clock = year + '-'
+    //     if (month < 10) {
+    //       clock += '0'
+    //     }
+    //     clock += month + '-'
+    //     if (day < 10) {
+    //       clock += '0'
+    //     }
+    //     clock += day
+    //     return (clock)
+    //   }
+    // },
+    // format: function (time, format) {   // 中国标准时间转换为datetime格式
+    //   var t = new Date(time)
+    //   var tf = function (i) { return (i < 10 ? '0' : '') + i }
+    //   return format.replace(/yyyy|MM|dd|HH|mm|ss/g, function (a) {
+    //     switch (a) {
+    //       case 'yyyy':
+    //         return tf(t.getFullYear())
+    //       case 'MM':
+    //         return tf(t.getMonth() + 1)
+    //       case 'mm':
+    //         return tf(t.getMinutes())
+    //       case 'dd':
+    //         return tf(t.getDate())
+    //       case 'HH':
+    //         return tf(t.getHours())
+    //       case 'ss':
+    //         return tf(t.getSeconds())
+    //     }
+    //   })
+    // },
     // 收件人地址
     areaSelectClick: function (str, id) {
       if (str) {
@@ -493,6 +501,14 @@ export default {
         callback: (res) => {
           this.imgOne1 = res.imgUrl
           this.IDcardFront = res.imgUrl
+        }
+      })
+      // 单位法人身份证(正面)
+      UploadFile.upload({
+        id: 'file11',
+        callback: (res) => {
+          this.imgOne11 = res.imgUrl
+          this.IDcardFrontReverse = res.imgUrl
         }
       })
       // 申请人身份证(正面)
@@ -564,8 +580,8 @@ export default {
       if (!this.numberPlate) {
         Toast({message: '请输入车牌号码', position: 'bottom', className: 'white'})
         return
-      } else if (!this.behindTheFrame4Digits) {
-        Toast({message: '请输入发动机号', position: 'bottom', className: 'white'})
+      } else if (!this.vehicleIdentificationNumber) {
+        Toast({message: '请输入车架号后4位', position: 'bottom', className: 'white'})
         return
       }
       if (this.ownerid === '2') {
@@ -578,15 +594,6 @@ export default {
           return
         } else if (!this.monadPersonIdentityCard) {
           Toast({message: '请输入单位法人身份证号', position: 'bottom', className: 'white'})
-          return
-        } else if (!this.monadPersonProposerName) {
-          Toast({message: '请输入单位申请人姓名', position: 'bottom', className: 'white'})
-          return
-        } else if (!this.monadIdentityCard) {
-          Toast({message: '请输入单位申请人身份证号', position: 'bottom', className: 'white'})
-          return
-        } else if (!this.monadmobile) {
-          Toast({message: '请输入单位申请人联系电话', position: 'bottom', className: 'white'})
           return
         } else if (!this.distpSite) {
           Toast({message: '请输入单位申请人联系地址', position: 'bottom', className: 'white'})
@@ -652,14 +659,14 @@ export default {
           licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`, // 车牌号码
           numberPlate: '02', // 车牌种类
           carType: 'H37', // 车辆类型
-          engineNumber: this.behindTheFrame4Digits, // 发动机号
+          // engineNumber: this.behindTheFrame4Digits, // 发动机号
           vehicleIdentificationNumber: this.vehicleIdentificationNumber, // 车架号
-          validityOfAnnualAudit: this.mtDateTimeMsg, // 年审有效期
+          // validityOfAnnualAudit: this.mtDateTimeMsg, // 年审有效期
           ownerIdentityCard: this.monadPersonIdentityCard, // 单位法人身份证号或车主身份证号码
-          ownerMobilephone: this.monadmobile, // 单位申请人联系电话或者车主联系电话
+          ownerMobilephone: window.localStorage.getItem('mobilePhone'), // 单位申请人联系电话或者车主联系电话
           ownerAddress: `深圳市${this.areaSelectMassage}${this.distpSite}`, // 车主地址
           identityCard: this.monadPersonIdentityCard, // 身份证
-          mobilephone: this.monadmobile, // 联系电话
+          mobilephone: window.localStorage.getItem('mobilePhone'), // 联系电话
           address: `深圳市${this.areaSelectMassage}${this.distpSite}`, // 地址
           copyOfOwnerIdentityCard: this.IDcarfBack.split(',')[1], // 车辆所有人身份证复印件
           copyOfDriverLicense: this.organizationCodeCertificate.split(',')[1], // 车辆驾驶人驾驶证复印件
@@ -677,9 +684,9 @@ export default {
           licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`, // 车牌号码
           numberPlate: '02', // 车牌种类
           carType: 'H37', // 车辆类型
-          engineNumber: this.behindTheFrame4Digits, // 发动机号
+          // engineNumber: this.behindTheFrame4Digits, // 发动机号
           vehicleIdentificationNumber: this.vehicleIdentificationNumber, // 车架号
-          validityOfAnnualAudit: this.mtDateTimeMsg, // 年审有效期
+          // validityOfAnnualAudit: this.mtDateTimeMsg, // 年审有效期
           ownerIdentityCard: this.ownerItyCard, // 车主身份证号码
           ownerMobilephone: this.ownerMobile, // 车主联系电话
           ownerAddress: `深圳市${this.areaSelectMassage}${this.distpSite}`, // 车主地址
