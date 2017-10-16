@@ -4,7 +4,7 @@
       <ul>
         <li class="form-line">
           <div class="form-line-item item-name">
-            <span>车辆类型</span>
+            <span>业务类型</span>
           </div>
           <div class="form-line-item">
             <input class="text-input" type="text" value="" v-model="name" readonly/>
