@@ -7,7 +7,8 @@
         <span class="bid-item-key">{{ keyListObj[key] }}</span>
         ：<span >{{ valListObj[key] ? valListObj[key][value] : value }}</span>
       </div>
-      <p class="form-p" v-if="this.dataInfo.status === '1'">领证地址：请前往联系地址所在地辖区交警大队领取安装电子行驶证(RFID)</p>
+      <!-- <p class="form-p" v-if="this.dataInfo.status === '1'">领证地址：请前往联系地址所在地辖区交警大队领取安装电子行驶证(RFID)</p> -->
+      <p class="form-p" v-if="this.dataInfo.status === '1'">领证地址：请前往{{dataInfo.issuingBrigade}}交警大队领取安装电子行驶证(RFID)</p>
     </div>
     <div class="dieseInquire-success-content" v-if ="this.typeMassage.subFnOne === '2'">
       <p class="form-p">业务类型：柴油轻型自卸货车</p>

@@ -295,7 +295,7 @@ export default {
       imgOne9: require('../../images/ID-organization.png'),
       ownerShow: false,
       ownerTimeMsg: '单位车辆',
-      ownerid: '2',   // 申请id
+      ownerid: '2',
       ownerData: [
         {
           'id': '2',
@@ -308,10 +308,10 @@ export default {
       ],
       handShow: false,
       handCarName: '否',
-      handid: '2',   // 申请id
+      handid: '0',   // 是否是挂靠车
       handData: [
         {
-          'id': '2',
+          'id': '0',
           'longName': '否'
         },
         {
@@ -654,6 +654,7 @@ export default {
       let dieselData
       if (this.ownerid === '2') {
         dieselData = {
+          isAttached: '0',
           issuingBrigade: `深圳市${this.areaSelectMassage}`,    // 发卡大队
           certificationType: this.ownerid,   // 申请类型
           licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`, // 车牌号码
@@ -671,14 +672,16 @@ export default {
           copyOfOwnerIdentityCard: this.IDcarfBack.split(',')[1], // 车辆所有人身份证复印件
           copyOfDriverLicense: this.organizationCodeCertificate.split(',')[1], // 车辆驾驶人驾驶证复印件
           copyOfVehicleTravelLicense: this.registerCredential.split(',')[1], // 车辆行驶证复印件
-          copyOfLegalEntity: this.IDcardFront.split(',')[1], // 单位法人复印件
+          copyOfLegalEntityA: this.IDcardFront.split(',')[1], // 单位法人复印件正面
+          copyOfLegalEntity: this.IDcardFrontReverse.split(',')[1], // 单位法人复印件反面
           copyOfApplicant: this.handOrganization.split(',')[1], // 申请人手持身份证+组织代码证复印件
           loginUser: window.localStorage.getItem('identityCard'), // 申请星级用户身份证明号码
           userMobilepbone: window.localStorage.getItem('mobilePhone') // 申请星级用户手机号码
         }
       } else if (this.ownerid === '1') {
-        let handOwnerNine = this.handOwnerNine === undefined ? '' : this.handOwnerNine
+        // let handOwnerNine = this.handid === '0' ? '' : this.handOwnerNine
         dieselData = {
+          isAttached: this.handid,  // 0-否,1-是
           issuingBrigade: `深圳市${this.areaSelectMassage}`,    // 发卡大队
           certificationType: this.ownerid,
           licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`, // 车牌号码
@@ -697,7 +700,8 @@ export default {
           copyOfDriverLicense: this.ownerRegisterCredential.split(',')[1], // 车辆驾驶人驾驶证复印件
           copyOfVehicleTravelLicense: this.handOwnerIDcardFront.split(',')[1], // 车辆行驶证复印件
           copyOfLegalEntity: '', // 单位法人复印件
-          copyOfApplicant: handOwnerNine.split(',')[1], // 申请人手持身份证+组织代码证复印件
+          copyOfLegalEntityA: '',
+          copyOfApplicant: this.handid === '0' ? '' : this.handOwnerNine.split(',')[1], // 申请人手持身份证+组织代码证复印件
           loginUser: window.localStorage.getItem('identityCard'), // 申请星级用户身份证明号码
           userMobilepbone: window.localStorage.getItem('mobilePhone') // 申请星级用户手机号码
         }
