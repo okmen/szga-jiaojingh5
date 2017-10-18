@@ -287,7 +287,7 @@ export default {
       imgOne11: require('../../images/IDcard-back.png'),
       imgOne2: require('../../images/IDcard-front.png'),
       imgOne3: require('../../images/drivinglicense.png'),
-      imgOne4: require('../../images/drivinglicense.png'),
+      imgOne4: require('../../images/license-card.png'),
       imgOne5: require('../../images/ID-organization.png'),
       imgOne6: require('../../images/IDcard-front.png'),
       imgOne7: require('../../images/license-card.png'),
