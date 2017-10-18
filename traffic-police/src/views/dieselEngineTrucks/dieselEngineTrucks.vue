@@ -661,6 +661,7 @@ export default {
           numberPlate: '02', // 车牌种类
           carType: 'H37', // 车辆类型
           // engineNumber: this.behindTheFrame4Digits, // 发动机号
+          legalEntityName: this.monadPersonName,   // 车主姓名
           vehicleIdentificationNumber: this.vehicleIdentificationNumber, // 车架号
           // validityOfAnnualAudit: this.mtDateTimeMsg, // 年审有效期
           ownerIdentityCard: this.monadPersonIdentityCard, // 单位法人身份证号或车主身份证号码
@@ -688,6 +689,7 @@ export default {
           numberPlate: '02', // 车牌种类
           carType: 'H37', // 车辆类型
           // engineNumber: this.behindTheFrame4Digits, // 发动机号
+          legalEntityName: this.ownerName,   // 车主姓名
           vehicleIdentificationNumber: this.vehicleIdentificationNumber, // 车架号
           // validityOfAnnualAudit: this.mtDateTimeMsg, // 年审有效期
           ownerIdentityCard: this.ownerItyCard, // 车主身份证号码
