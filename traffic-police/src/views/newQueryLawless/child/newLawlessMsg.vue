@@ -158,7 +158,7 @@
             console.log('违法查询页面阻止打单')
             return false
           }
-          if (!JSON.parse(window.localStorage.isLogin)) {
+          if (!JSON.parse(window.localStorage.isLogin || false)) {
             MessageBox.confirm('该功能需要登录后才能使用,是否前往登录').then(action => {
               this.$router.push('/login')
             })
