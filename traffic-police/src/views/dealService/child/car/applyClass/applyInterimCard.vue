@@ -28,7 +28,7 @@
     </div>
     <div class="owner-certificate">
       <span class="item-title">车架号</span>
-      <input type="text" class="text-input" v-model="behindTheFrame4Digits" maxlength="4" placeholder="请输入车架号后四位">
+      <input type="text" class="text-input" v-model="behindTheFrame4Digits" placeholder="请输入车架号">
     </div>
     <div class="domicile-place">
       <span class="item-title">车辆产地</span>
@@ -394,13 +394,6 @@
         if (!this.behindTheFrame4Digits) {
           Toast({
             message: '请输入车架号',
-            duration: 2000
-          })
-          return
-        }
-        if (this.behindTheFrame4Digits.length !== 4) {
-          Toast({
-            message: '请输入车架号后四位',
             duration: 2000
           })
           return

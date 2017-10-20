@@ -32,6 +32,9 @@ export const resultPost = (url, bodyData) => {
     }).then((res) => {
       Indicator.close()
     	return res.json()
+    }).catch(error => {
+      Indicator.close()
+      return error
     })
 }
 
