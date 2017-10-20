@@ -172,6 +172,8 @@
               console.log(json)
               if (json.code === '0000') {
                 MessageBox('提示', '打单成功')
+              } else {
+                MessageBox('提示', '打单失败')
               }
             })
           })

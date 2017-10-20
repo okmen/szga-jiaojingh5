@@ -3,7 +3,7 @@ import { Indicator } from 'mint-ui'
 /* eslint-disable */
 
 var dataFun = (obj) => {
-  obj.version = '1.5.8'
+  obj.version = '1.5.9'
   obj.sourceOfCertification = window.localStorage.getItem('sourceOfCertification') ? window.localStorage.getItem('sourceOfCertification') : 'C'
 	obj.openId = window.localStorage.getItem('openId') ? window.localStorage.getItem('openId') : ''
   var length = obj && obj.length,
