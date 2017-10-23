@@ -10,6 +10,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "crypto": "^1.0.1",
     "css-loader": "^0.28.0",
     "dom-to-image": "^2.5.2",
