@@ -31,7 +31,33 @@
             <input class="text-input bg-colour" type="text" value="" v-model="monadName" placeholder="请输入单位名称"/>
           </div>
         </li>
+
         <li class="form-line clear">
+          <div class="form-line-item item-name">
+            <span>车牌号码</span>
+          </div>
+            <div class="div-select left" >
+              <span class="btn-select width-45" @click.stop="abbreviationSelectClick()">{{ abbreviationSelectMassage }}</span>
+              <div class="div-select-ul" v-if="abbreviationSelectShow">
+                <ul>
+                  <li v-for="item in abbreviationSelectData" @click.stop="abbreviationSelectClick(item.str, item.id)">{{item.str}}</li>
+                </ul>
+              </div>
+            </div>
+          <div class="div-select left abbreviationLeft" >
+            <span class="btn-select width-45" @click.stop="moldClick()">{{ mold }}</span>
+            <div class="div-select-ul" v-if="moldShow">
+              <ul>
+                 <li v-for="item in moldData" @click.stop="moldClick(item.str, item.id)">{{item.str}}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="width-53 right">
+            <input class="text-input bg-colour" type="text" v-model="numberPlate" name="" value="" maxlength="5" placeholder="请输入车牌号码" >
+          </div>
+        </li>
+
+        <!-- <li class="form-line clear">
           <div class="form-line-item item-name">
             <span>车牌号码</span>
           </div>
@@ -44,7 +70,7 @@
           <div class="width-92 right">
             <input class="text-input bg-colour" type="text" v-model="numberPlate" name="" value="" maxlength="5" placeholder="请输入车牌号码" >
           </div>
-        </li>
+        </li> -->
         <!-- <li class="form-line">
           <div class="form-line-item item-name">
             <span>发动机号</span>
@@ -72,10 +98,10 @@
         <template v-if ="this.ownerid === '2'">
           <li class="form-line">
             <div class="form-line-item item-name">
-              <span>单位法人名字</span>
+              <span>单位法人姓名</span>
             </div>
             <div class="form-line-item">
-              <input class="text-input bg-colour" type="text" value="" v-model="monadPersonName" placeholder="请输入单位法人名字"/>
+              <input class="text-input bg-colour" type="text" value="" v-model="monadPersonName" placeholder="请输入单位法人姓名"/>
             </div>
           </li>
           <li class="form-li">
@@ -137,19 +163,6 @@
             </div>
           </li>
           </li>
-          <li class="form-li">
-            <span>是否是挂靠车辆</span>
-          </li>
-          <li class="form-li width-100">
-            <div class="div-select">
-              <span class="btn-select stylebackground" @click.stop="handCar()">{{ handCarName }}</span>
-              <div class="div-select-ul" v-if="handShow">
-                <ul>
-                  <li v-for="item in handData" @click.stop="handCar(item.longName, item.id)">{{item.longName}}</li>
-                </ul>
-              </div>
-            </div>
-          </li>
         </template>
         <li class="form-line">
           <div class="form-line-item item-name width-40">
@@ -176,6 +189,21 @@
             <input class="text-input bg-colour" v-model="distpSite" type="text" name="" value="" placeholder="请输入详细地址">
           </div>
         </li>
+        <template v-if ="this.ownerid === '1'">
+          <li class="form-li">
+            <span>是否是挂靠车辆</span>
+          </li>
+          <li class="form-li width-100">
+            <div class="div-select">
+              <span class="btn-select stylebackground" @click.stop="handCar()">{{ handCarName }}</span>
+              <div class="div-select-ul" v-if="handShow">
+                <ul>
+                  <li v-for="item in handData" @click.stop="handCar(item.longName, item.id)">{{item.longName}}</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </template>
       </ul>
       <div class="upload-photo">
         <div v-show="ownerid == '2'">
@@ -283,6 +311,185 @@ export default {
 
   data () {
     return {
+      abbreviationSelectShow: false,
+      abbreviationSelectMassage: '粤',
+      abbreviationSelectData: [
+        {
+          'str': '粤'
+        },
+        {
+          'str': '鄂'
+        },
+        {
+          'str': '豫'
+        },
+        {
+          'str': '皖'
+        },
+        {
+          'str': '赣'
+        },
+        {
+          'str': '冀'
+        },
+        {
+          'str': '鲁'
+        },
+        {
+          'str': '浙'
+        },
+        {
+          'str': '苏'
+        },
+        {
+          'str': '湘'
+        },
+        {
+          'str': '闽'
+        },
+        {
+          'str': '蒙'
+        },
+        {
+          'str': '京'
+        },
+        {
+          'str': '辽'
+        },
+        {
+          'str': '渝'
+        },
+        {
+          'str': '沪'
+        },
+        {
+          'str': '陕'
+        },
+        {
+          'str': '川'
+        },
+        {
+          'str': '黑'
+        },
+        {
+          'str': '晋'
+        },
+        {
+          'str': '桂'
+        },
+        {
+          'str': '吉'
+        },
+        {
+          'str': '宁'
+        },
+        {
+          'str': '贵'
+        },
+        {
+          'str': '琼'
+        },
+        {
+          'str': '甘'
+        },
+        {
+          'str': '青'
+        },
+        {
+          'str': '津'
+        },
+        {
+          'str': '云'
+        },
+        {
+          'str': '藏'
+        },
+        {
+          'str': '新'
+        }
+      ],
+      mold: 'B',
+      moldShow: false,
+      moldData: [
+        {
+          'str': 'A'
+        },
+        {
+          'str': 'B'
+        },
+        {
+          'str': 'C'
+        },
+        {
+          'str': 'D'
+        },
+        {
+          'str': 'E'
+        },
+        {
+          'str': 'F'
+        },
+        {
+          'str': 'G'
+        },
+        {
+          'str': 'H'
+        },
+        {
+          'str': 'I'
+        },
+        {
+          'str': 'J'
+        },
+        {
+          'str': 'K'
+        },
+        {
+          'str': 'L'
+        },
+        {
+          'str': 'N'
+        },
+        {
+          'str': 'M'
+        },
+        {
+          'str': 'O'
+        },
+        {
+          'str': 'P'
+        },
+        {
+          'str': 'Q'
+        },
+        {
+          'str': 'R'
+        },
+        {
+          'str': 'S'
+        },
+        {
+          'str': 'T'
+        },
+        {
+          'str': 'U'
+        },
+        {
+          'str': 'V'
+        },
+        {
+          'str': 'W'
+        },
+        {
+          'str': 'X'
+        },
+        {
+          'str': 'Y'
+        },
+        {
+          'str': 'Z'
+        }
+      ],
       imgOne1: require('../../images/IDcard-front.png'),
       imgOne11: require('../../images/IDcard-back.png'),
       imgOne2: require('../../images/IDcard-front.png'),
@@ -307,8 +514,8 @@ export default {
         }
       ],
       handShow: false,
-      handCarName: '否',
-      handid: '0',   // 是否是挂靠车
+      handCarName: '是',
+      handid: '1',   // 是否是挂靠车
       handData: [
         {
           'id': '0',
@@ -319,8 +526,6 @@ export default {
           'longName': '是'
         }
       ],
-      abbreviationSelectMassage: '粤',
-      mold: 'B',
       name: '柴油轻型自卸货车',
       areaSelectShow: false,
       areaSelectMassage: '福田区',
@@ -391,12 +596,36 @@ export default {
       this.verifyCode = false
       this.licenseSelectShow = false
       this.areaSelectShow = false
+      this.moldShow = false
+      this.abbreviationSelectShow = false
     })
     // let getTime = this.currentTime()
     // this.mtDateTimeMsg = getTime
     this.uploadImg()
   },
   methods: {
+    abbreviationSelectClick: function (str, id) {
+      this.moldShow = false
+      if (str) {
+        this.abbreviationSelectMassage = str
+      }
+      if (this.abbreviationSelectShow === true) {
+        this.abbreviationSelectShow = false
+      } else {
+        this.abbreviationSelectShow = true
+      }
+    },
+    moldClick: function (str, id) {
+      this.abbreviationSelectShow = false
+      if (str) {
+        this.mold = str
+      }
+      if (this.moldShow === true) {
+        this.moldShow = false
+      } else {
+        this.moldShow = true
+      }
+    },
     // 申请类型
     ownerClick: function (str, id) {
       if (str) {
@@ -590,7 +819,7 @@ export default {
           Toast({message: '请输入单位名称', position: 'bottom', className: 'white'})
           return
         } else if (!this.monadPersonName) {
-          Toast({message: '请输入单位法人名字', position: 'bottom', className: 'white'})
+          Toast({message: '请输入单位法人姓名', position: 'bottom', className: 'white'})
           return
         } else if (!this.monadPersonIdentityCard) {
           Toast({message: '请输入单位法人身份证号', position: 'bottom', className: 'white'})
@@ -657,6 +886,7 @@ export default {
           isAttached: '0',
           issuingBrigade: `深圳市${this.areaSelectMassage}`,    // 发卡大队
           certificationType: this.ownerid,   // 申请类型
+          // licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`, // 车牌号码
           licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`, // 车牌号码
           numberPlate: '02', // 车牌种类
           carType: 'H37', // 车辆类型
