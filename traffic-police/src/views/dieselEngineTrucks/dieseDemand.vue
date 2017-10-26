@@ -81,6 +81,7 @@
     name: 'dieseDemand',
     data () {
       return {
+        abbreviationSelectShow: false,
         abbreviationSelectMassage: '粤',
         abbreviationSelectData: [
           {
@@ -316,6 +317,7 @@
         this.verifyCode = false
         this.licenseSelectShow = false
         this.moldShow = false
+        this.typeShow = false
       })
     },
     methods: {
