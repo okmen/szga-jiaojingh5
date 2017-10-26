@@ -19,7 +19,9 @@
             <p class="newLawlessMsg-item-content-amt">{{ item.punishAmt }}</p>
             <p class="newLawlessMsg-item-content-score">{{ item.punishScore }}</p>
             <p class="newLawlessMsg-item-content-unit">{{ item.illegalUnit }}</p>
-            <p class="newLawlessMsg-item-content-text" v-if="!$route.query.login"><span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2, isQuery: $route.query.type === 'query', isLink: item.isNeedClaim == 0 }" @click.stop="clickJump(item)">{{ claimList[item.isNeedClaim] }}</span></p>
+            <p class="newLawlessMsg-item-content-text" v-if="!$route.query.login">
+              <span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2, isQuery: $route.query.type === 'query' || item.billNo === '', isLink: item.isNeedClaim == 0 }" @click.stop="clickJump(item)">{{ getClaimList(item) }}</span>
+            </p>
             <div class="newLawlessMsg-item-btn">
               <button v-if="item.description && isBoolean2(item.description)" @click="punishFreeDesc(item.description)">首违免罚</button>
               <button v-if="isBoolean(item.licensePlateNo, item.illegalUnit)" @click="hrefFn(item)">违法申诉</button>
@@ -77,6 +79,14 @@
       // this.init() // 初始化页面，查询名下所有车辆的违法
     },
     methods: {
+      getClaimList (item) {
+        console.log('test', item)
+        if (item.billNo === '' && item.isNeedClaim === '1') {
+          return '请去《交通违法在线处理》确认打单'
+        } else {
+          return this.claimList[item.isNeedClaim]
+        }
+      },
       passCancel: function () { // 点击通过弹窗的取消按钮
         this.popupImgShow = false // 隐藏通过弹窗
       },
@@ -142,6 +152,10 @@
         // })
       },
       clickJump (item) {
+        // 如果违法编号为空，则不可点击
+        if (item.billNo === '') {
+          return false
+        }
         if (item.isNeedClaim === '0') { // 直接缴款
           let reqData = {
             billNo: item.billNo,
@@ -158,7 +172,7 @@
             console.log('违法查询页面阻止打单')
             return false
           }
-          if (!JSON.parse(window.localStorage.isLogin)) {
+          if (!JSON.parse(window.localStorage.isLogin || false)) {
             MessageBox.confirm('该功能需要登录后才能使用,是否前往登录').then(action => {
               this.$router.push('/login')
             })
@@ -172,7 +186,11 @@
               console.log(json)
               if (json.code === '0000') {
                 MessageBox('提示', '打单成功')
+              } else {
+                MessageBox('提示', '打单失败')
               }
+            }).catch(() => {
+              MessageBox('提示', '打单失败')
             })
           })
         } else if (item.isNeedClaim === '2') { // 需要前往窗口办理，跳转预约
