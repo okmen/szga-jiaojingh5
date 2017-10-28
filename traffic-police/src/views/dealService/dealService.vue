@@ -6,20 +6,17 @@
       <div class="nav-tab" :class="{ 'active': cur_tab == 'card'}" @click="cur_tab = 'card'">驾驶证业务</div>
       <div class="nav-tab" :class="{ 'active': cur_tab == 'progress'}" @click="linkToProgress">办理进度查询</div>
     </div>
-    <carService v-if="cur_tab == 'car'" :code="AuthorizationCode"></carService>
-    <cardService v-else :code="AuthorizationCode"></cardService>
+    <carService v-if="cur_tab == 'car'"></carService>
+    <cardService v-else></cardService>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 <script>
-  import { accessAuthorization } from 'src/config/baseUrl.js'
-  import { resultPost } from '../../service/getData'
   export default {
     name: 'serviceTab',
     data () {
       return {
-        cur_tab: 'car',
-        AuthorizationCode: null
+        cur_tab: 'car'
       }
     },
     methods: {
@@ -37,19 +34,6 @@
     components: {
       'carService': require('./child/carService.vue'),
       'cardService': require('./child/cardService.vue')
-    },
-    created () {
-      resultPost(accessAuthorization, {
-        mobilephone: window.localStorage.getItem('mobilePhone'),
-        identityCard: window.localStorage.getItem('identityCard'),
-        userSource: 'C'
-      }).then(data => {
-        if (data.code === '0000') {
-          this.AuthorizationCode = data.data
-        } else {
-          console.log(data.msg)
-        }
-      })
     }
   }
 </script>
