@@ -317,7 +317,7 @@
     created () {
       this.Plate = JSON.parse(window.localStorage.getItem('cars'))
       if (this.Plate.length === 0) {
-        MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警温馨号的“个人中心”绑定车辆')
+        MessageBox('温馨提示', '暂无车辆,你可以通过深圳交警微信号的“个人中心”绑定车辆')
       }
     },
     mounted: function () {

@@ -43,6 +43,14 @@ export default {
         })
         return false
       }
+      if (!/^[a-zA-Z0-9()]+$/.test(this.loginName)) {
+        Toast({
+          message: '用户名只能是字母和数字',
+          position: 'bottom',
+          duration: 2000
+        })
+        return false
+      }
       if (!this.password) {
         Toast({
           message: '密码不能为空',

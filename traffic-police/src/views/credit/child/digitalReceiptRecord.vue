@@ -21,24 +21,14 @@
   </div>
 </template>
 <script>
+import { resultPost } from '../../../service/getData'
+import { szTrafficPoliceElecBillQry } from '../../../config/baseUrl'
+import { Toast } from 'mint-ui'
 export default {
   name: 'digitalReceiptRecord',
   data () {
     return {
-      digitData: [],
-      digitData1: [
-        {
-          amt: '150',
-          billNo: '44071704945445',
-          chargeItem: '交通违法罚款',
-          companyName: '深圳市公安局交通警察局',
-          payWay: 'ALIPAY_APP',
-          paymentor: '粤B11111',
-          projectNo: '103050101101',
-          sdb: 'SDB00000012017062714958614',
-          writeOffDate: '2017-06-27'
-        }
-      ]
+      digitData: []
     }
   },
   mounted () {
@@ -46,8 +36,19 @@ export default {
   },
   methods: {
     clickFn: function (index) {
-      console.log(this.digitData)
-      this.$router.push({path: 'digitalReceipt', query: {answererror: JSON.stringify(this.digitData[index])}})
+      // this.$router.push({path: 'digitalReceipt', query: {answererror: JSON.stringify(this.digitData[index].sdb)}})
+      let digData = {
+        orderId: this.digitData[index].sdb
+      }
+      resultPost(szTrafficPoliceElecBillQry, digData).then(json => {
+        if (json.code === '0000') {
+          // console.log(json)
+          // window.location.href = json.data
+          this.$router.push({path: 'digitalReceipt', query: {answererror: JSON.stringify(json.data)}})
+        } else {
+          Toast({message: json.msg, position: 'bottom', className: 'white'})
+        }
+      })
     }
   }
 }

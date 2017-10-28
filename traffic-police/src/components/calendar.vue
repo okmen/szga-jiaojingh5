@@ -156,6 +156,13 @@ export default {
           state.act = 0
         } else if (+theDate >= this.cur && theDate <= this.nDay) {
           state.act = 1
+          // 取消状态
+          if (+theDate > this.cur) {
+            let isCancel = this.arrCancel.indexOf(theDate)
+            if (state.state === '7' && isCancel >= 0) {
+              state.text = ''
+            }
+          }
         } else {
           state.act = 2
           // 选择状态
@@ -176,6 +183,19 @@ export default {
     },
     pickDays (date) {
       console.log(date)
+      if (date.state === '7' && +date.cdate > +this.cur) {
+        console.log('点击日期', +date.cdate)
+        console.log('当前日期', +this.cur)
+        console.log('日期已过期，但是可以取消申请')
+        // 如果日期已选择则删除日期
+        let arrInd = this.arrCancel.indexOf(date.cdate)
+        if (arrInd >= 0) {
+          this.arrCancel.splice(arrInd, 1)
+        // 如果日期未选择则添加日期
+        } else {
+          this.arrCancel.push(date.cdate)
+        }
+      }
       if (date.act === 0 && date.state !== '2' && date.state !== '3' || date.state === '8') {
         Toast({
           message: '该时间段不能选择',
@@ -240,7 +260,9 @@ export default {
       if (item.act === 0 && (item.state === '2' || item.state === '3')) {
         return true
       }
-      if (item.act === 1 && item.state !== '8') {
+      if (item.act === 1 && item.state !== '8' && item.state !== '7') {
+        return true
+      } else if (item.state === '7' && item.cdate === this.cur) {
         return true
       } else if (item.act === 2 && (item.state === '2' || item.state === '3')) {
         return true
@@ -258,6 +280,10 @@ export default {
       }
       // 如果状态是已申请，则默认添加Class
       if (item.state === '1' && item.act === 2) {
+        return true
+      }
+      // 如果是绿色出行，且已过期
+      if (item.state === '7' && item.cdate > this.cur) {
         return true
       }
       return false

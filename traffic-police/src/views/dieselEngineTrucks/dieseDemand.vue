@@ -5,7 +5,7 @@
         <ul class="freeByCar-hbs-list">
           <li class="freeByCar-hbs-item">
             <div class="freeByCar-hbs-name">
-              <span>业务类型</span>
+              <span>申请类型</span>
             </div>
             <div class="div-select">
               <span class="btn-select" @click.stop="typeClick()">{{ typeMassage }}</span>
@@ -16,7 +16,20 @@
               </div>
             </div>
           </li>
-          <li class="freeByCar-hbs-item clear">
+          <!-- <li class="freeByCar-hbs-item">
+            <div class="freeByCar-hbs-name">
+              <span>车牌类型</span>
+            </div>
+            <div class="div-select">
+              <span class="btn-select" @click.stop="licenseSelectClick()">{{ licenseSelectMassage }}</span>
+              <div class="div-select-ul" v-if="licenseSelectShow">
+                <ul>
+                  <li v-for="item in licenseSelectData" @click.stop="licenseSelectClick(item.str, item.id)">{{item.str}}</li>
+                </ul>
+              </div>
+            </div>
+          </li> -->
+          <li class="freeByCar-hbs-item">
             <div class="freeByCar-hbs-name">
               <span>车牌号码</span>
             </div>
@@ -37,30 +50,22 @@
               </div>
             </div>
             <div class="width-53 right">
-              <input class="text-input" type="text" v-model="numberPlate" name="" value="" placeholder="请输入车牌号码" >
+              <input class="text-input" type="text" v-model="numberPlate" name="" value="" maxlength="5" placeholder="请输入车牌号码" >
             </div>
           </li>
-<!--           <li class="freeByCar-hbs-item">
+          <!-- <li class="freeByCar-hbs-item clear">
             <div class="freeByCar-hbs-name">
-              <span>车牌类型</span>
+              <span>车牌号码</span>
             </div>
-            <div class="div-select">
-              <span class="btn-select" @click.stop="licenseSelectClick()">{{ licenseSelectMassage }}</span>
-              <div class="div-select-ul" v-if="licenseSelectShow">
-                <ul>
-                  <li v-for="item in licenseSelectData" @click.stop="licenseSelectClick(item.str, item.id)">{{item.str}}</li>
-                </ul>
-              </div>
+            <div class="div-select left">
+              {{abbreviationSelectMassage}}
             </div>
-          </li> -->
-<!--           <li class="freeByCar-hbs-item clear">
-            <div class="freeByCar-hbs-name">
-              <span>验证码</span>
+            <div class="div-select left abbreviationLeft">
+              {{mold}}
             </div>
-            <div class="freeByCar-hbs-text width-40 left">
-              <input class="text-input" type="text" name="" maxlength="4" value="" v-model="verification" placeholder="请输入验证码" id="inp">
+            <div class="width-80 right">
+              <input class="text-input bg-colour" type="text" v-model="numberPlate" name="" maxlength="5" value="" placeholder="请输入车牌号码" >
             </div>
-            <div class="left freeByCar-hbs-code" id="code"></div>
           </li> -->
         </ul>
       </div>
@@ -69,7 +74,6 @@
   </div>
 </template>
 <script>
-  // import { verifyCode } from '../../config/verifyCode'
   import { resultPost } from '../../service/getData'
   import { queryInformationCollection } from '../../config/baseUrl'
   import { Toast } from 'mint-ui'
@@ -77,6 +81,185 @@
     name: 'dieseDemand',
     data () {
       return {
+        abbreviationSelectShow: false,
+        abbreviationSelectMassage: '粤',
+        abbreviationSelectData: [
+          {
+            'str': '粤'
+          },
+          {
+            'str': '鄂'
+          },
+          {
+            'str': '豫'
+          },
+          {
+            'str': '皖'
+          },
+          {
+            'str': '赣'
+          },
+          {
+            'str': '冀'
+          },
+          {
+            'str': '鲁'
+          },
+          {
+            'str': '浙'
+          },
+          {
+            'str': '苏'
+          },
+          {
+            'str': '湘'
+          },
+          {
+            'str': '闽'
+          },
+          {
+            'str': '蒙'
+          },
+          {
+            'str': '京'
+          },
+          {
+            'str': '辽'
+          },
+          {
+            'str': '渝'
+          },
+          {
+            'str': '沪'
+          },
+          {
+            'str': '陕'
+          },
+          {
+            'str': '川'
+          },
+          {
+            'str': '黑'
+          },
+          {
+            'str': '晋'
+          },
+          {
+            'str': '桂'
+          },
+          {
+            'str': '吉'
+          },
+          {
+            'str': '宁'
+          },
+          {
+            'str': '贵'
+          },
+          {
+            'str': '琼'
+          },
+          {
+            'str': '甘'
+          },
+          {
+            'str': '青'
+          },
+          {
+            'str': '津'
+          },
+          {
+            'str': '云'
+          },
+          {
+            'str': '藏'
+          },
+          {
+            'str': '新'
+          }
+        ],
+        mold: 'B',
+        moldShow: false,
+        moldData: [
+          {
+            'str': 'A'
+          },
+          {
+            'str': 'B'
+          },
+          {
+            'str': 'C'
+          },
+          {
+            'str': 'D'
+          },
+          {
+            'str': 'E'
+          },
+          {
+            'str': 'F'
+          },
+          {
+            'str': 'G'
+          },
+          {
+            'str': 'H'
+          },
+          {
+            'str': 'I'
+          },
+          {
+            'str': 'J'
+          },
+          {
+            'str': 'K'
+          },
+          {
+            'str': 'L'
+          },
+          {
+            'str': 'N'
+          },
+          {
+            'str': 'M'
+          },
+          {
+            'str': 'O'
+          },
+          {
+            'str': 'P'
+          },
+          {
+            'str': 'Q'
+          },
+          {
+            'str': 'R'
+          },
+          {
+            'str': 'S'
+          },
+          {
+            'str': 'T'
+          },
+          {
+            'str': 'U'
+          },
+          {
+            'str': 'V'
+          },
+          {
+            'str': 'W'
+          },
+          {
+            'str': 'X'
+          },
+          {
+            'str': 'Y'
+          },
+          {
+            'str': 'Z'
+          }
+        ],
         curid: '02',
         licenseSelectMassage: '蓝牌',
         licenseSelectData: [
@@ -112,20 +295,6 @@
         vehicleIdentifyNoLast4: '',           // 请求-车架号后4位
         verifyCode: false,
         licenseSelectShow: false,             // 车牌列表显示与否// 验证码验证
-        abbreviationSelectShow: false,
-        abbreviationSelectMassage: '粤',
-        abbreviationSelectData: [
-          {
-            'str': '粤'
-          }
-        ],
-        mold: 'B',
-        moldShow: false,
-        moldData: [
-          {
-            'str': 'B'
-          }
-        ],
         typeMassage: '单位车辆',         // 默认车牌类型
         typelicenseSelectData: [
           {
@@ -148,36 +317,10 @@
         this.verifyCode = false
         this.licenseSelectShow = false
         this.moldShow = false
+        this.typeShow = false
       })
-      // verifyCode(document.getElementById('inp'), document.getElementById('code'), (result, code) => {
-      //   this.verifyCode = result
-      // })
     },
     methods: {
-      typeClick: function (str, id) {
-        if (str) {
-          this.typeMassage = str
-          this.curid = id
-        }
-        if (this.typeShow === true) {
-          this.typeShow = false
-        } else {
-          this.typeShow = true
-          this.abbreviationSelectShow = false
-        }
-      },
-      // licenseSelectClick: function (str, id) {
-      //   if (str) {
-      //     this.licenseSelectMassage = str
-      //     this.cur_type_id = id
-      //   }
-      //   if (this.licenseSelectShow === true) {
-      //     this.licenseSelectShow = false
-      //   } else {
-      //     this.licenseSelectShow = true
-      //     this.abbreviationSelectShow = false
-      //   }
-      // },
       abbreviationSelectClick: function (str, id) {
         this.moldShow = false
         if (str) {
@@ -198,6 +341,18 @@
           this.moldShow = false
         } else {
           this.moldShow = true
+        }
+      },
+      typeClick: function (str, id) {
+        if (str) {
+          this.typeMassage = str
+          this.curid = id
+        }
+        if (this.typeShow === true) {
+          this.typeShow = false
+        } else {
+          this.typeShow = true
+          this.abbreviationSelectShow = false
         }
       },
       demandClick: function () {
@@ -309,12 +464,18 @@
     .width-53 {
       width: 53% !important;
     }
+    .width-80 {
+      width: 80% !important;
+    }
     .abbreviationLeft{
       margin-left: 2%;
     }
     .btn-blue{
-      margin-top:20px;
+      margin-top:60px;
       background-color: #09bb07;
+    }
+    .bg-colour{
+      background-color: #fff;
     }
   }
 </style>

@@ -28,7 +28,7 @@
     </ul>
     <div class="info">
       <p>温馨提示：</p>
-      <p>可自主选择当日起2天后的日期为停驶日，天数不限。遇特殊情况需要恢复出行，需要提前2天选择已申报绿色出行日期，申报提交恢复出行。</p>
+      <p>可自主选择当日起2天后的日期为停驶日，天数不限。遇特殊情况需要恢复出行，需要提前1天选择已申报绿色出行日期，申报提交恢复出行。</p>
     </div>
     <el-button type="primary" @click.native="handleConfirm">提交</el-button>
     <div class="m-confirm" :class="{ open: confirmState }">
