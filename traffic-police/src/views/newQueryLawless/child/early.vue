@@ -20,7 +20,7 @@
       }
     },
     components: {
-      'earlyLawless': require('./earlyLawless.vue'),
+      'earlyLawless': require('./illegalAppointment.vue'),
       'earlyLawlessQuery': require('./earlyQuery.vue')
     }
   }

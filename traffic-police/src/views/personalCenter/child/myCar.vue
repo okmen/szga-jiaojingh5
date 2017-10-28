@@ -83,8 +83,8 @@
          }
         }
         .unbind {
-          color: #aaa;
-          border:1px solid #aaa;
+          color: #2696dd;
+          border:1px solid #2696dd;
           border-radius: 4px;
           position: absolute;
           right: 40px;
@@ -238,7 +238,7 @@
               data: json.data
             }
             this.$store.commit('saveNewLawlessQuery', lawlessData)
-            this.$router.push('newLawlessMsg_noBtn')
+            this.$router.push('newLawlessMsg')
           } else {
             Toast({
               message: json.msg,

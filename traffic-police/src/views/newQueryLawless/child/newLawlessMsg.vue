@@ -11,7 +11,7 @@
             <!-- <span @click.stop="clickJump(item)">{{ claimList[item.isNeedClaim] }}</span> -->
           </div>
           <div class="newLawlessMsg-item-content">
-            <p class="newLawlessMsg-item-content-No">{{ item.isNeedClaim === '0' ? '缴款编号' : '违法编号' }}：<span>{{ item.billNo }}</span></p>
+            <p class="newLawlessMsg-item-content-No" v-if="item.billNo">{{ item.isNeedClaim === '0' ? '缴款编号' : '违法编号' }}：<span>{{ item.billNo }}</span></p>
             <p class="newLawlessMsg-item-content-car">{{ item.licensePlateNo }}</p>
             <p class="newLawlessMsg-item-content-time">{{ item.illegalTime }}</p>
             <p class="newLawlessMsg-item-content-add">{{ item.illegalAddr }}</p>
@@ -20,8 +20,8 @@
             <p class="newLawlessMsg-item-content-score">{{ item.punishScore }}</p>
             <p class="newLawlessMsg-item-content-unit">{{ item.illegalUnit }}</p>
             <p class="newLawlessMsg-item-content-text" v-if="!$route.query.login"><span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2, isQuery: $route.query.type === 'query', isLink: item.isNeedClaim == 0 }" @click.stop="clickJump(item)">{{ claimList[item.isNeedClaim] }}</span></p>
-            <div class="newLawlessMsg-item-btn">
-              <button v-if="item.description && isBoolean2(item.description)" @click="punishFreeDesc(item.description)">首违免罚</button>
+            <div class="newLawlessMsg-item-btn" v-if="!$route.query.login">
+              <button v-if="item.description && isBoolean2(item.description)" @click="punishFreeDesc(item)">申请首违免罚</button>
               <button v-if="isBoolean(item.licensePlateNo, item.illegalUnit)" @click="hrefFn(item)">违法申诉</button>
               <button v-if="item.imgQueryCode && isLogin(item.licensePlateNo)" @click="illegalImgBtn(item.imgQueryCode)">查看违法图片</button>
             </div>
@@ -107,8 +107,22 @@
           })
         }
       },
-      punishFreeDesc (str) {
-        MessageBox('提示', str)
+      punishFreeDesc (item) {
+        MessageBox.confirm('尊敬的用户您好，该宗违法符合深圳交警首违免罚范围，是否申请免除一次道路交通安全违法行为的罚款？').then(action => {
+          MessageBox.confirm('确定打单吗?').then(action => {
+            let reqData = {
+              illegalNo: item.billNo
+            }
+            resultPost(claimConfirm, reqData).then(json => {
+              console.log(json)
+              if (json.code === '0000') {
+                MessageBox.alert('该宗违法已处罚完毕，按规定给予警告，免予罚款处罚。').then(action => {
+                  this.$router.push('/')
+                })
+              }
+            })
+          })
+        })
       },
       hrefFn (item) { // 违法申诉
         if (!JSON.parse(window.localStorage.isLogin)) {
@@ -164,16 +178,35 @@
             })
             return false
           }
-          MessageBox.confirm('确定打单吗?').then(action => {
-            let reqData = {
-              illegalNo: item.billNo
+          resultPost().then(result => {
+            if (result.code === '0000') {
+              MessageBox.confirm('确定打单吗?').then(action => {
+                let reqData = {
+                  illegalNo: item.billNo
+                }
+                resultPost(claimConfirm, reqData).then(json => {
+                  console.log(json)
+                  if (json.code === '0000') {
+                    if (result.code) {
+                      MessageBox.confirm('打单成功,是否在线缴款？').then(action => {
+                        let requestData = {
+                          billNo: item.billNo,
+                          licensePlateNo: item.licensePlateNo
+                        }
+                        resultPost(queryPay, requestData).then(data => {
+                          console.log(data)
+                          if (data.code === '0000') {
+                            window.location.href = json.msg
+                          }
+                        })
+                      })
+                    } else {
+                      MessageBox.confirm('尊敬的用户您好，一旦确认或打印了处罚决定书后，15日内不处理将会产生滞纳金，是否确定马上打印决定书？')
+                    }
+                  }
+                })
+              })
             }
-            resultPost(claimConfirm, reqData).then(json => {
-              console.log(json)
-              if (json.code === '0000') {
-                MessageBox('提示', '打单成功')
-              }
-            })
           })
         } else if (item.isNeedClaim === '2') { // 需要前往窗口办理，跳转预约
           if (!JSON.parse(window.localStorage.isLogin)) {
@@ -214,7 +247,6 @@
   }
 </script>
 <style lang="less">
-  @import "./../../../style/base";
   .newLawlessMsg-outer{
     background-color: #eee;
     .newLawlessMsg-top{

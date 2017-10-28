@@ -86,7 +86,6 @@
   }
 </script>
 <style lang="less">
-  @import "./../../../style/base";
   .newQueryByCar-outer{
     padding: 30px 30px 0 ;
     .newQueryByCar-carArr{

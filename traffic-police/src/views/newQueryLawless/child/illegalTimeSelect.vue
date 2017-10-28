@@ -313,8 +313,8 @@ export default {
     this.custName = window.localStorage.getItem('userName') // 姓名
     this.certificateNo = window.localStorage.getItem('identityCard') // 身份证
     this.mobileNo = window.localStorage.getItem('mobilePhone') // 手机号码
-    this.licensePlateNo = this.lawlessData.data.licensePlateNo // 车牌号码
-    this.licensePlateType = this.lawlessData.data.licensePlateType // 车牌类型
+    this.licensePlateNo = this.lawlessData.data.licensePlateNo || this.lawlessData.data.myNumberPlate// 车牌号码
+    this.licensePlateType = this.lawlessData.data.licensePlateType || this.lawlessData.data.plateType // 车牌类型
 
     let ua = window.navigator.userAgent // 浏览器版本
     if (/MicroMessenger/i.test(ua)) {
@@ -328,91 +328,3 @@ export default {
   }
 }
 </script>
-<style lang="less">
-@import "../../../style/base";
-
-.illegalTimeSelect-outer{
-  padding: 50px;
-  background: #fff;
-  .pad-0{
-    padding: 0 !important;
-  }
-  .flex{
-    display: flex;
-    justify-content: space-between;
-  }
-  .illegalTimeSelect-lists{
-    font-size: 28px;
-    .illegalTimeSelect-item{
-      margin-bottom: 24px;
-      padding-left: 140px;
-      position: relative;
-      line-height: 56px;
-      .illegalTimeSelect-name{
-        position: absolute;
-        left: 0;
-      }
-      .year{
-        width: 26%;
-        text-indent: 0;
-        text-align: center;
-      }
-      .month,.date{
-        width: 22%;
-        text-align: center;
-        text-indent: 0;
-        span{
-          text-indent: 0;
-          text-align: center;
-        }
-      }
-    }
-  }
-  .illegalTimeSelect-detail{
-    width: 100%;
-    height: 420px;
-    border: 1px solid #eaeaed;
-    border-radius: 8px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    margin-bottom: 55px;
-    .disabled{
-      padding: 0 80px 0 35px;
-      background: #eaeaed;
-    }
-    .illegalTimeSelect-item{
-      padding: 0 70px 0 35px;
-      display: flex;
-      justify-content: space-between;
-      line-height: 80px;
-      border: 2px solid #eaeaed;
-      border-color: transparent;
-      border-bottom-color: #eaeaed;
-      .yy_yysl{
-        margin: 0 10px 0 34px;
-        color: #19d051;
-      }
-    }
-    .active{
-      border-color: #2696dd;
-    }
-  }
-  .illegal-tip{
-    h3{
-      font-size: 28px;
-      color: #2696dd;
-      margin-bottom: 30px;
-    }
-    p{
-      font-size: 24px;
-      line-height: 34px;
-      color: #666;
-    }
-  }
-}
-.white{
-  span{
-    color: #fff;
-  }
-}
-</style>
