@@ -1,6 +1,18 @@
 <template>
   <div class="carService-outer">
     <div class="query-link">
+      <a :href="`https://green.stc.gov.cn:9999/szjjwxyw/szjj/szjj_checkJJyw.action?ywlx=ywEzHf&lrly=C&sqm=${code}`">异地驾驶证年审</a>
+    </div>
+    <div class="query-link">
+      <a :href="`https://green.stc.gov.cn:9999/szjjwxyw/szjj/szjj_checkJJyw.action?ywlx=ywEzN3&lrly=C&sqm=${code}`">机动车驾驶人恢复驾驶资格（逾期未体检类)</a>
+    </div>
+    <div class="query-link">
+      <a :href="`https://green.stc.gov.cn:9999/szjjwxyw/szjj/szjj_checkJJyw.action?ywlx=ywEzNine&lrly=C&sqm=${code}`">补领机动车登记证书</a>
+    </div>
+    <div class="query-link">
+      <router-link :to="getHash('/dieselEngineTrucksTab')">柴油轻型自卸货车电子通行证申请及查询</router-link>
+    </div>
+    <div class="query-link">
       <router-link :to="getHash('/applyClass/01')">申请通行证（外地车）</router-link>
     </div>
     <div class="query-link">
@@ -50,6 +62,7 @@
 <script>
   export default {
     name: 'carService',
+    props: ['code'],
     data () {
       return {
         applyShow: false,
@@ -103,6 +116,17 @@
       a {
         display: block;
         padding-left: 50px;
+        .new{
+          background: red;
+          color: #fff;
+          padding: 5px 15px;
+          margin-left: 15px;
+          border-radius: 10px;
+          font-size: 16px;
+          line-height: 1;
+          position: relative;
+          top: -5px;
+        }
       }
       p {
         padding: 0 50px;
