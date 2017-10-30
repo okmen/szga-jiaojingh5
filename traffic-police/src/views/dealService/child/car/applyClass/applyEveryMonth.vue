@@ -84,7 +84,7 @@
     <div class="hint">
       <h4>温馨提示：</h4>
       <p>1.每月只能申请一次，且只能申请第二天及下个月的日期。</p>
-      <p>2.工作日限外的时间段为（早高峰7：00至9：00，晚高峰17：00至19：30）</p>
+      <p>2.工作日限外的时间段为（早高峰7：00至9：00，晚高峰17：30至19：30）</p>
       <p>3.法定节假日不限外，请勿申请。</p>
     </div>
     <mt-datetime-picker ref="picker" type="date" v-model="informTime" @confirm="handleTime" :startDate="startTimeData" :endDate="endTimeData"></mt-datetime-picker>
