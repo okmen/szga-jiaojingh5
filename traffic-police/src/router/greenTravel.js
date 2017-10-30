@@ -5,7 +5,7 @@ let routerConfig = [
     meta: {
       title: '绿色出行'
     },
-    component: resolve => require(['../views/greenTravel/greenTravel.vue'], resolve)
+    component: require('../views/greenTravel/greenTravel.vue')
   },
   {
     name: 'starLevel',
@@ -13,7 +13,7 @@ let routerConfig = [
     meta: {
       title: '绿色出行'
     },
-    component: resolve => require(['../views/greenTravel/starLevel.vue'], resolve)
+    component: require('../views/greenTravel/starLevel.vue')
   },
   {
     name: 'prize',
@@ -21,7 +21,7 @@ let routerConfig = [
     meta: {
       title: '奖励说明'
     },
-    component: resolve => require(['../views/greenTravel/prize.vue'], resolve)
+    component: require('../views/greenTravel/prize.vue')
   },
   {
     name: 'greenApply',
@@ -29,7 +29,7 @@ let routerConfig = [
     meta: {
       title: '绿色出行-录入信息'
     },
-    component: resolve => require(['../views/greenTravel/greenApply.vue'], resolve)
+    component: require('../views/greenTravel/greenApply.vue')
   },
   {
     name: 'greenApplyNoLogin',
@@ -37,7 +37,7 @@ let routerConfig = [
     meta: {
       title: '绿色出行-非星级用户录入信息'
     },
-    component: resolve => require(['../views/greenTravel/greenApplyNoLogin.vue'], resolve)
+    component: require('../views/greenTravel/greenApplyNoLogin.vue')
   },
   {
     name: 'greenApplyDate',
@@ -45,7 +45,7 @@ let routerConfig = [
     meta: {
       title: '申报停驶日期'
     },
-    component: resolve => require(['../views/greenTravel/greenApplyDate.vue'], resolve)
+    component: require('../views/greenTravel/greenApplyDate.vue')
   },
   {
     name: 'greenComplaint',
@@ -53,7 +53,7 @@ let routerConfig = [
     meta: {
       title: '申报停驶日期'
     },
-    component: resolve => require(['../views/greenTravel/greenComplaint.vue'], resolve)
+    component: require('../views/greenTravel/greenComplaint.vue')
   },
   {
     name: 'greenItem',
@@ -61,7 +61,7 @@ let routerConfig = [
     meta: {
       title: '申报停驶日期'
     },
-    component: resolve => require(['../views/greenTravel/greenItem.vue'], resolve)
+    component: require('../views/greenTravel/greenItem.vue')
   }
 ]
 

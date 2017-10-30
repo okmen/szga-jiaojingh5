@@ -6,7 +6,7 @@ let takePicturesTipsRouter = [
     meta: {
       title: '随手拍举报'
     },
-    component: resolve => require(['../views/takePictures_WeChat/child/takePicturesTips.vue'], resolve)
+    component: require('../views/takePictures_WeChat/child/takePicturesTips.vue')
   },
   {
     name: 'takePicturesSuccess_WeChat',                                                      // 微信版本
@@ -14,7 +14,7 @@ let takePicturesTipsRouter = [
     meta: {
       title: '随手拍举报'
     },
-    component: resolve => require(['../views/takePictures_WeChat/child/takePicturesSuccess.vue'], resolve)
+    component: require('../views/takePictures_WeChat/child/takePicturesSuccess.vue')
   },
   {
     name: 'takePicturesSuccess1_WeChat',                                                     // 微信版本
@@ -22,7 +22,7 @@ let takePicturesTipsRouter = [
     meta: {
       title: '随手拍举报'
     },
-    component: resolve => require(['../views/takePictures_WeChat/child/takePicturesSuccess1.vue'], resolve)
+    component: require('../views/takePictures_WeChat/child/takePicturesSuccess1.vue')
   },
   {
     name: 'takePicturesInform_WeChat',                                                       // 微信版本
@@ -30,7 +30,7 @@ let takePicturesTipsRouter = [
     meta: {
       title: '随手拍举报'
     },
-    component: resolve => require(['../views/takePictures_WeChat/takePicturesInform'], resolve)
+    component: require('../views/takePictures_WeChat/takePicturesInform')
   },
   {
     name: 'map_WeChat',                                                                      // 微信版本
@@ -38,7 +38,7 @@ let takePicturesTipsRouter = [
     meta: {
       title: '地图'
     },
-    component: resolve => require(['../views/takePictures_WeChat/map.vue'], resolve)
+    component: require('../views/takePictures_WeChat/map.vue')
   },
   {
     name: 'takePicturesQuery_WeChat',                                                        // 微信版本
@@ -46,7 +46,7 @@ let takePicturesTipsRouter = [
     meta: {
       title: '随手拍查询'
     },
-    component: resolve => require(['../views/takePictures_WeChat/child/takePicturesQuery'], resolve)
+    component: require('../views/takePictures_WeChat/child/takePicturesQuery')
   },
   {
     name: 'takePicturesSuccess1',                                                                // 举报成功外部链接
@@ -54,7 +54,7 @@ let takePicturesTipsRouter = [
     meta: {
       title: '随手拍举报成功'
     },
-    component: resolve => require(['../views/takePictures/child/takePicturesSuccess1.vue'], resolve)
+    component: require('../views/takePictures/child/takePicturesSuccess1.vue')
   },
   {
     name: 'takePicturesInform',
@@ -62,7 +62,7 @@ let takePicturesTipsRouter = [
     meta: {
       title: '随手拍举报'
     },
-    component: resolve => require(['../views/takePictures/takePicturesInform'], resolve)
+    component: require('../views/takePictures/takePicturesInform')
   },
   {
     name: 'takePicturesQuery',
@@ -70,7 +70,7 @@ let takePicturesTipsRouter = [
     meta: {
       title: '随手拍查询'
     },
-    component: resolve => require(['../views/takePictures/child/takePicturesQuery'], resolve)
+    component: require('../views/takePictures/child/takePicturesQuery')
   },
   {
     name: 'map',
@@ -78,7 +78,7 @@ let takePicturesTipsRouter = [
     meta: {
       title: '地图'
     },
-    component: resolve => require(['../views/takePictures/map.vue'], resolve)
+    component: require('../views/takePictures/map.vue')
   },
   {
     name: 'takePicturesTips',
@@ -86,7 +86,7 @@ let takePicturesTipsRouter = [
     meta: {
       title: '随手拍举报'
     },
-    component: resolve => require(['../views/takePictures/child/takePicturesTips.vue'], resolve)
+    component: require('../views/takePictures/child/takePicturesTips.vue')
   },
   {
     name: 'takePicturesSuccess',
@@ -94,7 +94,7 @@ let takePicturesTipsRouter = [
     meta: {
       title: '随手拍举报成功'
     },
-    component: resolve => require(['../views/takePictures/child/takePicturesSuccess.vue'], resolve)
+    component: require('../views/takePictures/child/takePicturesSuccess.vue')
   }
 ]
 

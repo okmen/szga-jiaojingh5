@@ -5,7 +5,7 @@ let newQueryLawlessRouter = [
     meta: {
       title: '违法处理类业务'
     },
-    component: resolve => require(['../views/newQueryLawless/queryLawless.vue'], resolve)
+    component: require('../views/newQueryLawless/queryLawless.vue')
   },
   {
     name: 'newqueryByCar',
@@ -13,7 +13,7 @@ let newQueryLawlessRouter = [
     meta: {
       title: '交通违法查询'
     },
-    component: resolve => require(['../views/newQueryLawless/child/newqueryByCar.vue'], resolve)
+    component: require('../views/newQueryLawless/child/newqueryByCar.vue')
   },
   {
     name: 'newqueryByCar_manual',               // 手动交通违法查询
@@ -21,7 +21,7 @@ let newQueryLawlessRouter = [
     meta: {
       title: '交通违法查询'
     },
-    component: resolve => require(['../views/newQueryLawless/child/newqueryByCar_manual.vue'], resolve)
+    component: require('../views/newQueryLawless/child/newqueryByCar_manual.vue')
   },
   {
     name: 'newqueryByCard',               // 手动交通驾驶证违法查询
@@ -29,7 +29,7 @@ let newQueryLawlessRouter = [
     meta: {
       title: '交通违法驾驶证查询'
     },
-    component: resolve => require(['../views/newQueryLawless/child/newqueryByCard.vue'], resolve)
+    component: require('../views/newQueryLawless/child/newqueryByCard.vue')
   },
   {
     name: 'newLawlessMsg',
@@ -37,7 +37,7 @@ let newQueryLawlessRouter = [
     meta: {
       title: '违法查询结果'
     },
-    component: resolve => require(['../views/newQueryLawless/child/newLawlessMsg.vue'], resolve)
+    component: require('../views/newQueryLawless/child/newLawlessMsg.vue')
   },
   {
     name: 'newLawlessMsg_noBtn',
@@ -45,7 +45,7 @@ let newQueryLawlessRouter = [
     meta: {
       title: '违法查询结果'
     },
-    component: resolve => require(['../views/newQueryLawless/child/newLawlessMsg_noBtn.vue'], resolve)
+    component: require('../views/newQueryLawless/child/newLawlessMsg_noBtn.vue')
   },
   {
     name: 'appeal',
@@ -53,7 +53,7 @@ let newQueryLawlessRouter = [
     meta: {
       title: '违法申诉入口'
     },
-    component: resolve => require(['../views/newQueryLawless/child/appealQuery.vue'], resolve)
+    component: require('../views/newQueryLawless/child/appealQuery.vue')
   },
   {
     name: 'appeal_WeChat',                                                           // 微信版本
@@ -61,7 +61,7 @@ let newQueryLawlessRouter = [
     meta: {
       title: '违法申诉入口'
     },
-    component: resolve => require(['../views/newQueryLawless/child/appealQuery.vue'], resolve)
+    component: require('../views/newQueryLawless/child/appealQuery.vue')
   },
   {
     name: 'illegalAppealResult',
@@ -69,7 +69,7 @@ let newQueryLawlessRouter = [
     meta: {
       title: '违法申诉结果页'
     },
-    component: resolve => require(['../views/newQueryLawless/child/illegalAppealResult.vue'], resolve)
+    component: require('../views/newQueryLawless/child/illegalAppealResult.vue')
   },
   {
     name: 'newqueryAppeal',
@@ -77,7 +77,7 @@ let newQueryLawlessRouter = [
     meta: {
       title: '违法申诉提交表单'
     },
-    component: resolve => require(['../views/newQueryLawless/child/appealForm.vue'], resolve)
+    component: require('../views/newQueryLawless/child/appealForm.vue')
   },
   {
     name: 'confirmLawless',
@@ -85,7 +85,7 @@ let newQueryLawlessRouter = [
     meta: {
       title: '违法在线确认'
     },
-    component: resolve => require(['../views/newQueryLawless/child/confirmLawless.vue'], resolve)
+    component: require('../views/newQueryLawless/child/confirmLawless.vue')
   },
   {
     name: 'newEarly',
@@ -93,7 +93,7 @@ let newQueryLawlessRouter = [
     meta: {
       title: '交通违法预约'
     },
-    component: resolve => require(['../views/newQueryLawless/child/early.vue'], resolve)
+    component: require('../views/newQueryLawless/child/early.vue')
   },
   {
     name: 'newPayLawless',
@@ -101,7 +101,7 @@ let newQueryLawlessRouter = [
     meta: {
       title: '交通违法缴款'
     },
-    component: resolve => require(['../views/newQueryLawless/child/newPayLawless.vue'], resolve)
+    component: require('../views/newQueryLawless/child/newPayLawless.vue')
   },
   {
     name: 'newTimeSelect',
@@ -109,7 +109,7 @@ let newQueryLawlessRouter = [
     meta: {
       title: '交通违法预约'
     },
-    component: resolve => require(['../views/newQueryLawless/child/illegalTimeSelect.vue'], resolve)
+    component: require('../views/newQueryLawless/child/illegalTimeSelect.vue')
   },
   {
     name: 'illegalImage',
@@ -117,7 +117,7 @@ let newQueryLawlessRouter = [
     meta: {
       title: '违法图片'
     },
-    component: resolve => require(['../views/newQueryLawless/child/illegalImage.vue'], resolve)
+    component: require('../views/newQueryLawless/child/illegalImage.vue')
   }
 ]
 

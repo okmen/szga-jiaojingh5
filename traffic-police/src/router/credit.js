@@ -5,7 +5,7 @@ let creditRouter = [
     meta: {
       title: '信息单据证明'
     },
-    component: resolve => require(['../views/credit/index.vue'], resolve)
+    component: require('../views/credit/index.vue')
   },
   {
     name: 'motorVehicle',
@@ -13,7 +13,7 @@ let creditRouter = [
     meta: {
       title: '机动车信息单'
     },
-    component: resolve => require(['../views/credit/child/motorVehicle.vue'], resolve)
+    component: require('../views/credit/child/motorVehicle.vue')
   },
   {
     name: 'driverCredit',
@@ -21,7 +21,7 @@ let creditRouter = [
     meta: {
       title: '驾驶人安全事故信用表'
     },
-    component: resolve => require(['../views/credit/child/driverCredit.vue'], resolve)
+    component: require('../views/credit/child/driverCredit.vue')
   },
   {
     name: 'carFree',
@@ -29,7 +29,7 @@ let creditRouter = [
     meta: {
       title: '无车证明'
     },
-    component: resolve => require(['../views/credit/child/driverCredit.vue'], resolve)
+    component: require('../views/credit/child/driverCredit.vue')
   },
   {
     name: 'driversInformation',
@@ -37,7 +37,7 @@ let creditRouter = [
     meta: {
       title: '驾驶人信用单'
     },
-    component: resolve => require(['../views/credit/child/driverCredit.vue'], resolve)
+    component: require('../views/credit/child/driverCredit.vue')
   },
   {
     name: 'digitalReceipt',
@@ -45,7 +45,7 @@ let creditRouter = [
     meta: {
       title: '电子回单'
     },
-    component: resolve => require(['../views/credit/child/digitalReceipt.vue'], resolve)
+    component: require('../views/credit/child/digitalReceipt.vue')
   },
   {
     name: 'digitalreceipTinquire',
@@ -53,7 +53,7 @@ let creditRouter = [
     meta: {
       title: '电子回单'
     },
-    component: resolve => require(['../views/credit/child/digitalreceipTinquire.vue'], resolve)
+    component: require('../views/credit/child/digitalreceipTinquire.vue')
   },
   {
     name: 'digitalReceiptRecord',
@@ -61,7 +61,7 @@ let creditRouter = [
     meta: {
       title: '电子回单'
     },
-    component: resolve => require(['../views/credit/child/digitalReceiptRecord.vue'], resolve)
+    component: require('../views/credit/child/digitalReceiptRecord.vue')
   },
   {
     name: 'digByCar',
@@ -69,7 +69,7 @@ let creditRouter = [
     meta: {
       title: '电子回单'
     },
-    component: resolve => require(['../views/credit/child/digByCar.vue'], resolve)
+    component: require('../views/credit/child/digByCar.vue')
   }
 ]
 
