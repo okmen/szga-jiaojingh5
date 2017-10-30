@@ -436,7 +436,6 @@
   }
 </script>
 <style lang="less" scoped>
-  @import "./../../../../../style/base";
   .changeNormal-outer {
     background-color: #fff;
     padding: 0 40px;

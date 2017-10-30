@@ -5,7 +5,7 @@ let queryLawlessRouter = [
     meta: {
       title: '违法处理类业务'
     },
-    component: require('../views/queryLawless/queryLawless.vue')
+    component: resolve => require(['../views/queryLawless/queryLawless.vue'], resolve)
   },
   {
     name: 'appeal',
@@ -13,7 +13,7 @@ let queryLawlessRouter = [
     meta: {
       title: '违法申诉'
     },
-    component: require('../views/queryLawless/child/appealQuery.vue')
+    component: resolve => require(['../views/queryLawless/child/appealQuery.vue'], resolve)
   },
   {
     name: 'confirm',
@@ -21,7 +21,7 @@ let queryLawlessRouter = [
     meta: {
       title: '违法确认'
     },
-    component: require('../views/queryLawless/child/confirmLawless.vue')
+    component: resolve => require(['../views/queryLawless/child/confirmLawless.vue'], resolve)
   },
   {
     name: 'confirmClaim',
@@ -29,7 +29,7 @@ let queryLawlessRouter = [
     meta: {
       title: '交通违法打单'
     },
-    component: require('../views/queryLawless/child/confirmLawlessPrint.vue')
+    component: resolve => require(['../views/queryLawless/child/confirmLawlessPrint.vue'], resolve)
   },
   {
     name: 'early',
@@ -37,7 +37,7 @@ let queryLawlessRouter = [
     meta: {
       title: '交通违法预约'
     },
-    component: require('../views/queryLawless/child/early.vue')
+    component: resolve => require(['../views/queryLawless/child/early.vue'], resolve)
   },
   {
     name: 'illegalTimeSelect',
@@ -45,7 +45,7 @@ let queryLawlessRouter = [
     meta: {
       title: '交通违法预约'
     },
-    component: require('../views/queryLawless/child/illegalTimeSelect.vue')
+    component: resolve => require(['../views/queryLawless/child/illegalTimeSelect.vue'], resolve)
   },
   {
     name: 'payLawless',
@@ -53,7 +53,7 @@ let queryLawlessRouter = [
     meta: {
       title: '违法缴款'
     },
-    component: require('../views/queryLawless/child/payLawless.vue')
+    component: resolve => require(['../views/queryLawless/child/payLawless.vue'], resolve)
   },
   {
     name: 'queryLawlessPage',
@@ -61,7 +61,7 @@ let queryLawlessRouter = [
     meta: {
       title: '查询违法记录页面'
     },
-    component: require('../views/queryLawless/child/queryLawlessPage.vue')
+    component: resolve => require(['../views/queryLawless/child/queryLawlessPage.vue'], resolve)
   },
   {
     name: 'illegalAppealResult',
@@ -69,7 +69,7 @@ let queryLawlessRouter = [
     meta: {
       title: '违法申诉结果页'
     },
-    component: require('../views/queryLawless/child/illegalAppealResult.vue')
+    component: resolve => require(['../views/queryLawless/child/illegalAppealResult.vue'], resolve)
   },
   {
     name: 'illegalOrderDeal',
@@ -77,7 +77,7 @@ let queryLawlessRouter = [
     meta: {
       title: '违法预约结果查询'
     },
-    component: require('../views/queryLawless/child/illegalOrderDeal.vue')
+    component: resolve => require(['../views/queryLawless/child/illegalOrderDeal.vue'], resolve)
   }
 ]
 

@@ -5,7 +5,7 @@ let dealServiceRouter = [
     meta: {
       title: '办理类业务'
     },
-    component: require('../views/dealService_WeChat/dealService.vue')
+    component: resolve => require(['../views/dealService_WeChat/dealService.vue'], resolve)
   },
   {
     name: 'confirmLawless_WeChat',                                                           // 微信版本
@@ -13,7 +13,7 @@ let dealServiceRouter = [
     meta: {
       title: '违法在线确认'
     },
-    component: require('../views/dealService_WeChat/child/confirmLawless_WeChat.vue')
+    component: resolve => require(['../views/dealService_WeChat/child/confirmLawless_WeChat.vue'], resolve)
   },
   {
     name: 'newLawlessMsg_WeChat',                                                            // 微信版本
@@ -21,7 +21,7 @@ let dealServiceRouter = [
     meta: {
       title: '违法查询结果'
     },
-    component: require('../views/dealService_WeChat/child/newLawlessMsg_WeChat.vue')
+    component: resolve => require(['../views/dealService_WeChat/child/newLawlessMsg_WeChat.vue'], resolve)
   },
   {
     name: 'newEarly_WeChat',                                                                 // 微信版本
@@ -29,7 +29,7 @@ let dealServiceRouter = [
     meta: {
       title: '交通违法预约'
     },
-    component: require('../views/dealService_WeChat/child/newEarly_WeChat.vue')
+    component: resolve => require(['../views/dealService_WeChat/child/newEarly_WeChat.vue'], resolve)
   },
   {
     name: 'newPayLawless_WeChat',                                                            // 微信版本
@@ -37,7 +37,7 @@ let dealServiceRouter = [
     meta: {
       title: '交通违法缴款'
     },
-    component: require('../views/dealService_WeChat/child/newPayLawless_WeChat.vue')
+    component: resolve => require(['../views/dealService_WeChat/child/newPayLawless_WeChat.vue'], resolve)
   },
   {
     name: 'newTimeSelect_WeChat',
@@ -45,7 +45,7 @@ let dealServiceRouter = [
     meta: {
       title: '交通违法预约'
     },
-    component: require('../views/dealService_WeChat/child/newTimeSelect_WeChat.vue')
+    component: resolve => require(['../views/dealService_WeChat/child/newTimeSelect_WeChat.vue'], resolve)
   },
   {
     name: 'dealService',
@@ -53,7 +53,7 @@ let dealServiceRouter = [
     meta: {
       title: '办理类业务'
     },
-    component: require('../views/dealService/dealService.vue')
+    component: resolve => require(['../views/dealService/dealService.vue'], resolve)
   },
   {
     name: 'IDQuery',
@@ -61,7 +61,7 @@ let dealServiceRouter = [
     meta: {
       title: '办理类业务'
     },
-    component: require('../views/dealService/child/queryProgress/IDQuery.vue')
+    component: resolve => require(['../views/dealService/child/queryProgress/IDQuery.vue'], resolve)
   },
   {
     name: 'queryProgress',
@@ -69,7 +69,7 @@ let dealServiceRouter = [
     meta: {
       title: '办理进度查询'
     },
-    component: require('../views/dealService/child/queryProgress/queryProgress.vue')
+    component: resolve => require(['../views/dealService/child/queryProgress/queryProgress.vue'], resolve)
   },
   {
     name: 'queryProgress_WeChat',                                              // 微信版本
@@ -77,7 +77,7 @@ let dealServiceRouter = [
     meta: {
       title: '办理进度查询'
     },
-    component: require('../views/dealService/child/queryProgress/queryProgress.vue')
+    component: resolve => require(['../views/dealService/child/queryProgress/queryProgress.vue'], resolve)
   },
   {
     name: 'applyClass',
@@ -85,7 +85,7 @@ let dealServiceRouter = [
     meta: {
       title: '申请类'
     },
-    component: require('../views/dealService/child/car/applyClass/applyClass.vue')
+    component: resolve => require(['../views/dealService/child/car/applyClass/applyClass.vue'], resolve)
   },
   {
     name: 'applyClass_WeChat',                                                           // 微信版本
@@ -93,7 +93,7 @@ let dealServiceRouter = [
     meta: {
       title: '申请类'
     },
-    component: require('../views/dealService/child/car/applyClass/applyClass.vue')
+    component: resolve => require(['../views/dealService/child/car/applyClass/applyClass.vue'], resolve)
   },
   {
     name: 'changeCard',
@@ -101,7 +101,7 @@ let dealServiceRouter = [
     meta: {
       title: '补换证类'
     },
-    component: require('../views/dealService/child/card/changeCard/changeCard.vue')
+    component: resolve => require(['../views/dealService/child/card/changeCard/changeCard.vue'], resolve)
   },
   {
     name: 'changeCard_WeChat',                                                         // 微信版本
@@ -109,7 +109,7 @@ let dealServiceRouter = [
     meta: {
       title: '补换证类'
     },
-    component: require('../views/dealService/child/card/changeCard/changeCard.vue')
+    component: resolve => require(['../views/dealService/child/card/changeCard/changeCard.vue'], resolve)
   },
   {
     name: 'freeForFirst',
@@ -117,7 +117,7 @@ let dealServiceRouter = [
     meta: {
       title: '首违免罚查询'
     },
-    component: require('../views/dealService/child/car/freeForFirst/freeForFirst.vue')
+    component: resolve => require(['../views/dealService/child/car/freeForFirst/freeForFirst.vue'], resolve)
   },
   {
     name: 'freeForFirst_WeChat',                                                    // 微信版本
@@ -125,7 +125,7 @@ let dealServiceRouter = [
     meta: {
       title: '首违免罚查询'
     },
-    component: require('../views/dealService/child/car/freeForFirst/freeForFirst.vue')
+    component: resolve => require(['../views/dealService/child/car/freeForFirst/freeForFirst.vue'], resolve)
   },
   {
     name: 'annualExaminations',
@@ -133,7 +133,7 @@ let dealServiceRouter = [
     meta: {
       title: '驾驶证年审'
     },
-    component: require('../views/dealService/child/card/annualExaminations/annualExaminations.vue')
+    component: resolve => require(['../views/dealService/child/card/annualExaminations/annualExaminations.vue'], resolve)
   },
   {
     name: 'annualExaminations_WeChat',                                              // 微信版本
@@ -141,7 +141,7 @@ let dealServiceRouter = [
     meta: {
       title: '驾驶证年审'
     },
-    component: require('../views/dealService/child/card/annualExaminations/annualExaminations.vue')
+    component: resolve => require(['../views/dealService/child/card/annualExaminations/annualExaminations.vue'], resolve)
   },
   {
     name: 'intoCard',
@@ -149,7 +149,7 @@ let dealServiceRouter = [
     meta: {
       title: '驾驶证转入'
     },
-    component: require('../views/dealService/child/card/intoCard/intoCard.vue')
+    component: resolve => require(['../views/dealService/child/card/intoCard/intoCard.vue'], resolve)
   },
   {
     name: 'intoCard_WeChat',                                                        // 微信版本
@@ -157,7 +157,7 @@ let dealServiceRouter = [
     meta: {
       title: '驾驶证转入'
     },
-    component: require('../views/dealService/child/card/intoCard/intoCard.vue')
+    component: resolve => require(['../views/dealService/child/card/intoCard/intoCard.vue'], resolve)
   },
   {
     name: 'degradeCard',
@@ -165,7 +165,7 @@ let dealServiceRouter = [
     meta: {
       title: '驾驶证自愿降级'
     },
-    component: require('../views/dealService/child/card/degradeCard/degradeCard.vue')
+    component: resolve => require(['../views/dealService/child/card/degradeCard/degradeCard.vue'], resolve)
   },
   {
     name: 'degradeCard_WeChat',                                                     // 微信版本
@@ -173,7 +173,7 @@ let dealServiceRouter = [
     meta: {
       title: '驾驶证自愿降级'
     },
-    component: require('../views/dealService/child/card/degradeCard/degradeCard.vue')
+    component: resolve => require(['../views/dealService/child/card/degradeCard/degradeCard.vue'], resolve)
   },
   {
     name: 'changeConnect',
@@ -181,7 +181,7 @@ let dealServiceRouter = [
     meta: {
       title: '驾驶人联系方式变更'
     },
-    component: require('../views/dealService/child/card/changeConnect/changeConnect.vue')
+    component: resolve => require(['../views/dealService/child/card/changeConnect/changeConnect.vue'], resolve)
   },
   {
     name: 'changeConnect_WeChat',                                                   // 微信版本
@@ -189,12 +189,12 @@ let dealServiceRouter = [
     meta: {
       title: '驾驶人联系方式变更'
     },
-    component: require('../views/dealService/child/card/changeConnect/changeConnect.vue')
+    component: resolve => require(['../views/dealService/child/card/changeConnect/changeConnect.vue'], resolve)
   },
   {
     name: 'replaceCredentials',
     path: '/replaceCredentials',
-    component: require('../views/dealService/child/car/replaceCredentials/index.vue'),
+    component: resolve => require(['../views/dealService/child/car/replaceCredentials/index.vue'], resolve),
     redirect: '/replaceCredentials/repairDrivingLicense',
     children: [
       {
@@ -203,7 +203,7 @@ let dealServiceRouter = [
         meta: {
           title: '补领行驶证'
         },
-        component: require('../views/dealService/child/car/replaceCredentials/repairDrivingLicense.vue')
+        component: resolve => require(['../views/dealService/child/car/replaceCredentials/repairDrivingLicense.vue'], resolve)
       },
       {
         name: 'exchangeDrivingLicense',
@@ -211,7 +211,7 @@ let dealServiceRouter = [
         meta: {
           title: '换领行驶证'
         },
-        component: require('../views/dealService/child/car/replaceCredentials/exchangeDrivingLicense.vue')
+        component: resolve => require(['../views/dealService/child/car/replaceCredentials/exchangeDrivingLicense.vue'], resolve)
       },
       {
         name: 'replaceQualifiedMark',
@@ -219,7 +219,7 @@ let dealServiceRouter = [
         meta: {
           title: '补换检验合格标志'
         },
-        component: require('../views/dealService/child/car/replaceCredentials/replaceQualifiedMark.vue')
+        component: resolve => require(['../views/dealService/child/car/replaceCredentials/replaceQualifiedMark.vue'], resolve)
       },
       {
         name: 'replaceLicencePlate',
@@ -227,14 +227,14 @@ let dealServiceRouter = [
         meta: {
           title: '补领机动车号牌'
         },
-        component: require('../views/dealService/child/car/replaceCredentials/replaceLicencePlate.vue')
+        component: resolve => require(['../views/dealService/child/car/replaceCredentials/replaceLicencePlate.vue'], resolve)
       }
     ]
   },
   {
     name: 'replaceCredentials_WeChat',                                                // 微信版本
     path: '/replaceCredentials_WeChat',
-    component: require('../views/dealService/child/car/replaceCredentials/index.vue'),
+    component: resolve => require(['../views/dealService/child/car/replaceCredentials/index.vue'], resolve),
     redirect: '/replaceCredentials_WeChat/repairDrivingLicense',
     children: [
       {
@@ -243,7 +243,7 @@ let dealServiceRouter = [
         meta: {
           title: '补领行驶证'
         },
-        component: require('../views/dealService/child/car/replaceCredentials/repairDrivingLicense.vue')
+        component: resolve => require(['../views/dealService/child/car/replaceCredentials/repairDrivingLicense.vue'], resolve)
       },
       {
         name: 'exchangeDrivingLicense',
@@ -251,7 +251,7 @@ let dealServiceRouter = [
         meta: {
           title: '换领行驶证'
         },
-        component: require('../views/dealService/child/car/replaceCredentials/exchangeDrivingLicense.vue')
+        component: resolve => require(['../views/dealService/child/car/replaceCredentials/exchangeDrivingLicense.vue'], resolve)
       },
       {
         name: 'replaceQualifiedMark',
@@ -259,7 +259,7 @@ let dealServiceRouter = [
         meta: {
           title: '补换检验合格标志'
         },
-        component: require('../views/dealService/child/car/replaceCredentials/replaceQualifiedMark.vue')
+        component: resolve => require(['../views/dealService/child/car/replaceCredentials/replaceQualifiedMark.vue'], resolve)
       },
       {
         name: 'replaceLicencePlate',
@@ -267,7 +267,7 @@ let dealServiceRouter = [
         meta: {
           title: '补领机动车号牌'
         },
-        component: require('../views/dealService/child/car/replaceCredentials/replaceLicencePlate.vue')
+        component: resolve => require(['../views/dealService/child/car/replaceCredentials/replaceLicencePlate.vue'], resolve)
       }
     ]
   },
@@ -277,7 +277,7 @@ let dealServiceRouter = [
     meta: {
       title: '六年免检申请'
     },
-    component: require('../views/dealService/child/car/exemption/esemptionCar.vue')
+    component: resolve => require(['../views/dealService/child/car/exemption/esemptionCar.vue'], resolve)
   },
   {
     name: 'esemptionCar_WeChat',                                               // 微信版本
@@ -285,7 +285,7 @@ let dealServiceRouter = [
     meta: {
       title: '六年免检申请'
     },
-    component: require('../views/dealService/child/car/exemption/esemptionCar.vue')
+    component: resolve => require(['../views/dealService/child/car/exemption/esemptionCar.vue'], resolve)
   },
   {
     name: 'exemption',
@@ -293,7 +293,7 @@ let dealServiceRouter = [
     meta: {
       title: '六年免检申请'
     },
-    component: require('../views/dealService/child/car/exemption/exemption.vue')
+    component: resolve => require(['../views/dealService/child/car/exemption/exemption.vue'], resolve)
   },
   {
     name: 'exemptionDemand',
@@ -301,7 +301,7 @@ let dealServiceRouter = [
     meta: {
       title: '六年免检查询取消'
     },
-    component: require('../views/dealService/child/car/exemption/exemptionDemand.vue')
+    component: resolve => require(['../views/dealService/child/car/exemption/exemptionDemand.vue'], resolve)
   },
   {
     name: 'exemptionAbolish',
@@ -309,7 +309,7 @@ let dealServiceRouter = [
     meta: {
       title: '六年免检查询取消'
     },
-    component: require('../views/dealService/child/car/exemption/exemptionAbolish.vue')
+    component: resolve => require(['../views/dealService/child/car/exemption/exemptionAbolish.vue'], resolve)
   },
   {
     name: 'exemptionAbolish_WeChat',                                           // 微信版本
@@ -317,7 +317,7 @@ let dealServiceRouter = [
     meta: {
       title: '六年免检查询取消'
     },
-    component: require('../views/dealService/child/car/exemption/exemptionAbolish.vue')
+    component: resolve => require(['../views/dealService/child/car/exemption/exemptionAbolish.vue'], resolve)
   },
   {
     name: 'placeExamine',
@@ -325,7 +325,7 @@ let dealServiceRouter = [
     meta: {
       title: '机动车委托异地定期检验申报'
     },
-    component: require('../views/dealService/child/car/placeExamine/placeExamine.vue')
+    component: resolve => require(['../views/dealService/child/car/placeExamine/placeExamine.vue'], resolve)
   },
   {
     name: 'placeExamine_WeChat',                                               // 微信版本
@@ -333,7 +333,7 @@ let dealServiceRouter = [
     meta: {
       title: '机动车委托异地定期检验申报'
     },
-    component: require('../views/dealService/child/car/placeExamine/placeExamine.vue')
+    component: resolve => require(['../views/dealService/child/car/placeExamine/placeExamine.vue'], resolve)
   },
   {
     name: 'placeExamineCar',
@@ -341,7 +341,7 @@ let dealServiceRouter = [
     meta: {
       title: '机动车委托异地定期检验申报'
     },
-    component: require('../views/dealService/child/car/placeExamine/placeExamineCar.vue')
+    component: resolve => require(['../views/dealService/child/car/placeExamine/placeExamineCar.vue'], resolve)
   },
   {
     name: 'placeExamineDemand',
@@ -349,7 +349,7 @@ let dealServiceRouter = [
     meta: {
       title: '机动车委托异地定期检验申报查询'
     },
-    component: require('../views/dealService/child/car/placeExamine/placeExamineDemand.vue')
+    component: resolve => require(['../views/dealService/child/car/placeExamine/placeExamineDemand.vue'], resolve)
   },
   {
     name: 'motorAlteration',
@@ -357,7 +357,7 @@ let dealServiceRouter = [
     meta: {
       title: '机动车联系方式变更'
     },
-    component: require('../views/dealService/child/car/motorAlteration.vue')
+    component: resolve => require(['../views/dealService/child/car/motorAlteration.vue'], resolve)
   },
   {
     name: 'motorAlteration_WeChat',                                            // 微信版本
@@ -365,7 +365,7 @@ let dealServiceRouter = [
     meta: {
       title: '机动车联系方式变更'
     },
-    component: require('../views/dealService/child/car/motorAlteration.vue')
+    component: resolve => require(['../views/dealService/child/car/motorAlteration.vue'], resolve)
   }
 ]
 

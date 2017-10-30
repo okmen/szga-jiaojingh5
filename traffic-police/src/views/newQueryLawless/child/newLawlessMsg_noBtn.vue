@@ -206,7 +206,6 @@
   }
 </script>
 <style lang="less">
-  @import "./../../../style/base";
   .newLawlessMsg-outer{
     background-color: #eee;
     .newLawlessMsg-top{

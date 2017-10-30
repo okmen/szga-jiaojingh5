@@ -8,7 +8,7 @@ let homeRouter = [
     meta: {
       title: '登录'
     },
-    component: require('../views/login/login.vue'),
+    component: resolve => require(['../views/login/login.vue'], resolve),
     beforeEnter: (to, from, next) => {
       if (from.name !== 'findPassword' && from.name !== 'initAuthentication' && from.name !== 'carOwner') {
         loginTo = Object.assign({}, from)
@@ -23,7 +23,7 @@ let homeRouter = [
     meta: {
       title: '登录'
     },
-    component: require('../views/login/login_dealService.vue'),
+    component: resolve => require(['../views/login/login_dealService.vue'], resolve),
     beforeEnter: (to, from, next) => {
       router.from = from
       next()
@@ -35,7 +35,7 @@ let homeRouter = [
   //   meta: {
   //     title: '星级用户登录'
   //   },
-  //   component: require('../views/login/loginIcp.vue')
+  //   component: resolve => require(['../views/login/loginIcp.vue'], resolve)
   // },
   {
     name: 'findPassword',
@@ -43,7 +43,7 @@ let homeRouter = [
     meta: {
       title: '忘记密码'
     },
-    component: require('../views/login/findPassword.vue')
+    component: resolve => require(['../views/login/findPassword.vue'], resolve)
   },
   {
     name: 'initAuthentication',
@@ -51,7 +51,7 @@ let homeRouter = [
     meta: {
       title: '重新认证'
     },
-    component: require('../views/login/initAuthentication.vue')
+    component: resolve => require(['../views/login/initAuthentication.vue'], resolve)
   },
   {
     name: 'personalCenter',
@@ -59,7 +59,7 @@ let homeRouter = [
     meta: {
       title: '个人中心'
     },
-    component: require('../views/personalCenter/personalCenter.vue')
+    component: resolve => require(['../views/personalCenter/personalCenter.vue'], resolve)
   },
   {
     name: 'myECard',
@@ -67,7 +67,7 @@ let homeRouter = [
     meta: {
       title: '我的证件'
     },
-    component: require('../views/myECard/myECard.vue')
+    component: resolve => require(['../views/myECard/myECard.vue'], resolve)
   },
   {
     name: 'DriverCardNone',
@@ -75,7 +75,7 @@ let homeRouter = [
     meta: {
       title: '无驾驶证页面'
     },
-    component: require('../views/personalCenter/child/DriverCardNone.vue')
+    component: resolve => require(['../views/personalCenter/child/DriverCardNone.vue'], resolve)
   },
   {
     name: 'DriverCardVerify',
@@ -83,7 +83,7 @@ let homeRouter = [
     meta: {
       title: '我的证件'
     },
-    component: require('../views/personalCenter/child/DriverCardVerify.vue')
+    component: resolve => require(['../views/personalCenter/child/DriverCardVerify.vue'], resolve)
   },
   {
     name: 'updatePwd',
@@ -91,7 +91,7 @@ let homeRouter = [
     meta: {
       title: '个人资料'
     },
-    component: require('../views/personalCenter/child/updatePwd.vue')
+    component: resolve => require(['../views/personalCenter/child/updatePwd.vue'], resolve)
   },
   {
     name: 'updateMobile',
@@ -99,7 +99,7 @@ let homeRouter = [
     meta: {
       title: '个人资料'
     },
-    component: require('../views/personalCenter/child/updateMobile.vue')
+    component: resolve => require(['../views/personalCenter/child/updateMobile.vue'], resolve)
   },
   {
     name: 'addVehicle',
@@ -107,7 +107,7 @@ let homeRouter = [
     meta: {
       title: '添加车辆'
     },
-    component: require('../views/personalCenter/child/addVehicle.vue')
+    component: resolve => require(['../views/personalCenter/child/addVehicle.vue'], resolve)
   },
   {
     name: 'updateUser',
@@ -115,12 +115,12 @@ let homeRouter = [
     meta: {
       title: '个人资料'
     },
-    component: require('../views/personalCenter/child/updateUser.vue')
+    component: resolve => require(['../views/personalCenter/child/updateUser.vue'], resolve)
   },
   {
     name: 'userInfo',
     path: '/userInfo',
-    component: require('../views/personalCenter/child/userInfo.vue')
+    component: resolve => require(['../views/personalCenter/child/userInfo.vue'], resolve)
   },
   {
     name: 'starUser',
@@ -128,7 +128,7 @@ let homeRouter = [
     meta: {
       title: '星级用户认证'
     },
-    component: require('../views/starUser/starUser.vue'),
+    component: resolve => require(['../views/starUser/starUser.vue'], resolve),
     redirect: '/starUser/carOwner',
     children: [
       {
@@ -137,7 +137,7 @@ let homeRouter = [
         meta: {
           title: '星级用户认证'
         },
-        component: require('../views/starUser/child/carOwner.vue')
+        component: resolve => require(['../views/starUser/child/carOwner.vue'], resolve)
       },
       {
         name: 'carUser',
@@ -145,7 +145,7 @@ let homeRouter = [
         meta: {
           title: '星级用户认证'
         },
-        component: require('../views/starUser/child/carUser.vue')
+        component: resolve => require(['../views/starUser/child/carUser.vue'], resolve)
       },
       {
         name: 'drivingLicense',
@@ -153,7 +153,7 @@ let homeRouter = [
         meta: {
           title: '星级用户认证'
         },
-        component: require('../views/starUser/child/drivingLicense.vue')
+        component: resolve => require(['../views/starUser/child/drivingLicense.vue'], resolve)
       },
       {
         name: 'passerBy',
@@ -161,7 +161,7 @@ let homeRouter = [
         meta: {
           title: '星级用户认证'
         },
-        component: require('../views/starUser/child/passerBy.vue')
+        component: resolve => require(['../views/starUser/child/passerBy.vue'], resolve)
       }
     ]
   },
@@ -171,7 +171,7 @@ let homeRouter = [
     meta: {
       title: '星级用户认证'
     },
-    component: require('../views/starUser_WeChat/starUser.vue'),
+    component: resolve => require(['../views/starUser_WeChat/starUser.vue'], resolve),
     redirect: '/starUser_WeChat/carOwner',
     children: [
       {
@@ -180,7 +180,7 @@ let homeRouter = [
         meta: {
           title: '星级用户认证'
         },
-        component: require('../views/starUser_WeChat/child/carOwner.vue')
+        component: resolve => require(['../views/starUser_WeChat/child/carOwner.vue'], resolve)
       },
       {
         name: 'carUser_WeChat',
@@ -188,7 +188,7 @@ let homeRouter = [
         meta: {
           title: '星级用户认证'
         },
-        component: require('../views/starUser_WeChat/child/carUser.vue')
+        component: resolve => require(['../views/starUser_WeChat/child/carUser.vue'], resolve)
       },
       {
         name: 'drivingLicense_WeChat',
@@ -196,7 +196,7 @@ let homeRouter = [
         meta: {
           title: '星级用户认证'
         },
-        component: require('../views/starUser_WeChat/child/drivingLicense.vue')
+        component: resolve => require(['../views/starUser_WeChat/child/drivingLicense.vue'], resolve)
       },
       {
         name: 'passerBy_WeChat',
@@ -204,7 +204,7 @@ let homeRouter = [
         meta: {
           title: '星级用户认证'
         },
-        component: require('../views/starUser_WeChat/child/passerBy.vue')
+        component: resolve => require(['../views/starUser_WeChat/child/passerBy.vue'], resolve)
       }
     ]
   }

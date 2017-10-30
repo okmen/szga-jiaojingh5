@@ -115,7 +115,6 @@
   }
 </script>
 <style lang="less">
-  @import "./../../../style/base";
   .takePicturesQuery-outer {
     position: relative;
     background-color: white;

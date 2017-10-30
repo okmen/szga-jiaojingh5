@@ -53,7 +53,6 @@
   </div>
 </template>
 <style lang='less'>
-  @import './../../../style/base';
   .appealQuery-outer {
     padding:0 50px;
     .appealForm {

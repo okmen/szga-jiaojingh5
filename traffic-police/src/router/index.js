@@ -24,7 +24,7 @@ const routes = [
   //   meta: {
   //     title: '违停免罚'
   //   },
-  //   component: require('../views/illegalParking/index.vue')
+  //   component: resolve => require(['../views/illegalParking/index.vue'], resolve)
   // },
   {
     name: 'illegalParking',
@@ -32,7 +32,7 @@ const routes = [
     meta: {
       title: '十分钟违停免罚'
     },
-    component: require('../views/illegalParking/illegalParking.vue')
+    component: resolve => require(['../views/illegalParking/illegalParking.vue'], resolve)
   },
   {
     name: 'queryIllegalParking',
@@ -40,7 +40,7 @@ const routes = [
     meta: {
       title: '查询违停免罚'
     },
-    component: require('../views/illegalParking/list.vue')
+    component: resolve => require(['../views/illegalParking/list.vue'], resolve)
   },
   {
     name: 'illegalParking_takePhoto',
@@ -48,7 +48,7 @@ const routes = [
     meta: {
       title: '十分钟违停免罚'
     },
-    component: require('../views/illegalParking/takePhoto.vue')
+    component: resolve => require(['../views/illegalParking/takePhoto.vue'], resolve)
   },
   {
     name: 'Home',
@@ -64,7 +64,7 @@ const routes = [
     meta: {
       title: '深圳交警权威发布'
     },
-    component: require('../views/authorityIssue/authorityIssue.vue')
+    component: resolve => require(['../views/authorityIssue/authorityIssue.vue'], resolve)
   },
   {
     name: 'eastSubscribe',
@@ -72,7 +72,7 @@ const routes = [
     meta: {
       title: '东部预约'
     },
-    component: require('../views/eastSubscribe/eastSubscribe.vue')
+    component: resolve => require(['../views/eastSubscribe/eastSubscribe.vue'], resolve)
   },
   {
     name: 'handyService',
@@ -80,7 +80,7 @@ const routes = [
     meta: {
       title: '便民服务'
     },
-    component: require('../views/handyService/handyService.vue')
+    component: resolve => require(['../views/handyService/handyService.vue'], resolve)
   },
   {
     name: 'moveCar',
@@ -88,7 +88,7 @@ const routes = [
     meta: {
       title: '一键挪车'
     },
-    component: require('../views/handyService/child/moveCar.vue')
+    component: resolve => require(['../views/handyService/child/moveCar.vue'], resolve)
   },
   {
     name: 'moveCar_WeChat',                                                    // 微信版本
@@ -96,7 +96,7 @@ const routes = [
     meta: {
       title: '一键挪车'
     },
-    component: require('../views/handyService/child/moveCar.vue')
+    component: resolve => require(['../views/handyService/child/moveCar.vue'], resolve)
   },
   {
     name: 'bindCar',
@@ -104,7 +104,7 @@ const routes = [
     meta: {
       title: '已绑车辆'
     },
-    component: require('../views/handyService/child/bindCar.vue')
+    component: resolve => require(['../views/handyService/child/bindCar.vue'], resolve)
   },
   {
     name: 'appointSuccess',
@@ -112,7 +112,7 @@ const routes = [
     meta: {
       title: '预约申办成功'
     },
-    component: require('../components/appointSuccess.vue')
+    component: resolve => require(['../components/appointSuccess.vue'], resolve)
   },
   //  预约申办成功-微信版
   {
@@ -121,7 +121,7 @@ const routes = [
     meta: {
       title: '预约申办成功'
     },
-    component: require('../components/appointSuccess_WeChat.vue')
+    component: resolve => require(['../components/appointSuccess_WeChat.vue'], resolve)
   },
   {
     name: 'userAgreement',
@@ -129,7 +129,7 @@ const routes = [
     meta: {
       title: '用户须知'
     },
-    component: require('../components/userAgreement.vue')
+    component: resolve => require(['../components/userAgreement.vue'], resolve)
   },
   // 车管规费缴纳
   {
@@ -138,7 +138,7 @@ const routes = [
     meta: {
       title: '车管规费缴纳'
     },
-    component: require('../views/feePayment/feePayment.vue')
+    component: resolve => require(['../views/feePayment/feePayment.vue'], resolve)
   },
   {                                                                                          // 预约类
     name: 'userAgreement_precontract',
@@ -146,7 +146,7 @@ const routes = [
     meta: {
       title: '用户须知'
     },
-    component: require('../components/userAgreement_precontract.vue')
+    component: resolve => require(['../components/userAgreement_precontract.vue'], resolve)
   },
   {                                                                                          // 预约类
     name: 'userAgreement_precontract_WeChat',
@@ -154,7 +154,7 @@ const routes = [
     meta: {
       title: '用户须知'
     },
-    component: require('../components/userAgreement_precontract.vue')
+    component: resolve => require(['../components/userAgreement_precontract.vue'], resolve)
   },
   {                                                                                          // 微信版本
     name: 'userAgreement_WeChat',
@@ -162,7 +162,7 @@ const routes = [
     meta: {
       title: '用户须知'
     },
-    component: require('../components/userAgreement_WeChat.vue')
+    component: resolve => require(['../components/userAgreement_WeChat.vue'], resolve)
   },
   {                                                                                          // 微信版本
     name: 'emporaryAppointment',
@@ -170,19 +170,19 @@ const routes = [
     meta: {
       title: '临时通行预约'
     },
-    component: require('../views/emporaryAppointment'),
+    component: resolve => require(['../views/emporaryAppointment'], resolve),
     redirect: '/emporaryAppointment/makeAppointment',
     children: [
       {
         path: 'makeAppointment',
-        component: require('../views/emporaryAppointment/component/makeAppointment.vue'),
+        component: resolve => require(['../views/emporaryAppointment/component/makeAppointment.vue'], resolve),
         meta: {
           title: '临时通行预约'
         }
       },
       {
         path: 'queryAppointment',
-        component: require('../views/emporaryAppointment/component/queryAppointment.vue'),
+        component: resolve => require(['../views/emporaryAppointment/component/queryAppointment.vue'], resolve),
         meta: {
           title: '临时通行预约'
         }
@@ -195,7 +195,7 @@ const routes = [
     meta: {
       title: '电动车档案'
     },
-    component: require('../views/electrocarFile')
+    component: resolve => require(['../views/electrocarFile'], resolve)
   },
   {
     name: 'electrocarFileScancode',
@@ -203,7 +203,7 @@ const routes = [
     meta: {
       title: '电动车档案-扫一扫'
     },
-    component: require('../views/electrocarFile/scanCode.vue')
+    component: resolve => require(['../views/electrocarFile/scanCode.vue'], resolve)
   },
   {
     name: 'roadMsgList',
@@ -211,7 +211,7 @@ const routes = [
     meta: {
       title: '路况查询'
     },
-    component: require('../views/roadMsg/roadMsgList.vue')
+    component: resolve => require(['../views/roadMsg/roadMsgList.vue'], resolve)
   },
   {
     name: 'roadMsgDetails',
@@ -219,7 +219,7 @@ const routes = [
     meta: {
       title: '路况查询'
     },
-    component: require('../views/roadMsg/roadMsgDetails.vue')
+    component: resolve => require(['../views/roadMsg/roadMsgDetails.vue'], resolve)
   },
   {
     name: 'systemUpdate',
@@ -227,7 +227,7 @@ const routes = [
     meta: {
       title: '系统升级中'
     },
-    component: require('../components/systemUpdate.vue')
+    component: resolve => require(['../components/systemUpdate.vue'], resolve)
   },
   {                                                                               // 系统升级中 无弹窗
     name: 'systemUpdateNoAlert',
@@ -235,7 +235,7 @@ const routes = [
     meta: {
       title: '系统升级中'
     },
-    component: require('../components/systemUpdateNoAlert.vue')
+    component: resolve => require(['../components/systemUpdateNoAlert.vue'], resolve)
   },
   {
     name: 'CGPageOne',
@@ -243,7 +243,7 @@ const routes = [
     meta: {
       title: '交通举报'
     },
-    component: require('../views/takePictures_CG/CGPageOne.vue')
+    component: resolve => require(['../views/takePictures_CG/CGPageOne.vue'], resolve)
   },
   {
     name: 'CGPageTwo',
@@ -251,7 +251,7 @@ const routes = [
     meta: {
       title: '交通举报查询'
     },
-    component: require('../views/takePictures_CG/CGPageTwo.vue')
+    component: resolve => require(['../views/takePictures_CG/CGPageTwo.vue'], resolve)
   },
   {
     name: 'affirmInfo',
@@ -259,7 +259,7 @@ const routes = [
     meta: {
       title: '信息确认'
     },
-    component: require('../components/affirmInfo.vue')
+    component: resolve => require(['../components/affirmInfo.vue'], resolve)
   },
   {
     name: 'affirmInfo_WeChat',                                                 // 微信版本
@@ -267,7 +267,7 @@ const routes = [
     meta: {
       title: '信息确认'
     },
-    component: require('../components/affirmInfo.vue')
+    component: resolve => require(['../components/affirmInfo.vue'], resolve)
   },
   {
     name: 'submitSuccess',
@@ -275,7 +275,7 @@ const routes = [
     meta: {
       title: '提交成功'
     },
-    component: require('../components/submitSuccess.vue')
+    component: resolve => require(['../components/submitSuccess.vue'], resolve)
   },
   {
     name: 'submitSuccess_WeChat',                                              // 微信版本
@@ -283,7 +283,7 @@ const routes = [
     meta: {
       title: '提交成功'
     },
-    component: require('../components/submitSuccess.vue')
+    component: resolve => require(['../components/submitSuccess.vue'], resolve)
   },
   {
     name: 'freeAbstract',
@@ -291,7 +291,7 @@ const routes = [
     meta: {
       title: '首违免罚介绍'
     },
-    component: require('../views/dealService/child/car/freeForFirst/freeAbstract.vue')
+    component: resolve => require(['../views/dealService/child/car/freeForFirst/freeAbstract.vue'], resolve)
   },
   {
     name: 'freeAbstract_WeChat',                                               // 微信版本
@@ -299,7 +299,7 @@ const routes = [
     meta: {
       title: '首违免罚介绍'
     },
-    component: require('../views/dealService/child/car/freeForFirst/freeAbstract.vue')
+    component: resolve => require(['../views/dealService/child/car/freeForFirst/freeAbstract.vue'], resolve)
   },
   {
     name: 'digitalReceipt',
@@ -307,7 +307,7 @@ const routes = [
     meta: {
       title: '电子回单'
     },
-    component: require('../views/credit/child/digitalReceipt.vue')
+    component: resolve => require(['../views/credit/child/digitalReceipt.vue'], resolve)
   },
   /* {
     name: 'selfForm',
@@ -315,7 +315,7 @@ const routes = [
     meta: {
       name: '其它业务'
     },
-    component: require('../components/formTemplate/index.vue')
+    component: resolve => require(['../components/formTemplate/index.vue'], resolve)
   }, */
   /* {
     name: 'faceSwiping',
@@ -323,7 +323,7 @@ const routes = [
     meta: {
       name: '星级用户认证'
     },
-    component: require('../views/starUser/faceSwiping')
+    component: resolve => require(['../views/starUser/faceSwiping'], resolve)
   }, */
   {
     name: 'getFaceInfo',
@@ -331,7 +331,7 @@ const routes = [
     meta: {
       name: '星级用户认证'
     },
-    component: require('../views/starUser/child/getFaceInfo')
+    component: resolve => require(['../views/starUser/child/getFaceInfo'], resolve)
   },
   {
     name: 'registerChoose',
@@ -339,7 +339,7 @@ const routes = [
     meta: {
       name: '注册选择'
     },
-    component: require('../views/starUser/registerChoose')
+    component: resolve => require(['../views/starUser/registerChoose'], resolve)
   },
   {
     name: 'testCardBag',
@@ -347,7 +347,7 @@ const routes = [
     meta: {
       name: '测试卡包'
     },
-    component: require('../views/testCardBag')
+    component: resolve => require(['../views/testCardBag'], resolve)
   },
   // 星级用户验证问题反馈
   {
@@ -356,7 +356,7 @@ const routes = [
     meta: {
       name: '星级用户验证问题反馈'
     },
-    component: require('../views/issueFeedback/issueFeedback')
+    component: resolve => require(['../views/issueFeedback/issueFeedback'], resolve)
   },
   {
     name: 'paymentSucceed',
@@ -364,7 +364,7 @@ const routes = [
     meta: {
       name: '缴费成功'
     },
-    component: require('../components/paymentSucceed.vue')
+    component: resolve => require(['../components/paymentSucceed.vue'], resolve)
   },
   {
     name: 'twiceFaceSwiping',
@@ -372,7 +372,7 @@ const routes = [
     meta: {
       name: '二次刷脸认证'
     },
-    component: require('../views/twiceFaceSwiping')
+    component: resolve => require(['../views/twiceFaceSwiping'], resolve)
   },
   // 个人中心、登录、星级用户认证
   ...homeRouter,

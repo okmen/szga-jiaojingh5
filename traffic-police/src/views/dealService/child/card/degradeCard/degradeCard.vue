@@ -361,7 +361,6 @@
   }
 </script>
 <style lang="less" scoped>
-  @import "./../../../../../style/base";
   .degradeCard-outer {
     background-color: #fff;
     position: absolute;

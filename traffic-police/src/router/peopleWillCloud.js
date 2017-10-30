@@ -5,7 +5,7 @@ let peopleWillCloudRouter = [
     mate: {
       title: '文明交通我做主'
     },
-    component: require('../views/peopleWillCloud/trafficCivilization.vue')
+    component: resolve => require(['../views/peopleWillCloud/trafficCivilization.vue'], resolve)
   },
   {
     name: 'peopleWillCloud',
@@ -13,7 +13,7 @@ let peopleWillCloudRouter = [
     meta: {
       title: '交通文明我做主'
     },
-    component: require('../views/peopleWillCloud/peopleWillCloud.vue'),
+    component: resolve => require(['../views/peopleWillCloud/peopleWillCloud.vue'], resolve),
     redirect: '/peopleWillCloud/facility',
     children: [
       {
@@ -22,7 +22,7 @@ let peopleWillCloudRouter = [
         meta: {
           title: '交通文明我做主'
         },
-        component: require('../views/peopleWillCloud/child/facility.vue')
+        component: resolve => require(['../views/peopleWillCloud/child/facility.vue'], resolve)
       },
       {
         name: 'secure',
@@ -30,7 +30,7 @@ let peopleWillCloudRouter = [
         meta: {
           title: '交通文明我做主'
         },
-        component: require('../views/peopleWillCloud/child/secure.vue')
+        component: resolve => require(['../views/peopleWillCloud/child/secure.vue'], resolve)
       },
       {
         name: 'jam',
@@ -38,7 +38,7 @@ let peopleWillCloudRouter = [
         meta: {
           title: '交通文明我做主'
         },
-        component: require('../views/peopleWillCloud/child/jam.vue')
+        component: resolve => require(['../views/peopleWillCloud/child/jam.vue'], resolve)
       },
       {
         name: 'order',
@@ -46,7 +46,7 @@ let peopleWillCloudRouter = [
         meta: {
           title: '交通文明我做主'
         },
-        component: require('../views/peopleWillCloud/child/order.vue')
+        component: resolve => require(['../views/peopleWillCloud/child/order.vue'], resolve)
       }
     ]
   }

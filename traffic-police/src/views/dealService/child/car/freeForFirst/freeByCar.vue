@@ -389,7 +389,6 @@
   }
 </script>
 <style lang="less">
-  @import "./../../../../../style/base";
   .freeByCar-outer {
     font-size: 28px;
     color: #000;

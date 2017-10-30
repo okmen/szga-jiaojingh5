@@ -5,7 +5,7 @@ let dieselEngineTrucks = [
     meta: {
       title: '柴油轻型自卸货车'
     },
-    component: require('../views/dieselEngineTrucks/dieselEngineTrucksTab.vue')
+    component: resolve => require(['../views/dieselEngineTrucks/dieselEngineTrucksTab.vue'], resolve)
   },
   {
     name: 'dieselEngineTrucks',
@@ -13,7 +13,7 @@ let dieselEngineTrucks = [
     meta: {
       title: '柴油轻型自卸货车'
     },
-    component: require('../views/dieselEngineTrucks/dieselEngineTrucks.vue')
+    component: resolve => require(['../views/dieselEngineTrucks/dieselEngineTrucks.vue'], resolve)
   },
   {
     name: 'dieselEngineTrucksDemand',
@@ -21,7 +21,7 @@ let dieselEngineTrucks = [
     meta: {
       title: '业务查询'
     },
-    component: require('../views/dieselEngineTrucks/dieselEngineTrucksDemand.vue')
+    component: resolve => require(['../views/dieselEngineTrucks/dieselEngineTrucksDemand.vue'], resolve)
   },
   {
     name: 'dieseDemand',
@@ -29,7 +29,7 @@ let dieselEngineTrucks = [
     meta: {
       title: '业务查询'
     },
-    component: require('../views/dieselEngineTrucks/dieseDemand.vue')
+    component: resolve => require(['../views/dieselEngineTrucks/dieseDemand.vue'], resolve)
   },
   {
     name: 'dieseInquire',
@@ -37,7 +37,7 @@ let dieselEngineTrucks = [
     meta: {
       title: '业务查询'
     },
-    component: require('../views/dieselEngineTrucks/dieseInquire.vue')
+    component: resolve => require(['../views/dieselEngineTrucks/dieseInquire.vue'], resolve)
   },
   {
     name: 'dieseSucceed',
@@ -45,7 +45,7 @@ let dieselEngineTrucks = [
     meta: {
       title: '申办成功'
     },
-    component: require('../views/dieselEngineTrucks/dieseSucceed.vue')
+    component: resolve => require(['../views/dieselEngineTrucks/dieseSucceed.vue'], resolve)
   }
 ]
 

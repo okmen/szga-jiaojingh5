@@ -138,7 +138,6 @@
   }
 </script>
 <style lang="less">
-  @import "./../../../../../style/base";
   .freeByCode-outer {
     font-size: 28px;
     color: #000;

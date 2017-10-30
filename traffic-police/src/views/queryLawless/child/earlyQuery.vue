@@ -423,7 +423,6 @@
   }
 </script>
 <style lang="less">
-  @import "./../../../style/base";
   .earlyQuery-outer {
     padding-top: 4px;
     font-size: 28px;

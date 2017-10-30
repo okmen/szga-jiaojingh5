@@ -53,7 +53,6 @@ export default {
 }
 </script>
 <style lang="less">
-@import "./../../../../style/base";
 .grade-top {
   width: 440px;
   height: 420px;

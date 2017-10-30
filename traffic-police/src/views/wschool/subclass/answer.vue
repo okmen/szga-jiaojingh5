@@ -262,7 +262,6 @@ export default {
 }
 </script>
 <style lang="less">
-@import "./../../../style/base";
 .answer-head {
   width: 100%;
   height: 116px;

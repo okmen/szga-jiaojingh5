@@ -55,7 +55,6 @@
   </div>
 </template>
 <style lang="less">
-@import './../../../style/base';
 .appealQuery-outer {
   background-color: #FFF;
   padding:25px 50px 50px;

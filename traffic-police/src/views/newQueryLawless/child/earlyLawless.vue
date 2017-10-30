@@ -411,7 +411,6 @@
   }
 </script>
 <style lang="less">
-@import "./../../../style/base";
 .earlyLawless-outer {
   font-size: 28px;
   color: #000;

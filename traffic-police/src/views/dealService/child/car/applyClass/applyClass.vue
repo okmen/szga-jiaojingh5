@@ -78,7 +78,6 @@
   }
 </script>
 <style lang="less" scoped>
-  @import "./../../../../../style/base";
   .applyClass-outer {
     padding-top: 120px;
     font-size: 28px;

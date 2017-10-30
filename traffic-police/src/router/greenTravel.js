@@ -5,7 +5,7 @@ let routerConfig = [
     meta: {
       title: '绿色出行'
     },
-    component: require('../views/greenTravel/greenTravel.vue')
+    component: resolve => require(['../views/greenTravel/greenTravel.vue'], resolve)
   },
   {
     name: 'starLevel',
@@ -13,7 +13,7 @@ let routerConfig = [
     meta: {
       title: '绿色出行'
     },
-    component: require('../views/greenTravel/starLevel.vue')
+    component: resolve => require(['../views/greenTravel/starLevel.vue'], resolve)
   },
   {
     name: 'prize',
@@ -21,7 +21,7 @@ let routerConfig = [
     meta: {
       title: '奖励说明'
     },
-    component: require('../views/greenTravel/prize.vue')
+    component: resolve => require(['../views/greenTravel/prize.vue'], resolve)
   },
   {
     name: 'greenApply',
@@ -29,7 +29,7 @@ let routerConfig = [
     meta: {
       title: '绿色出行-录入信息'
     },
-    component: require('../views/greenTravel/greenApply.vue')
+    component: resolve => require(['../views/greenTravel/greenApply.vue'], resolve)
   },
   {
     name: 'greenApplyNoLogin',
@@ -37,7 +37,7 @@ let routerConfig = [
     meta: {
       title: '绿色出行-非星级用户录入信息'
     },
-    component: require('../views/greenTravel/greenApplyNoLogin.vue')
+    component: resolve => require(['../views/greenTravel/greenApplyNoLogin.vue'], resolve)
   },
   {
     name: 'greenApplyDate',
@@ -45,7 +45,7 @@ let routerConfig = [
     meta: {
       title: '申报停驶日期'
     },
-    component: require('../views/greenTravel/greenApplyDate.vue')
+    component: resolve => require(['../views/greenTravel/greenApplyDate.vue'], resolve)
   },
   {
     name: 'greenComplaint',
@@ -53,7 +53,7 @@ let routerConfig = [
     meta: {
       title: '申报停驶日期'
     },
-    component: require('../views/greenTravel/greenComplaint.vue')
+    component: resolve => require(['../views/greenTravel/greenComplaint.vue'], resolve)
   },
   {
     name: 'greenItem',
@@ -61,7 +61,7 @@ let routerConfig = [
     meta: {
       title: '申报停驶日期'
     },
-    component: require('../views/greenTravel/greenItem.vue')
+    component: resolve => require(['../views/greenTravel/greenItem.vue'], resolve)
   }
 ]
 

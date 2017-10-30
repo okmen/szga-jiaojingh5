@@ -44,7 +44,6 @@
   }
 </script>
 <style lang="less" scoped>
-  /*@import "./../../../../../style/base";*/
   .freeForFirst-outer {
     position: absolute;
     left: 0;

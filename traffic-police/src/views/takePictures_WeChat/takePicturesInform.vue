@@ -530,7 +530,6 @@
   }
 </script>
 <style lang="less" scoped>
-@import './../../style/base';
 #takePhotosInform{
   padding:0 50px;
   .tp-inform-box{

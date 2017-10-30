@@ -90,7 +90,7 @@
         }
       },
       isBoolean2 (str) {
-        if (str.indexOf('首违免罚') >= 0) {
+        if (str.indexOf('80338') >= 0) {
           return true
         }
       },

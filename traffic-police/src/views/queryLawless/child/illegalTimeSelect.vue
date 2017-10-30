@@ -321,8 +321,6 @@ export default {
 }
 </script>
 <style lang="less">
-@import "../../../style/base";
-
 .illegalTimeSelect-outer{
   padding: 50px;
   background: #fff;

@@ -5,7 +5,7 @@ let wschoolRouter = [
     meta: {
       title: '微学堂'
     },
-    component: require('../views/wschool/wschool.vue')
+    component: resolve => require(['../views/wschool/wschool.vue'], resolve)
   },
   {
     name: 'electricCar',
@@ -13,7 +13,7 @@ let wschoolRouter = [
     meta: {
       title: '电动车管理'
     },
-    component: require('../views/wschool/electricCar.vue')
+    component: resolve => require(['../views/wschool/electricCar.vue'], resolve)
   },
   {
     name: 'motorstudy',
@@ -21,7 +21,7 @@ let wschoolRouter = [
     meta: {
       title: '微学堂学习'
     },
-    component: require('../views/wschool/subclass/motorstudy.vue')
+    component: resolve => require(['../views/wschool/subclass/motorstudy.vue'], resolve)
   },
   {
     name: 'motorstudy_WeChat',                                                 // 微信版本
@@ -29,7 +29,7 @@ let wschoolRouter = [
     meta: {
       title: '微学堂学习'
     },
-    component: require('../views/wschool/subclass/motorstudy.vue')
+    component: resolve => require(['../views/wschool/subclass/motorstudy.vue'], resolve)
   },
   {
     name: 'answer',
@@ -37,7 +37,7 @@ let wschoolRouter = [
     meta: {
       title: '答题'
     },
-    component: require('../views/wschool/subclass/answer.vue')
+    component: resolve => require(['../views/wschool/subclass/answer.vue'], resolve)
   },
   {
     name: 'grade',
@@ -45,7 +45,7 @@ let wschoolRouter = [
     meta: {
       title: '评分'
     },
-    component: require('../views/wschool/subclass/child/grade.vue')
+    component: resolve => require(['../views/wschool/subclass/child/grade.vue'], resolve)
 
   },
   {
@@ -54,7 +54,7 @@ let wschoolRouter = [
     meta: {
       title: '成绩'
     },
-    component: require('../views/wschool/subclass/child/result.vue')
+    component: resolve => require(['../views/wschool/subclass/child/result.vue'], resolve)
   },
   {
     name: 'answers',
@@ -62,7 +62,7 @@ let wschoolRouter = [
     meta: {
       title: '学习答题'
     },
-    component: require('../views/wschool/subclass/answers.vue')
+    component: resolve => require(['../views/wschool/subclass/answers.vue'], resolve)
   }
 ]
 

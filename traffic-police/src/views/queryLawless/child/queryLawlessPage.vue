@@ -29,7 +29,6 @@
   }
 </script>
 <style lang="less" >
-  @import "./../../../style/base";
   .queryLawlessPage-outer {
     position: absolute;
     left: 0;

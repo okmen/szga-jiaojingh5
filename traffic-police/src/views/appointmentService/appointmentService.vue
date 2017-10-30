@@ -31,7 +31,6 @@ export default {
 }
 </script>
 <style lang='less'>
-  @import "./../../style/base";
   .handyService-outer{
     .handyService-list{
       .handyService-item{

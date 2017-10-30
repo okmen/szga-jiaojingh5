@@ -104,7 +104,6 @@
   }
 </script>
 <style lang="less" scoped>
-  @import "./../../../style/base";
   .takePicturesQuery-outer {
     padding: 40px;
     position: relative;

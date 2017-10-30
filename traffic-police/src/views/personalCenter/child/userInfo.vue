@@ -115,8 +115,6 @@ export default{
 </script>
 
 <style lang="less">
-@import '../../../style/base.less';
-
 .userInfo-outer{
   background: #fff;
   .userInfo-banner{

@@ -6,7 +6,7 @@ let precontractTypeRouter = [
     meta: {
       title: '机动车业务'
     },
-    component: require('../views/precontractType/precontract.vue')
+    component: resolve => require(['../views/precontractType/precontract.vue'], resolve)
   },
   {
     name: 'precontractType_WeChat',
@@ -14,7 +14,7 @@ let precontractTypeRouter = [
     meta: {
       title: '机动车业务'
     },
-    component: require('../views/precontractType/precontract.vue')
+    component: resolve => require(['../views/precontractType/precontract.vue'], resolve)
   },
   {
     name: 'registerClass',
@@ -22,7 +22,7 @@ let precontractTypeRouter = [
     meta: {
       title: '登记类'
     },
-    component: require('../views/precontractType/car/registerClass'),
+    component: resolve => require(['../views/precontractType/car/registerClass'], resolve),
     redirect: '/registerClass/transferRegistration',
     children: [
       {
@@ -31,7 +31,7 @@ let precontractTypeRouter = [
         meta: {
           title: '转移登记(市内过户)'
         },
-        component: require('../views/precontractType/car/registerClass/page/transferRegistration.vue')
+        component: resolve => require(['../views/precontractType/car/registerClass/page/transferRegistration.vue'], resolve)
       },
       {
         name: 'intoRegister',
@@ -39,7 +39,7 @@ let precontractTypeRouter = [
         meta: {
           title: '机动车转移登记(转入)'
         },
-        component: require('../views/precontractType/car/registerClass/page/intoRegister.vue')
+        component: resolve => require(['../views/precontractType/car/registerClass/page/intoRegister.vue'], resolve)
       },
       {
         name: 'enteringRegister',
@@ -47,7 +47,7 @@ let precontractTypeRouter = [
         meta: {
           title: '机动车注册登记'
         },
-        component: require('../views/precontractType/car/registerClass/page/enteringRegister.vue')
+        component: resolve => require(['../views/precontractType/car/registerClass/page/enteringRegister.vue'], resolve)
       },
       {
         name: 'cancellationRegister',
@@ -55,7 +55,7 @@ let precontractTypeRouter = [
         meta: {
           title: '机动车注销登记'
         },
-        component: require('../views/precontractType/car/registerClass/page/cancellationRegister.vue')
+        component: resolve => require(['../views/precontractType/car/registerClass/page/cancellationRegister.vue'], resolve)
       },
       {
         name: 'generalChangeRegister',
@@ -63,7 +63,7 @@ let precontractTypeRouter = [
         meta: {
           title: '机动车变更登记(普通变更)'
         },
-        component: require('../views/precontractType/car/registerClass/page/generalChangeRegister.vue')
+        component: resolve => require(['../views/precontractType/car/registerClass/page/generalChangeRegister.vue'], resolve)
       },
       {
         name: 'fakeLicensedEvidence',
@@ -71,7 +71,7 @@ let precontractTypeRouter = [
         meta: {
           title: '机动车变更登记(套牌车换证)'
         },
-        component: require('../views/precontractType/car/registerClass/page/fakeLicensedEvidence.vue')
+        component: resolve => require(['../views/precontractType/car/registerClass/page/fakeLicensedEvidence.vue'], resolve)
       },
       {
         name: 'manWifeChange',
@@ -79,7 +79,7 @@ let precontractTypeRouter = [
         meta: {
           title: '机动车变更登记(夫妻变更)'
         },
-        component: require('../views/precontractType/car/registerClass/page/manWifeChange.vue')
+        component: resolve => require(['../views/precontractType/car/registerClass/page/manWifeChange.vue'], resolve)
       }
     ]
   },
@@ -89,7 +89,7 @@ let precontractTypeRouter = [
     meta: {
       title: '出租客运车辆使用性质变更'
     },
-    component: require('../views/precontractType/car/alterClass/taxiUseAlter.vue')
+    component: resolve => require(['../views/precontractType/car/alterClass/taxiUseAlter.vue'], resolve)
   },
   {
     name: 'numberAlter',
@@ -97,7 +97,7 @@ let precontractTypeRouter = [
     meta: {
       title: '机动车打刻原车发动机号码变更备案'
     },
-    component: require('../views/precontractType/car/alterClass/numberAlter.vue')
+    component: resolve => require(['../views/precontractType/car/alterClass/numberAlter.vue'], resolve)
   },
   {
     name: 'markAlter',
@@ -105,7 +105,7 @@ let precontractTypeRouter = [
     meta: {
       title: '机动车打刻原车辆识别代号变更备案'
     },
-    component: require('../views/precontractType/car/alterClass/markAlter.vue')
+    component: resolve => require(['../views/precontractType/car/alterClass/markAlter.vue'], resolve)
   },
   {
     name: 'fileAlter',
@@ -113,7 +113,7 @@ let precontractTypeRouter = [
     meta: {
       title: '档案更正'
     },
-    component: require('../views/precontractType/car/alterClass/fileAlter.vue')
+    component: resolve => require(['../views/precontractType/car/alterClass/fileAlter.vue'], resolve)
   },
   {
     name: 'onlineCarAlter',
@@ -121,7 +121,7 @@ let precontractTypeRouter = [
     meta: {
       title: '网约车使用性质变更'
     },
-    component: require('../views/precontractType/car/alterClass/onlineCarAlter.vue')
+    component: resolve => require(['../views/precontractType/car/alterClass/onlineCarAlter.vue'], resolve)
   },
   {
     name: 'renewingCollarCredential',
@@ -129,7 +129,7 @@ let precontractTypeRouter = [
     meta: {
       title: '换领机动车登记证书'
     },
-    component: require('../views/precontractType/car/replacementType/renewingCollarCredential.vue')
+    component: resolve => require(['../views/precontractType/car/replacementType/renewingCollarCredential.vue'], resolve)
   },
   {
     name: 'replacementNumber',
@@ -137,7 +137,7 @@ let precontractTypeRouter = [
     meta: {
       title: '补换机动车号牌'
     },
-    component: require('../views/precontractType/car/replacementType/replacementNumber.vue')
+    component: resolve => require(['../views/precontractType/car/replacementType/replacementNumber.vue'], resolve)
   },
   {
     name: 'renewingDrivingLicense',
@@ -145,7 +145,7 @@ let precontractTypeRouter = [
     meta: {
       title: '补换机动车行驶证'
     },
-    component: require('../views/precontractType/car/replacementType/renewingDrivingLicense.vue')
+    component: resolve => require(['../views/precontractType/car/replacementType/renewingDrivingLicense.vue'], resolve)
   },
   {
     name: 'renewingQualification',
@@ -153,7 +153,7 @@ let precontractTypeRouter = [
     meta: {
       title: '补换检验合格标志'
     },
-    component: require('../views/precontractType/car/replacementType/renewingQualification.vue')
+    component: resolve => require(['../views/precontractType/car/replacementType/renewingQualification.vue'], resolve)
   },
   {
     name: 'renewingCertificate',
@@ -161,7 +161,7 @@ let precontractTypeRouter = [
     meta: {
       title: '申领/补领机动车登记证书'
     },
-    component: require('../views/precontractType/car/replacementType/renewingCertificate.vue')
+    component: resolve => require(['../views/precontractType/car/replacementType/renewingCertificate.vue'], resolve)
   },
   {
     name: 'carEmigration',
@@ -169,7 +169,7 @@ let precontractTypeRouter = [
     meta: {
       title: '机动车迁出'
     },
-    component: require('../views/precontractType/car/carEmigration')
+    component: resolve => require(['../views/precontractType/car/carEmigration'], resolve)
   },
   {
     name: 'rollOutRecover',
@@ -177,7 +177,7 @@ let precontractTypeRouter = [
     meta: {
       title: '转出、注销恢复'
     },
-    component: require('../views/precontractType/car/rollOutRecover/rollOutRecover.vue')
+    component: resolve => require(['../views/precontractType/car/rollOutRecover/rollOutRecover.vue'], resolve)
   },
   {
     name: 'verifyIssueCard',
@@ -185,7 +185,7 @@ let precontractTypeRouter = [
     meta: {
       title: '核发临牌'
     },
-    component: require('../views/precontractType/car/verifyIssueClass/verifyIssueCard.vue')
+    component: resolve => require(['../views/precontractType/car/verifyIssueClass/verifyIssueCard.vue'], resolve)
   },
   {
     name: 'verifyIssueSchoolCard',
@@ -193,7 +193,7 @@ let precontractTypeRouter = [
     meta: {
       title: '核发校车标牌'
     },
-    component: require('../views/precontractType/car/verifyIssueClass/verifyIssueSchoolCard.vue')
+    component: resolve => require(['../views/precontractType/car/verifyIssueClass/verifyIssueSchoolCard.vue'], resolve)
   },
   {
     name: 'pledgeRegister',
@@ -201,7 +201,7 @@ let precontractTypeRouter = [
     meta: {
       title: '抵押/解押登记现场办理'
     },
-    component: require('../views/precontractType/car/sceneManageClass/pledgeRegister.vue')
+    component: resolve => require(['../views/precontractType/car/sceneManageClass/pledgeRegister.vue'], resolve)
   },
   {
     name: 'otherPlaceAudit',
@@ -209,7 +209,7 @@ let precontractTypeRouter = [
     meta: {
       title: '机动车委托异地年审现场办理'
     },
-    component: require('../views/precontractType/car/sceneManageClass/otherPlaceAudit.vue')
+    component: resolve => require(['../views/precontractType/car/sceneManageClass/otherPlaceAudit.vue'], resolve)
   },
   {
     name: 'querySuccess',
@@ -217,7 +217,7 @@ let precontractTypeRouter = [
     meta: {
       title: '预约查询及取消'
     },
-    component: require('../views/precontractType/querySuccess.vue')
+    component: resolve => require(['../views/precontractType/querySuccess.vue'], resolve)
   },
   {
     name: 'querySuccess_WeChat',
@@ -225,7 +225,7 @@ let precontractTypeRouter = [
     meta: {
       title: '预约查询及取消'
     },
-    component: require('../views/precontractType/querySuccess.vue')
+    component: resolve => require(['../views/precontractType/querySuccess.vue'], resolve)
   },
   {
     name: 'armyLicence',
@@ -233,7 +233,7 @@ let precontractTypeRouter = [
     meta: {
       title: '持军队、武警警察部队机动车驾驶证驾驶'
     },
-    component: require('../views/precontractType/card/appClass/armyLicence.vue')
+    component: resolve => require(['../views/precontractType/card/appClass/armyLicence.vue'], resolve)
   },
   {
     name: 'temporaryLicence',
@@ -241,7 +241,7 @@ let precontractTypeRouter = [
     meta: {
       title: '临时机动车驾驶证许可证申领'
     },
-    component: require('../views/precontractType/card/appClass/temporaryLicence.vue')
+    component: resolve => require(['../views/precontractType/card/appClass/temporaryLicence.vue'], resolve)
   },
   {
     name: 'overseasLicence',
@@ -249,7 +249,7 @@ let precontractTypeRouter = [
     meta: {
       title: '持境外驾驶证申请换证'
     },
-    component: require('../views/precontractType/card/renewalClass/overseasLicence.vue')
+    component: resolve => require(['../views/precontractType/card/renewalClass/overseasLicence.vue'], resolve)
   },
   {
     name: 'HkLicence',
@@ -257,7 +257,7 @@ let precontractTypeRouter = [
     meta: {
       title: '香港机动车驾驶证免试换证'
     },
-    component: require('../views/precontractType/card/renewalClass/HkLicence.vue')
+    component: resolve => require(['../views/precontractType/card/renewalClass/HkLicence.vue'], resolve)
   },
   {
     name: 'noPhysicalCheck',
@@ -265,7 +265,7 @@ let precontractTypeRouter = [
     meta: {
       title: '逾期一年以上未体检类'
     },
-    component: require('../views/precontractType/card/recoverDrive/noPhysicalCheck.vue')
+    component: resolve => require(['../views/precontractType/card/recoverDrive/noPhysicalCheck.vue'], resolve)
   },
   {
     name: 'noChangeLicence',
@@ -273,7 +273,7 @@ let precontractTypeRouter = [
     meta: {
       title: '逾期一年以上未换证类'
     },
-    component: require('../views/precontractType/card/recoverDrive/noChangeLicence.vue')
+    component: resolve => require(['../views/precontractType/card/recoverDrive/noChangeLicence.vue'], resolve)
   },
   {
     name: 'fullmarkStudy',
@@ -281,7 +281,7 @@ let precontractTypeRouter = [
     meta: {
       title: '满分学习'
     },
-    component: require('../views/precontractType/card/fullmarkStudy.vue')
+    component: resolve => require(['../views/precontractType/card/fullmarkStudy.vue'], resolve)
   },
   {
     name: 'otherBusiness',
@@ -289,7 +289,7 @@ let precontractTypeRouter = [
     meta: {
       title: '其它业务'
     },
-    component: require('../views/precontractType/card/otherBusiness.vue')
+    component: resolve => require(['../views/precontractType/card/otherBusiness.vue'], resolve)
   }
 ]
 
