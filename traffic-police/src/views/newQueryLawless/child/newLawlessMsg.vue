@@ -19,7 +19,7 @@
             <p class="newLawlessMsg-item-content-amt">{{ item.punishAmt }}</p>
             <p class="newLawlessMsg-item-content-score">{{ item.punishScore }}</p>
             <p class="newLawlessMsg-item-content-unit">{{ item.illegalUnit }}</p>
-            <p class="newLawlessMsg-item-content-text" v-if="!$route.query.login"><span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2, isQuery: $route.query.type === 'query', isLink: item.isNeedClaim == 0 }" @click.stop="clickJump(item)">{{ claimList[item.isNeedClaim] }}</span></p>
+            <p class="newLawlessMsg-item-content-text" v-if="!$route.query.login"><span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2, isQuery: $route.query.type === 'query', isLink: item.isNeedClaim == 0 }" @click="clickJump(item)">{{ claimList[item.isNeedClaim] }}</span></p>
             <div class="newLawlessMsg-item-btn" v-if="!$route.query.login">
               <button v-if="item.description && isBoolean2(item.description)" @click="punishFreeDesc(item)">申请首违免罚</button>
               <button v-if="isBoolean(item.licensePlateNo, item.illegalUnit)" @click="hrefFn(item)">违法申诉</button>
@@ -156,6 +156,7 @@
         // })
       },
       clickJump (item) {
+        console.log(item)
         if (item.isNeedClaim === '0') { // 直接缴款
           let reqData = {
             billNo: item.billNo,
@@ -168,6 +169,7 @@
             }
           })
         } else if (item.isNeedClaim === '1') { // 需要打单
+          console.log('打单')
           if (this.$route.query.type === 'query') {
             console.log('违法查询页面阻止打单')
             return false
@@ -178,34 +180,44 @@
             })
             return false
           }
-          resultPost().then(result => {
+          resultPost('http://192.168.1.240:8080/web/illegalHanding/queryIllegalNoByClaimBefore.html', {
+            licensePlateNo: item.licensePlateNo,
+            licensePlateType: item.licensePlateType,
+            mobilephone: this.$store.state.newLawlessQuery.info.mobilephone,
+            illegalTime: item.illegalTime,
+            illegalAddr: item.illegalAddr,
+            illegalDesc: item.illegalDesc
+          }).then(result => {
             if (result.code === '0000') {
-              MessageBox.confirm('确定打单吗?').then(action => {
-                let reqData = {
-                  illegalNo: item.billNo
-                }
-                resultPost(claimConfirm, reqData).then(json => {
-                  console.log(json)
-                  if (json.code === '0000') {
-                    if (result.code) {
-                      MessageBox.confirm('打单成功,是否在线缴款？').then(action => {
-                        let requestData = {
-                          billNo: item.billNo,
-                          licensePlateNo: item.licensePlateNo
-                        }
-                        resultPost(queryPay, requestData).then(data => {
-                          console.log(data)
-                          if (data.code === '0000') {
-                            window.location.href = json.msg
+              MessageBox.confirm('尊敬的用户您好，一旦确认或打印了处罚决定书后，15日内不处理将会产生滞纳金，是否确定马上打印决定书？').then(action => {
+                MessageBox.confirm('确定打单吗?').then(action => {
+                  resultPost(claimConfirm, {illegalNo: result.data}).then(json => {
+                    if (json.code === '0000') {
+                      if (json.data.billNo) {
+                        MessageBox.confirm('打单成功,是否在线缴款？').then(action => {
+                          let requestData = {
+                            billNo: json.data.billNo,
+                            licensePlateNo: item.licensePlateNo
                           }
+                          resultPost(queryPay, requestData).then(data => {
+                            console.log(data)
+                            if (data.code === '0000') {
+                              window.location.href = data.msg
+                            }
+                          })
+                        }).catch(action => {
+                          item.isNeedClaim = '0'
+                          item.billNo = json.data.billNo
                         })
-                      })
+                      }
                     } else {
-                      MessageBox.confirm('尊敬的用户您好，一旦确认或打印了处罚决定书后，15日内不处理将会产生滞纳金，是否确定马上打印决定书？')
+                      MessageBox('提示', json.msg)
                     }
-                  }
+                  })
                 })
               })
+            } else {
+              MessageBox('提示', result.msg)
             }
           })
         } else if (item.isNeedClaim === '2') { // 需要前往窗口办理，跳转预约
