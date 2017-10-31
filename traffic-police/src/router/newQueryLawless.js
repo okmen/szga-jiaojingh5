@@ -118,6 +118,14 @@ let newQueryLawlessRouter = [
       title: '违法图片'
     },
     component: require('../views/newQueryLawless/child/illegalImage.vue')
+  },
+  {
+    name: 'illegalAppointmentMs',
+    path: '/illegalAppointmentMs',
+    meta: {
+      title: '违法预约'
+    },
+    component: require('../views/newQueryLawless/child/illegalAppointmentMs.vue')
   }
 ]
 

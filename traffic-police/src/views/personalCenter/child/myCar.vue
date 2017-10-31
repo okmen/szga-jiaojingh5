@@ -130,8 +130,8 @@
         ul li{
           height: 50px;
           .other-unbind {
-            color:#aaa;
-            border:1px solid #aaa;
+            color: #2696dd;
+            border:1px solid #2696dd;
             border-radius: 4px;
             padding: 0 8px;
             position: absolute;

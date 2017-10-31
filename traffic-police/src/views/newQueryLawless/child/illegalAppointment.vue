@@ -53,12 +53,18 @@
           if (json.code === '0000') {
             item.lawlessNum = json.data.length
             if (type === 'click') {
-              let lawlessDeal = {
-                data: item,
-                info: json.data
+              let lawlessData = {
+                info: {
+                  behindTheFrame4Digits: reqData.vehicleIdentifyNoLast4,
+                  plateType: reqData.licensePlateType,
+                  myNumberPlate: reqData.licensePlateNo,
+                  mobilephone: reqData.mobilephone,
+                  identityCard: reqData.drivingLicenceNo
+                },
+                data: json.data
               }
-              this.$store.commit('saveNewLawlessDeal', lawlessDeal)
-              this.$router.push('/newTimeSelect')
+              this.$store.commit('saveNewLawlessQuery', lawlessData)
+              this.$router.push('/illegalAppointmentMs')
             }
           } else {
             if (type === 'click') {

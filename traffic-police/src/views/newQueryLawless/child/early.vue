@@ -21,7 +21,7 @@
     },
     components: {
       'earlyLawless': require('./illegalAppointment.vue'),
-      'earlyLawlessQuery': require('./earlyQuery.vue')
+      'earlyLawlessQuery': require('./illegalSearch.vue')
     }
   }
 </script>
