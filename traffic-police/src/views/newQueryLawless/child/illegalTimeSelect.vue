@@ -151,7 +151,7 @@ export default {
   methods: {
     init: function () {
       Indicator.open('正在加载...')
-      resultGet(processingPoint).then(json => {
+      resultGet(`${processingPoint}?sourceOfCertification=C`).then(json => {
         if (json.code === '0000') {
           this.processingPointData = json.data
           this.processingPoint = this.processingPointData[0]
@@ -167,7 +167,7 @@ export default {
     getDetailData: function () {
       this.cldbmid = this.processingPoint.cldbmid
       Indicator.open('正在加载...')
-      resultGet(`${subscribeSorts}?cldbmid=${this.cldbmid}`).then(json => {
+      resultGet(`${subscribeSorts}?cldbmid=${this.cldbmid}&sourceOfCertification=C`).then(json => {
         Indicator.close()
         console.log(json)
         if (json.code === '0000') {
