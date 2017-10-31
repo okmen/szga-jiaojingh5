@@ -308,7 +308,6 @@ export default {
       this.dateShow = false
     })
     this.init()
-    console.log('222222222222222222222222222222222222222')
     console.log(this.lawlessData)
     this.custName = window.localStorage.getItem('userName') // 姓名
     this.certificateNo = window.localStorage.getItem('identityCard') // 身份证

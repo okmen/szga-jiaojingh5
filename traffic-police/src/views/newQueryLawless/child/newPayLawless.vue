@@ -4,6 +4,21 @@
       <ul>
         <li class="form-line">
           <div class="form-line-item item-name">
+            <span>业务类型</span>
+          </div>
+          <div class="form-line-item div-select width-100">
+            <span class="btn-select min-btn-select" @click.stop="isPedestrianSelectClick()">{{ isPedestrianShowMessage }}</span>
+            <div class="div-select-ul" v-if="isPedestrianShow">
+              <ul>
+                <li v-for="item in isPedestrian" @click.stop="isPedestrianSelectClick(item.str)">
+                  {{item.str}}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="form-line">
+          <div class="form-line-item item-name">
             <span>处罚决定书号</span>
           </div>
           <div class="form-line-item width-60">
@@ -13,7 +28,7 @@
             <span class="btn-blue browse-code" @click="scanQRCode()"><i class="code-icon"></i>扫一扫</span>
           </div>
         </li>
-        <li class="form-line">
+        <li class="form-line" v-if="plateNumberShow">
           <div class="form-line-item item-name">
             <span>车牌号码</span>
           </div>
@@ -123,6 +138,13 @@
   }
 
 </style>
+<style scoped lang="less">
+  .width-100{
+    .min-btn-select{
+      background-position:94% center;
+    }
+  }
+</style>
 <script>
   import { resultPost } from '../../../service/getData'
   import { queryPay } from '../../../config/baseUrl'
@@ -136,8 +158,10 @@
         billNo: '',                        // 请求-缴款编号
         car_number: '',                    // 请求-除去省字的车牌号
         abbreviationSelectShow: false,     // 省字列表显示与否
+        isPedestrianShow: false,
         verifyCode: false,                    // 验证码验证
         abbreviationSelectMassage: '粤',   // 默认省字
+        isPedestrianShowMessage: '机动车', // 机动车
         abbreviationSelectData: [
           {
             'str': '粤'
@@ -232,7 +256,12 @@
           {
             'str': '新'
           }
-        ]      // 省字列表
+        ],      // 省字列表
+        plateNumberShow: true,
+        isPedestrian: [
+          {str: '机动车', id: '1'},
+          {str: '行人/非机动车驾驶人', id: '0'}
+        ]
       }
     },
     mounted () {
@@ -253,8 +282,26 @@
           this.typeSelectShow = false
         }
       },
+      isPedestrianSelectClick (str) {
+        if (str) {
+          this.isPedestrianShowMessage = str
+        }
+        if (this.isPedestrianShow === true) {
+          this.isPedestrianShow = false
+        } else {
+          this.isPedestrianShow = true
+        }
+        if (this.isPedestrianShowMessage === '行人/非机动车驾驶人') {
+          this.plateNumberShow = false
+        } else {
+          this.plateNumberShow = true
+        }
+      },
       queryPay: function () {
         let platNo = this.abbreviationSelectMassage + this.car_number
+        if (this.isPedestrianShowMessage === '行人/非机动车驾驶人') {
+          platNo = '无'
+        }
         let reqData = {
           billNo: this.billNo,
           licensePlateNo: platNo.toLocaleUpperCase(),
@@ -339,6 +386,7 @@
         this.typeSelectShow = false
         this.licenseSelectShow = false
         this.abbreviationSelectShow = false
+        this.isPedestrianShow = false
       })
     }
   }
