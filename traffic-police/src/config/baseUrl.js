@@ -36,6 +36,8 @@ export const getClaimConfirm = `${commonUrl}illegalHanding/illegalOnlineConfirm.
 
 export const claimConfirm = `${commonUrl}illegalHanding/trafficIllegalClaim.html` // 打单确认
 
+export const queryIllegalNoByClaimBefore = `${commonUrl}illegalHanding/queryIllegalNoByClaimBefore.html` // 获取违法编号
+
 // export const LawlessBusiness = `${commonUrl}illegalHanding/illegalBusinessListQuery.html` // 违法业务列表
 
 export const updatePwd = `${commonUrl}user/updatePwd.html` // 修改密码接口

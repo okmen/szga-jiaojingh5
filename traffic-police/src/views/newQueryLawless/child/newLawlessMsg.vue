@@ -39,7 +39,7 @@
 </template>
 <script>
   import { resultPost } from '../../../service/getData'
-  import { queryPay, claimConfirm } from '../../../config/baseUrl'
+  import { queryPay, claimConfirm, queryIllegalNoByClaimBefore } from '../../../config/baseUrl'
   import popupImg from './../../../components/popupImg'
   // import { verifyCode } from '../../../config/verifyCode'
   import { MessageBox, Toast } from 'mint-ui'
@@ -180,7 +180,7 @@
             })
             return false
           }
-          resultPost('http://192.168.1.240:8080/web/illegalHanding/queryIllegalNoByClaimBefore.html', {
+          resultPost(queryIllegalNoByClaimBefore, {
             licensePlateNo: item.licensePlateNo,
             licensePlateType: item.licensePlateType,
             mobilephone: this.$store.state.newLawlessQuery.info.mobilephone,
