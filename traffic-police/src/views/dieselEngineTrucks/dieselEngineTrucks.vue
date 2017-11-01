@@ -941,13 +941,21 @@ export default {
       console.log(dieselData)
       resultPost(informationCollection, dieselData).then(json => {
         if (json.code === '0000') {
-          let typeName = {
-            type: this.ownerid,
-            areaSelectMassage: this.areaSelectMassage,
-            licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`
-          }
-          let numData = json.data
-          this.$router.push({path: 'dieseSucceed', query: { myNumber: JSON.stringify(numData), typeName: JSON.stringify(typeName) }})
+          // let typeName = {
+          //   type: this.ownerid,
+          //   areaSelectMassage: this.areaSelectMassage,
+          //   licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`
+          // }
+          // let numData = json.data
+          // this.$router.push({path: 'dieseSucceed', query: { myNumber: JSON.stringify(numData), typeName: JSON.stringify(typeName) }})
+          this.$store.commit('saveSuccessInfo', {
+            type: 4,
+            ownerid: this.ownerid,   // 申请类型
+            areaSelectMassage: this.areaSelectMassage, // 发卡大队
+            licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`, // 车牌号码
+            JsonData: json.data   // 流水号
+          })
+          this.$router.push('/submitSuccess')
         } else {
           MessageBox({
             title: '提示',

@@ -69,6 +69,15 @@
         </li>
       </ul>
     </section>
+    <section class="bid-box appoint-box" v-if="JsonDataInfo.type == 4">
+      <h3>申办结果</h3>
+      <p>您的信息已提交成功。请留意办证进度，审核通过5个工作日后可前往联系地址{{JsonDataInfo.areaSelectMassage}}交警大队领取安装电子行驶证（RFID).</p>
+      <p>业务类型：柴油轻型自卸货车</p>
+      <p v-if="JsonDataInfo.ownerid === '1'">申请类型：个人车辆(含挂靠)</p>
+      <p v-if="JsonDataInfo.ownerid === '2'">申请类型：单位车辆</p>
+      <p>车牌号码：{{JsonDataInfo.licenseNumber}}</p>
+      <p>流水号：{{JsonDataInfo.JsonData}}</p>
+    </section>
     <div class="btn-appoint-backword" @click="btnBackword" v-if="!urlJsonData && JsonDataInfo.type == 1">返回</div>
     <div class="btn-appoint-backword mt-60" @click="btnBackword"  v-if="!urlJsonData && JsonDataInfo.type != 1">好的</div>
     <page-bottom v-if="isWeChat"></page-bottom>
