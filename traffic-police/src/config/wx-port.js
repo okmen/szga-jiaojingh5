@@ -19,10 +19,6 @@ var openId = getQueryString('openId') ? getQueryString('openId') : localStorage.
 var headImgUrl = getQueryString('headimgurl') ? getQueryString('headimgurl') : localStorage.getItem('headImgUrl');
 var nickname = getQueryString('nickname') ? getQueryString('nickname') : localStorage.getItem('nickname');
 
-var openId = 'zhanshancheng';
-var headImgUrl = 'zhanshancheng';
-var nickname = 'zhanshancheng';
-
 let url = window.location.href;
 let data = {
   hostUrl: encodeURIComponent(url.split('#')[0]),
@@ -31,6 +27,10 @@ let data = {
   openIdURL: encodeURIComponent(url.split('?openId')[0])
 }
 
+if (openId === 'zhanshancheng') {
+  localStorage.clear();
+  openId = 'undefined'
+}
 if (!!openId && openId !== 'undefined') {
   localStorage.setItem('openId', decodeURIComponent(openId));
   localStorage.setItem('headImgUrl', decodeURIComponent(headImgUrl));

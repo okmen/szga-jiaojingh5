@@ -140,9 +140,9 @@
           </router-link>
         </dl>
         <dl class="new">
-          <router-link :to="!isLogin ? '/login' : '/digByCar'">
-            <dt><img class="top5" src="./images/nav13.png" alt=""></dt>
-            <dd>电子回单</dd>
+          <router-link :to="!isLogin ? '/login' : '/dieselEngineTrucksTab'">
+            <dt style="width: 33%;"><img style="width: 100%; height: 100%;" class="top5" src="./images/nav15.png" alt=""></dt>
+            <dd>柴油轻型<br/>自卸货车</dd>
           </router-link>
         </dl>
         <dl class="new">
@@ -478,6 +478,7 @@
           dd {
             width: 70%;
             text-align: center;
+            margin-left: -30px;
           }
         }
         .top5 {
