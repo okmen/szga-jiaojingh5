@@ -186,7 +186,8 @@
             mobilephone: this.$store.state.newLawlessQuery.info.mobilephone,
             illegalTime: item.illegalTime,
             illegalAddr: item.illegalAddr,
-            illegalDesc: item.illegalDesc
+            illegalDesc: item.illegalDesc,
+            identityCard: this.$store.state.newLawlessQuery.info.identityCard
           }).then(result => {
             if (result.code === '0000') {
               MessageBox.confirm('尊敬的用户您好，一旦确认或打印了处罚决定书后，15日内不处理将会产生滞纳金，是否确定马上打印决定书？').then(action => {
