@@ -153,12 +153,17 @@
         </dl>
       </div>
     </div>
-    <mt-swipe :show-indicators="false" id="advertisement-box" :auto="4500" :speed="1500">
+    <mt-swipe :show-indicators="false" id="advertisement-box" :auto="6000" :speed="1500">
       <!-- <mt-swipe-item>
         <a href="https://mp.weixin.qq.com/s?__biz=MzA3NDMzNTQ4Mw==&mid=2655303753&idx=4&sn=dd1a97fb74ed6c0af29f81bba1d17d00&chksm=84b14dddb3c6c4cbe29629cd613721e8f99cdaf3f6c8ea71a065973c58f72c85b6125419898b&scene=0&key=0f8a38fa5354788f99ef711703ae6001248422a5737db061fb641ac04fd538682bbb35432167d3b76d9e704b9406dde9bc6598199bd6f948746958c80a7d36f9c979a60cf562004cbceb965863ca46e1&ascene=0&uin=MTUxMzU1MjA4MA%3D%3D&devicetype=iMac+MacBookAir7%2C2+OSX+OSX+10.11.6+build(15G1421)&version=12020110&nettype=WIFI&fontScale=100&pass_ticket=Os%2FdaZX6ah4cAnrhZVCRq7P1%2BzkNhag6IoM3Y4r5GHXvcOFKgG3NxpLzqVg0TC8L">
           <img src="./images/advertisement1.png">
         </a>
       </mt-swipe-item> -->
+      <mt-swipe-item>
+        <router-link to="/showpage">
+          <img src="./images/home-banner1.jpg" style="width:100%;">
+        </router-link>
+      </mt-swipe-item>
       <mt-swipe-item>
         <a
           href="https://mp.weixin.qq.com/s?__biz=MzA3NDMzNTQ4Mw==&mid=2655304661&idx=5&sn=40768992087ac11546bf9417592c7159&chksm=84b14e41b3c6c7575a760e2afdc4c7c8be73c9ed8d627a46862177cf674f73df32b371d4eb2e&mpshare=1&scene=1&srcid=0503GTNNmIvgWcfV7NhMZXoC&key=03e28d3fd128796c275a4292972ac539cd9c89237723e3776e455f2eec18dea35e3d49650f8e19b7e5a8f1f8cf98f5cd6be7d6995b365cd9cdc9e51d35c98e6c472e26ce3e0689fe838cf0eb8fbde311&ascene=0&uin=MTUxMzU1MjA4MA%3D%3D&devicetype=iMac+MacBookAir7%2C2+OSX+OSX+10.11.6+build(15G1421)&version=12020110&nettype=WIFI&fontScale=100&pass_ticket=Os%2FdaZX6ah4cAnrhZVCRq7P1%2BzkNhag6IoM3Y4r5GHXvcOFKgG3NxpLzqVg0TC8L">
