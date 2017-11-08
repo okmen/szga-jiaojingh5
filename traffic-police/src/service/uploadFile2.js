@@ -21,7 +21,7 @@ const UploadFile = {
 	 * @param  {[function]} options.callback  [回调]
 	 * @return {[type]}                   [null]
 	 */
-	upload: function({id,maxHeight=2000,quality=0.92,callback}){
+	upload: function({id,maxHeight=768,quality=0.92,callback}){
 		if(!id) return;
 		let el = document.getElementById(id);
 		let self = this;
@@ -115,7 +115,20 @@ const UploadFile = {
 		    var context = canvas.getContext('2d');
 		    //压缩率设置
 		    let s = size / 1024;
-		    maxHeight = 1536;
+		    if(s < 200){
+		    	maxHeight = img.height;
+		    }else if(s >= 200 && s < 500){
+		    	maxHeight = 1024;
+		    }else if(s >= 500 && s < 1024){
+		    	maxHeight = 1000;
+		    }else if(s >= 1024 && s < 2*1024){
+		    	maxHeight = 1024;
+		    } else if(s >= 2*1024 && s < 3*1024) {
+		    	maxHeight = 1024;
+		    } else{
+		    	maxHeight = 1000;
+		    }
+
 		    if(img.height > maxHeight) {//按最大高度等比缩放
 				img.width *= maxHeight / img.height;
 				img.height = maxHeight;
