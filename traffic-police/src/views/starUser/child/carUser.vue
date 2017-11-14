@@ -290,6 +290,8 @@
         let userIdImgFour = this.$refs.getImgUrl.userIdCardHandHeld
         if (this.carNumber.length < 2) {
           Toast({message: '请输入车牌号', position: 'bottom', className: 'white'})
+        } else if (!(/^[A-Za-z0-9\u4e00-\u9fa5]+$/gi.test(this.carNumber))) {
+          Toast({message: '车牌号不能输入特殊字符', position: 'bottom', className: 'white'})
         } else if (!this.carOwnerName) {
           Toast({message: '请输入车主姓名', position: 'bottom', className: 'white'})
         } else if (!this.carIdCardNumber) {

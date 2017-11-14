@@ -74,7 +74,7 @@
           </div>
           <div class="starUser-hbs-radio">
             <div class="starUser-hbs-radio-box">
-              <input type="radio" id="starUserRadio4" name="haveDrivingLicence" 
+              <input type="radio" id="starUserRadio4" name="haveDrivingLicence"
                 v-model:checked="haveDrivingLicence" value="1">
               <label name="starUserRadio4" class="checked" for="starUserRadio4">有</label>
             </div>
@@ -292,6 +292,8 @@ export default{
         Toast({message: '请输入车牌号', position: 'bottom', className: 'white'})
       } else if (/[（* | ）* ]/g.test(this.idCardNumber)) {
         Toast({message: '请使用英文状态下的括号', position: 'bottom', className: 'white'})
+      } else if (!(/^[A-Za-z0-9\u4e00-\u9fa5]+$/gi.test(this.carNumber))) {
+        Toast({message: '车牌号不能输入特殊字符', position: 'bottom', className: 'white'})
       } else if (!this.idCardNumber) {
         Toast({message: '请输入身份证号', position: 'bottom', className: 'white'})
       } else if (!this.telphone) {
