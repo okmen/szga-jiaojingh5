@@ -4,7 +4,9 @@ import { Indicator } from 'mint-ui'
 
 var dataFun = (obj) => {
   obj.version = '1.5.9'
-  obj.sourceOfCertification = window.localStorage.getItem('sourceOfCertification') ? window.localStorage.getItem('sourceOfCertification') : 'C'
+  if (!obj.sourceOfCertification) {
+    obj.sourceOfCertification = window.localStorage.getItem('sourceOfCertification') ? window.localStorage.getItem('sourceOfCertification') : 'C'
+  }
 	obj.openId = window.localStorage.getItem('openId') ? window.localStorage.getItem('openId') : ''
   var length = obj && obj.length,
       idx = 0,
