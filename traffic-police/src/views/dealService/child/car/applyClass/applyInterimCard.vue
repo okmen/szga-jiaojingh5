@@ -114,7 +114,7 @@
   </div>
 </template>
 <script>
-  import uploadFile from '../../../../../service/uploadFile.js'
+  import uploadFile from '../../../../../service/uploadFile2.js'
   import { Toast } from 'mint-ui'
   import { isPhone } from '../../../../../service/regExp.js'
   import { applyCarTemporaryLicence } from '../../../../../config/baseUrl.js'

@@ -207,6 +207,14 @@ let homeRouter = [
         component: require('../views/starUser_WeChat/child/passerBy.vue')
       }
     ]
+  },
+  {
+    name: 'showpage',
+    path: '/showpage',
+    meta: {
+      title: '详情'
+    },
+    component: require('../components/showpage.vue')
   }
 ]
 

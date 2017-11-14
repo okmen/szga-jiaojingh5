@@ -80,7 +80,7 @@
     <p>3、预约成功的用户凭预约成功短信到窗口进行违章业务办理。</p>
     <p>4、成功预约后，如未能在预约时间段内前往办理的，须至少提前两个工作日，在网站预约申请界面进行撤销预约，否认视为失约。</p>
   </div>
-  <button class="btn btn-blue" type="button" name="button" @click.stop="submit()">预约</button>
+  <button class="btn btn-blue" type="button" name="button" @click.stop="submit()">预 约</button>
 </div>
 </template>
 <script>

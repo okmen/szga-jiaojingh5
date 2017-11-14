@@ -302,3 +302,6 @@ export const informationCollection = `${commonUrl}user/informationCollection.htm
 export const queryInformationCollection = `${commonUrl}user/queryInformationCollection.html` // 查询接口
 
 export const szTrafficPoliceElecBillQry = `${commonUrl}illegalHanding/szTrafficPoliceElecBillQry.html` // 电子回单图片
+
+/* -------------- 平安好车主 --------------- */
+export const goodOwners = `${commonUrl}convenience/applyForPAGoodCarOwners.html` // 报名接口
