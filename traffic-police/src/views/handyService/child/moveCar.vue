@@ -309,6 +309,15 @@ export default{
       this.mapShow = true
     },
     submit: function () {
+      let numbers = `${this.abbreviation}${this.numberPlate.toLocaleUpperCase()}`
+      if (this.$plateerification(numbers)) {
+        Toast({
+          message: this.$plateerification(numbers),
+          position: 'bottom',
+          className: 'white'
+        })
+        return
+      }
       let reqData = {
         abbreviation: this.abbreviation, // 车牌简称
         numberPlate: this.numberPlate.toLocaleUpperCase(), // 车牌号码

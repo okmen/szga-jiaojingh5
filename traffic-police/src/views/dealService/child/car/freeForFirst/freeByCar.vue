@@ -351,8 +351,9 @@
         }
       },
       demandClick: function () {
-        if (!this.numberPlate) {
-          Toast({message: '请输入车牌号码', position: 'bottom', className: 'white'})
+        let numbers = `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`
+        if (this.$plateerification(numbers)) {
+          Toast({message: this.$plateerification(numbers), position: 'bottom', className: 'white'})
         } else if (!this.verification) {
           Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
         } else if (this.verifyCode === false) {

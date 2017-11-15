@@ -355,9 +355,10 @@
         })
       },
       btnFn: function () {
-        if (!this.car_number) {
+        let numbers = `${this.abbreviationSelectMassage}${this.car_number}`
+        if (this.$plateerification(numbers)) {
           Toast({
-            message: '请输入车牌号码',
+            message: this.$plateerification(numbers),
             duration: 2000
           })
           return

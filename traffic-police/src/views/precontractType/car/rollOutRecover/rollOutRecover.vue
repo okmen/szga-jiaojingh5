@@ -230,7 +230,7 @@
   }
 </style>
 <script>
-  import {isPhone, specialCharacters, plateNumberDetection} from 'service/regExp.js'
+  import {isPhone, specialCharacters} from 'service/regExp.js'
   import {resultPost} from 'service/getData'
   import {Toast, MessageBox} from 'mint-ui'
   import {
@@ -661,9 +661,9 @@
           })
           return false
         }
-        if (!plateNumberDetection(this.provinceCodeOne + this.plateNum.toUpperCase())) {
+        if (this.$plateerification(this.provinceCodeOne + this.plateNum.toUpperCase())) {
           Toast({
-            message: '车牌号码格式不正确',
+            message: this.$plateerification(this.provinceCodeOne + this.plateNum.toUpperCase()),
             duration: 2000
           })
           return false

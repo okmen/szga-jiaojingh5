@@ -25,7 +25,29 @@ Vue.component(SwipeItem.name, SwipeItem)
 Vue.component(Popup.name, Popup)
 Vue.component(Loadmore.name, Loadmore)
 Vue.component(Cell.name, Cell)
-
+Vue.prototype.$plateerification = function (plate) {
+  if (plate.length === 8) {
+    if (plate.indexOf('粤B') >= 0 || plate.indexOf('苏A') >= 0 || plate.indexOf('苏B') >= 0 || plate.indexOf('鲁A') >= 0 || plate.indexOf('沪') >= 0) {
+      return false
+    } else {
+      return '请输入正确的车牌号码'
+    }
+  } else if (plate.length === 7) {
+    if (plate.indexOf('粤Z') >= 0) {
+      if (plate.indexOf('港') >= 0 || plate.indexOf('澳') >= 0) {
+        return false
+      } else {
+        return '请输入正确的车牌号码'
+      }
+    } else {
+      return false
+    }
+  } else if (plate.length === 1) {
+    return '请输入车牌号码'
+  } else {
+    return '请输入正确的车牌号码'
+  }
+}
 window.addEventListener('popstate', function (e) { // 监听手机返回按钮, 清除loading效果
   Indicator.close()
   MessageBox.close()

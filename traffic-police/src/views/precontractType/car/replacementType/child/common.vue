@@ -159,7 +159,7 @@
 
 <script>
 import { resultPost } from '../../../../../service/getData'
-import { plateNumberDetection, specialCharacters } from '../../../../../service/regExp.js'
+import { specialCharacters } from '../../../../../service/regExp.js'
 import { simpleSendMessage, getAppointmentDate, getAppTimes, getPageInit } from '../../../../../config/baseUrl.js'
 import { Toast, MessageBox } from 'mint-ui'
 export default {
@@ -374,8 +374,8 @@ export default {
         Toast({message: '请输入正确手机号码', className: 'white', duration: 1500})
       } else if (!this.numberPlate) {
         Toast({message: '请输入车牌号码', className: 'white', duration: 1500})
-      } else if (!plateNumberDetection(`${this.abbreviationSelectMassage}${this.numberPlate}`)) {
-        Toast({message: '请输入正确的车牌号码', className: 'white', duration: 1500})
+      } else if (this.$plateerification(`${this.abbreviationSelectMassage}${this.numberPlate}`)) {
+        Toast({message: this.$plateerification(`${this.abbreviationSelectMassage}${this.numberPlate}`), className: 'white', duration: 1500})
       } else if (!this.behindTheFrame4Digits) {
         Toast({message: '请输入车架号', className: 'white', duration: 1500})
       } else if (!this.date) {
