@@ -9,7 +9,7 @@
       <div class="part info">
         <div class="title"><img src="./../../images/goodOwners-p14.png"></div>
         <h3>一、报名条件</h3>
-        <p>参加活动的驾驶员（及名下车辆）须同时满足以下3个条件才可报名。</p>
+        <p>参加活动的驾驶员需同时满足以下条件（如名下有车辆也需满足以下条件）。</p>
         <p>（一）近2年内无交通违法记录。</p>
         <p>（二）近3年来未发生重大道路交通事故。</p>
         <p>（三）无治安处罚和刑事处罚记录。</p>
@@ -72,7 +72,12 @@ import { MessageBox } from 'mint-ui'
 export default {
   data () {
     return {
-      isLogin: false
+      isLogin: false,
+      popupInfo: window.localStorage.getItem('goodOwners') ? JSON.parse(window.localStorage.getItem('goodOwners')) : {
+        show: false,
+        time: null,
+        status: false
+      }
     }
   },
   methods: {
@@ -85,6 +90,11 @@ export default {
         MessageBox('提示', '需要登录星级用户才能申请')
         this.$router.push('/login')
       } else {
+        // 如果已经报名，则不显示弹窗
+        if (this.popupInfo.status) {
+          MessageBox('提示', '您已报名')
+          return true
+        }
         if (this.$route.query.type === '1062') {
           this.$router.push('/goodOwners/registration?type=1062')
         } else {
