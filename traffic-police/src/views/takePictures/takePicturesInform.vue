@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="form-line-item width-70 right">
-        <input v-model="carNumber" class="text-input" type="text" name="" value="" placeholder="请输入车牌号码">
+        <input v-model="carNumber" class="text-input" type="text" style="text-transform:uppercase;" name="" value="" placeholder="请输入车牌号码">
       </div>
     </div>
     <div class="form-line">
@@ -373,11 +373,14 @@
         })
       },
       btnSurePutInform: function () {  // 提交拍照举报按钮
+        let numbers = this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase()   // 车牌号码
         let imgArr = [this.imgOne, this.imgTwo, this.imgThree].filter(x => x !== '')
         if (!this.informTime) {
           Toast({message: '请点击设置违法时间', position: 'bottom', className: 'white'})
         } else if (!this.informRoad) {
           Toast({message: '请输入违法路段', position: 'bottom', className: 'white'})
+        } else if (this.$plateerification(numbers)) {
+          Toast({message: this.$plateerification(numbers), position: 'bottom', className: 'white'})
         } else if (imgArr.length < 2) {
           Toast({message: '举报图片不得少于两张', position: 'bottom', className: 'white'})
         } else if (!this.informIntroWhy) {

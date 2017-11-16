@@ -31,7 +31,7 @@
           <span class="form-template-item-left">车牌号码</span>
           <div class="form-template-item-right send-code ">
             <div class="province-code">
-              <div-select :childInfo="provinceCode" @getSelected="getProvinceCodeOne"></div-select>
+              <div-select :childInfo="provinceCode" style="text-transform:uppercase;" @getSelected="getProvinceCodeOne"></div-select>
             </div>
             <input type="text" placeholder="请输入车牌号码" class="province-code-input" v-model="plateNum">
           </div>

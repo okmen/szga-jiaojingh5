@@ -42,7 +42,7 @@
               </div>
             </div>
             <div class="queryByCar-hbs-text width-70 right">
-              <input v-model="car_number" maxlength="6" class="text-input" type="text" name="" value="" placeholder="请输入车牌号码">
+              <input v-model="car_number" maxlength="7" class="text-input" type="text" name="" value="" style="text-transform:uppercase;" placeholder="请输入车牌号码">
             </div>
           </li>
           <li class="queryByCar-hbs-item">

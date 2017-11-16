@@ -24,7 +24,7 @@
               </div>
             </div>
             <div class="width-53 right">
-              <input class="text-input" type="text" v-model="numberPlate" name="" value="" placeholder="请输入车牌号码" >
+              <input class="text-input" type="text" v-model="numberPlate" name="" value="" placeholder="请输入车牌号码" style="text-transform:uppercase;">
             </div>
           </li>
           <li class="freeByCar-hbs-item">

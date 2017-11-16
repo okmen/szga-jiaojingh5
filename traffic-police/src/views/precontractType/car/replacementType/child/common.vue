@@ -68,7 +68,7 @@
             </div>
           </div>
           <div class="form-line-item width-70 right">
-            <input class="text-input bg-colour" type="text" name="" value="" placeholder="请输入车牌号码" v-model="numberPlate">
+            <input class="text-input bg-colour" type="text" name="" value="" style="text-transform:uppercase;" placeholder="请输入车牌号码" v-model="numberPlate">
           </div>
         </li>
         <li class="form-line">

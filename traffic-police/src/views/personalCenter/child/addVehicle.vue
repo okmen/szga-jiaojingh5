@@ -392,6 +392,15 @@ export default{
     },
     /* 提交 */
     submitClick: function () {
+      let numbers = `${this.plateType.str}${this.licensePlateNumber.toLocaleUpperCase()}`
+      if (this.$plateerification(numbers)) {
+        Toast({
+          message: this.$plateerification(numbers),
+          position: 'bottom',
+          className: 'white'
+        })
+        return
+      }
       let reqData = {}
       let plateNum = this.licensePlateNumber
       if (this.bindType.code === 1) {

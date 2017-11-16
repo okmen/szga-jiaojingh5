@@ -36,7 +36,7 @@
         <div class="province-code">
           <div-select :childInfo="provinceCode" @getSelected="getProvinceCodeOne"></div-select>
         </div>
-        <input type="text" placeholder="请输入车牌号码" class="province-code-input" v-model="plateNum">
+        <input type="text" placeholder="请输入车牌号码" class="province-code-input" style="text-transform:uppercase;" v-model="plateNum">
       </div>
     </div>
     <div class="register-item">
