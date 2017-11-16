@@ -370,6 +370,14 @@
             return false
           }
         }
+        if (this.$plateerification(platNo.toLocaleUpperCase())) {
+          Toast({
+            message: this.$plateerification(platNo.toLocaleUpperCase()),
+            position: 'bottom',
+            className: 'white'
+          })
+          return
+        }
         if (!this.verifyCode) {
           Toast({
             message: '验证码输入错误',

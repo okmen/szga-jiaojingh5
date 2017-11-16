@@ -354,6 +354,14 @@
             return false
           }
         }
+        if (this.$plateerification(platNo)) {
+          Toast({
+            message: this.$plateerification(platNo),
+            position: 'bottom',
+            className: 'white'
+          })
+          return
+        }
         if (!this.verifyCode) {
           Toast({
             message: '验证码输入错误',

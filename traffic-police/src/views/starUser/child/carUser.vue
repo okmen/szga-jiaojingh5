@@ -284,12 +284,18 @@
         }
       },
       btnSureStar: function () {  // 提交按钮
+        let platNo = this.abbreviationSelectMassage + this.carNumber
         let ownerIdImgOne = this.$refs.getImgUrl.ownerIdCardPositive
         let ownerIdImgTwo = this.$refs.getImgUrl.ownerIdCardHandHeld
         let userIdImgThree = this.$refs.getImgUrl.userIdCardPositive
         let userIdImgFour = this.$refs.getImgUrl.userIdCardHandHeld
-        if (this.carNumber.length < 2) {
-          Toast({message: '请输入车牌号', position: 'bottom', className: 'white'})
+        if (this.$plateerification(platNo.toLocaleUpperCase())) {
+          Toast({
+            message: this.$plateerification(platNo.toLocaleUpperCase()),
+            position: 'bottom',
+            className: 'white'
+          })
+          return
         } else if (!(/^[A-Za-z0-9\u4e00-\u9fa5]+$/gi.test(this.carNumber))) {
           Toast({message: '车牌号不能输入特殊字符', position: 'bottom', className: 'white'})
         } else if (!this.carOwnerName) {

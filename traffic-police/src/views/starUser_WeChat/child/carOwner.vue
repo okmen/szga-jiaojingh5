@@ -288,11 +288,17 @@ export default{
       }
     },
     btnSureStar: function () {  // 提交按钮
+      let platNo = this.abbreviationSelectMassage + this.carNumber
       let idImgOne = this.$refs.getImgUrl.idCardImgPositive
       let idImgTwo = this.$refs.getImgUrl.idCardImgNegative
       let idImgThree = this.$refs.getImgUrl.idCardImgHandHeld
-      if (this.carNumber.length < 2) {
-        Toast({message: '请输入车牌号', position: 'bottom', className: 'white'})
+      if (this.$plateerification(platNo.toLocaleUpperCase())) {
+        Toast({
+          message: this.$plateerification(platNo.toLocaleUpperCase()),
+          position: 'bottom',
+          className: 'white'
+        })
+        return
       } else if (/[（* | ）* ]/g.test(this.idCardNumber)) {
         Toast({message: '请使用英文状态下的括号', position: 'bottom', className: 'white'})
       } else if (!this.idCardNumber) {
