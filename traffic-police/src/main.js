@@ -26,25 +26,9 @@ Vue.component(Popup.name, Popup)
 Vue.component(Loadmore.name, Loadmore)
 Vue.component(Cell.name, Cell)
 Vue.prototype.$plateerification = function (plate) {
-  if (plate.length === 8) {
-    if (plate.indexOf('粤B') >= 0 || plate.indexOf('苏A') >= 0 || plate.indexOf('苏B') >= 0 || plate.indexOf('鲁A') >= 0 || plate.indexOf('沪') >= 0) {
-      return false
-    } else {
-      return '请输入正确的车牌号码'
-    }
-  } else if (plate.length === 7) {
-    if (plate.indexOf('粤Z') >= 0) {
-      if (plate.indexOf('港') >= 0 || plate.indexOf('澳') >= 0) {
-        return false
-      } else {
-        return '请输入正确的车牌号码'
-      }
-    } else {
-      return false
-    }
-  } else if (plate.length === 1) {
+  if (plate.length === 1) {
     return '请输入车牌号码'
-  } else {
+  } else if (!/(^(粤B|苏A|苏B|鲁A|沪)[A-Za-z0-9]{5,6}$|^[\u4e00-\u9fa5]{1}[A-Za-z0-9]{6}$|^粤Z[A-Za-z0-9\u4e00-\u9fa5]{4,5}(港|澳)$)/.test(plate)) {
     return '请输入正确的车牌号码'
   }
 }
