@@ -43,7 +43,7 @@
             </div>
           </div>
           <div class="form-line-item width-70 right">
-            <input v-model="car_number" class="text-input" type="text" name="" value="" placeholder="请输入车牌号码">
+            <input v-model="car_number" class="text-input" type="text" name="" value="" style="text-transform:uppercase;" placeholder="请输入车牌号码">
           </div>
         </li>
         <li class="form-line">
