@@ -160,11 +160,6 @@
         </a>
       </mt-swipe-item> -->
       <mt-swipe-item>
-        <router-link to="/goodOwners">
-          <img src="./images/goodOwners-p12.jpg" style="width:100%;">
-        </router-link>
-      </mt-swipe-item>
-      <mt-swipe-item>
         <router-link to="/showpage">
           <img src="./images/home-banner1.jpg" style="width:100%;">
         </router-link>
@@ -177,16 +172,11 @@
       </mt-swipe-item>
     </mt-swipe>
     <div v-wechat-title="$route.meta.title"></div>
-    <Popup></Popup>
   </div>
 </template>
 <script>
-  import Popup from 'src/views/goodOwners/popup.vue'
   export default {
     name: 'app',
-    components: {
-      Popup
-    },
     data () {
       return {
         userName: '',
