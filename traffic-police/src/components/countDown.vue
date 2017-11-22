@@ -82,13 +82,13 @@ export default {
         padding-right: 8px;
       }
       img:nth-of-type(3) {
-        padding-left: 26px;
+        padding-left: 16px;
       }
       img:nth-of-type(5) {
-        padding-left: 26px;
+        padding-left: 16px;
       }
       img:nth-of-type(7) {
-        padding-left: 26px;
+        padding-left: 16px;
       }
     }
   }
