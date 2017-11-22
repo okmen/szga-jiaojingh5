@@ -20,13 +20,14 @@ export default {
   props: ['date'],
   data () {
     return {
-      date: '',
+      dates: '',
       interval: ''
     }
   },
   mounted () {
     clearInterval(this.interval)
-    // this.date = new Date('2017/11/22 17:16:00')
+    // this.dates = new Date('2017/11/22 17:16:00')
+    this.dates = new Date(this.date)
     this.interval = setInterval(this.time, 1000)
   },
   methods: {
@@ -42,7 +43,7 @@ export default {
       let aImg = oBox.getElementsByTagName('img')
       let mydate = new Date()
       let str = ''
-      let t = this.date.getTime() - mydate.getTime()
+      let t = this.dates.getTime() - mydate.getTime()
       if (t >= 0) {
         str = this.toTwo(Math.floor(t/1000/60/60/24)) + this.toTwo(Math.floor(t/1000/60/60%24)) + this.toTwo(Math.floor(t/1000/60%60)) + this.toTwo(Math.floor(t/1000%60))
         for(var i=0; i < aImg.length;i++) {
