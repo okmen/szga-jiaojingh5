@@ -45,9 +45,6 @@
         <img src="../../images/prize.png">
         <p>奖励说明</p>
       </router-link>
-      <router-link class="goodOwners" to="/goodOwners">
-        <img width="100%" src="../../images/goodOwners-p12.jpg">
-      </router-link>
     </div>
   </div>
 </template>
