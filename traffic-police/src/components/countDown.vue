@@ -59,6 +59,9 @@ export default {
         })
       }
     }
+  },
+  destroyed () {
+    clearInterval(this.interval)
   }
 }
 </script>
@@ -79,13 +82,13 @@ export default {
         padding-right: 8px;
       }
       img:nth-of-type(3) {
-        padding-left: 30px;
+        padding-left: 26px;
       }
       img:nth-of-type(5) {
-        padding-left: 30px;
+        padding-left: 26px;
       }
       img:nth-of-type(7) {
-        padding-left: 30px;
+        padding-left: 26px;
       }
     }
   }
