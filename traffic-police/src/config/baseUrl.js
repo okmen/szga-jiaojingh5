@@ -4,6 +4,7 @@
 let commonUrl
 if (process.env.NODE_ENV === 'development') {
   commonUrl = 'http://192.168.1.120:8100/' // 开发环境
+  // commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
 } else {
   if (process.env.type === 'test') {
     commonUrl = 'http://testjava.chudaokeji.com/' // 测试环境
@@ -305,3 +306,8 @@ export const szTrafficPoliceElecBillQry = `${commonUrl}illegalHanding/szTrafficP
 
 /* -------------- 平安好车主 --------------- */
 export const goodOwners = `${commonUrl}convenience/applyForPAGoodCarOwners.html` // 报名接口
+export const goodOwnersList = `${commonUrl}convenience/getVoteByPage.html` // 列表
+export const goodOwnersVote = `${commonUrl}convenience/activityVote.html` // 投票
+export const goodOwnersVoteUser = `${commonUrl}convenience/selectById.html` // 获取入选人详细信息
+export const goodOwnersVoteHot = `${commonUrl}convenience/getFrontVote.html` // 获取入排行榜信息
+export const goodOwnersVoteSearch = `${commonUrl}convenience/selectByIdOrName.html` // 搜索入选人信息

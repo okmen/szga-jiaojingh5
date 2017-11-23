@@ -5,7 +5,7 @@ export default [
     meta: {
       title: '发现平安好车主，争做文明驾驶人'
     },
-    component: require('../views/goodOwners/index.vue')
+    component: resolve => require(['../views/goodOwners/index.vue'], resolve)
   },
   {
     name: 'GOregistration',
@@ -13,7 +13,7 @@ export default [
     meta: {
       title: '发现平安好车主，争做文明驾驶人'
     },
-    component: require('../views/goodOwners/registration.vue')
+    component: resolve => require(['../views/goodOwners/registration.vue'], resolve)
   },
   {
     name: 'GOregistration',
@@ -21,7 +21,7 @@ export default [
     meta: {
       title: '发现平安好车主，争做文明驾驶人'
     },
-    component: require('../views/goodOwners/registration_pa.vue')
+    component: resolve => require(['../views/goodOwners/registration_pa.vue'], resolve)
   },
   {
     name: 'GOconfirminfo',
@@ -29,7 +29,7 @@ export default [
     meta: {
       title: '发现平安好车主，争做文明驾驶人'
     },
-    component: require('../views/goodOwners/confirminfo.vue')
+    component: resolve => require(['../views/goodOwners/confirminfo.vue'], resolve)
   },
   {
     name: 'GOsubmitSuccess',
@@ -37,7 +37,7 @@ export default [
     meta: {
       title: '发现平安好车主，争做文明驾驶人'
     },
-    component: require('../views/goodOwners/submitSuccess.vue')
+    component: resolve => require(['../views/goodOwners/submitSuccess.vue'], resolve)
   },
   {
     name: 'GOpushWX',
@@ -45,7 +45,7 @@ export default [
     meta: {
       title: '发现平安好车主，争做文明驾驶人'
     },
-    component: require('../views/goodOwners/pushWX.vue')
+    component: resolve => require(['../views/goodOwners/pushWX.vue'], resolve)
   },
   {
     name: 'GOpushZFB',
@@ -53,7 +53,7 @@ export default [
     meta: {
       title: '发现平安好车主，争做文明驾驶人'
     },
-    component: require('../views/goodOwners/pushZFB.vue')
+    component: resolve => require(['../views/goodOwners/pushZFB.vue'], resolve)
   },
   {
     name: 'GOview',
@@ -61,6 +61,38 @@ export default [
     meta: {
       title: '发现平安好车主，争做文明驾驶人'
     },
-    component: require('../views/goodOwners/goodView.vue')
+    component: resolve => require(['../views/goodOwners/goodView.vue'], resolve)
+  },
+  {
+    name: 'voteList',
+    path: '/goodOwners/voteList',
+    meta: {
+      title: '发现平安好车主，争做文明驾驶人'
+    },
+    component: resolve => require(['../views/goodOwners/voteList.vue'], resolve)
+  },
+  {
+    name: 'voteView',
+    path: '/goodOwners/voteView/:id',
+    meta: {
+      title: '发现平安好车主，争做文明驾驶人'
+    },
+    component: resolve => require(['../views/goodOwners/voteView.vue'], resolve)
+  },
+  {
+    name: 'voteRanking',
+    path: '/goodOwners/voteRanking',
+    meta: {
+      title: '发现平安好车主，争做文明驾驶人'
+    },
+    component: resolve => require(['../views/goodOwners/voteRanking.vue'], resolve)
+  },
+  {
+    name: 'voteRules',
+    path: '/goodOwners/voteRules',
+    meta: {
+      title: '发现平安好车主，争做文明驾驶人'
+    },
+    component: resolve => require(['../views/goodOwners/voteRules.vue'], resolve)
   }
 ]

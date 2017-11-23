@@ -16,6 +16,7 @@ import wschoolRouter from 'src/router/wschool.js' // 微课堂
 import newQueryLawlessRouter from 'src/router/newQueryLawless.js' // 违法处理类优化版
 import dieselEngineTrucks from 'src/router/dieselEngineTrucks.js'
 import goodOwners from './goodOwners.js'
+import wx from 'weixin-js-sdk'
 
 Vue.use(VueRouter)
 const routes = [
@@ -414,4 +415,23 @@ const router = new VueRouter({
   routes
 })
 
+let ua = window.navigator.userAgent
+if (/MicroMessenger/i.test(ua)) {
+  router.beforeEach((to, from, next) => {
+    let link = 'http://testh5.chudaokeji.com/h5/#' + to.fullPath
+    console.log(link)
+    wx.onMenuShareTimeline({
+      title: to.meta.title,
+      link: link
+    })
+    wx.onMenuShareAppMessage({
+      title: to.meta.title,
+      link: link,
+      cancel: function () {
+        console.log('分享的链接：', link)
+      }
+    })
+    next()
+  })
+}
 export default router

@@ -160,6 +160,11 @@
         </a>
       </mt-swipe-item> -->
       <mt-swipe-item>
+        <router-link to="/goodOwners/voteList">
+          <img src="./views/goodOwners/styles/homeBanner.jpg" style="width:100%;">
+        </router-link>
+      </mt-swipe-item>
+      <mt-swipe-item>
         <router-link to="/showpage">
           <img src="./images/home-banner1.jpg" style="width:100%;">
         </router-link>
