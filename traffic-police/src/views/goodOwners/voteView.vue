@@ -24,7 +24,6 @@
 
 <script>
 import { Toast } from 'mint-ui'
-import { goodOwnersVoteUser } from 'src/config/baseUrl.js'
 import { resultPost } from 'src/service/getData'
 import voteMixins from './voteMixins'
 export default {
@@ -48,7 +47,7 @@ export default {
     }
   },
   created () {
-    resultPost(goodOwnersVoteUser, {
+    resultPost('http://testjava.chudaokeji.com/convenience/selectById.html', {
       id: this.$route.params.id
     }).then(data => {
       if (data.code === '0000') {

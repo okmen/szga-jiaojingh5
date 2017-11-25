@@ -177,11 +177,16 @@
       </mt-swipe-item>
     </mt-swipe>
     <div v-wechat-title="$route.meta.title"></div>
+    <popup></popup>
   </div>
 </template>
 <script>
+  import popup from 'src/views/goodOwners/popup2'
   export default {
     name: 'app',
+    components: {
+      popup
+    },
     data () {
       return {
         userName: '',

@@ -19,12 +19,12 @@
     </div>
     <!-- 列表 -->
     <div class="list" v-if="voteList.length > 0"
-      v-infinite-scroll="loadMore"
+      v-infinite-scroll="loadMoreInit"
       :infinite-scroll-disabled="loading"
     >
-      <div class="item" v-for="item in voteList">
+      <div class="item" v-for="(item, index) in voteList">
         <router-link tag="div" class="box" :to="`/goodOwners/voteView/${item.id}`">
-          <div class="number">{{ item.number }}</div>
+          <div class="number">{{ item.id }}</div>
           <div class="pic">
             <img :src="item.imgUrl">
           </div>
@@ -34,7 +34,7 @@
             <div class="p">{{ item.count }}票</div>
           </div>
         </router-link>
-        <div class="button" @click="handleVote(item)" :class="{ act: item.status }">为ta投一票</div>
+        <div class="button" @click="handleVote(item, index)" :class="{ act: item.status }">为ta投一票</div>
       </div>
     </div>
     <!-- 底部导航 -->
@@ -48,7 +48,6 @@
 
 <script>
 import { Toast } from 'mint-ui'
-import { goodOwnersList, goodOwnersVoteSearch } from 'src/config/baseUrl.js'
 import { resultPost } from 'src/service/getData'
 import VoteNav from './voteNav'
 import voteMixins from './voteMixins'
@@ -67,7 +66,7 @@ export default {
       // 列表数据
       list: [],
       page: 1,
-      pageSize: 4,
+      pageSize: 20,
       loading: false,
       loadingTimer: null
     }
@@ -94,10 +93,10 @@ export default {
         this.searchStatus = false
         this.page = 1
         this.list = []
-        this.loadMore()
+        this.loadMoreInit()
       } else {
         this.searchStatus = true
-        resultPost(goodOwnersVoteSearch, {
+        resultPost('http://testjava.chudaokeji.com/convenience/selectByIdOrName.html', {
           page: 1,
           pageSize: 50,
           content: this.searchText
@@ -115,12 +114,18 @@ export default {
       }
     },
     // 加载更多数据
+    loadMoreInit () {
+      window.clearTimeout(this.loadingTimer)
+      this.loadingTimer = setTimeout(() => {
+        this.loadMore()
+      }, 100)
+    },
     loadMore () {
       if (this.searchStatus) {
         return false
       }
       this.loading = true
-      resultPost(goodOwnersList, {
+      resultPost('http://testjava.chudaokeji.com/convenience/getVoteByPage.html', {
         page: this.page,
         pageSize: this.pageSize
       }).then(data => {
@@ -138,7 +143,7 @@ export default {
     }
   },
   created () {
-    this.loadMore()
+    this.loadMoreInit()
   }
 }
 </script>

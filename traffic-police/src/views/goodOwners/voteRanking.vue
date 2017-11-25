@@ -35,7 +35,6 @@
 
 <script>
 import { Toast } from 'mint-ui'
-import { goodOwnersVoteHot } from 'src/config/baseUrl.js'
 import { resultPost } from 'src/service/getData'
 import VoteNav from './voteNav'
 export default {
@@ -48,8 +47,8 @@ export default {
     }
   },
   created () {
-    resultPost(goodOwnersVoteHot, {
-      total: 10
+    resultPost('http://testjava.chudaokeji.com/convenience/getFrontVote.html', {
+      total: 15
     }).then(data => {
       if (data.code === '0000') {
         this.list.push(...data.data)
