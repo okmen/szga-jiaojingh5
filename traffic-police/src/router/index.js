@@ -303,14 +303,14 @@ const routes = [
     },
     component: require('../views/dealService/child/car/freeForFirst/freeAbstract.vue')
   },
-  {
-    name: 'digitalReceipt',
-    path: '/digitalReceipt',
-    meta: {
-      title: '电子回单'
-    },
-    component: require('../views/credit/child/digitalReceipt.vue')
-  },
+  // {
+  //   name: 'digitalReceipt',
+  //   path: '/digitalReceipt',
+  //   meta: {
+  //     title: '电子回单'
+  //   },
+  //   component: require('../views/credit/child/digitalReceipt.vue')
+  // },
   /* {
     name: 'selfForm',
     path: '/selfForm',

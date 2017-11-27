@@ -16,7 +16,7 @@ export default [
     component: resolve => require(['../views/goodOwners/registration.vue'], resolve)
   },
   {
-    name: 'GOregistration',
+    name: 'GOregistration_pa',
     path: '/goodOwners/registration_pa',
     meta: {
       title: '发现平安好车主，争做文明驾驶人'
