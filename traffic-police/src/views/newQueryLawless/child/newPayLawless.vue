@@ -318,7 +318,7 @@
             return false
           }
         }
-        if (this.$plateerification(platNo.toLocaleUpperCase())) {
+        if (this.$plateerification(platNo.toLocaleUpperCase()) && platNo !== '无') {
           Toast({
             message: this.$plateerification(platNo),
             position: 'bottom',
