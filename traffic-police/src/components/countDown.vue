@@ -13,7 +13,6 @@
   </div>
 </template>
 <script>
-import { MessageBox } from 'mint-ui'
 export default {
   /* eslint-disable */
   name: 'countDown',
@@ -50,13 +49,9 @@ export default {
           aImg[i].src= require('../images/itme/'+str[i]+'.png')
         }
       } else if (t <= 0) {
-        MessageBox({
-          title: '温馨提示',
-          message: '活动时间已结束'
-        }).then(action => {
-          clearInterval(this.interval)
-          this.$router.push('/')
-        })
+        console.log('倒计时结束')
+        window.clearInterval(this.interval)
+        this.$emit('end')
       }
     }
   },

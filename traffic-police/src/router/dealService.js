@@ -238,7 +238,7 @@ let dealServiceRouter = [
     redirect: '/replaceCredentials_WeChat/repairDrivingLicense',
     children: [
       {
-        name: 'repairDrivingLicense',
+        name: 'repairDrivingLicense_WeChat',
         path: 'repairDrivingLicense',
         meta: {
           title: '补领行驶证'
@@ -246,7 +246,7 @@ let dealServiceRouter = [
         component: require('../views/dealService/child/car/replaceCredentials/repairDrivingLicense.vue')
       },
       {
-        name: 'exchangeDrivingLicense',
+        name: 'exchangeDrivingLicense_WeChat',
         path: 'exchangeDrivingLicense',
         meta: {
           title: '换领行驶证'
@@ -254,7 +254,7 @@ let dealServiceRouter = [
         component: require('../views/dealService/child/car/replaceCredentials/exchangeDrivingLicense.vue')
       },
       {
-        name: 'replaceQualifiedMark',
+        name: 'replaceQualifiedMark_WeChat',
         path: 'replaceQualifiedMark',
         meta: {
           title: '补换检验合格标志'
@@ -262,7 +262,7 @@ let dealServiceRouter = [
         component: require('../views/dealService/child/car/replaceCredentials/replaceQualifiedMark.vue')
       },
       {
-        name: 'replaceLicencePlate',
+        name: 'replaceLicencePlate_WeChat',
         path: 'replaceLicencePlate',
         meta: {
           title: '补领机动车号牌'

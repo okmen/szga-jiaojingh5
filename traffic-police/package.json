@@ -17,6 +17,7 @@
     "element-ui": "^1.2.8",
     "less": "^2.7.2",
     "less-loader": "^4.0.2",
+    "lodash.debounce": "^4.0.8",
     "mint-ui": "^2.2.3",
     "moment": "^2.18.1",
     "v-distpicker": "^1.0.8",

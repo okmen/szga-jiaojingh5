@@ -7,7 +7,9 @@ var dataFun = (obj) => {
   if (!obj.sourceOfCertification) {
     obj.sourceOfCertification = window.localStorage.getItem('sourceOfCertification') ? window.localStorage.getItem('sourceOfCertification') : 'C'
   }
-	obj.openId = window.localStorage.getItem('openId') ? window.localStorage.getItem('openId') : ''
+  if (!obj.openId) {
+    obj.openId = window.localStorage.getItem('openId') ? window.localStorage.getItem('openId') : ''
+  }
   var length = obj && obj.length,
       idx = 0,
       url = '&';
