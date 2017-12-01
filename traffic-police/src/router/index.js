@@ -15,19 +15,15 @@ import creditRouter from 'src/router/credit.js' // 信息单据证明
 import wschoolRouter from 'src/router/wschool.js' // 微课堂
 import newQueryLawlessRouter from 'src/router/newQueryLawless.js' // 违法处理类优化版
 import dieselEngineTrucks from 'src/router/dieselEngineTrucks.js'
-import goodOwners from './goodOwners.js'
 import wx from 'weixin-js-sdk'
 
 Vue.use(VueRouter)
 const routes = [
-  // {
-  //   name: 'illegalParking',
-  //   path: '/illegalParking',
-  //   meta: {
-  //     title: '违停免罚'
-  //   },
-  //   component: require('../views/illegalParking/index.vue')
-  // },
+  // 未匹配路由全部重定向到首页
+  {
+    path: '*',
+    redirect: '/'
+  },
   {
     name: 'illegalParking',
     path: '/illegalParking',
@@ -303,30 +299,6 @@ const routes = [
     },
     component: require('../views/dealService/child/car/freeForFirst/freeAbstract.vue')
   },
-  // {
-  //   name: 'digitalReceipt',
-  //   path: '/digitalReceipt',
-  //   meta: {
-  //     title: '电子回单'
-  //   },
-  //   component: require('../views/credit/child/digitalReceipt.vue')
-  // },
-  /* {
-    name: 'selfForm',
-    path: '/selfForm',
-    meta: {
-      name: '其它业务'
-    },
-    component: require('../components/formTemplate/index.vue')
-  }, */
-  /* {
-    name: 'faceSwiping',
-    path: '/faceSwiping',
-    meta: {
-      name: '星级用户认证'
-    },
-    component: require('../views/starUser/faceSwiping')
-  }, */
   {
     name: 'getFaceInfo',
     path: '/getFaceInfo',
@@ -406,9 +378,7 @@ const routes = [
   // 违法处理类 新版
   ...newQueryLawlessRouter,
   // 柴油轻型自卸货车
-  ...dieselEngineTrucks,
-  // 平安好车主
-  ...goodOwners
+  ...dieselEngineTrucks
 ]
 /* eslint-disable no-new */
 const router = new VueRouter({
@@ -418,7 +388,12 @@ const router = new VueRouter({
 let ua = window.navigator.userAgent
 if (/MicroMessenger/i.test(ua)) {
   router.beforeEach((to, from, next) => {
-    let link = 'http://testh5.chudaokeji.com/h5/#' + to.fullPath
+    let link
+    if (process.env.type === 'test') {
+      link = 'http://testh5.chudaokeji.com/h5/#' + to.fullPath
+    } else {
+      link = 'http://gzh.stc.gov.cn/h5/#' + to.fullPath
+    }
     console.log(link)
     wx.onMenuShareTimeline({
       title: to.meta.title,
