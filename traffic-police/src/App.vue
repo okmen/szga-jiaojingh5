@@ -4,7 +4,9 @@
       <div class="success-login" v-if="isLogin">
         <div class="success-login-top">
           <div class="success-login-userImg">
-            <img :src="userImg">
+            <router-link to="/personalCenter">
+              <img :src="userImg">
+            </router-link>
           </div>
           <div class="success-login-userName">
             <p>{{ userName }}</p>
