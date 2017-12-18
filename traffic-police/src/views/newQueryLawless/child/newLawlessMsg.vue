@@ -183,7 +183,7 @@
           resultPost(queryIllegalNoByClaimBefore, {
             licensePlateNo: item.licensePlateNo,
             licensePlateType: item.licensePlateType,
-            mobilephone: this.$store.state.newLawlessQuery.info.mobilephone,
+            mobilephone: window.localStorage.getItem('mobilePhone'),
             illegalTime: item.illegalTime,
             illegalAddr: item.illegalAddr,
             illegalDesc: item.illegalDesc,
@@ -212,12 +212,14 @@
                         })
                       }
                     } else {
+                      console.log(1111111111111111111111111111111111111111)
                       MessageBox('提示', json.msg)
                     }
                   })
                 })
               })
             } else {
+              console.log(222222222222222222222)
               MessageBox('提示', result.msg)
             }
           })
