@@ -87,7 +87,7 @@
       <p>2.工作日限外的时间段为（早高峰7：00至9：00，晚高峰17：30至19：30）</p>
       <p>3.法定节假日不限外，请勿申请。</p>
     </div>
-    <mt-datetime-picker ref="picker" type="date" v-model="informTime" @confirm="handleTime" :startDate="startTimeData" :endDate="endTimeData"></mt-datetime-picker>
+    <mt-datetime-picker v-if='beginPicker' ref="picker" type="date" v-model="informTime" @confirm="handleTime" :startDate="startTimeData" :endDate="endTimeData"></mt-datetime-picker>
   </div>
 </template>
 <script>
@@ -266,10 +266,12 @@
             'id': '06',
             'str': '黑牌'
           }
-        ]             // 车牌类型列表（编号转换）
+        ],             // 车牌类型列表（编号转换）
+        beginPicker: false   // 确定mint-ui时间组件在加载dom后载入
       }
     },
     mounted: function () {
+      this.beginPicker = true
       this.mtDateTimeMsg = moment().add(1, 'days').format('YYYY-MM-DD')
     },
     methods: {
