@@ -62,9 +62,10 @@
           </div>
         </li>
         <li class="alter-hbs-item">
-          <div class="alter-hbs-name"><span>预约日期</span></div>
+          <div class="alter-hbs-name"><span>{{ orderDateName }}</span></div>
           <div class="div-select">
-            <input class="btn-select bg-white" type="text" readonly placeholder="请选择预约日期"
+            <!-- 预约日期 -->
+            <input class="btn-select bg-white" type="text" readonly :placeholder="`请选择${orderDateName}`"
                    @click.stop="dateClick()" v-model="orderAllDate">
             <div class="div-select-ul date-style" v-if="dateShow">
               <ul>
@@ -74,9 +75,10 @@
           </div>
         </li>
         <li class="alter-hbs-item">
-          <div class="alter-hbs-name"><span>预约时间</span></div>
+          <div class="alter-hbs-name"><span>{{ orderTimeName }}</span></div>
           <div class="div-select">
-            <input class="btn-select bg-white" type="text" readonly placeholder="请选择预约时间"
+            <!-- 预约时间 -->
+            <input class="btn-select bg-white" type="text" readonly :placeholder="`请选择${orderTimeName}`"
                    @click.stop="selectOrderTime()" v-model="selectDetailTime">
             <div class="div-select-ul date-style" v-if="detailTimeShow">
               <ul>
@@ -132,10 +134,16 @@
         detailTimeShow: false,
         activeIndex: '',                    // 当前点击时间的li
         selectDetailTime: '',               // * 选择的具体时间
-        orderWay: ''                        // * 预约方式
+        orderWay: '',                       // * 预约方式
+        orderDateName: '预约日期',           // 预约日期
+        orderTimeName: '预约时间'            // 预约时间
       }
     },
     mounted () {
+      if (this.$route.name === 'fullmarkStudy') {
+        this.orderDateName = '预约受理日期'
+        this.orderTimeName = '预约受理时间'
+      }
     },
     computed: {
       // 获取 预约日期 请求参数
