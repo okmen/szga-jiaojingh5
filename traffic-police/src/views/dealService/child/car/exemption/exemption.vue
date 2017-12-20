@@ -36,14 +36,14 @@
             </div>
           </div>
         </li>
-        <li class="form-line">
+        <!-- <li class="form-line">
           <div class="form-line-item item-name">
             <span>行驶证编号</span>
           </div>
           <div class="form-line-item">
             <input class="text-input stylebackground" type="text" v-model="drivingLicense" value="" placeholder="请输入行驶证编号" />
           </div>
-        </li>
+        </li> -->
         <li class="form-line">
           <div class="form-line-item item-name">
             <span>手机号码</span>
@@ -135,7 +135,7 @@
             <span>{{DateTimeMsg}}</span>
           </div>
         </li>
-        <li class="form-li">
+        <!-- <li class="form-li">
           <span>保险结果告知方式</span>
         </li>
         <li class="form-li">
@@ -172,7 +172,7 @@
             <input class="text-input" type="text" name="" value="本人" readonly>
           </div>
         </li>
-        <li class="form-annotation">注:只能申请本人名下车辆</li>
+        <li class="form-annotation">注:只能申请本人名下车辆</li> -->
       </ul>
       <button class="btn btns" v-if="this.Plate" @click.stop="submitClick()">确认信息</button>
       <button class="btn btns" style="background: gray" v-if="!this.Plate">确认信息</button>
@@ -505,8 +505,8 @@ export default {
           'effectiveDate': this.mtDateTimeMsg,        // 保险生效日期
           'terminationDate': this.DateTimeMsg,        // 保险终止日期
           'inform': this.cur_place_id,                // 保险告知方式
-          'bookerName': this.appointment,             // 预约人名字
-          'bookerIdentityCard': this.appointmentID,   // 预约人身份证
+          'bookerName': window.localStorage.getItem('userName'),             // 预约人名字
+          'bookerIdentityCard': window.localStorage.getItem('identityCard'),   // 预约人身份证
           'bookerType': this.bookerType               // 预约方式
         },
         invisibleObj: {
@@ -531,9 +531,7 @@ export default {
       })
     },
     submitClick: function () {
-      if (!this.drivingLicense) {
-        Toast({message: '请输入行驶证编号', position: 'bottom', className: 'white'})
-      } else if (!this.mobile) {
+      if (!this.mobile) {
         Toast({message: '请输入手机号码', position: 'bottom', className: 'white'})
       } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobile))) {
         Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
@@ -541,10 +539,6 @@ export default {
         Toast({message: '请输入邮政编码', position: 'bottom', className: 'white'})
       } else if (!this.mailingAddress) {
         Toast({message: '请输入详细地址', position: 'bottom', className: 'white'})
-      } else if (!this.appointment) {
-        Toast({message: '请输入预约人姓名', position: 'bottom', className: 'white'})
-      } else if (!this.appointmentID) {
-        Toast({message: '请输入预约人身份证号', position: 'bottom', className: 'white'})
       } else if (this.mtDateTimeMsg > this.DateTimeMsg) {
         Toast({message: '请选择生效日期以后日期', position: 'bottom', className: 'white'})
       } else if (!this.identifying) {
