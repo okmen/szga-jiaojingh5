@@ -64,6 +64,14 @@ let newQueryLawlessRouter = [
     component: require('../views/newQueryLawless/child/appealQuery.vue')
   },
   {
+    name: 'appealQueryContent',
+    path: '/appealQueryContent',
+    meta: {
+      title: '申诉查询'
+    },
+    component: require('../views/newQueryLawless/child/appealQueryContent')
+  },
+  {
     name: 'newillegalAppealResult',
     path: '/illegalResult',
     meta: {

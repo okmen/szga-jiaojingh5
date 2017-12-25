@@ -212,14 +212,12 @@
                         })
                       }
                     } else {
-                      console.log(1111111111111111111111111111111111111111)
                       MessageBox('提示', json.msg)
                     }
                   })
                 })
               })
             } else {
-              console.log(222222222222222222222)
               MessageBox('提示', result.msg)
             }
           })

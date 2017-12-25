@@ -87,6 +87,10 @@ export const getRoad = `${commonUrl}user/getPositioningAddress.html` // 获取�
 
 export const illegalAppeal = `${commonUrl}illegalHanding/trafficIllegalAppeal.html` // 违法申诉接口
 
+export const IllegalAppealFeedback = `${commonUrl}illegalHanding/trafficIllegalAppealFeedback.html` // 违法申诉反馈查询接口
+
+export const IllegalEvaluateResult = `${commonUrl}illegalHanding/evaluateResult.html` // 申诉结果评价星级
+
 export const userAgreement = `${commonUrl}user/getDocumentationORMByNoticeKey.html` // 用户须知接口
 
 export const earlyQuery = `${commonUrl}illegalHanding/toQuerySubscribe.html` // 违法预约查询接口
