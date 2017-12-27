@@ -130,7 +130,6 @@
           licensePlateType: this.plateType,
           vehicleIdentifyNoLast4: this.vehicleIdentifyNoLast4,
           identityCard: this.identityCard,
-          sourceOfCertification: 'C',
           mobilephone: this.mobilePhone
         }
         if (window.localStorage.getItem('myNumberPlate') === 'undefined') {

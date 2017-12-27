@@ -284,6 +284,14 @@ const routes = [
     component: require('../components/submitSuccess.vue')
   },
   {
+    name: 'submitSuccessCommon',
+    path: '/submitSuccessCommon',
+    meta: {
+      title: '提交成功'
+    },
+    component: require('../components/submitSuccessCommon.vue')
+  },
+  {
     name: 'freeAbstract',
     path: '/freeAbstract',
     meta: {

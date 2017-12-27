@@ -76,8 +76,7 @@ export default {
       let reqData = {
         businessType: '3',    // 3-违法申述
         serialNumber: this.appealQueryData.iD,
-        stars: this.starValue,
-        sourceOfCertification: 'C'    // C-微信；Z-支付宝；A-移动APP
+        stars: this.starValue
       }
       resultPost(IllegalEvaluateResult, reqData).then(json => {
         if (json.code === '0000') {

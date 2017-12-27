@@ -6,10 +6,54 @@
           <div class="form-line-item item-name">
             <span>业务类型</span>
           </div>
-          <div class="form-line-item">
+          <!-- <div class="form-line-item">
             <input class="text-input" type="text" value="" v-model="name" readonly/>
+          </div> -->
+          <div class="div-select">
+            <span class="btn-select stylebackground" @click.stop="typeClick()">{{ typeMsg }}</span>
+            <div class="div-select-ul" v-if="typeShow">
+              <ul>
+                <li v-for="(item, index) in typeData" :key="index" @click.stop="typeClick(item.str, item.id)">{{ item.str }}</li>
+              </ul>
+            </div>
           </div>
         </li>
+      </ul>
+      <ul v-if="this.typeId === '2'">
+        <div class="form-line">
+          <div class="form-line-item item-name">
+            <span>RFID</span>
+          </div>
+          <div class="form-line-item">
+            <input class="text-input bg-colour" type="text" value="" v-model="rfidVal" placeholder="请输入RFID"/>
+          </div>
+        </div>
+        <div class="form-line clear">
+          <div class="form-line-item item-name">
+            <span>车牌号码</span>
+          </div>
+            <div class="div-select left" >
+              <span class="btn-select width-45" @click.stop="abbreviationSelectClick()">{{ abbreviationSelectMassage }}</span>
+              <div class="div-select-ul" v-if="abbreviationSelectShow">
+                <ul>
+                  <li v-for="item in abbreviationSelectData" @click.stop="abbreviationSelectClick(item.str, item.id)">{{item.str}}</li>
+                </ul>
+              </div>
+            </div>
+          <div class="div-select left abbreviationLeft" >
+            <span class="btn-select width-45" @click.stop="moldClick()">{{ mold }}</span>
+            <div class="div-select-ul" v-if="moldShow">
+              <ul>
+                 <li v-for="item in moldData" @click.stop="moldClick(item.str, item.id)">{{item.str}}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="width-53 right">
+            <input class="text-input bg-colour" type="text" v-model="numberPlate" name="" value="" maxlength="5" placeholder="请输入车牌号码" >
+          </div>
+        </div>
+      </ul>
+      <ul v-else>
         <li class="form-line">
           <div class="form-line-item item-name">
             <span>申请类型</span>
@@ -31,7 +75,6 @@
             <input class="text-input bg-colour" type="text" value="" v-model="monadName" placeholder="请输入单位名称"/>
           </div>
         </li>
-
         <li class="form-line clear">
           <div class="form-line-item item-name">
             <span>车牌号码</span>
@@ -162,7 +205,6 @@
               <input class="text-input bg-colour" type="text" value="" v-model="ownerMobile" placeholder="请输入车主联系电话"/>
             </div>
           </li>
-          </li>
         </template>
         <li class="form-line">
           <div class="form-line-item item-name width-40">
@@ -205,7 +247,7 @@
           </li>
         </template>
       </ul>
-      <div class="upload-photo">
+      <div class="upload-photo" v-if="this.typeId === '1'">
         <div v-show="ownerid == '2'">
           <div>上传证件照片</div>
           <div class="upload-all-img">
@@ -292,7 +334,8 @@
         </div>
       </div>
     </div>
-    <button class="btn btns" @click.stop="subFn()">提交</button>
+    <button class="btn btns" @click.stop="typeSubFn()" v-if="typeId === '2'">提交</button>
+    <button class="btn btns" @click.stop="subFn()" v-else>提交</button>
     <!-- <mt-datetime-picker ref="picker" type="date" v-model="informTime" @confirm=""></mt-datetime-picker> -->
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -300,7 +343,7 @@
 
 <script>
 import { resultPost } from '../../service/getData'
-import { informationCollection } from '../../config/baseUrl'
+import { informationCollection, informationCollection2 } from '../../config/baseUrl'
 import UploadFile from '../../service/uploadFile'
 import VDistpicker from 'v-distpicker'
 import { mapActions } from 'vuex'
@@ -500,6 +543,19 @@ export default {
       imgOne7: require('../../images/license-card.png'),
       imgOne8: require('../../images/drivinglicense.png'),
       imgOne9: require('../../images/ID-organizations.png'),
+      typeShow: false,             // 业务类型选择
+      typeMsg: '柴油轻型自卸货车(新申请)',
+      typeId: '1',
+      typeData: [
+        {
+          'id': '1',
+          'str': '柴油轻型自卸货车(新申请)'
+        },
+        {
+          'id': '2',
+          'str': '绑定已有的RFID'
+        }
+      ],
       ownerShow: false,
       ownerTimeMsg: '单位车辆',
       ownerid: '2',
@@ -513,6 +569,7 @@ export default {
           'longName': '个人车辆(含挂靠)'
         }
       ],
+      rfidVal: '',      // RFID值
       handShow: false,
       handCarName: '是',
       handid: '1',   // 是否是挂靠车
@@ -625,6 +682,14 @@ export default {
       } else {
         this.moldShow = true
       }
+    },
+    // 业务类型
+    typeClick: function (str, id) {
+      if (str) {
+        this.typeMsg = str
+        this.typeId = id
+      }
+      this.typeShow = !this.typeShow
     },
     // 申请类型
     ownerClick: function (str, id) {
@@ -805,6 +870,20 @@ export default {
         }
       })
     },
+    typeSubFn: function () {
+      if (!this.numberPlate) {
+        Toast({message: '请输入车牌号码', position: 'bottom', className: 'white'})
+        return
+      }
+      if (!this.rfidVal) {
+        Toast({message: '请输入RFID', position: 'bottom', className: 'white'})
+        return
+      } else {
+        MessageBox.confirm('您是否确认提交').then(action => {
+          this.typeSubFnData()
+        }).catch(() => {})
+      }
+    },
     subFn: function () {
       if (!this.numberPlate) {
         Toast({message: '请输入车牌号码', position: 'bottom', className: 'white'})
@@ -878,6 +957,33 @@ export default {
           })
         }
       }
+    },
+    typeSubFnData: function () {
+      let reqData = {
+        licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`,
+        numberPlate: '02',
+        rfId: this.rfidVal,
+        loginUser: window.localStorage.getItem('identityCard'),
+        mobilePhone: window.localStorage.getItem('mobilePhone')
+      }
+      resultPost(informationCollection2, reqData).then(json => {
+        if (json.code === '0000') {
+          console.log(json.data)
+          let dataInfo = {
+            state: '1',
+            businessType: '绑定已有的RFID',
+            rfid: this.rfidVal,
+            licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`
+          }
+          this.$store.commit('saveSuccessInfo', dataInfo)
+          this.$router.push('/submitSuccess')
+        } else {
+          MessageBox({
+            title: '提示',
+            message: json.msg
+          })
+        }
+      })
     },
     subFnData: function () {
       let dieselData

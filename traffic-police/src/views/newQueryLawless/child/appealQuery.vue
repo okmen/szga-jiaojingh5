@@ -3,10 +3,10 @@
  -->
 <template>
   <div>
-    <div class="nav">
+    <!-- <div class="nav">
       <div class="nav-tab" :class="{ 'active': cur_tab == 'appeal'}" @click="cur_tab = 'appeal'">交通违法申诉</div>
       <div class="nav-tab" :class="{ 'active': cur_tab == 'query'}" @click="illegalAppealEvent">申诉查询</div>
-    </div>
+    </div> -->
     <div class="appealQuery-outer" v-if="cur_tab == 'appeal'">
       <div class="appealForm">
         <div class="form-item">

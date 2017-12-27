@@ -32,6 +32,14 @@ let dieselEngineTrucks = [
     component: require('../views/dieselEngineTrucks/dieseDemand.vue')
   },
   {
+    name: 'dieseDemandMyCar',
+    path: '/dieseDemandMyCar',
+    meta: {
+      title: '业务查询'
+    },
+    component: require('../views/dieselEngineTrucks/dieseDemandMyCar.vue')
+  },
+  {
     name: 'dieseInquire',
     path: '/dieseInquire',
     meta: {

@@ -78,6 +78,13 @@
       <p>车牌号码：{{JsonDataInfo.licenseNumber}}</p>
       <p>流水号：{{JsonDataInfo.JsonData}}</p>
     </section>
+    <section class="bid-box appoint-box" v-if="JsonDataInfo.type == 5">
+      <h3>申办结果</h3>
+      <p>您的信息已提交成功，结果将另行通知</p>
+      <p>业务类型：绑定已有的RFID</p>
+      <p>RFID号码：{{JsonDataInfo.rfid}}</p>
+      <p>车牌号码：{{JsonDataInfo.licenseNumber}}</p>
+    </section>
     <div class="btn-appoint-backword" @click="btnBackword" v-if="!urlJsonData && JsonDataInfo.type == 1">返回</div>
     <div class="btn-appoint-backword mt-60" @click="btnBackword"  v-if="!urlJsonData && JsonDataInfo.type != 1">好的</div>
     <page-bottom v-if="isWeChat"></page-bottom>
@@ -131,7 +138,8 @@ export default {
         orgAddr: '预约地址',
         appointmentDate: '预约日期',
         appointmentTime: '预约时间',
-        name: '预约人'
+        name: '预约人',
+        rfId: 'RFID号码'
       },
       valListObj: {
         cartype: {
@@ -293,6 +301,7 @@ export default {
   },
   mounted () {
     this.JsonDataInfo = this.urlJsonData ? this.urlJsonData : this.dataInfo
+    console.log(this.JsonDataInfo)
   }
 }
 </script>
