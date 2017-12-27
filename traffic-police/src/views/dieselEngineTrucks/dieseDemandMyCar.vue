@@ -6,6 +6,7 @@
         <p>车辆类型&nbsp;:&nbsp;{{typeData[item.numberPlate]}}</p>
       </li>
     </ul>
+    <p class="txt-noMsg" v-if="dieseDemandData.length === 0">未查询到相关数据</p>
   </div>
 </template>
 
@@ -18,7 +19,7 @@ export default {
   data () {
     return {
       loginUser: window.localStorage.getItem('identityCard'),
-      dieseDemandData: {},
+      dieseDemandData: [],
       typeData: numberType
     }
   },
@@ -46,12 +47,12 @@ export default {
     margin-bottom: 20px;
     padding: 40px;
     background-color: #fff;
-  }
-  p {
-    font-size: 28px;
-    margin: 10px 0;
-    &:first-child {
-      margin-bottom: 40px;
+    p {
+      font-size: 28px;
+      margin: 10px 0;
+      &:first-child {
+        margin-bottom: 40px;
+      }
     }
   }
   img {
@@ -59,6 +60,9 @@ export default {
     width: 48px;
     height: 48px;
     vertical-align: middle;
+  }
+  .txt-noMsg {
+    text-align: center;
   }
 }
 </style>

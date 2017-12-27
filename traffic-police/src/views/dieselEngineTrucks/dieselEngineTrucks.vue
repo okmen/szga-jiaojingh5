@@ -972,11 +972,11 @@ export default {
           let dataInfo = {
             state: '1',
             businessType: '绑定已有的RFID',
-            rfid: this.rfidVal,
+            rfId: this.rfidVal,
             licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
-          this.$router.push('/submitSuccess')
+          this.$router.push('/submitSuccessCommon')
         } else {
           MessageBox({
             title: '提示',
