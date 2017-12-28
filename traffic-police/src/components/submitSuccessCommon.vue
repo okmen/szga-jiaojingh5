@@ -30,8 +30,9 @@
       </ul>
     </section>
     <section class="bid-box appoint-box" v-else>
-      <p>{{ JsonDataInfo.message }}</p>
+      <p>{{ messageList[JsonDataInfo.state] }}</p>
     </section>
+    <div class="btn-appoint-backword mt-60" @click="btnBackword">好的</div>
   </div>
 </template>
 <script>
@@ -57,10 +58,16 @@ export default {
         licenseNumber: '车牌号码',
         rfId: 'RFID号码'
       },
+      messageList: {
+        '2': '您的电子通行证已经生效，车辆可以按照《深圳市公安局交通警察关于进一步加强轻型自卸货车交通管理的通告》，请遵守交通法律法规，留意交警部门新的通告变化'
+      },
       valListObj: {}
     }
   },
   methods: {
+    btnBackword: function () {
+      this.$router.push('/')
+    },
     urlToJson: function (url) {
       if (!url.split('?')[1]) {
         return false
@@ -160,6 +167,17 @@ export default {
     h3{
       border-color: #969696;
     }
+  }
+  .btn-appoint-backword{
+    margin:40px auto 0;
+    width:550px;
+    height:82px;
+    background:#2696dd;
+    color:#FFF;
+    font-size:30px;
+    line-height:80px;
+    text-align:center;
+    border-radius:8px;
   }
 }
 </style>

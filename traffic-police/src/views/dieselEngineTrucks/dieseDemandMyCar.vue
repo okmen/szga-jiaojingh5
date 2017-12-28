@@ -3,10 +3,12 @@
     <ul>
       <li v-for="(item, index) of dieseDemandData" :key="index">
         <p><img src="../../images/certificates.png" alt=""><span>{{item.licenseNumber}}</span></p>
-        <p>车辆类型&nbsp;:&nbsp;{{typeData[item.numberPlate]}}</p>
+        <p>车牌类型&nbsp;:&nbsp;{{typeData[item.numberPlate]}}</p>
+        <p>rfid&nbsp;:&nbsp;{{item.rfId}}</p>
+        <p>车辆类型&nbsp;:&nbsp;{{cartype[item.carType]}}</p>
       </li>
     </ul>
-    <p class="txt-noMsg" v-if="dieseDemandData.length === 0">未查询到相关数据</p>
+    <p class="txt-noMsg" v-if="isShowMsg">未查询到相关数据</p>
   </div>
 </template>
 
@@ -20,21 +22,26 @@ export default {
     return {
       loginUser: window.localStorage.getItem('identityCard'),
       dieseDemandData: [],
-      typeData: numberType
+      typeData: numberType,
+      isShowMsg: false,
+      cartype: {
+        'H37': '轻型自卸货车'
+      }
     }
   },
   mounted () {
-    this.$nextTick(function () {
-      let reqData = {
-        loginUser: this.loginUser
-      }
-      resultPost(queryInformationCollection2, reqData).then(json => {
-        if (json.code === '0000') {
-          this.dieseDemandData = json.data
-        } else {
-          Toast({message: json.msg, position: 'bottom', className: 'white'})
+    let reqData = {
+      loginUser: this.loginUser
+    }
+    resultPost(queryInformationCollection2, reqData).then(json => {
+      if (json.code === '0000') {
+        this.dieseDemandData = json.data
+        if (this.dieseDemandData.length === 0) {
+          this.isShowMsg = true
         }
-      })
+      } else {
+        Toast({message: json.msg, position: 'bottom', className: 'white'})
+      }
     })
   }
 }

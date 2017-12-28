@@ -964,16 +964,18 @@ export default {
         numberPlate: '02',
         rfId: this.rfidVal,
         loginUser: window.localStorage.getItem('identityCard'),
-        mobilePhone: window.localStorage.getItem('mobilePhone')
+        mobilePhone: window.localStorage.getItem('mobilePhone'),
+        carType: 'H37'
       }
       resultPost(informationCollection2, reqData).then(json => {
         if (json.code === '0000') {
           console.log(json.data)
           let dataInfo = {
-            state: '1',
-            businessType: '绑定已有的RFID',
-            rfId: this.rfidVal,
-            licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`
+            // state: '1',
+            // businessType: '绑定已有的RFID',
+            // rfId: this.rfidVal,
+            // licenseNumber: `${this.abbreviationSelectMassage}${this.mold}${this.numberPlate}`
+            state: '2'
           }
           this.$store.commit('saveSuccessInfo', dataInfo)
           this.$router.push('/submitSuccessCommon')
