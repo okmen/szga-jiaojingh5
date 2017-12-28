@@ -4,7 +4,7 @@
       <li v-for="(item, index) of dieseDemandData" :key="index">
         <p><img src="../../images/certificates.png" alt=""><span>{{item.licenseNumber}}</span></p>
         <p>车牌类型&nbsp;:&nbsp;{{typeData[item.numberPlate]}}</p>
-        <p>rfid&nbsp;:&nbsp;{{item.rfId}}</p>
+        <p>车辆卡号&nbsp;:&nbsp;{{item.rfId}}</p>
         <p>车辆类型&nbsp;:&nbsp;{{cartype[item.carType]}}</p>
       </li>
     </ul>
