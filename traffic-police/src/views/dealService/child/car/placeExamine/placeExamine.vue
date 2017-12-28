@@ -65,7 +65,7 @@
               <span>受托机构</span>
             </div>
             <div class="div-select">
-              <span class="btn-select stylebackground" @click.stop="trusteeOrganisation()">{{ trusteeTimeMsg }}</span>
+              <span class="btn-select stylebackground" @click.stop="trusteeOrganisation()"><span v-if="!trusteeTimeMsg"  style="color: #999">请选择受托机构</span>{{ trusteeTimeMsg }}</span>
               <div class="div-select-ul" v-if="trusteeShow">
                 <ul>
                   <li v-for="item in trusteeData" @click.stop="trusteeOrganisation(item.longName, item.shortName)">{{item.longName}}</li>
@@ -198,8 +198,8 @@ export default {
         '52': '新能源小型车'
       },
       trusteeShow: false,                    // 受托机构下拉框
-      trusteeTimeMsg: '藏A:拉萨市公安局交通警察支队车辆管理所',
-      cur_place_id: '藏A',                   // 默认受托机关字段
+      trusteeTimeMsg: '',
+      cur_place_id: '',                   // 默认受托机关字段
       trusteeData: '',
       areaSelectShow: false,
       areaSelectMassage: '福田区',
@@ -394,6 +394,8 @@ export default {
         Toast({message: '请输入身份证', position: 'bottom', className: 'white'})
       } else if (!this.name) {
         Toast({message: '请输入车姓名', position: 'bottom', className: 'white'})
+      } else if (!this.trusteeTimeMsg) {
+        Toast({message: '请选择受托机构', position: 'bottom', className: 'white'})
       } else if (!this.postalcode) {
         Toast({message: '请输入邮政编码', position: 'bottom', className: 'white'})
       } else if (!this.mailingAddress) {
