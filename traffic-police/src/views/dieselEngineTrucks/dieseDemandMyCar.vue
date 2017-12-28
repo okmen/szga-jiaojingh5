@@ -6,6 +6,7 @@
         <p>车牌类型&nbsp;:&nbsp;{{typeData[item.numberPlate]}}</p>
         <p>车辆卡号&nbsp;:&nbsp;{{item.rfId}}</p>
         <p>车辆类型&nbsp;:&nbsp;{{cartype[item.carType]}}</p>
+        <p>车辆状态&nbsp;:&nbsp;已通过</p>
       </li>
     </ul>
     <p class="txt-noMsg" v-if="isShowMsg">未查询到相关数据</p>
