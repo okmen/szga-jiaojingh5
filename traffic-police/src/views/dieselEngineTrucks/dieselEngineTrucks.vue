@@ -20,38 +20,36 @@
         </li>
       </ul>
       <ul v-if="this.typeId === '2'">
-        <div class="form-line">
-          <div class="form-line-item item-name">
-            <span>RFID</span>
-          </div>
-          <div class="form-line-item">
-            <input class="text-input bg-colour" type="text" value="" v-model="rfidVal" placeholder="请输入RFID"/>
-          </div>
-        </div>
         <div class="form-line clear">
           <div class="form-line-item item-name">
             <span>车牌号码</span>
           </div>
             <div class="div-select left" >
-              <span class="btn-select width-45" @click.stop="abbreviationSelectClick()">{{ abbreviationSelectMassage }}</span>
-              <div class="div-select-ul" v-if="abbreviationSelectShow">
-                <ul>
-                  <li v-for="item in abbreviationSelectData" @click.stop="abbreviationSelectClick(item.str, item.id)">{{item.str}}</li>
-                </ul>
-              </div>
+              <span class="btn-select width-45">{{ abbreviationSelectMassage }}</span>
             </div>
           <div class="div-select left abbreviationLeft" >
-            <span class="btn-select width-45" @click.stop="moldClick()">{{ mold }}</span>
-            <div class="div-select-ul" v-if="moldShow">
-              <ul>
-                 <li v-for="item in moldData" @click.stop="moldClick(item.str, item.id)">{{item.str}}</li>
-              </ul>
-            </div>
+            <span class="btn-select width-45">{{ mold }}</span>
           </div>
           <div class="width-53 right">
             <input class="text-input bg-colour" type="text" v-model="numberPlate" name="" value="" maxlength="5" placeholder="请输入车牌号码" >
           </div>
         </div>
+        <div class="form-line">
+          <div class="form-line-item item-name">
+            <span>rfid号码</span>
+          </div>
+          <div class="form-line-item">
+            <input class="text-input bg-colour" type="text" value="" v-model="rfidVal" placeholder="请输入rfid车号"/>
+          </div>
+        </div>
+        <li class="form-line">
+          <div class="form-line-item item-name">
+            <span>车架号</span>
+          </div>
+          <div class="form-line-item">
+            <input class="text-input bg-colour" type="text" value="" maxlength="4" v-model="vehicleIdentificationNumber" placeholder="请输入车架号后4位"/>
+          </div>
+        </li>
       </ul>
       <ul v-else>
         <li class="form-line">
@@ -553,7 +551,7 @@ export default {
         },
         {
           'id': '2',
-          'str': '绑定已有的RFID'
+          'str': '已装rfid车辆绑定'
         }
       ],
       ownerShow: false,
@@ -965,6 +963,7 @@ export default {
         rfId: this.rfidVal,
         loginUser: window.localStorage.getItem('identityCard'),
         mobilePhone: window.localStorage.getItem('mobilePhone'),
+        cjh4: this.vehicleIdentificationNumber,
         carType: 'H37'
       }
       resultPost(informationCollection2, reqData).then(json => {
