@@ -32,7 +32,7 @@
     <section class="bid-box appoint-box" v-else>
       <p>{{ messageList[JsonDataInfo.state] }}</p>
     </section>
-    <div class="btn-appoint-backword mt-60" @click="btnBackword">好的</div>
+    <div class="btn-appoint-backword mt-60" @click="btnBackword" v-if="!urlJsonData">好的</div>
   </div>
 </template>
 <script>

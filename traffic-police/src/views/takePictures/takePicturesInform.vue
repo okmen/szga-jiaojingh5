@@ -109,7 +109,16 @@
       <!-- <router-link to="takePicturesTips">点击查看温馨提示</router-link> -->
     </div>
     <div v-wechat-title="$route.meta.title"></div>
-    <mt-datetime-picker ref="picker" v-model="informTime" @confirm="handleTime"></mt-datetime-picker>
+    <mt-datetime-picker
+      ref="picker"
+      v-model="informTime"
+      @confirm="handleTime"
+      year-format="{value} 年"
+      month-format="{value} 月"
+      date-format="{value} 日"
+      hour-format="{value} 时"
+      minute-format="{value} 分"
+    ></mt-datetime-picker>
   </div>
 </template>
 <script>
