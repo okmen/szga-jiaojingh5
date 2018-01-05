@@ -6,7 +6,6 @@
     <div>
       {{cardBagData}}
     </div>
-
   </div>
 </template>
 <script>

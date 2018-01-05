@@ -331,6 +331,14 @@ const routes = [
     },
     component: require('../views/testCardBag')
   },
+  {
+    name: 'activateSuccess',
+    path: '/activateSuccess',
+    meta: {
+      name: '添加成功'
+    },
+    component: require('../views/testCardBag/activateSuccess')
+  },
   // 星级用户验证问题反馈
   {
     name: 'issueFeedback',
