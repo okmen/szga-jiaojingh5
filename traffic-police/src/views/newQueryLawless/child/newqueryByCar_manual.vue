@@ -97,7 +97,7 @@
         isMineCar: window.localStorage.myNumberPlate === 'undefined' ? false : window.localStorage.myNumberPlate,
         claimList: {
           '0': '直接缴款',
-          '1': '需要打单',
+          '1': '去处理', // 需要打单
           '2': '需要前往窗口办理'
         },       // 返回-是否需要打单（编号转换）
         myIllegalData: [],                    // 返回-查询我的违章

@@ -21,7 +21,7 @@
             <p class="newLawlessMsg-item-content-unit">{{ item.illegalUnit }}</p>
             <p class="newLawlessMsg-item-content-text" v-if="!$route.query.login"><span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2, isQuery: $route.query.type === 'query', isLink: item.isNeedClaim == 0 }" @click="clickJump(item)">{{ claimList[item.isNeedClaim] }}</span></p>
             <div class="newLawlessMsg-item-btn" v-if="!$route.query.login">
-              <button v-if="item.description && isBoolean2(item.description)" @click="punishFreeDesc(item)">申请首违免罚</button>
+              <!-- <button v-if="item.description && isBoolean2(item.description)" @click="punishFreeDesc(item)">申请首违免罚</button> -->
               <button v-if="isBoolean(item.licensePlateNo, item.illegalUnit)" @click="hrefFn(item)">违法申诉</button>
               <button v-if="item.imgQueryCode && isLogin(item.licensePlateNo)" @click="illegalImgBtn(item.imgQueryCode)">查看违法图片</button>
             </div>
@@ -58,7 +58,7 @@
       claimList () {
         return {
           '0': '直接缴款',
-          '1': this.$route.query.type === 'query' ? '请去《交通违法在线处理》确认打单' : '需要打单',
+          '1': this.$route.query.type === 'query' ? '请去《交通违法在线处理》确认打单' : '去处理',
           '2': '需要前往窗口办理',
           '3': '可使用好易机处理(需持有广东驾驶证)',
           '4': '使用好易机处理(需持有广东驾驶证)',
