@@ -82,7 +82,7 @@ function wxConfig() {
     if (r.code == '0000') {
       var res = r.data;
       wx.config({
-        debug: true,
+        debug: false,
         appId: res.appId,
         timestamp: res.timestamp,
         nonceStr: res.noncestr,

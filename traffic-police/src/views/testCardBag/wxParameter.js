@@ -33,7 +33,7 @@ export const addCard = (type) => {
 export const openCard = (that) => {
   wx.openCard({
     cardList: [{
-      cardId: that.$route.query.type === 1 ? cardParameter.drive : cardParameter.travel,
+      cardId: that.$route.query.type === '1' ? cardParameter.drive : cardParameter.travel,
       code: that.$route.query.code
     }]
   })
