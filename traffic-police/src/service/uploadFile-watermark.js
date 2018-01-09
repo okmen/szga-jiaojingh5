@@ -32,9 +32,11 @@ const UploadFile = {
 			if(f){
 				Indicator.open('上传中...');
 				EXIF.getData(f, function() {
-			        imgObj.dateTime = EXIF.getTag(this,'DateTime') || '';
-			        imgObj.GPSLongitude = EXIF.getTag(this,'GPSLongitude') ? transLongAndLat(EXIF.getTag(this,'GPSLongitude')) : '';
-			        imgObj.GPSLatitude = EXIF.getTag(this,'GPSLatitude') ? transLongAndLat(EXIF.getTag(this,'GPSLatitude')) : '' ;
+					 	console.log(EXIF.pretty(this))
+					 	console.log(EXIF.getData(this))
+		        imgObj.dateTime = EXIF.getTag(this,'DateTime') || '';
+		        imgObj.GPSLongitude = EXIF.getTag(this,'GPSLongitude') ? transLongAndLat(EXIF.getTag(this,'GPSLongitude')) : '';
+		        imgObj.GPSLatitude = EXIF.getTag(this,'GPSLatitude') ? transLongAndLat(EXIF.getTag(this,'GPSLatitude')) : '' ;
 			    });
 				if (window.FileReader) {
 					var fr = new FileReader();  
