@@ -82,12 +82,13 @@ function wxConfig() {
     if (r.code == '0000') {
       var res = r.data;
       wx.config({
-        debug: false,
+        debug: true,
         appId: res.appId,
         timestamp: res.timestamp,
         nonceStr: res.noncestr,
         signature: res.signature,
         jsApiList: [
+          'openCard',
           'scanQRCode',
           'getLocation',
           'addCard',
