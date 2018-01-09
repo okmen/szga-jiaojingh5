@@ -35,7 +35,7 @@
     </mt-swipe>
     <div class="addCar-box">
       <router-link to="addVehicle" class="add-car btn">添加车辆</router-link>
-      <div  class="add-car btn draw-credentials" @click="drawCredentials">领取电子行驶证</div>
+      <div  class="add-car btn draw-credentials" @click="drawCredentials" v-if="carMsg.length>0">领取电子行驶证</div>
     </div>
   </div>
 </template>
