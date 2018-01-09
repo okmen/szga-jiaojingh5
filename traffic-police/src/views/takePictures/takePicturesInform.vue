@@ -63,15 +63,15 @@
       <div class="tp-photo-left">上传照片</div>
       <div class="tp-photo-right">
         <label class="tp-photo-1" for="file1">
-          <input id="file1" type="file" accept="image/*" >
+          <input id="file1" type="file" accept="image/*" capture="camera">
           <img :src="imgOne">
         </label>
         <label class="tp-photo-1" for="file2">
-          <input id="file2" type="file" accept="image/*">
+          <input id="file2" type="file" accept="image/*" capture="camera">
           <img :src="imgTwo">
         </label>
         <label class="tp-photo-1" for="file3">
-          <input id="file3" type="file" accept="image/*">
+          <input id="file3" type="file" accept="image/*" capture="camera">
           <img :src="imgThree">
         </label>
       </div>
