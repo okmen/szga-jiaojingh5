@@ -88,6 +88,7 @@ function wxConfig() {
         nonceStr: res.noncestr,
         signature: res.signature,
         jsApiList: [
+          'openCard',
           'scanQRCode',
           'getLocation',
           'addCard',

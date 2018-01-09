@@ -11,6 +11,7 @@
 <script>
   import {resultPost} from '../../service/getData'
   import wx from 'weixin-js-sdk'
+  import wxParameter from './wxParameter'
   export default {
     data () {
       return {
@@ -27,7 +28,7 @@
       getData () {
         var that = this
         let requestData = {
-          cardId: 'pILMDwI0YyTv1ikElE4IOHDxU00I'
+          cardId: wxParameter.cardId
         }
         resultPost('http://testjava.chudaokeji.com/h5/cardConfig.html', requestData).then(data => {
           console.log(data)

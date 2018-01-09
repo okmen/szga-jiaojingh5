@@ -35,6 +35,7 @@
     </mt-swipe>
     <div class="addCar-box">
       <router-link to="addVehicle" class="add-car btn">添加车辆</router-link>
+      <div  class="add-car btn draw-credentials" @click="drawCredentials">领取电子行驶证</div>
     </div>
   </div>
 </template>
@@ -152,6 +153,9 @@
         font-weight: bold;
         width: 70%;
       }
+      .draw-credentials{
+        margin-top: 40px;
+      }
     }
   }
   #car-swipe-box{
@@ -168,6 +172,7 @@
   import { bindCar, queryLawlessByCar, unbindTheOtherDriverUseMyCar, unbindVehicle } from '../../../config/baseUrl'
   import { resultPost } from '../../../service/getData'
   import { Indicator, MessageBox, Toast } from 'mint-ui'
+  import {addCard} from '../../testCardBag/wxParameter'
   import { mapActions } from 'vuex'
   export default {
     name: 'myCar',
@@ -247,6 +252,9 @@
             })
           }
         })
+      },
+      drawCredentials () {
+        addCard('travel')
       },
       unbindMyCar: function (item) {
         MessageBox.confirm('确定解绑车辆?').then(action => {

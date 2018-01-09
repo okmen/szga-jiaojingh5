@@ -335,9 +335,17 @@ const routes = [
     name: 'activateSuccess',
     path: '/activateSuccess',
     meta: {
-      name: '添加成功'
+      name: '激活成功'
     },
     component: require('../views/testCardBag/activateSuccess')
+  },
+  {
+    name: 'activateFail',
+    path: '/activateFail',
+    meta: {
+      name: '激活失败'
+    },
+    component: require('../views/testCardBag/activateFail')
   },
   // 星级用户验证问题反馈
   {

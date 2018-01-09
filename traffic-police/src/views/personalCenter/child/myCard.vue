@@ -25,6 +25,7 @@
       </ul>
       <!--<div class="own-card">{{ isReceive }}</div>-->
     </div>
+    <div class="draw-credentials btn" @click="drawCredentials">领取电子驾驶证</div>
   </div>
   <div v-else>
     <DriverCardNone></DriverCardNone>
@@ -34,6 +35,16 @@
   .myCard-outer {
     margin-top: 40px;
     padding:0 50px;
+    .draw-credentials{
+      width: 70%;
+      background-color: #55b737;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /*height: 60px;*/
+      color: white;
+      margin: 50px auto 0;
+    }
     .card-box {
       font-size: 0.9rem;
       padding: 20px 40px;
@@ -68,6 +79,8 @@
   import { bindCard, noPwdLogin } from '../../../config/baseUrl'
   import { resultPost, resultPostNoLoading } from '../../../service/getData'
   import { Indicator, Toast } from 'mint-ui'
+  import {addCard} from '../../testCardBag/wxParameter'
+
   export default {
     name: 'myCard',
     data () {
@@ -86,6 +99,11 @@
     },
     components: {
       DriverCardNone: require('./DriverCardNone.vue')
+    },
+    methods: {
+      drawCredentials () {
+        addCard('drive')
+      }
     },
     mounted () {
       let reqData = {
