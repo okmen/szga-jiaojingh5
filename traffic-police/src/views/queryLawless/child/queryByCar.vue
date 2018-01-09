@@ -161,7 +161,7 @@
         isMineCar: window.localStorage.myNumberPlate === 'undefined' ? false : window.localStorage.myNumberPlate,
         claimList: {
           '0': '直接缴款',
-          '1': '需要打单',
+          '1': '去处理', // 需要打单
           '2': '需要前往窗口办理',
           '3': '可好易处理(需持有广东驾驶证)',
           '4': '必须好易处理(需持有广东驾驶证)',
