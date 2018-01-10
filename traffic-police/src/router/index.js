@@ -324,14 +324,6 @@ const routes = [
     component: require('../views/starUser/registerChoose')
   },
   {
-    name: 'testCardBag',
-    path: '/testCardBag',
-    meta: {
-      name: '测试卡包'
-    },
-    component: require('../views/testCardBag')
-  },
-  {
     name: 'activateSuccess',
     path: '/activateSuccess',
     meta: {
@@ -363,6 +355,22 @@ const routes = [
       name: '缴费成功'
     },
     component: require('../components/paymentSucceed.vue')
+  },
+  {
+    name: 'yetBindingCar',
+    path: '/yetBindingCar',
+    meta: {
+      name: '已绑车辆'
+    },
+    component: resolve => require(['../views/personalCenter/child/yetBindingCar'], resolve)
+  },
+  {
+    name: 'carDetail',
+    path: '/carDetail',
+    meta: {
+      name: '车辆详情'
+    },
+    component: resolve => require(['../views/personalCenter/child/carDetail'], resolve)
   },
   {
     name: 'twiceFaceSwiping',
