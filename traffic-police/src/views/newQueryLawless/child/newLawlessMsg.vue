@@ -20,10 +20,12 @@
             <p class="newLawlessMsg-item-content-score">{{ item.punishScore }}</p>
             <p class="newLawlessMsg-item-content-unit">{{ item.illegalUnit }}</p>
             <p class="newLawlessMsg-item-content-text" v-if="!$route.query.login"><span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2, isQuery: $route.query.type === 'query', isLink: item.isNeedClaim == 0 }" @click="clickJump(item)">{{ claimList[item.isNeedClaim] }}</span></p>
+            <p class="newLawlessMsg-item-content-textNO" v-if="$route.query.login"><span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2, isQuery: $route.query.type === 'query', isLink: item.isNeedClaim == 0 }" >{{ claimList[item.isNeedClaim] }}</span></p>
             <div class="newLawlessMsg-item-btn" v-if="!$route.query.login">
               <!-- <button v-if="item.description && isBoolean2(item.description)" @click="punishFreeDesc(item)">申请首违免罚</button> -->
+              <button class="reviewImages" v-if="item.imgQueryCode && isLogin(item.licensePlateNo)" @click="illegalImgBtn(item.imgQueryCode)">查看违法图片</button>
+              <div></div>
               <button v-if="isBoolean(item.licensePlateNo, item.illegalUnit)" @click="hrefFn(item)">违法申诉</button>
-              <button v-if="item.imgQueryCode && isLogin(item.licensePlateNo)" @click="illegalImgBtn(item.imgQueryCode)">查看违法图片</button>
             </div>
           </div>
         </li>
@@ -280,6 +282,7 @@
       padding: 35px 50px 100px;
       background-color: #fff;
       li{
+        margin-top: 30px;
         border: 1px solid #2696dd;
         .newLawlessMsg-item-title{
           padding: 0 30px;
@@ -295,6 +298,7 @@
         }
         .newLawlessMsg-item-content{
           padding: 15px 35px;
+          position: relative;
           p{
             line-height: 32px;
             padding-left: 55px;
@@ -310,6 +314,21 @@
               font-weight: 600;
               text-decoration: underline;
               color: #2696dd;
+            }
+            span.isQuery{
+              text-decoration: none;
+              color: #000;
+              font-weight: normal;
+              font-size: 26px;
+            }
+          }
+          .newLawlessMsg-item-content-textNO{
+            padding-left: 0;
+            .isBtn, span.isLink.isQuery{
+              font-size: 30px;
+              font-weight: 600;
+              text-decoration: underline;
+              color: #ccc;
             }
             span.isQuery{
               text-decoration: none;
@@ -429,6 +448,11 @@
               background-size: cover;
             }
           }
+          .reviewImages {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+          }
           .newLawlessMsg-item-btn{
             display: flex;
             justify-content: space-between;
@@ -445,6 +469,9 @@
             }
           }
         }
+      }
+      li:first-child {
+        margin-top: 0;
       }
     }
   }
