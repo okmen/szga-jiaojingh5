@@ -1,7 +1,7 @@
 <template>
  <div id="takePhotoTips">
     <div class="tp-title">
-      随手拍举报温馨提示
+      举报交通违法行为注意事项
     </div>
    <div class="tp-tips-intro">
      <p>
@@ -28,8 +28,8 @@
        </p>
      </div>
      <div class="tp-inform-box">
-       <router-link to="/userAgreement/wfsspjbzy">举报范围说明</router-link>
-       <router-link to="/userAgreement/sspjbzysx">举报注意事项</router-link>
+       <router-link to="/userAgreement/wfsspjbzy">有奖举报范围及奖励金额</router-link>
+       <router-link to="/userAgreement/sspjbzysx">奖金领取须知</router-link>
      </div>
    </div>
    <div class="tp-read">
