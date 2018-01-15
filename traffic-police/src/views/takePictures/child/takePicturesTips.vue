@@ -1,9 +1,9 @@
 <template>
  <div id="takePhotoTips">
     <div class="tp-title">
-      举报交通违法行为注意事项
+      {{getNoticeTitle}}
     </div>
-   <div class="tp-tips-intro">
+<!--    <div class="tp-tips-intro">
     <p>
       一、举报须如实，捏造事实进行虚假举报的，将承担相应法律责任。
     </p>
@@ -28,6 +28,10 @@
     <p>
       八、其他未尽事宜，由深圳市公安局交通警察局具最终解释权。
     </p>
+   </div> -->
+    <div class="tp-tips-intro" v-html="userAgreementCon"></div>
+   <div>
+     
    </div>
    <div class="tp-red-packet">
      <div class="tp-inform-box">
@@ -52,11 +56,26 @@
 </template>
 <script>
 import { Toast } from 'mint-ui'
+import { resultPost } from '../../../service/getData'
+import { userAgreement } from '../../../config/baseUrl'
 export default {
   data () {
     return {
-      checked: ''
+      checked: '',
+      getNoticeTitle: '',
+      userAgreementCon: ''
+
     }
+  },
+  mounted: function () {
+    let userAgreementData = {
+      noticeKey: 'sspjbgz'
+    }
+    resultPost(userAgreement, userAgreementData).then(json => { // 调取随手拍举报接口
+      console.log(json)
+      this.getNoticeTitle = json.data.title
+      this.userAgreementCon = json.data.content
+    })
   },
   methods: {
     btnAgreeRequest: function () {
