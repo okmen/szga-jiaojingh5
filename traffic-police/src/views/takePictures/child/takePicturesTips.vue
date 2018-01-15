@@ -36,7 +36,7 @@
    <div class="tp-red-packet">
      <div class="tp-inform-box">
        <router-link to="/userAgreement/wfsspjbzy">有奖举报范围及奖励金额</router-link>
-       <router-link to="/userAgreement/sspjbzysx">奖金领取须知</router-link>
+       <router-link to="/userAgreement/sspjbgz">奖金领取须知</router-link>
      </div>
    </div>
    <div class="tp-read">
@@ -69,7 +69,8 @@ export default {
   },
   mounted: function () {
     let userAgreementData = {
-      noticeKey: 'sspjbgz'
+      // noticeKey: 'sspjbgz'
+      noticeKey: 'sspjbzysx'
     }
     resultPost(userAgreement, userAgreementData).then(json => { // 调取随手拍举报接口
       console.log(json)
@@ -105,11 +106,11 @@ export default {
   color:#FFF;
 }
 .tp-tips-intro{
-  padding:0 50px;
+  /*padding:0 50px;*/
   width:100%;
 /*  height:350px;*/
   p{
-    text-indent:56px;
+    /*text-indent:56px;*/
     font-size:24px;
     line-height:40px;
   }
