@@ -296,8 +296,8 @@
       }
     },
     mounted: function () {                                              // 组件加载完成之后立即获取
-      this.init()
       this.location()                                                   // 获取微信定位
+      this.init()
       // let that = this
       let getTime = this.currentTime()
       this.mtDateTimeMsg = getTime
@@ -323,27 +323,29 @@
     },
     methods: {
       // 获取微信定位
-      location () {
-        if (/MicroMessenger/i.test(window.navigator.userAgent)) {
-          // 微信定位
-          wx.getLocation({
-            type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-            success: function (res) {
-              // let cp = new window.Careland.GbPoint(res.latitude, res.longitude))
-              this.WxGPSLatitude = res.latitude                  // 微信定位纬度
-              this.WxGPSLongitude = res.longitude                // 微信定位经度
-            },
-            fail: function () {
-              console.log('定位失败')
-              // MessageBox({
-              //   title: '温馨提示',
-              //   message: '为了保证信息的可靠性，请开启GPRS定位'
-              // }).then(action => {
-              //   console.log('123')
-              // })
-            }
-          })
-        }
+      location: function () {
+        console.log('1233')
+        // 微信定位
+        wx.getLocation({
+          type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+          success: function (res) {
+            console.log(res)
+            // let cp = new window.Careland.GbPoint(res.latitude, res.longitude))
+            this.WxGPSLatitude = res.latitude                  // 微信定位纬度
+            this.WxGPSLongitude = res.longitude                // 微信定位经度
+            console.log(this.WxGPSLatitude, '微信定位纬度')
+            console.log(this.WxGPSLongitude, '微信定位经度')
+          },
+          fail: function () {
+            console.log('定位失败')
+            // MessageBox({
+            //   title: '温馨提示',
+            //   message: '为了保证信息的可靠性，请开启GPRS定位'
+            // }).then(action => {
+            //   console.log('123')
+            // })
+          }
+        })
       },
       licenseSelectClick: function (str, index) {
         if (str) {
