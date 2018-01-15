@@ -324,7 +324,6 @@
     methods: {
       // 获取微信定位
       location: function () {
-        console.log('1233')
         let _this = this
         // 微信定位
         wx.getLocation({
@@ -334,8 +333,6 @@
             // let cp = new window.Careland.GbPoint(res.latitude, res.longitude))
             _this.WxGPSLatitude = res.latitude                  // 微信定位纬度
             _this.WxGPSLongitude = res.longitude                // 微信定位经度
-            console.log(_this.WxGPSLatitude, '11111111')
-            console.log(_this.WxGPSLongitude, '222222')
           },
           fail: function () {
             console.log('定位失败')
@@ -449,7 +446,6 @@
         } else if (!this.informTel) {
           Toast({message: '请输入您的电话号码', position: 'bottom', className: 'white'})
         } else if (this.WxGPSLatitude && this.WxGPSLongitude) {
-          console.log(this.WxGPSLongitude, '333333')
           this.gpsx = this.WxGPSLongitude           // 经度
           this.gpsy = this.WxGPSLatitude            // 纬度
           Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
