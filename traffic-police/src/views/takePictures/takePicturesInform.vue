@@ -426,6 +426,7 @@
         })
       },
       btnSurePutInform: function () {  // 提交拍照举报按钮
+        this.location()
         let numbers = this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase()   // 车牌号码
         let imgArr = [this.imgOne, this.imgTwo, this.imgThree].filter(x => x !== '')
         if (!this.informTime) {
@@ -477,7 +478,7 @@
             title: '温馨提示',
             message: '无法从上传图片提取到位置信息，此次举报不予受理。请尝试拍照时打开手机定位功能！'
           }).then(action => {
-            this.location()
+            console.log('提交失败')
           })
         }
       },
