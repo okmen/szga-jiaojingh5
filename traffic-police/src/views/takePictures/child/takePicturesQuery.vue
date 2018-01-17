@@ -21,7 +21,7 @@
           </li>
         </ul>
       </div>
-      <button class="btn btn-blue" type="button" name="button" @click.stop="takePicturesQuery()">查询</button>
+      <button class="btn btn-blue takp-button" type="button" name="button" @click.stop="takePicturesQuery()">查询</button>
     </div>
     <div class="takePicturesQueryResult" v-if="$route.query.reportSerialNumber">
       <div class="result-item">
@@ -59,6 +59,7 @@
         <img :src="item.illegalImg3">
       </mt-popup>
     </div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <script>
@@ -76,6 +77,14 @@
         img2_show: false,
         img3_show: false
       }
+    },
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
+    components: {
+      'pageBottom': require('../../../components/pageBottom.vue')
     },
     methods: {
       takePicturesQuery: function () {
@@ -182,6 +191,9 @@
           display: block;
         }
       }
+    }
+    .takp-button {
+      margin-bottom: 20px;
     }
   }
 </style>

@@ -16,6 +16,7 @@
       <p>记录号码：<span>{{reportSerialNumber}}</span></p>
       <p>查询密码：<span>{{password}}</span></p>
     </div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <script>
@@ -26,6 +27,14 @@ export default{
       reportSerialNumber: '',
       password: ''
     }
+  },
+  computed: {
+    isWeChat: function () {
+      return /_WeChat/g.test(this.$route.name)
+    }
+  },
+  components: {
+    'pageBottom': require('../../../components/pageBottom.vue')
   },
   mounted () {
     let URLparameter = window.location.href.split('?')[1]

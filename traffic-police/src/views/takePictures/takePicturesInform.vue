@@ -119,6 +119,7 @@
       hour-format="{value} 时"
       minute-format="{value} 分"
     ></mt-datetime-picker>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <script>
@@ -321,6 +322,14 @@
       //   })
       // })
     },
+    computed: {
+      isWeChat: function () {
+        return /_WeChat/g.test(this.$route.name)
+      }
+    },
+    components: {
+      'pageBottom': require('./../../components/pageBottom.vue')
+    },
     methods: {
       // 获取微信定位
       location: function () {
@@ -506,7 +515,7 @@
               takePicturesRecord: json.data.recordNumber,
               takePicturesPassword: json.data.queryPassword
             })
-            this.$router.push('/takePicturesSuccess')
+            this.isWeChat ? this.$router.push('/takePicturesSuccess_Wechat') : this.$router.push('/takePicturesSuccess')
           } else {
             Toast({
               message: json.msg,

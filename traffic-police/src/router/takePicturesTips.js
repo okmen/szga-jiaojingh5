@@ -6,7 +6,8 @@ let takePicturesTipsRouter = [
     meta: {
       title: '随手拍举报'
     },
-    component: require('../views/takePictures_WeChat/child/takePicturesTips.vue')
+    // component: require('../views/takePictures_WeChat/child/takePicturesTips.vue')   // 城市服务
+    component: require('../views/takePictures/child/takePicturesTips.vue')             // 城市服务
   },
   {
     name: 'takePicturesSuccess_WeChat',                                                      // 微信版本
@@ -14,7 +15,8 @@ let takePicturesTipsRouter = [
     meta: {
       title: '随手拍举报'
     },
-    component: require('../views/takePictures_WeChat/child/takePicturesSuccess.vue')
+    // component: require('../views/takePictures_WeChat/child/takePicturesSuccess.vue')   // 城市服务
+    component: require('../views/takePictures/child/takePicturesSuccess.vue')   // 城市服务
   },
   {
     name: 'takePicturesSuccess1_WeChat',                                                     // 微信版本
@@ -22,7 +24,8 @@ let takePicturesTipsRouter = [
     meta: {
       title: '随手拍举报'
     },
-    component: require('../views/takePictures_WeChat/child/takePicturesSuccess1.vue')
+    // component: require('../views/takePictures_WeChat/child/takePicturesSuccess1.vue')   // 城市服务
+    component: require('../views/takePictures/child/takePicturesSuccess1.vue')
   },
   {
     name: 'takePicturesInform_WeChat',                                                       // 微信版本
@@ -30,7 +33,8 @@ let takePicturesTipsRouter = [
     meta: {
       title: '随手拍举报'
     },
-    component: require('../views/takePictures_WeChat/takePicturesInform')
+    // component: require('../views/takePictures_WeChat/takePicturesInform')    // 城市服务
+    component: require('../views/takePictures/takePicturesInform')              // 城市服务
   },
   {
     name: 'map_WeChat',                                                                      // 微信版本
@@ -46,7 +50,8 @@ let takePicturesTipsRouter = [
     meta: {
       title: '随手拍查询'
     },
-    component: require('../views/takePictures_WeChat/child/takePicturesQuery')
+    // component: require('../views/takePictures_WeChat/child/takePicturesQuery')    // 城市服务
+    component: require('../views/takePictures/child/takePicturesQuery')       // 城市服务
   },
   {
     name: 'takePicturesSuccess1',                                                                // 举报成功外部链接

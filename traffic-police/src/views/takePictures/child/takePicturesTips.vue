@@ -35,8 +35,10 @@
    </div>
    <div class="tp-red-packet">
      <div class="tp-inform-box">
-       <router-link to="/userAgreement/wfsspjbzy">有奖举报范围及奖励金额</router-link>
-       <router-link to="/userAgreement/sspjbgz">奖金领取须知</router-link>
+       <router-link to="/userAgreement/wfsspjbzy" v-if="!isWeChat">有奖举报范围及奖励金额</router-link>
+       <router-link to="/userAgreement/sspjbgz" v-if="!isWeChat">奖金领取须知</router-link>
+       <router-link to="/userAgreement_WeChat/wfsspjbzy" v-if="isWeChat">有奖举报范围及奖励金额</router-link>
+       <router-link to="/userAgreement_WeChat/sspjbgz" v-if="isWeChat">奖金领取须知</router-link>
      </div>
    </div>
    <div class="tp-read">
@@ -52,6 +54,7 @@
      <button @click="btnAgreeRequest">确认</button>
    </div>
    <div v-wechat-title="$route.meta.title"></div>
+   <page-bottom v-if="isWeChat"></page-bottom>
  </div>
 </template>
 <script>
@@ -78,10 +81,18 @@ export default {
       this.userAgreementCon = json.data.content
     })
   },
+  computed: {
+    isWeChat: function () {
+      return /_WeChat/g.test(this.$route.name)
+    }
+  },
+  components: {
+    'pageBottom': require('./../../../components/pageBottom.vue')
+  },
   methods: {
     btnAgreeRequest: function () {
       if (this.checked === true) {
-        this.$router.push('/takePicturesInform')
+        this.isWeChat ? this.$router.push('/takePicturesInform_Wechat') : this.$router.push('/takePicturesInform')
       } else {
         Toast({
           message: '请勾选已阅读温馨提示',

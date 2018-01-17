@@ -16,6 +16,7 @@
       <p>记录号码：<span>{{showInform.takePicturesRecord}}</span></p>
       <p>查询密码：<span>{{showInform.takePicturesPassword}}</span></p>
     </div>
+    <page-bottom v-if="isWeChat"></page-bottom>
   </div>
 </template>
 <script>
@@ -24,7 +25,13 @@ export default{
   computed: {
     ...mapGetters([
       'showInform'
-    ])
+    ]),
+    isWeChat: function () {
+      return /_WeChat/g.test(this.$route.name)
+    }
+  },
+  components: {
+    'pageBottom': require('../../../components/pageBottom.vue')
   }
 }
 </script>
@@ -72,6 +79,9 @@ export default{
   }
   p:first-child{
     margin-top:44px;
+    margin-bottom:24px;
+  }
+  p:nth-of-type(2){
     margin-bottom:24px;
   }
   span{
