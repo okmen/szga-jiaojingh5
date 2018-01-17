@@ -315,3 +315,6 @@ export const goodOwnersVote = `${commonUrl}convenience/activityVote.html` // 投
 export const goodOwnersVoteUser = `${commonUrl}convenience/selectById.html` // 获取入选人详细信息
 export const goodOwnersVoteHot = `${commonUrl}convenience/getFrontVote.html` // 获取入排行榜信息
 export const goodOwnersVoteSearch = `${commonUrl}convenience/selectByIdOrName.html` // 搜索入选人信息
+
+/* ------------------ 卡包 ------------------- */
+export const cardSDK = `${commonUrl}h5/cardConfig.html`

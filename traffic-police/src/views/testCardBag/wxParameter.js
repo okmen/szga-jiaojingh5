@@ -1,9 +1,10 @@
 import {resultPost} from '../../service/getData'
+import { cardSDK } from '../../config/baseUrl'
 import wx from 'weixin-js-sdk'
 const cardParameter = {
-  drive: 'pILMDwCdXZ-ir95D8p1C0jWw8f_o', // 驾驶证
-  travel: 'pILMDwI0YyTv1ikElE4IOHDxU00I', // 行驶证
-  url: 'http://testjava.chudaokeji.com/h5/cardConfig.html'
+  drive: 'pPyqQjq_2LnZeey0y5XK-ArtZDSo', // 驾驶证
+  travel: 'pPyqQjvbE2LpZReeUHlNN2ReV8w0', // 行驶证
+  url: cardSDK
 }
 export default cardParameter
 
