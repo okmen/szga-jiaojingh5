@@ -125,8 +125,9 @@
   import { resultPost } from '../../service/getData'
   import { takePictures, getRoad } from '../../config/baseUrl'
   import UploadFile from '../../service/uploadFile-watermark'
-  import { Toast, Indicator } from 'mint-ui'
+  import { Toast, Indicator, MessageBox } from 'mint-ui'
   import { mapActions } from 'vuex'
+  import wx from 'weixin-js-sdk'
   export default {
     name: 'takePicturesInform',
     data () {
@@ -281,10 +282,21 @@
         informTel: '',                                                  // 举报人电话号码
         loginJudge: window.localStorage.isLogin,                        // 判读是否登录
         formatTime: '',                                                  // 使用mt组件后，时间是中国标准时间，格式转换
-        t: ''
+        t: '',
+        WxGPSLatitude: '',                                               // 微信定位纬度
+        WxGPSLongitude: '',                                              // 微信定位经度
+        imgOneGPSLatitude: '',                                           // 第一张图片纬度
+        imgOneGPSLongitude: '',                                          // 第一张图片经度
+        imgTwoGPSLatitude: '',                                           // 第二张图片纬度
+        imgTwoGPSLongitude: '',                                          // 第二张图片经度
+        imgThreeGPSLatitude: '',                                         // 第三张图片纬度
+        imgThreeGPSLongitude: '',                                        // 第三张图片经度
+        gpsx: '',                                                        // 经度
+        gpsy: ''                                                         // 纬度
       }
     },
     mounted: function () {                                              // 组件加载完成之后立即获取
+      this.location()                                                   // 获取微信定位
       this.init()
       // let that = this
       let getTime = this.currentTime()
@@ -310,6 +322,29 @@
       // })
     },
     methods: {
+      // 获取微信定位
+      location: function () {
+        let _this = this
+        // 微信定位
+        wx.getLocation({
+          type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+          success: function (res) {
+            console.log(res)
+            // let cp = new window.Careland.GbPoint(res.latitude, res.longitude))
+            _this.WxGPSLatitude = res.latitude                  // 微信定位纬度
+            _this.WxGPSLongitude = res.longitude                // 微信定位经度
+          },
+          fail: function () {
+            console.log('定位失败')
+            // MessageBox({
+            //   title: '温馨提示',
+            //   message: '为了保证信息的可靠性，请开启GPRS定位'
+            // }).then(action => {
+            //   console.log('123')
+            // })
+          }
+        })
+      },
       licenseSelectClick: function (str, index) {
         if (str) {
           this.licenseSelectMassage = str
@@ -362,6 +397,8 @@
             console.log(res)
             this.imgOne = res.imgUrl
             this.imgOneTime = res.dateTime
+            this.imgOneGPSLatitude = res.GPSLatitude     // 纬度
+            this.imgOneGPSLongitude = res.GPSLongitude   // 经度
           }
         })
         UploadFile.upload({
@@ -370,6 +407,8 @@
             console.log(res)
             this.imgTwo = res.imgUrl
             this.imgTwoTime = res.dateTime
+            this.imgTwoGPSLatitude = res.GPSLatitude     // 纬度
+            this.imgTwoGPSLongitude = res.GPSLongitude   // 经度
           }
         })
         UploadFile.upload({
@@ -378,15 +417,19 @@
             console.log(res)
             this.imgThree = res.imgUrl
             this.imgThreeTime = res.dateTime
+            this.imgThreeGPSLatitude = res.GPSLatitude     // 纬度
+            this.imgThreeGPSLongitude = res.GPSLongitude   // 经度
           }
         })
       },
       btnSurePutInform: function () {  // 提交拍照举报按钮
+        this.location()
         let numbers = this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase()   // 车牌号码
         let imgArr = [this.imgOne, this.imgTwo, this.imgThree].filter(x => x !== '')
         if (!this.informTime) {
           Toast({message: '请点击设置违法时间', position: 'bottom', className: 'white'})
         } else if (!this.informRoad) {
+          console.log(this.informRoad)
           Toast({message: '请输入违法路段', position: 'bottom', className: 'white'})
         } else if (this.$plateerification(numbers)) {
           Toast({message: this.$plateerification(numbers), position: 'bottom', className: 'white'})
@@ -402,43 +445,76 @@
           Toast({message: '请使用英文状态下的括号', position: 'bottom', className: 'white'})
         } else if (!this.informTel) {
           Toast({message: '请输入您的电话号码', position: 'bottom', className: 'white'})
-        } else {
+        } else if (this.WxGPSLatitude && this.WxGPSLongitude) {
+          this.gpsx = this.WxGPSLongitude           // 经度
+          this.gpsy = this.WxGPSLatitude            // 纬度
           Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
-          let informData = {
-            illegalTime: this.mtDateTimeMsg,                        // 违法时间
-            illegalSections: this.informItem,                       // 违法路段
-            reportImgOne: !this.imgOne.split(',')[1] ? '' : this.imgOne.split(',')[1],                // 上传照片
-            reportImgOneT1: this.imgOneTime || '',
-            reportImgTwo: !this.imgTwo.split(',')[1] ? '' : this.imgTwo.split(',')[1],
-            reportImgOneT2: this.imgTwoTime || '',
-            reportImgThree: !this.imgThree.split(',')[1] ? '' : this.imgThree.split(',')[1],
-            reportImgOneT3: this.imgThreeTime || '',
-            licensePlateType: this.licenseSelectType,               // 车牌类型
-            licensePlateNumber: this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase(),
-            illegalActivitieOne: this.informIntroWhy,               // 违法行为
-            inputManName: this.informName,                          // 举报人
-            identityCard: this.informIdNumber,                      // 身份证号
-            inputManPhone: this.informTel,                          // 电话号码
-            userSource: 'C',
-            openId: window.localStorage.openId
-          }
-          resultPost(takePictures, informData).then(json => { // 调取随手拍举报接口
-            Indicator.close()
-            if (json.code === '0000') {
-              this.postInform({
-                takePicturesRecord: json.data.recordNumber,
-                takePicturesPassword: json.data.queryPassword
-              })
-              this.$router.push('/takePicturesSuccess')
-            } else {
-              Toast({
-                message: json.msg,
-                position: 'bottom',
-                className: 'white'
-              })
-            }
+          this.subFn()
+          return
+        } else if (this.imgOneGPSLatitude && this.imgOneGPSLongitude) {
+          this.gpsx = this.imgOneGPSLongitude           // 经度
+          this.gpsy = this.imgOneGPSLatitude            // 纬度
+          Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
+          this.subFn()
+          return
+        } else if (this.imgTwoGPSLatitude && this.imgTwoGPSLatitude) {
+          this.gpsx = this.imgTwoGPSLongitude           // 经度
+          this.gpsy = this.imgTwoGPSLatitude            // 纬度
+          Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
+          this.subFn()
+          return
+        } else if (this.imgThreeGPSLatitude && this.imgThreeGPSLongitude) {
+          this.gpsx = this.imgThreeGPSLongitude         // 经度
+          this.gpsy = this.imgThreeGPSLatitude          // 纬度
+          Indicator.open('提交中...') // 图片转换为base64后提交会需要时间
+          this.subFn()
+          return
+        } else {
+          MessageBox({
+            title: '温馨提示',
+            message: '无法从上传图片提取到位置信息，此次举报不予受理。请尝试拍照时打开手机定位功能！'
+          }).then(action => {
+            console.log('提交失败')
           })
         }
+      },
+      subFn () {
+        let informData = {
+          gpsx: this.gpsx,                              // 经度
+          gpsy: this.gpsy,                              // 纬度
+          illegalTime: this.mtDateTimeMsg,                        // 违法时间
+          illegalSections: this.informItem,                       // 违法路段
+          reportImgOne: !this.imgOne.split(',')[1] ? '' : this.imgOne.split(',')[1],                // 上传照片
+          reportImgOneT1: this.imgOneTime || '',
+          reportImgTwo: !this.imgTwo.split(',')[1] ? '' : this.imgTwo.split(',')[1],
+          reportImgOneT2: this.imgTwoTime || '',
+          reportImgThree: !this.imgThree.split(',')[1] ? '' : this.imgThree.split(',')[1],
+          reportImgOneT3: this.imgThreeTime || '',
+          licensePlateType: this.licenseSelectType,               // 车牌类型
+          licensePlateNumber: this.abbreviationSelectMassage + this.carNumber.toLocaleUpperCase(),
+          illegalActivitieOne: this.informIntroWhy,               // 违法行为
+          inputManName: this.informName,                          // 举报人
+          identityCard: this.informIdNumber,                      // 身份证号
+          inputManPhone: this.informTel,                          // 电话号码
+          userSource: 'C',
+          openId: window.localStorage.openId
+        }
+        resultPost(takePictures, informData).then(json => { // 调取随手拍举报接口
+          Indicator.close()
+          if (json.code === '0000') {
+            this.postInform({
+              takePicturesRecord: json.data.recordNumber,
+              takePicturesPassword: json.data.queryPassword
+            })
+            this.$router.push('/takePicturesSuccess')
+          } else {
+            Toast({
+              message: json.msg,
+              position: 'bottom',
+              className: 'white'
+            })
+          }
+        })
       },
       btnGetRoad: function () {  // 点击选择交通路段
         clearTimeout(this.t)

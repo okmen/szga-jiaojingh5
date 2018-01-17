@@ -1,35 +1,42 @@
 <template>
  <div id="takePhotoTips">
     <div class="tp-title">
-      随手拍举报温馨提示
+      {{getNoticeTitle}}
     </div>
-   <div class="tp-tips-intro">
-     <p>
-       欢迎使用随手拍举报交通违法功能。举报人应仔细阅读举报范
-       围说明、举报注意事项，确保举报信息真实有效，并承担相应法律
-       责任。遇紧急、重大交通违法或其它违法行为请立即拨打110报警，
-       感谢您的支持！
-     </p>
-     <p>
-       根据相关法律规定，请属实举报，如提供虚假举报信息将承担
-       相关法律责任。同时，交警部门会保护好您的个人隐私，敬请放心。
-     </p>
+<!--    <div class="tp-tips-intro">
+    <p>
+      一、举报须如实，捏造事实进行虚假举报的，将承担相应法律责任。
+    </p>
+    <p>
+      二、驾驶员在行车过程中应严格遵守交通法规，不得在驾驶过程中或其他有碍交通安全的情况下拍照进行举报。
+    </p>
+    <p>
+      三、违法行为发生后48小时以内举报有效。
+    </p>
+    <p>
+      四、举报需提供两张以上能记录违法事实的图片或10秒以上连贯视频，通过手机拍摄车辆违法时应打开手机的定位功能，上传图片无法提取到位置信息的举报不予受理。
+    </p>
+    <p>
+      五、举报拍摄的图片或视频要能清晰记录违法车辆号牌及外观，应包含道路及周边环境信息，如实填写详细的违法路段和违法发生时间。
+    </p>
+    <p>
+      六、举报动态的交通违法，提供的图片应当能够反映车辆位移的情况且车辆牌号牌清晰，有视频支撑的尽量通过微博上传视频举报。
+    </p>
+    <p>
+      七、举报违停时所拍图片应包含前、后及侧面照片，通过照片能判断车内无人。
+    </p>
+    <p>
+      八、其他未尽事宜，由深圳市公安局交通警察局具最终解释权。
+    </p>
+   </div> -->
+    <div class="tp-tips-intro" v-html="userAgreementCon"></div>
+   <div>
+     
    </div>
    <div class="tp-red-packet">
-     <h3>红包领取须知</h3>
-     <div class="tp-red-intro">
-       <p>
-         1、为便于市民有奖举报奖金的领取，深圳交警“星级用户”登录举报
-         的，将根据用户注册信息以“微信红包”方式发放奖金；非“星级用户”
-         通过填报个人信息采取其它方式（现金、转账等）发放奖金。
-       </p>
-       <p>
-         2、“微信红包”领取奖金仅限于人民币200元及以下金额。
-       </p>
-     </div>
      <div class="tp-inform-box">
-       <router-link to="/userAgreement/wfsspjbzy">举报范围说明</router-link>
-       <router-link to="/userAgreement/sspjbzysx">举报注意事项</router-link>
+       <router-link to="/userAgreement/wfsspjbzy">有奖举报范围及奖励金额</router-link>
+       <router-link to="/userAgreement/sspjbgz">奖金领取须知</router-link>
      </div>
    </div>
    <div class="tp-read">
@@ -49,11 +56,27 @@
 </template>
 <script>
 import { Toast } from 'mint-ui'
+import { resultPost } from '../../../service/getData'
+import { userAgreement } from '../../../config/baseUrl'
 export default {
   data () {
     return {
-      checked: ''
+      checked: '',
+      getNoticeTitle: '',
+      userAgreementCon: ''
+
     }
+  },
+  mounted: function () {
+    let userAgreementData = {
+      // noticeKey: 'sspjbgz'
+      noticeKey: 'sspjbzysx'
+    }
+    resultPost(userAgreement, userAgreementData).then(json => { // 调取随手拍举报接口
+      console.log(json)
+      this.getNoticeTitle = json.data.title
+      this.userAgreementCon = json.data.content
+    })
   },
   methods: {
     btnAgreeRequest: function () {
@@ -83,17 +106,16 @@ export default {
   color:#FFF;
 }
 .tp-tips-intro{
-  padding:0 50px;
+  /*padding:0 50px;*/
   width:100%;
-  height:350px;
+/*  height:350px;*/
   p{
-    text-indent:60px;
+    /*text-indent:56px;*/
     font-size:24px;
-    line-height:36px;
+    line-height:40px;
   }
   p:first-child{
-    margin-top:54px;
-    margin-bottom:50px;
+    margin-top:10px;
   }
 }
 .tp-red-packet{
@@ -118,7 +140,7 @@ export default {
   }
   .tp-inform-box{
     width:100%;
-    height:200px;
+    height:180px;
     a{
       display:block;
       font-size:26px;
@@ -126,7 +148,7 @@ export default {
       text-decoration:underline;
     }
     a:first-child{
-      margin-bottom:34px;
+      margin: 20px 0 20px 0;
     }
   }
 }
