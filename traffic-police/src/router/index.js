@@ -339,6 +339,14 @@ const routes = [
     },
     component: require('../views/testCardBag/activateFail')
   },
+  {
+    name: 'loseEfficacy',
+    path: '/loseEfficacy',
+    meta: {
+      name: '过期失效'
+    },
+    component: require('../views/testCardBag/loseEfficacy')
+  },
   // 星级用户验证问题反馈
   {
     name: 'issueFeedback',
