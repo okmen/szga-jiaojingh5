@@ -306,7 +306,7 @@ export default{
         Toast({message: '请输入您的手机号码', position: 'bottom', className: 'white'})
       } else if (!this.validCode) {
         Toast({message: '请输入验证码', position: 'bottom', className: 'white'})
-      } else if (!idImgOne || !idImgTwo || !idImgThree) {
+      } else if (!idImgOne || !idImgThree) {
         Toast({message: '请上传身份证照片', position: 'bottom', className: 'white'})
       } else {
         Indicator.open('提交中...') // 图片转换为base64后提交会需要时间

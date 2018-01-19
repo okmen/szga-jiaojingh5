@@ -6,10 +6,10 @@
         <input id="file1" type="file" accept="image/*" >
         <img :src="idCardImgPositive">
       </label>
-      <label class="starUser-upload-center starUser-upload-box" for="file2">
-        <input id="file2" type="file" accept="image/*" >
-        <img :src="idCardImgNegative">
-      </label>
+      <!--<label class="starUser-upload-center starUser-upload-box" for="file2">-->
+        <!--<input id="file2" type="file" accept="image/*" >-->
+        <!--<img :src="idCardImgNegative">-->
+      <!--</label>-->
       <label class="starUser-upload-right starUser-upload-box" for="file3">
         <input id="file3" type="file" accept="image/*" >
         <img :src="idCardImgHandHeld">
@@ -41,13 +41,13 @@ export default {
           this.idCardImgPositive = res.imgUrl
         }
       })
-      UploadFile.upload({
-        id: 'file2',
-        callback: (res) => {
-          console.log(res)
-          this.idCardImgNegative = res.imgUrl
-        }
-      })
+      // UploadFile.upload({
+      //   id: 'file2',
+      //   callback: (res) => {
+      //     console.log(res)
+      //     this.idCardImgNegative = res.imgUrl
+      //   }
+      // })
       UploadFile.upload({
         id: 'file3',
         callback: (res) => {
