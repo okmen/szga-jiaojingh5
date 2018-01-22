@@ -155,7 +155,18 @@ export default {
 <style lang="less">
 .renovateVote {
   .mint-checkbox-label {
-    white-space: pre;
+    white-space: pre-wrap;
+    margin-left: 0;
+  }
+  .mint-checklist-label {
+    position: relative;
+  }
+  .mint-checkbox-core {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
   }
 }
 </style>
