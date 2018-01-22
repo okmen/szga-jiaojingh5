@@ -69,7 +69,8 @@ export default {
         if (json.code === '0000') {
           let options = []
           json.data.map(item => {
-            options.push({'label': `${item.name}${item.count}`, 'value': item.id})
+            let str = `${item.name}\n${item.count}`
+            options.push({'label': str, 'value': item.id})
           })
           this.options = options
         } else {
@@ -140,6 +141,15 @@ export default {
   }
 }
 </script>
+
+<style lang="less">
+.renovateVote {
+  .mint-checkbox-label {
+    white-space: pre;
+  }
+}
+</style>
+
 
 <style lang="less" scoped>
   .renovateVote {
