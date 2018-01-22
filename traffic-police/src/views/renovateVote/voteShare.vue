@@ -1,5 +1,5 @@
 <template>
-  <div @click="close" class="m-voteShare">
+  <div class="m-voteShare">
     <div class="voteShare">
       <img class="voteShare-img"" src="../../images/share.png">
     </div>
@@ -10,7 +10,6 @@
 export default {
   methods: {
     close () {
-      console.log('233')
       this.$emit('input', false)
     }
   }

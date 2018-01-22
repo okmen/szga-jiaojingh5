@@ -30,7 +30,7 @@ export default {
     top: 0;
     left: 0;
     background-color:#000000;
-    opacity: 0.7;
+    opacity: 0.8;
     p {
       width: 90%;
       margin: 0 auto;

@@ -13,7 +13,7 @@
     <button class="renovateVote-button" @click="subFn" v-if="show">提交</button>
     <button class="renovateVote-button" style="background: gray" v-if="isShow">提交</button>
     <TheRules v-if="theRules"></TheRules>
-    <VoteShare v-if='shareState'></VoteShare>
+    <VoteShare v-if='shareState' @click.native="voteFn"></VoteShare>
     <div class="renovateVote-bottom">
       <p @click='voteFn'>投票</p>
       <p @click='handleShare'>分享</p>
