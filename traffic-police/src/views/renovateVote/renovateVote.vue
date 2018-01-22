@@ -252,7 +252,7 @@ export default {
       background-color: #fff;
       box-shadow: 0 0 5px rgba(0, 0, 0, .3);
       p {
-        width: 30%;
+        width: 33%;
         line-height: 80px;
         text-align: center;
         font-size: 26px;
