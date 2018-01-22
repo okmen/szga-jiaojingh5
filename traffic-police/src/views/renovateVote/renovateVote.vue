@@ -12,10 +12,11 @@
     </mt-checklist>
     <button class="renovateVote-button" @click="subFn" v-if="show">提交</button>
     <button class="renovateVote-button" style="background: gray" v-if="isShow">提交</button>
+    <TheRules v-if = "theRules"></TheRules>
     <div class="renovateVote-bottom">
-      <p>投票</p>
-      <p>分享</p>
-      <p>规则</p>
+      <p @click='voteFn'>投票</p>
+      <p @click='handleShare'>分享</p>
+      <p @click='theRulesFn'>规则</p>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -25,6 +26,7 @@
 import { Checklist, Toast } from 'mint-ui'
 import { resultPost } from 'src/service/getData'
 import { getAllVote, szjjVote } from 'src/config/baseUrl'
+import TheRules from './theRules'
 export default {
   name: 'renovateVote',
   data () {
@@ -34,13 +36,21 @@ export default {
       shareState: false,
       localVote: '',
       show: true,
-      isShow: false
+      isShow: false,
+      theRules: false
     }
   },
   components: {
-    Checklist
+    Checklist,
+    TheRules
   },
   methods: {
+    voteFn () {
+      this.theRules = false
+    },
+    theRulesFn () {
+      this.theRules = true
+    },
     init () {
       let oTimer = window.localStorage.getItem('voteTime')
       if (oTimer) {
@@ -185,3 +195,11 @@ export default {
     }
   }
 </style>
+<!-- 
+<style type="text/less">
+  .renovateVote {
+    .mint-checklist .mint-cell {
+      border:
+    }
+  } 
+</style> -->
