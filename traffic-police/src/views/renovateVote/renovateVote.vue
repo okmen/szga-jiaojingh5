@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { Checklist, Toast } from 'mint-ui'
+import { Checklist, Toast, MessageBox } from 'mint-ui'
 import { resultPost } from 'src/service/getData'
 import { getAllVote, szjjVote } from 'src/config/baseUrl'
 import TheRules from './theRules'
@@ -46,9 +46,11 @@ export default {
   },
   methods: {
     voteFn () {
+      this.shareState = false
       this.theRules = false
     },
     theRulesFn () {
+      this.shareState = false
       this.theRules = true
     },
     init () {
@@ -67,6 +69,7 @@ export default {
             if (window.localStorage.getItem('vote') > 3) {
               this.isShow = true
               this.show = false
+              Toast({message: '投票时要求获取微信ID，每个微信ID一天只允许投3次。', position: 'bottom', className: 'white'})
             } else {
               this.localVote = window.localStorage.getItem('vote')
             }
@@ -89,7 +92,7 @@ export default {
           this.$nextTick(() => {
             let labelList = document.getElementsByClassName('mint-checkbox-label')
             Array.from(labelList).map((item, index) => {
-              item.innerHTML = `${options[index].label}<div><span class="font">${options[index].count}</span>票</div>`
+              item.innerHTML = `${options[index].label}<div><span class="font">已投${options[index].count}票</span></div>`
             })
           })
         } else {
@@ -103,16 +106,22 @@ export default {
       }
       resultPost(szjjVote, subData).then(json => {
         if (json.code === '0000') {
-          console.log(json)
+          window.localStorage.setItem('vote', ++this.localVote)
+          window.localStorage.setItem('voteTime', new Date())
+          MessageBox({
+            title: '温馨提示',
+            message: '投票成功,感谢您参与'
+          }).then(action => {
+            this.$router.push('/')
+          })
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
       })
-      window.localStorage.setItem('vote', ++this.localVote)
-      window.localStorage.setItem('voteTime', new Date())
     },
     // 分享
     handleShare () {
+      this.theRules = false
       this.shareState = true
     },
     getQueryString (name) {
@@ -142,7 +151,6 @@ export default {
         }
         let ua = window.navigator.userAgent
         console.log(URL)
-        this.init()
         if (/MicroMessenger/i.test(ua)) {
           if (process.env.type === 'test') {
             // 测试环境
@@ -163,9 +171,14 @@ export default {
 
 <style lang="less">
 .renovateVote {
+  .mint-checklist-label {
+    padding: 10px 40px 10px 10px;
+  }
   .mint-checkbox-label {
-    white-space: pre-wrap;
-    margin:20px 0;
+    /*white-space: pre-wrap;*/
+    margin: 20px 0;
+    white-space: pre-line;
+    line-height: 40px;
   }
   .mint-checklist .mint-cell {
     border-bottom: 1px solid #eee;
@@ -181,6 +194,10 @@ export default {
     bottom: 0;
     margin: auto 0;
   }
+  .font {
+    color:red;
+    line-height: 30px;
+  }
 }
 </style>
 
@@ -190,6 +207,7 @@ export default {
     position: relative;
     width: 100%;
     background-color: #fff;
+    padding-bottom: 20px;
     h2 {
       font-size: 42px;
       text-align: center;
@@ -204,7 +222,7 @@ export default {
     .renovateVote-button {
       display: block;
       width: 90%;
-      margin: 20px auto 80px;
+      margin: 30px auto 100px;
       border: none;
       background-color: #26a2ff;
       border-radius: 6px;
@@ -226,9 +244,6 @@ export default {
         text-align: center;
         font-size: 26px;
       }
-    }
-    .font {
-      color:red;
     }
   }
 </style>

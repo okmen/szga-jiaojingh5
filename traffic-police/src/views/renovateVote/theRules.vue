@@ -26,10 +26,9 @@ export default {
   .theRules {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    /*background-color: #666;*/
     background-color:#000000;
     opacity: 0.7;
     p {
