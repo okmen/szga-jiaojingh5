@@ -1,7 +1,7 @@
 <template>
   <div class="m-voteShare">
     <div class="voteShare">
-      <img class="voteShare-img"" src="../../images/share.png">
+      <img class="voteShare-img" src="../../images/share.png">
     </div>
   </div>
 </template>
@@ -23,8 +23,7 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    opacity: 0.7;
-    background-color:#000000;
+    background: rgba(0,0,0,.9);
     text-align: center;
     .voteShare-img {
       width:90%;
