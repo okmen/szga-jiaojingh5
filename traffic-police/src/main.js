@@ -11,7 +11,7 @@ import 'element-ui/lib/theme-default/index.css'
 // import '../static/qiniu.min.js'
 import 'mint-ui/lib/style.css'
 import store from './store/index'
-import { InfiniteScroll, Indicator, DatetimePicker, MessageBox, Swipe, SwipeItem, Popup, Loadmore, Cell } from 'mint-ui'
+import { InfiniteScroll, Indicator, DatetimePicker, MessageBox, Swipe, SwipeItem, Popup, Loadmore, Cell, Checklist } from 'mint-ui'
 // import Toasts from './service/toast'
 
 // Vue.use(Toasts)
@@ -25,6 +25,7 @@ Vue.component(SwipeItem.name, SwipeItem)
 Vue.component(Popup.name, Popup)
 Vue.component(Loadmore.name, Loadmore)
 Vue.component(Cell.name, Cell)
+Vue.component(Checklist.name, Checklist)
 Vue.prototype.$plateerification = function (plate) {
   if (plate.length === 1) {
     return '请输入车牌号码'
