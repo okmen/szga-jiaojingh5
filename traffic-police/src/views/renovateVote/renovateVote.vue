@@ -29,6 +29,7 @@ import { resultPost } from 'src/service/getData'
 import { getAllVote } from 'src/config/baseUrl'
 import TheRules from './theRules'
 import VoteShare from './VoteShare'
+import wx from 'weixin-js-sdk'
 export default {
   name: 'renovateVote',
   data () {
@@ -83,6 +84,21 @@ export default {
           }
         }
       }
+      // 微信分享
+      let sURL
+      if (process.env.type === 'test') {
+        sURL = 'http://testh5.chudaokeji.com/h5/#/renovateVote'
+      } else {
+        sURL = 'http://gzh.stc.gov.cn/h5/#/renovateVote'
+      }
+      wx.onMenuShareTimeline({
+        title: '2018年深圳交警重点整治工作网络票',
+        link: sURL
+      })
+      wx.onMenuShareAppMessage({
+        title: '2018年深圳交警重点整治工作网络票',
+        link: sURL
+      })
     },
     startFn () {
       resultPost(getAllVote, {}).then(json => {
