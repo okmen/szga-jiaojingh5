@@ -26,7 +26,7 @@
 <script>
 import { Checklist, Toast, MessageBox } from 'mint-ui'
 import { resultPost } from 'src/service/getData'
-import { getAllVote, szjjVote } from 'src/config/baseUrl'
+import { getAllVote } from 'src/config/baseUrl'
 import TheRules from './theRules'
 import VoteShare from './VoteShare'
 export default {
@@ -107,7 +107,7 @@ export default {
       let subData = {
         voteId: this.value.join(',')
       }
-      resultPost(szjjVote, subData).then(json => {
+      resultPost('http://gzh.stc.gov.cn/api/convenience/szjjVote.html', subData).then(json => {
         if (json.code === '0000') {
           window.localStorage.setItem('vote', ++this.localVote)
           window.localStorage.setItem('voteTime', new Date())
