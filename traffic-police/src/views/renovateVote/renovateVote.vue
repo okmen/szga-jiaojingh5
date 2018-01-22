@@ -4,12 +4,12 @@
     <p>
       尊敬的用户，为了给您提供更优质的服务，深圳交警将进行重点整治工作网络投票，感谢您的支持！
     </p>
-    <mt-checklist
+    <checklist
       align="right"
       v-model="value"
       :max="10"
       :options="options">
-    </mt-checklist>
+    </checklist>
     <button class="renovateVote-button" @click="subFn" v-if="show">提交</button>
     <button class="renovateVote-button" style="background: gray" v-if="isShow">提交</button>
     <div class="renovateVote-bottom">
@@ -69,9 +69,15 @@ export default {
         if (json.code === '0000') {
           let options = []
           json.data.map(item => {
-            options.push({'label': `${item.name}${item.count}`, 'value': item.id})
+            options.push({'label': `${item.name}`, 'value': item.id, count: `${item.count}`})
           })
           this.options = options
+          this.$nextTick(() => {
+            let labelList = document.getElementsByClassName('mint-checkbox-label')
+            Array.from(labelList).map((item, index) => {
+              item.innerHTML = `${options[index].label}<div>已经投${options[index].count}票</div>`
+            })
+          })
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
