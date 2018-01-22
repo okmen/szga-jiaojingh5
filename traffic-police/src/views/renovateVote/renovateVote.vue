@@ -147,6 +147,15 @@ export default {
 }
 </script>
 
+<style lang="less">
+.renovateVote {
+  .mint-checkbox-label {
+    white-space: pre;
+  }
+}
+</style>
+
+
 <style lang="less" scoped>
   .renovateVote {
     position: relative;
