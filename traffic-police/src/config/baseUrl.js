@@ -318,3 +318,8 @@ export const goodOwnersVoteSearch = `${commonUrl}convenience/selectByIdOrName.ht
 
 /* ------------------ 卡包 ------------------- */
 export const cardSDK = `${commonUrl}h5/cardConfig.html`
+
+/* ------------------深圳交警投票------------------- */
+export const szjjVote = `${commonUrl}convenience/szjjVote.html`
+
+export const getAllVote = `${commonUrl}convenience/getAllVote.html`
