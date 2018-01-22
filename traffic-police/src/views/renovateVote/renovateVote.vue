@@ -115,7 +115,7 @@ export default {
             title: '温馨提示',
             message: '投票成功,感谢您参与'
           }).then(action => {
-            this.$router.push('/')
+            console.log('123')
           })
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
@@ -143,7 +143,6 @@ export default {
         value: openId
       })
       this.init()
-      this.startFn()
     } else {
       if (!this.$store.state.getOpenId) {
         let URL
@@ -170,9 +169,9 @@ export default {
         }
       } else {
         this.init()
-        this.startFn()
       }
     }
+    this.startFn()
   }
 }
 </script>
@@ -254,7 +253,7 @@ export default {
       box-shadow: 0 0 5px rgba(0, 0, 0, .3);
       p {
         width: 30%;
-        line-height: 70px;
+        line-height: 80px;
         text-align: center;
         font-size: 26px;
       }
