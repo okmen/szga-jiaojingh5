@@ -169,6 +169,17 @@ export default {
   }
   .mint-checklist .mint-cell {
     border-bottom: 1px solid #eee;
+    margin-left: 0;
+  }
+  .mint-checklist-label {
+    position: relative;
+  }
+  .mint-checkbox-core {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
   }
 }
 </style>
