@@ -12,7 +12,8 @@
     </mt-checklist>
     <button class="renovateVote-button" @click="subFn" v-if="show">提交</button>
     <button class="renovateVote-button" style="background: gray" v-if="isShow">提交</button>
-    <TheRules v-if = "theRules"></TheRules>
+    <TheRules v-if="theRules"></TheRules>
+    <VoteShare v-if='shareState'></VoteShare>
     <div class="renovateVote-bottom">
       <p @click='voteFn'>投票</p>
       <p @click='handleShare'>分享</p>
@@ -27,6 +28,7 @@ import { Checklist, Toast, MessageBox } from 'mint-ui'
 import { resultPost } from 'src/service/getData'
 import { getAllVote, szjjVote } from 'src/config/baseUrl'
 import TheRules from './theRules'
+import VoteShare from './VoteShare'
 export default {
   name: 'renovateVote',
   data () {
@@ -42,7 +44,8 @@ export default {
   },
   components: {
     Checklist,
-    TheRules
+    TheRules,
+    VoteShare
   },
   methods: {
     voteFn () {
