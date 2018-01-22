@@ -1,9 +1,7 @@
 <template>
   <div class="renovateVote">
-    <h2>深圳交警重点整治工作网络投票</h2>
-    <p>
-      尊敬的用户，为了给您提供更优质的服务，深圳交警将进行重点整治工作网络投票，感谢您的支持！
-    </p>
+    <h2>深圳交警2018年重点整治工作网络投票</h2>
+    <p>为了不断提升城市交通文明，营造更加文明和谐的交通环境，深圳交警将从人民群众反映强烈的各类交通违法行为中梳理出20项重点交通违法行为，开展公开向市民群众征求意见的投票活动。深圳交警将根据市民群众的评选意见，结合日常执法工作，确定“深圳交警2018年十大重点执法项目”,欢迎广大市民积极投票！</p>
     <mt-checklist
       align="right"
       v-model="value"
@@ -230,20 +228,22 @@ export default {
     /*background-color: #fff;*/
     padding-bottom: 20px;
     >h2 {
-      font-size: 42px;
+      font-size: 40px;
       text-align: center;
       line-height: 58px;
-      padding: 20px 0;
-      padding-top: 60px;
+      padding-top: 120px;
     }
     >p {
       padding: 30px;
-      font-size: 26px;
+      font-size: 30px;
+      line-height: 48px;
+      color:#666;
+      text-indent: 60px;
     }
     .renovateVote-button {
       display: block;
       width: 90%;
-      margin: 30px auto 100px;
+      margin: 30px auto;
       border: none;
       background-color: #26a2ff;
       border-radius: 6px;
@@ -256,7 +256,7 @@ export default {
       width: 100%;
       position: fixed;
       left: 0;
-      bottom: 0;
+      top: 0;
       display: flex;
       background-color: #fff;
       box-shadow: 0 0 5px rgba(0, 0, 0, .3);
