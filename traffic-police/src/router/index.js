@@ -21,10 +21,10 @@ import wx from 'weixin-js-sdk'
 Vue.use(VueRouter)
 const routes = [
   // 未匹配路由全部重定向到首页
-  {
-    path: '*',
-    redirect: '/'
-  },
+  // {
+  //   path: '*',
+  //   redirect: '/'
+  // },
   {
     name: 'illegalParking',
     path: '/illegalParking',

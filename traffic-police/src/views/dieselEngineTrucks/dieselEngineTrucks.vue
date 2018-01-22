@@ -146,11 +146,11 @@
             </div>
           </li>
           <li class="form-li">
-            <span>单位法人身份证号</span>
+            <span>组织机构代码／统一社会信用代码</span>
           </li>
           <li class="form-li">
              <div class="form-line-item">
-              <input class="text-input bg-colour" type="text" value="" v-model="monadPersonIdentityCard" placeholder="请输入单位法人身份证号"/>
+              <input class="text-input bg-colour" type="text" value="" v-model="monadPersonIdentityCard" placeholder="请输入组织机构代码／统一社会信用代码"/>
             </div>
           </li>
           <!-- <li class="form-li">
