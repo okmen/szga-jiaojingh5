@@ -147,8 +147,12 @@ export default {
     } else {
       if (!this.$store.state.getOpenId) {
         let URL
-        if (window.location.href.includes('?renovateVote')) {
-          URL = window.location.href.split('?renovateVote')[0] + '#' + this.$route.fullPath
+        if (window.location.href.includes('?from=singlemessage')) {
+          URL = window.location.href.split('?from=singlemessage')[0] + '#' + this.$route.fullPath
+        } else if (window.location.href.includes('?from=groupmessage')) {
+          URL = window.location.href.split('?from=groupmessage')[0] + '#' + this.$route.fullPath
+        } else if (window.location.href.includes('?from=groupmessage&isappinstalled=0')) {
+          URL = window.location.href.split('?from=groupmessage&isappinstalled=0')[0] + '#' + this.$route.fullPath
         } else {
           URL = window.location.href.split('#')[0] + '#' + this.$route.fullPath
         }
