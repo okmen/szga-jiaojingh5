@@ -15,9 +15,9 @@
     <TheRules v-if="theRules"></TheRules>
     <VoteShare v-if='shareState' @click.native="voteFn"></VoteShare>
     <div class="renovateVote-bottom">
-      <p @click='voteFn'>投票</p>
-      <p @click='handleShare'>分享</p>
-      <p @click='theRulesFn'>规则</p>
+      <p :class="{ 'active': true == voteFns}" @click='voteFn'>投票</p>
+      <p :class="{ 'active': true == shareState}" @click='handleShare'>分享</p>
+      <p :class="{ 'active': true == theRules}" @click='theRulesFn'>规则</p>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -39,7 +39,8 @@ export default {
       localVote: '',
       show: true,
       isShow: false,
-      theRules: false
+      theRules: false,
+      voteFns: true
     }
   },
   components: {
@@ -49,12 +50,15 @@ export default {
   },
   methods: {
     voteFn () {
+      console.log('123')
+      this.voteFns = true
       this.shareState = false
       this.theRules = false
     },
     theRulesFn () {
       this.shareState = false
       this.theRules = true
+      this.voteFns = false
     },
     init () {
       let oTimer = window.localStorage.getItem('voteTime')
@@ -104,28 +108,33 @@ export default {
       })
     },
     subFn () {
-      let subData = {
-        voteId: this.value.join(',')
-      }
-      resultPost('http://gzh.stc.gov.cn/api/convenience/szjjVote.html', subData).then(json => {
-        if (json.code === '0000') {
-          window.localStorage.setItem('vote', ++this.localVote)
-          window.localStorage.setItem('voteTime', new Date())
-          MessageBox({
-            title: '温馨提示',
-            message: '投票成功,感谢您参与'
-          }).then(action => {
-            console.log('123')
-          })
-        } else {
-          Toast({message: json.msg, position: 'bottom', className: 'white'})
+      if (this.value.length) {
+        let subData = {
+          voteId: this.value.join(',')
         }
-      })
+        resultPost('http://gzh.stc.gov.cn/api/convenience/szjjVote.html', subData).then(json => {
+          if (json.code === '0000') {
+            window.localStorage.setItem('vote', ++this.localVote)
+            window.localStorage.setItem('voteTime', new Date())
+            MessageBox({
+              title: '温馨提示',
+              message: '投票成功,感谢您参与'
+            }).then(action => {
+              console.log('123')
+            })
+          } else {
+            Toast({message: json.msg, position: 'bottom', className: 'white'})
+          }
+        })
+      } else {
+        Toast({message: '请先选择投票选项', position: 'bottom', className: 'white'})
+      }
     },
     // 分享
     handleShare () {
       this.theRules = false
       this.shareState = true
+      this.voteFns = false
     },
     getQueryString (name) {
       let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
@@ -188,11 +197,11 @@ export default {
     line-height: 40px;
   }
   .mint-checklist {
-    border-top: 10px solid #eee;
-    border-bottom: 9px solid #eee;
+/*    border-top: 10px solid #eee;
+    border-bottom: 9px solid #eee;*/
   }
   .mint-checklist .mint-cell {
-    border-bottom: 1px solid #eee;
+    border-bottom: 10px solid #eee;
     margin-left: 0;
   }
   .mint-checklist-label {
@@ -206,7 +215,7 @@ export default {
     margin: auto 0;
   }
   .font {
-    color:red;
+    color:#ccc;
     line-height: 30px;
     font-size: 26px;
   }
@@ -218,7 +227,7 @@ export default {
   .renovateVote {
     position: relative;
     width: 100%;
-    background-color: #fff;
+    /*background-color: #fff;*/
     padding-bottom: 20px;
     >h2 {
       font-size: 42px;
@@ -256,6 +265,10 @@ export default {
         line-height: 80px;
         text-align: center;
         font-size: 26px;
+        &.active {
+          color: #174ed0;
+          border-bottom: 6px solid #174ed0;
+        }
       }
     }
   }
