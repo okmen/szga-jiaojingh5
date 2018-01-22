@@ -208,7 +208,7 @@ export default {
   .font {
     color:red;
     line-height: 30px;
-    font-size: 12px;
+    font-size: 26px;
   }
 }
 </style>
