@@ -197,11 +197,11 @@ export default {
     line-height: 40px;
   }
   .mint-checklist {
-    border-top: 10px solid #eee;
-    border-bottom: 9px solid #eee;
+/*    border-top: 10px solid #eee;
+    border-bottom: 9px solid #eee;*/
   }
   .mint-checklist .mint-cell {
-    border-bottom: 1px solid #eee;
+    border-bottom: 10px solid #eee;
     margin-left: 0;
   }
   .mint-checklist-label {
@@ -215,7 +215,7 @@ export default {
     margin: auto 0;
   }
   .font {
-    color:red;
+    color:#ccc;
     line-height: 30px;
     font-size: 26px;
   }
@@ -227,7 +227,7 @@ export default {
   .renovateVote {
     position: relative;
     width: 100%;
-    background-color: #fff;
+    /*background-color: #fff;*/
     padding-bottom: 20px;
     >h2 {
       font-size: 42px;
