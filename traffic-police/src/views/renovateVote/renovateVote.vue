@@ -180,6 +180,10 @@ export default {
     white-space: pre-line;
     line-height: 40px;
   }
+  .mint-checklist {
+    border-top: 10px solid #eee;
+    border-bottom: 9px solid #eee;
+  }
   .mint-checklist .mint-cell {
     border-bottom: 1px solid #eee;
     margin-left: 0;
@@ -197,6 +201,7 @@ export default {
   .font {
     color:red;
     line-height: 30px;
+    font-size: 12px;
   }
 }
 </style>
@@ -208,15 +213,15 @@ export default {
     width: 100%;
     background-color: #fff;
     padding-bottom: 20px;
-    h2 {
+    >h2 {
       font-size: 42px;
       text-align: center;
       line-height: 58px;
       padding: 20px 0;
+      padding-top: 60px;
     }
-    p {
-      width: 90%;
-      margin: 0 auto;
+    >p {
+      padding: 30px;
       font-size: 26px;
     }
     .renovateVote-button {
@@ -238,6 +243,7 @@ export default {
       bottom: 0;
       display: flex;
       background-color: #fff;
+      box-shadow: 0 0 5px rgba(0, 0, 0, .3);
       p {
         width: 30%;
         line-height: 70px;
