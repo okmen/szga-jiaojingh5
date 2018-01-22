@@ -136,7 +136,6 @@ export default {
     }
   },
   created () {
-    this.startFn()
     let openId = this.getQueryString('openId')
     if (openId) {
       console.log('已获取openId')
@@ -144,6 +143,7 @@ export default {
         value: openId
       })
       this.init()
+      this.startFn()
     } else {
       if (!this.$store.state.getOpenId) {
         let URL
@@ -170,6 +170,7 @@ export default {
         }
       } else {
         this.init()
+        this.startFn()
       }
     }
   }
