@@ -74,7 +74,7 @@ export default {
             if (window.localStorage.getItem('vote') > 3) {
               this.isShow = true
               this.show = false
-              Toast({message: '投票时要求获取微信ID，每个微信ID一天只允许投3次。', position: 'bottom', className: 'white'})
+              Toast({message: '已达当日投票上限', className: 'white'})
             } else {
               this.localVote = window.localStorage.getItem('vote')
             }
