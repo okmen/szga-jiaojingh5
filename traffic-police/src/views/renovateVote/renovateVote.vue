@@ -1,9 +1,7 @@
 <template>
   <div class="renovateVote">
-    <h2>深圳交警重点整治工作网络投票</h2>
-    <p>
-      尊敬的用户，为了给您提供更优质的服务，深圳交警将进行重点整治工作网络投票，感谢您的支持！
-    </p>
+    <h2>深圳交警2018年重点整治工作网络投票</h2>
+    <p>为了不断提升城市交通文明，营造更加文明和谐的交通环境，深圳交警将从人民群众反映强烈的各类交通违法行为中梳理出20项重点交通违法行为，开展公开向市民群众征求意见的投票活动。深圳交警将根据市民群众的评选意见，结合日常执法工作，确定“深圳交警2018年十大重点执法项目”,欢迎广大市民积极投票！</p>
     <mt-checklist
       align="right"
       v-model="value"
@@ -16,8 +14,8 @@
     <VoteShare v-if='shareState' @click.native="voteFn"></VoteShare>
     <div class="renovateVote-bottom">
       <p :class="{ 'active': true == voteFns}" @click='voteFn'>投票</p>
-      <p :class="{ 'active': true == shareState}" @click='handleShare'>分享</p>
       <p :class="{ 'active': true == theRules}" @click='theRulesFn'>规则</p>
+      <p :class="{ 'active': true == shareState}" @click='handleShare'>分享</p>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -77,7 +75,7 @@ export default {
             if (window.localStorage.getItem('vote') > 3) {
               this.isShow = true
               this.show = false
-              Toast({message: '投票时要求获取微信ID，每个微信ID一天只允许投3次。', position: 'bottom', className: 'white'})
+              Toast({message: '已达当日投票上限', className: 'white'})
             } else {
               this.localVote = window.localStorage.getItem('vote')
             }
@@ -130,6 +128,7 @@ export default {
         }
         resultPost('http://gzh.stc.gov.cn/api/convenience/szjjVote.html', subData).then(json => {
           if (json.code === '0000') {
+            this.value = []
             window.localStorage.setItem('vote', ++this.localVote)
             window.localStorage.setItem('voteTime', new Date())
             MessageBox({
@@ -143,7 +142,7 @@ export default {
           }
         })
       } else {
-        Toast({message: '请先选择投票选项', position: 'bottom', className: 'white'})
+        Toast({message: '请先选择投票选项', className: 'white'})
       }
     },
     // 分享
@@ -246,20 +245,22 @@ export default {
     /*background-color: #fff;*/
     padding-bottom: 20px;
     >h2 {
-      font-size: 42px;
+      font-size: 40px;
       text-align: center;
       line-height: 58px;
-      padding: 20px 0;
-      padding-top: 60px;
+      padding-top: 120px;
     }
     >p {
       padding: 30px;
-      font-size: 26px;
+      font-size: 30px;
+      line-height: 48px;
+      color:#666;
+      text-indent: 60px;
     }
     .renovateVote-button {
       display: block;
       width: 90%;
-      margin: 30px auto 100px;
+      margin: 30px auto;
       border: none;
       background-color: #26a2ff;
       border-radius: 6px;
@@ -272,7 +273,7 @@ export default {
       width: 100%;
       position: fixed;
       left: 0;
-      bottom: 0;
+      top: 0;
       display: flex;
       background-color: #fff;
       box-shadow: 0 0 5px rgba(0, 0, 0, .3);

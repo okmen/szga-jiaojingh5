@@ -1,10 +1,9 @@
 <template>
   <div class="theRules">
     <p>投票规则<p>
-    <p>1、投票渠道：微信渠道</p>
-    <p>2、投票时段：一周（7个日历日）</p>
-    <p>3、网友从20个备选项中选取10个投票</p>
-    <p>4、允许分享、转发。</p>
+    <p>1、活动时间：1月24日至30日（投票日期）</p>
+    <p>2、投票方法：请市民关注“深圳交警权威发布”微信公众号，在投票链接中进行投票。</p>
+    <p>3、每个手机每日可投三次，每次可投1-10票。</p>
   </div>
 </template>
 
@@ -38,7 +37,7 @@ export default {
     }
     p:first-of-type {
       font-size: 48px;
-      padding: 70px 0;
+      padding: 130px 0 60px;
       text-align: center;
     }
   }
