@@ -78,11 +78,20 @@ export default {
       resultPost(getAllVote, {}).then(json => {
         if (json.code === '0000') {
           let options = []
+          // json.data.map(item => {
+          //   let str = `${item.name}\n${'投票数:'}${item.count}`
+          //   options.push({'label': str, 'value': item.id})
+          // })
           json.data.map(item => {
-            let str = `${item.name}\n${item.count}`
-            options.push({'label': str, 'value': item.id})
+            options.push({'label': `${item.name}`, 'value': item.id, count: `${item.count}`})
           })
           this.options = options
+          this.$nextTick(() => {
+            let labelList = document.getElementsByClassName('mint-checkbox-label')
+            Array.from(labelList).map((item, index) => {
+              item.innerHTML = `${options[index].label}<div><span class="font">${options[index].count}</span>票</div>`
+            })
+          })
         } else {
           Toast({message: json.msg, position: 'bottom', className: 'white'})
         }
@@ -155,7 +164,11 @@ export default {
 <style lang="less">
 .renovateVote {
   .mint-checkbox-label {
-    white-space: pre;
+    white-space: pre-wrap;
+    margin:20px 0;
+  }
+  .mint-checklist .mint-cell {
+    border-bottom: 1px solid #eee;
   }
 }
 </style>
@@ -203,13 +216,8 @@ export default {
         font-size: 26px;
       }
     }
+    .font {
+      color:red;
+    }
   }
 </style>
-<!-- 
-<style type="text/less">
-  .renovateVote {
-    .mint-checklist .mint-cell {
-      border:
-    }
-  } 
-</style> -->
