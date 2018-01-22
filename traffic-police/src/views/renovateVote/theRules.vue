@@ -37,7 +37,7 @@ export default {
     }
     p:first-of-type {
       font-size: 48px;
-      padding: 130px 0;
+      padding: 130px 0 60px;
       text-align: center;
     }
   }

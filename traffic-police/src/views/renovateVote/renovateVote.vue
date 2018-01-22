@@ -14,8 +14,8 @@
     <VoteShare v-if='shareState' @click.native="voteFn"></VoteShare>
     <div class="renovateVote-bottom">
       <p :class="{ 'active': true == voteFns}" @click='voteFn'>投票</p>
-      <p :class="{ 'active': true == shareState}" @click='handleShare'>分享</p>
       <p :class="{ 'active': true == theRules}" @click='theRulesFn'>规则</p>
+      <p :class="{ 'active': true == shareState}" @click='handleShare'>分享</p>
     </div>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
@@ -112,6 +112,7 @@ export default {
         }
         resultPost('http://gzh.stc.gov.cn/api/convenience/szjjVote.html', subData).then(json => {
           if (json.code === '0000') {
+            this.value = []
             window.localStorage.setItem('vote', ++this.localVote)
             window.localStorage.setItem('voteTime', new Date())
             MessageBox({
@@ -125,7 +126,7 @@ export default {
           }
         })
       } else {
-        Toast({message: '请先选择投票选项', position: 'bottom', className: 'white'})
+        Toast({message: '请先选择投票选项', className: 'white'})
       }
     },
     // 分享
