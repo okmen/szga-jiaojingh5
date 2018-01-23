@@ -24,10 +24,8 @@
 <script>
 import { Checklist, Toast, MessageBox } from 'mint-ui'
 import { resultPost } from 'src/service/getData'
-import { getAllVote } from 'src/config/baseUrl'
 import TheRules from './theRules'
 import VoteShare from './VoteShare'
-import wx from 'weixin-js-sdk'
 export default {
   name: 'renovateVote',
   data () {
@@ -35,7 +33,7 @@ export default {
       value: [],
       options: [],
       shareState: false,
-      localVote: '',
+      localVote: 1,
       show: true,
       isShow: false,
       theRules: false,
@@ -82,24 +80,9 @@ export default {
           }
         }
       }
-      // 微信分享
-      let sURL
-      if (process.env.type === 'test') {
-        sURL = 'http://testh5.chudaokeji.com/h5/#/renovateVote'
-      } else {
-        sURL = 'http://gzh.stc.gov.cn/h5/#/renovateVote'
-      }
-      wx.onMenuShareTimeline({
-        title: '2018年深圳交警重点整治工作网络票',
-        link: sURL
-      })
-      wx.onMenuShareAppMessage({
-        title: '2018年深圳交警重点整治工作网络票',
-        link: sURL
-      })
     },
     startFn () {
-      resultPost(getAllVote, {}).then(json => {
+      resultPost('http://gzh.stc.gov.cn/api/convenience/getAllVote.html', {}).then(json => {
         if (json.code === '0000') {
           let options = []
           // json.data.map(item => {
@@ -129,13 +112,14 @@ export default {
         resultPost('http://gzh.stc.gov.cn/api/convenience/szjjVote.html', subData).then(json => {
           if (json.code === '0000') {
             this.value = []
-            window.localStorage.setItem('vote', ++this.localVote)
+            this.localVote = +this.localVote + 1
+            window.localStorage.setItem('vote', this.localVote)
             window.localStorage.setItem('voteTime', new Date())
             MessageBox({
               title: '温馨提示',
               message: '投票成功,感谢您参与'
             }).then(action => {
-              console.log('123')
+              this.startFn()
             })
           } else {
             Toast({message: json.msg, position: 'bottom', className: 'white'})

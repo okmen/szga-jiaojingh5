@@ -431,23 +431,34 @@ const router = new VueRouter({
 let ua = window.navigator.userAgent
 if (/MicroMessenger/i.test(ua)) {
   router.beforeEach((to, from, next) => {
+    let fullPath
     let link
-    if (process.env.type === 'test') {
-      link = 'http://testh5.chudaokeji.com/h5/#' + to.fullPath
+    let title
+    if (to.fullPath.indexOf('renovateVote') > 0) {
+      fullPath = '/renovateVote'
+      title = '2018年深圳交警重点整治工作网络投票'
     } else {
-      link = 'http://gzh.stc.gov.cn/h5/#' + to.fullPath
+      fullPath = to.fullPath
+      title = to.meta.title
     }
-    console.log(link)
-    wx.onMenuShareTimeline({
-      title: to.meta.title,
-      link: link
-    })
-    wx.onMenuShareAppMessage({
-      title: to.meta.title,
-      link: link,
-      cancel: function () {
-        console.log('分享的链接：', link)
-      }
+    if (process.env.type === 'test') {
+      link = 'http://testh5.chudaokeji.com/h5/#' + fullPath
+    } else {
+      link = 'http://gzh.stc.gov.cn/h5/#' + fullPath
+    }
+    console.log(title)
+    wx.ready(function () {
+      wx.onMenuShareTimeline({
+        title: title,
+        link: link
+      })
+      wx.onMenuShareAppMessage({
+        title: title,
+        link: link,
+        cancel: function () {
+          console.log('分享的链接：', link)
+        }
+      })
     })
     next()
   })
