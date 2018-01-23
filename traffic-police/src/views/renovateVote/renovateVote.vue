@@ -1,13 +1,15 @@
 <template>
   <div class="renovateVote">
-    <h2>深圳交警2018年重点整治工作网络投票</h2>
-    <p>为了不断提升城市交通文明，营造更加文明和谐的交通环境，深圳交警将从人民群众反映强烈的各类交通违法行为中梳理出20项重点交通违法行为，开展公开向市民群众征求意见的投票活动。深圳交警将根据市民群众的评选意见，结合日常执法工作，确定“深圳交警2018年十大重点执法项目”,欢迎广大市民积极投票！</p>
-    <mt-checklist
-      align="right"
-      v-model="value"
-      :max="10"
-      :options="options">
-    </mt-checklist>
+    <div class="banner"><img width="100%" src="../../images/renovate/banner.jpg" alt="重点整治的交通违法行为"></div>
+    <div class="checklist">
+      <checkCard
+        v-for="item in options"
+        v-if="item" :opt="item"
+        @click.native="handleCheck(item.value)"
+        :value="value"
+        :all="allCount"
+      ></checkCard>
+    </div>
     <button class="renovateVote-button" @click="subFn" v-if="show">提交</button>
     <button class="renovateVote-button" style="background: gray" v-if="isShow">提交</button>
     <TheRules v-if="theRules"></TheRules>
@@ -26,6 +28,7 @@ import { Checklist, Toast, MessageBox } from 'mint-ui'
 import { resultPost } from 'src/service/getData'
 import TheRules from './theRules'
 import VoteShare from './VoteShare'
+import checkCard from './checkCard'
 export default {
   name: 'renovateVote',
   data () {
@@ -37,15 +40,46 @@ export default {
       show: true,
       isShow: false,
       theRules: false,
-      voteFns: true
+      voteFns: true,
+      colors: [
+        '#55c8f6', '#fbb649', '#46d963', '#f57963', '#55f68e',
+        '#f65568', '#7355f6', '#55f682', '#c3f655', '#f6b055',
+        '#f655ac', '#55e9f6', '#55f65d', '#f4f655', '#f67055',
+        '#7355f6', '#55f6c7', '#7ff655', '#f6c355', '#f65555'
+      ]
     }
   },
   components: {
     Checklist,
     TheRules,
-    VoteShare
+    VoteShare,
+    checkCard
+  },
+  computed: {
+    allCount () {
+      let count = 0
+      this.options.forEach((item, index, array) => {
+        item.color = this.colors[index]
+        count += +item.count
+      })
+      return count + 20
+    }
   },
   methods: {
+    // 选择选项
+    handleCheck (data) {
+      let index = this.value.indexOf(data)
+      console.log(index)
+      if (index >= 0) {
+        this.value.splice(index, 1)
+      } else {
+        if (this.value.length >= 10) {
+          Toast({message: '最多只能选10个', className: 'white'})
+        } else {
+          this.value.push(data)
+        }
+      }
+    },
     voteFn () {
       console.log('123')
       this.voteFns = true
@@ -186,6 +220,11 @@ export default {
 
 <style lang="less">
 .renovateVote {
+  background: #f1f8ff;
+  .banner{ padding-top: 80px; }
+  .checklist {
+    padding: 30px;
+  }
   .mint-checklist-label {
     padding: 10px 40px 10px 10px;
   }
