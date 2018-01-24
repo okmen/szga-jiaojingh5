@@ -1,7 +1,7 @@
 <template>
   <div class="m-voteShare">
     <div class="voteShare">
-      <img class="voteShare-img" src="../../images/share.png">
+      <img class="voteShare-img" src="../../images/renovate/fx.png">
     </div>
   </div>
 </template>
@@ -17,18 +17,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .m-voteShare {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: rgba(0,0,0,.9);
-    text-align: center;
-    .voteShare-img {
-      width:90%;
-      /*margin: 0 auto;*/
-      margin-top: 110px;
-    }
+.m-voteShare {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding-top: 80px;
+  background: #191919;
+  text-align: center;
+  .voteShare-img {
+    width:100%;
   }
+}
 </style>
