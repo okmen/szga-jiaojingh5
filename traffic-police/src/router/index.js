@@ -436,7 +436,7 @@ if (/MicroMessenger/i.test(ua)) {
     let title
     if (to.fullPath.indexOf('renovateVote') > 0) {
       fullPath = '/renovateVote'
-      title = '2018年深圳交警重点整治工作网络投票'
+      title = '交警查什么？你做主！2018年十大重点执法项目，请你来投票！'
     } else {
       fullPath = to.fullPath
       title = to.meta.title
