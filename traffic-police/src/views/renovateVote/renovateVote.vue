@@ -1,30 +1,34 @@
 <template>
   <div class="renovateVote">
-    <h2>深圳交警重点整治工作网络投票</h2>
-    <p>
-      尊敬的用户，为了给您提供更优质的服务，深圳交警将进行重点整治工作网络投票，感谢您的支持！
-    </p>
-    <checklist
-      align="right"
-      v-model="value"
-      :max="10"
-      :options="options">
-    </checklist>
+    <div class="banner"><img width="100%" src="../../images/renovate/banner.png" alt="重点整治的交通违法行为"></div>
+    <div class="checklist">
+      <checkCard
+        v-for="item in options"
+        v-if="item" :opt="item"
+        @click.native="handleCheck(item.value)"
+        :value="value"
+        :all="allCount"
+      ></checkCard>
+    </div>
     <button class="renovateVote-button" @click="subFn" v-if="show">提交</button>
     <button class="renovateVote-button" style="background: gray" v-if="isShow">提交</button>
-    <div class="renovateVote-bottom">
-      <p>投票</p>
-      <p>分享</p>
-      <p>规则</p>
-    </div>
+<!--     <TheRules v-if="theRules"></TheRules>
+    <VoteShare v-if='shareState' @click.native="voteFn"></VoteShare> -->
+<!--     <div class="renovateVote-bottom">
+      <p :class="{ 'active': true == voteFns}" @click='voteFn'>投票</p>
+      <p :class="{ 'active': true == theRules}" @click='theRulesFn'>规则</p>
+      <p :class="{ 'active': true == shareState}" @click='handleShare'>分享</p>
+    </div> -->
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
 
 <script>
-import { Checklist, Toast } from 'mint-ui'
+import { Toast, MessageBox } from 'mint-ui'
 import { resultPost } from 'src/service/getData'
-import { getAllVote, szjjVote } from 'src/config/baseUrl'
+// import TheRules from './theRules'
+// import VoteShare from './VoteShare'
+import checkCard from './checkCard'
 export default {
   name: 'renovateVote',
   data () {
@@ -32,15 +36,60 @@ export default {
       value: [],
       options: [],
       shareState: false,
-      localVote: '',
+      localVote: 1,
       show: true,
-      isShow: false
+      isShow: false,
+      theRules: false,
+      voteFns: true,
+      colors: [
+        '#55c8f6', '#fbb649', '#46d963', '#f57963', '#55f68e',
+        '#f65568', '#7355f6', '#55f682', '#c3f655', '#f6b055',
+        '#f655ac', '#55e9f6', '#55f65d', '#f4f655', '#f67055',
+        '#7355f6', '#55f6c7', '#7ff655', '#f6c355', '#f65555'
+      ]
     }
   },
   components: {
-    Checklist
+    // TheRules,
+    // VoteShare,
+    checkCard
+  },
+  computed: {
+    allCount () {
+      let count = 0
+      this.options.forEach((item, index, array) => {
+        item.color = this.colors[index]
+        count += +item.count
+      })
+      return count + 20
+    }
   },
   methods: {
+    // 选择选项
+    handleCheck (data) {
+      let index = this.value.indexOf(data)
+      console.log(index)
+      if (index >= 0) {
+        this.value.splice(index, 1)
+      } else {
+        if (this.value.length >= 10) {
+          Toast({message: '最多只能选10个', className: 'white'})
+        } else {
+          this.value.push(data)
+        }
+      }
+    },
+    // voteFn () {
+    //   console.log('123')
+    //   this.voteFns = true
+    //   this.shareState = false
+    //   this.theRules = false
+    // },
+    // theRulesFn () {
+    //   this.shareState = false
+    //   this.theRules = true
+    //   this.voteFns = false
+    // },
     init () {
       let oTimer = window.localStorage.getItem('voteTime')
       if (oTimer) {
@@ -57,6 +106,7 @@ export default {
             if (window.localStorage.getItem('vote') > 3) {
               this.isShow = true
               this.show = false
+              Toast({message: '已达当日投票上限', className: 'white'})
             } else {
               this.localVote = window.localStorage.getItem('vote')
             }
@@ -65,9 +115,13 @@ export default {
       }
     },
     startFn () {
-      resultPost(getAllVote, {}).then(json => {
+      resultPost('http://gzh.stc.gov.cn/api/convenience/getAllVote.html', {}).then(json => {
         if (json.code === '0000') {
           let options = []
+          // json.data.map(item => {
+          //   let str = `${item.name}\n${'投票数:'}${item.count}`
+          //   options.push({'label': str, 'value': item.id})
+          // })
           json.data.map(item => {
             options.push({'label': `${item.name}`, 'value': item.id, count: `${item.count}`})
           })
@@ -75,7 +129,7 @@ export default {
           this.$nextTick(() => {
             let labelList = document.getElementsByClassName('mint-checkbox-label')
             Array.from(labelList).map((item, index) => {
-              item.innerHTML = `${options[index].label}<div>已经投${options[index].count}票</div>`
+              item.innerHTML = `${options[index].label}<div><span class="font">已投${options[index].count}票</span></div>`
             })
           })
         } else {
@@ -84,23 +138,36 @@ export default {
       })
     },
     subFn () {
-      let subData = {
-        voteId: this.value.join(',')
-      }
-      resultPost(szjjVote, subData).then(json => {
-        if (json.code === '0000') {
-          console.log(json)
-        } else {
-          Toast({message: json.msg, position: 'bottom', className: 'white'})
+      if (this.value.length) {
+        let subData = {
+          voteId: this.value.join(',')
         }
-      })
-      window.localStorage.setItem('vote', ++this.localVote)
-      window.localStorage.setItem('voteTime', new Date())
+        resultPost('http://gzh.stc.gov.cn/api/convenience/szjjVote.html', subData).then(json => {
+          if (json.code === '0000') {
+            this.value = []
+            this.localVote = +this.localVote + 1
+            window.localStorage.setItem('vote', this.localVote)
+            window.localStorage.setItem('voteTime', new Date())
+            MessageBox({
+              title: '温馨提示',
+              message: '投票成功,感谢您参与'
+            }).then(action => {
+              this.startFn()
+            })
+          } else {
+            Toast({message: json.msg, position: 'bottom', className: 'white'})
+          }
+        })
+      } else {
+        Toast({message: '请先选择投票选项', className: 'white'})
+      }
     },
-    // 分享
-    handleShare () {
-      this.shareState = true
-    },
+    // // 分享
+    // handleShare () {
+    //   this.theRules = false
+    //   this.shareState = true
+    //   this.voteFns = false
+    // },
     getQueryString (name) {
       let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
       let href = window.location.href
@@ -110,7 +177,6 @@ export default {
     }
   },
   created () {
-    this.startFn()
     let openId = this.getQueryString('openId')
     if (openId) {
       console.log('已获取openId')
@@ -121,14 +187,17 @@ export default {
     } else {
       if (!this.$store.state.getOpenId) {
         let URL
-        if (window.location.href.includes('?renovateVote')) {
-          URL = window.location.href.split('?renovateVote')[0] + '#' + this.$route.fullPath
+        if (window.location.href.includes('?from=singlemessage')) {
+          URL = window.location.href.split('?from=singlemessage')[0] + '#' + this.$route.fullPath
+        } else if (window.location.href.includes('?from=groupmessage')) {
+          URL = window.location.href.split('?from=groupmessage')[0] + '#' + this.$route.fullPath
+        } else if (window.location.href.includes('?from=groupmessage&isappinstalled=0')) {
+          URL = window.location.href.split('?from=groupmessage&isappinstalled=0')[0] + '#' + this.$route.fullPath
         } else {
           URL = window.location.href.split('#')[0] + '#' + this.$route.fullPath
         }
         let ua = window.navigator.userAgent
         console.log(URL)
-        this.init()
         if (/MicroMessenger/i.test(ua)) {
           if (process.env.type === 'test') {
             // 测试环境
@@ -143,14 +212,49 @@ export default {
         this.init()
       }
     }
+    this.startFn()
   }
 }
 </script>
 
 <style lang="less">
 .renovateVote {
+  background: #f1f8ff;
+/*  .banner{ padding-top: 80px; }*/
+  .checklist {
+    padding: 30px;
+  }
+  .mint-checklist-label {
+    padding: 10px 40px 10px 10px;
+  }
   .mint-checkbox-label {
-    white-space: pre;
+    /*white-space: pre-wrap;*/
+    margin: 20px 0;
+    white-space: pre-line;
+    line-height: 40px;
+  }
+  .mint-checklist {
+/*    border-top: 10px solid #eee;
+    border-bottom: 9px solid #eee;*/
+  }
+  .mint-checklist .mint-cell {
+    border-bottom: 10px solid #eee;
+    margin-left: 0;
+  }
+  .mint-checklist-label {
+    position: relative;
+  }
+  .mint-checkbox-core {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+  }
+  .font {
+    color:#ccc;
+    line-height: 30px;
+    font-size: 26px;
   }
 }
 </style>
@@ -160,22 +264,25 @@ export default {
   .renovateVote {
     position: relative;
     width: 100%;
-    background-color: #fff;
-    h2 {
-      font-size: 42px;
+    /*background-color: #fff;*/
+    padding-bottom: 20px;
+    >h2 {
+      font-size: 40px;
       text-align: center;
       line-height: 58px;
-      padding: 20px 0;
+      padding-top: 120px;
     }
-    p {
-      width: 90%;
-      margin: 0 auto;
-      font-size: 26px;
+    >p {
+      padding: 30px;
+      font-size: 30px;
+      line-height: 48px;
+      color:#666;
+      text-indent: 60px;
     }
     .renovateVote-button {
       display: block;
       width: 90%;
-      margin: 20px auto 80px;
+      margin: 30px auto;
       border: none;
       background-color: #26a2ff;
       border-radius: 6px;
@@ -188,14 +295,19 @@ export default {
       width: 100%;
       position: fixed;
       left: 0;
-      bottom: 0;
+      top: 0;
       display: flex;
       background-color: #fff;
+      box-shadow: 0 0 5px rgba(0, 0, 0, .3);
       p {
-        width: 30%;
-        line-height: 70px;
+        width: 33%;
+        line-height: 80px;
         text-align: center;
         font-size: 26px;
+        &.active {
+          color: #174ed0;
+          border-bottom: 6px solid #174ed0;
+        }
       }
     }
   }

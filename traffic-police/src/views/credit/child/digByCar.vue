@@ -46,7 +46,8 @@
         let digitalReceiptData = {
           drivingLicenceNo: obj.identityCard || '',
           licensePlateNo: obj.myNumberPlate,
-          billNo: ''
+          billNo: '',
+          licenseType: obj.plateType
         }
         resultPost(toQueryElectronicReceiptPage, digitalReceiptData).then(json => {
           if (json.code === '0000') {
