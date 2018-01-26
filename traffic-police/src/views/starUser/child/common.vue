@@ -69,7 +69,7 @@ export default {
   position: relative;
   .starUser-upload-inner {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     .starUser-upload-box {
       position:relative;
       width: 190px;
