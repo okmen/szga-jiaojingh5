@@ -5,7 +5,7 @@
       <a href="javascript:;" @click="routerLink(index)">{{ item.name }}</a>
     </div>
     <div class="query-link">
-      <a :href="inName">机动车检测预约</a>
+      <a @click="initiationFn()">机动车检测预约</a>
     </div>
   </div>
 </template>
@@ -39,7 +39,8 @@
         }).then(data => {
           if (data.code === '0000') {
             this.code = data.data
-            this.inName = `https://green.stc.gov.cn:9999/szjjwxyw/szjj/szjj_checkJJyw.action?ywlx=jdcaqjcyy&lrly=C&sqm=${this.code}`
+            // this.inName = `https://green.stc.gov.cn:9999/szjjwxyw/szjj/szjj_checkJJyw.action?ywlx=jdcaqjcyy&lrly=C&sqm=${this.code}`
+            window.location.assign(`https://green.stc.gov.cn:9999/szjjwxyw/szjj/szjj_checkJJyw.action?ywlx=jdcaqjcyy&lrly=C&sqm=${this.code}`)
           } else {
             console.log(data.msg)
           }
@@ -78,7 +79,7 @@
     },
     mounted () {
       this.initMenu()
-      this.initiationFn()   // 获取授权码
+      // this.initiationFn()   // 获取授权码
     }
   }
 </script>
