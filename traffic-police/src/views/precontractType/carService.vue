@@ -4,12 +4,15 @@
     <div class="query-link" v-for="(item, index) in menuArr">
       <a href="javascript:;" @click="routerLink(index)">{{ item.name }}</a>
     </div>
+    <div class="query-link">
+      <a :href="inName">机动车检测预约</a>
+    </div>
   </div>
 </template>
 <script>
   import { resultPost } from '../../service/getData'
   import { Toast } from 'mint-ui'
-  import { getBusinessTypes } from '../../config/baseUrl'
+  import { getBusinessTypes, accessAuthorization } from '../../config/baseUrl'
   export default {
     name: 'carService',
     data () {
@@ -21,10 +24,27 @@
         isLogin: false,
         isLogins: window.localStorage.getItem('isLogin'),
         routerUrl: '',
-        menuArr: []
+        menuArr: [],
+        code: '',
+        inName: ''
       }
     },
     methods: {
+      // 获取授权码
+      initiationFn () {
+        resultPost(accessAuthorization, {
+          mobilephone: window.localStorage.getItem('mobilePhone'),
+          identityCard: window.localStorage.getItem('identityCard'),
+          userSource: 'C'
+        }).then(data => {
+          if (data.code === '0000') {
+            this.code = data.data
+            this.inName = `https://green.stc.gov.cn:9999/szjjwxyw/szjj/szjj_checkJJyw.action?ywlx=jdcaqjcyy&lrly=C&sqm=${this.code}`
+          } else {
+            console.log(data.msg)
+          }
+        })
+      },
       clickShow: function () {
         this.isShow = !this.isShow
       },
@@ -58,6 +78,7 @@
     },
     mounted () {
       this.initMenu()
+      this.initiationFn()   // 获取授权码
     }
   }
 </script>
