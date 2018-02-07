@@ -50,7 +50,7 @@
     <!-- 预约成功的内容 -->
     <section class="appoint-box" v-if="JsonDataInfo.type == 2">
       <h3>预约结果</h3>
-      <p>{{ tip }}</p>
+      <p>{{ tib }}</p>
       <ul class="submitSuccess-ul">
         <li v-for="(value, key) in JsonDataInfo" class="submitSuccess-item"  v-if="keyListObj[key]">
           <span class="submitSuccess-item-key">{{ keyListObj[key] }}</span>
@@ -109,6 +109,7 @@ export default {
       JsonDataInfo: '',
       urlJsonData: this.urlToJson(window.location.href),
       tip: '您的信息已成功提交，我们将会在3个工作日内通过短信告知您的审核结果，您还可以凭身份证信息在深圳交警微信号中查询审核。',
+      tib: '您的信息已提交成功，您可以凭身份证信息在深圳交警微信号中查询审核。',
       typeTitle: {
         '1': '申办',
         '2': '预约',
