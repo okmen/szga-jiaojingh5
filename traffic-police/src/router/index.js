@@ -15,7 +15,6 @@ import creditRouter from 'src/router/credit.js' // 信息单据证明
 import wschoolRouter from 'src/router/wschool.js' // 微课堂
 import newQueryLawlessRouter from 'src/router/newQueryLawless.js' // 违法处理类优化版
 import dieselEngineTrucks from 'src/router/dieselEngineTrucks.js'
-import renovateVote from 'src/router/renovateVote.js'
 import wx from 'weixin-js-sdk'
 
 Vue.use(VueRouter)
@@ -419,9 +418,7 @@ const routes = [
   // 违法处理类 新版
   ...newQueryLawlessRouter,
   // 柴油轻型自卸货车
-  ...dieselEngineTrucks,
-  // 投票
-  ...renovateVote
+  ...dieselEngineTrucks
 ]
 /* eslint-disable no-new */
 const router = new VueRouter({
