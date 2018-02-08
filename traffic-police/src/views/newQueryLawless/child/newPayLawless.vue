@@ -61,7 +61,7 @@
     </div>
     <button class="btn btn-blue" type="button" name="button" @click.stop="queryPay()">查询</button>
     <div class="hint">
-      <h4>温馨提示：</h4>
+      <h4>温馨提示：<span class="pay-red">无处罚通知书，请前往"违法在线处理"进行查缴</span></h4>
       <p>缴款交易提示成功的，违法记录将以24小时内完成核销，请您在交易成功24小时以后查询违法处理结果，请勿急于重复缴款。如违法记录仍未核销的 款项将在15日内退回。</p>
     </div>
   </div>
@@ -134,6 +134,9 @@
       }
       .width-70 {
          width: 70% !important;
+      }
+      .pay-red{
+        color: #FF0000;
       }
   }
 
