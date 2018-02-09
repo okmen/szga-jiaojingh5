@@ -9,7 +9,7 @@
     <section class="appoint-box">
       <h3>预约成功</h3>
       <p>
-        您的信息已成功提交，我们将会在3个工作日内通过短信告知您的审核结果，您还可以凭身份证信息在深圳交警微信号中查询审核。
+        您的信息已提交成功，您可以凭身份证信息在深圳交警微信号中查询审核。
       </p>
       <p v-if="showAppoin.appoinMsg">{{showAppoin.appoinMsg}}</p>
       <p class="appoint-margin" v-if="showAppoin.appoinType">业务类型：<span>{{showAppoin.appoinType}}</span></p>
