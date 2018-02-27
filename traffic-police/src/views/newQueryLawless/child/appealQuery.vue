@@ -41,7 +41,7 @@
         <div class="form-item">
           <div class="item-left">车牌类型</div>
           <div class="item-right">
-            <input class="text-input" v-model="plateTypeList[carJson.plateType]" readonly>
+            <input class="text-input" v-model="plateTypeList[carJson.plateType]" disabled>
           </div>
         </div>
         <div class="form-item">
