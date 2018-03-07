@@ -3,9 +3,10 @@
     <div class="banner"><img width="100%" src="../../images/renovate/banner.png" alt="重点整治的交通违法行为"></div>
     <div class="checklist">
       <checkCard
-        v-for="item in options"
+        v-for="(item, index) in options"
         v-if="item" :opt="item"
         @click.native="handleCheck(item.value)"
+        :key="index"
         :value="value"
         :all="allCount"
       ></checkCard>
@@ -232,10 +233,6 @@ export default {
     margin: 20px 0;
     white-space: pre-line;
     line-height: 40px;
-  }
-  .mint-checklist {
-/*    border-top: 10px solid #eee;
-    border-bottom: 9px solid #eee;*/
   }
   .mint-checklist .mint-cell {
     border-bottom: 10px solid #eee;
