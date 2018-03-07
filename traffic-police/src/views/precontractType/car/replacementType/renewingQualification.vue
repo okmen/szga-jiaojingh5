@@ -1,11 +1,11 @@
 <!-- 补换检验合格标志 -->
 <template>
   <div class="renewingQualification">
-    <common 
+    <commons 
       @submitClick="subFn"
       :currentBusinessId="businessId"
       :currentCode="businessCode"
-    ></common>
+    ></commons>
     <div v-wechat-title="$route.meta.title"></div>
   </div>
 </template>
@@ -14,7 +14,7 @@
 import { resultPost } from '../../../../service/getData'
 import { createVehicleInfo } from '../../../../config/baseUrl.js'
 import { Toast } from 'mint-ui'
-import common from './child/common.vue'
+import commons from './child/commons.vue'
 export default {
   name: 'renewingQualification',
   props: ['businessId', 'businessCode'],    // 拿到当前业务的id  然后传给 common组件
@@ -23,7 +23,7 @@ export default {
     }
   },
   components: {
-    common
+    commons
   },
   mounted () {
     this.nametypes = this.$route.query.name
