@@ -9,10 +9,10 @@
       <ul>
         <li class="form-line">
           <div class="form-line-item item-name">
-            <span>车主姓名</span>
+            <span>驾驶人姓名</span>
           </div>
           <div class="form-line-item">
-            <input class="text-input bg-colour" type="text" value="" placeholder="请输入车主姓名" v-model="name"/>
+            <input class="text-input bg-colour" type="text" value="" placeholder="请输入驾驶人姓名" v-model="name"/>
           </div>
         </li>
         <li class="form-line">
@@ -263,9 +263,9 @@ export default {
     },
     submitClick: function () {
       if (!this.name) {
-        Toast({message: '请输入车主姓名', className: 'white', duration: 1500})
+        Toast({message: '请输入驾驶人姓名', className: 'white', duration: 1500})
       } else if (specialCharacters(this.name)) {
-        Toast({message: '车主姓名不能含有特殊字符', className: 'white', duration: 1500})
+        Toast({message: '驾驶人姓名不能含有特殊字符', className: 'white', duration: 1500})
       } else if (!this.identificationNum) {
         Toast({message: '请输入证件号码', className: 'white', duration: 1500})
       } else if (!this.mobilephone) {
