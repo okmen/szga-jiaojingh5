@@ -113,6 +113,7 @@ import common from './common'
 import { resultPost } from '../../../service/getData'
 import { carOwner, sendSMS } from '../../../config/baseUrl'
 import { Toast, Indicator } from 'mint-ui'
+import { isPhone } from 'service/regExp.js'
 import { mapActions } from 'vuex'
 export default{
   name: 'carOwner',
@@ -359,7 +360,7 @@ export default{
         businessType: 'szjj'
       }
       let time = 30
-      if (/^1[34578]\d{9}$/.test(this.telphone)) {
+      if (isPhone(this.telphone)) {
         this.getValidCodeMsg = `已发送（${time}）`
         this.isdisabled = true
         countDown(this)

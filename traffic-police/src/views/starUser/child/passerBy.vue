@@ -38,6 +38,7 @@
   import { resultPost } from '../../../service/getData'
   import { passerBy, sendSMS } from '../../../config/baseUrl'
   import { Toast, Indicator } from 'mint-ui'
+  import { isPhone } from 'service/regExp.js'
   import { mapActions } from 'vuex'
   export default{
     name: 'passerBy',
@@ -60,7 +61,7 @@
           businessType: 'szjj'
         }
         let time = 30
-        if (/^1[34578]\d{9}$/.test(this.telphoneNumber)) {
+        if (isPhone(this.telphoneNumber)) {
           this.getValidCodeMsg = `已发送（${time}）`
           this.isdisabled = true
           countDown(this)

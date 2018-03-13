@@ -47,6 +47,7 @@
 <script>
 import { Select, Option, Input } from 'element-ui'
 import { verifyCode } from '../../config/verifyCode.js'
+import { isPhone } from '../../service/regExp.js'
 import { resultPost } from '../../service/getData'
 import { toQueryFeePage } from '../../config/baseUrl'
 import { Toast } from 'mint-ui'
@@ -132,7 +133,7 @@ export default {
     },
     // 提交查询
     submit () {
-      if (!/^1\d{10}$/.test(this.form.tel)) {
+      if (!isPhone(this.form.tel)) {
         Toast({
           message: '手机号码格式错误',
           position: 'bottom'

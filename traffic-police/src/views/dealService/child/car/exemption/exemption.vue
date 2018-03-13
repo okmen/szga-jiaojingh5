@@ -186,6 +186,7 @@
 <script>
 import { mapActions } from 'vuex'
 import { resultPost } from '../../../../../service/getData'
+import { isPhone } from '../../../../../service/regExp.js'
 import { sendSMS, verificatioCode, createVehicleInspection, getCarTypeId } from '../../../../../config/baseUrl'
 import { Toast, MessageBox } from 'mint-ui'
 export default {
@@ -454,7 +455,7 @@ export default {
       let mobile = this.mobile
       if (!(mobile)) {
         Toast({message: '请输入手机号', position: 'bottom', className: 'white'})
-      } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobile))) {
+      } else if (!isPhone(this.mobile)) {
         Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
       } else {
         let phonedata = {
@@ -533,7 +534,7 @@ export default {
     submitClick: function () {
       if (!this.mobile) {
         Toast({message: '请输入手机号码', position: 'bottom', className: 'white'})
-      } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobile))) {
+      } else if (!isPhone(this.mobile)) {
         Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
       } else if (!this.postalcode) {
         Toast({message: '请输入邮政编码', position: 'bottom', className: 'white'})

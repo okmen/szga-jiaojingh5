@@ -110,7 +110,7 @@
 <script>
 import { resultPost } from '../../../../../service/getData'
 import { simpleSendMessage, getAppointmentDate, getAppTimes, getPageInit } from '../../../../../config/baseUrl.js'
-import { specialCharacters } from '../../../../../service/regExp.js'
+import { specialCharacters, isPhone } from '../../../../../service/regExp.js'
 import { Toast, MessageBox } from 'mint-ui'
 export default {
   name: 'renewingCollarCredential',
@@ -214,7 +214,7 @@ export default {
       let mobilephone = this.mobilephone
       if (!(mobilephone)) {
         Toast({message: '请输入手机号', position: 'bottom', className: 'white'})
-      } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobilephone))) {
+      } else if (!isPhone(this.mobilephone)) {
         Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
       } else {
         let name
@@ -270,7 +270,7 @@ export default {
         Toast({message: '请输入证件号码', className: 'white', duration: 1500})
       } else if (!this.mobilephone) {
         Toast({message: '请输入手机号码', className: 'white', duration: 1500})
-      } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobilephone))) {
+      } else if (!isPhone(this.mobilephone)) {
         Toast({message: '请输入正确手机号码', className: 'white', duration: 1500})
       } else if (!this.date) {
         Toast({message: '请选择预约日期', className: 'white', duration: 1500})
