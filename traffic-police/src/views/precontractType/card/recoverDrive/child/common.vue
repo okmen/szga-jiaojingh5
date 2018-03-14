@@ -94,6 +94,7 @@
           </div>
         </li>
       </ul>
+      <p class="con-color">温馨提示：<span class="con-p">外籍人士,请在证件号码前加(F)。</span></p>
       <div class="alter-button-box">
         <button class="btn alterButton" @click="appointTaskClick">预 约</button>
       </div>
@@ -411,6 +412,9 @@
         } else if (!this.cardNum) {
           Toast({ message: '证件号码不能为空', className: 'white', duration: 1500 })
           return false
+        } else if (/[（* | ）* ]/g.test(this.cardNum)) {
+          Toast({ message: '请使用英文状态下的括号', className: 'white', duration: 1500 })
+          return false
         } else if (!this.userTelphone) {
           Toast({ message: '手机号码不能为空', className: 'white', duration: 1500 })
           return false
@@ -447,4 +451,11 @@
 </script>
 <style lang="less">
   @import '../../../../../style/orderAlter';
+  .con-color {
+    color: #2696dd;
+    padding-top: 40px;
+  }
+  .con-p {
+    color: #FF0000;
+  }
 </style>
