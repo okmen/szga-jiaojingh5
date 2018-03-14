@@ -49,6 +49,8 @@ export const updatePwd = `${commonUrl}user/updatePwd.html` // 修改密码接口
 
 export const updateMobile = `${commonUrl}user/updateMobile.html` // 修改手机号码接口
 
+export const updateNewMobile = `${commonUrl}user/updateNewMobile.html` // 修改手机号码接口(旧手机不在)
+
 export const addVehicle = `${commonUrl}user/addVehicle.html` // 添加车辆接口
 
 export const updateUser = `${commonUrl}user/updateUser.html` // 修改个人资料接口
@@ -323,3 +325,8 @@ export const cardSDK = `${commonUrl}h5/cardConfig.html`
 export const szjjVote = `${commonUrl}convenience/szjjVote.html`
 
 export const getAllVote = `${commonUrl}convenience/getAllVote.html`
+
+/* ------------------刷脸token存取------------------- */
+export const insertToken = `${commonUrl}faceautonym/insertToken.html` // 录入token接口
+
+export const getTokenByIdentityCard = `${commonUrl}faceautonym/getTokenByIdentityCard.html` // 获取token接口

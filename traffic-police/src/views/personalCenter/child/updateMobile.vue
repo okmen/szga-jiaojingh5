@@ -48,14 +48,14 @@
     <input type="hidden" name="name" v-model="userName">
     <input type="hidden" name="pic_key" v-model="picKey">
     <input type="hidden" name="sig" :value="sig">
-    <!-- <button class="btn btn-custom"  type="button" name="button" @click.stop="sweepInto()">旧手机不在了</button> -->
+    <button class="btn btn-custom"  type="button" name="button" @click.stop="sweepInto()">旧手机不在了</button>
   </form>
 </div>
 </template>
 
 <script>
 import crypto from 'crypto'
-import { updateMobile, sendSMS } from '../../../config/baseUrl'
+import { updateMobile, sendSMS, getTokenByIdentityCard } from '../../../config/baseUrl'
 import { resultPost } from '../../../service/getData'
 import { Toast, Indicator } from 'mint-ui'
 export default{
@@ -82,7 +82,7 @@ export default{
       infoSignature: null,
       infoSig: null,
       signToken: '',
-      type: 0
+      type: '0'
     }
   },
   methods: {
@@ -123,6 +123,7 @@ export default{
     /* 提交数据 */
     submit: function () {
       let reqData = {
+        type: '1', // 1-旧手机 2-新手机
         oldMobile: this.oldMobile,
         validateCode: this.validateCode,
         newMobile: this.newMobile,
@@ -186,7 +187,6 @@ export default{
       }
     },
     sweepInto () {
-      // this.signToken = decodeURI('%7B0825F13E-F7FA-41B4-A935-ADA0B40CC42D%7D')
       if (this.signToken) {
         this.type = '1'
         this.IDcard = this.identityCard
@@ -241,12 +241,32 @@ export default{
     }
   },
   created () {
+    this.redirect = window.location.href.split('#')[0] + '#/updateNewMobile'
     this.oldMobile = window.localStorage.getItem('mobilePhone')
     this.identityCard = window.localStorage.getItem('identityCard')
-    this.redirect = window.location.href
-    if (this.$route.query.token) {
-      window.alert(window.location.href)
+    let reqData = {
+      identityCard: window.localStorage.getItem('identityCard')
     }
+    // 获取token
+    resultPost(getTokenByIdentityCard, reqData).then(json => {
+      this.signToken = json.data.token
+      console.log(json)
+    })
+    // // 录入token
+    // if (this.$route.query.token) {
+    //   let reqData = {
+    //     identityCard: window.localStorage.getItem('identityCard'),
+    //     name: window.localStorage.getItem('userName'),
+    //     openId: window.localStorage.getItem('openId'),
+    //     phone: window.localStorage.getItem('mobilePhone'),
+    //     token: this.$route.query.token,
+    //     source: window.localStorage.getItem('sourceOfCertification')
+    //   }
+    //   resultPost(insertToken, reqData).then(json => {
+    //     window.alert(json)
+    //   })
+    //   // window.alert(window.location.href)
+    // }
   },
   beforeDestory () {
     Indicator.close()
