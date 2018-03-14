@@ -102,6 +102,14 @@ let homeRouter = [
     component: require('../views/personalCenter/child/updateMobile.vue')
   },
   {
+    name: 'updateNewMobile',
+    path: '/updateNewMobile',
+    meta: {
+      title: '个人资料'
+    },
+    component: require('../views/personalCenter/child/updateNewMobile.vue')
+  },
+  {
     name: 'addVehicle',
     path: '/addVehicle',
     meta: {

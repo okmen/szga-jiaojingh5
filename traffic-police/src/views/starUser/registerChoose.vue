@@ -39,6 +39,8 @@
 </template>
 <script>
   import crypto from 'crypto'
+  import { insertToken } from '../../config/baseUrl'
+  import { resultPost } from '../../service/getData'
   export default {
     data () {
       return {
@@ -108,6 +110,19 @@
     },
     created () {
       this.redirect = window.location.href.split('#')[0] + '#/getFaceInfo'
+      // 录入token
+      if (this.$route.query.token) {
+        let reqData = {
+          identityCard: window.localStorage.getItem('identityCard'),
+          name: window.localStorage.getItem('userName'),
+          openId: window.localStorage.getItem('openId'),
+          phone: window.localStorage.getItem('mobilePhone'),
+          token: this.$route.query.token,
+          source: window.localStorage.getItem('sourceOfCertification')
+        }
+        resultPost(insertToken, reqData).then(json => {})
+        // window.alert(window.location.href)
+      }
     }
   }
 </script>
