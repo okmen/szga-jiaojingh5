@@ -142,6 +142,7 @@
 </template>
 <script>
 import { resultGet, resultPost } from '../../../../../service/getData'
+import { isPhone } from '../../../../../service/regExp.js'
 import { getIssuing, sendSMS, verificatioCode, inspectionDeclaration } from '../../../../../config/baseUrl'
 import { Toast, MessageBox } from 'mint-ui'
 export default {
@@ -317,7 +318,7 @@ export default {
       let mobile = this.mobile
       if (!(mobile)) {
         Toast({message: '请输入手机号', position: 'bottom', className: 'white'})
-      } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.mobile))) {
+      } else if (!isPhone(this.mobile)) {
         Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
       } else {
         let phonedata = {

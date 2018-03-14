@@ -451,7 +451,7 @@
           idNumber: this.cardNum,            // 本次预约业务填写的证件号码
           codes: this.currentBusinessCode    // 业务类型 code
         }
-        if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.userTelphone))) {
+        if (!isPhone(this.userTelphone)) {
           Toast({message: '请输入正确的手机号码', className: 'white'})
         } else {
           resultPost(simpleSendMessage, phonedata).then(json => {

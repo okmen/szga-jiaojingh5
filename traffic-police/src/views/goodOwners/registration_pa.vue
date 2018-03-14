@@ -68,6 +68,7 @@
   <script>
   import { Select, Option } from 'element-ui'
   import { Toast } from 'mint-ui'
+  import { isPhone } from '../../service/regExp.js'
   import uploadFile from 'src/service/uploadFile2.js'
   export default {
     components: {
@@ -114,7 +115,7 @@
           })
           return false
         }
-        if (!/^1\d{10}$/.test(this.form.mobilePhone)) {
+        if (!isPhone(this.form.mobilePhone)) {
           Toast({
             message: '手机号码格式错误',
             position: 'bottom'

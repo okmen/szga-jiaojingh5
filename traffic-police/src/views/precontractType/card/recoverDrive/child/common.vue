@@ -8,9 +8,9 @@
     <div class="alter-hbs-list pad-side-50">
       <ul>
         <li class="alter-hbs-item">
-          <div class="alter-hbs-name"><span>车主姓名</span></div>
+          <div class="alter-hbs-name"><span>驾驶人姓名</span></div>
           <div class="alter-hbs-text">
-            <input class="text-input bg-white" maxlength="10" v-model="carOwnerName" placeholder="请输入车主姓名">
+            <input class="text-input bg-white" maxlength="10" v-model="carOwnerName" placeholder="请输入驾驶人姓名">
           </div>
         </li>
         <li class="alter-hbs-item">
@@ -336,7 +336,7 @@
           idNumber: this.cardNum,            // 本次预约业务填写的证件号码
           codes: this.currentBusinessCode    // 业务类型 code
         }
-        if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.userTelphone))) {
+        if (!isPhone(this.userTelphone)) {
           Toast({message: '请输入正确的手机号码', className: 'white'})
         } else {
           resultPost(simpleSendMessage, phonedata).then(json => {
@@ -403,10 +403,10 @@
       // 非空 or 错误判断
       judgeInput () {
         if (specialCharacters(this.carOwnerName)) {
-          Toast({ message: '车主姓名不能含有特殊字符', className: 'white', duration: 1500 })
+          Toast({ message: '驾驶人姓名不能含有特殊字符', className: 'white', duration: 1500 })
           return false
         } else if (!this.carOwnerName) {
-          Toast({ message: '请输入车主姓名', className: 'white', duration: 1500 })
+          Toast({ message: '请输入驾驶人姓名', className: 'white', duration: 1500 })
           return false
         } else if (!this.cardNum) {
           Toast({ message: '证件号码不能为空', className: 'white', duration: 1500 })
