@@ -56,6 +56,7 @@
 <script>
 import crypto from 'crypto'
 import { updateMobile, sendSMS, getTokenByIdentityCard } from '../../../config/baseUrl'
+import { isPhone } from 'service/regExp.js'
 import { resultPost } from '../../../service/getData'
 import { Toast, Indicator } from 'mint-ui'
 export default{
@@ -148,7 +149,7 @@ export default{
         return false
       }
       let phone = Number(this.newMobile)
-      if (/^1[34578]\d{9}$/.test(phone)) {
+      if (isPhone(phone)) {
         Indicator.open('正在提交...')
         resultPost(updateMobile, reqData).then(json => {
           Indicator.close()
