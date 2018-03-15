@@ -114,14 +114,12 @@
       if (this.$route.query.token) {
         let reqData = {
           identityCard: window.localStorage.getItem('identityCard'),
-          name: window.localStorage.getItem('userName'),
+          name: this.appid, // appid
           openId: window.localStorage.getItem('openId'),
-          phone: window.localStorage.getItem('mobilePhone'),
           token: this.$route.query.token,
           source: window.localStorage.getItem('sourceOfCertification')
         }
         resultPost(insertToken, reqData).then(json => {})
-        // window.alert(window.location.href)
       }
     }
   }
