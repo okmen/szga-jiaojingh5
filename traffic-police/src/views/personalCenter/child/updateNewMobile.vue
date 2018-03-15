@@ -24,6 +24,7 @@
 <script>
 import { updateMobile, sendSMS, insertToken } from '../../../config/baseUrl'
 import { resultPost } from '../../../service/getData'
+import { isPhone } from 'service/regExp.js'
 import { Toast, Indicator } from 'mint-ui'
 export default{
   name: 'updateMobile',
@@ -98,7 +99,7 @@ export default{
         }
       }
       let phone = Number(this.newMobile)
-      if (/^1[34578]\d{9}$/.test(phone)) {
+      if (isPhone(phone)) {
         Indicator.open('正在提交...')
         resultPost(updateMobile, reqData).then(json => {
           Indicator.close()
