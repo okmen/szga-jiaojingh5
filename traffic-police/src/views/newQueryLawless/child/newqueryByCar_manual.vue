@@ -306,15 +306,17 @@
         if (this.getQueryString('numberPlate')) {
           this.abbreviationSelectMassage = this.getQueryString('numberPlate').substring(0, 1)
           this.car_number = this.getQueryString('numberPlate').substring(1)
+          this.cur_type_id = this.getQueryString('plateType')
         }
-        this.cur_type_id = this.getQueryString('plateType')
         this.licenseSelectData.forEach(item => {
           if (item.id === this.cur_type_id) {
             console.log(item)
             this.licenseSelectMassage = item.str
           }
         })
-        this.vehicleIdentifyNoLast4 = this.getQueryString('digits')
+        if (this.getQueryString('digits')) {
+          this.vehicleIdentifyNoLast4 = this.getQueryString('digits')
+        }
       }
       verifyCode(document.getElementById('inp'), document.getElementById('code'), (result, code) => {
         this.verifyCode = result
