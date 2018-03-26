@@ -303,8 +303,10 @@
       if (window.location.href.split('?')[1]) {
         this.codeIfShow = false
         this.verifyCode = true
-        this.abbreviationSelectMassage = this.getQueryString('numberPlate').substring(0, 1)
-        this.car_number = this.getQueryString('numberPlate').substring(1)
+        if (this.getQueryString('numberPlate')) {
+          this.abbreviationSelectMassage = this.getQueryString('numberPlate').substring(0, 1)
+          this.car_number = this.getQueryString('numberPlate').substring(1)
+        }
         this.cur_type_id = this.getQueryString('plateType')
         this.licenseSelectData.forEach(item => {
           if (item.id === this.cur_type_id) {
@@ -323,6 +325,7 @@
         let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
         let href = window.location.href
         let r = href.substr(href.indexOf('?') + 1).match(reg)
+        console.log(href)
         if (r !== null) return decodeURI(r[2])
         return false
       },

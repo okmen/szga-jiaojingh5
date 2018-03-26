@@ -20,7 +20,7 @@
             <p class="newLawlessMsg-item-content-score">{{ item.punishScore }}</p>
             <p class="newLawlessMsg-item-content-unit">{{ item.illegalUnit }}</p>
             <p class="newLawlessMsg-item-content-text" v-if="!$route.query.login"><span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2, isQuery: $route.query.type === 'query', isLink: item.isNeedClaim == 0 }" @click="clickJump(item)">{{ claimList[item.isNeedClaim] }}</span></p>
-            <p class="newLawlessMsg-item-content-textNO" v-if="$route.query.login"><span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2, isQuery: $route.query.type === 'query', isLink: item.isNeedClaim == 0 }" >{{ claimList[item.isNeedClaim] }}</span></p>
+            <p class="newLawlessMsg-item-content-textNO" v-if="$route.query.login"><span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2, isQuery: $route.query.type === 'query', isLink: item.isNeedClaim == 0 }"  @click="clickFun(item)">{{ handleMethod }}</span></p>
             <div class="newLawlessMsg-item-btn" v-if="!$route.query.login">
               <!-- <button v-if="item.description && isBoolean2(item.description)" @click="punishFreeDesc(item)">申请首违免罚</button> -->
               <button class="reviewImages" v-if="item.imgQueryCode && isLogin(item.licensePlateNo)" @click="illegalImgBtn(item.imgQueryCode)">查看违法图片</button>
@@ -50,7 +50,8 @@
     data () {
       return {
         lawlessArr: [],
-        popupImgShow: false
+        popupImgShow: false,
+        handleMethod: ''
       }
     },
     components: {
@@ -77,6 +78,13 @@
     },
     created () {
       // this.init() // 初始化页面，查询名下所有车辆的违法
+    },
+    mounted () {
+      // 判断首违免罚情况下，处理方式的文字变更
+      this.handleMethod = this.claimList[this.lawlessData.data[0].isNeedClaim]
+      if (this.lawlessData.data[0].description) {
+        this.handleMethod = '去处理'
+      }
     },
     methods: {
       passCancel: function () { // 点击通过弹窗的取消按钮
@@ -157,9 +165,20 @@
         //   this.imgBase = json.data[0]
         // })
       },
+      clickFun (item) {
+        if (item.isNeedClaim === '0' && this.lawlessData.data[0].description) {
+          let dec = this.lawlessData.data[0].description
+          Toast(dec)
+        }
+      },
       clickJump (item) {
         console.log(item)
         if (item.isNeedClaim === '0') { // 直接缴款
+          // if (this.$store.state.newLawlessQuery.data[0].description) {
+          //   let dec = this.$store.state.newLawlessQuery.data[0].description
+          //   Toast(dec)
+          //   return
+          // }
           let reqData = {
             billNo: item.billNo,
             licensePlateNo: item.licensePlateNo
