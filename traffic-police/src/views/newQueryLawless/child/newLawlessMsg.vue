@@ -20,7 +20,7 @@
             <p class="newLawlessMsg-item-content-score">{{ item.punishScore }}</p>
             <p class="newLawlessMsg-item-content-unit">{{ item.illegalUnit }}</p>
             <p class="newLawlessMsg-item-content-text" v-if="!$route.query.login"><span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2, isQuery: $route.query.type === 'query', isLink: item.isNeedClaim == 0 }" @click="clickJump(item)">{{ claimList[item.isNeedClaim] }}</span></p>
-            <p class="newLawlessMsg-item-content-textNO" v-if="$route.query.login"><span>处理方式：</span><span :class="{isBtn: item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2, isQuery: $route.query.type === 'query', isLink: item.isNeedClaim == 0 }"  @click="clickFun(item)">{{ handleMethod }}</span></p>
+            <p class="newLawlessMsg-item-content-textNO" v-if="$route.query.login"><span>处理方式：</span><span :class="{isBtn: (item.isNeedClaim == 0 || item.isNeedClaim == 1 || item.isNeedClaim == 2) && !isHave(item.description), isQuery: $route.query.type === 'query', isLink: item.isNeedClaim == 0 && !isHave(item.description)}"  @click="clickFun(item)">{{ handleMethodFun(item) }}</span></p>
             <div class="newLawlessMsg-item-btn" v-if="!$route.query.login">
               <!-- <button v-if="item.description && isBoolean2(item.description)" @click="punishFreeDesc(item)">申请首违免罚</button> -->
               <button class="reviewImages" v-if="item.imgQueryCode && isLogin(item.licensePlateNo)" @click="illegalImgBtn(item.imgQueryCode)">查看违法图片</button>
@@ -51,7 +51,7 @@
       return {
         lawlessArr: [],
         popupImgShow: false,
-        handleMethod: ''
+        handleMethod: ''  // 处理方式
       }
     },
     components: {
@@ -78,13 +78,6 @@
     },
     created () {
       // this.init() // 初始化页面，查询名下所有车辆的违法
-    },
-    mounted () {
-      // 判断首违免罚情况下，处理方式的文字变更
-      this.handleMethod = this.claimList[this.lawlessData.data[0].isNeedClaim]
-      if (this.lawlessData.data[0].description) {
-        this.handleMethod = '去处理'
-      }
     },
     methods: {
       passCancel: function () { // 点击通过弹窗的取消按钮
@@ -166,8 +159,10 @@
         // })
       },
       clickFun (item) {
-        if (item.isNeedClaim === '0' && this.lawlessData.data[0].description) {
-          let dec = this.lawlessData.data[0].description
+        // 判断首违免罚
+        let isNext = this.isHave(item.description)
+        if (item.isNeedClaim === '0' && isNext) {
+          let dec = item.description
           Toast(dec)
         }
       },
@@ -276,6 +271,18 @@
         } else if (item.isNeedClaim === '6') {
           return false
         }
+      },
+      handleMethodFun (item) {
+        // 判断首违免罚情况下，处理方式的文字变更
+        if (this.isHave(item.description)) {
+          return '去处理'
+        } else {
+          return this.claimList[item.isNeedClaim]
+        }
+      },
+      isHave (str) {
+        // 判断是否为首违免罚范围
+        return str.indexOf('首违免罚') >= 0
       }
     }
   }
