@@ -119,7 +119,7 @@ export default {
     skipRescue (item) {
       let phone = window.localStorage.getItem('mobilePhone')
       let contact = window.localStorage.getItem('userName')
-      window.location.href = `http://m.comettech.cn/thr/save?phone=${phone}&contact=${contact}&car_no=${item}`
+      window.location.href = `http://m.yjysos.com/thr/save?phone=${phone}&contact=${contact}&car_no=${item}`
     }
   },
   mounted () {

@@ -82,7 +82,6 @@ export default{
       sig: null,
       infoSignature: null,
       infoSig: null,
-      signToken: '',
       type: '0'
     }
   },
@@ -188,16 +187,10 @@ export default{
       }
     },
     sweepInto () {
-      if (this.signToken) {
-        this.type = '1'
-        this.IDcard = this.identityCard
-        this.userName = window.localStorage.getItem('userName')
-        this.picKey = this.signToken
-      }
-      console.log(this.type)
       // 更新签名和校验
       this.signature = this.getAppSign()
       this.sig = this.getHashSig()
+      console.log(this.sig)
       this.$nextTick(() => {
         this.$refs.formFace.submit()
       })
@@ -225,7 +218,7 @@ export default{
         redirect: this.redirect,
         uid: window.localStorage.getItem('openId'),
         type: this.type,
-        ID: this.IDcard,
+        ID: this.identityCard,
         name: this.userName,
         pic_key: this.picKey,
         sig: this.aeskey
@@ -245,29 +238,20 @@ export default{
     this.redirect = window.location.href.split('#')[0] + '#/updateNewMobile'
     this.oldMobile = window.localStorage.getItem('mobilePhone')
     this.identityCard = window.localStorage.getItem('identityCard')
+  },
+  mounted () {
     let reqData = {
       identityCard: window.localStorage.getItem('identityCard')
     }
     // 获取token
     resultPost(getTokenByIdentityCard, reqData).then(json => {
-      this.signToken = json.data.token
-      console.log(json)
+      if (json.code === '0000') {
+        this.type = '1'
+        this.picKey = json.data.token
+        this.userName = json.data.detail.name
+        this.identityCard = json.data.detail.ID
+      }
     })
-    // // 录入token
-    // if (this.$route.query.token) {
-    //   let reqData = {
-    //     identityCard: window.localStorage.getItem('identityCard'),
-    //     name: window.localStorage.getItem('userName'),
-    //     openId: window.localStorage.getItem('openId'),
-    //     phone: window.localStorage.getItem('mobilePhone'),
-    //     token: this.$route.query.token,
-    //     source: window.localStorage.getItem('sourceOfCertification')
-    //   }
-    //   resultPost(insertToken, reqData).then(json => {
-    //     window.alert(json)
-    //   })
-    //   // window.alert(window.location.href)
-    // }
   },
   beforeDestory () {
     Indicator.close()
