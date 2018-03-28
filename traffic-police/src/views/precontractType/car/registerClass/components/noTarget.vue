@@ -9,6 +9,15 @@
       <span class="register-item-title">证件号码</span>
       <input type="text" placeholder="请输入证件号码" class="register-item-input" v-model="IDcard">
     </div>
+    <div-select :childInfo="bookerData" @getSelected="bookerClick"></div-select>
+    <div class="register-item" v-if = "bookerType === '1'">
+      <span class="register-item-title">代办人姓名</span>
+      <input type="text" placeholder="请输入代办人姓名" class="register-item-input" v-model="bookerName">
+    </div>
+    <div class="register-item" v-if = "bookerType === '1'">
+      <span class="register-item-title">代办人证件号</span>
+      <input type="text" placeholder="请输入代办人证件号" class="register-item-input" v-model="bookerID">
+    </div>
     <div class="register-item">
       <span class="register-item-title">手机号码</span>
       <input type="text" placeholder="请输入手机号码" class="register-item-input" v-model="mobilePhone">
@@ -336,6 +345,21 @@
          {'str': '进口', 'id': '0', 'choose': false}
          ]
          }, // 车辆产地 */
+        bookerData: {
+          title: '预约方式',
+          option: [
+            {
+              id: '0',
+              str: '本人'
+            },
+            {
+              id: '1',
+              str: '代办'
+            }
+          ]
+        },
+        bookerName: '',                     // 代办人姓名
+        bookerID: '',                        // 代办人证件号
         vehicleOriginOne: ''
       }
     },
@@ -402,6 +426,15 @@
         }
         this.appointmentTime = item.time
         this.showItemTime = false
+      },
+      // 选择本人或者代办
+      bookerClick (val) {
+        // console.log(val)
+        this.bookerType = val
+        if (val === '1') {
+          this.bookerName = ''
+          this.bookerID = ''
+        }
       },
       toggleData () {
         this.showItemTime = false
@@ -510,16 +543,16 @@
           })
           return false
         }
-        if (window.localStorage.getItem('userName')) {
-          this.bookerType = this.ownerName === window.localStorage.getItem('userName') ? 0 : 1
-        }
+        // if (window.localStorage.getItem('userName')) {
+        //   this.bookerType = this.ownerName === window.localStorage.getItem('userName') ? 0 : 1
+        // }
         let requestData = {
           mobile: this.mobilePhone,
           idType: this.credentialsNameOne,
           lx: 2,
           bookerType: this.bookerType,
-          bookerName: this.ownerName,
-          bookerIdNumber: window.localStorage.getItem('identityCard') || this.IDcard,
+          bookerName: this.bookerType === '0' ? window.localStorage.getItem('userName') : this.bookerName,
+          bookerIdNumber: this.bookerType === '0' ? window.localStorage.getItem('identityCard') : this.bookerID,
           idNumber: this.IDcard,
           codes: this.achieveCode
         }
@@ -569,6 +602,20 @@
         if (!this.IDcard) {
           Toast({
             message: '证件号码不能为空',
+            duration: 2000
+          })
+          return false
+        }
+        if (this.bookerType === '1' && !this.bookerName) {
+          Toast({
+            message: '代办人姓名不能为空',
+            duration: 2000
+          })
+          return false
+        }
+        if (this.bookerType === '1' && !this.bookerID) {
+          Toast({
+            message: '代办人证件号不能为空',
             duration: 2000
           })
           return false
@@ -641,8 +688,8 @@
           orgId: this.appointmentLocationOne,
           appointmentDate: this.yearMonthDay,
           appointmentTime: this.appointmentTime,
-          bookerName: window.localStorage.getItem('userName') || this.ownerName,
-          bookerIdNumber: window.localStorage.getItem('identityCard') || this.IDcard,
+          bookerName: this.bookerName || window.localStorage.getItem('userName'),
+          bookerIdNumber: this.bookerID || window.localStorage.getItem('identityCard'),
           bookerType: this.bookerType,
           modelName: this.modelOfCarOne,
           bookerMobile: this.mobilePhone,

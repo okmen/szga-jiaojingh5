@@ -18,6 +18,16 @@
       <span class="register-item-title font-size28">旧车主证件号码</span>
       <input type="text" placeholder="请输入旧车主证件号码" class="register-item-input" v-model="oldIDcard">
     </div>
+    <!-- 11111 -->
+    <div-select :childInfo="bookerData" @getSelected="bookerClick"></div-select>
+    <div class="register-item" v-if = "bookerType === '1'">
+      <span class="register-item-title">代办人姓名</span>
+      <input type="text" placeholder="请输入代办人姓名" class="register-item-input" v-model="bookerName">
+    </div>
+    <div class="register-item" v-if = "bookerType === '1'">
+      <span class="register-item-title">代办人证件号</span>
+      <input type="text" placeholder="请输入代办人证件号" class="register-item-input" v-model="bookerID">
+    </div>
     <div class="register-item">
       <span class="register-item-title">手机号码</span>
       <input type="text" placeholder="请输入手机号码" class="register-item-input" v-model="mobilePhone">
@@ -392,7 +402,7 @@
         timer: '',
         appointmentTime: '', // 预约时间
 //        businessTypeId: '',  // 业务类型编码
-        bookerType: 0 // 预约方式，0 本人， 1普通代办 2专业代办
+        bookerType: 0, // 预约方式，0 本人， 1普通代办 2专业代办
         /*   vehicleOrigin: {
          title: '车辆产地',
          option: [
@@ -400,6 +410,21 @@
          {'str': '进口', 'id': '0', 'choose': false}
          ]
          }, // 车辆产地 */
+        bookerData: {
+          title: '预约方式',
+          option: [
+            {
+              id: '0',
+              str: '本人'
+            },
+            {
+              id: '1',
+              str: '代办'
+            }
+          ]
+        },
+        bookerName: '',                     // 代办人姓名
+        bookerID: ''                        // 代办人证件号
       }
     },
     components: {
@@ -462,6 +487,15 @@
       }
     },
     methods: {
+      // 选择本人或者代办
+      bookerClick (val) {
+        // console.log(val)
+        this.bookerType = val
+        if (val === '1') {
+          this.bookerName = ''
+          this.bookerID = ''
+        }
+      },
       getCityDistrict (val) {
         this.cityDistrictOne = val
       },
@@ -608,16 +642,18 @@
           })
           return false
         }
-        if (window.localStorage.getItem('userName')) {
-          this.bookerType = this.ownerName === window.localStorage.getItem('userName') ? 0 : 1
-        }
+        // if (window.localStorage.getItem('userName')) {
+        //   this.bookerType = this.ownerName === window.localStorage.getItem('userName') ? 0 : 1
+        // }
         let requestData = {
           mobile: this.mobilePhone,
           idType: this.newCredentialsNameOne,
           lx: 2,
           bookerType: this.bookerType,
-          bookerName: this.newOwnerName,
-          bookerIdNumber: window.localStorage.getItem('identityCard') || this.newIDcard,
+          // bookerName: this.newOwnerName,
+          // bookerIdNumber: window.localStorage.getItem('identityCard') || this.newIDcard,
+          bookerName: this.bookerType === '0' ? window.localStorage.getItem('userName') : this.bookerName,
+          bookerIdNumber: this.bookerType === '0' ? window.localStorage.getItem('identityCard') : this.bookerID,
           idNumber: this.newIDcard,
           codes: this.achieveCode
         }
@@ -697,6 +733,20 @@
           })
           return false
         }
+        if (this.bookerType === '1' && !this.bookerName) {
+          Toast({
+            message: '代办人姓名不能为空',
+            duration: 2000
+          })
+          return false
+        }
+        if (this.bookerType === '1' && !this.bookerID) {
+          Toast({
+            message: '代办人证件号不能为空',
+            duration: 2000
+          })
+          return false
+        }
         if (!isPhone(this.mobilePhone)) {
           Toast({
             message: '手机号码格式不正确',
@@ -765,8 +815,8 @@
           orgId: this.appointmentLocationOne,
           appointmentDate: this.yearMonthDay,
           appointmentTime: this.appointmentTime,
-          bookerName: window.localStorage.getItem('userName') || this.newOwnerName,
-          bookerIdNumber: window.localStorage.getItem('identityCard') || this.newIDcard,
+          bookerName: this.bookerName || window.localStorage.getItem('userName'),
+          bookerIdNumber: this.bookerID || window.localStorage.getItem('identityCard'),
           bookerType: this.bookerType,
           modelName: this.modelOfCarOne,
           bookerMobile: this.mobilePhone,
