@@ -48,7 +48,7 @@
     <input type="hidden" name="name" v-model="userName">
     <input type="hidden" name="pic_key" v-model="picKey">
     <input type="hidden" name="sig" :value="sig">
-    <button class="btn btn-custom"  type="button" name="button" @click.stop="sweepInto()">旧手机不在了</button>
+    <!-- <button class="btn btn-custom"  type="button" name="button" @click.stop="sweepInto()">旧手机不在了</button> -->
   </form>
 </div>
 </template>
