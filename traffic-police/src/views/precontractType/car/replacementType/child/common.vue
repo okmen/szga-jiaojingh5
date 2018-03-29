@@ -381,13 +381,13 @@ export default {
         Toast({message: '请输入手机号', position: 'bottom', className: 'white'})
       } else if (!isPhone(this.mobilephone)) {
         Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
+      } else if (!this.identificationNum) {
+        Toast({message: '请输入证件号码', position: 'bottom', className: 'white'})
+      } else if (this.bookerType === '1' && !this.bookerName) {
+        Toast({message: '代办人姓名不能为空', position: 'bottom', className: 'white'})
+      } else if (this.bookerType === '1' && !this.bookerID) {
+        Toast({message: '代办人证件号不能为空', position: 'bottom', className: 'white'})
       } else {
-        // let name
-        // if (window.localStorage.getItem('userName')) {
-        //   name = this.name === window.localStorage.getItem('userName') ? 0 : 1  // 0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
-        // } else {
-        //   name = 0
-        // }
         let phonedata = {
           mobile: mobilephone,               // 手机号码
           idType: this.cur_card_id,          // 证件id

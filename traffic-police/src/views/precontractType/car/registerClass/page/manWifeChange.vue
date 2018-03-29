@@ -642,6 +642,20 @@
           })
           return false
         }
+        if (this.bookerType === '1' && !this.bookerName) {
+          Toast({
+            message: '代办人姓名不能为空',
+            duration: 2000
+          })
+          return false
+        }
+        if (this.bookerType === '1' && !this.bookerID) {
+          Toast({
+            message: '代办人证件号不能为空',
+            duration: 2000
+          })
+          return false
+        }
         // if (window.localStorage.getItem('userName')) {
         //   this.bookerType = this.ownerName === window.localStorage.getItem('userName') ? 0 : 1
         // }
