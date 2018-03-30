@@ -567,8 +567,8 @@
           bookerType: this.bookerType,
           // bookerName: this.ownerName,
           // bookerIdNumber: window.localStorage.getItem('identityCard') || this.IDcard,
-          bookerName: this.bookerType === '0' ? window.localStorage.getItem('userName') : this.bookerName,
-          bookerIdNumber: this.bookerType === '0' ? window.localStorage.getItem('identityCard') : this.bookerID,
+          bookerName: this.bookerType === '0' ? this.ownerName : this.bookerName,
+          bookerIdNumber: this.bookerType === '0' ? this.IDcard : this.bookerID,
           idNumber: this.IDcard,
           codes: this.code
         }
@@ -769,8 +769,8 @@
           openId: window.localStorage.getItem('openId'), // openID
           appointmentDate: this.yearMonthDay,
           appointmentTime: this.appointmentTime,
-          bookerName: this.bookerName || window.localStorage.getItem('userName'),
-          bookerIdNumber: this.bookerID || window.localStorage.getItem('identityCard'),
+          bookerName: this.bookerName || this.ownerName,
+          bookerIdNumber: this.bookerID || this.IDcard,
           bookerType: this.bookerType,
           bookerMobile: this.mobilePhone
         }

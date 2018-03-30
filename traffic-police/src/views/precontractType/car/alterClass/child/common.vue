@@ -504,13 +504,28 @@
           idType: this.cardID,               // 证件id
           lx: '2',                           // 业务类型 (机动车业务)
           bookerType: this.bookerValerID,         // 预约方式
-          bookerName: this.bookerValerID === '0' ? window.localStorage.getItem('userName') : this.bookerName,           // 预约人名字
-          bookerIdNumber: this.bookerValerID === '0' ? window.localStorage.getItem('identityCard') : this.bookerID,  // 预约人身份证号码
+          // bookerName: this.bookerValerID === '0' ? window.localStorage.getItem('userName') : this.bookerName,           // 预约人名字
+          // bookerIdNumber: this.bookerValerID === '0' ? window.localStorage.getItem('identityCard') : this.bookerID,  // 预约人身份证号码
+          bookerName: this.bookerValerID === '0' ? this.carOwnerName : this.bookerName,           // 预约人名字
+          bookerIdNumber: this.bookerValerID === '0' ? this.cardNum : this.bookerID,  // 预约人身份证号码
           idNumber: this.cardNum,            // 本次预约业务填写的证件号码
           codes: this.currentBusinessCode    // 业务类型 code
         }
         if (!isPhone(this.userTelphone)) {
           Toast({message: '请输入正确的手机号码', className: 'white'})
+          return
+        } else if (!this.carOwnerName) {
+          Toast({ message: '请输入车主姓名', className: 'white', duration: 1500 })
+          return
+        } else if (!this.cardNum) {
+          Toast({ message: '请输入证件号码', className: 'white', duration: 1500 })
+          return
+        } else if (this.bookerValerID === '1' && !this.bookerName) {
+          Toast({ message: '请输入代办人姓名', className: 'white', duration: 1500 })
+          return
+        } else if (this.bookerValerID === '1' && !this.bookerID) {
+          Toast({ message: '请输入代办人证件号', className: 'white', duration: 1500 })
+          return
         } else {
           resultPost(simpleSendMessage, phonedata).then(json => {
             if (json.code === '0000') {
@@ -564,8 +579,8 @@
             // bookerIdNumber: window.localStorage.getItem('identityCard') || this.cardNum,  // 预约人身份证号码
             bookerType: this.bookerValerID,              // 预约方式
             bookerMobile: this.userTelphone,        // 获取验证码 手机号
-            bookerName: this.bookerName || window.localStorage.getItem('userName'),            // 预约车主姓名
-            bookerIdNumber: this.bookerID || window.localStorage.getItem('identityCard')           // 预约人身份证号码
+            bookerName: this.bookerName || this.carOwnerName,            // 预约车主姓名
+            bookerIdNumber: this.bookerID || this.cardNum           // 预约人身份证号码
           }
           let code = `createVehicleInfo_${this.currentBusinessCode}`  // 网约车 传参
           let bussiness = this.currentBusinessName                    // 网约车 传参

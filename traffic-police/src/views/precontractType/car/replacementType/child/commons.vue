@@ -381,6 +381,8 @@ export default {
         Toast({message: '请输入手机号', position: 'bottom', className: 'white'})
       } else if (!isPhone(this.mobilephone)) {
         Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
+      } else if (!this.name) {
+        Toast({message: '请输入车主姓名', position: 'bottom', className: 'white'})
       } else if (!this.identificationNum) {
         Toast({message: '请输入证件号码', position: 'bottom', className: 'white'})
       } else if (this.bookerType === '1' && !this.bookerName) {
@@ -395,8 +397,8 @@ export default {
           bookerType: this.bookerValerID,                  // 预约方式
           // bookerName: this.name,             // 预约人名字
           // bookerIdNumber: window.localStorage.getItem('identityCard') || this.identificationNum,
-          bookerName: this.bookerValerID === '0' ? window.localStorage.getItem('userName') : this.bookerName,           // 预约人名字
-          bookerIdNumber: this.bookerValerID === '0' ? window.localStorage.getItem('identityCard') : this.bookerID,  // 预约人身份证号码
+          bookerName: this.bookerValerID === '0' ? this.name : this.bookerName,           // 预约人名字
+          bookerIdNumber: this.bookerValerID === '0' ? this.identificationNum : this.bookerID,  // 预约人身份证号码
           idNumber: this.identificationNum,   // 预约人证件号码
           codes: this.code            // 业务类型id
         }
@@ -483,8 +485,8 @@ export default {
         'orgId': this.subscribeId,           // 预约地点id
         'appointmentDate': this.date,        // 预约日期
         'appointmentTime': this.time,        // 预约时间
-        'bookerName': this.bookerName || window.localStorage.getItem('userName'),                 // 预约人名字
-        'bookerIdNumber': this.bookerID || window.localStorage.getItem('identityCard'),         // 预约人身份证号
+        'bookerName': this.bookerName || this.name,                 // 预约人名字
+        'bookerIdNumber': this.bookerID || this.identificationNum,         // 预约人身份证号
         'bookerType': this.bookerValerID,                                // 预约方式 ‘0’本人
         'orgName': this.subscribe,                         // 预约单位名称
         'orgAddr': this.description,                       // 预约单位地址
