@@ -5,7 +5,7 @@
       <a href="javascript:;" @click="routerLink(index)">{{ item.name }}</a>
     </div>
     <div class="query-link">
-      <a :href="inName">机动车检测预约</a>
+      <a :href="inName">机动车年审预约</a>
     </div>
   </div>
 </template>
