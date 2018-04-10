@@ -38,6 +38,35 @@
         </li>
         <li class="form-line">
           <div class="form-line-item item-name">
+            <span>预约方式</span>
+          </div>
+          <div class="div-select">
+            <span class="btn-select bg-colour" @click.stop="bookerClick()">{{ bookerValer }}</span>
+            <div class="div-select-ul" v-if="bookerShow">
+              <ul>
+                <li v-for="item in bookerData" @click.stop="bookerClick(item.str, item.id)">{{item.str}}</li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="form-line" v-if="this.bookerValerID === '1'">
+          <div class="form-line-item item-name">
+            <span>代办人姓名</span>
+          </div>
+          <div class="form-line-item">
+            <input class="text-input bg-colour" type="text" value="" placeholder="请输入代办人姓名" v-model="bookerName"/>
+          </div>
+        </li>
+        <li class="form-line" v-if="this.bookerValerID === '1'">
+          <div class="form-line-item item-name">
+            <span>代办人证件号</span>
+          </div>
+          <div class="form-line-item">
+            <input class="text-input bg-colour" type="text" value="" placeholder="请输入代办人证件号" v-model="bookerID"/>
+          </div>
+        </li>
+        <li class="form-line">
+          <div class="form-line-item item-name">
             <span>手机号码</span>
           </div>
           <div class="form-line-item">
@@ -208,7 +237,22 @@ export default {
       date: '',
       surplusData: '',
       description: '', // 预约地址
-      tmentTime: ''   // 预约时间
+      tmentTime: '',   // 预约时间
+      bookerName: '',                     // 代办人姓名
+      bookerID: '',                        // 代办人证件号
+      bookerData: [
+        {
+          id: '0',
+          str: '本人'
+        },
+        {
+          id: '1',
+          str: '代办'
+        }
+      ],
+      bookerValer: '本人',
+      bookerShow: false,
+      bookerValerID: '0'
     }
   },
   methods: {
@@ -260,6 +304,26 @@ export default {
         this.subscribeShow = false
       } else {
         this.subscribeShow = true
+      }
+    },
+    // 是否代办 选择
+    bookerClick: function (str, id) {
+      if (str) {
+        this.bookerValer = str
+        this.bookerValerID = id
+      }
+      if (id === '0') {
+        this.bookerName = ''
+        this.bookerID = ''
+      }
+      if (this.bookerShow === true) {
+        this.bookerShow = false
+      } else {
+        this.bookerShow = true
+        this.carTypeShow = false
+        this.cardSelectShow = false
+        this.abbreviationSelectShow = false
+        this.orderPlaceShow = false
       }
     },
     // 车辆类型
@@ -317,20 +381,24 @@ export default {
         Toast({message: '请输入手机号', position: 'bottom', className: 'white'})
       } else if (!isPhone(this.mobilephone)) {
         Toast({message: '请输入正确的手机号码', position: 'bottom', className: 'white'})
+      } else if (!this.name) {
+        Toast({message: '请输入车主姓名', position: 'bottom', className: 'white'})
+      } else if (!this.identificationNum) {
+        Toast({message: '请输入证件号码', position: 'bottom', className: 'white'})
+      } else if (this.bookerType === '1' && !this.bookerName) {
+        Toast({message: '代办人姓名不能为空', position: 'bottom', className: 'white'})
+      } else if (this.bookerType === '1' && !this.bookerID) {
+        Toast({message: '代办人证件号不能为空', position: 'bottom', className: 'white'})
       } else {
-        let name
-        if (window.localStorage.getItem('userName')) {
-          name = this.name === window.localStorage.getItem('userName') ? 0 : 1  // 0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
-        } else {
-          name = 0
-        }
         let phonedata = {
           mobile: mobilephone,               // 手机号码
           idType: this.cur_card_id,          // 证件id
           lx: '2',                           // 业务类型
-          bookerType: name,                  // 预约方式
-          bookerName: this.name,             // 预约人名字
-          bookerIdNumber: window.localStorage.getItem('identityCard') || this.identificationNum,
+          bookerType: this.bookerValerID,                  // 预约方式
+          // bookerName: this.name,             // 预约人名字
+          // bookerIdNumber: window.localStorage.getItem('identityCard') || this.identificationNum,
+          bookerName: this.bookerValerID === '0' ? this.name : this.bookerName,           // 预约人名字
+          bookerIdNumber: this.bookerValerID === '0' ? this.identificationNum : this.bookerID,  // 预约人身份证号码
           idNumber: this.identificationNum,   // 预约人证件号码
           codes: this.code            // 业务类型id
         }
@@ -368,6 +436,12 @@ export default {
         Toast({message: '车主姓名不能含有特殊字符', className: 'white', duration: 1500})
       } else if (!this.identificationNum) {
         Toast({message: '请输入证件号码', className: 'white', duration: 1500})
+      } else if (this.bookerValerID === '1' && !this.bookerName) {
+        Toast({ message: '请输入代办人姓名', className: 'white', duration: 1500 })
+        return false
+      } else if (this.bookerValerID === '1' && !this.bookerID) {
+        Toast({ message: '请输入代办人证件号', className: 'white', duration: 1500 })
+        return false
       } else if (!this.mobilephone) {
         Toast({message: '请输入手机号码', className: 'white', duration: 1500})
       } else if (!isPhone(this.mobilephone)) {
@@ -391,12 +465,12 @@ export default {
       }
     },
     dataFn: function () {
-      let name
-      if (window.localStorage.getItem('userName')) {
-        name = this.name === window.localStorage.getItem('userName') ? 0 : 1  // 0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
-      } else {
-        name = 0
-      }
+      // let name
+      // if (window.localStorage.getItem('userName')) {
+      //   name = this.name === window.localStorage.getItem('userName') ? 0 : 1  // 0’非代办（或本人）‘1’普通代办‘2’专业代办（企业代办）
+      // } else {
+      //   name = 0
+      // }
       let renewingData = {
         'name': this.name,                   // 车主姓名
         'businessTypeId': this.codeId,       // 业务id
@@ -411,9 +485,9 @@ export default {
         'orgId': this.subscribeId,           // 预约地点id
         'appointmentDate': this.date,        // 预约日期
         'appointmentTime': this.time,        // 预约时间
-        'bookerName': window.localStorage.getItem('userName') || this.name,                 // 预约人名字
-        'bookerIdNumber': window.localStorage.getItem('identityCard') || this.identificationNum,         // 预约人身份证号
-        'bookerType': name,                                // 预约方式 ‘0’本人
+        'bookerName': this.bookerName || this.name,                 // 预约人名字
+        'bookerIdNumber': this.bookerID || this.identificationNum,         // 预约人身份证号
+        'bookerType': this.bookerValerID,                                // 预约方式 ‘0’本人
         'orgName': this.subscribe,                         // 预约单位名称
         'orgAddr': this.description,                       // 预约单位地址
         'businessCode': `createVehicleInfo_${this.code}`,  // createVehicleInfo_JD02
