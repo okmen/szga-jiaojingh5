@@ -199,7 +199,7 @@
         }
         if (!this.currentPlate) {
           Toast({
-            message: '你选择车牌号码',
+            message: '请选择车牌号码',
             duration: 2000
           })
           return
