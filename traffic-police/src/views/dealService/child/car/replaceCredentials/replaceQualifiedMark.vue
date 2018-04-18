@@ -92,6 +92,7 @@
     </div>
   </div>
 </template>
+
 <style lang="less" scoped>
   .recipient-address-select input {
     width: 100%;
@@ -178,9 +179,10 @@
     }
   }
 </style>
+
 <script>
   import uploadFile from '../../../../../service/uploadFile.js'
-  import {Toast} from 'mint-ui'
+  import {Toast, MessageBox} from 'mint-ui'
   import {isPhone, isChinese} from '../../../../../service/regExp.js'
   import {replaceInspectionMark} from '../../../../../config/baseUrl.js'
   export default {
@@ -501,6 +503,10 @@
       }
     },
     mounted () {
+      MessageBox({
+        title: '温馨提示',
+        message: '补领检验合格标志是在检验合格标志丢失或损坏的请况下办理，非六年免检业务，非机动车检验业务，请勿混淆；'
+      })
       this.uploadImg()
       this.testPlateType(this.defaultPlateNumber)
     }
