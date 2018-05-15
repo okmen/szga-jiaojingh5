@@ -3,7 +3,7 @@
       <div class="logo"></div>
       <div class="login-form">
         <input v-model:value="userName" type="text" placeholder="请输入您的姓名">
-        <input class="identityCard" v-model:value="identityCard" type="text" placeholder="请输入您的身份证号码">
+        <input class="identityCard" v-model:value="identityCard" style="text-transform:uppercase;" type="text" placeholder="请输入您的身份证号码">
         <input class="mobilephone" v-model:value="mobilephone" type="tel" placeholder="请输入手机号">
         <div class="validateCode">
           <input class="inpValidateCode" v-model:value="validateCode" type="tel" placeholder="输入验证码">
