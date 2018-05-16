@@ -109,7 +109,7 @@ export default {
       }
     }
     .starUser-upload-left {
-      background:#efeff4 url('../../../images/ownerIdImg1.png') center no-repeat;
+      background:#efeff4 url('../../../images/ownerIdImg11.png') center no-repeat;
       background-size: 90%;
       border:none;
     }
@@ -124,7 +124,7 @@ export default {
       border:none;
     }
     .starUser-upload-four{
-      background:#efeff4 url('../../../images/userIdImg3.png') center no-repeat;
+      background:#efeff4 url('../../../images/userIdImg11.png') center no-repeat;
       background-size: 90%;
       border:none;
       margin-bottom:20px;
