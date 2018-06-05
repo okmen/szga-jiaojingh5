@@ -88,12 +88,12 @@
               <span>考生准考证号</span>
             </div>
             <div class="queryByCar-hbs-text">
-              <input v-model="ticket" class="text-input" type="text" placeholder="请填写考生准考证号">
+              <input v-model="ticket" class="text-input" type="number" placeholder="请填写考生准考证号">
             </div>
           </li>
           <li class="queryByCar-hbs-item" v-show="isOpen">
             <div class="queryByCar-hbs-name">
-              <span>考生申请日期</span>
+              <span>申请日期</span>
             </div>
             <div class="queryByCar-hbs-text">
               <p class="text-input" @click="datetimePick('studentPicker')">{{ newMtDateTimeMsg }}</p>
@@ -431,6 +431,13 @@
           })
           return
         }
+        if (this.mtDateTimeMsg === this.newMtDateTimeMsg && this.isOpen) {
+          Toast({
+            message: '申请日期不能为同一天',
+            duration: 2000
+          })
+          return
+        }
         let dataList = {
           type: '申请通行证',
           noTip: true,
@@ -444,7 +451,6 @@
             'name': this.name,  // 车主姓名
             'mobilephone': this.mobilephone,  // 手机号码
             'applyDate': this.mtDateTimeMsg  // 申请时间
-            // 'remarks': this.ticket  // 准考证号
           }
           // invisibleObj: {
           //   'remarks': this.ticket // 准考证号
