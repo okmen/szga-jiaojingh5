@@ -43,7 +43,7 @@ export default {
         gender: '性别',
         mobilephone: '手机号码',
         applyDate: '申请日期',
-        remarks: '备注',
+        remarks: '准考证号',
         identityCard: '身份证号码',
         driverLicense: '驾驶证号码',
         proposerIdentityCard: '申请人身份证号码',

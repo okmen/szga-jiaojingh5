@@ -77,6 +77,28 @@
               <p class="text-input" @click="datetimePick('picker')">{{ mtDateTimeMsg }}</p>
             </div>
           </li>
+          <li class="queryByCar-hbs-item">
+            <div class="queryByCar-hbs-name">
+              <span>考生申请</span>
+            </div>
+            <mt-switch v-model="isOpen"></mt-switch>
+          </li>
+          <li class="queryByCar-hbs-item" v-show="isOpen">
+            <div class="queryByCar-hbs-name">
+              <span>考生准考证号</span>
+            </div>
+            <div class="queryByCar-hbs-text">
+              <input v-model="ticket" class="text-input" type="text" placeholder="请填写考生准考证号">
+            </div>
+          </li>
+          <li class="queryByCar-hbs-item" v-show="isOpen">
+            <div class="queryByCar-hbs-name">
+              <span>考生申请日期</span>
+            </div>
+            <div class="queryByCar-hbs-text">
+              <p class="text-input" @click="datetimePick('studentPicker')">{{ newMtDateTimeMsg }}</p>
+            </div>
+          </li>
         </ul>
       </div>
       <button class="btn" type="button" name="button" @click.stop="btnFn()">确认信息</button>
@@ -88,10 +110,11 @@
       <p>3.法定节假日不限外，请勿申请。</p>
     </div>
     <mt-datetime-picker v-if='beginPicker' ref="picker" type="date" v-model="informTime" @confirm="handleTime" :startDate="startTimeData" :endDate="endTimeData"></mt-datetime-picker>
+    <mt-datetime-picker v-if='beginPicker' ref="studentPicker" type="date" v-model="newInformTime" @confirm="handleStudentTime" :startDate="startTimeData" :endDate="endTimeData"></mt-datetime-picker>
   </div>
 </template>
 <script>
-  import { Toast } from 'mint-ui'
+  import { Toast, Switch } from 'mint-ui'
   import moment from 'moment'
   import { isPhone } from '../../../../../service/regExp.js'
   import { applyGatePass } from '../../../../../config/baseUrl.js'
@@ -102,14 +125,19 @@
         return this.$store.state.motorVehicleHandling
       }
     },
+    components: {
+      'mt-switch': Switch
+    },
     data () {
       return {
         endTimeData: new Date(moment().add(1, 'months').endOf('month').format('YYYY-MM-DD')),
         startTimeData: new Date(moment().add(1, 'days').format('YYYY-MM-DD')),
         name: '', // 车主姓名
         mtDateTimeMsg: '',                                              // 一进来默认当前时间
+        newMtDateTimeMsg: '',                                              // 一进来默认当前时间
         formatTime: '',                                                 // 使用mt组件后，时间是中国标准时间，格式转换
         informTime: moment().add(1, 'days').format('YYYY-MM-DD'),       // 明天的时间
+        newInformTime: moment().add(1, 'days').format('YYYY-MM-DD'),       // 明天的时间
         licensePlateNo: '',                   // 请求-车牌号
         cur_license_id: 'K31',                    // 请求-车牌类型（编号转换）
         cur_plate_id: '02',
@@ -275,12 +303,15 @@
             'str': '大型新能源车号牌'
           }
         ],             // 车牌类型列表（编号转换）
-        beginPicker: false   // 确定mint-ui时间组件在加载dom后载入
+        beginPicker: false,   // 确定mint-ui时间组件在加载dom后载入
+        isOpen: false,
+        ticket: ''
       }
     },
     mounted: function () {
       this.beginPicker = true
       this.mtDateTimeMsg = moment().add(1, 'days').format('YYYY-MM-DD')
+      this.newMtDateTimeMsg = moment().add(1, 'days').format('YYYY-MM-DD')
     },
     methods: {
       licenseSelectClick: function (str, id) {
@@ -320,13 +351,19 @@
           this.typeSelectShow = false
         }
       },
-      datetimePick: function (picker) {
-        this.$refs.picker.open()
+      datetimePick: function (datetimePick) {
+        console.log(datetimePick)
+        if (datetimePick === 'picker') {
+          this.$refs.picker.open()
+        } else {
+          this.$refs.studentPicker.open()
+        }
       },
       handleTime: function (informTime) {
-        this.formatTime = this.format(this.informTime.toString(), 'yyyy-MM-dd')
-        this.mtDateTimeMsg = this.formatTime
-        console.log(this.mtDateTimeMsg)
+        this.mtDateTimeMsg = this.format(this.informTime.toString(), 'yyyy-MM-dd')
+      },
+      handleStudentTime: function (newInformTime) {
+        this.newMtDateTimeMsg = this.format(this.newInformTime.toString(), 'yyyy-MM-dd')
       },
       currentTime: function () {  // 获取时间
         let now = new Date()
@@ -407,10 +444,15 @@
             'name': this.name,  // 车主姓名
             'mobilephone': this.mobilephone,  // 手机号码
             'applyDate': this.mtDateTimeMsg  // 申请时间
-          },
-          invisibleObj: {
-            'remarks': '' // 备注
+            // 'remarks': this.ticket  // 准考证号
           }
+          // invisibleObj: {
+          //   'remarks': this.ticket // 准考证号
+          // }
+        }
+        if (this.isOpen) {
+          dataList.textObj.applyDate = `${this.mtDateTimeMsg},${this.newMtDateTimeMsg}`
+          dataList.textObj.remarks = this.ticket
         }
         console.log(dataList)
         this.$store.commit('saveMotorVehicleHandling', dataList)
@@ -427,6 +469,16 @@
     }
   }
 </script>
+
+<style lang="less">
+.applyEveryMonth-outer {
+  .mint-switch-input:checked + .mint-switch-core {
+    border-color: #09bb07;
+    background-color: #09bb07;
+  }
+}
+</style>
+
 <style lang="less" scoped>
   .applyEveryMonth-outer {
     background-color: #fff;
