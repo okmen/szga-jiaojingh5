@@ -88,7 +88,7 @@
               <span>考生准考证号</span>
             </div>
             <div class="queryByCar-hbs-text">
-              <input v-model="ticket" class="text-input" type="number" placeholder="请填写考生准考证号">
+              <input v-model="ticket" class="text-input" type="text" placeholder="请填写考生准考证号">
             </div>
           </li>
           <li class="queryByCar-hbs-item" v-show="isOpen">
