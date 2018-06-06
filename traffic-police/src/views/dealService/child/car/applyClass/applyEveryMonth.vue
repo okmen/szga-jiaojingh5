@@ -431,6 +431,13 @@
           })
           return
         }
+        if (!this.ticket && this.isOpen) {
+          Toast({
+            message: '请输入考生准考证号',
+            duration: 2000
+          })
+          return
+        }
         if (this.mtDateTimeMsg === this.newMtDateTimeMsg && this.isOpen) {
           Toast({
             message: '申请日期不能为同一天',
