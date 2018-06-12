@@ -82,7 +82,7 @@ export default {
         return false
       }
       let reqData = {
-        identityCard: this.identityCard,
+        identityCard: this.identityCard.toUpperCase(),
         mobilephone: this.mobilephone,
         userName: this.userName,
         sourceOfCertification: 'C',
