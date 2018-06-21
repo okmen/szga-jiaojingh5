@@ -84,13 +84,13 @@
           <dt><img class="top5" src="./images/nav5.png" alt=""></dt>
           <dd>预约类服务</dd>
           </a> -->
-          <router-link :to="!isLogin ? '/login' : '/precontractType'">
+          <router-link :to="'/precontractType'">
             <dt><img class="top5" src="./images/nav5.png" alt=""></dt>
             <dd>预约类服务</dd>
           </router-link>
         </dl>
         <dl>
-          <router-link :to="!isLogin ? '/login' : '/dealService'">
+          <router-link :to="'/dealService'">
             <dt><img class="top6" src="./images/nav6.png" alt=""></dt>
             <dd>办理类服务</dd>
           </router-link>
@@ -106,7 +106,7 @@
           </router-link>
         </dl>
         <dl>
-          <router-link :to="!isLogin ? '/login' : '/handyService'">
+          <router-link to="/handyService">
             <dt><img class="top8" src="./images/nav8.png" alt=""></dt>
             <dd>便民服务</dd>
           </router-link>
